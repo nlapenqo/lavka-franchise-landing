@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · v3 — Компактная медиастрока</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .context { min-height: 22vh; display: grid; place-items: center; color: var(--text-dim); }
+  .media-strip { padding-block: clamp(34px, 4vw, 54px); background: var(--navy); color: var(--text-on-dark); }
+  .media-strip__row { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: clamp(24px, 4vw, 54px); align-items: center; }
+  .media-strip__head .t-label { display: block; color: var(--text-dim-dark); margin-bottom: 8px; }
+  .media-strip__head h1 { font-size: clamp(26px, 2.8vw, 40px); }
+  .stories { display: grid; grid-template-columns: repeat(3, 1fr); border-left: 1px solid var(--mid-blue); }
+  .story { min-height: 112px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; padding: 10px clamp(18px, 2.5vw, 30px); border-right: 1px solid var(--mid-blue); transition: background var(--dur-fast), color var(--dur-fast); }
+  .story:hover { background: var(--blue); }
+  .story__source { color: var(--sky); font-weight: 900; font-size: 18px; }
+  .story__title { font-weight: 500; line-height: 1.2; }
+  .story svg { width: 18px; align-self: flex-end; }
+  .legal { margin-top: 16px; color: var(--text-dim-dark); text-align: right; }
+  @media (max-width: 760px) { .media-strip__row { grid-template-columns: 1fr; } .stories { display: flex; overflow-x: auto; border-left: 0; scroll-snap-type: x mandatory; scrollbar-width: none; } .stories::-webkit-scrollbar { display: none; } .story { flex: 0 0 78vw; border-left: 1px solid var(--mid-blue); scroll-snap-align: start; } .legal { text-align: left; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · v3 — Компактная медиастрока</div>
+<section class="media-strip"><div class="container"><div class="media-strip__row">
+  <header class="media-strip__head"><span class="t-label">В медиа</span><h1 class="t-h3">О нас пишут</h1></header>
+  <div class="stories"><a class="story" href="#rbc"><span class="story__source">РБК</span><span class="story__title">Как технологии меняют быструю доставку</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="story" href="#forbes"><span class="story__source">Forbes</span><span class="story__title">Новый рынок для региональных инвесторов</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a class="story" href="#vc"><span class="story__source">vc.ru</span><span class="story__title">Что находится внутри даркстора</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+</div><p class="t-legal legal">Прототип · данные — заглушка (рыба)</p></div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

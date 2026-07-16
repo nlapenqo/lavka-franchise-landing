@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 · Q&amp;A · v3 — Компактные вопросы-чипы</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .context { min-height: 20vh; display: grid; place-items: center; color: var(--text-dim); background: var(--bg-light); }
+  .faq-mini { padding-block: clamp(34px, 4vw, 54px); }
+  .faq-mini__row { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+  .faq-mini__head .t-label { display: block; margin-bottom: 8px; }
+  .faq-mini__head h1 { font-size: clamp(26px, 2.8vw, 40px); }
+  .questions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .question { display: inline-flex; align-items: center; gap: 10px; padding: 14px 17px; border-radius: var(--r-pill); background: var(--bg-card); font-weight: 600; text-align: left; transition: background var(--dur-fast), color var(--dur-fast); }
+  .question::after { content: "+"; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); }
+  .question.is-active { background: var(--navy); color: var(--text-on-dark); }
+  .question.is-active::after { content: "×"; }
+  .answer { grid-column: 2; display: none; margin-top: -6px; padding: 18px 22px; border-left: 4px solid var(--blue); color: var(--text-dim); background: var(--bg-light); border-radius: 0 var(--r-card-sm) var(--r-card-sm) 0; }
+  .answer.is-visible { display: block; }
+  .mini-links { grid-column: 2; display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 2px; }
+  .mini-links a { color: var(--blue); font-weight: 500; }
+  @media (max-width: 760px) { .faq-mini__row { grid-template-columns: 1fr; } .answer, .mini-links { grid-column: auto; } .questions { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .questions::-webkit-scrollbar { display: none; } .question { flex: 0 0 auto; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">10 · Q&amp;A · v3 — Компактные вопросы-чипы</div>
+<section class="faq-mini"><div class="container"><div class="faq-mini__row">
+  <header class="faq-mini__head"><span class="t-label">Коротко</span><h1 class="t-h3">Главные вопросы</h1></header>
+  <div class="questions"><button class="question" type="button" data-answer="Даркстор — магазин-склад без покупателей в зале, рассчитанный на онлайн-заказы">Что такое даркстор?</button><button class="question" type="button" data-answer="Ориентир — около трёх месяцев на первый даркстор и около четырёх на сеть">Сколько длится запуск?</button><button class="question" type="button" data-answer="Партнёр предлагает варианты, а геоаналитики Яндекса оценивают спрос и покрытие">Кто выбирает локацию?</button></div>
+  <p class="answer t-body" aria-live="polite"></p>
+  <div class="mini-links"><a href="https://t.me/yandex_lavka_franchise">Задать вопрос в Telegram</a><span class="t-legal">Прототип · данные — заглушка (рыба)</span></div>
+</div></div></section>
+<script>
+  const questions = document.querySelectorAll('.question'); const answer = document.querySelector('.answer');
+  questions.forEach(question => question.addEventListener('click', () => { const closing = question.classList.contains('is-active'); questions.forEach(item => item.classList.remove('is-active')); if (closing) { answer.classList.remove('is-visible'); return; } question.classList.add('is-active'); answer.textContent = question.dataset.answer; answer.classList.add('is-visible'); }));
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

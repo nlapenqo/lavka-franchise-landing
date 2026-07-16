@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v4 — Радиальные датчики</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .head { display: grid; grid-template-columns: 1fr .65fr; gap: var(--space-5); align-items: end; margin-bottom: clamp(42px, 7vw, 90px); }
+  .head p { color: var(--text-dim); }
+  .gauges { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(18px, 3vw, 36px); }
+  .gauge { --value: .72; display: grid; justify-items: center; gap: 24px; padding: clamp(24px, 3vw, 42px); border-radius: var(--r-card); background: var(--bg-light); text-align: center; }
+  .gauge:nth-child(2) { background: var(--sky); } .gauge:nth-child(3) { background: var(--navy); color: var(--text-on-dark); }
+  .dial { position: relative; width: min(100%, 280px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--blue) calc(var(--value) * 1turn), var(--bg-card) 0); transition: rotate var(--dur-slow) var(--ease-out); }
+  .gauge:hover .dial { rotate: 8deg; }
+  .dial::before { content: ""; position: absolute; inset: 16px; border-radius: 50%; background: var(--bg); }
+  .gauge:nth-child(3) .dial::before { background: var(--navy); } .gauge:nth-child(3) .dial { background: conic-gradient(var(--orange) calc(var(--value) * 1turn), var(--mid-blue) 0); }
+  .dial__value { position: relative; z-index: 1; font-weight: 900; font-size: clamp(52px, 6vw, 88px); line-height: .8; letter-spacing: -.04em; }
+  .gauge h2 { max-width: 230px; }
+  .gauge p { color: var(--text-dim); } .gauge:nth-child(3) p { color: var(--text-dim-dark); }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (max-width: 800px) { .gauges { grid-template-columns: 1fr; } .gauge { grid-template-columns: 180px 1fr; justify-items: start; align-items: center; text-align: left; } .gauge > div:last-child { display: grid; gap: 8px; } }
+  @media (max-width: 480px) { .head { grid-template-columns: 1fr; } .gauge { grid-template-columns: 1fr; justify-items: center; text-align: center; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">04 · Цифры · v4 — Радиальные датчики</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Сеть<br>набирает ход</h1><p class="t-sub">Три датчика показывают масштаб и темп развития без карты и таблиц</p></header>
+  <div class="gauges">
+    <article class="gauge reveal" style="--value:.58"><div class="dial"><span class="dial__value" data-count="14">0</span></div><div><h2 class="t-h3">городов запущено</h2><p class="t-small">работают по модели франшизы</p></div></article>
+    <article class="gauge reveal reveal-d1" style="--value:.76"><div class="dial"><span class="dial__value" data-count="25">0</span></div><div><h2 class="t-h3">городов в работе</h2><p class="t-small">готовятся к следующему этапу</p></div></article>
+    <article class="gauge reveal reveal-d2" style="--value:.39"><div class="dial"><span class="dial__value" data-count="9">0</span></div><div><h2 class="t-h3">партнёров ищем</h2><p class="t-small">набор открыт сейчас</p></div></article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

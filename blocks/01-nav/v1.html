@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Меню · v1 — Прозрачное → белое</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--navy); }
+  .site-head { position: fixed; z-index: 30; inset: 18px var(--container-pad) auto; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 34px; min-height: 68px; padding: 10px 12px 10px 20px; border: 1px solid transparent; border-radius: var(--r-pill); color: var(--text-on-dark); transition: background var(--dur-med), color var(--dur-med), border-color var(--dur-med), box-shadow var(--dur-med), transform var(--dur-med) var(--ease-out); }
+  .site-head.is-solid { background: var(--bg); color: var(--navy); border-color: var(--sky); box-shadow: var(--shadow-card); transform: translateY(-6px); }
+  .logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 20px; white-space: nowrap; }
+  .logo__mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); }
+  .is-solid .logo__mark { background: var(--navy); color: var(--bg); }
+  .logo__mark svg { width: 17px; }
+  .logo .chip { font-size: 11px; padding: .45em .85em; }
+  .nav { display: flex; justify-content: center; gap: clamp(16px, 2.6vw, 38px); font-weight: 500; }
+  .nav a { opacity: .76; transition: opacity var(--dur-fast), color var(--dur-fast); }
+  .nav a:hover { opacity: 1; color: var(--blue); }
+  .head-actions { display: flex; align-items: center; gap: 10px; }
+  .telegram { font-size: 14px; font-weight: 500; opacity: .76; }
+  .site-head .btn { font-size: 15px; padding: .9em 1.5em; }
+  .hero-demo { min-height: 170vh; padding: 150px var(--container-pad) 80px; color: var(--text-on-dark); background: radial-gradient(circle at 78% 24%, var(--mid-blue), var(--navy) 36%); }
+  .hero-demo__inner { max-width: var(--container); margin-inline: auto; }
+  .hero-demo h1 { max-width: 920px; }
+  .hero-demo p { margin-top: 28px; max-width: 520px; color: var(--text-dim-dark); }
+  .scroll-note { display: inline-flex; margin-top: 48px; color: var(--sky); }
+  .legal { position: absolute; left: var(--container-pad); bottom: 28px; color: var(--text-dim-dark); }
+  @media (max-width: 920px) { .nav, .telegram { display: none; } .site-head { grid-template-columns: 1fr auto; } }
+  @media (max-width: 520px) { .site-head { inset-inline: 12px; padding-left: 14px; } .logo__word { display: none; } .logo .chip { font-size: 10px; } .site-head .btn { font-size: 13px; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">01 · Меню · v1 — Прозрачное → белое</div>
+<header class="site-head" data-head>
+  <a class="logo" href="#"><span class="logo__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 6.5 12 18l7-11.5M5 6.5c2.6 0 4.5 1.8 7 5.5 2.5-3.7 4.4-5.5 7-5.5"/></svg></span><span class="logo__word">Яндекс&nbsp;Лавка</span><span class="chip chip--active">Франшиза</span></a>
+  <nav class="nav" aria-label="Основная навигация"><a href="#formats">Форматы</a><a href="#business">Как устроен бизнес</a><a href="#steps">Как стать партнёром</a><a href="#faq">Вопросы</a></nav>
+  <div class="head-actions"><a class="telegram" href="https://t.me/yandex_lavka_franchise">Telegram</a><a class="btn btn--blue" href="#form">Стать партнёром</a></div>
+</header>
+<main class="hero-demo">
+  <div class="hero-demo__inner"><h1 class="t-hero">Прозрачное меню живёт поверх хиро</h1><p class="t-sub">После первого экрана превращается в белую навигационную капсулу</p><span class="scroll-note t-label">Прокрутите вниз</span></div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</main>
+<script>
+  const head = document.querySelector('[data-head]');
+  const update = () => head.classList.toggle('is-solid', scrollY > 90);
+  addEventListener('scroll', update, { passive: true }); update();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

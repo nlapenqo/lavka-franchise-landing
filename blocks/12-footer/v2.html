@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · v2 — Светлый сервисный</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .before { min-height: 34vh; display: grid; place-items: center; background: var(--bg-light); color: var(--text-dim); }
+  .footer { background: var(--sky); border-radius: var(--r-card) var(--r-card) 0 0; overflow: hidden; }
+  .contact { display: grid; grid-template-columns: 1fr auto; gap: 42px; align-items: end; padding-block: clamp(56px, 8vw, 110px); border-bottom: 1px solid var(--mid-blue); }
+  .contact .t-label { display: block; margin-bottom: 18px; }
+  .contact h1 { max-width: 920px; }
+  .contact__actions { display: grid; gap: 10px; min-width: 230px; }
+  .contact__actions .btn { width: 100%; }
+  .footer-main { display: grid; grid-template-columns: 1.2fr repeat(2, .7fr); gap: clamp(34px, 6vw, 80px); padding-block: clamp(44px, 6vw, 74px); }
+  .brand { max-width: 430px; }
+  .logo { font-weight: 900; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.03em; }
+  .logo b { color: var(--blue); }
+  .brand p { margin-top: 18px; color: var(--text-dim); }
+  .links h2 { margin-bottom: 18px; color: var(--text-dim); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+  .links ul { display: grid; gap: 13px; font-weight: 500; }
+  .links a:hover { color: var(--accent-blue); }
+  .legalbar { padding-block: 24px 34px; border-top: 1px solid var(--mid-blue); display: grid; grid-template-columns: 1fr auto auto; gap: 28px; align-items: end; color: var(--text-dim); }
+  .age { font-size: 26px; font-weight: 800; color: var(--navy); }
+  @media (max-width: 780px) { .contact { grid-template-columns: 1fr; align-items: start; } .contact__actions { grid-template-columns: 1fr 1fr; min-width: 0; } .footer-main { grid-template-columns: 1fr 1fr; } .brand { grid-column: 1 / -1; } .legalbar { grid-template-columns: 1fr auto; } .legalbar > :first-child { grid-column: 1 / -1; } }
+  @media (max-width: 480px) { .contact__actions, .footer-main { grid-template-columns: 1fr; } .brand { grid-column: auto; } .legalbar { grid-template-columns: 1fr; } .legalbar > :first-child { grid-column: auto; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · v2 — Светлый сервисный</div>
+<footer class="footer"><div class="container">
+  <section class="contact"><div><span class="t-label">Остались вопросы?</span><h1 class="t-h1">Команда франшизы на связи</h1></div><div class="contact__actions"><a class="btn btn--navy" href="https://t.me/yandex_lavka_franchise">Telegram</a><a class="btn btn--white" href="mailto:franchise@lavka.yandex.ru">Написать</a></div></section>
+  <div class="footer-main"><div class="brand"><div class="logo">Яндекс <b>Лавка</b> · Франшиза</div><p class="t-sub">Быстрая доставка как бизнес — в вашем городе</p></div><nav class="links" aria-label="Разделы"><h2>На странице</h2><ul><li><a href="#formats">Форматы</a></li><li><a href="#business">Бизнес-модель</a></li><li><a href="#steps">Путь партнёра</a></li><li><a href="#faq">Вопросы</a></li></ul></nav><nav class="links" aria-label="Документы"><h2>Документы</h2><ul><li><a href="#privacy">Конфиденциальность</a></li><li><a href="#personal">Персональные данные</a></li><li><a href="#contacts">Контакты</a></li></ul></nav></div>
+  <div class="legalbar"><p class="t-legal">ООО «Яндекс.Лавка» · Москва, 1-й Красногвардейский пр., 22с1 · информация не является публичной офертой · Прототип · данные — заглушка (рыба)</p><span class="t-legal">© 2026</span><span class="age">18+</span></div>
+</div></footer>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+/* ============================================================
+   База: шрифты, ресет, общие компоненты песочницы блоков
+   Подключать ПОСЛЕ tokens.css
+   ============================================================ */
+
+/* ---------- Шрифты (ttf из references/fonts) ---------- */
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Light.ttf") format("truetype");  font-weight:300; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Medium.ttf") format("truetype");  font-weight:500; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Bold.ttf") format("truetype");    font-weight:700; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Heavy.ttf") format("truetype");   font-weight:800; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../../references/fonts/YS Geo-Black.ttf") format("truetype");   font-weight:900; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../../references/fonts/YS Text-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../../references/fonts/YS Text-Medium.ttf") format("truetype");  font-weight:500; font-display:swap; }
+@font-face { font-family:'YS Text Cond'; src:url("../../references/fonts/YS Text Cond-Light.ttf") format("truetype"); font-weight:300; font-display:swap; }
+
+/* ---------- Ресет ---------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-geo);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.2; /* брендбук: широкая колонка 120% */
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+
+/* ---------- Типографика ---------- */
+.t-hero {
+  font-weight: 900; /* YS Geo Black */
+  font-size: var(--fs-hero);
+  line-height: .9;
+  letter-spacing: -.01em;
+}
+.t-h1 { font-weight: 900; font-size: var(--fs-h1); line-height: .92; letter-spacing: -.01em; }
+.t-h2 { font-weight: 800; font-size: var(--fs-h2); line-height: .95; letter-spacing: -.005em; }
+.t-h3 { font-weight: 800; font-size: var(--fs-h3); line-height: 1.05; }
+.t-sub  { font-weight: 500; font-size: var(--fs-sub); line-height: 1.15; }
+.t-body { font-weight: 400; font-size: var(--fs-body); line-height: 1.3; }
+.t-small{ font-size: var(--fs-small); line-height: 1.35; }
+.t-legal{ font-family: var(--font-cond); font-weight: 300; font-size: var(--fs-legal); letter-spacing: -.02em; line-height: 1; opacity: .6; }
+.t-label{ font-weight: 500; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ---------- Лейаут ---------- */
+.container { max-width: var(--container); margin-inline: auto; padding-inline: var(--container-pad); }
+.section { padding-block: var(--section-pad); }
+
+/* ---------- Кнопки (пилюли) ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-weight: 500; font-size: clamp(16px, 1.3vw, 20px);
+  padding: 1.05em 2.1em;
+  border-radius: var(--r-pill);
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background var(--dur-fast);
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-2px) scale(1.02); }
+.btn:active { transform: translateY(0) scale(.99); }
+.btn--blue  { background: var(--blue);  color: #fff; box-shadow: var(--shadow-cta); }
+.btn--blue:hover { background: #1FB6FF; }
+.btn--navy  { background: var(--navy);  color: #fff; }
+.btn--white { background: #fff; color: var(--navy); box-shadow: var(--shadow-card); }
+.btn--orange{ background: var(--orange); color: #fff; box-shadow: 0 8px 28px rgba(255,109,47,.35); }
+
+/* ---------- Чипсы-пилюли ---------- */
+.chip {
+  display: inline-flex; align-items: center;
+  font-weight: 500; font-size: 14px;
+  padding: .5em 1.1em;
+  border-radius: var(--r-pill);
+  background: var(--bg-card); color: var(--text-dim);
+  white-space: nowrap;
+}
+.chip--active { background: var(--blue); color: #fff; }
+.chip--navy   { background: var(--navy); color: #fff; }
+.chip--outline{ background: transparent; box-shadow: inset 0 0 0 1.5px var(--sky); }
+.chip--muted  { background: #E9EEF5; color: #8fa3c0; }
+
+/* ---------- Карточки ---------- */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  padding: clamp(24px, 3vw, 40px);
+}
+.card--white { background: #fff; box-shadow: var(--shadow-card); }
+.card--navy  { background: var(--navy); color: var(--text-on-dark); }
+.card--sky   { background: var(--sky); }
+
+/* ---------- Появление при скролле (JS вешает .is-in) ---------- */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out); }
+.reveal.is-in { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .08s; } .reveal-d2 { transition-delay: .16s; }
+.reveal-d3 { transition-delay: .24s; } .reveal-d4 { transition-delay: .32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- Плашка песочницы (подпись версии) ---------- */
+.proto-tag {
+  position: fixed; left: 16px; bottom: 16px; z-index: 999;
+  font-family: var(--font-cond); font-weight: 300; font-size: 12px; letter-spacing: .02em;
+  background: rgba(27,58,106,.85); color: #fff;
+  padding: 6px 12px; border-radius: var(--r-pill);
+  backdrop-filter: blur(4px);
+  opacity:.75;
+}

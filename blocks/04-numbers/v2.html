@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v2 — Гигантская строка</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* --- соседние блоки-заглушки --- */
+  .ghost {
+    height: 42vh;
+    display: grid; place-items: center;
+    background: var(--bg-light);
+    outline: 1.5px dashed var(--sky); outline-offset: -14px;
+  }
+  .ghost span {
+    font-weight: 500; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-dim); opacity: .55;
+  }
+
+  /* ============ 04 · v2 — гигантская строка ============ */
+  .numbers { background: var(--bg); padding-block: clamp(48px, 7vw, 96px) clamp(32px, 5vw, 64px); }
+
+  .row { border-top: 1.5px solid var(--sky); }
+  .row:last-of-type { border-bottom: 1.5px solid var(--sky); }
+
+  .row__in {
+    display: flex; align-items: flex-end;
+    gap: clamp(20px, 3vw, 48px);
+    padding-block: clamp(24px, 3.5vw, 44px);
+  }
+  .row__num {
+    font-weight: 900; font-size: var(--fs-mega);
+    line-height: .8; letter-spacing: -.02em;
+    color: var(--navy);
+  }
+  .row__cap {
+    margin-left: auto;
+    max-width: clamp(180px, 24vw, 300px);
+    padding-bottom: clamp(6px, 1vw, 18px);
+    color: var(--text-dim);
+  }
+
+  /* ряд 2 — контурная цифра */
+  .row--outline .row__num { color: transparent; -webkit-text-stroke: 2px var(--navy); }
+  /* ряд 3 — голубая цифра */
+  .row--blue .row__num { color: var(--blue); }
+
+  /* въезд рядов сбоку (перекрываем базовый translateY у .reveal) */
+  .row.reveal { transform: translateX(clamp(-96px, -7vw, -48px)); }
+  .row--r.reveal { transform: translateX(clamp(48px, 7vw, 96px)); }
+  .row.reveal.is-in { transform: none; }
+
+  /* CTA-строка внизу */
+  .rows-cta { text-align: center; padding-top: clamp(32px, 4vw, 56px); }
+  .rows-cta a {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: clamp(14px, 1.2vw, 17px);
+    color: var(--text-dim);
+    transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .rows-cta a:hover { color: var(--blue); transform: translateY(2px); }
+  .rows-cta svg { width: 18px; height: 18px; }
+
+  @media (max-width: 600px) {
+    .row__in { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .row__cap { margin-left: 0; padding-bottom: 0; max-width: 260px; }
+    .row--outline .row__num { -webkit-text-stroke-width: 1.5px; }
+  }
+
+  .legal { text-align: center; padding: 22px 16px 30px; }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · v2 — Гигантская строка</div>
+
+  <section class="ghost"><span>соседний блок</span></section>
+
+  <section class="numbers">
+
+    <div class="row reveal">
+      <div class="container row__in">
+        <div class="row__num"><span data-count="14">0</span></div>
+        <p class="row__cap t-sub">городов запущено по&nbsp;франшизе</p>
+      </div>
+    </div>
+
+    <div class="row row--r row--outline reveal reveal-d1">
+      <div class="container row__in">
+        <div class="row__num"><span data-count="25">0</span></div>
+        <p class="row__cap t-sub">городов в&nbsp;работе</p>
+      </div>
+    </div>
+
+    <div class="row row--blue reveal reveal-d2">
+      <div class="container row__in">
+        <div class="row__num"><span data-count="9">0</span></div>
+        <p class="row__cap t-sub">партнёров ищем сейчас</p>
+      </div>
+    </div>
+
+    <div class="rows-cta reveal reveal-d3">
+      <a href="#formats">
+        Смотреть форматы партнёрства
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 4v15"/><path d="M6 13l6 6 6-6"/>
+        </svg>
+      </a>
+    </div>
+
+  </section>
+
+  <section class="ghost"><span>соседний блок</span></section>
+
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

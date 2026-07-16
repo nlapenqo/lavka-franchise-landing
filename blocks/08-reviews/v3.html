@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v3 — Видео-отзывы</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: var(--space-5); margin-bottom: clamp(44px, 6vw, 82px); }
+  .head__aside { max-width: 400px; color: var(--text-dim); }
+  .videos { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(22px, 3vw, 40px); }
+  .video-card { background: transparent; padding: 0; }
+  .video-card__visual { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-card); background: radial-gradient(circle at 30% 25%, var(--sky), var(--mid-blue) 58%, var(--navy)); }
+  .video-card:nth-child(2) .video-card__visual { background: radial-gradient(circle at 75% 28%, var(--peach), var(--orange) 55%, var(--navy)); }
+  .video-card:nth-child(3) .video-card__visual { background: radial-gradient(circle at 35% 20%, var(--lavender), var(--accent-blue) 55%, var(--navy)); }
+  .video-card:nth-child(4) .video-card__visual { background: radial-gradient(circle at 70% 28%, var(--pink), var(--mid-blue) 55%, var(--navy)); }
+  .video-card:nth-child(5) .video-card__visual { background: radial-gradient(circle at 30% 20%, var(--warm-gray), var(--sky) 55%, var(--navy)); }
+  .video-card:nth-child(6) .video-card__visual { background: radial-gradient(circle at 72% 24%, var(--orange), var(--peach) 52%, var(--navy)); }
+  .frame { position: absolute; inset: 10%; border: 2px dashed var(--text-on-dark); border-radius: var(--r-card-sm); display: grid; place-items: center; color: var(--text-on-dark); opacity: .5; }
+  .frame svg { width: 64px; height: 64px; }
+  .play { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 82px; height: 82px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); box-shadow: var(--shadow-card); transition: transform var(--dur-fast) var(--ease-spring), background var(--dur-fast), color var(--dur-fast); }
+  .play:hover { transform: scale(1.1); background: var(--blue); color: var(--text-on-dark); }
+  .play:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+  .play svg { width: 30px; height: 30px; margin-left: 4px; }
+  .video-card__note { position: absolute; left: 18px; bottom: 16px; color: var(--text-on-dark); }
+  .video-card__body { padding: 22px 6px 0; }
+  .video-card__meta { color: var(--text-dim); margin-top: 6px; }
+  .video-card__quote { margin-top: 16px; max-width: 560px; font-size: clamp(17px, 1.5vw, 22px); line-height: 1.25; }
+  .video-card.is-requested .play { background: var(--blue); color: var(--text-on-dark); }
+  .video-card.is-requested .video-card__note::after { content: " · видео ожидается"; }
+  .legal { margin-top: var(--space-6); text-align: center; }
+  @media (max-width: 700px) { .head { align-items: start; flex-direction: column; } .videos { grid-template-columns: 1fr; } .play { width: 68px; height: 68px; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v3 — Видео-отзывы</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Из первых<br>уст</h1><p class="head__aside t-sub">Короткие истории партнёров — о запуске, команде и росте сети</p></header>
+  <div class="videos">
+    <article class="video-card reveal"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Игоря Соколова"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 01:12</span></div><div class="video-card__body"><h2 class="t-h3">Игорь Соколов</h2><p class="video-card__meta t-small">Казань · 4 даркстора</p><blockquote class="video-card__quote">«Первый запуск: что оказалось сложнее плана и где помогла команда Лавки»</blockquote></div></article>
+    <article class="video-card reveal reveal-d1"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Анны Морозовой"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 00:54</span></div><div class="video-card__body"><h2 class="t-h3">Анна Морозова</h2><p class="video-card__meta t-small">Тюмень · 6 дарксторов</p><blockquote class="video-card__quote">«Как технологии помогают управлять шестью точками одной командой»</blockquote></div></article>
+    <article class="video-card reveal"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Романа Лебедева"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 01:08</span></div><div class="video-card__body"><h2 class="t-h3">Роман Лебедев</h2><p class="video-card__meta t-small">Пермь · 3 даркстора</p><blockquote class="video-card__quote">«Почему данные важнее интуиции при выборе локаций»</blockquote></div></article>
+    <article class="video-card reveal reveal-d1"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Елены Ильиной"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 00:48</span></div><div class="video-card__body"><h2 class="t-h3">Елена Ильина</h2><p class="video-card__meta t-small">Челябинск · 5 дарксторов</p><blockquote class="video-card__quote">«Что меняется после открытия пятой точки»</blockquote></div></article>
+    <article class="video-card reveal"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Марии Ким"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 01:03</span></div><div class="video-card__body"><h2 class="t-h3">Мария Ким</h2><p class="video-card__meta t-small">Самара · 2 даркстора</p><blockquote class="video-card__quote">«Как собрать сильную команду до первого заказа»</blockquote></div></article>
+    <article class="video-card reveal reveal-d1"><div class="video-card__visual"><div class="frame"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></div><button class="play" type="button" aria-label="Запустить видео-отзыв Максима Орлова"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 9 6-9 6V6Z"/></svg></button><span class="video-card__note t-legal">заглушка видео · 00:59</span></div><div class="video-card__body"><h2 class="t-h3">Максим Орлов</h2><p class="video-card__meta t-small">Воронеж · 7 дарксторов</p><blockquote class="video-card__quote">«Какие метрики помогают расти без потери качества»</blockquote></div></article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script>
+  document.querySelectorAll('.play').forEach(function (button) { button.addEventListener('click', function () { var card = button.closest('.video-card'); card.classList.toggle('is-requested'); button.setAttribute('aria-pressed', card.classList.contains('is-requested') ? 'true' : 'false'); }); });
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

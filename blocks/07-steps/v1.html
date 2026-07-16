@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · v1 — Горизонтальный степпер</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+  .steps { min-height: 110vh; display: grid; align-items: center; }
+  .steps__head { display: grid; grid-template-columns: 1.2fr .65fr; align-items: end; gap: var(--space-4); }
+  .steps__sub { max-width: 440px; color: var(--text-dim); }
+  .stepper { --progress: 0; position: relative; margin-top: clamp(56px, 8vw, 112px); }
+  .stepper__rail, .stepper__fill { position: absolute; top: 31px; left: 6.3%; right: 6.3%; height: 4px; border-radius: var(--r-pill); }
+  .stepper__rail { background: var(--sky); }
+  .stepper__fill { right: auto; width: calc(87.4% * var(--progress)); background: var(--blue); transition: width .12s linear; }
+  .stepper__list { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(10px, 2vw, 28px); }
+  .step { text-align: center; }
+  .step__dot { width: 64px; height: 64px; margin: 0 auto 22px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); border: 3px solid var(--sky); color: var(--text-dim); font-weight: 800; font-size: 18px; transition: background var(--dur-med) var(--ease-out), color var(--dur-med), border-color var(--dur-med), transform var(--dur-med) var(--ease-spring); }
+  .step.is-active .step__dot { background: var(--blue); border-color: var(--blue); color: var(--text-on-dark); transform: scale(1.08); }
+  .step:last-child .step__dot { background: var(--bg-light); border-color: var(--blue); }
+  .step:last-child.is-active .step__dot { background: var(--navy); border-color: var(--navy); }
+  .step__title { max-width: 185px; margin-inline: auto; }
+  .step__copy { max-width: 180px; margin: 10px auto 0; color: var(--text-dim); }
+  .step__icon { width: 22px; height: 22px; }
+  .legal { margin-top: var(--space-6); text-align: center; }
+  @media (max-width: 700px) {
+    .steps { min-height: auto; }
+    .steps__head { grid-template-columns: 1fr; align-items: start; }
+    .stepper { margin-top: 48px; }
+    .stepper__rail, .stepper__fill { top: 30px; left: 30px; right: auto; width: 4px; height: calc(100% - 60px); }
+    .stepper__fill { height: calc((100% - 60px) * var(--progress)); transition: height .12s linear; }
+    .stepper__list { display: flex; flex-direction: column; gap: 34px; }
+    .step { display: grid; grid-template-columns: 62px 1fr; column-gap: 18px; text-align: left; }
+    .step__dot { width: 62px; height: 62px; margin: 0; grid-row: 1 / span 2; }
+    .step__title, .step__copy { max-width: none; margin-inline: 0; }
+    .step__copy { margin-top: 7px; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">07 · Как стать партнёром · v1 — Горизонтальный степпер</div>
+<section class="section steps" id="partner-steps">
+  <div class="container">
+    <header class="steps__head reveal">
+      <h1 class="t-h1">От заявки<br>до запуска</h1>
+      <p class="steps__sub t-sub">Пять понятных шагов. На каждом этапе рядом команда Яндекс&nbsp;Лавки</p>
+    </header>
+    <div class="stepper" aria-label="Этапы запуска франшизы">
+      <div class="stepper__rail" aria-hidden="true"></div><div class="stepper__fill" aria-hidden="true"></div>
+      <ol class="stepper__list">
+        <li class="step">
+          <span class="step__dot">01</span><h2 class="step__title t-h3">Заявка</h2><p class="step__copy t-small">Расскажите о себе и городе</p>
+        </li>
+        <li class="step">
+          <span class="step__dot">02</span><h2 class="step__title t-h3">Встреча и скоринг</h2><p class="step__copy t-small">Сверяем ожидания и возможности</p>
+        </li>
+        <li class="step">
+          <span class="step__dot">03</span><h2 class="step__title t-h3">Договор</h2><p class="step__copy t-small">Фиксируем формат партнёрства</p>
+        </li>
+        <li class="step">
+          <span class="step__dot">04</span><h2 class="step__title t-h3">Подготовка и обучение</h2><p class="step__copy t-small">Собираем команду и инфраструктуру</p>
+        </li>
+        <li class="step">
+          <span class="step__dot" aria-label="Запуск"><svg class="step__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 5 13.5h5.5L11 22l8-11.5h-5.5L13 2Z"/></svg></span><h2 class="step__title t-h3">Запуск</h2><p class="step__copy t-small">Открываем Лавку в вашем городе</p>
+        </li>
+      </ol>
+    </div>
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var section = document.querySelector('.steps');
+    var stepper = document.querySelector('.stepper');
+    var items = Array.from(document.querySelectorAll('.step'));
+    function update() {
+      var r = section.getBoundingClientRect();
+      var start = innerHeight * .82;
+      var end = innerHeight * .2;
+      var p = Math.max(0, Math.min(1, (start - r.top) / Math.max(1, r.height - end)));
+      stepper.style.setProperty('--progress', p.toFixed(3));
+      items.forEach(function (item, i) { item.classList.toggle('is-active', p >= i / (items.length - 1) - .035); });
+    }
+    addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

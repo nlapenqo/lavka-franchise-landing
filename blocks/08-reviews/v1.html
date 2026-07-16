@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v1 — Карусель-визитки</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+  .reviews { min-height: 100svh; display: grid; align-items: center; }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: var(--space-4); margin-bottom: clamp(36px, 5vw, 70px); }
+  .head__sub { max-width: 360px; color: var(--text-dim); }
+  .carousel { position: relative; }
+  .carousel__viewport { overflow: hidden; border-radius: var(--r-card); touch-action: pan-y; }
+  .carousel__track { display: flex; transition: transform .65s var(--ease-out); }
+  .review { flex: 0 0 100%; min-height: 490px; display: grid; grid-template-columns: .82fr 1.18fr; background: var(--bg); }
+  .review__photo { position: relative; overflow: hidden; display: flex; align-items: end; padding: 26px; background: radial-gradient(circle at 30% 22%, var(--sky), var(--mid-blue) 54%, var(--navy)); }
+  .review:nth-child(2) .review__photo { background: radial-gradient(circle at 70% 18%, var(--peach), var(--orange) 48%, var(--navy)); }
+  .review:nth-child(3) .review__photo { background: radial-gradient(circle at 35% 25%, var(--lavender), var(--accent-blue) 50%, var(--navy)); }
+  .review:nth-child(4) .review__photo { background: radial-gradient(circle at 70% 25%, var(--pink), var(--mid-blue) 55%, var(--navy)); }
+  .review:nth-child(5) .review__photo { background: radial-gradient(circle at 25% 20%, var(--warm-gray), var(--sky) 50%, var(--navy)); }
+  .portrait { position: absolute; inset: 12% 12% 0; display: grid; place-items: center; border: 2px dashed var(--text-on-dark); border-radius: 48% 48% 12px 12px; color: var(--text-on-dark); opacity: .75; }
+  .portrait svg { width: 74px; height: 74px; }
+  .photo-note { position: relative; z-index: 1; color: var(--text-on-dark); }
+  .review__body { display: flex; flex-direction: column; justify-content: space-between; gap: 42px; padding: clamp(32px, 5vw, 72px); }
+  .quote-mark { width: 54px; height: 54px; color: var(--blue); }
+  .quote { margin-top: 22px; max-width: 740px; font-weight: 800; font-size: clamp(27px, 3.1vw, 46px); line-height: 1.04; letter-spacing: -.01em; }
+  .person { display: flex; align-items: end; justify-content: space-between; gap: 24px; }
+  .person__meta { margin-top: 6px; color: var(--text-dim); }
+  .count { color: var(--blue); font-weight: 900; font-size: clamp(42px, 5vw, 76px); line-height: .8; white-space: nowrap; }
+  .controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 26px; }
+  .arrow { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: var(--text-on-dark); transition: transform var(--dur-fast), background var(--dur-fast); }
+  .arrow:hover { transform: scale(1.08); background: var(--blue); }
+  .arrow:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .arrow svg { width: 22px; height: 22px; }
+  .dots { display: flex; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--sky); transition: width var(--dur-fast), background var(--dur-fast); }
+  .dot.is-active { width: 28px; border-radius: var(--r-pill); background: var(--blue); }
+  .legal { margin-top: 20px; text-align: center; }
+  @media (max-width: 760px) {
+    .reviews { min-height: auto; }
+    .head { align-items: start; flex-direction: column; }
+    .review { min-height: 610px; grid-template-columns: 1fr; grid-template-rows: 220px 1fr; }
+    .review__photo { padding: 18px; }
+    .portrait { inset: 8% 20% 0; }
+    .review__body { padding: 28px 24px; gap: 30px; }
+    .quote { font-size: 25px; margin-top: 12px; }
+    .quote-mark { width: 38px; height: 38px; }
+    .person { align-items: start; flex-direction: column; }
+    .count { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v1 — Карусель-визитки</div>
+<section class="section reviews">
+  <div class="container">
+    <header class="head reveal"><h1 class="t-h1">Партнёры<br>говорят</h1><p class="head__sub t-sub">Опыт людей, которые уже развивают Лавку в своих городах</p></header>
+    <div class="carousel reveal" role="region" aria-roledescription="карусель" aria-label="Отзывы партнёров">
+      <div class="carousel__viewport">
+        <div class="carousel__track">
+          <article class="review" aria-label="Отзыв 1 из 5"><div class="review__photo"><div class="portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c.7-5.3 3.3-8 8-8s7.3 2.7 8 8"/></svg></div><span class="photo-note t-legal">место для фото · даркстор</span></div><div class="review__body"><div><svg class="quote-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M19 12C11 16 8 22 8 32h12V20h-7M39 12c-8 4-11 10-11 20h12V20h-7"/></svg><blockquote class="quote">«Запустили первый даркстор за три месяца — оборудование и обучение были готовы ещё до открытия»</blockquote></div><div class="person"><div><h2 class="t-h3">Игорь Соколов</h2><p class="person__meta t-body">Казань · 4 даркстора</p></div><span class="count">4×</span></div></div></article>
+          <article class="review" aria-label="Отзыв 2 из 5"><div class="review__photo"><div class="portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c.7-5.3 3.3-8 8-8s7.3 2.7 8 8"/></svg></div><span class="photo-note t-legal">место для фото · команда</span></div><div class="review__body"><div><svg class="quote-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M19 12C11 16 8 22 8 32h12V20h-7M39 12c-8 4-11 10-11 20h12V20h-7"/></svg><blockquote class="quote">«Технологии Яндекса снимают с нас рутину. Команда фокусируется на сервисе и операционке»</blockquote></div><div class="person"><div><h2 class="t-h3">Анна Морозова</h2><p class="person__meta t-body">Тюмень · 6 дарксторов</p></div><span class="count">6×</span></div></div></article>
+          <article class="review" aria-label="Отзыв 3 из 5"><div class="review__photo"><div class="portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c.7-5.3 3.3-8 8-8s7.3 2.7 8 8"/></svg></div><span class="photo-note t-legal">место для фото · склад</span></div><div class="review__body"><div><svg class="quote-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M19 12C11 16 8 22 8 32h12V20h-7M39 12c-8 4-11 10-11 20h12V20h-7"/></svg><blockquote class="quote">«Мы получили понятную модель запуска и поддержку людей, которые уже открыли сотни точек»</blockquote></div><div class="person"><div><h2 class="t-h3">Роман Лебедев</h2><p class="person__meta t-body">Пермь · 3 даркстора</p></div><span class="count">3×</span></div></div></article>
+          <article class="review" aria-label="Отзыв 4 из 5"><div class="review__photo"><div class="portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c.7-5.3 3.3-8 8-8s7.3 2.7 8 8"/></svg></div><span class="photo-note t-legal">место для фото · выдача</span></div><div class="review__body"><div><svg class="quote-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M19 12C11 16 8 22 8 32h12V20h-7M39 12c-8 4-11 10-11 20h12V20h-7"/></svg><blockquote class="quote">«Геоаналитика помогла выбрать локации без догадок. Каждое решение опирается на данные»</blockquote></div><div class="person"><div><h2 class="t-h3">Елена Ильина</h2><p class="person__meta t-body">Челябинск · 5 дарксторов</p></div><span class="count">5×</span></div></div></article>
+          <article class="review" aria-label="Отзыв 5 из 5"><div class="review__photo"><div class="portrait"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 22c.7-5.3 3.3-8 8-8s7.3 2.7 8 8"/></svg></div><span class="photo-note t-legal">место для фото · партнёр</span></div><div class="review__body"><div><svg class="quote-mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M19 12C11 16 8 22 8 32h12V20h-7M39 12c-8 4-11 10-11 20h12V20h-7"/></svg><blockquote class="quote">«Сильный бренд сразу даёт спрос, а прозрачные метрики помогают управлять сетью»</blockquote></div><div class="person"><div><h2 class="t-h3">Максим Орлов</h2><p class="person__meta t-body">Воронеж · 7 дарксторов</p></div><span class="count">7×</span></div></div></article>
+        </div>
+      </div>
+      <div class="controls"><button class="arrow" type="button" data-prev aria-label="Предыдущий отзыв"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="dots" aria-hidden="true"></div><button class="arrow" type="button" data-next aria-label="Следующий отзыв"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div>
+    </div>
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var root = document.querySelector('.carousel'); var viewport = root.querySelector('.carousel__viewport'); var track = root.querySelector('.carousel__track');
+    var slides = Array.from(root.querySelectorAll('.review')); var dots = root.querySelector('.dots'); var index = 0; var startX = null;
+    slides.forEach(function (_, i) { var d = document.createElement('span'); d.className = 'dot' + (i ? '' : ' is-active'); dots.appendChild(d); });
+    function show(next) { index = (next + slides.length) % slides.length; track.style.transform = 'translateX(' + (-index * 100) + '%)'; Array.from(dots.children).forEach(function (d, i) { d.classList.toggle('is-active', i === index); }); slides.forEach(function (s, i) { s.setAttribute('aria-hidden', i === index ? 'false' : 'true'); }); }
+    root.querySelector('[data-prev]').addEventListener('click', function () { show(index - 1); }); root.querySelector('[data-next]').addEventListener('click', function () { show(index + 1); });
+    viewport.addEventListener('pointerdown', function (e) { startX = e.clientX; viewport.setPointerCapture(e.pointerId); });
+    viewport.addEventListener('pointerup', function (e) { if (startX === null) return; var dx = e.clientX - startX; if (Math.abs(dx) > 45) show(index + (dx < 0 ? 1 : -1)); startX = null; });
+    root.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(index - 1); if (e.key === 'ArrowRight') show(index + 1); }); show(0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

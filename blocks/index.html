@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Прототипы блоков · Франшиза Яндекс&nbsp;Лавки</title>
+<link rel="stylesheet" href="_shared/tokens.css">
+<link rel="stylesheet" href="_shared/base.css">
+<style>
+  body { background: var(--bg-light); }
+  .wrap { max-width: 1080px; margin-inline: auto; padding: clamp(32px,6vw,80px) var(--container-pad); }
+  header.page { margin-bottom: var(--space-6); }
+  header.page .t-h1 { margin: 12px 0 16px; }
+  .block-group { margin-bottom: var(--space-6); }
+  .block-group > h2 { font-weight: 800; font-size: var(--fs-h3); margin-bottom: var(--space-3); display:flex; align-items:center; gap:12px; }
+  .block-group > h2 .num { font-family: var(--font-cond); font-weight:300; font-size: 14px; background: var(--navy); color:#fff; border-radius: var(--r-pill); padding: 4px 12px; letter-spacing:.05em; }
+  .versions { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px; }
+  .vcard { background:#fff; border-radius: var(--r-card-sm); padding: 22px 24px; box-shadow: 0 4px 18px rgba(27,58,106,.06); transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out); display:block; }
+  .vcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .vcard .v { font-weight:900; font-size:13px; letter-spacing:.08em; color: var(--blue); text-transform: uppercase; }
+  .vcard h3 { font-weight:800; font-size:19px; margin:6px 0 8px; }
+  .vcard p { font-size:14px; line-height:1.35; color: var(--text-dim); }
+  .note { margin-top: var(--space-6); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <span class="chip chip--navy">Прототипы · полный набор</span>
+    <h1 class="t-h1">Варианты блоков<br>лендинга франшизы</h1>
+    <p class="t-sub" style="color:var(--text-dim); max-width:560px">Каждая версия — отдельная страница. Открывай, скролль, сравнивай. Данные и визуалы — рыба.</p>
+  </header>
+
+  <section class="block-group">
+    <h2><span class="num">01</span> Меню</h2>
+    <div class="versions">
+      <a class="vcard" href="01-nav/v1.html"><span class="v">v1</span><h3>Прозрачное → белое</h3><p>Меню поверх хиро превращается в белую навигационную капсулу после начала скролла</p></a>
+      <a class="vcard" href="01-nav/v2.html"><span class="v">v2</span><h3>Тихая шапка + CTA</h3><p>Минимальная сервисная шапка и отдельная плавающая кнопка «Стать партнёром» внизу</p></a>
+      <a class="vcard" href="01-nav/v3.html"><span class="v">v3</span><h3>Навигационный остров</h3><p>Центральная pill-панель, которая на мобильном раскрывается в полноэкранное меню</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">02</span> Hero</h2>
+    <div class="versions">
+      <a class="vcard" href="02-hero/v1.html"><span class="v">v1</span><h3>Видео-шоурил</h3><p>Полноэкранный тёмный хиро, заглушка видео из дрейфующих пятен, стикеры-пилюли, параллакс от мыши</p></a>
+      <a class="vcard" href="02-hero/v2.html"><span class="v">v2</span><h3>Живой заказ</h3><p>Светлый сплит: слева текст, справа зацикленный «трекер заказа» с таймером и маршрутом курьера</p></a>
+      <a class="vcard" href="02-hero/v3.html"><span class="v">v3</span><h3>Карта-пульс</h3><p>Тёмно-синий хиро, созвездие городов с пульсами, бегущая строка городов внизу</p></a>
+      <a class="vcard" href="02-hero/v4.html"><span class="v">v4</span><h3>Три масштаба запуска</h3><p>Единый тёмный хиро с интерактивным выбором сценария: новый город, миллионник или готовая сеть</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">03</span> Мероприятие</h2>
+    <div class="versions">
+      <a class="vcard" href="03-event/v1.html"><span class="v">v1</span><h3>Бегущая строка</h3><p>Лавандовая полоса-marquee под хиро, пауза по ховеру, закреплённая кнопка «Участвовать»</p></a>
+      <a class="vcard" href="03-event/v2.html"><span class="v">v2</span><h3>Плашка-баннер</h3><p>Градиентная карточка в стиле афиши «Дня партнёров» с чипом «Набор открыт» и созвездием точек</p></a>
+      <a class="vcard" href="03-event/v3.html"><span class="v">v3</span><h3>Календарный билет</h3><p>Отрывной билет с крупной датой, параметрами встречи и самостоятельной CTA-зоной</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">04</span> Цифры</h2>
+    <div class="versions">
+      <a class="vcard" href="04-numbers/v1.html"><span class="v">v1</span><h3>Bento-каунтеры</h3><p>Три плашки разных цветов с гигантскими анимированными цифрами и фирменными «орбитами»</p></a>
+      <a class="vcard" href="04-numbers/v2.html"><span class="v">v2</span><h3>Гигантская строка</h3><p>Чистая типографика: цифры-мега в три ряда, контур/цвет, въезд при скролле</p></a>
+      <a class="vcard" href="04-numbers/v3.html"><span class="v">v3</span><h3>Цифры + мини-карта</h3><p>Сплит: каунтеры слева, созвездие точек справа, ховер подсвечивает свой слой карты</p></a>
+      <a class="vcard" href="04-numbers/v4.html"><span class="v">v4</span><h3>Радиальные датчики</h3><p>Три круговых индикатора масштаба вместо карточной сетки, мегастроки или карты</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">05</span> Как устроен бизнес</h2>
+    <div class="versions">
+      <a class="vcard" href="05-business/v1.html"><span class="v">v1</span><h3>Карусель</h3><p>Реф. drinkit «Технология скорости»: 3 слайда, стрелки-кружки, свайп</p></a>
+      <a class="vcard" href="05-business/v2.html"><span class="v">v2</span><h3>Scrollytelling</h3><p>Путь заказа за 15 минут: пин-сцена, шаги переключаются скроллом, SVG-иллюстрации</p></a>
+      <a class="vcard" href="05-business/v3.html"><span class="v">v3</span><h3>Вы / Яндекс</h3><p>Тумблер зон ответственности: сетка тайлов перекрашивается и гаснет по переключателю</p></a>
+      <a class="vcard" href="05-business/v4.html"><span class="v">v4</span><h3>Слоёный стек</h3><p>Продукт, партнёр и Яндекс собраны в три физически наложенных слоя бизнес-модели</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">05.1</span> Даркстор изнутри</h2>
+    <div class="versions">
+      <a class="vcard" href="05-1-darkstore/v1.html"><span class="v">v1</span><h3>Интерактивный план</h3><p>Семь помещений на плане: клик по зоне обновляет описание, владельца процесса и температуру</p></a>
+      <a class="vcard" href="05-1-darkstore/v2.html"><span class="v">v2</span><h3>Рентген-разрез</h3><p>Тёмный поперечный разрез со сканирующим лучом и кратким readout выбранной зоны</p></a>
+      <a class="vcard" href="05-1-darkstore/v3.html"><span class="v">v3</span><h3>Орбитальный навигатор</h3><p>Семь зон вращаются вокруг ядра «Даркстор» и раскрывают связь процессов</p></a>
+      <a class="vcard" href="05-1-darkstore/v4.html"><span class="v">v4</span><h3>Фокус-точки</h3><p>Клик по плюсу приближает зону на изометрической карте и открывает карточку прямо поверх визуала</p></a>
+      <a class="vcard" href="05-1-darkstore/v5.html"><span class="v">v5</span><h3>Карта-инспектор</h3><p>Карта плавно приближает выбранную зону, а описание и навигация остаются в отдельной панели справа</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">06</span> Предложения</h2>
+    <div class="versions">
+      <a class="vcard" href="06-offers/v1.html"><span class="v">v1</span><h3>Три карточки</h3><p>Реф. drinkit: чипы городов, крупные параметры, тултип роялти, выделенный сегмент</p></a>
+      <a class="vcard" href="06-offers/v2.html"><span class="v">v2</span><h3>Карта + аккордеон</h3><p>Sticky-карта городов слева, раскрывающиеся сегменты справа, подсветка городов</p></a>
+      <a class="vcard" href="06-offers/v3.html"><span class="v">v3</span><h3>Дефицит</h3><p>Статусы «осталось 2 города / sold out», прогресс-бары занятости — механика срочности</p></a>
+      <a class="vcard" href="06-offers/v4.html"><span class="v">v4</span><h3>Инвестиционная матрица</h3><p>Сравнение трёх форматов по одной шкале; на мобильном сегменты переключаются чипами</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">07</span> Как стать партнёром</h2>
+    <div class="versions">
+      <a class="vcard" href="07-steps/v1.html"><span class="v">v1</span><h3>Горизонтальный степпер</h3><p>Пять шагов на линии, прогресс заполняется при скролле; на мобильном маршрут становится вертикальным</p></a>
+      <a class="vcard" href="07-steps/v2.html"><span class="v">v2</span><h3>Карточки-домино</h3><p>Пять карточек лесенкой внахлёст, крупные номера и выход активной карточки вперёд по ховеру</p></a>
+      <a class="vcard" href="07-steps/v3.html"><span class="v">v3</span><h3>Тёмный scrollytelling</h3><p>Sticky-сцена на тёмно-синем фоне: этапы переключаются вместе со скроллом и общим прогресс-баром</p></a>
+      <a class="vcard" href="07-steps/v4.html"><span class="v">v4 · мини</span><h3>Компактный маршрут</h3><p>Низкая строка из пяти шагов без большой секции; на мобильном аккуратно свайпается</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">08</span> Отзывы франчайзи</h2>
+    <div class="versions">
+      <a class="vcard" href="08-reviews/v1.html"><span class="v">v1</span><h3>Карусель-визитки</h3><p>Фото-заглушка слева, крупная цитата справа, счётчик дарксторов, стрелки и свайп</p></a>
+      <a class="vcard" href="08-reviews/v2.html"><span class="v">v2</span><h3>Стена цитат</h3><p>Masonry-композиция из шести разноцветных карточек разной высоты — все отзывы видны сразу</p></a>
+      <a class="vcard" href="08-reviews/v3.html"><span class="v">v3</span><h3>Видео-отзывы</h3><p>Шесть карточек 16:9 с градиентными видео-заглушками, play-состоянием и короткими цитатами</p></a>
+      <a class="vcard" href="08-reviews/v4.html"><span class="v">v4 · мини</span><h3>Компактный переключатель</h3><p>Одна короткая цитата и три аватара-переключателя вместо большой карусели или стены</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">09</span> О нас говорят</h2>
+    <div class="versions">
+      <a class="vcard" href="09-media/v1.html"><span class="v">v1</span><h3>Лента обложек</h3><p>Сетка публикаций РБК, Forbes, vc.ru и «Коммерсанта» с фирменными обложками-заглушками</p></a>
+      <a class="vcard" href="09-media/v2.html"><span class="v">v2</span><h3>Wordmark + featured</h3><p>Приглушённая строка логотипов СМИ и одна крупная featured-публикация на тёмном фоне</p></a>
+      <a class="vcard" href="09-media/v3.html"><span class="v">v3 · мини</span><h3>Компактная медиастрока</h3><p>Узкая тёмная полоса с тремя заголовками публикаций и без крупных обложек</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">10</span> Q&amp;A</h2>
+    <div class="versions">
+      <a class="vcard" href="10-faq/v1.html"><span class="v">v1</span><h3>Классический аккордеон</h3><p>Один ответ открыт по умолчанию, плюс превращается в крестик, внизу — CTA в Telegram</p></a>
+      <a class="vcard" href="10-faq/v2.html"><span class="v">v2</span><h3>Две темы</h3><p>Вопросы разделены на колонки «О бизнесе» и «О запуске» с крупной Telegram-плашкой</p></a>
+      <a class="vcard" href="10-faq/v3.html"><span class="v">v3 · мини</span><h3>Вопросы-чипы</h3><p>Три главных вопроса в одной строке; ответ раскрывается в небольшом текстовом readout</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">11</span> Заявка</h2>
+    <div class="versions">
+      <a class="vcard" href="11-form/v1.html"><span class="v">v1</span><h3>Компактная карточка</h3><p>Узкая белая форма на светлом фоне, инпуты с подчёркиванием, чипы сегментов и SLA</p></a>
+      <a class="vcard" href="11-form/v2.html"><span class="v">v2</span><h3>Сплит с преимуществами</h3><p>Тёмная секция: преимущества и иконки слева, врезанная квалификационная форма справа</p></a>
+      <a class="vcard" href="11-form/v3.html"><span class="v">v3 · мини</span><h3>Inline-форма</h3><p>Имя, контакт, город и CTA собраны в одну компактную строку с SLA под ней</p></a>
+    </div>
+  </section>
+
+  <section class="block-group">
+    <h2><span class="num">12</span> Футер</h2>
+    <div class="versions">
+      <a class="vcard" href="12-footer/v1.html"><span class="v">v1</span><h3>Тёмный минимализм</h3><p>Логотип, мини-навигация, Telegram, реквизиты, юридические дисклеймеры и отметка 18+</p></a>
+      <a class="vcard" href="12-footer/v2.html"><span class="v">v2</span><h3>Светлый сервисный</h3><p>Крупный контактный блок на светло-голубом фоне, навигация и юридическая строка</p></a>
+      <a class="vcard" href="12-footer/v3.html"><span class="v">v3</span><h3>CTA-манифест</h3><p>Большой финальный призыв «Давайте запускать» с орбитами и тёмной legal-зоной</p></a>
+    </div>
+  </section>
+
+  <p class="t-legal note">Прототипы · вёрстка-песочница · данные — заглушки (рыба) · не является публичной офертой</p>
+</div>
+<script>
+  (() => {
+    const storageKey = 'lavka-blocks-gallery-position';
+    const returnToGallery = new URLSearchParams(location.search).get('preview-return') === '1';
+
+    document.querySelectorAll('.vcard[href]').forEach((card) => {
+      card.addEventListener('click', (event) => {
+        if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        try {
+          sessionStorage.setItem(storageKey, JSON.stringify({ top: window.scrollY }));
+        } catch (_) {
+          // Если хранилище недоступно, вернёмся в начало галереи.
+        }
+      });
+    });
+
+    if (!returnToGallery) return;
+
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(storageKey));
+      sessionStorage.removeItem(storageKey);
+      if (Number.isFinite(saved?.top)) {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          const previousBehavior = document.documentElement.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior = 'auto';
+          window.scrollTo(0, saved.top);
+          document.documentElement.style.scrollBehavior = previousBehavior;
+        }));
+      }
+    } catch (_) {
+      // Без сохранённой позиции страница открывается как обычно.
+    }
+
+    history.replaceState(history.state, '', location.pathname + location.hash);
+  })();
+</script>
+</body>
+</html>

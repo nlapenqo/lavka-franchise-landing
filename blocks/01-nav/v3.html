@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Меню · v3 — Навигационный остров</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--navy); }
+  .island { position: fixed; z-index: 40; top: 20px; left: 50%; translate: -50% 0; width: min(920px, calc(100% - 40px)); min-height: 66px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 20px; padding: 9px 10px 9px 18px; border-radius: var(--r-pill); background: var(--bg); box-shadow: var(--shadow-card); }
+  .logo { font-weight: 900; font-size: 18px; white-space: nowrap; }
+  .logo b { color: var(--blue); }
+  .island nav { display: flex; justify-content: center; gap: 4px; }
+  .island nav a { padding: 10px 13px; border-radius: var(--r-pill); color: var(--text-dim); font-size: 14px; font-weight: 500; }
+  .island nav a:hover { background: var(--bg-card); color: var(--navy); }
+  .menu-button { display: none; width: 46px; height: 46px; place-items: center; border-radius: 50%; background: var(--navy); color: var(--bg); }
+  .menu-button svg { width: 22px; }
+  .island .btn { font-size: 14px; padding: .9em 1.35em; }
+  .drawer { position: fixed; z-index: 35; inset: 0; display: grid; align-content: center; padding: 110px 24px 40px; background: var(--sky); opacity: 0; visibility: hidden; transform: translateY(-16px); transition: opacity var(--dur-med), transform var(--dur-med), visibility var(--dur-med); }
+  .drawer.is-open { opacity: 1; visibility: visible; transform: none; }
+  .drawer nav { display: grid; gap: 8px; }
+  .drawer a { max-width: 100%; font-weight: 900; font-size: clamp(32px, 8.5vw, 64px); line-height: .98; overflow-wrap: anywhere; }
+  .drawer__meta { margin-top: 36px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .demo { min-height: 130vh; padding: 170px var(--container-pad) 100px; color: var(--text-on-dark); background: radial-gradient(circle at 50% 18%, var(--accent-blue), var(--navy) 42%); }
+  .demo__inner { max-width: var(--container); margin-inline: auto; text-align: center; }
+  .demo h1 { max-width: 980px; margin-inline: auto; }
+  .demo p { margin: 28px auto 0; color: var(--text-dim-dark); max-width: 560px; }
+  .legal { margin-top: 70vh; color: var(--text-dim-dark); }
+  @media (max-width: 760px) { .island { grid-template-columns: 1fr auto; } .island nav, .island > .btn { display: none; } .menu-button { display: grid; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">01 · Меню · v3 — Навигационный остров</div>
+<header class="island"><a class="logo" href="#">Яндекс <b>Лавка</b> · Франшиза</a><nav aria-label="Основная навигация"><a href="#formats">Форматы</a><a href="#business">Бизнес</a><a href="#steps">Шаги</a><a href="#faq">Вопросы</a></nav><a class="btn btn--navy" href="#form">Стать партнёром</a><button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Открыть меню"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 8h14M5 16h14"/></svg></button></header>
+<aside class="drawer" id="mobile-menu"><nav><a href="#formats">Форматы</a><a href="#business">Как устроен бизнес</a><a href="#steps">Путь партнёра</a><a href="#faq">Вопросы</a></nav><div class="drawer__meta"><a class="btn btn--navy" href="#form">Стать партнёром</a><a class="btn btn--white" href="https://t.me/yandex_lavka_franchise">Telegram</a></div></aside>
+<main class="demo"><div class="demo__inner"><h1 class="t-hero">Один остров. Вся навигация</h1><p class="t-sub">На мобильном раскрывается в полноэкранную командную панель</p><p class="t-legal legal">Прототип · данные — заглушка (рыба)</p></div></main>
+<script>
+  const button = document.querySelector('.menu-button'); const drawer = document.querySelector('.drawer');
+  button.addEventListener('click', () => { const open = !drawer.classList.contains('is-open'); drawer.classList.toggle('is-open', open); button.setAttribute('aria-expanded', String(open)); button.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню'); document.body.style.overflow = open ? 'hidden' : ''; });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

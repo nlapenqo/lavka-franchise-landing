@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · v3 — Орбитальный навигатор</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .head { text-align: center; max-width: 900px; margin-inline: auto; }
+  .head p { max-width: 560px; margin: 22px auto 0; color: var(--text-dim); }
+  .orbit-stage { position: relative; width: min(100%, 940px); aspect-ratio: 1.85; margin: clamp(44px, 6vw, 76px) auto 0; }
+  .rings { position: absolute; inset: 4% 15%; border: 1px solid var(--sky); border-radius: 50%; }
+  .rings::before, .rings::after { content: ""; position: absolute; border: 1px solid var(--sky); border-radius: 50%; } .rings::before { inset: 13%; } .rings::after { inset: 28%; background: var(--bg-light); }
+  .core { position: absolute; z-index: 2; left: 50%; top: 50%; translate: -50% -50%; width: clamp(180px, 25vw, 300px); aspect-ratio: 1.35; display: grid; place-items: center; padding: 26px; border-radius: 50%; background: var(--navy); color: var(--text-on-dark); text-align: center; box-shadow: var(--shadow-card); }
+  .core h2 { font-size: clamp(25px, 3vw, 42px); }
+  .core p { margin-top: 8px; color: var(--text-dim-dark); }
+  .satellite { position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: var(--r-pill); background: var(--bg-card); color: var(--navy); font-weight: 700; box-shadow: var(--shadow-card); transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast) var(--ease-spring); }
+  .satellite:hover, .satellite.is-active { background: var(--blue); color: var(--text-on-dark); transform: scale(1.07); }
+  .satellite:nth-of-type(1) { left: 6%; top: 18%; } .satellite:nth-of-type(2) { left: 0; top: 50%; } .satellite:nth-of-type(3) { left: 13%; bottom: 7%; } .satellite:nth-of-type(4) { left: 43%; bottom: 0; } .satellite:nth-of-type(5) { right: 7%; bottom: 9%; } .satellite:nth-of-type(6) { right: 0; top: 46%; } .satellite:nth-of-type(7) { right: 8%; top: 13%; }
+  .satellite span { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); font-size: 11px; }
+  .owner-key { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .legal { text-align: center; margin-top: var(--space-4); }
+  @media (max-width: 700px) { .orbit-stage { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .rings { display: none; } .core { position: relative; left: auto; top: auto; translate: none; width: auto; min-height: 180px; grid-column: 1 / -1; border-radius: var(--r-card); } .satellite, .satellite:nth-of-type(n) { position: relative; inset: auto; justify-content: flex-start; transform: none; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">05.1 · Даркстор изнутри · v3 — Орбитальный навигатор</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Внутри всё связано</h1><p class="t-sub">Семь зон вращаются вокруг одного результата — заказ у двери за несколько минут</p></header>
+  <div class="orbit-stage reveal" aria-label="Зоны даркстора">
+    <div class="rings" aria-hidden="true"></div>
+    <div class="core" aria-live="polite"><div><h2 class="t-h2">Сухое хранение</h2><p class="t-small">Автозаказ и ассортиментная матрица</p></div></div>
+    <button class="satellite is-active" type="button" data-title="Сухое хранение" data-copy="Автозаказ и ассортиментная матрица"><span>01</span>Сухой склад</button>
+    <button class="satellite" type="button" data-title="Морозильная камера" data-copy="Стабильные −18°C"><span>02</span>Морозилка</button>
+    <button class="satellite" type="button" data-title="Холодильники" data-copy="Режим +2…+4°C"><span>03</span>Холод</button>
+    <button class="satellite" type="button" data-title="Кухня" data-copy="Готовая еда и кофе"><span>04</span>Кухня</button>
+    <button class="satellite" type="button" data-title="Зона сборки" data-copy="Маршрут сборщика в WMS"><span>05</span>Сборка</button>
+    <button class="satellite" type="button" data-title="Зона выдачи" data-copy="Передача заказа курьеру"><span>06</span>Выдача</button>
+    <button class="satellite" type="button" data-title="Средняя миля" data-copy="Поставки из инфраструктуры Яндекса"><span>07</span>Логистика</button>
+  </div>
+  <div class="owner-key"><span class="chip chip--navy">Яндекс · технологии и поставки</span><span class="chip chip--active">Партнёр · команда и операционка</span></div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба) · визуал — собственная CSS-заглушка</p>
+</div></section>
+<script>
+  const satellites = document.querySelectorAll('.satellite'); const core = document.querySelector('.core');
+  satellites.forEach(item => item.addEventListener('click', () => { satellites.forEach(button => button.classList.toggle('is-active', button === item)); core.querySelector('h2').textContent = item.dataset.title; core.querySelector('p').textContent = item.dataset.copy; }));
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

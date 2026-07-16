@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · v2 — Живой заказ</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ---------- Хиро ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ---------- Мини-шапка ---------- */
+  .top {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+    padding-block: 22px;
+  }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy);
+  }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Сплит ---------- */
+  .hero__in {
+    flex: 1; width: 100%;
+    display: grid; grid-template-columns: 1.15fr .95fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding-top: 120px; padding-bottom: 96px;
+  }
+  .hero__copy .t-h1 { font-size: clamp(38px, 5vw, 72px); color: var(--navy); }
+  .hero__sub {
+    max-width: 480px; margin-top: 26px;
+    color: var(--text-dim);
+  }
+  .hero__cta {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 18px 28px; margin-top: 38px;
+  }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 500; font-size: clamp(15px, 1.25vw, 18px);
+    color: var(--navy); opacity: .8;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  /* ---------- Сцена «трекер заказа» ---------- */
+  .stage {
+    position: relative;
+    max-width: 460px; width: 100%; justify-self: end;
+    background: var(--bg-light);
+    border-radius: 40px;
+    padding: clamp(24px, 3vw, 42px);
+    overflow: hidden;
+  }
+  .route {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+  .courier {
+    position: absolute; z-index: 2; left: 83%; top: 6%;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 3px solid #fff;
+    box-shadow: 0 4px 14px rgba(0, 173, 255, .55);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* Таймер */
+  .timer {
+    position: relative; z-index: 1;
+    width: min(240px, 72%); margin-left: auto; margin-bottom: 22px;
+    background: var(--navy); color: #fff;
+    border-radius: var(--r-card-sm);
+    padding: 16px 22px 18px;
+    box-shadow: 0 18px 44px rgba(27, 58, 106, .28);
+    transform: rotate(2deg);
+  }
+  .timer__top {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: 13px; letter-spacing: .04em;
+    color: var(--text-dim-dark);
+  }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: var(--blue);
+    animation: blink 1.2s ease-in-out infinite alternate;
+  }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+  .timer__digits {
+    margin-top: 6px;
+    font-weight: 900; font-size: clamp(34px, 3.2vw, 42px);
+    letter-spacing: .02em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+  .timer__sub {
+    margin-top: 6px;
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px;
+    color: var(--text-dim-dark);
+  }
+
+  /* Карточки-статусы */
+  .steps {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .st-card {
+    position: relative;
+    display: flex; align-items: center; gap: 14px;
+    background: #fff; border-radius: var(--r-card-sm);
+    padding: 15px 20px;
+    box-shadow: var(--shadow-card);
+    opacity: .45; transform: translateY(4px) scale(.985);
+    transition: opacity .45s var(--ease-out), transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+  }
+  .st-card.is-on { opacity: 1; transform: none; }
+  .st-card.is-active { box-shadow: 0 0 0 2px var(--blue), var(--shadow-card); }
+  .steps li:nth-child(1) { margin-right: 14%; }
+  .steps li:nth-child(2) { margin-left: 12%; }
+  .steps li:nth-child(3) { margin-right: 5%; }
+
+  .st-card__ico {
+    width: 44px; height: 44px; flex: none;
+    display: grid; place-items: center;
+    border-radius: 14px;
+    background: var(--bg-card); color: var(--navy);
+    transition: background .45s, color .45s;
+  }
+  .st-card__ico svg { width: 22px; height: 22px; }
+  .st-card.is-active .st-card__ico { background: var(--blue); color: #fff; }
+  .st-card__txt { font-weight: 700; font-size: clamp(15px, 1.2vw, 17px); letter-spacing: -.01em; color: var(--navy); }
+  .st-card__time {
+    margin-left: auto; flex: none;
+    font-weight: 500; font-size: 14px; color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .st-card__pulse {
+    position: absolute; top: -5px; right: -5px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--blue);
+    opacity: 0; transition: opacity .3s;
+  }
+  .st-card.is-active .st-card__pulse { opacity: 1; }
+  .st-card.is-active .st-card__pulse::after {
+    content: ''; position: absolute; inset: -2px;
+    border-radius: 50%; border: 2px solid var(--blue);
+    animation: ping 1.5s var(--ease-out) infinite;
+  }
+  @keyframes ping {
+    0%   { transform: scale(.7); opacity: .9; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  .stage__note {
+    position: relative; z-index: 1;
+    margin-top: 20px; text-align: right; color: var(--text-dim);
+  }
+
+  .hero__legal {
+    position: absolute; z-index: 15; left: 50%; bottom: 20px;
+    transform: translateX(-50%);
+    color: var(--navy); white-space: nowrap;
+  }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) {
+    .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+
+    .hero__in {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-top: 96px; padding-bottom: 88px;
+      align-items: start;
+    }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+
+    .stage { justify-self: center; max-width: 420px; padding: 22px; border-radius: 32px; }
+    .timer { width: min(220px, 78%); margin-bottom: 18px; }
+    .steps { gap: 12px; }
+    .steps li:nth-child(1) { margin-right: 8%; }
+    .steps li:nth-child(2) { margin-left: 8%; }
+    .steps li:nth-child(3) { margin-right: 3%; }
+    .st-card { padding: 13px 16px; gap: 11px; }
+    .st-card__ico { width: 38px; height: 38px; border-radius: 12px; }
+    .st-card__ico svg { width: 19px; height: 19px; }
+
+    .hero__legal { bottom: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" aria-hidden="true">
+      <svg class="route" viewBox="0 0 360 500" preserveAspectRatio="none">
+        <path id="routeBase" d="M300 30 C 210 62 106 96 132 168 C 152 224 306 224 304 306 C 302 390 150 376 100 456"
+              fill="none" stroke="var(--sky)" stroke-width="2.5" stroke-linecap="round"
+              stroke-dasharray="1 10" vector-effect="non-scaling-stroke"/>
+        <path id="routeProg" d="M300 30 C 210 62 106 96 132 168 C 152 224 306 224 304 306 C 302 390 150 376 100 456"
+              pathLength="1" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"
+              stroke-dasharray="1 1" stroke-dashoffset="1" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="courier" id="courier"></div>
+
+      <div class="timer">
+        <div class="timer__top"><span class="live-dot"></span> Доставка · сейчас</div>
+        <div class="timer__digits" id="timerDigits">00:00</div>
+        <div class="timer__sub">от сборки до двери</div>
+      </div>
+
+      <ol class="steps" id="steps">
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8.5v7a1.8 1.8 0 0 1-.95 1.6l-7.1 3.9a1.8 1.8 0 0 1-1.9 0l-7.1-3.9A1.8 1.8 0 0 1 3 15.5v-7a1.8 1.8 0 0 1 .95-1.6l7.1-3.9a1.8 1.8 0 0 1 1.9 0l7.1 3.9A1.8 1.8 0 0 1 21 8.5Z"/><path d="M3.3 7.3 12 12l8.7-4.7"/><path d="M12 12v9"/></svg>
+          </span>
+          <span class="st-card__txt">Заказ собран</span>
+          <span class="st-card__time">2&nbsp;мин</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <span class="st-card__txt">Курьер в&nbsp;пути</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.4 12.3 2.5 2.5 4.9-5.2"/></svg>
+          </span>
+          <span class="st-card__txt">Доставлено</span>
+          <span class="st-card__time">12:34</span>
+          <span class="st-card__pulse"></span>
+        </li>
+      </ol>
+
+      <div class="stage__note t-legal">интерфейс — иллюстрация</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и визуалы — заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · v2 — «Живой заказ»</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  /* Цикл «живого заказа»: таймер 00:00→12:34, карточки по очереди, курьер по маршруту */
+  (function () {
+    const CYCLE = 12000;          /* полный цикл, мс */
+    const ARRIVE = .86;           /* доля цикла, когда заказ доставлен */
+    const TH = [.16, .52, .86];   /* моменты включения карточек */
+    const SECS = 12 * 60 + 34;    /* 12:34 в секундах */
+
+    const route = document.getElementById('routeBase');
+    const prog = document.getElementById('routeProg');
+    const dot = document.getElementById('courier');
+    const digits = document.getElementById('timerDigits');
+    const cards = [...document.querySelectorAll('#steps .st-card')];
+    const L = route.getTotalLength();
+
+    function render(t) {                       /* t ∈ [0, 1) */
+      const p = Math.min(t / ARRIVE, 1);
+      const s = Math.round(SECS * p);
+      digits.textContent =
+        String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+
+      let act = -1;
+      cards.forEach((c, i) => {
+        const on = t >= TH[i];
+        c.classList.toggle('is-on', on);
+        if (on) act = i;
+      });
+      cards.forEach((c, i) => c.classList.toggle('is-active', i === act));
+
+      const pt = route.getPointAtLength(L * p);
+      dot.style.left = (pt.x / 360 * 100) + '%';
+      dot.style.top = (pt.y / 500 * 100) + '%';
+      prog.style.strokeDashoffset = String(1 - p);
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      render(.999); /* статичный финал: всё доставлено */
+      return;
+    }
+    const t0 = performance.now();
+    (function loop(now) {
+      render(((now - t0) % CYCLE) / CYCLE);
+      requestAnimationFrame(loop);
+    })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

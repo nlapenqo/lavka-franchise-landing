@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · v1 — Тёмный минимализм</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .before { min-height: 42vh; display: grid; place-items: center; color: var(--text-dim); }
+  .before span { opacity: .55; }
+  .footer { position: relative; overflow: hidden; background: var(--navy); color: var(--text-on-dark); border-radius: var(--r-card) var(--r-card) 0 0; padding-top: clamp(54px, 8vw, 110px); }
+  .footer::after { content: ""; position: absolute; width: clamp(220px, 30vw, 440px); height: clamp(90px, 12vw, 170px); right: -6%; top: 7%; border-radius: 50%; background: var(--blue); transform: rotate(-14deg); opacity: .85; pointer-events: none; }
+  .footer__top { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(260px, 1.2fr) .62fr .72fr .52fr; gap: clamp(30px, 4vw, 62px); padding-bottom: clamp(58px, 8vw, 106px); }
+  .brand { max-width: 500px; }
+  .logo { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; font-weight: 800; font-size: clamp(28px, 3vw, 44px); letter-spacing: -.02em; }
+  .logo__heart { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); }
+  .logo__heart svg { width: 24px; }
+  .logo .chip { font-size: 13px; }
+  .brand > p { color: var(--text-dim-dark); max-width: 420px; }
+  .footer-social h2 { margin-bottom: 20px; color: var(--text-dim-dark); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .social { display: inline-flex; align-items: center; gap: 12px; font-weight: 500; }
+  .social__icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: var(--bg); transition: transform var(--dur-fast) var(--ease-out); }
+  .social:hover .social__icon { transform: translate(3px, -3px); }
+  .social__icon svg { width: 21px; }
+  .footer-nav h2 { margin-bottom: 20px; color: var(--text-dim-dark); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+  .footer-nav ul { display: grid; gap: 15px; }
+  .footer-nav a { font-size: clamp(16px, 1.25vw, 19px); transition: color var(--dur-fast); }
+  .footer-nav a:hover { color: var(--sky); }
+  .footer a:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; border-radius: 4px; }
+  .footer__bottom { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(220px, .5fr) auto; gap: 28px; align-items: end; padding-block: 28px 36px; border-top: 1px solid var(--mid-blue); color: var(--text-dim-dark); }
+  .details { max-width: 720px; }
+  .details p + p { margin-top: 7px; }
+  .legal-links { display: grid; gap: 8px; }
+  .age { align-self: start; font-family: var(--font-text); font-size: 26px; font-weight: 500; color: var(--text-on-dark); }
+  .prototype { opacity: 1; text-align: center; padding: 16px var(--container-pad) 26px; background: var(--navy); color: var(--text-dim-dark); }
+  @media (max-width: 840px) {
+    .footer__top { grid-template-columns: 1fr 1fr; }
+    .brand { grid-column: 1 / -1; }
+    .footer-social { grid-column: 1 / -1; }
+    .footer__bottom { grid-template-columns: 1fr auto; }
+    .details { grid-column: 1 / -1; }
+  }
+  @media (max-width: 480px) {
+    .footer { border-radius: var(--r-card-sm) var(--r-card-sm) 0 0; }
+    .footer__top { grid-template-columns: 1fr; }
+    .brand { grid-column: auto; }
+    .footer-social { grid-column: auto; }
+    .footer__bottom { grid-template-columns: 1fr; }
+    .details { grid-column: auto; }
+    .age { position: absolute; right: 0; bottom: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · v1 — Тёмный минимализм</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="brand reveal">
+        <div class="logo"><span>Яндекс</span><span class="logo__heart" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5c2.5 0 4.3 1.5 7 5.5 2.7-4 4.5-5.5 7-5.5"/><path d="M5 6.5 12 18l7-11.5"/></svg></span><span>Лавка</span><span class="chip chip--active">Франшиза</span></div>
+        <p class="t-sub">Быстрая доставка как бизнес — в вашем городе</p>
+      </div>
+
+      <nav class="footer-nav reveal reveal-d1" aria-label="Разделы сайта"><h2>На странице</h2><ul><li><a href="#formats">Форматы</a></li><li><a href="#business">Как устроен бизнес</a></li><li><a href="#steps">Как стать партнёром</a></li><li><a href="#faq">Вопросы</a></li></ul></nav>
+      <nav class="footer-nav reveal reveal-d2" aria-label="Документы и контакты"><h2>Полезное</h2><ul><li><a href="#form">Стать партнёром</a></li><li><a href="#contacts">Контакты</a></li><li><a href="#privacy">Политика конфиденциальности</a></li><li><a href="#personal-data">Обработка данных</a></li></ul></nav>
+      <div class="footer-social reveal reveal-d3"><h2>Мы на связи</h2><a class="social" href="https://t.me/yandex_lavka_franchise"><span class="social__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 4-3 16-6-5-4 3 1-5 8-6-10 5-4-2 18-6Z"/></svg></span><span>Telegram</span></a></div>
+    </div>
+
+    <div class="footer__bottom">
+      <div class="details t-legal"><p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д. 22, стр. 1</p><p>Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</p></div>
+      <div class="legal-links t-legal"><a href="#privacy">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div>
+      <span class="age" aria-label="Для лиц старше восемнадцати лет">18+</span>
+    </div>
+  </div>
+</footer>
+
+<p class="t-legal prototype">Прототип · данные — заглушка (рыба)</p>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

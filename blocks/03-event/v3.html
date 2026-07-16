@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · Мероприятие · v3 — Календарный билет</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .context { min-height: 30vh; display: grid; place-items: center; color: var(--text-dim); }
+  .ticket-wrap { padding-block: clamp(28px, 5vw, 60px); }
+  .ticket { position: relative; display: grid; grid-template-columns: 210px minmax(0, 1fr) auto; min-height: 270px; border-radius: var(--r-card); background: var(--navy); color: var(--text-on-dark); overflow: hidden; box-shadow: var(--shadow-card); }
+  .date { display: grid; align-content: center; justify-items: center; padding: 28px; background: var(--orange); color: var(--text-on-dark); }
+  .date strong { font-weight: 900; font-size: clamp(72px, 8vw, 116px); line-height: .72; }
+  .date span { margin-top: 18px; font-weight: 800; font-size: 23px; text-transform: uppercase; }
+  .ticket__body { position: relative; display: flex; flex-direction: column; justify-content: center; padding: clamp(30px, 5vw, 62px); }
+  .ticket__body::before { content: ""; position: absolute; inset-block: 18px; left: 0; border-left: 2px dashed var(--peach); }
+  .ticket__meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; }
+  .ticket__body p { margin-top: 14px; color: var(--text-dim-dark); }
+  .ticket__action { display: grid; place-items: center; padding: 38px; }
+  .ticket__action .btn { white-space: nowrap; }
+  .ticket::before, .ticket::after { content: ""; position: absolute; z-index: 2; left: 194px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg-light); } .ticket::before { top: -16px; } .ticket::after { bottom: -16px; }
+  .legal { text-align: center; margin-top: 22px; }
+  @media (max-width: 800px) { .ticket { grid-template-columns: 150px 1fr; } .ticket__action { grid-column: 1 / -1; justify-items: stretch; padding: 0 24px 28px; } .ticket::before, .ticket::after { left: 134px; } }
+  @media (max-width: 520px) { .ticket { grid-template-columns: 1fr; } .date { justify-items: start; grid-auto-flow: column; justify-content: start; gap: 16px; } .date strong { font-size: 64px; } .ticket__body::before, .ticket::before, .ticket::after { display: none; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">03 · Мероприятие · v3 — Календарный билет</div>
+<section class="ticket-wrap"><div class="container"><article class="ticket reveal">
+  <div class="date"><strong>27</strong><span>августа</span></div>
+  <div class="ticket__body"><div class="ticket__meta"><span class="chip chip--active">Набор открыт</span><span class="chip chip--outline">Москва · 19:00</span></div><h1 class="t-h2">День партнёров</h1><p class="t-sub">Покажем даркстор изнутри и разберём модель запуска города</p></div>
+  <div class="ticket__action"><a class="btn btn--white" href="#event">Забронировать место</a></div>
+</article><p class="t-legal legal">Прототип · данные — заглушка (рыба)</p></div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

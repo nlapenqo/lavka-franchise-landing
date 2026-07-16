@@ -1,0 +1,19 @@
+# ── Служебное / ОС ──
+.DS_Store
+*.log
+
+# ── Внутренние материалы проекта (не для публичного репо) ──
+docs/
+AGENTS.md
+CLAUDE.md
+
+# QA-скриншоты и артефакты автоматизации
+blocks/_shots/
+.playwright-mcp/
+output/
+
+# Внутренние исходники и бриф заказчика (оставляем только шрифты)
+references/*.docx
+references/*.html
+references/*.txt
+references/doc-media/

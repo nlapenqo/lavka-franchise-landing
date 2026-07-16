@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v2 — Стена цитат</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .head { display: grid; grid-template-columns: 1fr .7fr; gap: var(--space-5); align-items: end; margin-bottom: clamp(44px, 7vw, 90px); }
+  .head__sub { color: var(--text-dim); max-width: 420px; }
+  .wall { columns: 3 300px; column-gap: 20px; }
+  .quote { break-inside: avoid; margin-bottom: 20px; overflow: hidden; position: relative; box-shadow: none; }
+  .quote:nth-child(1), .quote:nth-child(5) { background: var(--navy); color: var(--text-on-dark); }
+  .quote:nth-child(2) { background: var(--sky); }
+  .quote:nth-child(3) { background: var(--peach); }
+  .quote:nth-child(4) { background: var(--bg-card); }
+  .quote:nth-child(6) { background: var(--lavender); }
+  .quote__mark { font-weight: 900; font-size: 88px; line-height: .55; color: var(--blue); }
+  .quote__text { margin-top: 22px; font-weight: 700; font-size: clamp(21px, 2vw, 29px); line-height: 1.08; }
+  .quote--tall .quote__text { font-size: clamp(26px, 2.6vw, 38px); }
+  .person { display: flex; align-items: center; gap: 13px; margin-top: clamp(30px, 4vw, 54px); }
+  .avatar { width: 50px; height: 50px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--blue); color: var(--text-on-dark); }
+  .avatar svg { width: 26px; height: 26px; }
+  .person__meta { margin-top: 3px; opacity: .66; }
+  .stat { margin-top: 28px; padding-top: 18px; border-top: 1px solid currentColor; opacity: .55; }
+  .stat strong { display: block; font-size: 2.4em; line-height: 1; opacity: 1; }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (max-width: 700px) { .head { grid-template-columns: 1fr; } .wall { columns: 1; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v2 — Стена цитат</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Лавка<br>изнутри</h1><p class="head__sub t-sub">Без рекламных формулировок — как партнёры оценивают запуск и ежедневную работу</p></header>
+  <div class="wall">
+    <article class="quote quote--tall card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«Запустили первый даркстор за три месяца — оборудование и обучение были готовы ещё до открытия»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Игорь Соколов</h2><p class="person__meta t-small">Казань · 4 даркстора</p></div></div></article>
+    <article class="quote card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«Команда запуска говорит с нами на одном языке: цифры, сроки, ответственность»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Мария Ким</h2><p class="person__meta t-small">Самара · 2 даркстора</p></div></div></article>
+    <article class="quote card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«Геоаналитика убрала споры о локациях. Выбираем точки по потенциалу спроса»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Роман Лебедев</h2><p class="person__meta t-small">Пермь · 3 даркстора</p></div></div><p class="stat t-small"><strong>3×</strong>открытых даркстора</p></article>
+    <article class="quote quote--tall card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«IT работает как ещё один сильный член команды: автозаказ, сборка и расписания собраны в одной системе»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Анна Морозова</h2><p class="person__meta t-small">Тюмень · 6 дарксторов</p></div></div></article>
+    <article class="quote card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«Сильный бренд даёт спрос с первого дня, но результат всё равно зависит от нашей операционки»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Максим Орлов</h2><p class="person__meta t-small">Воронеж · 7 дарксторов</p></div></div></article>
+    <article class="quote card reveal"><span class="quote__mark">“</span><blockquote class="quote__text">«Поддержка не заканчивается после открытия. Еженедельно разбираем метрики и точки роста»</blockquote><div class="person"><span class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21c.6-4.5 2.9-7 7-7s6.4 2.5 7 7"/></svg></span><div><h2 class="t-body">Елена Ильина</h2><p class="person__meta t-small">Челябинск · 5 дарксторов</p></div></div></article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

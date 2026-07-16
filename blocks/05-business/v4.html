@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · Как устроен бизнес · v4 — Слоёный стек</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .head { max-width: 900px; margin-bottom: clamp(42px, 6vw, 76px); }
+  .head p { max-width: 560px; margin-top: 22px; color: var(--text-dim); }
+  .stack-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
+  .stack { position: relative; min-height: 590px; perspective: 1200px; }
+  .layer { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(28px, 4vw, 56px); border-radius: var(--r-card); color: var(--navy); transform-origin: bottom center; transition: transform var(--dur-med) var(--ease-out), opacity var(--dur-med), filter var(--dur-med); box-shadow: var(--shadow-card); }
+  .layer:nth-child(1) { background: var(--sky); transform: translateY(-42px) scale(.9) rotate(-2deg); opacity: .55; }
+  .layer:nth-child(2) { background: var(--lavender); transform: translateY(-20px) scale(.95) rotate(1.5deg); opacity: .72; }
+  .layer:nth-child(3) { background: var(--bg); transform: none; }
+  .layer.is-active { z-index: 4; transform: translateY(0) scale(1) rotate(0); opacity: 1; filter: none; }
+  .layer:not(.is-active) { filter: saturate(.7); }
+  .layer__num { position: absolute; top: clamp(28px, 4vw, 56px); left: clamp(28px, 4vw, 56px); font-weight: 900; font-size: var(--fs-mega); line-height: .75; opacity: .18; }
+  .layer__body { width: 100%; max-width: 560px; }
+  .layer__body .t-h2 { font-size: clamp(38px, 3.3vw, 54px); hyphens: auto; }
+  .layer__body p { margin-top: 18px; color: var(--text-dim); }
+  .layer__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .layer-tabs { display: grid; gap: 12px; }
+  .layer-tab { display: grid; grid-template-columns: 50px 1fr; gap: 16px; align-items: center; padding: 18px; border-radius: var(--r-card-sm); background: var(--bg); text-align: left; transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast); }
+  .layer-tab.is-active { background: var(--navy); color: var(--text-on-dark); transform: translateX(-8px); }
+  .layer-tab__num { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-card); color: var(--navy); font-weight: 800; }
+  .layer-tab strong { display: block; font-size: 19px; } .layer-tab small { display: block; margin-top: 4px; opacity: .65; }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (max-width: 900px) { .stack-layout { grid-template-columns: 1fr; } .layer-tabs { grid-template-columns: repeat(3, 1fr); order: -1; } .layer-tab { grid-template-columns: 1fr; } .layer-tab.is-active { transform: translateY(-5px); } }
+  @media (max-width: 600px) { .stack { min-height: 570px; } .layer__num { top: 28px; right: 28px; left: auto; } .layer-tabs { grid-template-columns: 1fr; } .layer-tab { grid-template-columns: 42px 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">05 · Как устроен бизнес · v4 — Слоёный стек</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Три слоя.<br>Один бизнес</h1><p class="t-sub">Разложили модель по уровням: продукт, операционка партнёра и инфраструктура Яндекса</p></header>
+  <div class="stack-layout">
+    <div class="stack reveal" aria-live="polite">
+      <article class="layer" data-layer="product"><span class="layer__num">01</span><div class="layer__body"><span class="chip chip--navy">Продукт</span><h2 class="t-h2">Лавка для покупателя</h2><p class="t-body">Доставка продуктов за 10–15 минут через приложения экосистемы</p><div class="layer__chips"><span class="chip">Лавка</span><span class="chip">Еда</span><span class="chip">Go</span><span class="chip">Маркет</span></div></div></article>
+      <article class="layer" data-layer="partner"><span class="layer__num">02</span><div class="layer__body"><span class="chip chip--navy">Партнёр</span><h2 class="t-h2">Операционное ядро</h2><p class="t-body">Помещения, ремонт, команда, курьеры и ежедневное управление сетью</p><div class="layer__chips"><span class="chip">Локации</span><span class="chip">Найм</span><span class="chip">Операционка</span></div></div></article>
+      <article class="layer is-active" data-layer="yandex"><span class="layer__num">03</span><div class="layer__body"><span class="chip chip--active">Яндекс</span><h2 class="t-h2">Технологическая платформа</h2><p class="t-body">Поставщики, ассортимент, средняя миля, WMS, автозаказ и маркетинг</p><div class="layer__chips"><span class="chip">IT</span><span class="chip">Снабжение</span><span class="chip">Трафик</span></div></div></article>
+    </div>
+    <div class="layer-tabs" role="tablist" aria-label="Слои бизнес-модели"><button class="layer-tab" type="button" data-target="product"><span class="layer-tab__num">01</span><span><strong>Продукт</strong><small>что видит клиент</small></span></button><button class="layer-tab" type="button" data-target="partner"><span class="layer-tab__num">02</span><span><strong>Партнёр</strong><small>что работает в городе</small></span></button><button class="layer-tab is-active" type="button" data-target="yandex"><span class="layer-tab__num">03</span><span><strong>Яндекс</strong><small>что масштабирует сеть</small></span></button></div>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script>
+  const tabs = document.querySelectorAll('.layer-tab'); const layers = document.querySelectorAll('.layer');
+  tabs.forEach(tab => tab.addEventListener('click', () => { tabs.forEach(item => item.classList.toggle('is-active', item === tab)); layers.forEach(layer => layer.classList.toggle('is-active', layer.dataset.layer === tab.dataset.target)); }));
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

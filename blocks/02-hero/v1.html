@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · v1 — Видео-шоурил</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--navy); }
+
+  /* ---------- Хиро ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  /* ---------- Фон-заглушка видео: дрейфующие пятна + dot-grid ---------- */
+  .hero__bg { position: absolute; inset: 0; pointer-events: none; }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    will-change: transform;
+  }
+  .blob--1 {
+    width: 54vw; height: 54vw; top: -22%; left: -14%;
+    background: radial-gradient(circle at 50% 50%, var(--accent-blue), transparent 66%);
+    opacity: .8;
+    animation: drift-a 26s ease-in-out infinite;
+  }
+  .blob--2 {
+    width: 46vw; height: 46vw; top: 4%; right: -16%;
+    background: radial-gradient(circle at 50% 50%, var(--blue), transparent 66%);
+    opacity: .5;
+    animation: drift-b 21s ease-in-out infinite;
+  }
+  .blob--3 {
+    width: 44vw; height: 44vw; bottom: -26%; left: 26%;
+    background: radial-gradient(circle at 50% 50%, var(--lavender), transparent 66%);
+    opacity: .32;
+    animation: drift-c 30s ease-in-out infinite;
+  }
+  @keyframes drift-a {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(6vw, -4vh) scale(1.06); }
+    50%      { transform: translate(10vw, 5vh) scale(.97); }
+    75%      { transform: translate(3vw, 9vh) scale(1.04); }
+  }
+  @keyframes drift-b {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(-7vw, 6vh) scale(1.05); }
+    50%      { transform: translate(-11vw, -3vh) scale(.96); }
+    75%      { transform: translate(-4vw, -8vh) scale(1.03); }
+  }
+  @keyframes drift-c {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(8vw, -6vh) scale(1.05); }
+    50%      { transform: translate(2vw, -11vh) scale(1.1); }
+    75%      { transform: translate(-6vw, -5vh) scale(.98); }
+  }
+  .dots {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='1.5' cy='1.5' r='1.5' fill='%23FFFFFF' fill-opacity='.04'/%3E%3C/svg%3E");
+    background-size: 28px 28px;
+  }
+
+  /* ---------- Мини-шапка ---------- */
+  .top {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+    padding-block: 22px;
+  }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 21px; letter-spacing: -.01em;
+  }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Контент ---------- */
+  .hero__in {
+    /* без position — .video-note позиционируется от .hero (правый нижний угол экрана) */
+    z-index: 10; width: 100%;
+    padding-top: 118px; padding-bottom: 132px;
+  }
+  .hero__head {
+    position: relative;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(310px, .42fr);
+    gap: clamp(8px, 2vw, 28px);
+    align-items: center;
+  }
+  .hero__head .t-hero { font-size: clamp(42px, 6.4vw, 96px); }
+  .brand-nowrap { white-space: nowrap; }
+  .hero__sub {
+    max-width: 540px; margin-top: 28px;
+    color: var(--text-dim-dark);
+  }
+  .hero__cta {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 18px 28px; margin-top: 40px;
+  }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 500; font-size: clamp(15px, 1.25vw, 18px);
+    color: #fff; opacity: .85;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  /* ---------- Стикеры вокруг заголовка ---------- */
+  .stickers {
+    position: relative;
+    width: 350px;
+    height: 310px;
+    margin-left: clamp(-72px, -4vw, -34px);
+    pointer-events: none;
+  }
+  .stickers::before {
+    content: "";
+    position: absolute;
+    inset: 22px 16px 18px 34px;
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 48% 52% 50% 46%;
+    rotate: -9deg;
+    background: rgba(255, 255, 255, .025);
+  }
+  .sticker { position: absolute; z-index: 5; }
+  .sticker__par {
+    display: block;
+    transform: translate3d(var(--px, 0px), var(--py, 0px), 0);
+    transition: transform .35s var(--ease-out);
+    will-change: transform;
+  }
+  .sticker__in {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: .9em 1.3em; border-radius: var(--r-pill);
+    font-weight: 700; font-size: clamp(16px, 1.35vw, 20px); letter-spacing: -.01em;
+    white-space: nowrap;
+    box-shadow: 0 12px 34px rgba(9, 22, 46, .38);
+    transform: rotate(var(--rot, 0deg));
+    animation: float var(--fd, 6s) ease-in-out var(--fdl, 0s) infinite alternate;
+  }
+  .sticker__in svg { width: 20px; height: 20px; flex: none; }
+  @keyframes float {
+    from { transform: rotate(var(--rot, 0deg)) translateY(-4px); }
+    to   { transform: rotate(var(--rot, 0deg)) translateY(6px); }
+  }
+  .sticker--1 { top: 8px;   left: 44px; --rot: 5deg;  --fd: 5.6s; }
+  .sticker--2 { top: 106px; left: 0;    --rot: -5deg; --fd: 6.8s; --fdl: .7s; }
+  .sticker--3 { top: 204px; left: 54px; --rot: 3deg;  --fd: 7.6s; --fdl: 1.3s; }
+  .sticker--blue     .sticker__in { background: var(--blue); color: #fff; }
+  .sticker--white    .sticker__in { background: #fff; color: var(--navy); }
+  .sticker--lavender .sticker__in { background: var(--lavender); color: var(--navy); }
+
+  /* ---------- Плашка «место для видео» ---------- */
+  .video-note {
+    position: absolute; z-index: 15;
+    right: clamp(16px, 3vw, 36px); bottom: clamp(18px, 2.6vw, 30px);
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 16px;
+    border: 1px dashed rgba(255, 255, 255, .32); border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, .05);
+    backdrop-filter: blur(6px);
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px; letter-spacing: .02em;
+    color: rgba(255, 255, 255, .7);
+  }
+  .video-note svg { width: 18px; height: 18px; flex: none; opacity: .8; }
+
+  .hero__legal {
+    position: absolute; z-index: 15; left: 50%; bottom: 22px;
+    transform: translateX(-50%);
+    color: #fff; white-space: nowrap;
+  }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) {
+    .hero__head { grid-template-columns: minmax(0, 1fr) minmax(280px, .38fr); }
+    .stickers { width: 320px; margin-left: -42px; }
+    .sticker__in { font-size: 16px; }
+  }
+  @media (max-width: 880px) {
+    .hero__head { display: block; }
+    .stickers { width: auto; height: auto; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px 12px; }
+    .stickers::before { display: none; }
+    .sticker { position: static; }
+    .sticker--1 { --rot: -2deg; }
+    .sticker--2 { --rot: 2deg; }
+    .sticker--3 { --rot: -1.5deg; }
+  }
+  @media (max-width: 700px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; padding-left: 72px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+
+    .hero__in { padding-top: 96px; padding-bottom: 96px; }
+    .hero__sub { margin-top: 20px; }
+    .hero__cta { margin-top: 28px; gap: 14px 20px; }
+
+    .stickers { margin-top: 24px; pointer-events: auto; }
+    .sticker__in { font-size: 14px; padding: .78em 1.05em; }
+
+    .video-note { position: static; margin-top: 30px; width: fit-content; }
+    .hero__legal { bottom: 16px; }
+
+    .blob { filter: blur(70px); }
+    .blob--1 { width: 120vw; height: 120vw; }
+    .blob--2 { width: 100vw; height: 100vw; }
+    .blob--3 { width: 95vw; height: 95vw; }
+  }
+  @media (max-width: 420px) {
+    .logo__chip { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="blob blob--1"></div>
+    <div class="blob blob--2"></div>
+    <div class="blob blob--3"></div>
+    <div class="dots"></div>
+  </div>
+
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--white btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__head">
+      <h1 class="t-hero reveal">Запустите<br><span class="brand-nowrap">Яндекс&nbsp;Лавку</span><br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+
+      <div class="stickers">
+        <div class="sticker sticker--1 sticker--blue reveal reveal-d2" data-depth="1">
+          <span class="sticker__par"><span class="sticker__in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 5 13.5h5.5L11 22l8-11.5h-5.5L13 2Z"/></svg>
+            Доставка 10–15&nbsp;минут
+          </span></span>
+        </div>
+        <div class="sticker sticker--2 sticker--white reveal reveal-d3" data-depth=".6">
+          <span class="sticker__par"><span class="sticker__in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.6 9.6 5.8 5.4h12.4l1.2 4.2"/><path d="M5.4 9.8v8.8h13.2V9.8"/><path d="M10 18.6v-4.4h4v4.4"/></svg>
+            600+ дарксторов
+          </span></span>
+        </div>
+        <div class="sticker sticker--3 sticker--lavender reveal reveal-d4" data-depth=".85">
+          <span class="sticker__par"><span class="sticker__in">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="9" ry="4.5" transform="rotate(-18 12 12)"/></svg>
+            Трафик всей экосистемы
+          </span></span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+
+    <div class="hero__cta reveal reveal-d2">
+      <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+      <a class="link-how" href="#how">
+        Как это работает
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+      </a>
+    </div>
+
+    <div class="video-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 9 5 3-5 3V9Z"/></svg>
+      <span>место для видео-шоурила · b-roll даркстора</span>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и визуалы — заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · v1 — «Видео-шоурил»</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  /* Параллакс стикеров за мышью, ±8px c учётом «глубины» */
+  (function () {
+    const hero = document.querySelector('.hero');
+    const stickers = [...document.querySelectorAll('.sticker')];
+    const fine = matchMedia('(pointer: fine)').matches;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!fine || still) return;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const nx = (e.clientX - r.left) / r.width - .5;
+      const ny = (e.clientY - r.top) / r.height - .5;
+      stickers.forEach((s) => {
+        const d = parseFloat(s.dataset.depth) || 1;
+        s.style.setProperty('--px', (nx * 16 * d).toFixed(1) + 'px');
+        s.style.setProperty('--py', (ny * 16 * d).toFixed(1) + 'px');
+      });
+    });
+    hero.addEventListener('mouseleave', () => stickers.forEach((s) => {
+      s.style.setProperty('--px', '0px'); s.style.setProperty('--py', '0px');
+    }));
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · v1 — Интерактивный план</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .head { display: grid; grid-template-columns: 1fr .7fr; gap: var(--space-5); align-items: end; margin-bottom: clamp(40px, 6vw, 76px); }
+  .head p { color: var(--text-dim); max-width: 470px; }
+  .explorer { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); gap: 20px; align-items: stretch; }
+  .plan { min-height: 590px; display: grid; grid-template-columns: 1.2fr .8fr 1fr 1fr; grid-template-rows: 1fr .9fr .8fr; gap: 10px; padding: 18px; border-radius: var(--r-card); background: var(--navy); box-shadow: var(--shadow-card); }
+  .zone { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-width: 0; padding: clamp(15px, 2vw, 24px); border-radius: 18px; background: var(--bg-card); color: var(--navy); text-align: left; overflow: hidden; transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast); }
+  .zone:hover, .zone.is-active { transform: translateY(-4px); background: var(--blue); color: var(--text-on-dark); box-shadow: var(--shadow-cta); }
+  .zone:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+  .zone__icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--bg); color: var(--navy); }
+  .zone__icon svg { width: 23px; }
+  .zone__name { max-width: 190px; font-weight: 800; font-size: clamp(16px, 1.5vw, 22px); line-height: 1.05; }
+  .zone__tag { font-size: 11px; opacity: .7; text-transform: uppercase; letter-spacing: .08em; }
+  .zone--dry { grid-column: 1 / 3; grid-row: 1 / 3; background: var(--sky); }
+  .zone--freezer { grid-column: 3; grid-row: 1; }
+  .zone--cold { grid-column: 4; grid-row: 1 / 3; background: var(--lavender); }
+  .zone--kitchen { grid-column: 3; grid-row: 2; background: var(--peach); }
+  .zone--assembly { grid-column: 1 / 3; grid-row: 3; background: var(--bg); }
+  .zone--pickup { grid-column: 3; grid-row: 3; background: var(--orange); color: var(--text-on-dark); }
+  .zone--middle { grid-column: 4; grid-row: 3; background: var(--mid-blue); color: var(--text-on-dark); }
+  .detail { display: flex; flex-direction: column; min-height: 590px; padding: clamp(28px, 3vw, 42px); border-radius: var(--r-card); background: var(--bg); box-shadow: var(--shadow-card); }
+  .detail__index { color: var(--blue); font-weight: 900; font-size: var(--fs-mega); line-height: .75; }
+  .detail h2 { margin-top: 36px; }
+  .detail__copy { margin-top: 18px; color: var(--text-dim); line-height: 1.4; }
+  .detail__meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 30px; }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (max-width: 900px) { .explorer { grid-template-columns: 1fr; } .detail { min-height: 330px; } }
+  @media (max-width: 600px) { .head { grid-template-columns: 1fr; } .plan { min-height: 720px; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); } .zone, .zone:nth-child(n) { grid-column: auto; grid-row: auto; } .zone--dry { grid-column: 1 / -1 !important; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">05.1 · Даркстор изнутри · v1 — Интерактивный план</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">Даркстор.<br>По зонам</h1><p class="t-sub">Нажмите на помещение — покажем, что происходит внутри и кто за него отвечает</p></header>
+  <div class="explorer reveal">
+    <div class="plan" aria-label="Интерактивный план даркстора">
+      <button class="zone zone--dry is-active" type="button" data-index="01" data-title="Сухое хранение" data-copy="Ассортиментная матрица и автозаказ помогают держать нужный запас без ручных таблиц" data-owner="Яндекс" data-temp="Комнатная температура"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 21V5h16v16M4 10h16M9 5v16M15 5v16"/></svg></span><span class="zone__name">Сухое хранение</span><span class="zone__tag">ассортимент</span></button>
+      <button class="zone zone--freezer" type="button" data-index="02" data-title="Морозильная камера" data-copy="Отдельный холодовой контур для замороженных продуктов с контролем температуры" data-owner="Партнёр" data-temp="−18°C"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M5 7l14 10M19 7 5 17M8 4l4 3 4-3M8 20l4-3 4 3"/></svg></span><span class="zone__name">Морозилка</span><span class="zone__tag">−18°C</span></button>
+      <button class="zone zone--cold" type="button" data-index="03" data-title="Холодильники" data-copy="Овощи, молочные продукты и напитки хранятся в стабильном температурном режиме" data-owner="Партнёр" data-temp="+2…+4°C"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M5 11h14M9 7v1M9 15v2"/></svg></span><span class="zone__name">Холодильники</span><span class="zone__tag">+2…+4°C</span></button>
+      <button class="zone zone--kitchen" type="button" data-index="04" data-title="Кухня" data-copy="Здесь готовят кофе и часть готовой еды — отдельный продуктовый сценарий внутри даркстора" data-owner="Совместно" data-temp="Готовая еда"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4v7a3 3 0 0 0 6 0V4M8 4v17M16 4v17M16 4c3 2 3 7 0 9"/></svg></span><span class="zone__name">Кухня</span><span class="zone__tag">кофе и еда</span></button>
+      <button class="zone zone--assembly" type="button" data-index="05" data-title="Зона сборки" data-copy="Сборщики получают маршрут по заказу и комплектуют корзину за несколько минут" data-owner="Партнёр" data-temp="Сборщики"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m4 7 8-4 8 4-8 4-8-4Zm0 0v10l8 4 8-4V7M12 11v10"/></svg></span><span class="zone__name">Сборка заказов</span><span class="zone__tag">операционка</span></button>
+      <button class="zone zone--pickup" type="button" data-index="06" data-title="Зона выдачи" data-copy="Готовые заказы передаются курьерам без пересечения с потоком поставок" data-owner="Партнёр" data-temp="Курьеры"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="7" cy="18" r="3"/><circle cx="17" cy="18" r="3"/><path d="M7 18h4l3-7h3l2 4M5 9h5l3 6"/></svg></span><span class="zone__name">Выдача</span><span class="zone__tag">курьеры</span></button>
+      <button class="zone zone--middle" type="button" data-index="07" data-title="Средняя миля" data-copy="Регулярные поставки объединяют даркстор с распределительной инфраструктурой Яндекса" data-owner="Яндекс" data-temp="Логистика"><span class="zone__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h12v11H3zM15 10h4l2 3v4h-6z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span class="zone__name">Средняя миля</span><span class="zone__tag">поставки</span></button>
+    </div>
+    <aside class="detail" aria-live="polite"><span class="detail__index">01</span><h2 class="t-h2">Сухое хранение</h2><p class="detail__copy t-body">Ассортиментная матрица и автозаказ помогают держать нужный запас без ручных таблиц</p><div class="detail__meta"><span class="chip chip--active">Яндекс</span><span class="chip">Комнатная температура</span></div></aside>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба) · схема — собственная SVG/CSS-заглушка</p>
+</div></section>
+<script>
+  const zones = document.querySelectorAll('.zone'); const detail = document.querySelector('.detail');
+  zones.forEach(zone => zone.addEventListener('click', () => { zones.forEach(item => item.classList.toggle('is-active', item === zone)); detail.querySelector('.detail__index').textContent = zone.dataset.index; detail.querySelector('h2').textContent = zone.dataset.title; detail.querySelector('.detail__copy').textContent = zone.dataset.copy; detail.querySelector('.detail__meta').innerHTML = `<span class="chip chip--active">${zone.dataset.owner}</span><span class="chip">${zone.dataset.temp}</span>`; }));
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

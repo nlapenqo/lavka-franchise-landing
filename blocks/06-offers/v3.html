@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 · Предложения · v3 — Дефицит / статусы</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+
+  .offers-sec { background: var(--bg-light); }
+
+  /* ---------- Шапка секции ---------- */
+  .sec-head { margin-bottom: clamp(40px, 5vw, 72px); }
+  .sec-head__top { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; }
+  .sec-head__sub { margin-top: 20px; max-width: 540px; color: var(--text-dim); }
+
+  /* ---------- Грид карточек ---------- */
+  .offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 28px); }
+
+  .offer {
+    position: relative;
+    display: flex; flex-direction: column;
+    background: #fff;
+    box-shadow: 0 6px 24px rgba(27,58,106,.06);
+    transition: opacity var(--dur-med) var(--ease-out),
+                transform .45s var(--ease-out),
+                box-shadow .45s var(--ease-out);
+  }
+  .offer:hover { transform: translateY(-6px); box-shadow: var(--shadow-card); }
+
+  /* ---------- Чипы + статусы ---------- */
+  .offer__chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 18px; }
+  .offer__status { margin-left: auto; gap: 8px; }
+  .st--orange { background: var(--orange); color: #fff; }
+
+  /* Пульс-точка */
+  .pd { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #fff; flex: none; }
+  .pd::after {
+    content: ""; position: absolute; inset: -5px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.75);
+    animation: pulse 1.9s var(--ease-out) infinite;
+  }
+  @keyframes pulse {
+    0%   { transform: scale(.35); opacity: .9; }
+    70%  { transform: scale(1.1);  opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  /* ---------- Города: занятые зачёркнуты ---------- */
+  .offer__cities { color: var(--text-dim); }
+  .c-off { text-decoration: line-through; opacity: .45; }
+  .sold {
+    display: inline-block; vertical-align: baseline; transform: translateY(-7px);
+    margin-left: 5px; padding: 3px 7px;
+    font-weight: 500; font-size: 9px; line-height: 1; letter-spacing: .08em; text-transform: uppercase;
+    background: var(--navy); color: #fff; border-radius: var(--r-pill);
+    white-space: nowrap;
+  }
+
+  /* ---------- Прогресс занятости ---------- */
+  .occ { margin-top: 16px; }
+  .occ__bar { height: 6px; border-radius: var(--r-pill); background: var(--bg-card); overflow: hidden; }
+  .occ__fill {
+    display: block; height: 100%; width: 0;
+    border-radius: inherit; background: var(--c, var(--blue));
+    transition: width 1.2s var(--ease-out) .35s;
+  }
+  .offer.is-in .occ__fill { width: var(--w, 0%); }
+  .occ__cap { margin-top: 8px; font-size: 13px; color: var(--text-dim); }
+
+  /* ---------- Параметры 2×2 (компактные) ---------- */
+  .offer__params {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px 16px;
+    margin-top: 22px; margin-bottom: 22px; padding-top: 20px;
+    border-top: 1px solid rgba(27,58,106,.09);
+  }
+  .param dt { margin-bottom: 6px; }
+  .p-val {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px; position: relative;
+    font-weight: 800; font-size: clamp(19px, 1.6vw, 25px); line-height: 1.05; letter-spacing: -.005em;
+  }
+  .unit { font-weight: 600; font-size: .62em; color: var(--text-dim); }
+
+  /* ---------- Тултип роялти ---------- */
+  .info {
+    flex: none; align-self: center;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    color: var(--mid-blue);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .info svg { width: 18px; height: 18px; }
+  .info:hover { color: var(--blue); }
+  .info:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  .tip {
+    position: absolute; right: 0; bottom: calc(100% + 12px); z-index: 6;
+    width: min(250px, 74vw);
+    background: var(--navy); color: #fff;
+    font-weight: 400; font-size: 13px; line-height: 1.45; letter-spacing: 0;
+    padding: 12px 14px; border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(27,58,106,.28);
+    opacity: 0; transform: translateY(6px); pointer-events: none;
+    transition: opacity .25s var(--ease-out), transform .25s var(--ease-out);
+  }
+  .tip::after {
+    content: ""; position: absolute; top: 100%; right: 22px;
+    border: 7px solid transparent; border-top-color: var(--navy);
+  }
+  .info:hover + .tip, .info:focus-visible + .tip, .info.is-open + .tip {
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+
+  /* ---------- Описание одной строкой ---------- */
+  .offer__desc {
+    margin-top: auto; padding-top: 16px;
+    border-top: 1px solid rgba(27,58,106,.09);
+    color: var(--text-dim);
+  }
+
+  /* ---------- CTA ---------- */
+  .cta { display: flex; justify-content: center; margin-top: clamp(44px, 6vw, 80px); }
+  .btn--xl { font-size: clamp(17px, 1.5vw, 22px); padding: 1.15em 2.6em; }
+  .btn--xl svg { width: 22px; height: 22px; }
+  .cta-note { text-align: center; margin-top: 14px; font-size: 13px; color: var(--text-dim); }
+  .legal { text-align: center; margin-top: var(--space-4); }
+
+  /* ---------- Адаптив: 768 и 375 — скролл-снап ---------- */
+  @media (max-width: 960px) {
+    .offers {
+      display: flex; gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      margin-inline: calc(-1 * var(--container-pad));
+      padding-inline: var(--container-pad);
+      padding-bottom: 10px;
+      scroll-padding-inline: var(--container-pad);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .offers::-webkit-scrollbar { display: none; }
+    .offer { flex: 0 0 85vw; scroll-snap-align: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">06 · Предложения · v3 — Дефицит / статусы</div>
+
+<section class="section offers-sec">
+  <div class="container">
+
+    <header class="sec-head reveal">
+      <div class="sec-head__top">
+        <h1 class="t-h1">Форматы партнёрства</h1>
+        <span class="chip chip--outline">Актуально на 16.07.2026</span>
+      </div>
+      <p class="sec-head__sub t-sub">Список городов ограничен — сегменты закрываются по мере подписания соглашений</p>
+    </header>
+
+    <div class="offers">
+
+      <!-- Сегмент А: осталось 2 города -->
+      <article class="offer card reveal">
+        <div class="offer__chips">
+          <span class="chip chip--navy">Готовый бизнес</span>
+          <span class="chip st--orange offer__status"><span class="pd"></span>Осталось 2 города</span>
+        </div>
+
+        <p class="offer__cities t-small"><span class="c-off">Казань</span> · Челябинск · <span class="c-off">Тюмень</span> · <span class="c-off">Воронеж</span> · Пермь</p>
+
+        <div class="occ">
+          <div class="occ__bar"><span class="occ__fill" style="--w:60%; --c:var(--orange)"></span></div>
+          <p class="occ__cap">занято 3 из 5 городов</p>
+        </div>
+
+        <dl class="offer__params">
+          <div class="param">
+            <dt class="t-label">Инвестиции</dt>
+            <dd class="p-val"><span>400–600</span><span class="unit">млн&nbsp;₽</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Окупаемость</dt>
+            <dd class="p-val"><span>от&nbsp;2,5&nbsp;лет</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Паушальный взнос</dt>
+            <dd class="p-val"><span>1&nbsp;млн&nbsp;₽</span><span class="unit">/&nbsp;даркстор</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Роялти</dt>
+            <dd class="p-val">
+              <span>0–7%</span>
+              <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-a">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+              </button>
+              <span class="tip" role="tooltip" id="tip-a">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="offer__desc t-small">Передача в совместное партнёрство действующей сети дарксторов</p>
+      </article>
+
+      <!-- Сегмент Б: ищем партнёров -->
+      <article class="offer card reveal reveal-d1">
+        <div class="offer__chips">
+          <span class="chip chip--navy">Новый город</span>
+          <span class="chip">Миллионники</span>
+          <span class="chip chip--active offer__status">Ищем партнёров</span>
+        </div>
+
+        <p class="offer__cities t-small">Самара · Уфа · Саратов</p>
+
+        <div class="occ">
+          <div class="occ__bar"><span class="occ__fill" style="--w:33%; --c:var(--blue)"></span></div>
+          <p class="occ__cap">занято 1 из 3 городов</p>
+        </div>
+
+        <dl class="offer__params">
+          <div class="param">
+            <dt class="t-label">Инвестиции</dt>
+            <dd class="p-val"><span>250–450</span><span class="unit">млн&nbsp;₽</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Окупаемость</dt>
+            <dd class="p-val"><span>от&nbsp;3&nbsp;лет</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Паушальный взнос</dt>
+            <dd class="p-val"><span>1&nbsp;млн&nbsp;₽</span><span class="unit">/&nbsp;даркстор</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Роялти</dt>
+            <dd class="p-val">
+              <span>0–7%</span>
+              <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-b">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+              </button>
+              <span class="tip" role="tooltip" id="tip-b">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="offer__desc t-small">Запуск сервиса с нуля в городе-миллионнике</p>
+      </article>
+
+      <!-- Сегмент В: почти всё занято -->
+      <article class="offer card reveal reveal-d2">
+        <div class="offer__chips">
+          <span class="chip chip--navy">Новый город</span>
+          <span class="chip">Крупные города</span>
+          <span class="chip chip--muted offer__status">Почти всё занято</span>
+        </div>
+
+        <p class="offer__cities t-small">Ижевск · Оренбург · Ульяновск · Тольятти · <span class="c-off">Пенза</span><span class="sold">sold out</span> · Киров</p>
+
+        <div class="occ">
+          <div class="occ__bar"><span class="occ__fill" style="--w:83%; --c:var(--navy)"></span></div>
+          <p class="occ__cap">занято 5 из 6 городов</p>
+        </div>
+
+        <dl class="offer__params">
+          <div class="param">
+            <dt class="t-label">Инвестиции</dt>
+            <dd class="p-val"><span>75–150</span><span class="unit">млн&nbsp;₽</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Окупаемость</dt>
+            <dd class="p-val"><span>от&nbsp;3&nbsp;лет</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Паушальный взнос</dt>
+            <dd class="p-val"><span>1&nbsp;млн&nbsp;₽</span><span class="unit">/&nbsp;даркстор</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Роялти</dt>
+            <dd class="p-val">
+              <span>0–7%</span>
+              <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-v">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+              </button>
+              <span class="tip" role="tooltip" id="tip-v">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="offer__desc t-small">Запуск сервиса с нуля в крупном городе</p>
+      </article>
+
+    </div>
+
+    <div class="cta reveal">
+      <a class="btn btn--blue btn--xl" href="#lead">
+        Стать партнёром
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <p class="cta-note reveal">Оставьте заявку — город закрепляется за партнёром на время переговоров</p>
+
+    <p class="legal t-legal">Прототип · данные — заглушка (рыба), суммы и города не финальные · не является публичной офертой</p>
+
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  /* Тултип роялти: тап/клик для тач-устройств (hover/focus — в CSS) */
+  document.querySelectorAll('.info').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.info.is-open').forEach(function (b) { if (b !== btn) b.classList.remove('is-open'); });
+      btn.classList.toggle('is-open');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.info.is-open').forEach(function (b) { b.classList.remove('is-open'); });
+  });
+</script>
+
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

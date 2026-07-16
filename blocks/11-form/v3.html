@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 · Заявка · v3 — Компактная inline-форма</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .context { min-height: 20vh; display: grid; place-items: center; color: var(--text-dim); }
+  .apply-mini { padding-block: clamp(38px, 5vw, 68px); background: var(--sky); }
+  .apply-mini__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 24px; }
+  .apply-mini__head h1 { font-size: clamp(30px, 4vw, 52px); }
+  .apply-mini__head p { color: var(--text-dim); max-width: 360px; }
+  .inline-form { display: grid; grid-template-columns: 1fr 1.1fr 1fr auto; gap: 10px; align-items: center; padding: 12px; border-radius: var(--r-card); background: var(--bg); box-shadow: var(--shadow-card); }
+  .field { min-width: 0; }
+  .field input { width: 100%; min-height: 58px; border: 0; border-radius: 18px; padding: 14px 17px; background: var(--bg-light); color: var(--navy); font: 500 16px/1 var(--font-geo); outline: none; }
+  .field input:focus { box-shadow: inset 0 0 0 2px var(--blue); }
+  .inline-form .btn { min-height: 58px; white-space: nowrap; }
+  .form-meta { display: flex; justify-content: space-between; gap: 18px; margin-top: 14px; color: var(--text-dim); }
+  .consent { display: flex; align-items: center; gap: 9px; font-size: 12px; cursor: pointer; }
+  .consent input { width: 17px; height: 17px; accent-color: var(--blue); }
+  .status { display: none; padding: 18px 22px; border-radius: var(--r-card-sm); background: var(--navy); color: var(--text-on-dark); }
+  .status.is-visible { display: block; }
+  .inline-form[hidden] { display: none; }
+  @media (max-width: 850px) { .inline-form { grid-template-columns: 1fr 1fr; } .inline-form .btn { grid-column: 1 / -1; } }
+  @media (max-width: 560px) { .apply-mini__head { align-items: start; flex-direction: column; } .inline-form { grid-template-columns: 1fr; } .inline-form .btn { grid-column: auto; } .form-meta { align-items: start; flex-direction: column; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">11 · Заявка · v3 — Компактная inline-форма</div>
+<section class="apply-mini"><div class="container">
+  <header class="apply-mini__head"><h1 class="t-h2">Обсудим ваш город?</h1><p class="t-body">Три поля — остальное разберём на встрече</p></header>
+  <form class="inline-form" id="mini-form" data-form><label class="field"><input type="text" name="name" autocomplete="name" placeholder="Имя" aria-label="Имя" required></label><label class="field"><input type="text" name="contact" autocomplete="tel" placeholder="Телефон или почта" aria-label="Телефон или почта" required></label><label class="field"><input type="text" name="city" autocomplete="address-level2" placeholder="Город" aria-label="Город" required></label><button class="btn btn--blue" type="submit">Стать партнёром</button></form>
+  <p class="status" role="status">Спасибо! Свяжемся в течение 2 рабочих дней</p>
+  <div class="form-meta"><label class="consent"><input type="checkbox" form="mini-form" required><span>Согласен на обработку персональных данных</span></label><span class="t-small">Ответим в течение 2 рабочих дней</span><span class="t-legal">Прототип · данные — заглушка (рыба)</span></div>
+</div></section>
+<script>
+  const form = document.querySelector('[data-form]'); const status = document.querySelector('.status');
+  form.addEventListener('submit', event => { event.preventDefault(); form.hidden = true; status.classList.add('is-visible'); });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

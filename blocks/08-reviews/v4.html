@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v4 — Компактный переключатель</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .context { min-height: 22vh; display: grid; place-items: center; color: var(--text-dim); background: var(--bg-light); }
+  .proof { padding-block: clamp(36px, 5vw, 64px); }
+  .proof__grid { display: grid; grid-template-columns: 220px minmax(0, 1fr) auto; gap: clamp(24px, 4vw, 54px); align-items: center; }
+  .proof__head .t-label { display: block; margin-bottom: 10px; }
+  .proof__head h1 { font-size: clamp(27px, 3vw, 42px); }
+  .quote { position: relative; min-height: 130px; display: flex; align-items: center; padding: 24px 30px; border-radius: var(--r-card-sm); background: var(--bg-card); }
+  .quote::before { content: "“"; align-self: flex-start; margin-right: 14px; color: var(--blue); font-weight: 900; font-size: 58px; line-height: .8; }
+  .quote blockquote { font-weight: 700; font-size: clamp(18px, 1.8vw, 25px); line-height: 1.15; }
+  .people { display: flex; gap: 8px; }
+  .person { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--sky); color: var(--navy); font-weight: 800; transition: transform var(--dur-fast), background var(--dur-fast), color var(--dur-fast); }
+  .person:hover, .person.is-active { transform: translateY(-4px); background: var(--navy); color: var(--text-on-dark); }
+  .meta { grid-column: 2; margin-top: -26px; color: var(--text-dim); font-size: 13px; }
+  .legal { grid-column: 3; margin-top: -26px; text-align: right; }
+  @media (max-width: 850px) { .proof__grid { grid-template-columns: 1fr; } .meta, .legal { grid-column: auto; margin-top: 0; } .people { order: 3; } .legal { text-align: left; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v4 — Компактный переключатель</div>
+<section class="proof"><div class="container"><div class="proof__grid">
+  <header class="proof__head"><span class="t-label">Отзывы</span><h1 class="t-h3">Говорят партнёры</h1></header>
+  <div class="quote" aria-live="polite"><blockquote>Запустили первый даркстор за три месяца — команда была готова ещё до открытия</blockquote></div>
+  <div class="people" aria-label="Выбрать отзыв"><button class="person is-active" type="button" data-name="Игорь Соколов · Казань, 4 даркстора" data-quote="Запустили первый даркстор за три месяца — команда была готова ещё до открытия">ИС</button><button class="person" type="button" data-name="Анна Морозова · Тюмень, 6 дарксторов" data-quote="Технологии снимают рутину, а мы фокусируемся на сервисе и операционке">АМ</button><button class="person" type="button" data-name="Роман Лебедев · Пермь, 3 даркстора" data-quote="Геоаналитика помогает выбирать локации на данных, а не на ощущениях">РЛ</button></div>
+  <p class="meta">Игорь Соколов · Казань, 4 даркстора</p><p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></div></section>
+<script>
+  const people = document.querySelectorAll('.person'); const quote = document.querySelector('.quote blockquote'); const meta = document.querySelector('.meta');
+  people.forEach(person => person.addEventListener('click', () => { people.forEach(item => item.classList.toggle('is-active', item === person)); quote.textContent = person.dataset.quote; meta.textContent = person.dataset.name; }));
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

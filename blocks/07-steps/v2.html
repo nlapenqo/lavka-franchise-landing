@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · v2 — Карточки-домино</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .steps { min-height: 100svh; display: grid; align-items: center; }
+  .head { display: flex; align-items: end; justify-content: space-between; gap: var(--space-4); }
+  .head__aside { max-width: 360px; color: var(--text-dim); }
+  .domino { position: relative; height: clamp(420px, 38vw, 540px); margin-top: clamp(52px, 7vw, 92px); }
+  .tile { --x: 0%; --y: 0px; --rot: 0deg; position: absolute; left: var(--x); top: var(--y); width: 25%; min-width: 250px; height: 360px; overflow: hidden; display: flex; flex-direction: column; color: var(--navy); background: var(--bg-card); box-shadow: var(--shadow-card); transform: rotate(var(--rot)); transform-origin: 50% 100%; transition: transform .5s var(--ease-spring), box-shadow .4s var(--ease-out); }
+  .tile:nth-child(1) { --x: 0%; --y: 0px; --rot: -5deg; background: var(--sky); z-index: 1; }
+  .tile:nth-child(2) { --x: 18%; --y: 24px; --rot: -2deg; background: var(--bg-card); z-index: 2; }
+  .tile:nth-child(3) { --x: 36%; --y: 50px; --rot: 1deg; background: var(--warm-gray); z-index: 3; }
+  .tile:nth-child(4) { --x: 54%; --y: 76px; --rot: 4deg; background: var(--peach); z-index: 4; }
+  .tile:nth-child(5) { --x: 72%; --y: 102px; --rot: 7deg; background: var(--blue); color: var(--text-on-dark); z-index: 5; }
+  .tile:hover, .tile:focus-within { z-index: 20; transform: translateY(-28px) rotate(0) scale(1.04); box-shadow: 0 24px 64px rgba(27,58,106,.22); }
+  .tile__num { position: absolute; right: 18px; top: 2px; font-weight: 900; font-size: clamp(90px, 10vw, 150px); line-height: .9; color: transparent; -webkit-text-stroke: 2px currentColor; opacity: .18; }
+  .tile__icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; background: var(--bg); color: var(--navy); }
+  .tile__icon svg { width: 28px; height: 28px; }
+  .tile__body { position: relative; z-index: 1; margin-top: auto; }
+  .tile__copy { margin-top: 12px; max-width: 210px; opacity: .74; }
+  .legal { text-align: center; }
+  @media (max-width: 900px) {
+    .head { align-items: start; flex-direction: column; }
+    .domino { height: auto; display: flex; overflow-x: auto; gap: 14px; margin-inline: calc(-1 * var(--container-pad)); padding: 18px var(--container-pad) 38px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .domino::-webkit-scrollbar { display: none; }
+    .tile, .tile:nth-child(n) { position: relative; left: auto; top: auto; flex: 0 0 min(78vw, 320px); min-width: 0; height: 390px; transform: rotate(0); scroll-snap-align: center; }
+    .tile:hover, .tile:focus-within { transform: translateY(-8px); }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">07 · Как стать партнёром · v2 — Карточки-домино</div>
+<section class="section steps">
+  <div class="container">
+    <header class="head reveal"><h1 class="t-h1">Ваш ход.<br>Наш следующий</h1><p class="head__aside t-sub">Двигаемся вместе — от первого разговора до открытия</p></header>
+    <ol class="domino" aria-label="Пять шагов запуска">
+      <li class="tile card reveal"><span class="tile__num">01</span><span class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H8l-4 4V4Z"/><path d="M8 9h8M8 12h5"/></svg></span><div class="tile__body"><h2 class="t-h3">Заявка</h2><p class="tile__copy t-body">Знакомимся с вами, опытом и городом</p></div></li>
+      <li class="tile card reveal reveal-d1"><span class="tile__num">02</span><span class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20c.6-4 2.9-6 7-6s6.4 2 7 6"/><path d="m17 5 2 2 3-3"/></svg></span><div class="tile__body"><h2 class="t-h3">Встреча и скоринг</h2><p class="tile__copy t-body">Сверяем цели, ресурсы и бизнес-подход</p></div></li>
+      <li class="tile card reveal reveal-d2"><span class="tile__num">03</span><span class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l3 3v15H6V3Z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg></span><div class="tile__body"><h2 class="t-h3">Договор</h2><p class="tile__copy t-body">Закрепляем город и условия партнёрства</p></div></li>
+      <li class="tile card reveal reveal-d3"><span class="tile__num">04</span><span class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6 20V8l6-4 6 4v12"/><path d="M9 12h6M9 16h6"/></svg></span><div class="tile__body"><h2 class="t-h3">Подготовка и обучение</h2><p class="tile__copy t-body">Готовим площадки, процессы и команду</p></div></li>
+      <li class="tile card reveal reveal-d4"><span class="tile__num">05</span><span class="tile__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 5 13.5h5.5L11 22l8-11.5h-5.5L13 2Z"/></svg></span><div class="tile__body"><h2 class="t-h3">Запуск</h2><p class="tile__copy t-body">Открываем Лавку и принимаем первые заказы</p></div></li>
+    </ol>
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

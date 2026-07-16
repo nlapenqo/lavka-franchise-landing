@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v3 — Цифры + мини-карта</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* --- соседние блоки-заглушки --- */
+  .ghost {
+    height: 42vh;
+    display: grid; place-items: center;
+    background: var(--bg);
+    outline: 1.5px dashed var(--sky); outline-offset: -14px;
+  }
+  .ghost span {
+    font-weight: 500; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-dim); opacity: .55;
+  }
+
+  /* ============ 04 · v3 — цифры + мини-карта ============ */
+  .numbers { background: var(--bg-light); padding-block: var(--section-pad); }
+
+  .split {
+    display: grid;
+    grid-template-columns: 45fr 55fr;
+    gap: clamp(28px, 4.5vw, 64px);
+    align-items: center;
+  }
+
+  /* — левый столбик цифр — */
+  .stats .t-label { display: block; margin-bottom: clamp(16px, 2vw, 28px); }
+  .stat {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 14px 16px; margin-inline: -16px;
+    border-radius: var(--r-card-sm);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .stat:hover, .stat:focus-visible { background: var(--bg-light); outline: none; }
+  .stat + .stat { margin-top: 4px; }
+  .stat__dot {
+    flex: none; width: 12px; height: 12px; border-radius: 50%;
+    margin-top: clamp(12px, 1.6vw, 26px);
+  }
+  .stat--launched .stat__dot { background: var(--blue); }
+  .stat--progress .stat__dot { background: var(--navy); }
+  .stat--seeking  .stat__dot { background: var(--orange); }
+  .stat__num { color: var(--navy); }
+  .stat__cap { margin-top: 6px; color: var(--text-dim); max-width: 240px; }
+
+  /* — правая карточка-карта — */
+  .map-wrap { min-width: 0; }
+  .map {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--r-card-sm);
+    background:
+      radial-gradient(rgba(255,255,255,.13) 1.2px, transparent 1.3px) 0 0 / 24px 24px,
+      var(--navy);
+    overflow: hidden;
+  }
+  .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .mdot { transition: opacity var(--dur-fast) var(--ease-out); }
+  .g-launched.mdot { fill: var(--blue); }
+  .g-progress.mdot { fill: #fff; opacity: .9; }
+  .g-seeking.mdot  { fill: var(--orange); }
+
+  /* чипы-подписи городов */
+  .city {
+    position: absolute;
+    display: inline-flex; align-items: center; gap: 7px;
+    font-weight: 500; font-size: 12px; letter-spacing: .01em;
+    color: #fff;
+    padding: 4px 11px;
+    border-radius: var(--r-pill);
+    background: rgba(255,255,255,.14);
+    backdrop-filter: blur(3px);
+    transition: opacity var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .city::before { content: ""; width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .city.g-launched::before { background: var(--blue); }
+  .city.g-progress::before { background: #fff; }
+  .city.g-seeking::before  { background: var(--orange); }
+
+  /* подсветка группы при ховере строки слева */
+  .map[data-focus="launched"] :is(.mdot, .city):not(.g-launched),
+  .map[data-focus="progress"] :is(.mdot, .city):not(.g-progress),
+  .map[data-focus="seeking"]  :is(.mdot, .city):not(.g-seeking) { opacity: .15; }
+
+  /* легенда */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 22px;
+    margin-top: 14px;
+    color: var(--text-dim); font-size: 13px;
+  }
+  .legend li { display: inline-flex; align-items: center; gap: 8px; }
+  .leg-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .leg-dot--launched { background: var(--blue); }
+  .leg-dot--progress { background: #fff; box-shadow: inset 0 0 0 1.5px var(--sky); }
+  .leg-dot--seeking  { background: var(--orange); }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    .map { max-width: 520px; }
+  }
+  @media (max-width: 600px) {
+    .stat { padding: 10px 12px; margin-inline: -12px; }
+  }
+
+  .legal { text-align: center; padding: 22px 16px 30px; }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · v3 — Цифры + мини-карта</div>
+
+  <section class="ghost"><span>соседний блок</span></section>
+
+  <section class="numbers">
+    <div class="container">
+      <div class="card card--white reveal">
+        <div class="split">
+
+          <!-- левый столбик цифр -->
+          <div class="stats">
+            <span class="t-label">География сети</span>
+
+            <div class="stat stat--launched" data-group="launched" tabindex="0">
+              <span class="stat__dot" aria-hidden="true"></span>
+              <div>
+                <div class="stat__num t-h1"><span data-count="14">0</span></div>
+                <p class="stat__cap t-small">городов запущено по&nbsp;франшизе</p>
+              </div>
+            </div>
+
+            <div class="stat stat--progress" data-group="progress" tabindex="0">
+              <span class="stat__dot" aria-hidden="true"></span>
+              <div>
+                <div class="stat__num t-h1"><span data-count="25">0</span></div>
+                <p class="stat__cap t-small">городов в&nbsp;работе</p>
+              </div>
+            </div>
+
+            <div class="stat stat--seeking" data-group="seeking" tabindex="0">
+              <span class="stat__dot" aria-hidden="true"></span>
+              <div>
+                <div class="stat__num t-h1"><span data-count="9">0</span></div>
+                <p class="stat__cap t-small">партнёров ищем сейчас</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- карточка-карта -->
+          <div class="map-wrap">
+            <div class="map" id="geoMap">
+              <svg viewBox="0 0 440 440" aria-hidden="true">
+                <!-- запущено · голубые -->
+                <g>
+                  <circle class="mdot g-launched" cx="112" cy="128" r="5"/>
+                  <circle class="mdot g-launched" cx="134" cy="148" r="4.5"/>
+                  <circle class="mdot g-launched" cx="98"  cy="156" r="4"/>
+                  <circle class="mdot g-launched" cx="72"  cy="84"  r="5"/>
+                  <circle class="mdot g-launched" cx="204" cy="182" r="5"/>
+                  <circle class="mdot g-launched" cx="228" cy="204" r="4"/>
+                  <circle class="mdot g-launched" cx="152" cy="300" r="5"/>
+                  <circle class="mdot g-launched" cx="128" cy="320" r="4"/>
+                  <circle class="mdot g-launched" cx="314" cy="168" r="4.5"/>
+                  <circle class="mdot g-launched" cx="188" cy="92"  r="4"/>
+                </g>
+                <!-- в работе · белые -->
+                <g>
+                  <circle class="mdot g-progress" cx="148" cy="126" r="3.5"/>
+                  <circle class="mdot g-progress" cx="88"  cy="118" r="3.5"/>
+                  <circle class="mdot g-progress" cx="94"  cy="62"  r="3.5"/>
+                  <circle class="mdot g-progress" cx="240" cy="176" r="3.5"/>
+                  <circle class="mdot g-progress" cx="212" cy="224" r="3.5"/>
+                  <circle class="mdot g-progress" cx="186" cy="206" r="3.5"/>
+                  <circle class="mdot g-progress" cx="172" cy="284" r="3.5"/>
+                  <circle class="mdot g-progress" cx="192" cy="322" r="3.5"/>
+                  <circle class="mdot g-progress" cx="300" cy="120" r="3.5"/>
+                  <circle class="mdot g-progress" cx="322" cy="142" r="3.5"/>
+                  <circle class="mdot g-progress" cx="286" cy="94"  r="3.5"/>
+                  <circle class="mdot g-progress" cx="352" cy="238" r="3.5"/>
+                  <circle class="mdot g-progress" cx="374" cy="264" r="3.5"/>
+                  <circle class="mdot g-progress" cx="338" cy="272" r="3.5"/>
+                  <circle class="mdot g-progress" cx="390" cy="330" r="3.5"/>
+                </g>
+                <!-- ищем партнёра · оранжевые -->
+                <g>
+                  <circle class="mdot g-seeking" cx="142" cy="162" r="5"/>
+                  <circle class="mdot g-seeking" cx="250" cy="216" r="5"/>
+                  <circle class="mdot g-seeking" cx="148" cy="342" r="4.5"/>
+                  <circle class="mdot g-seeking" cx="338" cy="108" r="5"/>
+                  <circle class="mdot g-seeking" cx="384" cy="236" r="4.5"/>
+                  <circle class="mdot g-seeking" cx="368" cy="354" r="5"/>
+                </g>
+              </svg>
+
+              <span class="city g-launched" style="left: 20%; top: 24%;">Москва</span>
+              <span class="city g-launched" style="left: 50%; top: 44%;">Казань</span>
+              <span class="city g-progress" style="left: 64%; top: 18%;">Екатеринбург</span>
+              <span class="city g-seeking"  style="left: 26%; top: 74%;">Самара</span>
+            </div>
+
+            <ul class="legend">
+              <li><span class="leg-dot leg-dot--launched"></span>запущено</li>
+              <li><span class="leg-dot leg-dot--progress"></span>в работе</li>
+              <li><span class="leg-dot leg-dot--seeking"></span>ищем партнёра</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ghost"><span>соседний блок</span></section>
+
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+  <script>
+    /* ховер по строке цифры — подсветка своей группы точек на карте */
+    (function () {
+      var map = document.getElementById('geoMap');
+      var stats = document.querySelectorAll('.stat[data-group]');
+      stats.forEach(function (s) {
+        var on  = function () { map.dataset.focus = s.dataset.group; };
+        var off = function () { delete map.dataset.focus; };
+        s.addEventListener('mouseenter', on);
+        s.addEventListener('mouseleave', off);
+        s.addEventListener('focus', on);
+        s.addEventListener('blur', off);
+      });
+    })();
+  </script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

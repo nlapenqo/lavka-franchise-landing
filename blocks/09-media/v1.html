@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · v1 — Лента обложек</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: var(--space-4); margin-bottom: clamp(42px, 6vw, 80px); }
+  .head__sub { max-width: 410px; color: var(--text-dim); }
+  .feed { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .publication { grid-column: span 6; display: grid; grid-template-columns: .82fr 1fr; min-height: 340px; overflow: hidden; background: var(--bg-light); padding: 0; box-shadow: none; transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out); }
+  .publication:hover { transform: translateY(-7px); box-shadow: var(--shadow-card); }
+  .cover { position: relative; overflow: hidden; display: grid; place-items: center; min-height: 280px; background: var(--sky); }
+  .publication:nth-child(2) .cover { background: var(--peach); }
+  .publication:nth-child(3) .cover { background: var(--lavender); }
+  .publication:nth-child(4) .cover { background: var(--warm-gray); }
+  .cover::before, .cover::after { content: ""; position: absolute; width: 75%; aspect-ratio: 1; border: 2px solid var(--navy); border-radius: 50%; opacity: .18; }
+  .cover::after { width: 43%; }
+  .wordmark { position: relative; z-index: 1; font-weight: 900; font-size: clamp(38px, 4vw, 62px); letter-spacing: -.04em; }
+  .cover__icon { position: absolute; right: 18px; bottom: 18px; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; background: var(--bg); }
+  .cover__icon svg { width: 28px; height: 28px; }
+  .publication__body { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 40px); }
+  .publication__date { color: var(--text-dim); }
+  .publication__title { margin-top: 20px; font-size: clamp(22px, 2.2vw, 32px); }
+  .publication__link { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 28px; font-weight: 500; color: var(--blue); }
+  .publication__link svg { width: 19px; height: 19px; transition: transform var(--dur-fast); }
+  .publication:hover .publication__link svg { transform: translate(3px, -3px); }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (max-width: 920px) { .publication { grid-column: span 12; } }
+  @media (max-width: 600px) { .head { align-items: start; flex-direction: column; } .publication { grid-template-columns: 1fr; } .cover { min-height: 230px; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · v1 — Лента обложек</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h1 class="t-h1">О нас<br>говорят</h1><p class="head__sub t-sub">Публикации о технологиях, рынке быстрой доставки и развитии франшизы</p></header>
+  <div class="feed">
+    <article class="publication card reveal"><div class="cover"><span class="wordmark">РБК</span><span class="cover__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M6 20V8l6-4 6 4v12"/><path d="M9 12h6M9 16h6"/></svg></span></div><div class="publication__body"><p class="publication__date t-label">РБК · бизнес</p><h2 class="publication__title t-h3">Быстрая доставка выходит в новые города: как устроена модель партнёрства</h2><a class="publication__link" href="#publication-rbc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></article>
+    <article class="publication card reveal reveal-d1"><div class="cover"><span class="wordmark">Forbes</span><span class="cover__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9l8-5 8 5v10"/><path d="M8 19v-6h8v6M3 20h18"/></svg></span></div><div class="publication__body"><p class="publication__date t-label">Forbes · компании</p><h2 class="publication__title t-h3">Технологии вместо догадок: почему ритейл считает спрос до открытия точки</h2><a class="publication__link" href="#publication-forbes">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></article>
+    <article class="publication card reveal"><div class="cover"><span class="wordmark">vc.ru</span><span class="cover__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 18h14M7 18V9h10v9M9 9V5h6v4"/><path d="M10 13h4"/></svg></span></div><div class="publication__body"><p class="publication__date t-label">vc.ru · ритейл</p><h2 class="publication__title t-h3">Из одного даркстора в сеть: разбор операционной модели франчайзи</h2><a class="publication__link" href="#publication-vc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></article>
+    <article class="publication card reveal reveal-d1"><div class="cover"><span class="wordmark">Ъ</span><span class="cover__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16H6z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg></span></div><div class="publication__body"><p class="publication__date t-label">Коммерсантъ · рынок</p><h2 class="publication__title t-h3">Дарксторы становятся ближе: рынок экспресс-доставки в регионах</h2><a class="publication__link" href="#publication-kommersant">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

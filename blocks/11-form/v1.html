@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 · Заявка · v1 — Компактная карточка</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .apply { position: relative; min-height: 100vh; overflow: hidden; }
+  .apply::before, .apply::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+  .apply::before { width: clamp(240px, 32vw, 480px); height: clamp(100px, 14vw, 210px); top: 8%; left: -12%; background: var(--sky); transform: rotate(-14deg); }
+  .apply::after { width: clamp(180px, 26vw, 380px); height: clamp(80px, 12vw, 170px); right: -8%; bottom: 6%; background: var(--lavender); transform: rotate(16deg); }
+  .apply__head { position: relative; z-index: 1; text-align: center; max-width: 900px; margin: 0 auto clamp(38px, 5vw, 66px); }
+  .apply__head .t-label { display: block; margin-bottom: 18px; }
+  .apply__head p { max-width: 620px; margin: 20px auto 0; color: var(--text-dim); }
+  .form-card { position: relative; z-index: 2; width: min(100%, 680px); margin-inline: auto; padding: clamp(28px, 5vw, 56px); background: var(--bg); border-radius: var(--r-card); box-shadow: var(--shadow-card); }
+  .field { display: block; margin-bottom: 28px; }
+  .field span, .choice legend { display: block; margin-bottom: 10px; color: var(--text-dim); font-size: 13px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; }
+  .field input { width: 100%; border: 0; border-bottom: 2px solid var(--sky); border-radius: 0; background: transparent; color: var(--navy); padding: 6px 0 14px; font: 500 clamp(19px, 2vw, 25px)/1.1 var(--font-geo); outline: none; transition: border-color var(--dur-fast); }
+  .field input::placeholder { color: var(--text-dim); opacity: .55; }
+  .field input:focus { border-color: var(--blue); }
+  .choice { border: 0; margin: 0 0 28px; }
+  .choice__row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .choice input { position: absolute; opacity: 0; pointer-events: none; }
+  .choice label { cursor: pointer; }
+  .choice input:checked + .chip { background: var(--navy); color: var(--text-on-dark); }
+  .choice input:focus-visible + .chip { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .consent { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; margin: 4px 0 26px; color: var(--text-dim); font-size: 13px; line-height: 1.35; cursor: pointer; }
+  .consent input { width: 20px; height: 20px; accent-color: var(--blue); }
+  .consent a { text-decoration: underline; text-underline-offset: 2px; }
+  .submit-row { display: flex; align-items: center; gap: 20px; }
+  .submit-row[hidden] { display: none; }
+  .submit-row .btn { min-width: 220px; }
+  .sla { color: var(--text-dim); max-width: 220px; }
+  .success { display: none; padding: 22px; border-radius: var(--r-card-sm); background: var(--sky); }
+  .success.is-visible { display: block; }
+  .legal { position: relative; z-index: 1; text-align: center; padding: 24px var(--container-pad) 36px; }
+  @media (max-width: 560px) {
+    .submit-row { align-items: stretch; flex-direction: column; }
+    .submit-row .btn { width: 100%; }
+    .sla { max-width: none; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">11 · Заявка · v1 — Компактная карточка</div>
+
+<section class="section apply">
+  <div class="container">
+    <header class="apply__head reveal">
+      <span class="t-label">Один шаг до встречи</span>
+      <h1 class="t-h1">Готовы запускать?</h1>
+      <p class="t-sub">Расскажите немного о себе — обсудим город, формат и следующий шаг</p>
+    </header>
+
+    <form class="form-card reveal" data-form>
+      <label class="field"><span>Имя</span><input type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+      <label class="field"><span>Телефон или почта</span><input type="text" name="contact" autocomplete="tel" placeholder="+7 900 000-00-00" required></label>
+      <label class="field"><span>Город</span><input type="text" name="city" autocomplete="address-level2" placeholder="Например, Самара" required></label>
+
+      <fieldset class="choice">
+        <legend>Интересующий формат</legend>
+        <div class="choice__row">
+          <label><input type="radio" name="segment" value="Готовый бизнес" checked><span class="chip">Готовый бизнес</span></label>
+          <label><input type="radio" name="segment" value="Миллионник"><span class="chip">Миллионник</span></label>
+          <label><input type="radio" name="segment" value="Крупный город"><span class="chip">Крупный город</span></label>
+          <label><input type="radio" name="segment" value="Другой"><span class="chip">Другой</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="choice">
+        <legend>Есть действующий бизнес?</legend>
+        <div class="choice__row">
+          <label><input type="radio" name="business" value="Да"><span class="chip">Да</span></label>
+          <label><input type="radio" name="business" value="Нет" checked><span class="chip">Нет</span></label>
+        </div>
+      </fieldset>
+
+      <label class="consent"><input type="checkbox" name="consent" required><span>Согласен на обработку персональных данных и принимаю <a href="#">политику конфиденциальности</a></span></label>
+
+      <div class="submit-row">
+        <button class="btn btn--blue" type="submit">Стать партнёром</button>
+        <p class="sla t-small">Свяжемся в течение 2 рабочих дней</p>
+      </div>
+      <p class="success t-body" role="status">Спасибо! Заявка принята — скоро свяжемся</p>
+    </form>
+  </div>
+</section>
+
+<p class="t-legal legal">Прототип · данные — заглушка (рыба) · отправка формы не подключена</p>
+<script>
+  document.querySelector('[data-form]').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    form.querySelector('.submit-row').hidden = true;
+    form.querySelector('.success').classList.add('is-visible');
+  });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

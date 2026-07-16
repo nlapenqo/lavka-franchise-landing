@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · v3 — CTA-манифест</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .before { min-height: 32vh; display: grid; place-items: center; color: var(--text-dim); }
+  .footer { color: var(--text-on-dark); background: var(--navy); overflow: hidden; }
+  .manifest { position: relative; isolation: isolate; min-height: 600px; display: grid; align-content: center; padding-block: clamp(70px, 10vw, 140px); }
+  .manifest::before, .manifest::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; } .manifest::before { width: clamp(260px, 38vw, 560px); height: clamp(100px, 16vw, 220px); right: -6%; top: 6%; rotate: -15deg; background: var(--blue); } .manifest::after { width: clamp(220px, 30vw, 440px); height: clamp(90px, 13vw, 190px); left: -8%; bottom: 4%; rotate: 12deg; background: var(--orange); }
+  .manifest__top { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: clamp(48px, 7vw, 90px); }
+  .logo { font-weight: 900; font-size: 22px; }
+  .manifest__top nav { display: flex; gap: 22px; color: var(--text-dim-dark); }
+  .manifest__body { max-width: 1060px; }
+  .manifest__body h1 { font-size: clamp(52px, 8vw, 118px); }
+  .manifest__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 38px; }
+  .bottom { display: grid; grid-template-columns: 1fr .75fr auto; gap: 34px; align-items: start; padding-block: 32px 42px; border-top: 1px solid var(--mid-blue); color: var(--text-dim-dark); }
+  .bottom__links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .age { color: var(--text-on-dark); font-size: 26px; font-weight: 800; }
+  @media (max-width: 760px) { .manifest__top { align-items: start; flex-direction: column; } .manifest__top nav { flex-wrap: wrap; } .bottom { grid-template-columns: 1fr auto; } .bottom > :first-child { grid-column: 1 / -1; } }
+  @media (max-width: 450px) { .manifest__actions { flex-direction: column; } .manifest__actions .btn { width: 100%; } .bottom { grid-template-columns: 1fr; } .bottom > :first-child { grid-column: auto; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · v3 — CTA-манифест</div>
+<footer class="footer"><div class="container">
+  <section class="manifest"><div class="manifest__top"><a class="logo" href="#">Яндекс&nbsp;Лавка · Франшиза</a><nav aria-label="Навигация футера"><a href="#formats">Форматы</a><a href="#steps">Путь партнёра</a><a href="#faq">Вопросы</a><a href="https://t.me/yandex_lavka_franchise">Telegram</a></nav></div><div class="manifest__body"><span class="t-label" style="color:var(--text-dim-dark)">Следующий город — ваш?</span><h1 class="t-hero">Давайте запускать</h1><div class="manifest__actions"><a class="btn btn--blue" href="#form">Стать партнёром</a><a class="btn btn--white" href="https://t.me/yandex_lavka_franchise">Задать вопрос</a></div></div></section>
+  <div class="bottom"><p class="t-legal">ООО «Яндекс.Лавка» · Москва, 1-й Красногвардейский пр., 22с1 · не является публичной офертой · условия индивидуальны · Прототип · данные — заглушка (рыба)</p><div class="bottom__links t-legal"><a href="#privacy">Конфиденциальность</a><a href="#personal">Персональные данные</a><span>© 2026</span></div><span class="age">18+</span></div>
+</div></footer>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

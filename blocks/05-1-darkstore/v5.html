@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · v5 — Карта-инспектор</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .head { max-width: 920px; margin-bottom: clamp(38px, 6vw, 70px); }
+  .head p { max-width: 640px; margin-top: 22px; color: var(--text-dim); }
+  .inspector { min-width: 0; display: grid; grid-template-columns: minmax(0, 1.48fr) minmax(320px, .52fr); gap: 18px; align-items: stretch; }
+  .viewport { position: relative; min-width: 0; overflow: hidden; border-radius: var(--r-card); background: var(--navy); box-shadow: var(--shadow-card); }
+  .map-scene { position: relative; aspect-ratio: 1660 / 1171; transform: scale(1); transition: transform .75s var(--ease-out); will-change: transform; }
+  .map-scene.is-zoomed { transform: scale(1.36); }
+  .map-scene img { width: 100%; height: 100%; object-fit: cover; }
+  .hotspot { --hotspot-size: clamp(36px, 3vw, 48px); position: absolute; z-index: 2; left: var(--x); top: var(--y); width: var(--hotspot-size); height: var(--hotspot-size); display: grid; place-items: center; translate: -50% -50%; border: 2px solid rgba(255,255,255,.72); border-radius: 50%; color: #fff; background: #24262A; box-shadow: 0 7px 22px rgba(0,0,0,.26); }
+  .hotspot::before { content: "+"; font-size: clamp(23px, 2vw, 31px); line-height: 1; translate: 0 -1px; }
+  .hotspot:hover, .hotspot.is-active { background: var(--orange); box-shadow: 0 0 0 8px rgba(255,109,47,.2), 0 10px 28px rgba(0,0,0,.3); }
+  .hotspot.is-active::before { content: attr(data-index); font-size: 13px; font-weight: 800; translate: none; }
+  .hotspot:focus-visible { outline: 4px solid var(--blue); outline-offset: 3px; }
+  .map-status { position: absolute; z-index: 4; left: 24px; bottom: 24px; display: flex; align-items: center; gap: 9px; padding: 9px 13px; border-radius: var(--r-pill); color: var(--text-on-dark); background: rgba(27,58,106,.86); backdrop-filter: blur(10px); }
+  .map-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px rgba(0,173,255,.18); }
+  .panel { min-width: 0; min-height: 100%; display: flex; flex-direction: column; padding: clamp(26px, 3vw, 42px); border-radius: var(--r-card); background: var(--bg-light); border: 1px solid var(--bg-card); }
+  .panel__eyebrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--text-dim); }
+  .panel__eyebrow strong { color: var(--blue); font-size: 28px; }
+  .panel h2 { margin-top: 28px; font-size: clamp(32px, 3.6vw, 52px); }
+  .panel__copy { min-height: 92px; margin-top: 16px; color: var(--text-dim); }
+  .panel__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .zone-rail { min-width: 0; max-width: 100%; display: grid; gap: 8px; margin-top: auto; padding-top: 34px; }
+  .zone-button { display: grid; grid-template-columns: 32px 1fr; gap: 11px; align-items: center; padding: 10px 12px; border-radius: 14px; color: var(--text-dim); text-align: left; transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast); }
+  .zone-button span { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--navy); font-size: 12px; font-weight: 800; }
+  .zone-button:hover { transform: translateX(4px); background: var(--bg-card); color: var(--navy); }
+  .zone-button.is-active { background: var(--navy); color: var(--text-on-dark); }
+  .zone-button.is-active span { background: var(--orange); color: #fff; }
+  .reset-map { align-self: flex-start; margin-top: 18px; color: var(--text-dim); text-decoration: underline; text-underline-offset: 4px; }
+  .legal { margin-top: 30px; text-align: center; }
+  @media (max-width: 980px) { .inspector { grid-template-columns: 1fr; } .panel { min-height: 0; } .zone-rail { grid-template-columns: repeat(4, 1fr); } .zone-button { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) {
+    .viewport { min-height: 300px; border-radius: 24px; }
+    .map-scene { position: absolute; inset: 50% auto auto 50%; width: 470px; aspect-ratio: 1660 / 1171; translate: -50% -50%; }
+    .map-scene.is-zoomed { transform: scale(1.5); }
+    .hotspot { --hotspot-size: 34px; }
+    .map-status { left: 14px; bottom: 14px; font-size: 12px; }
+    .zone-rail { width: 100%; display: flex; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; }
+    .zone-button { min-width: 142px; grid-template-columns: 32px 1fr; scroll-snap-align: start; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">05.1 · Даркстор изнутри · v5 — Карта-инспектор</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><span class="chip chip--navy">Интерактивная схема</span><h1 class="t-h1">Даркстор<br>как система</h1><p class="t-sub">Карта остаётся главным визуалом, а инспектор справа последовательно объясняет семь рабочих зон</p></header>
+  <div class="inspector reveal">
+    <div class="viewport">
+      <div class="map-scene">
+        <img src="assets/darkstore-map.png" alt="Изометрическая карта зон даркстора">
+        <button class="hotspot" style="--x:25%;--y:42%" type="button" aria-label="Открыть сухое хранение" data-zone="dry" data-index="01">&#8203;</button>
+        <button class="hotspot" style="--x:37%;--y:20%" type="button" aria-label="Открыть морозильную камеру" data-zone="freezer" data-index="02">&#8203;</button>
+        <button class="hotspot" style="--x:32%;--y:63%" type="button" aria-label="Открыть холодильники" data-zone="cold" data-index="03">&#8203;</button>
+        <button class="hotspot" style="--x:53%;--y:31%" type="button" aria-label="Открыть кухню" data-zone="kitchen" data-index="04">&#8203;</button>
+        <button class="hotspot" style="--x:60%;--y:62%" type="button" aria-label="Открыть сборку заказов" data-zone="assembly" data-index="05">&#8203;</button>
+        <button class="hotspot" style="--x:60%;--y:79%" type="button" aria-label="Открыть выдачу курьерам" data-zone="pickup" data-index="06">&#8203;</button>
+        <button class="hotspot" style="--x:88%;--y:64%" type="button" aria-label="Открыть среднюю милю" data-zone="middle" data-index="07">&#8203;</button>
+      </div>
+      <div class="map-status t-small">Нажмите на плюс или выберите зону</div>
+    </div>
+    <aside class="panel" aria-live="polite">
+      <div class="panel__eyebrow"><span class="t-label">Зона даркстора</span><strong>04</strong></div>
+      <h2 class="t-h2">Кухня</h2>
+      <p class="panel__copy t-body">Здесь готовят кофе и часть готовой еды. Это отдельный производственный сценарий внутри даркстора.</p>
+      <div class="panel__meta"><span class="chip chip--active">Совместно</span><span class="chip">Готовая еда</span></div>
+      <button class="reset-map t-small" type="button">Показать всю карту</button>
+      <div class="zone-rail" aria-label="Список зон">
+        <button class="zone-button" type="button" data-zone="dry"><span>01</span>Хранение</button>
+        <button class="zone-button" type="button" data-zone="freezer"><span>02</span>Морозилка</button>
+        <button class="zone-button" type="button" data-zone="cold"><span>03</span>Холод</button>
+        <button class="zone-button is-active" type="button" data-zone="kitchen"><span>04</span>Кухня</button>
+        <button class="zone-button" type="button" data-zone="assembly"><span>05</span>Сборка</button>
+        <button class="zone-button" type="button" data-zone="pickup"><span>06</span>Выдача</button>
+        <button class="zone-button" type="button" data-zone="middle"><span>07</span>Поставки</button>
+      </div>
+    </aside>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба) · схема предоставлена пользователем</p>
+</div></section>
+<script>
+  const zoneData = {
+    dry: { index: '01', title: 'Сухое хранение', copy: 'Основной товарный запас. Автозаказ помогает поддерживать нужное наличие без ручных таблиц.', owner: 'Яндекс', tag: 'Ассортимент' },
+    freezer: { index: '02', title: 'Морозильная камера', copy: 'Отдельный контур для замороженных продуктов с постоянным контролем температуры.', owner: 'Партнёр', tag: '−18°C' },
+    cold: { index: '03', title: 'Холодильники', copy: 'Овощи, молочные продукты и напитки хранятся в стабильном режиме рядом с маршрутом сборщика.', owner: 'Партнёр', tag: '+2…+4°C' },
+    kitchen: { index: '04', title: 'Кухня', copy: 'Здесь готовят кофе и часть готовой еды. Это отдельный производственный сценарий внутри даркстора.', owner: 'Совместно', tag: 'Готовая еда' },
+    assembly: { index: '05', title: 'Сборка заказов', copy: 'WMS строит короткий маршрут по полкам, а команда комплектует корзину за несколько минут.', owner: 'Партнёр', tag: 'WMS-маршрут' },
+    pickup: { index: '06', title: 'Выдача курьерам', copy: 'Готовые заказы передаются курьерам без пересечения с потоком поставок и сборки.', owner: 'Партнёр', tag: 'Последняя миля' },
+    middle: { index: '07', title: 'Средняя миля', copy: 'Регулярные поставки связывают даркстор с распределительной инфраструктурой Яндекса.', owner: 'Яндекс', tag: 'Поставки' }
+  };
+  const scene = document.querySelector('.map-scene'); const panel = document.querySelector('.panel');
+  const hotspots = document.querySelectorAll('.hotspot'); const zoneButtons = document.querySelectorAll('.zone-button');
+  const selectZone = (key) => {
+    const data = zoneData[key]; const hotspot = document.querySelector(`.hotspot[data-zone="${key}"]`);
+    hotspots.forEach(item => item.classList.toggle('is-active', item === hotspot));
+    zoneButtons.forEach(item => item.classList.toggle('is-active', item.dataset.zone === key));
+    scene.style.transformOrigin = `${hotspot.style.getPropertyValue('--x')} ${hotspot.style.getPropertyValue('--y')}`;
+    scene.classList.add('is-zoomed');
+    panel.querySelector('.panel__eyebrow strong').textContent = data.index; panel.querySelector('h2').textContent = data.title; panel.querySelector('.panel__copy').textContent = data.copy;
+    const chips = panel.querySelectorAll('.panel__meta .chip'); chips[0].textContent = data.owner; chips[1].textContent = data.tag;
+  };
+  hotspots.forEach(item => item.addEventListener('click', () => selectZone(item.dataset.zone)));
+  zoneButtons.forEach(item => item.addEventListener('click', () => selectZone(item.dataset.zone)));
+  document.querySelector('.reset-map').addEventListener('click', () => { scene.classList.remove('is-zoomed'); hotspots.forEach(item => item.classList.remove('is-active')); });
+  selectZone('kitchen');
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>
