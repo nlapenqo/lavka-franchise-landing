@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 · Q&amp;A · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .faq__head { margin-bottom: clamp(28px, 4vw, 44px); }
+  .faq-list { display: grid; gap: 10px; max-width: 920px; }
+  .faq-item { border: 1.5px solid var(--bg-card); border-radius: var(--r-card-sm); background: var(--bg); transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
+  .faq-item.is-open { border-color: var(--sky); box-shadow: var(--shadow-card); }
+  .faq-button { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: clamp(18px, 2.2vw, 26px) clamp(18px, 2.4vw, 28px); text-align: left; font-weight: 700; font-size: clamp(17px, 1.5vw, 22px); line-height: 1.15; }
+  .faq-button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: var(--r-card-sm); }
+  .faq-plus { flex: none; position: relative; width: 34px; height: 34px; border-radius: 50%; background: var(--bg-card); transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast); }
+  .faq-plus::before, .faq-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 14px; height: 2px; border-radius: 2px; background: var(--navy); transform: translate(-50%, -50%); }
+  .faq-plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .faq-button[aria-expanded="true"] .faq-plus { transform: rotate(45deg); background: var(--sky); }
+  .faq-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--dur-med) var(--ease-out); }
+  .faq-panel.is-open { grid-template-rows: 1fr; }
+  .faq-panel__inner { overflow: hidden; }
+  .faq-panel p { padding: 0 clamp(18px, 2.4vw, 28px) clamp(18px, 2.2vw, 24px); max-width: 700px; color: var(--text-dim); line-height: 1.4; }
+  .faq-note { margin-top: 22px; color: var(--text-dim); }
+  .legal { text-align: center; padding: 8px var(--container-pad) 36px; }
+</style>
+</head>
+<body>
+<div class="proto-tag">10 · Q&amp;A · wf — По вайрфрейму</div>
+
+<section class="section faq">
+  <div class="container">
+    <header class="faq__head reveal">
+      <h1 class="t-h2">Вопросы и&nbsp;ответы</h1>
+    </header>
+
+    <div class="faq-list reveal" data-accordion>
+      <article class="faq-item">
+        <h2><button class="faq-button" type="button" aria-expanded="false" aria-controls="wf-a1"><span>Что такое даркстор?</span><span class="faq-plus" aria-hidden="true"></span></button></h2>
+        <div class="faq-panel" id="wf-a1" hidden><div class="faq-panel__inner"><p>Магазин-склад без покупателей в&nbsp;зале. Сборщики комплектуют онлайн-заказы, а&nbsp;курьеры доставляют их жителям ближайших районов.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h2><button class="faq-button" type="button" aria-expanded="false" aria-controls="wf-a2"><span>Какой размер инвестиций?</span><span class="faq-plus" aria-hidden="true"></span></button></h2>
+        <div class="faq-panel" id="wf-a2" hidden><div class="faq-panel__inner"><p>Ориентир для одного даркстора — от&nbsp;15&nbsp;млн&nbsp;₽, для городской сети — от&nbsp;75&nbsp;млн&nbsp;₽. Сумма зависит от&nbsp;формата партнёрства и&nbsp;города.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h2><button class="faq-button" type="button" aria-expanded="false" aria-controls="wf-a3"><span>Сколько времени занимает запуск?</span><span class="faq-plus" aria-hidden="true"></span></button></h2>
+        <div class="faq-panel" id="wf-a3" hidden><div class="faq-panel__inner"><p>Подготовка одного даркстора занимает около трёх месяцев, запуск сети в&nbsp;городе — около четырёх. График зависит от&nbsp;помещений и&nbsp;масштаба проекта.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h2><button class="faq-button" type="button" aria-expanded="false" aria-controls="wf-a4"><span>Каким должно быть помещение?</span><span class="faq-plus" aria-hidden="true"></span></button></h2>
+        <div class="faq-panel" id="wf-a4" hidden><div class="faq-panel__inner"><p>Ориентир — от&nbsp;350&nbsp;м², удобный подъезд, зона разгрузки и&nbsp;место для велопарковки. Команда Яндекса помогает проверить потенциал точки.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h2><button class="faq-button" type="button" aria-expanded="false" aria-controls="wf-a5"><span>Кто выбирает локацию?</span><span class="faq-plus" aria-hidden="true"></span></button></h2>
+        <div class="faq-panel" id="wf-a5" hidden><div class="faq-panel__inner"><p>Партнёр ищет варианты, а&nbsp;геоаналитики Яндекса оценивают спрос, логистику и&nbsp;покрытие. Решение о&nbsp;запуске принимается вместе.</p></div></div>
+      </article>
+    </div>
+
+    <p class="faq-note t-small reveal">Финальный список вопросов и&nbsp;ответов предоставит клиент</p>
+  </div>
+</section>
+
+<p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+<script>
+  document.querySelectorAll('[data-accordion] .faq-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const item = button.closest('.faq-item');
+      const panel = document.getElementById(button.getAttribute('aria-controls'));
+      const willOpen = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(willOpen));
+      if (item) item.classList.toggle('is-open', willOpen);
+      if (willOpen) {
+        panel.hidden = false;
+        requestAnimationFrame(() => panel.classList.add('is-open'));
+      } else {
+        panel.classList.remove('is-open');
+        window.setTimeout(() => { if (!panel.classList.contains('is-open')) panel.hidden = true; }, 600);
+      }
+    });
+  });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

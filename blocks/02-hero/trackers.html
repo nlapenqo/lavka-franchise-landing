@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero — сравнение двадцати трекеров</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { background: var(--bg-light); }
+  .wrap { max-width: 1360px; margin-inline: auto; padding: clamp(28px, 5vw, 64px) var(--container-pad) 80px; }
+  .page-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: clamp(28px, 4vw, 44px); }
+  .page-head .t-label { display: block; margin-bottom: 12px; }
+  .page-head p { margin-top: 12px; max-width: 560px; color: var(--text-dim); }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .cell { background: #fff; border-radius: var(--r-card-sm); overflow: hidden; box-shadow: 0 4px 18px rgba(27, 58, 106, .06); display: flex; flex-direction: column; }
+  .cell__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--bg-card); }
+  .cell__head b { font-weight: 800; font-size: 15px; }
+  .cell__head .v { font-weight: 900; font-size: 12px; letter-spacing: .08em; color: var(--blue); text-transform: uppercase; }
+  .cell__head a { font-size: 13px; font-weight: 500; color: var(--text-dim); }
+  .cell__head a:hover { color: var(--blue); }
+  .cell iframe { display: block; width: 100%; height: 640px; border: 0; }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">02 · Hero — сравнение трекеров</div>
+<div class="wrap">
+  <header class="page-head">
+    <div>
+      <span class="t-label">Хиро · правая карточка</span>
+      <h1 class="t-h1">Двадцать трекеров</h1>
+      <p class="t-sub">Единый таймлайн и&nbsp;отсчёт в&nbsp;днях, двадцать разных визуальных и&nbsp;бизнес-аргументов. Открыть вариант целиком&nbsp;— по&nbsp;ссылке в&nbsp;карточке.</p>
+    </div>
+    <a class="btn btn--navy" href="../index.html">К галерее блоков</a>
+  </header>
+
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+  const VARIANTS = [
+    ['tracker-1', 'Чек Лавки'],
+    ['tracker-2', 'Экран приложения'],
+    ['tracker-3', 'Календарь-отсчёт'],
+    ['tracker-4', 'Линия метро'],
+    ['tracker-5', 'Кольцо прогресса'],
+    ['tracker-6', 'Табло рейса'],
+    ['tracker-7', 'Стикеры вразброс'],
+    ['tracker-8', 'Нить и остановки'],
+    ['tracker-9', 'Ценники на нитке'],
+    ['tracker-10', 'Маркер-список'],
+    ['tracker-11', 'Салфетка-расчёт'],
+    ['tracker-12', 'Берём на себя'],
+    ['tracker-13', 'Поток заказов'],
+    ['tracker-14', 'Город загорается'],
+    ['tracker-15', 'Риски под щитом'],
+    ['tracker-16', 'Фора на старте'],
+    ['tracker-17', 'Рычаг экосистемы'],
+    ['tracker-18', 'Город в большой сети'],
+    ['tracker-19', 'Даркстор слой за слоем'],
+    ['tracker-20', 'Штаб запуска'],
+  ];
+  const grid = document.getElementById('grid');
+  const BUST = Date.now();
+  /* ?from=15 — показать только варианты начиная с номера (напр. новые т15–т20) */
+  const FROM = parseInt(new URLSearchParams(location.search).get('from') || '1', 10) || 1;
+  VARIANTS.map(([file, name], i) => [file, name, i + 1]).filter(([, , n]) => n >= FROM).forEach(([file, name, n]) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = `
+      <div class="cell__head"><span><span class="v">т${n}</span> · <b>${name}</b></span><a href="${file}.html">открыть хиро →</a></div>`;
+    const f = document.createElement('iframe');
+    f.src = `${file}.html?embed=1&solo=1&v=${BUST}`;
+    f.title = `Трекер ${n} · ${name}`;
+    f.loading = 'lazy';
+    /* same-origin: подгоняем высоту под контент варианта */
+    f.addEventListener('load', () => {
+      try { f.contentWindow.document.querySelectorAll('.proto-tag').forEach(el => el.remove()); } catch (_) {}
+      const fit = () => {
+        try {
+          const h = Math.ceil(f.contentWindow.document.body.scrollHeight);
+          if (h > 60 && Math.abs(h - f.offsetHeight) > 2) f.style.height = h + 'px';
+        } catch (_) {}
+      };
+      fit(); setTimeout(fit, 400); setTimeout(fit, 1200);
+      try {
+        const doc = f.contentWindow.document;
+        const ro = new ResizeObserver(fit);
+        ro.observe(doc.documentElement); ro.observe(doc.body);
+      } catch (_) {}
+    });
+    cell.append(f);
+    grid.append(cell);
+  });
+</script>
+</body>
+</html>

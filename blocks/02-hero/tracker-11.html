@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 11/14&nbsp;— Салфетка-расчёт</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); }
+  .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); }
+  .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; transition: opacity var(--dur-fast) var(--ease-out); }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--blue); animation: blink 1.2s ease-in-out infinite alternate; }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+  html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; }
+  html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 34px !important; padding-bottom: 34px; }
+  html.is-solo .stage { justify-self: center !important; }
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; }
+    html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+    .stage { justify-self: center; }
+    .hero__legal { bottom: 14px; }
+  }
+
+
+  /* ---------- т11 · экономика на салфетке: расчёт дописывается ---------- */
+  .stage { position: relative; max-width: 440px; width: 100%; justify-self: end; background: var(--bg-light); border-radius: var(--r-card); padding: clamp(26px, 3vw, 44px); overflow: hidden; }
+  .napkin { position: relative; background: #fff; border-radius: 6px; padding: clamp(24px, 2.6vw, 36px) clamp(22px, 2.4vw, 32px); box-shadow: 0 18px 44px rgba(27, 58, 106, .14); transform: rotate(-1.2deg); }
+  .napkin::before { content: ""; position: absolute; left: 26px; right: 26px; top: 0; height: 5px; border-radius: 0 0 4px 4px; background: var(--sky); opacity: .7; }
+  .np-title { display: flex; align-items: center; gap: 9px; font-weight: 500; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-dim); }
+  .np-rows { margin-top: 18px; display: grid; gap: 13px; }
+  .np-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; font-family: var(--font-cond); font-weight: 300; font-size: 16px; color: var(--navy); opacity: .14; transform: translateY(6px); transition: opacity .4s var(--ease-out), transform .4s var(--ease-out); }
+  .np-row.is-on { opacity: 1; transform: none; }
+  .np-row .k { color: var(--text-dim); }
+  .np-row .v { font-family: var(--font-geo); font-weight: 800; font-size: 17px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .np-row .v.u-blue { color: var(--accent-blue); border-bottom: 2px solid var(--blue); }
+  .np-row--total { margin-top: 6px; padding-top: 14px; border-top: 1.5px dashed rgba(27, 58, 106, .25); }
+  .np-row--total .v { position: relative; font-size: 21px; padding: 4px 10px; }
+  .np-oval { position: absolute; inset: -8px -14px; width: calc(100% + 28px); height: calc(100% + 16px); pointer-events: none; }
+  .np-oval ellipse { fill: none; stroke: var(--orange); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 0; }
+  .np-note { margin-top: 16px; font-family: var(--font-cond); font-weight: 300; font-size: 13px; color: var(--text-dim); }
+  .np-note b { font-family: var(--font-geo); font-weight: 800; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stage__note { margin-top: 18px; text-align: right; color: var(--text-dim); }
+  @media (max-width: 760px) { .stage { max-width: 400px; padding: 22px; } }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" aria-hidden="true">
+      <div class="napkin">
+        <div class="np-title"><span class="live-dot"></span> Расчёт партнёра · крупный город</div>
+        <div class="np-rows" id="rows">
+          <div class="np-row"><span class="k">Инвестиции</span><span class="v">от&nbsp;75&nbsp;млн&nbsp;₽</span></div>
+          <div class="np-row"><span class="k">Паушальный взнос</span><span class="v">1&nbsp;млн&nbsp;₽ / даркстор</span></div>
+          <div class="np-row"><span class="k">Запуск</span><span class="v u-blue" id="days">≈120&nbsp;дней</span></div>
+          <div class="np-row"><span class="k">Спрос</span><span class="v">вся экосистема Яндекса</span></div>
+          <div class="np-row np-row--total"><span class="k">Окупаемость</span><span class="v">от&nbsp;3&nbsp;лет<svg class="np-oval" viewBox="0 0 160 52" preserveAspectRatio="none"><ellipse id="oval" cx="80" cy="26" rx="74" ry="21" pathLength="1"/></svg></span></div>
+        </div>
+        <p class="np-note">Роялти <b>0–7%</b>&nbsp;— от&nbsp;этапа развития города, на&nbsp;старте&nbsp;0%</p>
+      </div>
+      <div class="stage__note t-legal">цифры&nbsp;— ориентир, не&nbsp;оферта</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · трекер 11/14&nbsp;— Салфетка-расчёт</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var SOLO = /[?&]solo=1/.test(location.search);
+    if (SOLO) document.documentElement.classList.add('is-solo');
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED || SOLO) document.documentElement.classList.add('is-embed');
+
+    /* Единый таймлайн: один rAF-тик, все элементы считаются от одного p */
+    var CYCLE = 14000, ARRIVE = .9, DAYS = 120, N = 5;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    function fmtDays(p) { var n = Math.round(DAYS * (1 - p)); return '≈' + n + '\u00A0' + dayWord(n); }
+    function fmtMoney(n) { return n.toLocaleString('ru-RU'); }
+
+    var rows = [].slice.call(document.querySelectorAll('#rows .np-row'));
+    var days = document.getElementById('days');
+    var oval = document.getElementById('oval');
+    function render(t) {
+      var p = Math.min(t / ARRIVE, 1);
+      var idx = Math.min(N - 1, Math.floor(p * N));
+      days.textContent = fmtDays(p);
+      rows.forEach(function (r, i) { r.classList.toggle('is-on', i <= idx); });
+      /* итог обводится оранжевым на последнем шаге */
+      var o = Math.max(0, Math.min(1, (p - .8) / .18));
+      oval.style.strokeDasharray = o + ' 1';
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; }
+    var t0 = performance.now();
+    (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

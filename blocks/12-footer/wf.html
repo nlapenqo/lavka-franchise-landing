@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .footer { background: var(--navy); color: var(--text-on-dark); padding-block: clamp(40px, 5.5vw, 70px) 0; }
+  .footer__cols { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .9fr) auto; gap: clamp(26px, 4vw, 60px); align-items: start; padding-bottom: clamp(28px, 4vw, 44px); }
+  .brand b { display: block; font-weight: 900; font-size: clamp(20px, 2vw, 26px); letter-spacing: -.01em; }
+  .brand p { margin-top: 8px; color: var(--text-dim-dark); font-size: 15px; }
+  .links { display: grid; gap: 12px; font-weight: 500; font-size: 15px; }
+  .links a { display: inline-flex; align-items: center; gap: 9px; transition: color var(--dur-fast); }
+  .links a:hover { color: var(--sky); }
+  .links svg { width: 18px; }
+  .footer a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
+  .meta { text-align: right; display: grid; gap: 10px; justify-items: end; color: var(--text-dim-dark); font-size: 14px; }
+  .age { font-family: var(--font-text); font-size: 24px; font-weight: 500; color: var(--text-on-dark); }
+  .disclaimer { border-top: 1px solid rgba(170, 217, 252, .22); padding-block: 20px 30px; }
+  .disclaimer .t-legal { opacity: .7; line-height: 1.55; max-width: 980px; }
+  .prototype { opacity: 1; text-align: center; padding: 0 var(--container-pad) 26px; background: var(--navy); color: var(--text-dim-dark); }
+  @media (max-width: 720px) {
+    .footer__cols { grid-template-columns: 1fr 1fr; }
+    .brand { grid-column: 1 / -1; }
+    .meta { text-align: left; justify-items: start; }
+  }
+  @media (max-width: 440px) {
+    .footer__cols { grid-template-columns: 1fr; }
+    .brand { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · wf — По вайрфрейму</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__cols reveal">
+      <div class="brand">
+        <b>Яндекс Лавка · Франшиза</b>
+        <p>Быстрая доставка как бизнес — в&nbsp;вашем городе</p>
+      </div>
+      <nav class="links" aria-label="Ссылки футера">
+        <a href="https://t.me/yandex_lavka_franchise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 4-3 16-6-5-4 3 1-5 8-6-10 5-4-2 18-6Z"/></svg><span>Telegram-канал</span></a>
+        <a href="#privacy">Политика конфиденциальности</a>
+      </nav>
+      <div class="meta">
+        <span>© 2026 ООО «Яндекс.Лавка»</span>
+        <span class="age" aria-label="Для лиц старше восемнадцати лет">18+</span>
+      </div>
+    </div>
+
+    <div class="disclaimer reveal">
+      <p class="t-legal">ООО «Яндекс.Лавка», 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1. Информация, размещённая на&nbsp;сайте, не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны и&nbsp;определяются договором. 18+. Финальный текст дисклеймера предоставят юристы</p>
+    </div>
+  </div>
+</footer>
+
+<p class="t-legal prototype">Прототип · данные — заглушка (рыба)</p>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

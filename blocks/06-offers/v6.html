@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 · Предложения · v6 — Мега-ценники</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ---------- Пин-сцена: вертикальный скролл двигает ленту ---------- */
+  .pano { position: relative; min-height: 340vh; }
+  .pano__viewport {
+    position: sticky; top: 0;
+    min-height: 100svh;
+    overflow: hidden;
+  }
+
+  .pano__head {
+    position: absolute; z-index: 5;
+    top: clamp(20px, 3vw, 40px); left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding-inline: var(--container-pad);
+    pointer-events: none;
+  }
+  /* Обвязка перекрашивается в белый над тёмной панелью */
+  .pano__head, .pano__legal { color: var(--navy); transition: color var(--dur-fast) var(--ease-out); }
+  .pano__viewport.is-dark .pano__head,
+  .pano__viewport.is-dark .pano__legal { color: #fff; }
+  .pano__count { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 15px; letter-spacing: .06em; }
+
+  .track { display: flex; width: max-content; will-change: transform; }
+
+  .panel {
+    width: 100vw; min-height: 100svh;
+    display: grid; align-items: center;
+    padding: clamp(88px, 12vh, 140px) var(--container-pad) clamp(48px, 8vh, 96px);
+  }
+  .panel__inner {
+    max-width: var(--container); width: 100%; margin-inline: auto;
+    display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .85fr);
+    gap: clamp(28px, 4vw, 72px); align-items: end;
+  }
+
+  .panel--a { background: var(--bg-card); }
+  .panel--b { background: var(--navy); color: var(--text-on-dark); }
+  .panel--v { background: var(--warm-gray); }
+
+  .panel__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(18px, 2.5vw, 30px); }
+  .panel--b .chip { background: rgba(255,255,255,.12); color: var(--text-on-dark); }
+  .panel--b .chip--navy { background: var(--blue); }
+  .panel--v .chip { background: rgba(255,255,255,.75); }
+  .panel--v .chip--navy { background: var(--navy); color: #fff; }
+
+  .price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 18px; }
+  .price__num {
+    font-weight: 900; font-size: var(--fs-mega);
+    line-height: .88; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .price__unit { font-weight: 800; font-size: clamp(20px, 2.4vw, 40px); opacity: .55; }
+  .panel--b .price__num { color: var(--blue); }
+
+  .panel__cities { margin-top: clamp(16px, 2vw, 26px); max-width: 480px; color: var(--text-dim); }
+  .panel--b .panel__cities { color: var(--text-dim-dark); }
+
+  /* Правая колонка панели */
+  .facts { display: flex; flex-direction: column; gap: 0; }
+  .fact { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding-block: 13px; }
+  .fact + .fact { border-top: 1px solid rgba(27,58,106,.14); }
+  .panel--b .fact + .fact { border-top-color: rgba(167,190,224,.25); }
+  .fact dt { font-size: 14px; color: var(--text-dim); }
+  .panel--b .fact dt { color: var(--text-dim-dark); }
+  .fact dd { position: relative; display: flex; align-items: baseline; gap: 8px; font-weight: 800; font-size: clamp(17px, 1.5vw, 23px); white-space: nowrap; }
+  .fact .unit { font-weight: 600; font-size: .65em; color: var(--text-dim); }
+  .panel--b .fact .unit { color: var(--text-dim-dark); }
+
+  .panel__desc { margin-top: 18px; color: var(--text-dim); max-width: 40ch; }
+  .panel--b .panel__desc { color: var(--text-dim-dark); }
+  .panel__cta { margin-top: 22px; }
+
+  /* ---------- Тултип роялти ---------- */
+  .info {
+    flex: none; align-self: center;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    color: var(--mid-blue);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .info svg { width: 18px; height: 18px; }
+  .info:hover { color: var(--blue); }
+  .info:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .panel--b .info { color: var(--sky); }
+
+  .tip {
+    position: absolute; right: 0; bottom: calc(100% + 12px); z-index: 6;
+    width: min(250px, 74vw); white-space: normal;
+    background: var(--navy); color: #fff;
+    font-weight: 400; font-size: 13px; line-height: 1.45;
+    padding: 12px 14px; border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(27,58,106,.28);
+    opacity: 0; transform: translateY(6px); pointer-events: none;
+    transition: opacity .25s var(--ease-out), transform .25s var(--ease-out);
+  }
+  .panel--b .tip { background: #fff; color: var(--navy); }
+  .info:hover + .tip, .info:focus-visible + .tip, .info.is-open + .tip {
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+
+  .pano__legal {
+    position: absolute; z-index: 5; left: 0; right: 0;
+    bottom: clamp(14px, 2.4vh, 26px);
+    text-align: center; pointer-events: none;
+  }
+
+  /* ---------- Мобайл: обычная свайп-карусель ---------- */
+  @media (max-width: 899px) {
+    .pano { min-height: auto; }
+    .pano__viewport { position: static; min-height: auto; overflow: visible; }
+    .pano__head { position: static; padding-inline: var(--container-pad); padding-top: 40px; margin-bottom: 20px; }
+    .pano__count { display: none; }
+    .track {
+      width: auto;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      gap: 14px; padding: 0 var(--container-pad) 16px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      transform: none !important;
+    }
+    .track::-webkit-scrollbar { display: none; }
+    .panel {
+      flex: 0 0 88vw; width: 88vw; min-height: auto;
+      border-radius: var(--r-card);
+      padding: 28px 22px 30px;
+      scroll-snap-align: center;
+    }
+    .panel__inner { grid-template-columns: 1fr; gap: 20px; align-items: start; }
+    .price__num { font-size: clamp(56px, 15vw, 88px); }
+    .pano__legal { position: static; padding: 8px var(--container-pad) 40px; }
+  }
+
+  /* ---------- Reduced motion: панели столбиком, без пина ---------- */
+  @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
+    .pano { min-height: auto; }
+    .pano__viewport { position: static; min-height: auto; overflow: visible; }
+    .pano__head { position: static; padding-top: 48px; margin-bottom: 8px; }
+    .pano__count { display: none; }
+    .track { display: block; width: auto; transform: none !important; }
+    .panel { width: 100%; min-height: auto; padding-block: clamp(56px, 8vh, 96px); }
+    .pano__legal { position: static; padding-block: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">06 · Предложения · v6 — Мега-ценники</div>
+
+<section class="pano" id="pano" aria-label="Форматы партнёрства">
+  <div class="pano__viewport">
+
+    <header class="pano__head">
+      <h1 class="t-label" style="color:inherit">Форматы партнёрства</h1>
+      <span class="pano__count" id="panoCount" aria-hidden="true">01 / 03</span>
+    </header>
+
+    <div class="track" id="panoTrack">
+
+      <!-- Панель А: Готовый бизнес -->
+      <article class="panel panel--a">
+        <div class="panel__inner">
+          <div>
+            <div class="panel__chips">
+              <span class="chip chip--navy">Готовый бизнес</span>
+            </div>
+            <p class="price">
+              <span class="price__num">400–600</span>
+              <span class="price__unit">млн&nbsp;₽</span>
+            </p>
+            <p class="panel__cities t-sub">Казань · Челябинск · Тюмень · Воронеж · Пермь</p>
+          </div>
+          <div>
+            <dl class="facts">
+              <div class="fact"><dt>Окупаемость</dt><dd>от&nbsp;2,5&nbsp;лет</dd></div>
+              <div class="fact"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽<span class="unit">/&nbsp;даркстор</span></dd></div>
+              <div class="fact"><dt>Роялти</dt><dd>0–7%
+                <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-a">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+                </button>
+                <span class="tip" role="tooltip" id="tip-a">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+              </dd></div>
+            </dl>
+            <p class="panel__desc t-small">Передача в совместное партнёрство действующей сети дарксторов</p>
+            <a class="btn btn--navy panel__cta" href="#lead">Стать партнёром</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Панель Б: Новый город · миллионники -->
+      <article class="panel panel--b">
+        <div class="panel__inner">
+          <div>
+            <div class="panel__chips">
+              <span class="chip chip--navy">Новый город</span>
+              <span class="chip">Миллионники</span>
+            </div>
+            <p class="price">
+              <span class="price__num">250–450</span>
+              <span class="price__unit">млн&nbsp;₽</span>
+            </p>
+            <p class="panel__cities t-sub">Самара · Уфа · Саратов</p>
+          </div>
+          <div>
+            <dl class="facts">
+              <div class="fact"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div>
+              <div class="fact"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽<span class="unit">/&nbsp;даркстор</span></dd></div>
+              <div class="fact"><dt>Роялти</dt><dd>0–7%
+                <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-b">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+                </button>
+                <span class="tip" role="tooltip" id="tip-b">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+              </dd></div>
+            </dl>
+            <p class="panel__desc t-small">Запуск сервиса с нуля в городе-миллионнике</p>
+            <a class="btn btn--blue panel__cta" href="#lead">Стать партнёром</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Панель В: Новый город · крупные города -->
+      <article class="panel panel--v">
+        <div class="panel__inner">
+          <div>
+            <div class="panel__chips">
+              <span class="chip chip--navy">Новый город</span>
+              <span class="chip">Крупные города</span>
+            </div>
+            <p class="price">
+              <span class="price__num">75–150</span>
+              <span class="price__unit">млн&nbsp;₽</span>
+            </p>
+            <p class="panel__cities t-sub">Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров</p>
+          </div>
+          <div>
+            <dl class="facts">
+              <div class="fact"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div>
+              <div class="fact"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽<span class="unit">/&nbsp;даркстор</span></dd></div>
+              <div class="fact"><dt>Роялти</dt><dd>0–7%
+                <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-v">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+                </button>
+                <span class="tip" role="tooltip" id="tip-v">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+              </dd></div>
+            </dl>
+            <p class="panel__desc t-small">Запуск сервиса с нуля в крупном городе</p>
+            <a class="btn btn--navy panel__cta" href="#lead">Стать партнёром</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="pano__legal t-legal">Прототип · данные — заглушка (рыба), суммы и города не финальные · не является публичной офертой</p>
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  /* Пин-сцена: вертикальный скролл → горизонтальный сдвиг ленты */
+  (function () {
+    var pano = document.getElementById('pano');
+    var track = document.getElementById('panoTrack');
+    var count = document.getElementById('panoCount');
+    var viewport = pano ? pano.querySelector('.pano__viewport') : null;
+    if (!pano || !track) return;
+
+    var mqDesktop = window.matchMedia('(min-width: 900px)');
+    var mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function update() {
+      if (!mqDesktop.matches || mqReduce.matches) {
+        track.style.transform = '';
+        if (viewport) viewport.classList.remove('is-dark');
+        return;
+      }
+      var r = pano.getBoundingClientRect();
+      var travel = Math.max(1, r.height - innerHeight);
+      var p = Math.max(0, Math.min(1, -r.top / travel));
+      var max = Math.max(0, track.scrollWidth - innerWidth);
+      var idx = Math.min(2, Math.floor(p * 3));
+      track.style.transform = 'translate3d(' + (-p * max) + 'px, 0, 0)';
+      if (count) count.textContent = '0' + (idx + 1) + ' / 03';
+      if (viewport) viewport.classList.toggle('is-dark', idx === 1);
+    }
+
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+  })();
+
+  /* Тултип роялти: тап/клик для тач-устройств (hover/focus — в CSS) */
+  document.querySelectorAll('.info').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.info.is-open').forEach(function (b) { if (b !== btn) b.classList.remove('is-open'); });
+      btn.classList.toggle('is-open');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.info.is-open').forEach(function (b) { b.classList.remove('is-open'); });
+  });
+</script>
+
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

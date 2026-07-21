@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · Мероприятие · v6 — Чат-приглашение</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+
+  .chatwrap { padding-block: clamp(36px, 5.5vw, 72px); }
+
+  /* ============ 03 · v6 — чат-приглашение ============ */
+  .chat {
+    max-width: 620px; margin-inline: auto;
+    background: #fff; border-radius: var(--r-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  /* — шапка чата — */
+  .chat__head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px clamp(20px, 3vw, 28px);
+    border-bottom: 1.5px solid var(--bg-card);
+  }
+  .chat__ava {
+    flex: none; width: 46px; height: 46px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--navy); color: #fff;
+  }
+  .chat__ava svg { width: 22px; height: 22px; }
+  .chat__who { display: grid; gap: 3px; }
+  .chat__who strong { font-weight: 800; font-size: clamp(15px, 1.2vw, 18px); }
+  .chat__status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--blue); font-weight: 500;
+  }
+  .chat__status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+
+  /* — лента сообщений — */
+  .chat__body {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+    padding: clamp(20px, 3vw, 28px) clamp(20px, 3vw, 28px) clamp(24px, 3vw, 32px);
+  }
+  .chat__day { align-self: center; margin-bottom: 8px; font-size: 12px; }
+
+  .msg { position: relative; max-width: 84%; }
+  .msg__bubble {
+    display: inline-block;
+    padding: 12px 16px;
+    border-radius: 18px 18px 18px 5px;
+    background: var(--bg-card);
+    font-size: clamp(15px, 1.15vw, 17px); line-height: 1.35;
+  }
+  .msg__time {
+    margin-left: 10px;
+    font-family: var(--font-cond); font-weight: 300; font-size: 11px;
+    color: var(--text-dim); white-space: nowrap;
+  }
+  .msg--cta .msg__bubble { background: none; padding: 6px 0 0; }
+
+  /* — анимация: печатает → сообщение — */
+  .chat.chat-anim .msg__bubble {
+    opacity: 0; transform: translateY(8px) scale(.97); transform-origin: left bottom;
+    transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring);
+  }
+  .chat.chat-anim .msg.is-in .msg__bubble { opacity: 1; transform: none; }
+
+  .msg__dots {
+    position: absolute; left: 0; top: 0;
+    display: inline-flex; align-items: center; gap: 5px;
+    height: 42px; padding: 0 16px;
+    border-radius: 18px 18px 18px 5px;
+    background: var(--bg-card);
+    opacity: 0; transition: opacity var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+  }
+  .msg.is-typing .msg__dots { opacity: 1; }
+  .msg__dots i {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-dim);
+    animation: dot-bounce 1s var(--ease-out) infinite;
+  }
+  .msg__dots i:nth-child(2) { animation-delay: .15s; }
+  .msg__dots i:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot-bounce { 30% { transform: translateY(-5px); opacity: .55; } }
+
+  .legal { text-align: center; margin-top: clamp(20px, 3vw, 32px); }
+
+  a:focus-visible { outline: 3px solid rgba(0,173,255,.6); outline-offset: 3px; }
+
+  @media (max-width: 520px) {
+    .msg { max-width: 94%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .msg__dots i { animation: none; }
+    .chat.chat-anim .msg__bubble { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">03 · Мероприятие · v6 — Чат-приглашение</div>
+
+  <section class="chatwrap">
+    <div class="container">
+
+      <div class="chat reveal" id="chat" aria-label="Приглашение на День партнёров">
+        <header class="chat__head">
+          <span class="chat__ava" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 9l1.5-5h13L20 9"/>
+              <path d="M4 9h16v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9z"/>
+              <path d="M9 14h6"/>
+            </svg>
+          </span>
+          <div class="chat__who">
+            <strong>Яндекс Лавка · Франшиза</strong>
+            <span class="chat__status">онлайн</span>
+          </div>
+        </header>
+
+        <div class="chat__body">
+          <span class="chat__day chip chip--muted">сегодня</span>
+
+          <div class="msg">
+            <span class="msg__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="msg__bubble">Привет! Открыли набор на&nbsp;День партнёров — встречу для будущих франчайзи<span class="msg__time">12:04</span></div>
+          </div>
+
+          <div class="msg">
+            <span class="msg__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="msg__bubble">27&nbsp;августа · 19:00 · Москва-Сити<span class="msg__time">12:04</span></div>
+          </div>
+
+          <div class="msg">
+            <span class="msg__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <div class="msg__bubble">Покажем даркстор изнутри и&nbsp;разберём экономику запуска города. Мест немного — бронируйте заранее<span class="msg__time">12:05</span></div>
+          </div>
+
+          <div class="msg msg--cta">
+            <div class="msg__bubble">
+              <a class="btn btn--blue" href="#event-form">
+                Участвовать
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 12h15"/><path d="M13 6l6 6-6 6"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script>
+    /* последовательное «печатание» сообщений при появлении чата */
+    (function () {
+      var chat = document.getElementById('chat');
+      if (!chat || !('IntersectionObserver' in window)) return;
+      var msgs = Array.prototype.slice.call(chat.querySelectorAll('.msg'));
+      if (!msgs.length) return;
+
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        msgs.forEach(function (m) { m.classList.add('is-in'); });
+        return;
+      }
+      chat.classList.add('chat-anim');
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(chat);
+          var t = 350;
+          msgs.forEach(function (m) {
+            setTimeout(function () { m.classList.add('is-typing'); }, t);
+            setTimeout(function () {
+              m.classList.remove('is-typing');
+              m.classList.add('is-in');
+            }, t + 700);
+            t += 950;
+          });
+        });
+      }, { threshold: 0.35 });
+      io.observe(chat);
+    })();
+  </script>
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

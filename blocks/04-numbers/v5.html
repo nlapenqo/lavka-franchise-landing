@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v5 — Вокзальное табло</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 04 · v5 — вокзальное табло ============ */
+  .board { background: var(--navy); color: var(--text-on-dark); padding-block: var(--section-pad); }
+
+  .board__head {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    margin-bottom: clamp(20px, 3vw, 36px);
+  }
+  .board__head .t-label { color: var(--text-dim-dark); }
+  .board__live {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-cond); font-weight: 300; font-size: 13px; letter-spacing: .04em;
+    color: var(--text-dim-dark);
+  }
+  .board__live::before {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--blue);
+    animation: brd-blink 2.2s steps(1) infinite;
+  }
+
+  .brow {
+    display: flex; align-items: baseline; gap: clamp(16px, 2.2vw, 32px);
+    padding-block: clamp(22px, 3.2vw, 40px);
+    border-top: 1.5px solid rgba(255,255,255,.16);
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .brow:last-of-type { border-bottom: 1.5px solid rgba(255,255,255,.16); }
+  .brow:hover { background: rgba(255,255,255,.04); }
+
+  .brow__idx {
+    flex: none; align-self: center;
+    font-family: var(--font-cond); font-weight: 300; font-size: 13px; letter-spacing: .1em;
+    color: var(--text-dim-dark);
+  }
+  .brow__cap {
+    flex: none; align-self: center;
+    font-weight: 500; font-size: clamp(17px, 1.7vw, 26px);
+    max-width: 46vw;
+  }
+  .brow__lead {
+    flex: 1; align-self: center; min-width: 24px;
+    border-bottom: 2px dotted rgba(255,255,255,.28);
+    transform: translateY(-.2em);
+  }
+  .brow__num {
+    font-weight: 900; font-size: clamp(56px, 7.5vw, 112px);
+    line-height: .8; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .brow--launched .brow__num { color: var(--blue); }
+  .brow--progress .brow__num { color: #fff; }
+  .brow--seeking  .brow__num { color: var(--orange); }
+
+  .brow__status {
+    flex: none; align-self: center;
+    min-width: clamp(96px, 10vw, 132px); text-align: center;
+  }
+  .chip--board { background: rgba(255,255,255,.1); color: var(--text-dim-dark); font-size: 13px; }
+  .chip--board-blink {
+    background: rgba(255,109,47,.16); color: var(--peach);
+    animation: brd-blink 1.6s steps(1) infinite;
+  }
+  @keyframes brd-blink { 50% { opacity: .35; } }
+
+  .board__foot {
+    margin-top: clamp(18px, 2.5vw, 28px);
+    text-align: right;
+    color: var(--text-dim-dark);
+  }
+
+  .legal { text-align: center; margin-top: clamp(22px, 3vw, 36px); opacity: .45; }
+
+  @media (max-width: 780px) {
+    .brow { flex-wrap: wrap; row-gap: 12px; }
+    .brow__cap { max-width: none; order: 1; flex: 1 1 60%; }
+    .brow__idx { order: 0; }
+    .brow__status { order: 2; margin-left: auto; }
+    .brow__lead { display: none; }
+    .brow__num { order: 3; flex-basis: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .board__live::before, .chip--board-blink { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · v5 — Вокзальное табло</div>
+
+  <section class="board" aria-label="Цифры сети — табло">
+    <div class="container">
+
+      <div class="board__head reveal">
+        <span class="t-label">География франшизы</span>
+        <span class="board__live">данные обновлены сегодня</span>
+      </div>
+
+      <div class="brow brow--launched reveal">
+        <span class="brow__idx" aria-hidden="true">01</span>
+        <span class="brow__cap">городов запущено по&nbsp;франшизе</span>
+        <span class="brow__lead" aria-hidden="true"></span>
+        <span class="brow__num"><span data-count="14">0</span></span>
+        <span class="brow__status"><span class="chip chip--board">работают</span></span>
+      </div>
+
+      <div class="brow brow--progress reveal reveal-d1">
+        <span class="brow__idx" aria-hidden="true">02</span>
+        <span class="brow__cap">городов в&nbsp;работе</span>
+        <span class="brow__lead" aria-hidden="true"></span>
+        <span class="brow__num"><span data-count="25">0</span></span>
+        <span class="brow__status"><span class="chip chip--board">в процессе</span></span>
+      </div>
+
+      <div class="brow brow--seeking reveal reveal-d2">
+        <span class="brow__idx" aria-hidden="true">03</span>
+        <span class="brow__cap">партнёров ищем сейчас</span>
+        <span class="brow__lead" aria-hidden="true"></span>
+        <span class="brow__num"><span data-count="9">0</span></span>
+        <span class="brow__status"><span class="chip chip--board chip--board-blink">набор открыт</span></span>
+      </div>
+
+      <p class="board__foot t-legal reveal reveal-d3">источник: внутренняя статистика сети</p>
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

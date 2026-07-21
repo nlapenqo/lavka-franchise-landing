@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 5/6&nbsp;— Кольцо прогресса</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ---------- Хиро ---------- */
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+
+  /* ---------- Мини-шапка ---------- */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Сплит ---------- */
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); }
+  .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); }
+  .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; transition: opacity var(--dur-fast) var(--ease-out); }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--blue); animation: blink 1.2s ease-in-out infinite alternate; }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+
+  /* ---------- Embed в сборке / solo в сравнивалке ---------- */
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+  html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; }
+  html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 34px !important; padding-bottom: 34px; }
+  html.is-solo .stage { justify-self: center !important; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; }
+    html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+    .stage { justify-self: center; }
+    .hero__legal { bottom: 14px; }
+  }
+
+
+  /* ---------- Круговой прогресс с маркерами этапов ---------- */
+  .stage { max-width: 430px; width: 100%; justify-self: end; background: var(--bg-light); border-radius: var(--r-card); padding: clamp(28px, 3vw, 42px); display: grid; justify-items: center; }
+  .ring-label { justify-self: start; display: flex; align-items: center; gap: 9px; font-weight: 500; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--text-dim); }
+  .ring-wrap { position: relative; width: min(280px, 82%); aspect-ratio: 1; margin-top: 26px; }
+  .ring-wrap svg.ring { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 4px; }
+  .ring-days { font-weight: 900; font-size: clamp(36px, 3.4vw, 46px); line-height: 1; color: var(--navy); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .ring-sub { font-family: var(--font-cond); font-weight: 300; font-size: 12px; color: var(--text-dim); }
+  .mk { position: absolute; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--navy); box-shadow: var(--shadow-card); transform: translate(-50%, -50%); transition: background .35s, color .35s, box-shadow .35s; }
+  .mk svg { width: 18px; height: 18px; }
+  .mk.is-done { background: var(--sky); }
+  .mk.is-active { background: var(--blue); color: #fff; box-shadow: 0 0 0 6px rgba(0, 173, 255, .18), var(--shadow-cta); }
+  .ring-runner { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--blue); border: 3px solid #fff; box-shadow: 0 3px 12px rgba(0, 173, 255, .55); transform: translate(-50%, -50%); }
+  .ring-stage { margin-top: 26px; display: flex; align-items: center; gap: 12px; }
+  .ring-count { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+  .stage__note { margin-top: 14px; color: var(--text-dim); }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" aria-hidden="true">
+      <div class="ring-label"><span class="live-dot"></span>Открытие Лавки · план</div>
+      <div class="ring-wrap" id="wrap">
+        <svg class="ring" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(27,58,106,.1)" stroke-width="5" stroke-linecap="round" stroke-dasharray="0.1 1.8" pathLength="100"/>
+          <circle id="prog" cx="50" cy="50" r="45" fill="none" stroke="var(--blue)" stroke-width="5" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1"/>
+        </svg>
+        <div class="ring-center">
+          <b class="ring-days" id="days">≈120&nbsp;дней</b>
+          <span class="ring-sub">до запуска в&nbsp;вашем городе</span>
+        </div>
+          <span class="mk" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+          <span class="mk" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-5 5.5-5s4.9 2 5.5 5"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.6c2.3.3 4 2 4.5 4.4"/></svg></span>
+          <span class="mk" data-i="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="m8.6 14.5 2.3 2.3 4.5-4.8"/></svg></span>
+          <span class="mk" data-i="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 20V9l6-4 6 4v11"/><path d="M9.5 20v-5h5v5"/><path d="M9.5 11h5"/></svg></span>
+          <span class="mk" data-i="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 2.2 5 5.4 5 9l-2.4 2.4h-5.2L7 12c0-3.6 1.5-6.8 5-9Z"/><circle cx="12" cy="10" r="1.8"/><path d="M9.4 14.4 8 19l4-1.6L16 19l-1.4-4.6"/></svg></span>
+        <span class="ring-runner" id="runner"></span>
+      </div>
+      <div class="ring-stage">
+        <span class="chip chip--active" id="stageChip">Заявка</span>
+        <span class="ring-count t-small" id="stageNum">1 / 5</span>
+      </div>
+      <div class="stage__note t-legal">этапы и&nbsp;сроки&nbsp;— иллюстрация</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · трекер 5/6&nbsp;— Кольцо прогресса</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var SOLO = /[?&]solo=1/.test(location.search);
+    if (SOLO) document.documentElement.classList.add('is-solo');
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED || SOLO) document.documentElement.classList.add('is-embed');
+
+    /* Единый таймлайн: один rAF-тик, все элементы считаются от одного p */
+    var CYCLE = 14000, ARRIVE = .9, DAYS = 120, N = 5;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    function fmtDays(p) { var n = Math.round(DAYS * (1 - p)); return '≈' + n + '\u00A0' + dayWord(n); }
+
+    var TITLES = ['Заявка', 'Встреча и\u00A0скоринг', 'Договор', 'Подготовка и\u00A0обучение', 'Запуск'];
+    var days = document.getElementById('days');
+    var prog = document.getElementById('prog');
+    var runner = document.getElementById('runner');
+    var chip = document.getElementById('stageChip');
+    var stageNum = document.getElementById('stageNum');
+    var mks = [].slice.call(document.querySelectorAll('.mk'));
+    var R = 45; /* радиус кольца в % от wrap */
+    /* маркеры этапов — в точках начала своих дуг (сверху, по часовой) */
+    mks.forEach(function (m, i) {
+      var a = (-90 + i * 72) * Math.PI / 180;
+      m.style.left = (50 + R * Math.cos(a)) + '%';
+      m.style.top = (50 + R * Math.sin(a)) + '%';
+    });
+    var lastIdx = -1;
+
+    function render(t) {
+      var p = Math.min(t / ARRIVE, 1);
+      days.textContent = fmtDays(p);
+      prog.style.strokeDashoffset = String(1 - p);
+      var a = (-90 + p * 360) * Math.PI / 180;
+      runner.style.left = (50 + R * Math.cos(a)) + '%';
+      runner.style.top = (50 + R * Math.sin(a)) + '%';
+      var idx = Math.min(N - 1, Math.floor(p * N));
+      mks.forEach(function (m, i) {
+        m.classList.toggle('is-done', i < idx || p >= 1);
+        m.classList.toggle('is-active', i === idx && p < 1);
+      });
+      if (idx !== lastIdx) { lastIdx = idx; chip.textContent = TITLES[idx]; stageNum.textContent = (idx + 1) + ' / 5'; }
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; }
+    var t0 = performance.now();
+    (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

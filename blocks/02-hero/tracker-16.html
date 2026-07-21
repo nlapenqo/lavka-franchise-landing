@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 16/20&nbsp;— Фора на старте</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .top { position: absolute; inset: 0 0 auto; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
+  .logo__mark { width: 26px; height: 26px; flex: none; } .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); } .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); }
+  .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); } .link-how:hover svg { transform: translateY(3px); }
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+  html.is-embed .hero { min-height: 0; } html.is-embed .top { display: none; } html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+  html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; } html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 24px !important; padding-bottom: 24px; } html.is-solo .stage { justify-self: center !important; }
+
+  .stage { position: relative; max-width: 450px; width: 100%; min-height: 530px; justify-self: end; padding: 28px; overflow: hidden; border-radius: var(--r-card); background: var(--bg-light); }
+  .head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+  .kicker { font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--text-dim); }
+  .title { max-width: 270px; margin-top: 7px; font-weight: 900; font-size: 30px; line-height: .92; color: var(--navy); letter-spacing: -.01em; }
+  .flag { flex: none; position: relative; width: 74px; height: 74px; transform: rotate(6deg); }
+  .flag svg { width: 100%; height: 100%; color: var(--orange); }
+  .flag b { position: absolute; inset: 22px 8px auto; text-align: center; font-size: 11px; line-height: 1; color: var(--bg); text-transform: uppercase; }
+  .race { position: relative; margin-top: 26px; display: grid; gap: 18px; }
+  .lane { position: relative; min-height: 142px; padding: 18px; border-radius: var(--r-card-sm); overflow: hidden; }
+  .lane--solo { background: var(--warm-gray); transform: rotate(-1deg); opacity: .72; }
+  .lane--lavka { background: var(--navy); color: var(--bg); transform: rotate(1deg); box-shadow: 0 18px 34px color-mix(in srgb, var(--navy) 18%, transparent); }
+  .lane-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 800; font-size: 14px; }
+  .lane-head span:last-child { font-family: var(--font-cond); font-weight: 300; font-size: 11px; opacity: .7; }
+  .obstacles { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 17px; }
+  .obstacle { padding: 7px 9px; border-radius: 9px; background: var(--bg); color: var(--text-dim); font-size: 11px; font-weight: 500; transform: rotate(-2deg); }
+  .obstacle:nth-child(2n) { transform: rotate(2deg); }
+  .fog { position: absolute; right: 0; top: 0; bottom: 0; width: 42%; background: linear-gradient(90deg, transparent, var(--warm-gray)); display: flex; align-items: flex-end; justify-content: flex-end; padding: 17px; font-weight: 900; font-size: 15px; color: var(--navy); }
+  .track { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-top: 19px; }
+  .track::before { content: ""; position: absolute; left: 7px; right: 7px; top: 14px; height: 4px; border-radius: var(--r-pill); background: color-mix(in srgb, var(--sky) 28%, transparent); }
+  .track::after { content: ""; position: absolute; left: 7px; top: 14px; width: calc((100% - 14px) * var(--p)); height: 4px; border-radius: var(--r-pill); background: var(--blue); }
+  .step { position: relative; z-index: 2; text-align: center; }
+  .step i { display: grid; place-items: center; width: 31px; height: 31px; margin-inline: auto; border-radius: 10px; background: var(--navy); border: 2px solid var(--sky); color: var(--sky); font-style: normal; font-size: 12px; transition: background .35s, color .35s, transform .35s var(--ease-spring); }
+  .step.is-on i { background: var(--blue); color: var(--bg); transform: translateY(-3px) rotate(-4deg); }
+  .step b { display: block; margin-top: 8px; font-size: 9px; line-height: 1.05; font-weight: 500; color: var(--text-dim-dark); }
+  .finish { position: absolute; right: 12px; bottom: 12px; padding: 7px 10px; border-radius: var(--r-pill); background: var(--peach); color: var(--navy); font-weight: 900; font-size: 12px; transform: rotate(-5deg) translateY(20px); opacity: 0; transition: transform .5s var(--ease-spring), opacity .3s; }
+  .finish.is-on { opacity: 1; transform: rotate(-5deg); }
+  .days-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 18px; padding-inline: 4px; color: var(--text-dim); font-size: 12px; }
+  .days-row b { font-weight: 900; font-size: 24px; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stage__note { margin-top: 12px; text-align: right; color: var(--text-dim); }
+
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; } .logo { font-size: 15px; gap: 6px; } .logo__mark { width: 20px; height: 20px; } .logo .chip { font-size: 10px; padding: .4em .7em; } .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; } html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; } .hero__cta { margin-top: 26px; } .stage { justify-self: center; max-width: 410px; min-height: 510px; padding: 22px; } .lane { padding: 15px; } .step b { font-size: 8px; } .hero__legal { bottom: 14px; }
+  }
+</style>
+</head>
+<body>
+<section class="hero" id="top">
+  <header class="top"><div class="container top__in"><a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза"><span>Яндекс</span><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="var(--blue)"/><path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="var(--bg)"/></svg><span>Лавка</span><span class="chip chip--active logo__chip">Франшиза</span></a><a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a></div></header>
+  <div class="container hero__in">
+    <div class="hero__copy"><h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1><p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p><div class="hero__cta reveal reveal-d2"><a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a><a class="link-how" href="#how">Как это работает<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg></a></div></div>
+    <div class="stage reveal reveal-d3" id="stage" aria-hidden="true">
+      <div class="head"><div><div class="kicker">Сравните два старта</div><div class="title">Не&nbsp;строите бизнес с&nbsp;нуля</div></div><div class="flag"><svg viewBox="0 0 80 80" fill="none"><path d="M17 8v64" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M20 13h48L56 29l12 17H20V13Z" fill="currentColor"/></svg><b>фора</b></div></div>
+      <div class="race">
+        <div class="lane lane--solo"><div class="lane-head"><span>Самостоятельно</span><span>всё на&nbsp;вас</span></div><div class="obstacles"><span class="obstacle">IT-система</span><span class="obstacle">поставщики</span><span class="obstacle">маркетинг</span><span class="obstacle">аналитика</span><span class="obstacle">логистика</span></div><div class="fog">срок?</div></div>
+        <div class="lane lane--lavka"><div class="lane-head"><span>С&nbsp;Яндекс Лавкой</span><span>план запуска</span></div><div class="track"><span class="step"><i>1</i><b>заявка</b></span><span class="step"><i>2</i><b>скоринг</b></span><span class="step"><i>3</i><b>договор</b></span><span class="step"><i>4</i><b>подготовка</b></span><span class="step"><i>5</i><b>запуск</b></span></div><span class="finish" id="finish">Ключ у&nbsp;вас</span></div>
+      </div>
+      <div class="days-row"><span>до&nbsp;открытия в&nbsp;вашем городе</span><b id="days">≈120&nbsp;дней</b></div><div class="stage__note t-legal">сравнение&nbsp;— иллюстрация</div>
+    </div>
+  </div>
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+<div class="proto-tag">02 · Hero · трекер 16/20&nbsp;— Фора на старте</div>
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var SOLO = /[?&]solo=1/.test(location.search); if (SOLO) document.documentElement.classList.add('is-solo');
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search); if (EMBED || SOLO) document.documentElement.classList.add('is-embed');
+    var CYCLE = 14000, ARRIVE = .9, DAYS = 120;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    var stage = document.getElementById('stage'), steps = [].slice.call(document.querySelectorAll('.step')), days = document.getElementById('days'), finish = document.getElementById('finish');
+    function render(t) { var p = Math.min(t / ARRIVE, 1), left = Math.round(DAYS * (1 - p)), active = Math.min(5, Math.floor(p * 6)); stage.style.setProperty('--p', p); days.innerHTML = '≈' + left + '&nbsp;' + dayWord(left); steps.forEach(function (el, i) { el.classList.toggle('is-on', i < active); }); finish.classList.toggle('is-on', p > .82); }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; }
+    var t0 = performance.now(); (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · v6 — Медиа-индекс</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--navy); color: var(--text-on-dark); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: var(--space-4); margin-bottom: clamp(38px, 5vw, 70px); }
+  .head__sub { max-width: 400px; color: var(--text-dim-dark); }
+  .index { border-top: 1px solid rgba(170,217,252,.25); }
+  .entry { border-bottom: 1px solid rgba(170,217,252,.25); }
+  .entry__row { width: 100%; display: grid; grid-template-columns: clamp(140px, 18vw, 240px) minmax(0, 1fr) auto; gap: clamp(16px, 3vw, 44px); align-items: center; padding: clamp(20px, 2.6vw, 34px) clamp(8px, 1.2vw, 18px); text-align: left; transition: background var(--dur-fast), padding-left var(--dur-fast) var(--ease-out); }
+  .entry__row:hover { background: rgba(0,173,255,.1); }
+  .entry__row:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+  .entry__brand { font-weight: 900; font-size: clamp(22px, 2.4vw, 36px); letter-spacing: -.04em; color: var(--sky); }
+  .entry__title { font-weight: 500; font-size: clamp(16px, 1.5vw, 22px); line-height: 1.2; }
+  .entry__icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: rgba(170,217,252,.14); transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast); }
+  .entry__icon svg { width: 18px; height: 18px; transition: transform var(--dur-fast) var(--ease-out); }
+  .entry.is-open .entry__icon { background: var(--blue); }
+  .entry.is-open .entry__icon svg { transform: rotate(45deg); }
+  .entry__panel { overflow: hidden; max-height: 0; transition: max-height var(--dur-med) var(--ease-out); }
+  .entry__inner { display: grid; grid-template-columns: clamp(140px, 18vw, 240px) minmax(0, 1fr); gap: clamp(16px, 3vw, 44px); padding: 0 clamp(8px, 1.2vw, 18px) clamp(24px, 3vw, 38px); }
+  .entry__excerpt { grid-column: 2; max-width: 640px; color: var(--text-dim-dark); }
+  .entry__link { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-weight: 500; color: var(--blue); }
+  .entry__link svg { width: 18px; height: 18px; }
+  .entry__link:hover { color: var(--sky); }
+  .legal { margin-top: var(--space-5); text-align: center; color: var(--text-dim-dark); }
+  @media (prefers-reduced-motion: reduce) { .entry__panel { transition: none; } }
+  @media (max-width: 700px) {
+    .head { flex-direction: column; align-items: start; }
+    .entry__row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; }
+    .entry__brand { grid-column: 1 / -1; }
+    .entry__inner { grid-template-columns: 1fr; }
+    .entry__excerpt { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · v6 — Медиа-индекс</div>
+<section class="section"><div class="container">
+  <header class="head reveal">
+    <h1 class="t-h1">О нас<br>говорят</h1>
+    <p class="head__sub t-sub">Индекс публикаций о&nbsp;франшизе Лавки. Разверните строку — внутри выдержка и&nbsp;ссылка</p>
+  </header>
+  <div class="index reveal reveal-d1">
+    <article class="entry">
+      <button class="entry__row" type="button" aria-expanded="false" aria-controls="panel-rbc">
+        <span class="entry__brand">РБК</span>
+        <span class="entry__title">Быстрая доставка выходит в&nbsp;новые города: как устроена модель партнёрства</span>
+        <span class="entry__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>
+      <div class="entry__panel" id="panel-rbc">
+        <div class="entry__inner"><div class="entry__excerpt t-body">Геоаналитика, единая IT-платформа и&nbsp;операционная модель — что получает партнёр кроме сильного бренда.<br><a class="entry__link" href="#publication-rbc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
+      </div>
+    </article>
+    <article class="entry">
+      <button class="entry__row" type="button" aria-expanded="false" aria-controls="panel-forbes">
+        <span class="entry__brand">Forbes</span>
+        <span class="entry__title">Технологии вместо догадок: почему ритейл считает спрос до&nbsp;открытия точки</span>
+        <span class="entry__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>
+      <div class="entry__panel" id="panel-forbes">
+        <div class="entry__inner"><div class="entry__excerpt t-body">Новый рынок для региональных инвесторов: как считается потенциал спроса и&nbsp;почему локации выбирают по&nbsp;данным.<br><a class="entry__link" href="#publication-forbes">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
+      </div>
+    </article>
+    <article class="entry">
+      <button class="entry__row" type="button" aria-expanded="false" aria-controls="panel-vc">
+        <span class="entry__brand">vc.ru</span>
+        <span class="entry__title">Из&nbsp;одного даркстора в&nbsp;сеть: разбор операционной модели франчайзи</span>
+        <span class="entry__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>
+      <div class="entry__panel" id="panel-vc">
+        <div class="entry__inner"><div class="entry__excerpt t-body">Что находится внутри даркстора: зоны хранения, сборка за&nbsp;считанные минуты и&nbsp;роль партнёра в&nbsp;операционке.<br><a class="entry__link" href="#publication-vc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
+      </div>
+    </article>
+    <article class="entry">
+      <button class="entry__row" type="button" aria-expanded="false" aria-controls="panel-kommersant">
+        <span class="entry__brand">Коммерсантъ</span>
+        <span class="entry__title">Дарксторы становятся ближе: рынок экспресс-доставки в&nbsp;регионах</span>
+        <span class="entry__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>
+      <div class="entry__panel" id="panel-kommersant">
+        <div class="entry__inner"><div class="entry__excerpt t-body">Как технологии меняют быструю доставку и&nbsp;почему экспресс-формат растёт быстрее классического ритейла.<br><a class="entry__link" href="#publication-kommersant">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
+      </div>
+    </article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script>
+  (function () {
+    var entries = Array.prototype.slice.call(document.querySelectorAll('.entry'));
+    entries.forEach(function (entry) {
+      var row = entry.querySelector('.entry__row'); var panel = entry.querySelector('.entry__panel');
+      if (!row || !panel) return;
+      row.addEventListener('click', function () {
+        var open = entry.classList.contains('is-open');
+        entries.forEach(function (other) {
+          other.classList.remove('is-open');
+          var r = other.querySelector('.entry__row'); var p = other.querySelector('.entry__panel');
+          if (r) r.setAttribute('aria-expanded', 'false');
+          if (p) p.style.maxHeight = '0px';
+        });
+        if (!open) {
+          entry.classList.add('is-open');
+          row.setAttribute('aria-expanded', 'true');
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

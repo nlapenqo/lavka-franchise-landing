@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+
+  .sec-head { margin-bottom: clamp(40px, 5vw, 72px); }
+
+  /* ---------- Пять шагов: точки + линия ---------- */
+  .steps { position: relative; }
+  .steps__rail {
+    position: absolute; top: 26px; left: 10%; right: 10%;
+    height: 3px; border-radius: var(--r-pill);
+    background: var(--sky);
+  }
+  .steps__list {
+    position: relative;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: clamp(10px, 2vw, 24px);
+  }
+  .step { text-align: center; }
+  .step__dot {
+    width: 54px; height: 54px; margin: 0 auto 18px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--bg-card); color: var(--navy);
+    font-weight: 800; font-size: 16px;
+  }
+  .step:last-child .step__dot { background: var(--blue); color: #fff; }
+  .step__title { max-width: 180px; margin-inline: auto; }
+
+  .legal { margin-top: var(--space-6); text-align: center; }
+
+  /* ---------- Адаптив: вертикальный список ---------- */
+  @media (max-width: 700px) {
+    .steps__rail { top: 27px; left: 27px; right: auto; bottom: 27px; width: 3px; height: auto; }
+    .steps__list { display: flex; flex-direction: column; gap: 28px; }
+    .step { display: flex; align-items: center; gap: 18px; text-align: left; }
+    .step__dot { flex: none; margin: 0; }
+    .step__title { max-width: none; margin-inline: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">07 · Как стать партнёром · wf — По вайрфрейму</div>
+
+<section class="section" id="partner-steps">
+  <div class="container">
+
+    <header class="sec-head reveal">
+      <h1 class="t-h1">Как стать партнёром</h1>
+    </header>
+
+    <div class="steps">
+      <div class="steps__rail" aria-hidden="true"></div>
+      <ol class="steps__list" aria-label="Пять шагов до запуска">
+        <li class="step reveal">
+          <span class="step__dot" aria-hidden="true">01</span>
+          <h2 class="step__title t-h3">Заявка</h2>
+        </li>
+        <li class="step reveal reveal-d1">
+          <span class="step__dot" aria-hidden="true">02</span>
+          <h2 class="step__title t-h3">Встреча и&nbsp;скоринг</h2>
+        </li>
+        <li class="step reveal reveal-d2">
+          <span class="step__dot" aria-hidden="true">03</span>
+          <h2 class="step__title t-h3">Договор</h2>
+        </li>
+        <li class="step reveal reveal-d3">
+          <span class="step__dot" aria-hidden="true">04</span>
+          <h2 class="step__title t-h3">Подготовка и&nbsp;обучение</h2>
+        </li>
+        <li class="step reveal reveal-d4">
+          <span class="step__dot" aria-hidden="true">05</span>
+          <h2 class="step__title t-h3">Запуск</h2>
+        </li>
+      </ol>
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

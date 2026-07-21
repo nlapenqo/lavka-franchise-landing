@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 11/14&nbsp;— Шкала прогресса</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .scale { display: flex; align-items: center; gap: clamp(18px, 2.6vw, 40px); }
+  .edge { flex: none; }
+  .edge b { display: block; font-weight: 900; font-size: clamp(40px, 4vw, 64px); line-height: .9; letter-spacing: -.02em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .edge span { display: block; margin-top: 6px; font-weight: 500; font-size: 13px; color: var(--text-dim); }
+  .edge--goal { text-align: right; }
+  .edge--goal b { color: transparent; -webkit-text-stroke: 2px var(--navy); }
+  .bar { flex: 1; height: 16px; border-radius: var(--r-pill); background: var(--bg-card); overflow: hidden; display: flex; }
+  .seg { height: 100%; width: 0; transition: width 1.1s var(--ease-out); }
+  .seg--live { background: var(--blue); border-radius: var(--r-pill) 0 0 var(--r-pill); }
+  .seg--work { background: repeating-linear-gradient(-55deg, var(--sky) 0 7px, rgba(170, 217, 252, .35) 7px 14px); transition-delay: .25s; }
+  .seg--seek { background: var(--orange); transition-delay: .5s; }
+  .reveal.is-in .seg--live { width: calc(14 / 48 * 100%); }
+  .reveal.is-in .seg--work { width: calc(25 / 48 * 100%); }
+  .reveal.is-in .seg--seek { width: calc(9 / 48 * 100%); }
+  .keys { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 16px; }
+  .key { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 13px; color: var(--text-dim); }
+  .key i { width: 10px; height: 10px; border-radius: 50%; }
+  .key--live i { background: var(--blue); } .key--work i { background: var(--sky); } .key--seek i { background: var(--orange); }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 720px) { .scale { flex-direction: column; align-items: stretch; gap: 14px; } .edge--goal { text-align: left; } .bar { height: 14px; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 11/14&nbsp;— Шкала прогресса</div>
+
+  <section class="band">
+    <div class="container reveal">
+      <div class="scale">
+        <div class="edge"><b data-count="14">0</b><span>городов запущено</span></div>
+        <div class="bar" aria-hidden="true"><i class="seg seg--live"></i><i class="seg seg--work"></i><i class="seg seg--seek"></i></div>
+        <div class="edge edge--goal"><b>48</b><span>горизонт&nbsp;— 2027</span></div>
+      </div>
+      <div class="keys">
+        <span class="key key--live"><i></i>14 запущено</span>
+        <span class="key key--work"><i></i>25 в&nbsp;работе</span>
+        <span class="key key--seek"><i></i>9&nbsp;— набор открыт</span>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

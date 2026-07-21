@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 · Заявка · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .apply { background: var(--bg-light); }
+  .apply__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 1fr); gap: clamp(36px, 6vw, 90px); align-items: start; }
+  .apply__intro { padding-top: 8px; }
+  .apply__intro p { margin-top: 20px; max-width: 460px; color: var(--text-dim); }
+  .form-card { background: var(--bg); border-radius: var(--r-card); box-shadow: var(--shadow-card); padding: clamp(24px, 3.4vw, 44px); }
+  .field { display: block; margin-bottom: 18px; }
+  .field span { display: block; margin-bottom: 8px; color: var(--text-dim); font-size: 13px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; }
+  .field input, .field select { width: 100%; min-height: 54px; border: 1.5px solid var(--sky); border-radius: 16px; padding: 13px 16px; background: var(--bg-light); color: var(--navy); font: 500 16px/1.1 var(--font-geo); outline: none; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); appearance: none; }
+  .field select { background-image: linear-gradient(45deg, transparent 50%, var(--navy) 50%), linear-gradient(135deg, var(--navy) 50%, transparent 50%); background-position: calc(100% - 21px) 24px, calc(100% - 16px) 24px; background-size: 5px 5px; background-repeat: no-repeat; }
+  .field input:focus, .field select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--sky); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-card .btn { width: 100%; margin-top: 6px; }
+  .form-card .btn[hidden] { display: none; }
+  .consent { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; margin-top: 16px; color: var(--text-dim); font-size: 12px; line-height: 1.35; cursor: pointer; }
+  .consent input { width: 18px; height: 18px; accent-color: var(--blue); }
+  .consent a { text-decoration: underline; text-underline-offset: 2px; }
+  .success { display: none; margin-top: 6px; padding: 16px; border-radius: 14px; background: var(--sky); text-align: center; font-weight: 500; }
+  .success.is-visible { display: block; }
+  .legal { text-align: center; padding: 24px var(--container-pad) 36px; }
+  @media (max-width: 860px) {
+    .apply__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">11 · Заявка · wf — По вайрфрейму</div>
+
+<section class="section apply">
+  <div class="container apply__grid">
+    <header class="apply__intro reveal">
+      <h1 class="t-h2">Оставьте заявку</h1>
+      <p class="t-sub">Расскажите о&nbsp;себе и&nbsp;городе — команда франшизы свяжется с&nbsp;вами в&nbsp;течение 2&nbsp;рабочих дней</p>
+    </header>
+
+    <form class="form-card reveal reveal-d1" data-form>
+      <label class="field"><span>Имя</span><input type="text" name="name" autocomplete="name" placeholder="Ваше имя" required></label>
+      <label class="field"><span>Телефон или почта</span><input type="text" name="contact" autocomplete="tel" placeholder="+7 900 000-00-00" required></label>
+      <div class="field-row">
+        <label class="field"><span>Город</span><input type="text" name="city" autocomplete="address-level2" placeholder="Например, Самара" required></label>
+        <label class="field"><span>Формат</span>
+          <select name="segment">
+            <option>Готовый бизнес</option>
+            <option>Миллионник</option>
+            <option>Крупный город</option>
+            <option>Другой</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn btn--blue" type="submit">Стать партнёром</button>
+      <p class="success" role="status">Заявка принята — скоро свяжемся</p>
+      <label class="consent"><input type="checkbox" required><span>Нажимая кнопку, я&nbsp;соглашаюсь на&nbsp;обработку персональных данных и&nbsp;принимаю <a href="#">политику конфиденциальности</a></span></label>
+    </form>
+  </div>
+</section>
+
+<p class="t-legal legal">Прототип · данные — заглушка (рыба) · отправка формы не&nbsp;подключена (данные формы&nbsp;→ CRM)</p>
+<script>
+  (function () {
+    const form = document.querySelector('[data-form]');
+    if (!form) return;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.querySelector('button[type="submit"]').hidden = true;
+      form.querySelector('.success').classList.add('is-visible');
+    });
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

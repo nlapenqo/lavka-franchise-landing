@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 19/20&nbsp;— Даркстор слой за слоем</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .top { position: absolute; inset: 0 0 auto; z-index: 20; padding-block: 22px; } .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); } .logo__mark { width: 26px; height: 26px; flex: none; } .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); } .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); } .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; } .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; } .link-how svg { transition: transform var(--dur-fast) var(--ease-out); } .link-how:hover svg { transform: translateY(3px); }
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+  html.is-embed .hero { min-height: 0; } html.is-embed .top { display: none; } html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); } html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; } html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 24px !important; padding-bottom: 24px; } html.is-solo .stage { justify-self: center !important; }
+
+  .stage { position: relative; max-width: 450px; width: 100%; min-height: 560px; justify-self: end; padding: 28px; overflow: hidden; border-radius: var(--r-card); background: var(--navy); color: var(--bg); }
+  .blueprint { position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(var(--sky) 1px, transparent 1px), linear-gradient(90deg, var(--sky) 1px, transparent 1px); background-size: 24px 24px; }
+  .head { position: relative; z-index: 5; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .kicker { font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--text-dim-dark); } .title { max-width: 290px; margin-top: 7px; font-weight: 900; font-size: 30px; line-height: .92; letter-spacing: -.01em; }
+  .days { flex: none; padding: 8px 12px; border-radius: var(--r-pill); background: var(--blue); color: var(--bg); font-size: 13px; font-weight: 800; transform: rotate(3deg); }
+  .build { position: relative; z-index: 2; height: 350px; margin-top: 18px; }
+  .stack { position: absolute; left: 50%; top: 24px; width: 250px; height: 280px; margin-left: -125px; transform: skewY(-6deg); }
+  .layer { position: absolute; left: 0; right: 0; height: 66px; border-radius: 12px; padding: 13px 16px; box-shadow: 0 18px 26px color-mix(in srgb, var(--navy) 48%, transparent); opacity: .08; transform: translate(0, -90px) rotate(8deg); transition: opacity .35s, transform .65s var(--ease-spring); color: var(--navy); }
+  .layer::after { content: ""; position: absolute; left: 12px; right: -12px; bottom: -10px; height: 12px; border-radius: 0 0 9px 9px; background: color-mix(in srgb, currentColor 14%, var(--bg)); }
+  .layer[data-i="0"] { bottom: 0; background: var(--warm-gray); } .layer[data-i="1"] { bottom: 53px; background: var(--sky); } .layer[data-i="2"] { bottom: 106px; background: var(--peach); } .layer[data-i="3"] { bottom: 159px; background: var(--bg); } .layer[data-i="4"] { bottom: 212px; background: var(--blue); color: var(--bg); }
+  .layer.is-on { opacity: 1; transform: none; } .layer.is-active { transform: translate(0, -7px) rotate(-1deg); }
+  .layer-row { display: flex; align-items: center; gap: 10px; } .layer svg { width: 21px; height: 21px; flex: none; } .layer b { display: block; font-weight: 900; font-size: 14px; line-height: 1; } .layer span { display: block; margin-top: 4px; font-size: 10px; opacity: .68; }
+  .measure { position: absolute; right: -5px; top: 34px; bottom: 42px; width: 44px; border-right: 1px dashed var(--sky); color: var(--text-dim-dark); } .measure::before, .measure::after { content: ""; position: absolute; right: -5px; width: 10px; height: 1px; background: var(--sky); } .measure::before { top: 0; } .measure::after { bottom: 0; } .measure b { position: absolute; right: 9px; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .active-note { position: absolute; left: -5px; bottom: 0; width: 155px; padding: 11px 12px; border-radius: 13px; background: var(--bg); color: var(--navy); box-shadow: var(--shadow-card); transform: rotate(-4deg); } .active-note span { display: block; font-size: 10px; color: var(--text-dim); } .active-note b { display: block; margin-top: 4px; font-size: 14px; line-height: 1; }
+  .key { position: absolute; right: 14px; bottom: -2px; width: 104px; height: 104px; color: var(--orange); transform: translateY(36px) rotate(-18deg) scale(.65); opacity: 0; transition: opacity .35s, transform .55s var(--ease-spring); } .key.is-on { opacity: 1; transform: rotate(-18deg) scale(1); }
+  .foot { position: relative; z-index: 4; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 5px; padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--sky) 22%, transparent); color: var(--text-dim-dark); font-size: 11px; } .foot b { color: var(--bg); font-weight: 900; font-size: 16px; }
+  .stage__note { position: relative; z-index: 4; margin-top: 10px; text-align: right; color: var(--text-dim-dark); }
+
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) { .top { padding-block: 16px; } .logo { font-size: 15px; gap: 6px; } .logo__mark { width: 20px; height: 20px; } .logo .chip { font-size: 10px; padding: .4em .7em; } .btn--sm { font-size: 12px; padding: .5em .9em; } .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; } html.is-embed .hero__in { padding-top: 120px; } .hero__sub { margin-top: 18px; } .hero__cta { margin-top: 26px; } .stage { justify-self: center; max-width: 410px; min-height: 540px; padding: 22px; } .build { transform: scale(.93); transform-origin: top center; height: 335px; } .hero__legal { bottom: 14px; } }
+</style>
+</head>
+<body>
+<section class="hero" id="top"><header class="top"><div class="container top__in"><a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза"><span>Яндекс</span><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="var(--blue)"/><path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="var(--bg)"/></svg><span>Лавка</span><span class="chip chip--active logo__chip">Франшиза</span></a><a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a></div></header>
+  <div class="container hero__in"><div class="hero__copy"><h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1><p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p><div class="hero__cta reveal reveal-d2"><a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a><a class="link-how" href="#how">Как это работает<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg></a></div></div>
+    <div class="stage reveal reveal-d3" aria-hidden="true"><div class="blueprint"></div><div class="head"><div><div class="kicker">От вложений к&nbsp;активу</div><div class="title">Бизнес появляется слой за&nbsp;слоем</div></div><span class="days" id="days">≈120&nbsp;дней</span></div>
+      <div class="build"><div class="stack" id="stack">
+        <div class="layer" data-i="0"><div class="layer-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 20h18M5 20V8l7-5 7 5v12"/></svg><div><b>Помещение</b><span>локация и&nbsp;ремонт</span></div></div></div>
+        <div class="layer" data-i="1"><div class="layer-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16v14H4zM8 5v14M16 5v14"/></svg><div><b>Оснащение</b><span>стеллажи и&nbsp;холод</span></div></div></div>
+        <div class="layer" data-i="2"><div class="layer-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M3 20c.5-4 2.3-6 5-6s4.5 2 5 6M15 8h6M15 12h5"/></svg><div><b>Команда</b><span>обучение и&nbsp;процессы</span></div></div></div>
+        <div class="layer" data-i="3"><div class="layer-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><div><b>IT и&nbsp;ассортимент</b><span>системы Яндекса</span></div></div></div>
+        <div class="layer" data-i="4"><div class="layer-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 16 3 8l9-5 9 5-2 8-7 5-7-5Z"/><path d="m8 12 3 3 5-6"/></svg><div><b>Готовая Лавка</b><span>открываем двери</span></div></div></div>
+      </div><div class="measure"><b>5 слоёв запуска</b></div><div class="active-note"><span>сейчас собираем</span><b id="active">Помещение</b></div><svg class="key" id="key" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="34" cy="34" r="20"/><path d="m49 49 39 39M70 70l10-10M80 80l10-10"/></svg></div>
+      <div class="foot"><span>Инвестиции превращаются в&nbsp;работающий даркстор</span><b id="done">0/5</b></div><div class="stage__note t-legal">этапы и&nbsp;сроки&nbsp;— иллюстрация</div>
+    </div>
+  </div><div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div></section>
+<div class="proto-tag">02 · Hero · трекер 19/20&nbsp;— Даркстор слой за&nbsp;слоем</div>
+<script src="../_shared/proto.js" defer></script><script>
+  (function () { var SOLO = /[?&]solo=1/.test(location.search); if (SOLO) document.documentElement.classList.add('is-solo'); var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search); if (EMBED || SOLO) document.documentElement.classList.add('is-embed'); var CYCLE = 14000, ARRIVE = .9, DAYS = 120, names = ['Помещение','Оснащение','Команда','IT и\u00A0ассортимент','Готовая Лавка'];
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    var layers = [].slice.call(document.querySelectorAll('.layer')), days = document.getElementById('days'), active = document.getElementById('active'), done = document.getElementById('done'), key = document.getElementById('key');
+    function render(t) { var p = Math.min(t / ARRIVE, 1), left = Math.round(DAYS * (1 - p)), count = Math.min(5, Math.floor(p * 6)), idx = Math.min(4, count); days.innerHTML = '≈' + left + '&nbsp;' + dayWord(left); layers.forEach(function (el, i) { el.classList.toggle('is-on', i < count); el.classList.toggle('is-active', i === count - 1 && p < 1); }); active.innerHTML = names[idx]; done.textContent = count + '/5'; key.classList.toggle('is-on', p > .82); }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; } var t0 = performance.now(); (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script><script src="../_shared/preview-shell.js" defer></script></body></html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · Мероприятие · v4 — Обратный отсчёт</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 03 · v4 — обратный отсчёт ============ */
+  .event {
+    background: var(--navy);
+    color: var(--text-on-dark);
+    padding-block: clamp(48px, 7vw, 96px);
+  }
+
+  .event__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+
+  /* — левая колонка: инфо — */
+  .event__info { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(14px, 1.6vw, 20px); }
+  .event__title { color: #fff; }
+  .event__sub { color: var(--text-dim-dark); max-width: 440px; }
+
+  .chip--live {
+    background: rgba(255,255,255,.1); color: #fff;
+    gap: 9px;
+  }
+  .chip--live .dot {
+    position: relative; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--orange); flex: none;
+  }
+  .chip--live .dot::after {
+    content: ""; position: absolute; inset: -4px; border-radius: 50%;
+    border: 1.5px solid var(--orange);
+    animation: live-pulse 2s var(--ease-out) infinite;
+  }
+  @keyframes live-pulse {
+    0%   { transform: scale(.5); opacity: .9; }
+    70%  { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+
+  .event__cta {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 18px;
+    margin-top: clamp(6px, 1vw, 14px);
+  }
+  .event__seats { color: var(--text-dim-dark); }
+  .event__seats strong { color: var(--peach); font-weight: 800; }
+
+  /* — правая колонка: таймер — */
+  .timer {
+    display: flex; align-items: stretch;
+    gap: clamp(8px, 1vw, 14px);
+  }
+  .unit {
+    display: grid; justify-items: center; align-content: center; gap: 10px;
+    min-width: clamp(74px, 8.5vw, 128px);
+    padding: clamp(16px, 2vw, 28px) clamp(10px, 1.4vw, 20px);
+    border-radius: var(--r-card-sm);
+    background: rgba(255,255,255,.07);
+  }
+  .unit b {
+    font-weight: 900; font-size: clamp(40px, 4.8vw, 76px);
+    line-height: .85; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .unit span {
+    font-weight: 500; font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-dim-dark);
+  }
+  .colon {
+    align-self: center;
+    font-weight: 900; font-size: clamp(28px, 3vw, 44px);
+    color: var(--mid-blue);
+    animation: colon-blink 2s steps(1) infinite;
+  }
+  @keyframes colon-blink { 50% { opacity: .25; } }
+
+  .legal { text-align: center; margin-top: clamp(28px, 4vw, 48px); opacity: .45; }
+
+  a:focus-visible, button:focus-visible { outline: 3px solid rgba(0,173,255,.6); outline-offset: 3px; }
+
+  @media (max-width: 1060px) {
+    .event__grid { grid-template-columns: 1fr; }
+    .timer { justify-content: flex-start; }
+  }
+  @media (max-width: 560px) {
+    .timer { flex-wrap: wrap; gap: 8px; }
+    .unit { min-width: calc(50% - 4px); flex: 1 1 40%; }
+    .colon { display: none; }
+    .event__cta .btn { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip--live .dot::after, .colon { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">03 · Мероприятие · v4 — Обратный отсчёт</div>
+
+  <section class="event">
+    <div class="container">
+      <div class="event__grid">
+
+        <div class="event__info reveal">
+          <span class="chip chip--live"><span class="dot"></span>Набор открыт</span>
+          <h1 class="t-h1 event__title">День партнёров</h1>
+          <p class="t-sub event__sub">27&nbsp;августа · 19:00 · Москва-Сити. Покажем даркстор изнутри и&nbsp;разберём экономику запуска города</p>
+          <div class="event__cta">
+            <a class="btn btn--blue" href="#event-form">
+              Участвовать
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12h15"/><path d="M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <span class="event__seats t-small">осталось <strong>18&nbsp;мест</strong> из&nbsp;60</span>
+          </div>
+        </div>
+
+        <div class="timer reveal reveal-d1" role="timer" aria-label="Обратный отсчёт до начала мероприятия">
+          <div class="unit"><b id="cd-d">00</b><span>дни</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="unit"><b id="cd-h">00</b><span>часы</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="unit"><b id="cd-m">00</b><span>минуты</span></div>
+          <span class="colon" aria-hidden="true">:</span>
+          <div class="unit"><b id="cd-s">00</b><span>секунды</span></div>
+        </div>
+
+      </div>
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script>
+    /* обратный отсчёт до даты мероприятия (рыба) */
+    (function () {
+      var d = document.getElementById('cd-d'),
+          h = document.getElementById('cd-h'),
+          m = document.getElementById('cd-m'),
+          s = document.getElementById('cd-s');
+      if (!d || !h || !m || !s) return;
+      var target = new Date('2026-08-27T19:00:00+03:00').getTime();
+      function pad(n) { return String(n).padStart(2, '0'); }
+      function tick() {
+        var diff = Math.max(0, target - Date.now());
+        var sec = Math.floor(diff / 1000);
+        d.textContent = pad(Math.floor(sec / 86400));
+        h.textContent = pad(Math.floor(sec / 3600) % 24);
+        m.textContent = pad(Math.floor(sec / 60) % 60);
+        s.textContent = pad(sec % 60);
+        if (diff > 0) setTimeout(tick, 1000);
+      }
+      tick();
+    })();
+  </script>
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

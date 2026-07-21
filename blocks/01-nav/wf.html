@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Меню · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  .site-head {
+    position: sticky; top: 0; z-index: 40;
+    background: var(--bg);
+    border-bottom: 1px solid var(--bg-card);
+  }
+  .site-head__in {
+    max-width: var(--container); margin-inline: auto;
+    min-height: 72px;
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px;
+    padding-inline: var(--container-pad);
+  }
+  .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 900; font-size: 19px; letter-spacing: -.01em; white-space: nowrap; border-radius: var(--r-pill); }
+  .logo b { color: var(--blue); }
+  .logo .chip { font-size: 11px; padding: .45em .85em; }
+  .nav { display: flex; justify-content: center; gap: clamp(8px, 1.6vw, 14px); }
+  .nav a {
+    padding: 9px 15px; border-radius: var(--r-pill);
+    font-size: 15px; font-weight: 500; color: var(--text-dim);
+    transition: background var(--dur-fast), color var(--dur-fast);
+  }
+  .nav a:hover { background: var(--bg-card); color: var(--navy); }
+  .head-actions { display: flex; align-items: center; gap: 14px; }
+  .telegram { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: var(--text-dim); border-radius: var(--r-pill); transition: color var(--dur-fast); }
+  .telegram:hover { color: var(--navy); }
+  .telegram svg { width: 18px; }
+  .site-head .btn { font-size: 14px; padding: .85em 1.4em; }
+
+  section[id] { scroll-margin-top: 88px; }
+  .demo { min-height: 110vh; display: grid; align-content: center; padding: 80px var(--container-pad); background: var(--bg-light); }
+  .demo__inner { max-width: var(--container); width: 100%; margin-inline: auto; }
+  .demo h1 { max-width: 880px; }
+  .demo p { margin-top: 24px; max-width: 520px; color: var(--text-dim); }
+  .demo .t-legal { margin-top: 64px; }
+
+  @media (max-width: 900px) { .nav { display: none; } .site-head__in { grid-template-columns: 1fr auto; } }
+  @media (max-width: 560px) {
+    .telegram span { display: none; }
+    .logo__word { display: none; }
+    .site-head .btn { font-size: 13px; padding: .8em 1.2em; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">01 · Меню · wf — По вайрфрейму</div>
+
+<header class="site-head">
+  <div class="site-head__in">
+    <a class="logo" href="#top"><span class="logo__word">Яндекс&nbsp;<b>Лавка</b></span><span class="chip chip--active">Франшиза</span></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#formats">Форматы</a>
+      <a href="#steps">Как стать партнёром</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <div class="head-actions">
+      <a class="telegram" href="https://t.me/yandex_lavka_franchise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m21 4-3 16-6-5-4 3 1-5 8-6-10 5-4-2 18-6Z"/></svg><span>Telegram</span></a>
+      <a class="btn btn--blue" href="#form">Стать партнёром</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="demo" id="top">
+    <div class="demo__inner">
+      <h1 class="t-h1 reveal">Sticky-шапка по&nbsp;вайрфрейму v11</h1>
+      <p class="t-sub reveal reveal-d1">Логотип с&nbsp;бейджем «Франшиза», якоря «Форматы · Как стать партнёром · Вопросы», CTA «Стать партнёром» и&nbsp;ссылка на&nbsp;Telegram-канал</p>
+      <p class="t-legal reveal reveal-d2">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+</main>
+
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

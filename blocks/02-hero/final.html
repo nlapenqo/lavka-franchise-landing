@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · final&nbsp;— Трекер запуска</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ---------- Хиро ---------- */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ---------- Мини-шапка ---------- */
+  .top {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+    padding-block: 22px;
+  }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy);
+  }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Сплит ---------- */
+  .hero__in {
+    flex: 1; width: 100%;
+    display: grid; grid-template-columns: 1.15fr .95fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding-top: 120px; padding-bottom: 96px;
+  }
+  .hero__copy .t-h1 { color: var(--navy); } /* размер — стандартный .t-h1: h1 страницы не меньше заголовков секций */
+  .hero__sub {
+    max-width: 480px; margin-top: 26px;
+    color: var(--text-dim);
+  }
+  .hero__cta {
+    display: flex; align-items: center; flex-wrap: wrap;
+    gap: 18px 28px; margin-top: 38px;
+  }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 500; font-size: clamp(15px, 1.25vw, 18px);
+    color: var(--navy); opacity: .8;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  /* ---------- Сцена «трекер запуска Лавки» ----------
+     Живой визуал: маршрут, бегущая точка, повёрнутый таймер.
+     Вся анимация — от одной переменной --p, которую выставляет
+     единственный rAF-цикл: таймер, полоса, карточки, маршрут
+     и точка переключаются строго одним тактом. */
+  .stage {
+    --p: 0;
+    position: relative;
+    max-width: 460px; width: 100%; justify-self: end;
+    background: var(--bg-light);
+    border-radius: var(--r-card);
+    padding: clamp(24px, 3vw, 42px);
+    overflow: hidden;
+  }
+  .route {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+  }
+  .runner {
+    position: absolute; z-index: 2; left: 84%; top: 5%;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--blue); border: 3px solid #fff;
+    box-shadow: 0 4px 14px rgba(0, 173, 255, .55);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* Таймер «до запуска» */
+  .timer {
+    position: relative; z-index: 1;
+    width: min(250px, 76%); margin-left: auto; margin-bottom: 22px;
+    background: var(--navy); color: #fff;
+    border-radius: var(--r-card-sm);
+    padding: 16px 22px 18px;
+    box-shadow: 0 18px 44px rgba(27, 58, 106, .28);
+    transform: rotate(2deg);
+  }
+  .timer__top {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: 13px; letter-spacing: .04em;
+    color: var(--text-dim-dark);
+  }
+  .live-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: var(--blue);
+    animation: blink 1.2s ease-in-out infinite alternate;
+  }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+  .timer__digits {
+    margin-top: 6px;
+    font-weight: 900; font-size: clamp(30px, 3vw, 38px);
+    letter-spacing: .01em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    white-space: nowrap;
+  }
+  .timer__sub {
+    margin-top: 6px;
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px;
+    color: var(--text-dim-dark);
+  }
+  .timer__bar {
+    margin-top: 10px; height: 5px; border-radius: var(--r-pill);
+    background: rgba(170, 217, 252, .25); overflow: hidden;
+  }
+  .timer__bar i {
+    display: block; height: 100%; border-radius: inherit;
+    background: var(--blue);
+    width: calc(var(--p, 0) * 100%);
+  }
+
+  /* Карточки-этапы */
+  .steps {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; gap: 13px;
+  }
+  .st-card {
+    position: relative;
+    display: flex; align-items: center; gap: 13px;
+    background: #fff; border-radius: var(--r-card-sm);
+    padding: 12px 18px;
+    box-shadow: var(--shadow-card);
+    opacity: .45; transform: translateY(4px) scale(.985);
+    transition: opacity .45s var(--ease-out), transform .45s var(--ease-out), box-shadow .45s var(--ease-out);
+  }
+  .st-card.is-on { opacity: 1; transform: none; }
+  .st-card.is-active { box-shadow: 0 0 0 2px var(--blue), var(--shadow-card); }
+  .steps li:nth-child(1) { margin-right: 15%; }
+  .steps li:nth-child(2) { margin-left: 11%; }
+  .steps li:nth-child(3) { margin-right: 9%; }
+  .steps li:nth-child(4) { margin-left: 6%; }
+  .steps li:nth-child(5) { margin-right: 2%; }
+
+  .st-card__ico {
+    width: 40px; height: 40px; flex: none;
+    display: grid; place-items: center;
+    border-radius: 13px;
+    background: var(--bg-card); color: var(--navy);
+    transition: background .45s, color .45s;
+  }
+  .st-card__ico svg { width: 20px; height: 20px; }
+  .st-card.is-active .st-card__ico { background: var(--blue); color: #fff; }
+  .st-card__txt { font-weight: 700; font-size: clamp(14px, 1.15vw, 16px); letter-spacing: -.01em; color: var(--navy); }
+  .st-card__time {
+    margin-left: auto; flex: none;
+    font-weight: 500; font-size: 13px; color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
+  }
+  .st-card__pulse {
+    position: absolute; top: -5px; right: -5px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--blue);
+    opacity: 0; transition: opacity .3s;
+  }
+  .st-card.is-active .st-card__pulse { opacity: 1; }
+  .st-card.is-active .st-card__pulse::after {
+    content: ''; position: absolute; inset: -2px;
+    border-radius: 50%; border: 2px solid var(--blue);
+    animation: ping 1.5s var(--ease-out) infinite;
+  }
+  @keyframes ping {
+    0%   { transform: scale(.7); opacity: .9; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  .stage__note {
+    position: relative; z-index: 1;
+    margin-top: 20px; text-align: right; color: var(--text-dim);
+  }
+
+  .hero__legal {
+    position: absolute; z-index: 15; left: 50%; bottom: 20px;
+    transform: translateX(-50%);
+    color: var(--navy); white-space: nowrap;
+  }
+
+  /* ---------- Embed в сборке: без vh-высот, шапку даёт блок 01 ---------- */
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) {
+    .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; }
+  }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+
+    .hero__in {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-top: 96px; padding-bottom: 88px;
+      align-items: start;
+    }
+    html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+
+    .stage { justify-self: center; max-width: 420px; padding: 22px; border-radius: var(--r-card); }
+    .timer { width: min(230px, 82%); margin-bottom: 18px; }
+    .steps { gap: 10px; }
+    .steps li:nth-child(1) { margin-right: 8%; }
+    .steps li:nth-child(2) { margin-left: 7%; }
+    .steps li:nth-child(3) { margin-right: 5%; }
+    .steps li:nth-child(4) { margin-left: 4%; }
+    .steps li:nth-child(5) { margin-right: 1%; }
+    .st-card { padding: 11px 14px; gap: 10px; }
+    .st-card__ico { width: 36px; height: 36px; border-radius: 11px; }
+    .st-card__ico svg { width: 18px; height: 18px; }
+
+    .hero__legal { bottom: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" id="stage" aria-hidden="true">
+      <svg class="route" viewBox="0 0 360 620" preserveAspectRatio="none">
+        <path id="routeBase" d="M302 28 C 214 58 108 88 130 158 C 148 214 300 210 300 282 C 300 352 122 340 118 408 C 114 470 296 460 292 528 C 289 578 190 586 120 596"
+              fill="none" stroke="var(--sky)" stroke-width="2.5" stroke-linecap="round"
+              stroke-dasharray="1 10" vector-effect="non-scaling-stroke"/>
+        <path id="routeProg" d="M302 28 C 214 58 108 88 130 158 C 148 214 300 210 300 282 C 300 352 122 340 118 408 C 114 470 296 460 292 528 C 289 578 190 586 120 596"
+              pathLength="1" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"
+              stroke-dasharray="1 1" stroke-dashoffset="1" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="runner" id="runner"></div>
+
+      <div class="timer">
+        <div class="timer__top"><span class="live-dot"></span> Открытие Лавки · план</div>
+        <div class="timer__digits" id="timerDigits">≈120&nbsp;дней</div>
+        <div class="timer__sub">до&nbsp;запуска в&nbsp;вашем городе</div>
+        <div class="timer__bar" aria-hidden="true"><i></i></div>
+      </div>
+
+      <ol class="steps" id="steps">
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+          </span>
+          <span class="st-card__txt">Заявка</span>
+          <span class="st-card__time">день&nbsp;1</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-5 5.5-5s4.9 2 5.5 5"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.6c2.3.3 4 2 4.5 4.4"/></svg>
+          </span>
+          <span class="st-card__txt">Встреча и&nbsp;скоринг</span>
+          <span class="st-card__time">неделя&nbsp;2</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/><path d="m8.6 14.5 2.3 2.3 4.5-4.8"/></svg>
+          </span>
+          <span class="st-card__txt">Договор</span>
+          <span class="st-card__time">месяц&nbsp;1</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 20V9l6-4 6 4v11"/><path d="M9.5 20v-5h5v5"/><path d="M9.5 11h5"/></svg>
+          </span>
+          <span class="st-card__txt">Подготовка и&nbsp;обучение</span>
+          <span class="st-card__time">мес&nbsp;2–3</span>
+          <span class="st-card__pulse"></span>
+        </li>
+        <li class="st-card">
+          <span class="st-card__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3.5 2.2 5 5.4 5 9l-2.4 2.4h-5.2L7 12c0-3.6 1.5-6.8 5-9Z"/><circle cx="12" cy="10" r="1.8"/><path d="M9.4 14.4 8 19l4-1.6L16 19l-1.4-4.6"/></svg>
+          </span>
+          <span class="st-card__txt">Запуск</span>
+          <span class="st-card__time">месяц&nbsp;4</span>
+          <span class="st-card__pulse"></span>
+        </li>
+      </ol>
+
+      <div class="stage__note t-legal">этапы и&nbsp;сроки&nbsp;— иллюстрация</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · final&nbsp;— на&nbsp;основе v2</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED) document.documentElement.classList.add('is-embed');
+
+    /* Единый таймлайн запуска: один rAF-тик выставляет --p, и все элементы
+       (таймер, полоса, карточки, маршрут, точка) считаются от него в одном кадре. */
+    var CYCLE = 14000;           /* полный цикл, мс */
+    var ARRIVE = .9;             /* доля цикла, когда Лавка запущена */
+    var DAYS = 120;              /* «≈120 дней до запуска» (≈4 месяца) */
+    var N = 5;
+
+    var stage = document.getElementById('stage');
+    var route = document.getElementById('routeBase');
+    var prog = document.getElementById('routeProg');
+    var dot = document.getElementById('runner');
+    var digits = document.getElementById('timerDigits');
+    var cards = [].slice.call(document.querySelectorAll('#steps .st-card'));
+    var L = route.getTotalLength();
+
+    function dayWord(n) {
+      var m = n % 100, d = n % 10;
+      if (m > 10 && m < 20) return 'дней';
+      if (d === 1) return 'день';
+      if (d > 1 && d < 5) return 'дня';
+      return 'дней';
+    }
+
+    function render(t) {                       /* t ∈ [0, 1) — единственный источник */
+      var p = Math.min(t / ARRIVE, 1);         /* прогресс пути 0→1 */
+      stage.style.setProperty('--p', p);
+
+      var left = Math.round(DAYS * (1 - p));   /* таймер: ≈120 → 0 дней */
+      digits.innerHTML = '≈' + left + '&nbsp;' + dayWord(left);
+
+      var idx = Math.min(N - 1, Math.floor(p * N));   /* активный этап — из того же p */
+      cards.forEach(function (c, i) {
+        c.classList.toggle('is-on', i <= idx);
+        c.classList.toggle('is-active', i === idx);
+      });
+
+      var pt = route.getPointAtLength(L * p);
+      dot.style.left = (pt.x / 360 * 100) + '%';
+      dot.style.top = (pt.y / 620 * 100) + '%';
+      prog.style.strokeDashoffset = String(1 - p);
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      render(.999); /* статичный финал: Лавка запущена */
+      return;
+    }
+    var t0 = performance.now();
+    (function loop(now) {
+      render(((now - t0) % CYCLE) / CYCLE);
+      requestAnimationFrame(loop);
+    })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

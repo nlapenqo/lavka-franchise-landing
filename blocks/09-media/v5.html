@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · v5 — Киоск обложек</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .kiosk { padding-block: var(--section-pad); }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: var(--space-4); margin-bottom: clamp(38px, 5vw, 66px); }
+  .head__sub { max-width: 400px; margin-top: 18px; color: var(--text-dim); }
+  .nav { display: flex; gap: 10px; }
+  .arrow { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-card); color: var(--navy); transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast), color var(--dur-fast); }
+  .arrow:hover { transform: scale(1.07); background: var(--blue); color: var(--text-on-dark); }
+  .arrow:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .arrow svg { width: 22px; height: 22px; }
+  .shelf-wrap { position: relative; }
+  .shelf-wrap::before, .shelf-wrap::after { content: ""; position: absolute; top: 0; bottom: 0; width: clamp(16px, 4vw, 64px); z-index: 2; pointer-events: none; }
+  .shelf-wrap::before { left: calc(-1 * var(--container-pad)); background: linear-gradient(90deg, var(--bg), transparent); }
+  .shelf-wrap::after { right: calc(-1 * var(--container-pad)); background: linear-gradient(-90deg, var(--bg), transparent); }
+  .shelf { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 12px; }
+  .shelf::-webkit-scrollbar { display: none; }
+  .cover { position: relative; flex: 0 0 clamp(270px, 24vw, 330px); aspect-ratio: 5 / 7; scroll-snap-align: start; display: flex; flex-direction: column; padding: clamp(22px, 2.2vw, 32px); border-radius: var(--r-card-sm); overflow: hidden; background: var(--bg-card); transition: transform .45s var(--ease-out), box-shadow .45s var(--ease-out); }
+  .cover:hover, .cover:focus-visible { transform: translateY(-10px); box-shadow: var(--shadow-card); }
+  .cover:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .cover::before, .cover::after { content: ""; position: absolute; border: 2px solid currentColor; border-radius: 50%; opacity: .12; pointer-events: none; }
+  .cover::before { width: 120%; aspect-ratio: 1; right: -55%; bottom: -28%; }
+  .cover::after { width: 62%; aspect-ratio: 1; right: -20%; bottom: -8%; }
+  .cover--navy { background: var(--navy); color: var(--text-on-dark); }
+  .cover--sky { background: var(--sky); }
+  .cover--peach { background: var(--peach); color: var(--navy); }
+  .cover--lavender { background: var(--lavender); color: var(--navy); }
+  .cover--warm { background: var(--warm-gray); }
+  .cover__brand { font-weight: 900; font-size: clamp(30px, 2.8vw, 40px); letter-spacing: -.04em; padding-bottom: 14px; border-bottom: 2px solid currentColor; }
+  .cover__issue { margin-top: 12px; font-family: var(--font-cond); font-weight: 300; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
+  .cover__title { margin-top: auto; font-weight: 800; font-size: clamp(19px, 1.7vw, 24px); line-height: 1.08; }
+  .cover__cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; font-weight: 500; }
+  .cover__cta svg { width: 18px; height: 18px; transition: transform var(--dur-fast); }
+  .cover:hover .cover__cta svg { transform: translateX(4px); }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .cover, .cover:hover { transform: none; } }
+  @media (max-width: 640px) {
+    .head { flex-direction: column; align-items: start; }
+    .nav { align-self: end; }
+    .cover { flex-basis: 74vw; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · v5 — Киоск обложек</div>
+<section class="kiosk"><div class="container">
+  <header class="head reveal">
+    <div><span class="t-label">О нас говорят</span><h1 class="t-h1" style="margin-top:12px">Медиакиоск</h1><p class="head__sub t-sub">Сюжеты и&nbsp;публикации о&nbsp;франшизе Лавки — листайте полку</p></div>
+    <div class="nav"><button class="arrow" type="button" data-prev aria-label="Прокрутить назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg></button><button class="arrow" type="button" data-next aria-label="Прокрутить вперёд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></button></div>
+  </header>
+  <div class="shelf-wrap reveal reveal-d1">
+    <div class="shelf" data-shelf role="region" aria-roledescription="карусель" aria-label="Публикации о франшизе Лавки" tabindex="0">
+      <a class="cover cover--navy" href="#publication-rbc"><span class="cover__brand">РБК</span><span class="cover__issue">бизнес · 2026</span><h2 class="cover__title">Быстрая доставка выходит в&nbsp;новые города: как устроена модель партнёрства</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+      <a class="cover cover--sky" href="#publication-forbes"><span class="cover__brand">Forbes</span><span class="cover__issue">компании · 2026</span><h2 class="cover__title">Технологии вместо догадок: почему ритейл считает спрос до&nbsp;открытия точки</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+      <a class="cover cover--peach" href="#publication-vc"><span class="cover__brand">vc.ru</span><span class="cover__issue">ритейл · 2026</span><h2 class="cover__title">Из&nbsp;одного даркстора в&nbsp;сеть: разбор операционной модели франчайзи</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+      <a class="cover cover--warm" href="#publication-kommersant"><span class="cover__brand">Коммерсантъ</span><span class="cover__issue">рынок · 2026</span><h2 class="cover__title">Дарксторы становятся ближе: рынок экспресс-доставки в&nbsp;регионах</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+      <a class="cover cover--lavender" href="#publication-forbes-2"><span class="cover__brand">Forbes</span><span class="cover__issue">инвестиции · 2026</span><h2 class="cover__title">Новый рынок для региональных инвесторов</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+      <a class="cover" href="#publication-vc-2"><span class="cover__brand">vc.ru</span><span class="cover__issue">разборы · 2026</span><h2 class="cover__title">Что находится внутри даркстора</h2><span class="cover__cta">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></span></a>
+    </div>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script>
+  (function () {
+    var shelf = document.querySelector('[data-shelf]'); if (!shelf) return;
+    function step() { var c = shelf.querySelector('.cover'); return c ? c.offsetWidth + 22 : 320; }
+    function behavior() { return matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'; }
+    var prev = document.querySelector('[data-prev]'); var next = document.querySelector('[data-next]');
+    if (prev) prev.addEventListener('click', function () { shelf.scrollBy({ left: -step(), behavior: behavior() }); });
+    if (next) next.addEventListener('click', function () { shelf.scrollBy({ left: step(), behavior: behavior() }); });
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

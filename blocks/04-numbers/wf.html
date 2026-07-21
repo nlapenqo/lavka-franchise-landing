@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 04 · wf — три цифры в ряд ============ */
+  .numbers { background: var(--bg); padding-block: var(--section-pad); }
+
+  .row3 {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 3.5vw, 48px);
+  }
+  .cell { padding-left: clamp(20px, 2.5vw, 32px); border-left: 1.5px solid var(--sky); }
+  .cell__num {
+    font-weight: 900; font-size: clamp(56px, 7.5vw, 120px);
+    line-height: .85; letter-spacing: -.02em;
+    color: var(--navy);
+    font-variant-numeric: tabular-nums;
+  }
+  .cell__cap { margin-top: 14px; color: var(--text-dim); max-width: 260px; }
+
+  .legal { text-align: center; margin-top: clamp(32px, 5vw, 56px); }
+
+  @media (max-width: 760px) {
+    .row3 { grid-template-columns: 1fr; gap: clamp(20px, 4vw, 32px); }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · wf — По вайрфрейму</div>
+
+  <section class="numbers" aria-label="Цифры сети">
+    <div class="container">
+
+      <div class="row3">
+        <div class="cell reveal">
+          <div class="cell__num"><span data-count="14">0</span></div>
+          <p class="cell__cap t-sub">городов запущено по&nbsp;франшизе</p>
+        </div>
+        <div class="cell reveal reveal-d1">
+          <div class="cell__num"><span data-count="25">0</span></div>
+          <p class="cell__cap t-sub">городов в&nbsp;работе</p>
+        </div>
+        <div class="cell reveal reveal-d2">
+          <div class="cell__num"><span data-count="9">0</span></div>
+          <p class="cell__cap t-sub">партнёров ищем сейчас</p>
+        </div>
+      </div>
+
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

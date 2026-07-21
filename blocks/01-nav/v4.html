@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 · Меню · v4 — Шапка-маршрут</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  /* ---------- Шапка с прогресс-линией ---------- */
+  .route-head {
+    position: fixed; z-index: 40; inset: 0 0 auto;
+    min-height: 74px;
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
+    padding-inline: var(--container-pad);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--bg-card);
+  }
+  .progress {
+    position: absolute; left: 0; bottom: -1px;
+    height: 3px; width: 0%;
+    background: var(--blue);
+    border-radius: 0 var(--r-pill) var(--r-pill) 0;
+  }
+  .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 900; font-size: 19px; letter-spacing: -.01em; white-space: nowrap; border-radius: var(--r-pill); }
+  .logo b { color: var(--blue); }
+  .logo .chip { font-size: 11px; padding: .45em .85em; }
+
+  /* Маршрут: номера секций, соединённые линией */
+  .route { display: flex; align-items: center; justify-content: center; }
+  .route__sep { width: clamp(14px, 3vw, 40px); height: 2px; flex: none; background: var(--bg-card); }
+  .route a {
+    display: inline-flex; align-items: center; gap: 8px; flex: none;
+    padding: 8px 15px 8px 9px;
+    border-radius: var(--r-pill);
+    font-size: 14px; font-weight: 500; color: var(--text-dim);
+    box-shadow: inset 0 0 0 1.5px var(--bg-card);
+    transition: color var(--dur-fast), background var(--dur-fast), box-shadow var(--dur-fast);
+  }
+  .route a b {
+    display: grid; place-items: center;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--bg-card); color: var(--text-dim);
+    font-size: 11px; font-weight: 700;
+    transition: background var(--dur-fast), color var(--dur-fast);
+  }
+  .route a:hover { color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--sky); }
+  .route a[aria-current="true"] { background: var(--navy); color: #fff; box-shadow: none; }
+  .route a[aria-current="true"] b { background: var(--blue); color: #fff; }
+
+  .head-actions { display: flex; align-items: center; gap: 12px; }
+  .telegram { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 500; color: var(--text-dim); border-radius: var(--r-pill); transition: color var(--dur-fast); }
+  .telegram:hover { color: var(--navy); }
+  .telegram svg { width: 18px; }
+  .route-head .btn { font-size: 14px; padding: .85em 1.4em; }
+
+  /* ---------- Демо-контент для скроллспая ---------- */
+  section[id] { scroll-margin-top: 96px; }
+  .demo { min-height: 88vh; display: grid; align-content: center; padding: 120px var(--container-pad) 80px; }
+  .demo__inner { max-width: var(--container); width: 100%; margin-inline: auto; }
+  .demo--intro h1 { max-width: 900px; }
+  .demo--intro p { margin-top: 26px; max-width: 520px; color: var(--text-dim); }
+  .demo--a { background: var(--bg-light); }
+  .demo--b { background: var(--bg); }
+  .demo--c { background: var(--bg-card); }
+  .demo__num { display: inline-block; margin-bottom: 18px; }
+  .demo h2 { max-width: 760px; }
+  .demo .t-body { margin-top: 20px; max-width: 480px; color: var(--text-dim); }
+  .legal-row { padding: 0 var(--container-pad) 32px; background: var(--bg-card); }
+  .legal-row p { max-width: var(--container); margin-inline: auto; }
+
+  @media (max-width: 960px) {
+    .route a span { display: none; }
+    .route a { padding: 8px 9px; }
+    .route__sep { width: clamp(10px, 2vw, 22px); }
+  }
+  @media (max-width: 640px) {
+    .route-head { gap: 14px; }
+    .telegram span { display: none; }
+    .logo__word { display: none; }
+  }
+  @media (max-width: 440px) {
+    .route { display: none; }
+    .route-head { grid-template-columns: 1fr auto; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">01 · Меню · v4 — Шапка-маршрут</div>
+
+<header class="route-head">
+  <a class="logo" href="#top"><span class="logo__word">Яндекс&nbsp;<b>Лавка</b></span><span class="chip chip--active">Франшиза</span></a>
+  <nav class="route" aria-label="Основная навигация">
+    <a href="#formats"><b>01</b><span>Форматы</span></a>
+    <span class="route__sep" aria-hidden="true"></span>
+    <a href="#steps"><b>02</b><span>Как стать партнёром</span></a>
+    <span class="route__sep" aria-hidden="true"></span>
+    <a href="#faq"><b>03</b><span>Вопросы</span></a>
+  </nav>
+  <div class="head-actions">
+    <a class="telegram" href="https://t.me/yandex_lavka_franchise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="m21 4-3 16-6-5-4 3 1-5 8-6-10 5-4-2 18-6Z"/></svg><span>Telegram</span></a>
+    <a class="btn btn--blue" href="#form">Стать партнёром</a>
+  </div>
+  <span class="progress" data-progress aria-hidden="true"></span>
+</header>
+
+<main>
+  <section class="demo demo--intro" id="top">
+    <div class="demo__inner">
+      <h1 class="t-hero">Шапка ведёт по&nbsp;странице как маршрут</h1>
+      <p class="t-sub">Номера секций подсвечиваются по&nbsp;мере скролла, прогресс-линия показывает, сколько осталось до&nbsp;заявки</p>
+    </div>
+  </section>
+  <section class="demo demo--a" id="formats">
+    <div class="demo__inner">
+      <span class="demo__num chip chip--navy">01</span>
+      <h2 class="t-h1">Форматы</h2>
+      <p class="t-body">Демо-секция: здесь встанет блок «Предложения» с&nbsp;тремя сегментами партнёрства</p>
+    </div>
+  </section>
+  <section class="demo demo--b" id="steps">
+    <div class="demo__inner">
+      <span class="demo__num chip chip--navy">02</span>
+      <h2 class="t-h1">Как стать партнёром</h2>
+      <p class="t-body">Демо-секция: здесь встанет блок с&nbsp;пятью шагами — от&nbsp;заявки до&nbsp;запуска</p>
+    </div>
+  </section>
+  <section class="demo demo--c" id="faq">
+    <div class="demo__inner">
+      <span class="demo__num chip chip--navy">03</span>
+      <h2 class="t-h1">Вопросы</h2>
+      <p class="t-body">Демо-секция: здесь встанет Q&amp;A-аккордеон и&nbsp;форма заявки</p>
+    </div>
+  </section>
+  <div class="legal-row"><p class="t-legal">Прототип · данные — заглушка (рыба)</p></div>
+</main>
+
+<script>
+  (function () {
+    const bar = document.querySelector('[data-progress]');
+    const links = [...document.querySelectorAll('.route a')];
+    if (bar) {
+      const onScroll = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.width = (max > 0 ? Math.min(scrollY / max, 1) * 100 : 0) + '%';
+      };
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll, { passive: true });
+      onScroll();
+    }
+    if (links.length && 'IntersectionObserver' in window) {
+      const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          links.forEach(a => a.removeAttribute('aria-current'));
+          const link = map.get(e.target.id);
+          if (link) link.setAttribute('aria-current', 'true');
+        });
+      }, { rootMargin: '-40% 0px -55%' });
+      map.forEach((_, id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+    }
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

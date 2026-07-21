@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 3/6&nbsp;— Тёмная лента</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { background: var(--navy); color: var(--text-on-dark); padding-block: clamp(30px, 4vw, 52px); }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .n { display: flex; align-items: baseline; gap: 14px; padding-inline: clamp(18px, 2.6vw, 40px); }
+  .n:first-child { padding-left: 0; }
+  .n + .n { border-left: 1px solid rgba(170, 217, 252, .22); }
+  .n b { font-weight: 900; font-size: clamp(38px, 4vw, 64px); line-height: .9; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .n span { font-weight: 500; font-size: clamp(13px, 1.1vw, 16px); line-height: 1.2; color: var(--text-dim-dark); max-width: 140px; }
+  .n .chip { align-self: center; background: var(--orange); color: #fff; font-size: 11px; }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 760px) {
+    .row { grid-template-columns: 1fr; gap: 18px; }
+    .n { padding-inline: 0; }
+    .n + .n { border-left: 0; border-top: 1px solid rgba(170, 217, 252, .22); padding-top: 18px; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 3/6&nbsp;— Тёмная лента</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="row reveal">
+        <div class="n"><b data-count="14">0</b><span>городов запущено по&nbsp;франшизе</span></div>
+        <div class="n"><b data-count="25">0</b><span>городов в&nbsp;работе</span></div>
+        <div class="n"><b data-count="9">0</b><span>партнёров ищем</span><span class="chip">набор открыт</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

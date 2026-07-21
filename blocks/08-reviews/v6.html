@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v6 — Кинетические цитаты</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--navy); }
+  .scene { --n: 5; height: calc(var(--n) * 85vh + 15vh); }
+  .stage { position: sticky; top: 0; height: min(100svh, 900px); min-height: 560px; display: grid; grid-template-rows: auto 1fr auto; padding-block: clamp(24px, 4vh, 48px); color: var(--text-on-dark); overflow: hidden; }
+  .stage__head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+  .stage__head .t-label { color: var(--text-dim-dark); }
+  .counter { font-weight: 900; font-size: clamp(20px, 2vw, 28px); color: var(--blue); font-variant-numeric: tabular-nums; }
+  .counter span { color: var(--text-dim-dark); font-weight: 500; }
+  .ghost { position: absolute; right: -2%; bottom: -6%; z-index: 0; font-weight: 900; font-size: calc(var(--fs-mega) * 1.6); line-height: .8; letter-spacing: -.04em; color: rgba(170,217,252,.07); pointer-events: none; user-select: none; transition: opacity var(--dur-med) var(--ease-out); }
+  .slides { position: relative; z-index: 1; display: grid; align-items: center; }
+  .slide { grid-area: 1 / 1; max-width: 1020px; opacity: 0; transform: translateY(42px); transition: opacity var(--dur-med) var(--ease-out), transform var(--dur-med) var(--ease-out); pointer-events: none; }
+  .slide.is-active { opacity: 1; transform: none; pointer-events: auto; }
+  .slide__quote { font-weight: 900; font-size: clamp(28px, 4.2vw, 64px); line-height: .98; letter-spacing: -.01em; }
+  .slide__quote em { font-style: normal; color: var(--blue); }
+  .slide__person { display: flex; align-items: center; gap: 14px; margin-top: clamp(22px, 3.5vh, 40px); }
+  .slide__avatar { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--sky); color: var(--navy); font-weight: 800; }
+  .slide__meta { color: var(--text-dim-dark); margin-top: 4px; }
+  .stage__foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .dots { display: flex; gap: 10px; }
+  .dot { width: 12px; height: 12px; padding: 0; border-radius: var(--r-pill); background: rgba(170,217,252,.3); transition: width var(--dur-fast) var(--ease-out), background var(--dur-fast); }
+  .dot.is-active { width: 38px; background: var(--blue); }
+  .dot:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .hint { color: var(--text-dim-dark); display: flex; align-items: center; gap: 8px; }
+  .hint svg { width: 16px; height: 16px; animation: nudge 1.6s infinite var(--ease-out); }
+  @keyframes nudge { 0%, 100% { transform: none; } 50% { transform: translateY(5px); } }
+  .legal { position: absolute; right: var(--container-pad); bottom: 10px; color: var(--text-dim-dark); }
+  @media (prefers-reduced-motion: reduce) { .hint svg { animation: none; } .scene { height: auto; } .stage { position: static; height: auto; } .slides { gap: 48px; } .slide { grid-area: auto; opacity: 1; transform: none; pointer-events: auto; } .ghost, .dots, .hint { display: none; } }
+  /* Embed-режим (iframe сборки): sticky-сцена в iframe с автовысотой не работает — статичный поток, как при reduced-motion */
+  html.is-embed .scene { height: auto; }
+  html.is-embed .stage { position: static; height: auto; }
+  html.is-embed .slides { gap: 48px; }
+  html.is-embed .slide { grid-area: auto; opacity: 1; transform: none; pointer-events: auto; }
+  html.is-embed .ghost, html.is-embed .dots, html.is-embed .hint { display: none; }
+  @media (max-width: 700px) { .slide__quote { font-size: clamp(26px, 7.4vw, 34px); } .ghost { font-size: 56vw; bottom: 6%; } .hint span { display: none; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v6 — Кинетические цитаты</div>
+<section class="scene" id="scene">
+  <div class="stage container">
+    <header class="stage__head">
+      <span class="t-label">Отзывы франчайзи</span>
+      <p class="counter" aria-hidden="true"><b data-idx>01</b><span> / 05</span></p>
+    </header>
+    <div class="ghost" data-ghost aria-hidden="true">01</div>
+    <div class="slides" aria-live="polite">
+      <article class="slide is-active">
+        <h2 class="slide__quote">«Запустили первый даркстор <em>за&nbsp;три месяца</em> — оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия»</h2>
+        <div class="slide__person"><span class="slide__avatar" aria-hidden="true">ИС</span><div><p class="t-sub">Игорь Соколов</p><p class="slide__meta t-small">Казань · 4&nbsp;даркстора</p></div></div>
+      </article>
+      <article class="slide">
+        <h2 class="slide__quote">«IT работает как ещё один <em>сильный член команды</em>: автозаказ, сборка и&nbsp;расписания — в&nbsp;одной системе»</h2>
+        <div class="slide__person"><span class="slide__avatar" style="background:var(--peach)" aria-hidden="true">АМ</span><div><p class="t-sub">Анна Морозова</p><p class="slide__meta t-small">Тюмень · 6&nbsp;дарксторов</p></div></div>
+      </article>
+      <article class="slide">
+        <h2 class="slide__quote">«Геоаналитика убрала споры о&nbsp;локациях. Выбираем точки <em>по&nbsp;потенциалу спроса</em>»</h2>
+        <div class="slide__person"><span class="slide__avatar" style="background:var(--lavender)" aria-hidden="true">РЛ</span><div><p class="t-sub">Роман Лебедев</p><p class="slide__meta t-small">Пермь · 3&nbsp;даркстора</p></div></div>
+      </article>
+      <article class="slide">
+        <h2 class="slide__quote">«Поддержка не&nbsp;заканчивается после открытия. Еженедельно разбираем <em>метрики и&nbsp;точки роста</em>»</h2>
+        <div class="slide__person"><span class="slide__avatar" style="background:var(--pink)" aria-hidden="true">ЕИ</span><div><p class="t-sub">Елена Ильина</p><p class="slide__meta t-small">Челябинск · 5&nbsp;дарксторов</p></div></div>
+      </article>
+      <article class="slide">
+        <h2 class="slide__quote">«Сильный бренд даёт <em>спрос с&nbsp;первого дня</em>, но&nbsp;результат зависит от&nbsp;нашей операционки»</h2>
+        <div class="slide__person"><span class="slide__avatar" style="background:var(--warm-gray)" aria-hidden="true">МО</span><div><p class="t-sub">Максим Орлов</p><p class="slide__meta t-small">Воронеж · 7&nbsp;дарксторов</p></div></div>
+      </article>
+    </div>
+    <footer class="stage__foot">
+      <div class="dots" role="tablist" aria-label="Перейти к отзыву"></div>
+      <p class="hint t-small"><span>листайте</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16m0 0 6-6m-6 6-6-6"/></svg></p>
+    </footer>
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+<script>
+  (function () {
+    var scene = document.getElementById('scene'); if (!scene) return;
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED) document.documentElement.classList.add('is-embed');
+    var slides = Array.prototype.slice.call(scene.querySelectorAll('.slide'));
+    var dotsWrap = scene.querySelector('.dots'); var ghost = scene.querySelector('[data-ghost]'); var counter = scene.querySelector('[data-idx]');
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || EMBED || !slides.length) return;
+    slides.forEach(function (_, i) {
+      var d = document.createElement('button'); d.type = 'button'; d.className = 'dot' + (i ? '' : ' is-active');
+      d.setAttribute('aria-label', 'Отзыв ' + (i + 1) + ' из ' + slides.length);
+      d.addEventListener('click', function () {
+        var per = (scene.offsetHeight - stageH()) / slides.length;
+        window.scrollTo({ top: scene.offsetTop + per * (i + .5), behavior: 'smooth' });
+      });
+      dotsWrap.appendChild(d);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+    function stageH() { var s = scene.querySelector('.stage'); return s ? s.offsetHeight : window.innerHeight; }
+    var current = 0;
+    function setActive(i) {
+      if (i === current && slides[i].classList.contains('is-active')) return;
+      current = i;
+      slides.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+      dots.forEach(function (d, k) { d.classList.toggle('is-active', k === i); });
+      var num = (i + 1 < 10 ? '0' : '') + (i + 1);
+      if (ghost) ghost.textContent = num;
+      if (counter) counter.textContent = num;
+    }
+    function onScroll() {
+      var span = scene.offsetHeight - stageH(); if (span <= 0) return;
+      var t = (window.scrollY - scene.offsetTop) / span;
+      var i = Math.max(0, Math.min(slides.length - 1, Math.floor(t * slides.length)));
+      setActive(i);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

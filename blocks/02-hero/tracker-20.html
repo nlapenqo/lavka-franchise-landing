@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 20/20&nbsp;— Штаб запуска</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+  .top { position: absolute; inset: 0 0 auto; z-index: 20; padding-block: 22px; } .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); } .logo__mark { width: 26px; height: 26px; flex: none; } .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); } .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); } .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; } .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; } .link-how svg { transition: transform var(--dur-fast) var(--ease-out); } .link-how:hover svg { transform: translateY(3px); }
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+  html.is-embed .hero { min-height: 0; } html.is-embed .top { display: none; } html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); } html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; } html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 24px !important; padding-bottom: 24px; } html.is-solo .stage { justify-self: center !important; }
+
+  .stage { position: relative; max-width: 450px; width: 100%; min-height: 560px; justify-self: end; padding: 28px; overflow: hidden; border-radius: var(--r-card); background: var(--peach); }
+  .stage::before, .stage::after { content: ""; position: absolute; border-radius: 50%; background: var(--pink); opacity: .35; } .stage::before { width: 130px; height: 130px; left: -55px; top: 150px; } .stage::after { width: 180px; height: 180px; right: -90px; bottom: -70px; background: var(--blue); opacity: .18; }
+  .head { position: relative; z-index: 7; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+  .kicker { font-size: 12px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--text-dim); } .title { max-width: 285px; margin-top: 7px; font-weight: 900; font-size: 30px; line-height: .92; color: var(--navy); letter-spacing: -.01em; }
+  .days { flex: none; padding: 8px 12px; border-radius: var(--r-pill); background: var(--navy); color: var(--bg); font-size: 13px; font-weight: 800; transform: rotate(3deg); }
+  .board { position: relative; z-index: 3; height: 355px; margin-top: 17px; }
+  .plan { position: absolute; z-index: 2; left: 50%; top: 62px; width: 218px; height: 234px; margin-left: -109px; padding: 21px; border-radius: 8px; background: var(--bg); box-shadow: 0 18px 38px color-mix(in srgb, var(--navy) 16%, transparent); transform: rotate(-2deg); }
+  .plan::before { content: ""; position: absolute; left: 50%; top: -9px; width: 70px; height: 22px; transform: translateX(-50%) rotate(2deg); background: var(--sky); opacity: .78; }
+  .plan-kicker { font-family: var(--font-cond); font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .08em; }
+  .plan b { display: block; margin-top: 10px; font-weight: 900; font-size: 24px; line-height: .92; color: var(--navy); }
+  .door { position: relative; width: 96px; height: 95px; margin: 18px auto 0; border: 3px solid var(--navy); border-bottom: 8px solid var(--navy); }
+  .door::before { content: ""; position: absolute; left: 9px; right: 9px; top: 12px; height: 19px; border-radius: 4px; background: var(--blue); } .door::after { content: ""; position: absolute; right: 10px; top: 58px; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+  .plan-progress { height: 6px; margin-top: 12px; border-radius: var(--r-pill); background: var(--bg-card); overflow: hidden; } .plan-progress i { display: block; width: calc(var(--p) * 100%); height: 100%; background: var(--blue); border-radius: inherit; }
+  .crew { position: absolute; z-index: 4; display: flex; align-items: center; gap: 8px; width: 150px; padding: 10px 11px; border-radius: 14px; background: var(--bg); color: var(--navy); box-shadow: var(--shadow-card); opacity: .12; transition: opacity .35s, transform .55s var(--ease-spring); }
+  .crew svg { width: 31px; height: 31px; flex: none; padding: 5px; border-radius: 9px; background: var(--sky); color: var(--navy); } .crew b { display: block; font-size: 12px; line-height: 1; } .crew span { display: block; margin-top: 3px; font-size: 9px; color: var(--text-dim); }
+  .crew[data-i="0"] { left: -8px; top: 1px; transform: translate(-95px,-45px) rotate(-7deg); } .crew[data-i="1"] { right: -4px; top: 13px; transform: translate(90px,-40px) rotate(7deg); } .crew[data-i="2"] { left: -5px; top: 142px; transform: translate(-105px,10px) rotate(5deg); } .crew[data-i="3"] { right: -8px; top: 159px; transform: translate(105px,0) rotate(-5deg); } .crew[data-i="4"] { left: 50%; bottom: 0; margin-left: -75px; transform: translate(0,90px) rotate(3deg); }
+  .crew.is-on { opacity: 1; } .crew.is-on[data-i="0"] { transform: rotate(-7deg); } .crew.is-on[data-i="1"] { transform: rotate(7deg); } .crew.is-on[data-i="2"] { transform: rotate(5deg); } .crew.is-on[data-i="3"] { transform: rotate(-5deg); } .crew.is-on[data-i="4"] { transform: rotate(3deg); }
+  .connector { position: absolute; z-index: 1; height: 2px; background: var(--navy); opacity: .22; transform-origin: left center; } .connector:nth-of-type(1) { left: 115px; top: 62px; width: 86px; transform: rotate(25deg); } .connector:nth-of-type(2) { left: 234px; top: 76px; width: 79px; transform: rotate(-25deg); } .connector:nth-of-type(3) { left: 114px; top: 192px; width: 74px; transform: rotate(-6deg); } .connector:nth-of-type(4) { left: 251px; top: 202px; width: 70px; transform: rotate(8deg); } .connector:nth-of-type(5) { left: 194px; top: 286px; width: 70px; transform: rotate(72deg); }
+  .verdict { position: relative; z-index: 6; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; padding: 12px 15px; border-radius: var(--r-card-sm); background: var(--navy); color: var(--bg); transform: rotate(-1deg); } .verdict span { font-size: 12px; color: var(--text-dim-dark); } .verdict b { font-size: 15px; font-weight: 900; color: var(--sky); }
+  .stage__note { position: relative; z-index: 6; margin-top: 10px; text-align: right; color: var(--text-dim); }
+
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) { .top { padding-block: 16px; } .logo { font-size: 15px; gap: 6px; } .logo__mark { width: 20px; height: 20px; } .logo .chip { font-size: 10px; padding: .4em .7em; } .btn--sm { font-size: 12px; padding: .5em .9em; } .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; } html.is-embed .hero__in { padding-top: 120px; } .hero__sub { margin-top: 18px; } .hero__cta { margin-top: 26px; } .stage { justify-self: center; max-width: 410px; min-height: 540px; padding: 22px; } .board { transform: scale(.93); transform-origin: top center; height: 340px; } .hero__legal { bottom: 14px; } }
+</style>
+</head>
+<body>
+<section class="hero" id="top"><header class="top"><div class="container top__in"><a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза"><span>Яндекс</span><svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="var(--blue)"/><path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="var(--bg)"/></svg><span>Лавка</span><span class="chip chip--active logo__chip">Франшиза</span></a><a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a></div></header>
+  <div class="container hero__in"><div class="hero__copy"><h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1><p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p><div class="hero__cta reveal reveal-d2"><a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a><a class="link-how" href="#how">Как это работает<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg></a></div></div>
+    <div class="stage reveal reveal-d3" id="stage" aria-hidden="true"><div class="head"><div><div class="kicker">Личный штаб партнёра</div><div class="title">Рядом люди, которые уже запускали Лавку</div></div><span class="days" id="days">≈120&nbsp;дней</span></div>
+      <div class="board"><i class="connector"></i><i class="connector"></i><i class="connector"></i><i class="connector"></i><i class="connector"></i>
+        <div class="plan"><div class="plan-kicker">проект · ваш город</div><b>Открытие Лавки</b><div class="door"></div><div class="plan-progress"><i></i></div></div>
+        <div class="crew" data-i="0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V8l8-5 8 5v11M8 19v-6h8v6"/></svg><div><b>Геоаналитик</b><span>подберёт локацию</span></div></div>
+        <div class="crew" data-i="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20h14M7 20V9l5-5 5 5v11M9 12h6"/></svg><div><b>Менеджер запуска</b><span>соберёт план</span></div></div>
+        <div class="crew" data-i="2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c.5-4 2.5-6 6-6s5.5 2 6 6M16 8h5M16 12h4"/></svg><div><b>Тренер</b><span>обучит команду</span></div></div>
+        <div class="crew" data-i="3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><div><b>IT-команда</b><span>подключит системы</span></div></div>
+        <div class="crew" data-i="4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 14 2-8 8-2 6 6-8 8-8-4Z"/><circle cx="10" cy="9" r="1"/></svg><div><b>Маркетинг</b><span>приведёт клиентов</span></div></div>
+      </div><div class="verdict"><span>специалистов подключено</span><b id="crewCount">0 из&nbsp;5</b></div><div class="stage__note t-legal">состав команды&nbsp;— иллюстрация</div>
+    </div>
+  </div><div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div></section>
+<div class="proto-tag">02 · Hero · трекер 20/20&nbsp;— Штаб запуска</div>
+<script src="../_shared/proto.js" defer></script><script>
+  (function () { var SOLO = /[?&]solo=1/.test(location.search); if (SOLO) document.documentElement.classList.add('is-solo'); var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search); if (EMBED || SOLO) document.documentElement.classList.add('is-embed'); var CYCLE = 14000, ARRIVE = .9, DAYS = 120;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    var stage = document.getElementById('stage'), crew = [].slice.call(document.querySelectorAll('.crew')), days = document.getElementById('days'), countEl = document.getElementById('crewCount');
+    function render(t) { var p = Math.min(t / ARRIVE, 1), left = Math.round(DAYS * (1 - p)), count = Math.min(5, Math.floor(p * 6)); stage.style.setProperty('--p', p); days.innerHTML = '≈' + left + '&nbsp;' + dayWord(left); crew.forEach(function (el, i) { el.classList.toggle('is-on', i < count); }); countEl.innerHTML = count + '&nbsp;из&nbsp;5'; }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; } var t0 = performance.now(); (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script><script src="../_shared/preview-shell.js" defer></script></body></html>

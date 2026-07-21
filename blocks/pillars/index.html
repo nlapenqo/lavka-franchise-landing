@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пилоны · 3 имиджные карточки · 5 вариантов</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { background: #161616; color: #fff; overflow-x: clip; }
+  .wrap { max-width: 1400px; margin-inline: auto; padding: clamp(28px, 4vw, 72px) clamp(20px, 3.5vw, 56px) 140px; }
+
+  /* ---------- Шапка страницы ---------- */
+  .page-head h1 { font-weight: 900; font-size: clamp(28px, 3.4vw, 48px); letter-spacing: -.01em; line-height: .95; }
+  .page-head p { margin-top: 14px; max-width: 660px; color: rgba(255,255,255,.55); font-size: 15px; line-height: 1.45; }
+  .toc { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .toc a {
+    font-size: 13px; font-weight: 500; padding: .55em 1.1em; border-radius: var(--r-pill);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.24); color: rgba(255,255,255,.75);
+    transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur-fast);
+  }
+  .toc a:hover { background: #fff; color: #161616; box-shadow: none; }
+
+  .vhead { display: flex; align-items: baseline; gap: 18px; margin: clamp(56px, 7vw, 96px) 0 26px; }
+  .vhead__num { font-weight: 900; font-size: clamp(24px, 2.4vw, 34px); color: var(--blue); letter-spacing: -.01em; }
+  .vhead__title { font-weight: 800; font-size: clamp(20px, 2vw, 28px); letter-spacing: -.005em; }
+  .vhead__desc { margin-top: 6px; font-size: 14px; color: rgba(255,255,255,.5); max-width: 580px; line-height: 1.45; }
+
+  /* ---------- Пилон: фон и центрованный текст — как в референсе ---------- */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2.4vw, 44px); }
+  .pillar {
+    position: relative; overflow: hidden; isolation: isolate;
+    aspect-ratio: 1 / 1.9;
+    border-radius: 24px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: clamp(20px, 2.4vw, 36px);
+    background: linear-gradient(168deg, #1F4478 0%, #17335F 55%, #142C53 100%);
+    transition: transform .5s var(--ease-out);
+  }
+  .pillar::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(80% 55% at 22% -4%,  rgba(96,158,214,.50), transparent 62%),
+      radial-gradient(60% 42% at 88% 30%,  rgba(70,140,205,.42), transparent 60%),
+      radial-gradient(55% 40% at 8%  86%,  rgba(64,166,235,.50), transparent 58%),
+      radial-gradient(50% 36% at 86% 82%,  rgba(62,136,197,.34), transparent 60%);
+  }
+  .pillar:nth-child(2)::before { transform: scaleX(-1); }
+  .pillar:nth-child(3)::before { transform: scale(-1); }
+  .pillar > * { position: relative; z-index: 2; }
+  .pillar:hover { transform: translateY(-8px); }
+
+  .pillar__title {
+    font-weight: 800;
+    font-size: clamp(24px, 2.55vw, 41px);
+    line-height: 1.07; letter-spacing: -.01em;
+  }
+
+  /* ============ V1 · Пиктограммы в кольце ============ */
+  .icn-ring {
+    width: clamp(76px, 7vw, 100px); aspect-ratio: 1; border-radius: 50%;
+    display: grid; place-items: center; margin-bottom: clamp(18px, 2vw, 28px);
+    background: rgba(255,255,255,.09);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+  }
+  .icn { width: 46%; aspect-ratio: 1; color: #fff; }
+
+  /* ============ V2 · Призрачная нумерация ============ */
+  .ghost {
+    position: absolute; top: 20px; left: 26px; z-index: 1;
+    font-weight: 900; line-height: .8; letter-spacing: -.02em;
+    font-size: clamp(72px, 7.4vw, 118px);
+    color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.32);
+  }
+  .idx {
+    position: absolute; bottom: 26px; left: 0; right: 0; z-index: 1;
+    font-family: var(--font-cond); font-weight: 300; font-size: 13px;
+    letter-spacing: .16em; color: rgba(255,255,255,.55);
+  }
+
+  /* ============ V3 · Диджитал-орбиты ============ */
+  .orbits { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+  .orbit {
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+    aspect-ratio: 1; border: 1px solid rgba(255,255,255,.14); border-radius: 50%;
+  }
+  .orbit i { position: absolute; top: -5.5px; left: calc(50% - 5.5px); width: 11px; height: 11px; border-radius: 50%; }
+  .orbit--1 { width: 46%;  animation: spin 22s linear infinite; }
+  .orbit--2 { width: 78%;  animation: spin 38s linear infinite reverse; }
+  .orbit--3 { width: 112%; animation: spin 54s linear infinite; }
+  .orbit--1 i { background: var(--blue);     box-shadow: 0 0 18px 3px rgba(0,173,255,.75); }
+  .orbit--2 i { background: var(--lavender); box-shadow: 0 0 18px 3px rgba(191,168,255,.70); }
+  .orbit--3 i { background: var(--orange);   box-shadow: 0 0 18px 3px rgba(255,109,47,.70); }
+  .pillar:nth-child(2) .orbit { animation-delay: -9s; }
+  .pillar:nth-child(3) .orbit { animation-delay: -17s; }
+  @keyframes spin { to { rotate: 1turn; } }
+
+  /* ============ V4 · Карточки-ссылки ============ */
+  .tag {
+    position: absolute; top: 22px; left: 22px; z-index: 2;
+    font-weight: 500; font-size: 13px; letter-spacing: .02em;
+    padding: .55em 1.15em; border-radius: var(--r-pill);
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.38); color: #fff;
+  }
+  .go {
+    position: absolute; right: 22px; bottom: 22px; z-index: 2;
+    width: 54px; aspect-ratio: 1; border-radius: 50%;
+    display: grid; place-items: center; color: #fff;
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.38);
+    transition: background var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast), transform var(--dur-fast) var(--ease-out);
+  }
+  .pillar:hover .go { background: var(--blue); box-shadow: 0 8px 24px rgba(0,173,255,.4); transform: rotate(-45deg); }
+  .pm { position: absolute; z-index: 2; font-weight: 300; font-size: 22px; line-height: 1; color: rgba(255,255,255,.38); }
+  .pm--tr { top: 18px; right: 24px; }
+  .pm--bl { bottom: 18px; left: 24px; }
+
+  /* ============ V5 · Стикеры ============ */
+  .sticker {
+    display: inline-block;
+    font-weight: 700; font-size: clamp(14px, 1.25vw, 18px); letter-spacing: -.005em;
+    padding: .6em 1.15em; border-radius: 14px;
+    margin-bottom: clamp(16px, 1.8vw, 24px);
+    box-shadow: 0 12px 28px rgba(10,20,40,.35);
+    transition: rotate var(--dur-fast) var(--ease-spring);
+  }
+  .sticker--sky    { background: var(--sky);    color: var(--navy); rotate: -6deg; }
+  .sticker--orange { background: var(--orange); color: #fff;        rotate: 4deg; }
+  .sticker--pink   { background: var(--pink);   color: var(--navy); rotate: -4deg; }
+  .pillar:hover .sticker { rotate: 0deg; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 820px) {
+    .pillars { grid-template-columns: 1fr; }
+    .pillar { aspect-ratio: 3 / 4; }
+    .vhead { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page-head">
+    <h1>Три имиджных пилона<br>5 вариантов графики</h1>
+    <p>Фон-градиент и центрованный текст сохранены как в референсе. Ниже — пять способов добавить
+       графический слой: от строгих пиктограмм до смелых стикеров. У карточек есть hover — наводите курсор.</p>
+    <nav class="toc">
+      <a href="#v1">V1 · Пиктограммы</a>
+      <a href="#v2">V2 · Нумерация</a>
+      <a href="#v3">V3 · Орбиты</a>
+      <a href="#v4">V4 · Карточки-ссылки</a>
+      <a href="#v5">V5 · Стикеры</a>
+    </nav>
+  </header>
+
+  <!-- ============ V1 ============ -->
+  <header class="vhead" id="v1">
+    <span class="vhead__num">V1</span>
+    <div>
+      <h2 class="vhead__title">Пиктограммы в кольце</h2>
+      <p class="vhead__desc">Линейные иконки в полупрозрачном кольце над текстом. Самый строгий
+         и универсальный вариант — не спорит с фоном и легко масштабируется на любое число карточек.</p>
+    </div>
+  </header>
+  <div class="pillars">
+    <article class="pillar">
+      <span class="icn-ring">
+        <svg class="icn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="13" y="13" width="22" height="22" rx="5"/>
+          <rect x="20.5" y="20.5" width="7" height="7" rx="1.5"/>
+          <path d="M18 13V7M24 13V7M30 13V7M18 41v-6M24 41v-6M30 41v-6M13 18H7M13 24H7M13 30H7M41 18h-6M41 24h-6M41 30h-6"/>
+        </svg>
+      </span>
+      <h3 class="pillar__title">Умные<br>технологии</h3>
+    </article>
+    <article class="pillar">
+      <span class="icn-ring">
+        <svg class="icn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18.5" cy="24" r="10.5"/>
+          <circle cx="29.5" cy="24" r="10.5"/>
+        </svg>
+      </span>
+      <h3 class="pillar__title">Сильные<br>партнёры</h3>
+    </article>
+    <article class="pillar">
+      <span class="icn-ring">
+        <svg class="icn" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 41c7.6-8 11.5-14 11.5-18.9C35.5 15 30.4 9.5 24 9.5S12.5 15 12.5 22.1C12.5 27 16.4 33 24 41z"/>
+          <circle cx="24" cy="22" r="4.5"/>
+        </svg>
+      </span>
+      <h3 class="pillar__title">Новые<br>регионы</h3>
+    </article>
+  </div>
+
+  <!-- ============ V2 ============ -->
+  <header class="vhead" id="v2">
+    <span class="vhead__num">V2</span>
+    <div>
+      <h2 class="vhead__title">Призрачная нумерация</h2>
+      <p class="vhead__desc">Контурные цифры 01–03 в углу задают редакционный ритм, внизу — счётчик.
+         Подходит, если карточки читаются как последовательность тезисов «почему Лавка».</p>
+    </div>
+  </header>
+  <div class="pillars">
+    <article class="pillar">
+      <span class="ghost">01</span>
+      <h3 class="pillar__title">Умные<br>технологии</h3>
+      <span class="idx">01 / 03</span>
+    </article>
+    <article class="pillar">
+      <span class="ghost">02</span>
+      <h3 class="pillar__title">Сильные<br>партнёры</h3>
+      <span class="idx">02 / 03</span>
+    </article>
+    <article class="pillar">
+      <span class="ghost">03</span>
+      <h3 class="pillar__title">Новые<br>регионы</h3>
+      <span class="idx">03 / 03</span>
+    </article>
+  </div>
+
+  <!-- ============ V3 ============ -->
+  <header class="vhead" id="v3">
+    <span class="vhead__num">V3</span>
+    <div>
+      <h2 class="vhead__title">Диджитал-орбиты</h2>
+      <p class="vhead__desc">Кольца с медленно летящими светящимися точками в акцентных цветах —
+         приём «диджитал-орбит» из брендбука. Самый «живой» вариант, анимация чистым CSS.</p>
+    </div>
+  </header>
+  <div class="pillars">
+    <article class="pillar">
+      <span class="orbits">
+        <span class="orbit orbit--1"><i></i></span>
+        <span class="orbit orbit--2"><i></i></span>
+        <span class="orbit orbit--3"><i></i></span>
+      </span>
+      <h3 class="pillar__title">Умные<br>технологии</h3>
+    </article>
+    <article class="pillar">
+      <span class="orbits">
+        <span class="orbit orbit--1"><i></i></span>
+        <span class="orbit orbit--2"><i></i></span>
+        <span class="orbit orbit--3"><i></i></span>
+      </span>
+      <h3 class="pillar__title">Сильные<br>партнёры</h3>
+    </article>
+    <article class="pillar">
+      <span class="orbits">
+        <span class="orbit orbit--1"><i></i></span>
+        <span class="orbit orbit--2"><i></i></span>
+        <span class="orbit orbit--3"><i></i></span>
+      </span>
+      <h3 class="pillar__title">Новые<br>регионы</h3>
+    </article>
+  </div>
+
+  <!-- ============ V4 ============ -->
+  <header class="vhead" id="v4">
+    <span class="vhead__num">V4</span>
+    <div>
+      <h2 class="vhead__title">Карточки-ссылки</h2>
+      <p class="vhead__desc">Чип-категория сверху, круглая стрелка снизу, плюс-маркеры по углам —
+         карточки читаются как кликабельные разделы. На hover стрелка окрашивается и поворачивается.</p>
+    </div>
+  </header>
+  <div class="pillars">
+    <article class="pillar">
+      <span class="tag">Технологии</span>
+      <span class="pm pm--tr">+</span>
+      <h3 class="pillar__title">Умные<br>технологии</h3>
+      <span class="pm pm--bl">+</span>
+      <span class="go">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </article>
+    <article class="pillar">
+      <span class="tag">Партнёрство</span>
+      <span class="pm pm--tr">+</span>
+      <h3 class="pillar__title">Сильные<br>партнёры</h3>
+      <span class="pm pm--bl">+</span>
+      <span class="go">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </article>
+    <article class="pillar">
+      <span class="tag">География</span>
+      <span class="pm pm--tr">+</span>
+      <h3 class="pillar__title">Новые<br>регионы</h3>
+      <span class="pm pm--bl">+</span>
+      <span class="go">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </span>
+    </article>
+  </div>
+
+  <!-- ============ V5 ============ -->
+  <header class="vhead" id="v5">
+    <span class="vhead__num">V5</span>
+    <div>
+      <h2 class="vhead__title">Стикеры</h2>
+      <p class="vhead__desc">Повёрнутые плашки в акцентных цветах палитры — смелый drinkit-приём,
+         добавляет цвета в синюю линейку. На hover стикер выпрямляется. Тексты на плашках — плейсхолдеры.</p>
+    </div>
+  </header>
+  <div class="pillars">
+    <article class="pillar">
+      <div>
+        <span class="sticker sticker--sky">данные + ML</span>
+        <h3 class="pillar__title">Умные<br>технологии</h3>
+      </div>
+    </article>
+    <article class="pillar">
+      <div>
+        <span class="sticker sticker--orange">вместе сильнее</span>
+        <h3 class="pillar__title">Сильные<br>партнёры</h3>
+      </div>
+    </article>
+    <article class="pillar">
+      <div>
+        <span class="sticker sticker--pink">вся страна</span>
+        <h3 class="pillar__title">Новые<br>регионы</h3>
+      </div>
+    </article>
+  </div>
+
+</div>
+<div class="proto-tag">элемент · пилоны ×3 · 5 вариантов · 17.07</div>
+</body>
+</html>

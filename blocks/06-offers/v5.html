@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 · Предложения · v5 — Калькулятор капитала</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--navy); color: var(--text-on-dark); }
+
+  .calc-sec {
+    background:
+      radial-gradient(rgba(255,255,255,.07) 1.2px, transparent 1.3px),
+      radial-gradient(120% 90% at 85% -10%, rgba(62,136,197,.35) 0%, rgba(62,136,197,0) 60%),
+      var(--navy);
+    background-size: 28px 28px, 100% 100%, 100% 100%;
+  }
+
+  /* ---------- Сплит ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+    gap: clamp(32px, 5vw, 88px);
+    align-items: center;
+  }
+
+  /* ---------- Левая колонка: слайдер ---------- */
+  .ctrl__eyebrow { color: var(--text-dim-dark); margin-bottom: 18px; }
+  .ctrl h1 { max-width: 12ch; }
+  .ctrl__sub { margin-top: 18px; max-width: 400px; color: var(--text-dim-dark); }
+
+  .readout { margin-top: clamp(28px, 4vw, 48px); display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .readout__num {
+    font-weight: 900; font-size: clamp(64px, 9vw, 136px);
+    line-height: .9; letter-spacing: -.01em;
+    font-variant-numeric: tabular-nums;
+    color: var(--blue);
+  }
+  .readout__unit { font-weight: 700; font-size: clamp(20px, 2vw, 30px); color: var(--text-dim-dark); }
+
+  .slider-wrap { margin-top: clamp(22px, 3vw, 36px); }
+  .slider {
+    -webkit-appearance: none; appearance: none;
+    display: block; width: 100%; height: 8px;
+    border-radius: var(--r-pill);
+    background: rgba(255,255,255,.16);
+    outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #fff; border: 7px solid var(--blue);
+    box-shadow: 0 6px 20px rgba(0,173,255,.45);
+    cursor: grab;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .slider::-webkit-slider-thumb:hover { transform: scale(1.12); }
+  .slider::-moz-range-thumb {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #fff; border: 7px solid var(--blue);
+    box-shadow: 0 6px 20px rgba(0,173,255,.45);
+    cursor: grab;
+  }
+  .slider:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; }
+
+  .slider-caps { display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px; color: var(--text-dim-dark); }
+
+  /* Быстрый выбор */
+  .quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(20px, 2.6vw, 30px); }
+  .quick .chip { background: rgba(255,255,255,.10); color: var(--text-on-dark); transition: background var(--dur-fast), color var(--dur-fast); }
+  .quick .chip:hover { background: rgba(255,255,255,.2); }
+  .quick .chip.chip--active { background: var(--blue); }
+  .quick .chip:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  /* ---------- Правая колонка: карточка формата ---------- */
+  .deal { position: relative; }
+  .deal__card {
+    background: #fff; color: var(--navy);
+    box-shadow: 0 28px 80px rgba(0,0,0,.35);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .deal__card.is-swap { transform: scale(.985); }
+  .deal__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .deal__cities { color: var(--text-dim); min-height: 2.6em; }
+
+  .deal__grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px 14px;
+    margin-block: 22px; padding-top: 20px;
+    border-top: 1px solid rgba(27,58,106,.09);
+  }
+  .param dt { margin-bottom: 6px; }
+  .p-val {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px; position: relative;
+    font-weight: 800; font-size: clamp(19px, 1.55vw, 24px); line-height: 1.05;
+  }
+  .unit { font-weight: 600; font-size: .62em; color: var(--text-dim); }
+
+  .deal__desc { color: var(--text-dim); margin-bottom: 22px; }
+  .deal__cta { width: 100%; }
+
+  /* ---------- Тултип роялти ---------- */
+  .info {
+    flex: none; align-self: center;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    color: var(--mid-blue);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .info svg { width: 18px; height: 18px; }
+  .info:hover { color: var(--blue); }
+  .info:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  .tip {
+    position: absolute; right: 0; bottom: calc(100% + 12px); z-index: 6;
+    width: min(250px, 74vw);
+    background: var(--navy); color: #fff;
+    font-weight: 400; font-size: 13px; line-height: 1.45;
+    padding: 12px 14px; border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(27,58,106,.28);
+    opacity: 0; transform: translateY(6px); pointer-events: none;
+    transition: opacity .25s var(--ease-out), transform .25s var(--ease-out);
+  }
+  .info:hover + .tip, .info:focus-visible + .tip, .info.is-open + .tip {
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+
+  .legal { margin-top: var(--space-6); text-align: center; color: var(--text-on-dark); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .deal__card, .slider::-webkit-slider-thumb, .quick .chip { transition: none; }
+  }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; gap: 36px; }
+    .readout__num { font-size: clamp(58px, 17vw, 96px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">06 · Предложения · v5 — Калькулятор капитала</div>
+
+<section class="section calc-sec">
+  <div class="container">
+    <div class="split">
+
+      <!-- Слайдер капитала -->
+      <div class="ctrl reveal">
+        <p class="ctrl__eyebrow t-label">Форматы партнёрства</p>
+        <h1 class="t-h1">Сколько готовы инвестировать?</h1>
+        <p class="ctrl__sub t-sub">Двигайте ползунок — покажем формат под&nbsp;ваш капитал</p>
+
+        <div class="readout" aria-hidden="true">
+          <span class="readout__num" id="readNum">300</span>
+          <span class="readout__unit">млн&nbsp;₽</span>
+        </div>
+
+        <div class="slider-wrap">
+          <input class="slider" id="capital" type="range" min="75" max="600" step="5" value="300"
+                 aria-label="Объём инвестиций, миллионов рублей">
+          <div class="slider-caps" aria-hidden="true"><span>75&nbsp;млн&nbsp;₽</span><span>600&nbsp;млн&nbsp;₽</span></div>
+        </div>
+
+        <div class="quick" role="group" aria-label="Быстрый выбор формата">
+          <button class="chip" type="button" data-value="110">Крупный город</button>
+          <button class="chip chip--active" type="button" data-value="350">Миллионник</button>
+          <button class="chip" type="button" data-value="500">Готовый бизнес</button>
+        </div>
+      </div>
+
+      <!-- Карточка подобранного формата -->
+      <aside class="deal reveal reveal-d1">
+        <article class="deal__card card" aria-live="polite">
+          <div class="deal__chips" id="dealChips">
+            <span class="chip chip--navy">Новый город</span><span class="chip">Миллионники</span>
+          </div>
+          <p class="deal__cities t-small" id="dealCities">Самара · Уфа · Саратов</p>
+
+          <dl class="deal__grid">
+            <div class="param">
+              <dt class="t-label">Инвестиции</dt>
+              <dd class="p-val" id="dealInvest"><span>250–450</span><span class="unit">млн&nbsp;₽</span></dd>
+            </div>
+            <div class="param">
+              <dt class="t-label">Окупаемость</dt>
+              <dd class="p-val" id="dealPayback"><span>от&nbsp;3&nbsp;лет</span></dd>
+            </div>
+            <div class="param">
+              <dt class="t-label">Паушальный взнос</dt>
+              <dd class="p-val"><span>1&nbsp;млн&nbsp;₽</span><span class="unit">/&nbsp;даркстор</span></dd>
+            </div>
+            <div class="param">
+              <dt class="t-label">Роялти</dt>
+              <dd class="p-val">
+                <span>0–7%</span>
+                <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-r">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+                </button>
+                <span class="tip" role="tooltip" id="tip-r">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+              </dd>
+            </div>
+          </dl>
+
+          <p class="deal__desc t-small" id="dealDesc">Запуск сервиса с нуля в городе-миллионнике</p>
+
+          <a class="btn btn--blue deal__cta" href="#lead">
+            Стать партнёром
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </article>
+      </aside>
+
+    </div>
+
+    <p class="legal t-legal">Прототип · данные — заглушка (рыба), суммы и города не финальные · не является публичной офертой</p>
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var slider = document.getElementById('capital');
+    var readNum = document.getElementById('readNum');
+    var card = document.querySelector('.deal__card');
+    var chipsEl = document.getElementById('dealChips');
+    var citiesEl = document.getElementById('dealCities');
+    var investEl = document.getElementById('dealInvest');
+    var paybackEl = document.getElementById('dealPayback');
+    var descEl = document.getElementById('dealDesc');
+    var quick = Array.prototype.slice.call(document.querySelectorAll('.quick .chip'));
+    if (!slider || !card) return;
+
+    var SEGS = {
+      large: {
+        chips: '<span class="chip chip--navy">Новый город</span><span class="chip">Крупные города</span>',
+        cities: 'Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров',
+        invest: '<span>75–150</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 3 лет</span>',
+        desc: 'Запуск сервиса с нуля в крупном городе'
+      },
+      million: {
+        chips: '<span class="chip chip--navy">Новый город</span><span class="chip">Миллионники</span>',
+        cities: 'Самара · Уфа · Саратов',
+        invest: '<span>250–450</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 3 лет</span>',
+        desc: 'Запуск сервиса с нуля в городе-миллионнике'
+      },
+      ready: {
+        chips: '<span class="chip chip--navy">Готовый бизнес</span>',
+        cities: 'Казань · Челябинск · Тюмень · Воронеж · Пермь',
+        invest: '<span>400–600</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 2,5 лет</span>',
+        desc: 'Передача в совместное партнёрство действующей сети дарксторов'
+      }
+    };
+    var QUICK_SEG = ['large', 'million', 'ready'];
+    var currentSeg = null;
+    var swapTimer = null;
+
+    function segFor(v) { return v < 200 ? 'large' : v < 400 ? 'million' : 'ready'; }
+
+    function paintTrack(v) {
+      var p = ((v - 75) / (600 - 75)) * 100;
+      slider.style.background = 'linear-gradient(90deg, var(--blue) ' + p + '%, rgba(255,255,255,.16) ' + p + '%)';
+    }
+
+    function apply(v) {
+      readNum.textContent = v;
+      slider.setAttribute('aria-valuetext', v + ' миллионов рублей');
+      paintTrack(v);
+
+      var key = segFor(v);
+      quick.forEach(function (b, i) { b.classList.toggle('chip--active', QUICK_SEG[i] === key); });
+      if (key === currentSeg) return;
+      currentSeg = key;
+
+      var s = SEGS[key];
+      card.classList.add('is-swap');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function () { card.classList.remove('is-swap'); }, 220);
+      chipsEl.innerHTML = s.chips;
+      citiesEl.textContent = s.cities;
+      investEl.innerHTML = s.invest;
+      paybackEl.innerHTML = s.payback;
+      descEl.textContent = s.desc;
+    }
+
+    slider.addEventListener('input', function () { apply(Number(slider.value)); });
+    quick.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        slider.value = btn.dataset.value;
+        apply(Number(btn.dataset.value));
+      });
+    });
+
+    apply(Number(slider.value));
+  })();
+
+  /* Тултип роялти: тап/клик для тач-устройств (hover/focus — в CSS) */
+  document.querySelectorAll('.info').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.info.is-open').forEach(function (b) { if (b !== btn) b.classList.remove('is-open'); });
+      btn.classList.toggle('is-open');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.info.is-open').forEach(function (b) { b.classList.remove('is-open'); });
+  });
+</script>
+
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

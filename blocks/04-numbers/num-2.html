@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 2/6&nbsp;— Плашки с иконками</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .band .t-label { display: block; margin-bottom: 18px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile { display: flex; align-items: center; gap: 16px; padding: 20px 24px; border-radius: var(--r-card-sm); background: var(--bg-card); }
+  .tile--sky { background: var(--sky); }
+  .tile--navy { background: var(--navy); }
+  .tile__ico { width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--navy); }
+  .tile__ico svg { width: 22px; height: 22px; }
+  .tile__txt b { display: block; font-weight: 900; font-size: clamp(30px, 2.8vw, 42px); line-height: 1; letter-spacing: -.01em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .tile__txt span { display: block; margin-top: 4px; font-weight: 500; font-size: 13px; line-height: 1.2; color: var(--text-dim); }
+  .tile--sky .tile__txt span { color: var(--navy); opacity: .72; }
+  .tile--navy .tile__txt b { color: #fff; }
+  .tile--navy .tile__txt span { color: var(--text-dim-dark); }
+  .tile__flag { margin-left: auto; align-self: flex-start; background: var(--orange); color: #fff; font-size: 11px; }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 900px) { .tiles { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 2/6&nbsp;— Плашки с иконками</div>
+
+  <section class="band">
+    <div class="container">
+      <span class="t-label reveal">Масштаб сети</span>
+      <div class="tiles">
+        <div class="tile reveal"><span class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 20V9l6-4 6 4v11"/><path d="M9.5 20v-5h5v5"/><path d="M9.5 11h5"/></svg></span><span class="tile__txt"><b data-count="14">0</b><span>городов запущено по&nbsp;франшизе</span></span></div>
+        <div class="tile tile--sky reveal reveal-d1"><span class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9.5"/><path d="M9 3h6"/><path d="M12 5V3"/></svg></span><span class="tile__txt"><b data-count="25">0</b><span>городов в&nbsp;работе</span></span></div>
+        <div class="tile tile--navy reveal reveal-d2"><span class="tile__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-5 5.5-5s4.9 2 5.5 5"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.6c2.3.3 4 2 4.5 4.4"/></svg></span><span class="tile__txt"><b data-count="9">0</b><span>партнёров ищем сейчас</span></span><span class="chip tile__flag">набор открыт</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

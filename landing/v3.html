@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лендинг франшизы · Сборка v3 — светлый типографический</title>
+<link rel="stylesheet" href="../blocks/_shared/tokens.css">
+<link rel="stylesheet" href="../blocks/_shared/base.css">
+<style>
+  body { background: var(--bg); overflow-x: clip; }
+  .landing-stack { display: flex; flex-direction: column; }
+  .landing-stack iframe {
+    display: block;
+    width: 100%;
+    height: 100vh; /* стартовая высота до первого замера; JS подгонит */
+    border: 0;
+  }
+  /* Панель состава сборки */
+  .build-tag {
+    position: fixed; right: 16px; bottom: 16px; z-index: 999;
+    max-width: min(86vw, 720px);
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px; letter-spacing: .02em;
+    line-height: 1.4;
+    background: rgba(27,58,106,.85); color: #fff;
+    padding: 8px 14px; border-radius: 16px;
+    backdrop-filter: blur(4px);
+    opacity: .8;
+  }
+  .build-tag b { font-weight: 300; color: var(--sky); }
+  .build-legal {
+    position: fixed; left: 16px; bottom: 16px; z-index: 999;
+    background: rgba(255,255,255,.85); padding: 6px 12px; border-radius: var(--r-pill);
+    backdrop-filter: blur(4px);
+  }
+  @media (max-width: 640px) {
+    .build-legal { display: none; }
+    .build-tag { right: 10px; bottom: 10px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="landing-stack" id="stack" aria-label="Собранный лендинг из блоков-прототипов"></main>
+
+<div class="build-tag" id="buildTag"><b>Сборка v3 · светлый типографический</b> · </div>
+<p class="t-legal build-legal">Прототип-сборка · данные — заглушка (рыба) · не является публичной офертой</p>
+
+<script>
+  /* Состав сборки: порядок вайрфрейма v11 */
+  const BLOCKS = [
+    ['01-nav', 'v4'],
+    ['02-hero', 'v5'],
+    ['03-event', 'v5'],
+    ['04-numbers', 'v7'],
+    ['05-business', 'v7'],
+    ['05-1-darkstore', 'v6'],
+    ['06-offers', 'v7'],
+    ['07-steps', 'v5'],
+    ['08-reviews', 'v7'],
+    ['09-media', 'v4'],
+    ['10-faq', 'v6'],
+    ['11-form', 'v5'],
+    ['12-footer', 'v6'],
+  ];
+
+  /* Автовысота same-origin iframe: замер на load, через ResizeObserver
+     внутри документа блока и на resize окна. */
+  function autoHeight(iframe, dir) {
+    let grows = 0; /* защита от петли: vh-контент растёт вслед за высотой iframe */
+    const fit = () => {
+      try {
+        const doc = iframe.contentWindow && iframe.contentWindow.document;
+        if (!doc || !doc.body) return;
+        const h = Math.ceil(doc.body.scrollHeight);
+        if (h < 40 || Math.abs(h - iframe.offsetHeight) <= 2) return;
+        grows = h > iframe.offsetHeight ? grows + 1 : 0;
+        if (grows > 6) return; /* высота растёт без остановки — замораживаем */
+        iframe.style.height = h + 'px';
+      } catch (_) { /* блок ещё не готов */ }
+    };
+    iframe.addEventListener('load', () => {
+      /* Меню демонстрирует sticky на собственном демо-контенте —
+         в сборке он не нужен, вырезаем (same-origin позволяет). */
+      try {
+        const d = iframe.contentWindow.document;
+        /* подпись версии есть в общей панели сборки — в блоках она шумит */
+        d.querySelectorAll('.proto-tag').forEach(el => el.remove());
+        if (dir === '01-nav') d.querySelectorAll('.demo, .hero-demo').forEach(el => el.remove());
+      } catch (_) {}
+      fit();
+      try {
+        const doc = iframe.contentWindow.document;
+        const ro = new ResizeObserver(fit);
+        ro.observe(doc.documentElement);
+        if (doc.body) ro.observe(doc.body);
+      } catch (_) {}
+      /* страховка: поздняя загрузка шрифтов меняет высоту */
+      setTimeout(fit, 400); setTimeout(fit, 1200);
+    });
+    addEventListener('resize', fit, { passive: true });
+  }
+
+  const stack = document.getElementById('stack');
+  BLOCKS.forEach(([dir, ver], i) => {
+    const f = document.createElement('iframe');
+    f.src = `../blocks/${dir}/${ver}.html?embed=1`;
+    if (i > 2) f.loading = 'lazy'; /* первые блоки грузим сразу, ниже — лениво */
+    f.title = `Блок ${dir} · ${ver}`;
+    autoHeight(f, dir);
+    stack.append(f);
+  });
+
+  document.getElementById('buildTag').append(
+    BLOCKS.map(([dir, ver]) => `${dir.split('-')[0] === '05' && dir.includes('darkstore') ? '05.1' : dir.split('-')[0]}·${ver}`).join(' · ')
+  );
+</script>
+</body>
+</html>

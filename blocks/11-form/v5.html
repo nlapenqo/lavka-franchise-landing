@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 · Заявка · v5 — Гигантский бланк</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .apply__head { margin-bottom: clamp(36px, 5vw, 64px); }
+  .apply__head .t-label { display: block; margin-bottom: 16px; }
+  .madlib { max-width: 1100px; font-weight: 900; font-size: clamp(27px, 4.4vw, 62px); line-height: 1.22; letter-spacing: -.01em; }
+  .blank { display: inline-block; max-width: 100%; vertical-align: baseline; border: 0; border-bottom: 4px solid var(--sky); border-radius: 0; background: transparent; color: var(--blue); font: inherit; padding: 0 .08em .04em; outline: none; transition: border-color var(--dur-fast); }
+  .blank::placeholder { color: var(--text-dim); opacity: .35; }
+  .blank:focus { border-color: var(--blue); }
+  .madlib__seg { border: 0; margin-top: clamp(24px, 3vw, 40px); }
+  .madlib__seg legend { margin-bottom: 12px; color: var(--text-dim); font-size: 13px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; }
+  .madlib__seg .row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .madlib__seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .madlib__seg label { cursor: pointer; }
+  .madlib__seg input:checked + .chip { background: var(--navy); color: var(--text-on-dark); }
+  .madlib__seg input:focus-visible + .chip { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .consent { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; max-width: 560px; margin-top: clamp(26px, 3.4vw, 42px); color: var(--text-dim); font-size: 13px; line-height: 1.35; cursor: pointer; }
+  .consent input { width: 20px; height: 20px; accent-color: var(--blue); }
+  .consent a { text-decoration: underline; text-underline-offset: 2px; }
+  .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: 26px; }
+  .actions[hidden] { display: none; }
+  .actions .sla { max-width: 230px; color: var(--text-dim); }
+  .success { display: none; align-items: center; gap: 16px; margin-top: 30px; padding: 24px 28px; max-width: 640px; border-radius: var(--r-card-sm); background: var(--sky); }
+  .success.is-visible { display: flex; }
+  .success svg { flex: none; width: 30px; color: var(--navy); }
+  .legal { text-align: center; padding: 24px var(--container-pad) 36px; }
+  @media (max-width: 560px) {
+    .actions .btn { width: 100%; }
+    .actions .sla { max-width: none; text-align: center; width: 100%; }
+    .success { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">11 · Заявка · v5 — Гигантский бланк</div>
+
+<section class="section apply">
+  <div class="container">
+    <header class="apply__head reveal">
+      <span class="t-label">Заявка</span>
+      <h1 class="t-h1">Допишите одно предложение</h1>
+    </header>
+
+    <form data-form novalidate>
+      <p class="madlib reveal reveal-d1">Привет! Меня зовут
+        <label><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Имя</span><input class="blank" data-fit type="text" name="name" autocomplete="name" placeholder="имя" required></label>.
+        Хочу запустить Лавку в&nbsp;городе
+        <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Город</span><input class="blank" data-fit type="text" name="city" autocomplete="address-level2" placeholder="город" required></label>.
+        Напишите мне:
+        <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Телефон или почта</span><input class="blank" data-fit type="text" name="contact" autocomplete="tel" placeholder="телефон или почта" required></label>
+      </p>
+
+      <fieldset class="madlib__seg reveal reveal-d2">
+        <legend>Интересующий формат</legend>
+        <div class="row">
+          <label><input type="radio" name="segment" value="Готовый бизнес" checked><span class="chip">Готовый бизнес</span></label>
+          <label><input type="radio" name="segment" value="Миллионник"><span class="chip">Миллионник</span></label>
+          <label><input type="radio" name="segment" value="Крупный город"><span class="chip">Крупный город</span></label>
+          <label><input type="radio" name="segment" value="Другой"><span class="chip">Другой</span></label>
+        </div>
+      </fieldset>
+
+      <label class="consent reveal reveal-d2"><input type="checkbox" name="consent" required><span>Согласен на&nbsp;обработку персональных данных и&nbsp;принимаю <a href="#">политику конфиденциальности</a></span></label>
+
+      <div class="actions reveal reveal-d3">
+        <button class="btn btn--blue" type="submit">Стать партнёром</button>
+        <p class="sla t-small">Свяжемся в&nbsp;течение 2&nbsp;рабочих дней</p>
+      </div>
+      <p class="success t-sub" role="status"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17l6 6L26 8"/></svg><span>Спасибо! Предложение дописано — скоро свяжемся</span></p>
+    </form>
+  </div>
+</section>
+
+<p class="t-legal legal">Прототип · данные — заглушка (рыба) · отправка формы не&nbsp;подключена</p>
+<script>
+  (function () {
+    const form = document.querySelector('[data-form]');
+    if (!form) return;
+    const fit = (input) => {
+      const len = Math.max(input.value.length, input.placeholder.length);
+      input.style.width = Math.min(len + 1.5, 26) + 'ch';
+    };
+    form.querySelectorAll('[data-fit]').forEach((input) => {
+      fit(input);
+      input.addEventListener('input', () => fit(input));
+    });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      form.querySelector('.actions').hidden = true;
+      form.querySelector('.success').classList.add('is-visible');
+    });
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

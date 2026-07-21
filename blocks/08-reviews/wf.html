@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); margin-bottom: clamp(32px, 4vw, 56px); }
+  .arrow { width: 56px; height: 56px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--navy); color: var(--text-on-dark); transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast); }
+  .arrow:hover { transform: scale(1.06); background: var(--blue); }
+  .arrow:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .arrow svg { width: 24px; height: 24px; }
+  .rail { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; }
+  .rail::-webkit-scrollbar { display: none; }
+  .review { flex: 0 0 calc((100% - 40px) / 3); scroll-snap-align: start; display: flex; flex-direction: column; gap: 18px; }
+  .review__avatar { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 50%; background: var(--sky); color: var(--navy); font-weight: 800; font-size: 18px; }
+  .review__meta { color: var(--text-dim); margin-top: 4px; }
+  .review__quote { margin-top: auto; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.3; }
+  .legal { margin-top: var(--space-4); text-align: center; }
+  @media (max-width: 900px) { .review { flex-basis: calc((100% - 20px) / 2); } }
+  @media (max-width: 560px) { .review { flex-basis: 86%; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · wf — По вайрфрейму</div>
+<section class="section"><div class="container">
+  <header class="head reveal">
+    <h2 class="t-h2">Отзывы франчайзи</h2>
+    <button class="arrow" type="button" data-next aria-label="Следующие отзывы"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m0 0-6-6m6 6-6 6"/></svg></button>
+  </header>
+  <div class="rail reveal reveal-d1" data-rail role="region" aria-roledescription="карусель" aria-label="Отзывы франчайзи" tabindex="0">
+    <article class="review card">
+      <span class="review__avatar" aria-hidden="true">ИС</span>
+      <div><h3 class="t-h3">Игорь Соколов</h3><p class="review__meta t-small">Казань · 4&nbsp;даркстора</p></div>
+      <blockquote class="review__quote">«Запустили первый даркстор за&nbsp;три месяца — оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия»</blockquote>
+    </article>
+    <article class="review card">
+      <span class="review__avatar" aria-hidden="true">АМ</span>
+      <div><h3 class="t-h3">Анна Морозова</h3><p class="review__meta t-small">Тюмень · 6&nbsp;дарксторов</p></div>
+      <blockquote class="review__quote">«Технологии Яндекса снимают с&nbsp;нас рутину. Команда фокусируется на&nbsp;сервисе и&nbsp;операционке»</blockquote>
+    </article>
+    <article class="review card">
+      <span class="review__avatar" aria-hidden="true">РЛ</span>
+      <div><h3 class="t-h3">Роман Лебедев</h3><p class="review__meta t-small">Пермь · 3&nbsp;даркстора</p></div>
+      <blockquote class="review__quote">«Геоаналитика помогла выбрать локации без догадок. Каждое решение опирается на&nbsp;данные»</blockquote>
+    </article>
+    <article class="review card">
+      <span class="review__avatar" aria-hidden="true">ЕИ</span>
+      <div><h3 class="t-h3">Елена Ильина</h3><p class="review__meta t-small">Челябинск · 5&nbsp;дарксторов</p></div>
+      <blockquote class="review__quote">«Поддержка не&nbsp;заканчивается после открытия. Еженедельно разбираем метрики и&nbsp;точки роста»</blockquote>
+    </article>
+    <article class="review card">
+      <span class="review__avatar" aria-hidden="true">МО</span>
+      <div><h3 class="t-h3">Максим Орлов</h3><p class="review__meta t-small">Воронеж · 7&nbsp;дарксторов</p></div>
+      <blockquote class="review__quote">«Сильный бренд сразу даёт спрос, а&nbsp;прозрачные метрики помогают управлять сетью»</blockquote>
+    </article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script>
+  (function () {
+    var rail = document.querySelector('[data-rail]'); var next = document.querySelector('[data-next]');
+    if (!rail || !next) return;
+    next.addEventListener('click', function () {
+      var card = rail.querySelector('.review'); if (!card) return;
+      var behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      var step = card.offsetWidth + 20;
+      var atEnd = rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - step / 2;
+      if (atEnd) rail.scrollTo({ left: 0, behavior: behavior });
+      else rail.scrollBy({ left: step, behavior: behavior });
+    });
+  })();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · Как устроен бизнес · v7 — Гигантский аккордеон</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{ overflow-x: clip; background: var(--bg); }
+
+  .head{
+    display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4);
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+  .head p{ max-width: 34ch; color: var(--text-dim); text-align: right; }
+
+  /* ---------- гигантские строки ---------- */
+  .rows{ border-top: 2px solid var(--bg-card); }
+  .row{
+    border-bottom: 2px solid var(--bg-card);
+    border-radius: 0;
+    transition: background var(--dur-med) var(--ease-out), border-radius var(--dur-med) var(--ease-out);
+  }
+  .row--1.is-open, .row--1:hover{ background: var(--sky); }
+  .row--2.is-open, .row--2:hover{ background: var(--peach); }
+  .row--3.is-open, .row--3:hover{ background: var(--lavender); }
+  .row.is-open{ border-radius: var(--r-card); border-color: transparent; }
+  .row.is-open + .row{ border-top: 2px solid var(--bg-card); }
+
+  .row__head{
+    width: 100%;
+    display: grid; grid-template-columns: auto minmax(0,1fr) auto;
+    gap: clamp(14px, 2.5vw, 32px); align-items: baseline;
+    padding: clamp(20px, 3vw, 36px) clamp(16px, 2.5vw, 36px);
+    text-align: left;
+  }
+  .row__num{
+    font-weight: 500; font-size: clamp(14px, 1.3vw, 18px);
+    color: var(--text-dim); font-variant-numeric: tabular-nums;
+  }
+  .row.is-open .row__num{ color: var(--navy); opacity: .55; }
+  .row__title{
+    font-weight: 900;
+    font-size: clamp(38px, 6.4vw, 92px);
+    line-height: .92; letter-spacing: -.01em;
+    transition: transform var(--dur-med) var(--ease-out);
+  }
+  .row:hover .row__title{ transform: translateX(clamp(6px, 1vw, 16px)); }
+  .row__arrow{
+    width: clamp(40px, 3.6vw, 56px); height: clamp(40px, 3.6vw, 56px);
+    border-radius: 50%; flex: none; align-self: center;
+    display: grid; place-items: center;
+    background: var(--bg-card); color: var(--navy);
+    transition: transform var(--dur-med) var(--ease-out), background var(--dur-fast);
+  }
+  .row.is-open .row__arrow{ transform: rotate(45deg); background: var(--navy); color: #fff; }
+  .row__arrow svg{ width: 45%; height: 45%; }
+
+  .row__panel{
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-med) var(--ease-out);
+  }
+  .row.is-open .row__panel{ grid-template-rows: 1fr; }
+  .row__inner{ overflow: hidden; min-height: 0; }
+  .row__content{
+    display: flex; flex-direction: column; gap: 18px; align-items: flex-start;
+    padding: 0 clamp(16px, 2.5vw, 36px) clamp(24px, 3.5vw, 44px);
+    max-width: 760px;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity var(--dur-med) var(--ease-out) .15s, transform var(--dur-med) var(--ease-out) .15s;
+  }
+  .row.is-open .row__content{ opacity: 1; transform: none; }
+  .row__content p{ color: var(--navy); opacity: .8; font-size: var(--fs-sub); font-weight: 400; line-height: 1.25; }
+  .row__chips{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .row__chips .chip{ background: rgba(255,255,255,.7); color: var(--navy); }
+
+  .legal{ margin-top: var(--space-5); text-align: center; }
+  a:focus-visible, button:focus-visible{ outline: 3px solid var(--orange); outline-offset: -3px; }
+
+  @media (max-width: 640px){
+    .head{ flex-direction: column; align-items: flex-start; }
+    .head p{ text-align: left; }
+    .row__head{ grid-template-columns: minmax(0,1fr) auto; }
+    .row__num{ display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">05 · Как устроен бизнес · v7 — Гигантский аккордеон</div>
+
+<section class="section" aria-label="Как устроен бизнес">
+  <div class="container">
+
+    <header class="head reveal">
+      <div>
+        <span class="chip chip--outline">Как устроен бизнес</span>
+        <h1 class="t-h2" style="margin-top:16px">Три роли одной модели</h1>
+      </div>
+      <p class="t-body">Дарксторы с&nbsp;доставкой за&nbsp;10–15&nbsp;минут. Раскройте каждую строку&nbsp;— кто и&nbsp;за&nbsp;что отвечает</p>
+    </header>
+
+    <div class="rows reveal">
+
+      <article class="row row--1 is-open">
+        <h2>
+          <button class="row__head" type="button" aria-expanded="true" aria-controls="panel1" id="head1">
+            <span class="row__num">01</span>
+            <span class="row__title">Лавка продаёт</span>
+            <span class="row__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+        </h2>
+        <div class="row__panel" id="panel1" role="region" aria-labelledby="head1">
+          <div class="row__inner">
+            <div class="row__content">
+              <p>Клиенты заказывают через Лавку, Маркет, Еду, Go и&nbsp;Деливери&nbsp;— трафик приходит из&nbsp;всей экосистемы Яндекса в&nbsp;дарксторы вашего города.</p>
+              <div class="row__chips"><span class="chip">Лавка</span><span class="chip">Маркет</span><span class="chip">Еда</span><span class="chip">Go</span><span class="chip">Деливери</span></div>
+              <a class="btn btn--navy" href="#lead">Стать партнёром</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="row row--2">
+        <h2>
+          <button class="row__head" type="button" aria-expanded="false" aria-controls="panel2" id="head2">
+            <span class="row__num">02</span>
+            <span class="row__title">Вы управляете</span>
+            <span class="row__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+        </h2>
+        <div class="row__panel" id="panel2" role="region" aria-labelledby="head2">
+          <div class="row__inner">
+            <div class="row__content">
+              <p>Поиск и&nbsp;ремонт помещений, найм и&nbsp;управление персоналом&nbsp;— включая курьеров и&nbsp;сборщиков. Операционное управление бизнесом&nbsp;— на&nbsp;вашей стороне.</p>
+              <div class="row__chips"><span class="chip">Помещения и&nbsp;ремонт</span><span class="chip">Найм</span><span class="chip">Курьеры и&nbsp;сборщики</span><span class="chip">Операционка</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="row row--3">
+        <h2>
+          <button class="row__head" type="button" aria-expanded="false" aria-controls="panel3" id="head3">
+            <span class="row__num">03</span>
+            <span class="row__title">Яндекс снабжает</span>
+            <span class="row__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </button>
+        </h2>
+        <div class="row__panel" id="panel3" role="region" aria-labelledby="head3">
+          <div class="row__inner">
+            <div class="row__content">
+              <p>Поставщики, ассортимент и&nbsp;логистика «средней мили». IT-инфраструктура&nbsp;— WMS, автозаказ, WFM, приложения и&nbsp;отчётность&nbsp;— и&nbsp;полная маркетинговая поддержка.</p>
+              <div class="row__chips"><span class="chip">Поставщики</span><span class="chip">Средняя миля</span><span class="chip">WMS и&nbsp;автозаказ</span><span class="chip">Маркетинг</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const rows = [...document.querySelectorAll('.row')];
+  rows.forEach(row => {
+    const head = row.querySelector('.row__head');
+    if (!head) return;
+    head.addEventListener('click', () => {
+      const open = row.classList.contains('is-open');
+      rows.forEach(r => {
+        r.classList.toggle('is-open', r === row && !open);
+        const h = r.querySelector('.row__head');
+        if (h) h.setAttribute('aria-expanded', String(r.classList.contains('is-open')));
+      });
+    });
+  });
+})();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

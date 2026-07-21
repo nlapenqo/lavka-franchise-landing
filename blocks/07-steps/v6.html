@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · v6 — Диалог с Лавкой</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+
+  .sec-head { text-align: center; margin-bottom: clamp(32px, 4vw, 52px); }
+  .sec-head__sub { margin-top: 16px; margin-inline: auto; max-width: 420px; color: var(--text-dim); }
+
+  /* ---------- Окно чата ---------- */
+  .chat {
+    max-width: 640px; margin-inline: auto;
+    background: #fff; border-radius: var(--r-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+  .chat__bar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 24px;
+    background: var(--navy); color: var(--text-on-dark);
+  }
+  .chat__ava {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: grid; place-items: center;
+  }
+  .chat__ava svg { width: 24px; height: 24px; }
+  .chat__who { line-height: 1.15; }
+  .chat__name { font-weight: 700; font-size: 16px; }
+  .chat__status { display: flex; align-items: center; gap: 7px; margin-top: 3px; font-size: 13px; color: var(--text-dim-dark); }
+  .chat__status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+
+  .chat__feed { display: flex; flex-direction: column; gap: 6px; padding: clamp(20px, 3vw, 32px); }
+
+  .step-tag {
+    align-self: center;
+    margin: 14px 0 8px;
+    font-weight: 500; font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-dim);
+    background: var(--bg-light); border-radius: var(--r-pill);
+    padding: 6px 14px;
+  }
+  .step-tag:first-child { margin-top: 0; }
+
+  .msg {
+    max-width: 82%;
+    padding: 13px 17px; border-radius: 20px;
+    font-size: clamp(14px, 1.1vw, 16px); line-height: 1.35;
+  }
+  .msg--in  { align-self: flex-start; background: var(--bg-card); border-bottom-left-radius: 6px; }
+  .msg--out { align-self: flex-end;   background: var(--blue); color: #fff; border-bottom-right-radius: 6px; }
+  .msg--win { background: var(--navy); color: #fff; }
+  .msg--win strong { color: var(--sky); }
+
+  /* Сообщение-документ */
+  .doc { display: flex; align-items: center; gap: 13px; }
+  .doc__icon {
+    flex: none; width: 40px; height: 40px; border-radius: 12px;
+    background: #fff; color: var(--navy);
+    display: grid; place-items: center;
+  }
+  .msg--in .doc__icon { background: #fff; }
+  .doc__icon svg { width: 21px; height: 21px; }
+  .doc__name { font-weight: 700; }
+  .doc__meta { font-size: 12px; opacity: .65; margin-top: 2px; }
+
+  /* Строка ответа-CTA */
+  .chat__reply {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px clamp(20px, 3vw, 32px) 22px;
+    border-top: 1px solid rgba(27,58,106,.08);
+  }
+  .chat__fake {
+    flex: 1; min-width: 0;
+    padding: 14px 20px; border-radius: var(--r-pill);
+    background: var(--bg-light); color: var(--text-dim);
+    font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .chat__send { flex: none; padding: .9em 1.7em; }
+
+  .legal { text-align: center; margin-top: var(--space-4); }
+
+  @media (max-width: 560px) {
+    .msg { max-width: 92%; }
+    .chat__fake { display: none; }
+    .chat__reply { justify-content: center; }
+    .chat__send { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">07 · Как стать партнёром · v6 — Диалог с Лавкой</div>
+
+<section class="section" id="partner-steps">
+  <div class="container">
+
+    <header class="sec-head reveal">
+      <h1 class="t-h1">Как стать партнёром</h1>
+      <p class="sec-head__sub t-sub">Пять шагов — один диалог с командой франшизы</p>
+    </header>
+
+    <div class="chat reveal reveal-d1">
+
+      <div class="chat__bar">
+        <span class="chat__ava" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.6-9.2-9A5.2 5.2 0 0 1 12 6.6 5.2 5.2 0 0 1 21.2 12C19 16.4 12 21 12 21Z"/></svg>
+        </span>
+        <div class="chat__who">
+          <p class="chat__name">Команда франшизы Лавки</p>
+          <p class="chat__status">на связи</p>
+        </div>
+      </div>
+
+      <ol class="chat__feed" aria-label="Пять шагов до запуска в формате переписки">
+        <li class="step-tag reveal">Шаг 01 · Заявка</li>
+        <li class="msg msg--out reveal">Здравствуйте! Хочу запустить Лавку в&nbsp;своём городе. Есть капитал и&nbsp;опыт в&nbsp;ритейле</li>
+        <li class="msg msg--in reveal reveal-d1">Отлично, заявку получили! Изучим и&nbsp;вернёмся в&nbsp;течение пары дней</li>
+
+        <li class="step-tag reveal">Шаг 02 · Встреча и скоринг</li>
+        <li class="msg msg--in reveal">Приглашаем на встречу: обсудим город, формат и&nbsp;проведём скоринг — сверим цели и&nbsp;ресурсы</li>
+
+        <li class="step-tag reveal">Шаг 03 · Договор</li>
+        <li class="msg msg--in reveal">
+          <span class="doc">
+            <span class="doc__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6V3Z"/><path d="M9 10h6M9 14h6M9 18h4"/></svg>
+            </span>
+            <span>
+              <span class="doc__name">Договор партнёрства</span>
+              <span class="doc__meta">город закреплён за&nbsp;вами</span>
+            </span>
+          </span>
+        </li>
+        <li class="msg msg--out reveal reveal-d1">Подписано!</li>
+
+        <li class="step-tag reveal">Шаг 04 · Подготовка и обучение</li>
+        <li class="msg msg--in reveal">Начинаем: помещения, найм команды, обучение процессам Лавки. Наши эксперты рядом на&nbsp;каждом этапе</li>
+
+        <li class="step-tag reveal">Шаг 05 · Запуск</li>
+        <li class="msg msg--in msg--win reveal">Поздравляем с запуском! <strong>Первый заказ</strong> уже собирается — доставим за&nbsp;10–15&nbsp;минут</li>
+      </ol>
+
+      <div class="chat__reply">
+        <span class="chat__fake" aria-hidden="true">Напишите нам — начнём с заявки…</span>
+        <a class="btn btn--blue chat__send" href="#lead">
+          Стать партнёром
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

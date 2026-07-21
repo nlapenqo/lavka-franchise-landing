@@ -1,4 +1,8 @@
 (function () {
+  /* EMBED: блок открыт внутри iframe собранного лендинга (landing/) или с ?embed=1 —
+     превью-обвязку (соседи-скелетоны, кнопка «назад», menu-scroll) не создаём. */
+  const EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+
   const style = document.createElement('style');
   style.textContent = `
     .preview-neighbor {
@@ -194,22 +198,24 @@
   back.title = 'Назад к вариантам';
   back.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/><path d="M9 12h10"/></svg>';
 
-  const topNeighbor = createNeighbor('top');
-  document.body.prepend(topNeighbor);
-  document.body.append(createNeighbor('bottom'));
-  document.body.append(back);
+  if (!EMBED) {
+    const topNeighbor = createNeighbor('top');
+    document.body.prepend(topNeighbor);
+    document.body.append(createNeighbor('bottom'));
+    document.body.append(back);
 
-  if (document.title.startsWith('01 ·')) {
-    document.body.classList.add('preview-shell--menu');
-    const menuHead = document.querySelector('[data-head]');
-    const syncMenuPreview = () => {
-      const contextHeight = topNeighbor.offsetHeight;
-      const beforeMenu = scrollY < contextHeight - 20;
-      document.body.classList.toggle('preview-shell--before-menu', beforeMenu);
-      if (menuHead) menuHead.classList.toggle('is-solid', beforeMenu || scrollY > contextHeight + 90);
-    };
-    addEventListener('scroll', syncMenuPreview, { passive: true });
-    addEventListener('resize', syncMenuPreview, { passive: true });
-    syncMenuPreview();
+    if (document.title.startsWith('01 ·')) {
+      document.body.classList.add('preview-shell--menu');
+      const menuHead = document.querySelector('[data-head]');
+      const syncMenuPreview = () => {
+        const contextHeight = topNeighbor.offsetHeight;
+        const beforeMenu = scrollY < contextHeight - 20;
+        document.body.classList.toggle('preview-shell--before-menu', beforeMenu);
+        if (menuHead) menuHead.classList.toggle('is-solid', beforeMenu || scrollY > contextHeight + 90);
+      };
+      addEventListener('scroll', syncMenuPreview, { passive: true });
+      addEventListener('resize', syncMenuPreview, { passive: true });
+      syncMenuPreview();
+    }
   }
 })();

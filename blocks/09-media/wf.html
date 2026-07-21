@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .head { margin-bottom: clamp(32px, 4vw, 56px); }
+  .head__sub { margin-top: 16px; max-width: 460px; color: var(--text-dim); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .publication { display: flex; flex-direction: column; padding: clamp(20px, 2vw, 28px); }
+  .publication__plate { display: grid; place-items: center; min-height: 120px; border-radius: var(--r-card-sm); background: var(--sky); }
+  .publication__brand { font-weight: 900; font-size: clamp(24px, 2vw, 30px); letter-spacing: -.04em; }
+  .publication__title { margin-top: 18px; font-weight: 700; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.2; }
+  .publication__link { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 20px; font-weight: 500; color: var(--blue); }
+  .publication__link svg { width: 18px; height: 18px; transition: transform var(--dur-fast); }
+  .publication:hover .publication__link svg { transform: translate(3px, -3px); }
+  .legal { margin-top: var(--space-4); text-align: center; }
+  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · wf — По вайрфрейму</div>
+<section class="section"><div class="container">
+  <header class="head reveal">
+    <h2 class="t-h2">О нас говорят</h2>
+    <p class="head__sub t-sub">Сюжеты и&nbsp;публикации о&nbsp;франшизе Лавки</p>
+  </header>
+  <div class="grid">
+    <article class="publication card reveal">
+      <div class="publication__plate"><span class="publication__brand">РБК</span></div>
+      <h3 class="publication__title">Быстрая доставка выходит в&nbsp;новые города: как устроена модель партнёрства</h3>
+      <a class="publication__link" href="#publication-rbc">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="publication card reveal reveal-d1">
+      <div class="publication__plate" style="background:var(--bg-card)"><span class="publication__brand">Forbes</span></div>
+      <h3 class="publication__title">Технологии вместо догадок: почему ритейл считает спрос до&nbsp;открытия точки</h3>
+      <a class="publication__link" href="#publication-forbes">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="publication card reveal reveal-d2">
+      <div class="publication__plate"><span class="publication__brand">vc.ru</span></div>
+      <h3 class="publication__title">Из&nbsp;одного даркстора в&nbsp;сеть: разбор операционной модели франчайзи</h3>
+      <a class="publication__link" href="#publication-vc">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="publication card reveal reveal-d3">
+      <div class="publication__plate" style="background:var(--bg-card)"><span class="publication__brand">Коммерсантъ</span></div>
+      <h3 class="publication__title">Дарксторы становятся ближе: рынок экспресс-доставки в&nbsp;регионах</h3>
+      <a class="publication__link" href="#publication-kommersant">Читать<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

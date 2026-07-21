@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · Как устроен бизнес · v5 — Хронометраж заказа</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{ overflow-x: clip; background: var(--navy); color: var(--text-on-dark); }
+
+  .head{
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(280px,.6fr);
+    gap: var(--space-5); align-items: end;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+  .head p{ color: var(--text-dim-dark); max-width: 46ch; }
+  .chip--ghost{ background: rgba(170,217,252,.16); color: var(--sky); }
+
+  /* ---------- доска-хронометраж ---------- */
+  .board{
+    border: 1px solid rgba(170,217,252,.25);
+    border-radius: var(--r-card);
+    background: rgba(255,255,255,.04);
+    padding: clamp(18px, 2.6vw, 36px);
+  }
+  .axis{
+    display: flex; justify-content: space-between;
+    padding-left: var(--lane-label, 128px);
+    margin-bottom: 10px;
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px;
+    letter-spacing: .04em; color: var(--text-dim-dark);
+  }
+  .tracks{ position: relative; display: grid; gap: 14px; }
+  .playhead{
+    position: absolute; z-index: 3; top: -6px; bottom: -6px;
+    left: var(--lane-label, 128px); width: 2px;
+    background: var(--orange);
+    box-shadow: 0 0 14px 2px rgba(255,109,47,.55);
+    pointer-events: none;
+    animation: sweep 12s linear infinite;
+  }
+  @keyframes sweep{
+    from{ transform: translateX(0); }
+    to  { transform: translateX(var(--sweep, 900px)); }
+  }
+  .lane{
+    display: grid; grid-template-columns: var(--lane-label, 128px) minmax(0,1fr);
+    align-items: center;
+  }
+  .lane__name{
+    font-weight: 800; font-size: 15px; letter-spacing: .02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .lane__name i{ width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .lane--client .lane__name i{ background: #fff; }
+  .lane--ya .lane__name i{ background: var(--sky); }
+  .lane--fr .lane__name i{ background: var(--blue); }
+  .lane__track{
+    position: relative; height: 56px;
+    border-radius: 12px;
+    background-image: linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px);
+    background-size: 33.334% 100%;
+  }
+  .bar{
+    position: absolute; top: 7px; bottom: 7px;
+    left: var(--l); width: var(--w);
+    display: flex; align-items: center; gap: 8px;
+    padding: 0 10px;
+    border-radius: var(--r-pill);
+    font-weight: 500; font-size: 13px; line-height: 1.05;
+    white-space: nowrap; overflow: hidden;
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast);
+  }
+  .bar time{ font-family: var(--font-cond); font-weight: 300; font-size: 11px; opacity: .65; }
+  .bar:hover{ transform: translateY(-2px); }
+  .bar.is-active{ box-shadow: 0 0 0 3px var(--orange); }
+  .bar:focus-visible{ outline: 3px solid var(--orange); outline-offset: 2px; }
+  .bar--client{ background: #fff; color: var(--navy); }
+  .bar--ya{ background: var(--sky); color: var(--navy); }
+  .bar--fr{ background: var(--blue); color: #fff; }
+  .bar--back{
+    background: transparent; color: var(--sky);
+    box-shadow: inset 0 0 0 1.5px rgba(170,217,252,.55);
+  }
+  .bar--back.is-active{ box-shadow: inset 0 0 0 1.5px rgba(170,217,252,.55), 0 0 0 3px var(--orange); }
+
+  /* ---------- ридаут ---------- */
+  .readout{
+    display: grid; grid-template-columns: auto minmax(0,1fr) auto;
+    gap: 18px; align-items: center;
+    margin-top: clamp(18px, 2.6vw, 30px);
+    padding-top: clamp(18px, 2.6vw, 30px);
+    border-top: 1px solid rgba(170,217,252,.25);
+  }
+  .readout__time{
+    font-weight: 900; font-size: clamp(30px, 3.4vw, 52px);
+    line-height: .9; letter-spacing: -.01em;
+    color: var(--blue); font-variant-numeric: tabular-nums;
+    min-width: 3.4ch;
+  }
+  .readout h2{ font-weight: 800; font-size: clamp(19px, 1.8vw, 26px); line-height: 1.05; }
+  .readout p{ margin-top: 6px; color: var(--text-dim-dark); max-width: 68ch; }
+  .readout .chip{ justify-self: end; }
+
+  .cta-row{
+    display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap;
+    margin-top: clamp(32px, 5vw, 52px);
+  }
+  .cta-note{ color: var(--text-dim-dark); font-size: var(--fs-small); }
+  .legal{ margin-top: var(--space-4); text-align: center; color: var(--text-dim-dark); }
+  a:focus-visible, button:focus-visible{ outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce){
+    .playhead{ animation: none; opacity: 0; }
+  }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 900px){
+    .head{ grid-template-columns: 1fr; align-items: start; }
+  }
+  @media (max-width: 720px){
+    .axis, .playhead{ display: none; }
+    .tracks{ gap: 20px; }
+    .lane{ grid-template-columns: 1fr; gap: 8px; }
+    .lane__track{
+      height: auto; background: none;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .bar{
+      position: static; width: auto;
+      padding: 12px 14px; border-radius: 14px;
+      white-space: normal; justify-content: space-between;
+    }
+    .readout{ grid-template-columns: auto 1fr; }
+    .readout .chip{ grid-column: 1 / -1; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">05 · Как устроен бизнес · v5 — Хронометраж заказа</div>
+
+<section class="section" aria-label="Как устроен бизнес">
+  <div class="container">
+
+    <header class="head reveal">
+      <div>
+        <span class="chip chip--ghost">Как устроен бизнес</span>
+        <h1 class="t-h1" style="margin-top:18px">15&nbsp;минут.<br>От&nbsp;клика до&nbsp;двери</h1>
+      </div>
+      <p class="t-sub">Хронометраж одного заказа: кто и&nbsp;что делает на&nbsp;каждом отрезке&nbsp;— клиент, Яндекс и&nbsp;франчайзи</p>
+    </header>
+
+    <div class="board reveal reveal-d1">
+      <div class="axis" aria-hidden="true"><span>0&nbsp;мин</span><span>5</span><span>10</span><span>15&nbsp;мин</span></div>
+
+      <div class="tracks" id="tracks">
+        <span class="playhead" id="playhead" aria-hidden="true"></span>
+
+        <div class="lane lane--client">
+          <span class="lane__name"><i></i>Клиент</span>
+          <div class="lane__track">
+            <button class="bar bar--client is-active" style="--l:0%;--w:6.7%" data-key="app" type="button">Заказ <time>0–1</time></button>
+            <button class="bar bar--client" style="--l:93.3%;--w:6.7%" data-key="door" type="button">У&nbsp;двери <time>15</time></button>
+          </div>
+        </div>
+
+        <div class="lane lane--ya">
+          <span class="lane__name"><i></i>Яндекс</span>
+          <div class="lane__track">
+            <button class="bar bar--back" style="--l:0%;--w:100%" data-key="back" type="button">Поставки, IT и&nbsp;маркетинг&nbsp;— фоном <time>24/7</time></button>
+            <button class="bar bar--ya" style="--l:6.7%;--w:26.6%" data-key="wms" type="button">WMS ведёт сборку <time>1–5</time></button>
+          </div>
+        </div>
+
+        <div class="lane lane--fr">
+          <span class="lane__name"><i></i>Франчайзи</span>
+          <div class="lane__track">
+            <button class="bar bar--fr" style="--l:6.7%;--w:26.6%" data-key="pick" type="button">Сборка заказа <time>1–5</time></button>
+            <button class="bar bar--fr" style="--l:33.3%;--w:6.7%" data-key="handoff" type="button">Курьеру <time>5–6</time></button>
+            <button class="bar bar--fr" style="--l:40%;--w:53.3%" data-key="courier" type="button">Доставка до&nbsp;двери <time>6–15</time></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="readout" aria-live="polite">
+        <span class="readout__time" id="roTime">0:00</span>
+        <div>
+          <h2 id="roTitle">Заказ в приложении</h2>
+          <p class="t-body" id="roCopy">Клиент оформляет заказ в&nbsp;Лавке, Маркете, Еде, Go или Деливери&nbsp;— трафик приходит из&nbsp;всей экосистемы Яндекса.</p>
+        </div>
+        <span class="chip chip--active" id="roOwner">Экосистема</span>
+      </div>
+    </div>
+
+    <div class="cta-row reveal">
+      <a class="btn btn--blue" href="#lead">Стать партнёром</a>
+      <span class="cta-note">10–15&nbsp;минут&nbsp;— целевое время доставки заказа</span>
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба) · хронометраж условный</p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const data = {
+    app:     { time: '0:00',  title: 'Заказ в приложении',        copy: 'Клиент оформляет заказ в Лавке, Маркете, Еде, Go или Деливери — трафик приходит из всей экосистемы Яндекса.', owner: 'Экосистема' },
+    back:    { time: '24/7',  title: 'Платформа работает фоном',  copy: 'Поставщики, ассортимент, логистика «средней мили» и маркетинг — постоянная работа Яндекса за кадром.', owner: 'Яндекс' },
+    wms:     { time: '1:00',  title: 'WMS ведёт сборку',          copy: 'WMS строит маршрут по полкам, автозаказ держит наличие, WFM — смены. IT-инфраструктура — на стороне Яндекса.', owner: 'Яндекс' },
+    pick:    { time: '1:00',  title: 'Сборка заказа',             copy: 'Сборщики франчайзи комплектуют корзину за несколько минут — операционное управление на вашей стороне.', owner: 'Франчайзи' },
+    handoff: { time: '5:00',  title: 'Передача курьеру',          copy: 'В зоне выдачи заказ уходит курьеру без пересечения с потоком поставок и сборки.', owner: 'Франчайзи' },
+    courier: { time: '6:00',  title: 'Доставка до двери',         copy: 'Курьеры в команде франчайзи привозят заказ за 10–15 минут — скорость и есть продукт.', owner: 'Франчайзи' },
+    door:    { time: '15:00', title: 'Заказ у двери',             copy: 'Клиент получает заказ и возвращается снова — повторные покупки растят выручку вашей сети.', owner: 'Клиент' }
+  };
+  const bars = [...document.querySelectorAll('.bar')];
+  const roTime  = document.getElementById('roTime');
+  const roTitle = document.getElementById('roTitle');
+  const roCopy  = document.getElementById('roCopy');
+  const roOwner = document.getElementById('roOwner');
+  if (!bars.length || !roTime) return;
+
+  bars.forEach(bar => bar.addEventListener('click', () => {
+    const d = data[bar.dataset.key];
+    if (!d) return;
+    bars.forEach(b => b.classList.toggle('is-active', b === bar));
+    roTime.textContent = d.time;
+    roTitle.textContent = d.title;
+    roCopy.textContent = d.copy;
+    roOwner.textContent = d.owner;
+  }));
+
+  /* ширина пробега плейхеда = ширина дорожек минус колонка лейблов */
+  const tracks = document.getElementById('tracks');
+  const playhead = document.getElementById('playhead');
+  function size(){
+    if (!tracks || !playhead) return;
+    const label = 128;
+    playhead.style.setProperty('--sweep', Math.max(0, tracks.clientWidth - label) + 'px');
+  }
+  addEventListener('resize', size, { passive: true });
+  size();
+})();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

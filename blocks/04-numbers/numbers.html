@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры — сравнение шести полос</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { background: var(--bg-light); }
+  .wrap { max-width: 1360px; margin-inline: auto; padding: clamp(28px, 5vw, 64px) var(--container-pad) 80px; }
+  .page-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: clamp(28px, 4vw, 44px); }
+  .page-head .t-label { display: block; margin-bottom: 12px; }
+  .page-head p { margin-top: 12px; max-width: 560px; color: var(--text-dim); }
+  .stack { display: grid; gap: 22px; }
+  .cell { background: #fff; border-radius: var(--r-card-sm); overflow: hidden; box-shadow: 0 4px 18px rgba(27, 58, 106, .06); }
+  .cell__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 20px; border-bottom: 1px solid var(--bg-card); }
+  .cell__head b { font-weight: 800; font-size: 15px; }
+  .cell__head .v { font-weight: 900; font-size: 12px; letter-spacing: .08em; color: var(--blue); text-transform: uppercase; }
+  .cell__head a { font-size: 13px; font-weight: 500; color: var(--text-dim); }
+  .cell__head a:hover { color: var(--blue); }
+  .cell iframe { display: block; width: 100%; height: 260px; border: 0; }
+</style>
+</head>
+<body>
+<div class="proto-tag">04 · Цифры — сравнение полос</div>
+<div class="wrap">
+  <header class="page-head">
+    <div>
+      <span class="t-label">Блок 04 · Масштаб сети</span>
+      <h1 class="t-h1">Шесть полос цифр</h1>
+      <p class="t-sub">Компактные горизонтальные решения&nbsp;— от&nbsp;чистой строки до&nbsp;карточек с&nbsp;иконками. Все с&nbsp;живыми каунтерами.</p>
+    </div>
+    <a class="btn btn--navy" href="../index.html">К галерее блоков</a>
+  </header>
+
+  <div class="stack" id="stack"></div>
+</div>
+<script>
+  const VARIANTS = [
+    ['num-1', 'Строка-минимум'],
+    ['num-2', 'Плашки с иконками'],
+    ['num-3', 'Тёмная лента'],
+    ['num-4', 'Буллиты'],
+    ['num-5', 'Манифест с пилюлями'],
+    ['num-6', 'Карточки с бейджем'],
+    ['num-7', 'Одна цифра · сплит'],
+    ['num-8', 'Цифра в строке'],
+    ['num-9', 'Контур-фон'],
+    ['num-10', 'Центр-минимум'],
+    ['num-11', 'Шкала прогресса'],
+    ['num-12', 'Лесенка роста'],
+    ['num-13', 'Маркер-highlight'],
+    ['num-14', 'Строка городов'],
+  ];
+  const stack = document.getElementById('stack');
+  const BUST = Date.now();
+  /* ?from=7 — показать только варианты начиная с номера (напр. новые н7–н14) */
+  const FROM = parseInt(new URLSearchParams(location.search).get('from') || '1', 10) || 1;
+  VARIANTS.map(([file, name], i) => [file, name, i + 1]).filter(([, , n]) => n >= FROM).forEach(([file, name, n]) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = `
+      <div class="cell__head"><span><span class="v">н${n}</span> · <b>${name}</b></span><a href="${file}.html">открыть блок →</a></div>`;
+    const f = document.createElement('iframe');
+    f.src = `${file}.html?embed=1&v=${BUST}`;
+    f.title = `Цифры ${n} · ${name}`;
+    f.addEventListener('load', () => {
+      try { f.contentWindow.document.querySelectorAll('.proto-tag, p.t-legal.legal').forEach(el => el.remove()); } catch (_) {}
+      const fit = () => {
+        try {
+          const h = Math.ceil(f.contentWindow.document.body.scrollHeight);
+          if (h > 40 && Math.abs(h - f.offsetHeight) > 2) f.style.height = h + 'px';
+        } catch (_) {}
+      };
+      fit(); setTimeout(fit, 400); setTimeout(fit, 1200);
+      try {
+        const doc = f.contentWindow.document;
+        const ro = new ResizeObserver(fit);
+        ro.observe(doc.documentElement); ro.observe(doc.body);
+      } catch (_) {}
+    });
+    cell.append(f);
+    stack.append(cell);
+  });
+</script>
+</body>
+</html>

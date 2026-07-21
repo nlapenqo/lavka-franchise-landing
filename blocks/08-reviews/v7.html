@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>08 · Отзывы франчайзи · v7 — Поток цитат</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  .flow { padding-block: var(--section-pad); }
+  .head { text-align: center; margin-bottom: clamp(40px, 6vw, 72px); }
+  .head .t-label { display: block; margin-bottom: 14px; }
+  .head__sub { max-width: 520px; margin: 20px auto 0; color: var(--text-dim); }
+  .marquee { position: relative; overflow: hidden; padding-block: 10px; }
+  .marquee + .marquee { margin-top: 6px; }
+  .marquee::before, .marquee::after { content: ""; position: absolute; top: 0; bottom: 0; width: clamp(40px, 8vw, 140px); z-index: 2; pointer-events: none; }
+  .marquee::before { left: 0; background: linear-gradient(90deg, var(--bg), transparent); }
+  .marquee::after { right: 0; background: linear-gradient(-90deg, var(--bg), transparent); }
+  .track { display: flex; gap: 18px; width: max-content; animation: slide 46s linear infinite; }
+  .marquee--reverse .track { animation-direction: reverse; animation-duration: 54s; }
+  .marquee:hover .track, .marquee:focus-within .track { animation-play-state: paused; }
+  @keyframes slide { to { transform: translateX(calc(-50% - 9px)); } }
+  .q { flex: none; width: clamp(300px, 34vw, 430px); display: flex; flex-direction: column; justify-content: space-between; gap: 26px; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-card-sm); background: var(--bg-card); }
+  .q--navy { background: var(--navy); color: var(--text-on-dark); }
+  .q--sky { background: var(--sky); }
+  .q--peach { background: var(--peach); }
+  .q--lavender { background: var(--lavender); }
+  .q--warm { background: var(--warm-gray); }
+  .q__text { font-weight: 700; font-size: clamp(16px, 1.35vw, 20px); line-height: 1.2; }
+  .q__text::before { content: "“"; display: block; font-weight: 900; font-size: 46px; line-height: .6; margin-bottom: 12px; color: var(--blue); }
+  .q--navy .q__text::before, .q--peach .q__text::before, .q--lavender .q__text::before { color: currentColor; opacity: .55; }
+  .q__person { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .q__meta { margin-top: 3px; opacity: .65; }
+  .q__badge { font-weight: 900; font-size: 30px; line-height: 1; white-space: nowrap; color: var(--blue); }
+  .q--navy .q__badge, .q--peach .q__badge, .q--lavender .q__badge { color: currentColor; opacity: .8; }
+  .legal { margin-top: var(--space-5); text-align: center; }
+  @media (prefers-reduced-motion: reduce) {
+    .track { animation: none; width: auto; }
+    .marquee { overflow-x: auto; }
+    .marquee::before, .marquee::after { display: none; }
+    .track [aria-hidden="true"] { display: none; }
+  }
+  @media (max-width: 600px) { .q { width: 82vw; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">08 · Отзывы франчайзи · v7 — Поток цитат</div>
+<section class="flow">
+  <header class="head container reveal">
+    <span class="t-label">Отзывы франчайзи</span>
+    <h1 class="t-h1">27&nbsp;дарксторов —<br>и&nbsp;у&nbsp;каждого своя история</h1>
+    <p class="head__sub t-sub">Лента живых цитат партнёров. Наведите — поток остановится</p>
+  </header>
+  <div class="marquee reveal" role="region" aria-label="Цитаты партнёров, ряд 1">
+    <div class="track">
+      <div class="row-set" style="display:contents">
+        <article class="q"><blockquote class="q__text">Запустили первый даркстор за&nbsp;три месяца — оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия</blockquote><div class="q__person"><div><p class="t-body"><strong>Игорь Соколов</strong></p><p class="q__meta t-small">Казань</p></div><span class="q__badge">4×</span></div></article>
+        <article class="q q--navy"><blockquote class="q__text">IT работает как ещё один сильный член команды: автозаказ, сборка и&nbsp;расписания — в&nbsp;одной системе</blockquote><div class="q__person"><div><p class="t-body"><strong>Анна Морозова</strong></p><p class="q__meta t-small">Тюмень</p></div><span class="q__badge">6×</span></div></article>
+        <article class="q q--sky"><blockquote class="q__text">Геоаналитика убрала споры о&nbsp;локациях. Выбираем точки по&nbsp;потенциалу спроса</blockquote><div class="q__person"><div><p class="t-body"><strong>Роман Лебедев</strong></p><p class="q__meta t-small">Пермь</p></div><span class="q__badge">3×</span></div></article>
+      </div>
+      <div class="row-set" style="display:contents" aria-hidden="true">
+        <article class="q"><blockquote class="q__text">Запустили первый даркстор за&nbsp;три месяца — оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия</blockquote><div class="q__person"><div><p class="t-body"><strong>Игорь Соколов</strong></p><p class="q__meta t-small">Казань</p></div><span class="q__badge">4×</span></div></article>
+        <article class="q q--navy"><blockquote class="q__text">IT работает как ещё один сильный член команды: автозаказ, сборка и&nbsp;расписания — в&nbsp;одной системе</blockquote><div class="q__person"><div><p class="t-body"><strong>Анна Морозова</strong></p><p class="q__meta t-small">Тюмень</p></div><span class="q__badge">6×</span></div></article>
+        <article class="q q--sky"><blockquote class="q__text">Геоаналитика убрала споры о&nbsp;локациях. Выбираем точки по&nbsp;потенциалу спроса</blockquote><div class="q__person"><div><p class="t-body"><strong>Роман Лебедев</strong></p><p class="q__meta t-small">Пермь</p></div><span class="q__badge">3×</span></div></article>
+      </div>
+    </div>
+  </div>
+  <div class="marquee marquee--reverse reveal reveal-d1" role="region" aria-label="Цитаты партнёров, ряд 2">
+    <div class="track">
+      <div class="row-set" style="display:contents">
+        <article class="q q--warm"><blockquote class="q__text">Поддержка не&nbsp;заканчивается после открытия. Еженедельно разбираем метрики и&nbsp;точки роста</blockquote><div class="q__person"><div><p class="t-body"><strong>Елена Ильина</strong></p><p class="q__meta t-small">Челябинск</p></div><span class="q__badge">5×</span></div></article>
+        <article class="q q--peach"><blockquote class="q__text">Сильный бренд даёт спрос с&nbsp;первого дня, но&nbsp;результат зависит от&nbsp;нашей операционки</blockquote><div class="q__person"><div><p class="t-body"><strong>Максим Орлов</strong></p><p class="q__meta t-small">Воронеж</p></div><span class="q__badge">7×</span></div></article>
+        <article class="q q--lavender"><blockquote class="q__text">Команда запуска говорит с&nbsp;нами на&nbsp;одном языке: цифры, сроки, ответственность</blockquote><div class="q__person"><div><p class="t-body"><strong>Мария Ким</strong></p><p class="q__meta t-small">Самара</p></div><span class="q__badge">2×</span></div></article>
+      </div>
+      <div class="row-set" style="display:contents" aria-hidden="true">
+        <article class="q q--warm"><blockquote class="q__text">Поддержка не&nbsp;заканчивается после открытия. Еженедельно разбираем метрики и&nbsp;точки роста</blockquote><div class="q__person"><div><p class="t-body"><strong>Елена Ильина</strong></p><p class="q__meta t-small">Челябинск</p></div><span class="q__badge">5×</span></div></article>
+        <article class="q q--peach"><blockquote class="q__text">Сильный бренд даёт спрос с&nbsp;первого дня, но&nbsp;результат зависит от&nbsp;нашей операционки</blockquote><div class="q__person"><div><p class="t-body"><strong>Максим Орлов</strong></p><p class="q__meta t-small">Воронеж</p></div><span class="q__badge">7×</span></div></article>
+        <article class="q q--lavender"><blockquote class="q__text">Команда запуска говорит с&nbsp;нами на&nbsp;одном языке: цифры, сроки, ответственность</blockquote><div class="q__person"><div><p class="t-body"><strong>Мария Ким</strong></p><p class="q__meta t-small">Самара</p></div><span class="q__badge">2×</span></div></article>
+      </div>
+    </div>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

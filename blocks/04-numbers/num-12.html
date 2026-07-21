@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 12/14&nbsp;— Лесенка роста</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .steps-row { display: flex; align-items: flex-end; flex-wrap: wrap; gap: clamp(18px, 3vw, 48px); }
+  .st { display: flex; flex-direction: column; }
+  .st b { font-weight: 900; line-height: .85; letter-spacing: -.02em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .st--now b { font-size: clamp(44px, 4.6vw, 76px); }
+  .st--work b { font-size: clamp(60px, 6.4vw, 108px); color: var(--mid-blue); }
+  .st--goal b { font-size: clamp(80px, 8.6vw, 148px); color: transparent; -webkit-text-stroke: 2.5px var(--blue); }
+  .st span { margin-top: 10px; font-weight: 500; font-size: clamp(13px, 1.1vw, 16px); color: var(--text-dim); }
+  .arr { align-self: center; flex: none; width: clamp(26px, 3vw, 44px); height: auto; color: var(--sky); }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 680px) { .steps-row { gap: 14px 20px; } .arr { display: none; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 12/14&nbsp;— Лесенка роста</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="steps-row reveal">
+        <div class="st st--now"><b data-count="14">0</b><span>городов сегодня</span></div>
+        <svg class="arr" viewBox="0 0 44 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h38"/><path d="m32 4 8 8-8 8"/></svg>
+        <div class="st st--work"><b data-count="39">0</b><span>с&nbsp;городами в&nbsp;работе</span></div>
+        <svg class="arr" viewBox="0 0 44 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h38"/><path d="m32 4 8 8-8 8"/></svg>
+        <div class="st st--goal"><b data-count="48">0</b><span>горизонт&nbsp;— 2027 · набор открыт</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 4/6&nbsp;— Буллиты</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(32px, 4.5vw, 56px); }
+  .frame { border-top: 1px solid var(--sky); border-bottom: 1px solid var(--sky); padding-block: clamp(22px, 3vw, 36px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px 40px; }
+  .n { display: flex; align-items: center; gap: 13px; }
+  .n i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+  .n--a i { background: var(--blue); }
+  .n--b i { background: var(--sky); }
+  .n--c i { background: var(--orange); }
+  .n b { font-weight: 900; font-size: clamp(30px, 3vw, 48px); line-height: 1; letter-spacing: -.01em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .n span { font-weight: 500; font-size: clamp(13px, 1.15vw, 16px); color: var(--text-dim); }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 860px) { .frame { flex-direction: column; align-items: flex-start; gap: 18px; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 4/6&nbsp;— Буллиты</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="frame reveal">
+        <div class="n n--a"><i></i><b data-count="14">0</b><span>городов запущено по&nbsp;франшизе</span></div>
+        <div class="n n--b"><i></i><b data-count="25">0</b><span>городов в&nbsp;работе</span></div>
+        <div class="n n--c"><i></i><b data-count="9">0</b><span>партнёров ищем&nbsp;— набор открыт</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

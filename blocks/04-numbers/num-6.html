@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 6/6&nbsp;— Карточки с бейджем</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .band .t-label { display: block; margin-bottom: 18px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ncard { background: #fff; border-radius: var(--r-card-sm); box-shadow: 0 6px 24px rgba(27, 58, 106, .07); padding: 22px 24px; transition: transform .35s var(--ease-out), box-shadow .35s var(--ease-out); }
+  .ncard:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+  .ncard__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .ncard__ico { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; background: var(--bg-card); color: var(--navy); }
+  .ncard__ico svg { width: 21px; height: 21px; }
+  .ncard b { display: block; margin-top: 16px; font-weight: 900; font-size: clamp(38px, 3.6vw, 56px); line-height: .95; letter-spacing: -.015em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .ncard span.cap { display: block; margin-top: 8px; font-weight: 500; font-size: 14px; line-height: 1.25; color: var(--text-dim); }
+  .chip--orange { background: var(--orange); color: #fff; font-size: 12px; }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 860px) { .cards { grid-template-columns: 1fr; } .ncard b { margin-top: 10px; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 6/6&nbsp;— Карточки с бейджем</div>
+
+  <section class="band">
+    <div class="container">
+      <span class="t-label reveal">Масштаб сети</span>
+      <div class="cards">
+        <div class="ncard reveal"><div class="ncard__head"><span class="ncard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16"/><path d="M6 20V9l6-4 6 4v11"/><path d="M9.5 20v-5h5v5"/><path d="M9.5 11h5"/></svg></span></div><b data-count="14">0</b><span class="cap">городов запущено по&nbsp;франшизе</span></div>
+        <div class="ncard reveal reveal-d1"><div class="ncard__head"><span class="ncard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9.5"/><path d="M9 3h6"/><path d="M12 5V3"/></svg></span></div><b data-count="25">0</b><span class="cap">городов в&nbsp;работе</span></div>
+        <div class="ncard reveal reveal-d2"><div class="ncard__head"><span class="ncard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.6-3 2.8-5 5.5-5s4.9 2 5.5 5"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 14.6c2.3.3 4 2 4.5 4.4"/></svg></span><span class="chip chip--orange">набор открыт</span></div><b data-count="9">0</b><span class="cap">партнёров ищем сейчас</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

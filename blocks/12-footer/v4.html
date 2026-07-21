@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · v4 — Гигантский wordmark</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+  .footer { background: var(--navy); color: var(--text-on-dark); border-radius: var(--r-card) var(--r-card) 0 0; overflow: hidden; padding-top: clamp(48px, 6vw, 84px); }
+  .footer__top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding-bottom: clamp(36px, 5vw, 64px); }
+  .footer__top nav { display: flex; flex-wrap: wrap; gap: clamp(16px, 2.4vw, 32px); font-weight: 500; }
+  .footer__top nav a { color: var(--text-dim-dark); transition: color var(--dur-fast); }
+  .footer__top nav a:hover { color: var(--text-on-dark); }
+  .footer a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 6px; }
+  .tg { display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: var(--r-pill); background: var(--blue); color: #fff; font-weight: 500; transition: transform var(--dur-fast) var(--ease-out); }
+  .tg:hover { transform: translateY(-2px); }
+  .tg svg { width: 20px; }
+  .footer__legal { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(200px, .6fr) auto; gap: clamp(24px, 4vw, 56px); align-items: start; padding-block: 26px; border-top: 1px solid rgba(170, 217, 252, .22); color: var(--text-dim-dark); }
+  .footer__legal .t-legal { opacity: .8; line-height: 1.45; }
+  .footer__legal .t-legal p + p { margin-top: 6px; }
+  .legal-links { display: grid; gap: 8px; }
+  .legal-links a:hover { color: var(--sky); }
+  .age { font-family: var(--font-text); font-size: 26px; font-weight: 500; color: var(--text-on-dark); }
+  .wordmark-wrap { overflow: hidden; margin-top: clamp(10px, 2vw, 26px); }
+  .wordmark { display: block; width: 100%; text-align: center; white-space: nowrap; font-weight: 900; font-size: clamp(110px, 21.5vw, 330px); line-height: .74; letter-spacing: -.045em; text-transform: uppercase; color: var(--blue); transform: translateY(16%); transition: color var(--dur-med); user-select: none; }
+  .footer:hover .wordmark { color: var(--sky); }
+  .wordmark-wrap { position: relative; }
+  .wordmark-badge { position: absolute; right: clamp(16px, 8vw, 140px); top: 0; z-index: 1; padding: .55em 1.2em; border-radius: var(--r-pill); background: var(--orange); color: #fff; font-weight: 700; font-size: clamp(13px, 1.4vw, 20px); transform: rotate(7deg); }
+  .prototype { opacity: 1; text-align: center; padding: 16px var(--container-pad) 26px; background: var(--navy); color: var(--text-dim-dark); }
+  @media (max-width: 760px) {
+    .footer__legal { grid-template-columns: 1fr auto; }
+    .footer__legal > .t-legal { grid-column: 1 / -1; }
+  }
+  @media (max-width: 480px) {
+    .footer { border-radius: var(--r-card-sm) var(--r-card-sm) 0 0; }
+    .footer__top { flex-direction: column; align-items: flex-start; }
+    .footer__legal { grid-template-columns: 1fr; }
+    .footer__legal > .t-legal { grid-column: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tg:hover { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · v4 — Гигантский wordmark</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top reveal">
+      <nav aria-label="Разделы сайта">
+        <a href="#formats">Форматы</a>
+        <a href="#business">Бизнес-модель</a>
+        <a href="#steps">Путь партнёра</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#form">Стать партнёром</a>
+      </nav>
+      <a class="tg" href="https://t.me/yandex_lavka_franchise"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 4-3 16-6-5-4 3 1-5 8-6-10 5-4-2 18-6Z"/></svg><span>Telegram</span></a>
+    </div>
+
+    <div class="footer__legal reveal">
+      <div class="t-legal">
+        <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p>
+        <p>Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p>
+      </div>
+      <div class="legal-links t-legal">
+        <a href="#privacy">Политика конфиденциальности</a>
+        <a href="#personal">Обработка персональных данных</a>
+        <span>© 2026 ООО «Яндекс.Лавка»</span>
+      </div>
+      <span class="age" aria-label="Для лиц старше восемнадцати лет">18+</span>
+    </div>
+  </div>
+
+  <div class="wordmark-wrap" aria-hidden="true">
+    <span class="wordmark-badge">франшиза</span>
+    <span class="wordmark">Лавка</span>
+  </div>
+</footer>
+
+<p class="t-legal prototype">Прототип · данные — заглушка (рыба)</p>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

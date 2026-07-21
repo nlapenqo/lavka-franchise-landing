@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бейдж · День партнёров Яндекс Лавки — варианты вёрстки</title>
+<style>
+/* ---------- Шрифты ---------- */
+@font-face { font-family:'YS Geo'; src:url("../references/fonts/YS Geo-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../references/fonts/YS Geo-Medium.ttf") format("truetype");  font-weight:500; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../references/fonts/YS Geo-Bold.ttf") format("truetype");    font-weight:700; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../references/fonts/YS Geo-Heavy.ttf") format("truetype");   font-weight:800; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../references/fonts/YS Geo-Black.ttf") format("truetype");   font-weight:900; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../references/fonts/YS Text-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../references/fonts/YS Text-Medium.ttf") format("truetype");  font-weight:500; font-display:swap; }
+
+:root {
+  --navy:#1B3A6A; --blue:#00ADFF; --mid-blue:#3E88C5; --sky:#AAD9FC;
+  --sky-soft:#8FC7F2; --page:#E9EFF6;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:'YS Text', system-ui, sans-serif;
+  background:var(--page); color:var(--navy);
+  padding:56px 24px 110px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap { max-width:1040px; margin:0 auto; }
+h1 { font-family:'YS Geo'; font-weight:900; font-size:42px; letter-spacing:-.01em; line-height:.95; }
+.lead { margin-top:14px; font-size:16px; line-height:1.45; color:#41598a; max-width:640px; }
+h2 { font-family:'YS Geo'; font-weight:800; font-size:26px; margin:64px 0 28px; letter-spacing:-.005em; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:56px 40px; justify-items:center; }
+.item { width:420px; }
+.cap { margin-top:16px; font-size:14px; line-height:1.45; color:#41598a; }
+.cap b { font-family:'YS Geo'; font-weight:800; color:var(--navy); display:block; margin-bottom:3px; font-size:15px; }
+.dl {
+  margin-top:14px; display:inline-flex; align-items:center; gap:8px;
+  background:var(--navy); color:#fff; border:0; border-radius:999px;
+  padding:10px 20px; font:500 14px 'YS Text', sans-serif; cursor:pointer;
+  transition:background .2s;
+}
+.dl:hover { background:#24497F; }
+.dl:disabled { opacity:.6; cursor:default; }
+.dl svg { width:14px; height:14px; }
+.notes { margin-top:72px; padding-top:28px; border-top:1.5px solid rgba(27,58,106,.15); font-size:14px; line-height:1.55; color:#41598a; max-width:700px; }
+.notes li { margin:6px 0 6px 18px; }
+
+/* ============================================================
+   БЕЙДЖ — общее. Формат 105×148 мм → 420×592 px (4 px/мм)
+   ============================================================ */
+.badge {
+  position:relative; width:420px; height:592px;
+  border-radius:26px; overflow:hidden;
+  color:#fff; font-family:'YS Geo';
+  box-shadow:0 22px 54px rgba(27,58,106,.28);
+}
+/* фон лицевой: тёмно-синий с градиентными «пятнами» — чистый CSS */
+.badge--grad {
+  background:
+    radial-gradient(95% 75% at 90% 22%, rgba(78,148,208,.55) 0%, rgba(78,148,208,0) 62%),
+    radial-gradient(80% 62% at 2% 94%, rgba(128,180,230,.48) 0%, rgba(128,180,230,0) 58%),
+    radial-gradient(60% 45% at 55% 60%, rgba(53,87,204,.28) 0%, rgba(53,87,204,0) 70%),
+    linear-gradient(205deg, #24497F 0%, #1B3A6A 48%, #122649 100%);
+}
+/* фон оборота: фирменный тёмно-синий, ровный */
+.badge--flat { background:var(--navy); }
+
+/* отверстия под ленту */
+.hole {
+  position:absolute; top:30px; width:18px; height:18px; border-radius:50%;
+  background:var(--page); box-shadow:inset 0 2px 3px rgba(10,25,50,.45);
+  z-index:5;
+}
+.hole--l { left:calc(25% - 9px); }
+.hole--r { right:calc(25% - 9px); }
+
+.b-in { position:absolute; inset:0; display:flex; flex-direction:column; padding:78px 36px 40px; }
+
+/* логотип */
+.logo { display:flex; align-items:center; gap:7px; font-weight:900; font-size:25px; letter-spacing:-.01em; white-space:nowrap; }
+.logo svg { width:27px; height:27px; flex:none; margin-top:1px; }
+.logo .lv { color:var(--sky-soft); }
+.logo--sm { font-size:20px; }
+.logo--sm svg { width:21px; height:21px; }
+
+/* чипы */
+.chip-b { display:inline-flex; align-items:center; border-radius:999px; font-weight:700; line-height:1; white-space:nowrap; }
+.chip-fr { background:var(--sky); color:var(--navy); font-size:13.5px; padding:8px 15px; }
+.chip-guest { background:var(--blue); color:#fff; font-size:15px; padding:10px 19px; box-shadow:0 6px 20px rgba(0,173,255,.35); }
+
+/* типографика бейджа */
+.eyebrow {
+  font-family:'YS Text'; font-weight:500; font-size:12.5px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--sky-soft);
+}
+.name { font-weight:900; line-height:.94; letter-spacing:-.012em; }
+.role { font-family:'YS Text'; font-weight:400; color:rgba(255,255,255,.78); line-height:1.3; }
+
+/* ---------- V1 · Афиша ---------- */
+.v1 .top { display:flex; justify-content:space-between; align-items:flex-start; }
+.v1 .chip-fr { margin-top:12px; }
+.v1 .bottom { margin-top:auto; }
+.v1 .name { font-size:74px; margin-top:16px; }
+.v1 .role { font-size:17px; margin-top:20px; max-width:300px; }
+
+/* ---------- V2 · Симметрия ---------- */
+.v2 .b-in { align-items:center; text-align:center; padding-top:88px; }
+.v2 .chip-fr { margin-top:12px; }
+.v2 .mid { margin-top:auto; }
+.v2 .name { font-size:64px; margin-top:14px; }
+.v2 .role { font-size:16px; margin-top:16px; max-width:280px; margin-inline:auto; }
+.v2 .pill {
+  margin-top:auto; display:inline-flex; border-radius:999px;
+  background:var(--blue); color:#fff; font-weight:800; font-size:22px;
+  padding:17px 46px; box-shadow:0 10px 30px rgba(0,173,255,.4);
+}
+
+/* ---------- V3 · Вотермарк-статус ---------- */
+.v3 .top { display:flex; justify-content:space-between; align-items:center; }
+.v3 .stack { margin-top:52px; }
+.v3 .name { font-size:70px; margin-top:14px; }
+.v3 .role { font-size:16.5px; margin-top:18px; max-width:280px; }
+.v3 .wm {
+  position:absolute; left:0; right:0; bottom:-10px; z-index:0;
+  font-weight:900; font-size:110px; line-height:.8; letter-spacing:-.02em;
+  text-transform:uppercase; text-align:center; color:transparent;
+  -webkit-text-stroke:2.5px rgba(143,199,242,.5);
+  pointer-events:none; white-space:nowrap;
+}
+
+/* ---------- V4 · Билет ---------- */
+.v4 .b-in { padding-right:88px; }
+.v4 .vert {
+  position:absolute; top:84px; right:44px;
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  font-family:'YS Text'; font-weight:500; font-size:12px;
+  letter-spacing:.18em; text-transform:uppercase; color:rgba(170,217,252,.85);
+}
+.v4 .vline { position:absolute; top:84px; right:30px; bottom:132px; width:1.5px; background:rgba(170,217,252,.3); }
+.v4 .chip-fr { margin-top:12px; }
+.v4 .stack { margin-top:auto; }
+.v4 .name { font-size:60px; }
+.v4 .role { font-size:16px; margin-top:16px; max-width:260px; }
+.v4 .stub {
+  margin:28px -36px -40px; margin-right:-88px;
+  border-top:2px dashed rgba(255,255,255,.3);
+  padding:0 36px; height:96px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.v4 .stub .st { font-weight:800; font-size:27px; }
+.v4 .stub svg { width:38px; height:38px; opacity:.95; }
+
+/* ---------- V5 · Editorial ---------- */
+.v5 .top { display:flex; justify-content:space-between; align-items:center; }
+.v5 .name { font-size:84px; margin-top:64px; }
+.v5 .name .accent { color:var(--blue); }
+.v5 .role { font-size:17px; margin-top:20px; max-width:280px; }
+.v5 .bottom { margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end; }
+.v5 .ev { font-family:'YS Text'; font-weight:500; font-size:13px; line-height:1.35; text-align:right; color:var(--sky-soft); }
+.v5 .w-heart { position:absolute; right:-84px; top:96px; width:290px; height:290px; z-index:0; pointer-events:none; }
+
+/* ============================================================
+   ОБОРОТ
+   ============================================================ */
+/* ---------- Back A · Сетка ---------- */
+.ba .b-in { padding:74px 38px 40px; }
+.ba .head { display:flex; justify-content:space-between; align-items:center; }
+.ba .head h3 { font-weight:800; font-size:27px; letter-spacing:-.005em; }
+.ba .head svg { width:28px; height:28px; }
+.ba .sched { margin-top:12px; }
+.ba .srow {
+  display:grid; grid-template-columns:96px 1fr; align-items:center; gap:12px;
+  padding:10px 0; border-bottom:1px solid rgba(255,255,255,.16);
+}
+.ba .srow:last-child { border-bottom:0; }
+.ba .stime { font-weight:900; font-size:25px; letter-spacing:-.01em; color:var(--sky); }
+.ba .slabel { font-family:'YS Text'; font-size:15px; line-height:1.25; }
+.ba .contact { margin-top:auto; padding-top:14px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.ba .contact h3 { font-weight:800; font-size:21px; line-height:1.08; max-width:190px; letter-spacing:-.005em; }
+.qr { background:#fff; border-radius:16px; padding:9px; flex:none; }
+.qr svg { display:block; width:100%; height:100%; }
+.ba .qr { width:116px; height:116px; }
+
+/* ---------- Back B · Центр ---------- */
+.bb .b-in { align-items:center; text-align:center; padding:82px 36px 42px; }
+.bb .eyebrow { letter-spacing:.16em; }
+.bb h3 { font-weight:900; font-size:28px; margin-top:8px; letter-spacing:-.008em; }
+.bb .rows { margin-top:18px; }
+.bb .brow { padding:7px 0; font-size:15.5px; }
+.bb .btime { font-weight:900; font-size:20px; color:var(--sky); letter-spacing:-.01em; margin-right:10px; }
+.bb .blabel { font-family:'YS Text'; color:rgba(255,255,255,.92); }
+.bb .contact { margin-top:auto; padding-top:14px; display:flex; flex-direction:column; align-items:center; gap:13px; }
+.bb .contact h3 { font-weight:800; font-size:18.5px; line-height:1.1; margin:0; max-width:none; white-space:nowrap; }
+.bb .qr { width:100px; height:100px; border-radius:14px; padding:8px; }
+</style>
+</head>
+<body>
+
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg"><symbol id="qr-ph" viewBox="0 0 100 100"><rect x="0" y="0" width="28" height="28" fill="#12274A"/><rect x="4" y="4" width="20" height="20" fill="#fff"/><rect x="8" y="8" width="12" height="12" fill="#12274A"/><rect x="72" y="0" width="28" height="28" fill="#12274A"/><rect x="76" y="4" width="20" height="20" fill="#fff"/><rect x="80" y="8" width="12" height="12" fill="#12274A"/><rect x="0" y="72" width="28" height="28" fill="#12274A"/><rect x="4" y="76" width="20" height="20" fill="#fff"/><rect x="8" y="80" width="12" height="12" fill="#12274A"/><rect x="0" y="36" width="4" height="4" fill="#12274A"/><rect x="0" y="40" width="4" height="4" fill="#12274A"/><rect x="0" y="44" width="4" height="4" fill="#12274A"/><rect x="0" y="60" width="4" height="4" fill="#12274A"/><rect x="0" y="64" width="4" height="4" fill="#12274A"/><rect x="4" y="32" width="4" height="4" fill="#12274A"/><rect x="4" y="36" width="4" height="4" fill="#12274A"/><rect x="4" y="44" width="4" height="4" fill="#12274A"/><rect x="4" y="48" width="4" height="4" fill="#12274A"/><rect x="4" y="60" width="4" height="4" fill="#12274A"/><rect x="8" y="36" width="4" height="4" fill="#12274A"/><rect x="8" y="48" width="4" height="4" fill="#12274A"/><rect x="8" y="52" width="4" height="4" fill="#12274A"/><rect x="8" y="60" width="4" height="4" fill="#12274A"/><rect x="8" y="64" width="4" height="4" fill="#12274A"/><rect x="12" y="32" width="4" height="4" fill="#12274A"/><rect x="12" y="60" width="4" height="4" fill="#12274A"/><rect x="16" y="52" width="4" height="4" fill="#12274A"/><rect x="16" y="56" width="4" height="4" fill="#12274A"/><rect x="16" y="60" width="4" height="4" fill="#12274A"/><rect x="16" y="64" width="4" height="4" fill="#12274A"/><rect x="20" y="32" width="4" height="4" fill="#12274A"/><rect x="20" y="36" width="4" height="4" fill="#12274A"/><rect x="20" y="40" width="4" height="4" fill="#12274A"/><rect x="20" y="48" width="4" height="4" fill="#12274A"/><rect x="20" y="52" width="4" height="4" fill="#12274A"/><rect x="20" y="56" width="4" height="4" fill="#12274A"/><rect x="20" y="60" width="4" height="4" fill="#12274A"/><rect x="24" y="40" width="4" height="4" fill="#12274A"/><rect x="24" y="48" width="4" height="4" fill="#12274A"/><rect x="24" y="52" width="4" height="4" fill="#12274A"/><rect x="28" y="44" width="4" height="4" fill="#12274A"/><rect x="28" y="48" width="4" height="4" fill="#12274A"/><rect x="28" y="52" width="4" height="4" fill="#12274A"/><rect x="28" y="56" width="4" height="4" fill="#12274A"/><rect x="28" y="60" width="4" height="4" fill="#12274A"/><rect x="32" y="4" width="4" height="4" fill="#12274A"/><rect x="32" y="12" width="4" height="4" fill="#12274A"/><rect x="32" y="24" width="4" height="4" fill="#12274A"/><rect x="32" y="28" width="4" height="4" fill="#12274A"/><rect x="32" y="36" width="4" height="4" fill="#12274A"/><rect x="32" y="48" width="4" height="4" fill="#12274A"/><rect x="32" y="52" width="4" height="4" fill="#12274A"/><rect x="32" y="64" width="4" height="4" fill="#12274A"/><rect x="32" y="68" width="4" height="4" fill="#12274A"/><rect x="32" y="72" width="4" height="4" fill="#12274A"/><rect x="32" y="84" width="4" height="4" fill="#12274A"/><rect x="32" y="88" width="4" height="4" fill="#12274A"/><rect x="32" y="92" width="4" height="4" fill="#12274A"/><rect x="36" y="12" width="4" height="4" fill="#12274A"/><rect x="36" y="28" width="4" height="4" fill="#12274A"/><rect x="36" y="36" width="4" height="4" fill="#12274A"/><rect x="36" y="40" width="4" height="4" fill="#12274A"/><rect x="36" y="56" width="4" height="4" fill="#12274A"/><rect x="36" y="64" width="4" height="4" fill="#12274A"/><rect x="36" y="76" width="4" height="4" fill="#12274A"/><rect x="36" y="88" width="4" height="4" fill="#12274A"/><rect x="40" y="8" width="4" height="4" fill="#12274A"/><rect x="40" y="12" width="4" height="4" fill="#12274A"/><rect x="40" y="16" width="4" height="4" fill="#12274A"/><rect x="40" y="32" width="4" height="4" fill="#12274A"/><rect x="40" y="36" width="4" height="4" fill="#12274A"/><rect x="40" y="48" width="4" height="4" fill="#12274A"/><rect x="40" y="56" width="4" height="4" fill="#12274A"/><rect x="40" y="68" width="4" height="4" fill="#12274A"/><rect x="40" y="80" width="4" height="4" fill="#12274A"/><rect x="40" y="88" width="4" height="4" fill="#12274A"/><rect x="40" y="92" width="4" height="4" fill="#12274A"/><rect x="44" y="4" width="4" height="4" fill="#12274A"/><rect x="44" y="8" width="4" height="4" fill="#12274A"/><rect x="44" y="20" width="4" height="4" fill="#12274A"/><rect x="44" y="28" width="4" height="4" fill="#12274A"/><rect x="44" y="32" width="4" height="4" fill="#12274A"/><rect x="44" y="36" width="4" height="4" fill="#12274A"/><rect x="44" y="44" width="4" height="4" fill="#12274A"/><rect x="44" y="48" width="4" height="4" fill="#12274A"/><rect x="44" y="52" width="4" height="4" fill="#12274A"/><rect x="44" y="60" width="4" height="4" fill="#12274A"/><rect x="44" y="72" width="4" height="4" fill="#12274A"/><rect x="44" y="76" width="4" height="4" fill="#12274A"/><rect x="44" y="84" width="4" height="4" fill="#12274A"/><rect x="44" y="88" width="4" height="4" fill="#12274A"/><rect x="48" y="12" width="4" height="4" fill="#12274A"/><rect x="48" y="16" width="4" height="4" fill="#12274A"/><rect x="48" y="20" width="4" height="4" fill="#12274A"/><rect x="48" y="24" width="4" height="4" fill="#12274A"/><rect x="48" y="44" width="4" height="4" fill="#12274A"/><rect x="48" y="48" width="4" height="4" fill="#12274A"/><rect x="48" y="52" width="4" height="4" fill="#12274A"/><rect x="48" y="60" width="4" height="4" fill="#12274A"/><rect x="48" y="64" width="4" height="4" fill="#12274A"/><rect x="48" y="68" width="4" height="4" fill="#12274A"/><rect x="48" y="72" width="4" height="4" fill="#12274A"/><rect x="48" y="76" width="4" height="4" fill="#12274A"/><rect x="48" y="80" width="4" height="4" fill="#12274A"/><rect x="48" y="88" width="4" height="4" fill="#12274A"/><rect x="52" y="0" width="4" height="4" fill="#12274A"/><rect x="52" y="24" width="4" height="4" fill="#12274A"/><rect x="52" y="32" width="4" height="4" fill="#12274A"/><rect x="52" y="36" width="4" height="4" fill="#12274A"/><rect x="52" y="40" width="4" height="4" fill="#12274A"/><rect x="52" y="44" width="4" height="4" fill="#12274A"/><rect x="52" y="52" width="4" height="4" fill="#12274A"/><rect x="52" y="64" width="4" height="4" fill="#12274A"/><rect x="52" y="84" width="4" height="4" fill="#12274A"/><rect x="52" y="88" width="4" height="4" fill="#12274A"/><rect x="56" y="8" width="4" height="4" fill="#12274A"/><rect x="56" y="24" width="4" height="4" fill="#12274A"/><rect x="56" y="32" width="4" height="4" fill="#12274A"/><rect x="56" y="36" width="4" height="4" fill="#12274A"/><rect x="56" y="48" width="4" height="4" fill="#12274A"/><rect x="56" y="52" width="4" height="4" fill="#12274A"/><rect x="56" y="60" width="4" height="4" fill="#12274A"/><rect x="56" y="72" width="4" height="4" fill="#12274A"/><rect x="56" y="88" width="4" height="4" fill="#12274A"/><rect x="56" y="96" width="4" height="4" fill="#12274A"/><rect x="60" y="0" width="4" height="4" fill="#12274A"/><rect x="60" y="8" width="4" height="4" fill="#12274A"/><rect x="60" y="12" width="4" height="4" fill="#12274A"/><rect x="60" y="20" width="4" height="4" fill="#12274A"/><rect x="60" y="36" width="4" height="4" fill="#12274A"/><rect x="60" y="40" width="4" height="4" fill="#12274A"/><rect x="60" y="44" width="4" height="4" fill="#12274A"/><rect x="60" y="60" width="4" height="4" fill="#12274A"/><rect x="60" y="64" width="4" height="4" fill="#12274A"/><rect x="60" y="88" width="4" height="4" fill="#12274A"/><rect x="60" y="96" width="4" height="4" fill="#12274A"/><rect x="64" y="8" width="4" height="4" fill="#12274A"/><rect x="64" y="12" width="4" height="4" fill="#12274A"/><rect x="64" y="16" width="4" height="4" fill="#12274A"/><rect x="64" y="24" width="4" height="4" fill="#12274A"/><rect x="64" y="36" width="4" height="4" fill="#12274A"/><rect x="64" y="44" width="4" height="4" fill="#12274A"/><rect x="64" y="60" width="4" height="4" fill="#12274A"/><rect x="64" y="64" width="4" height="4" fill="#12274A"/><rect x="64" y="68" width="4" height="4" fill="#12274A"/><rect x="64" y="72" width="4" height="4" fill="#12274A"/><rect x="64" y="84" width="4" height="4" fill="#12274A"/><rect x="64" y="96" width="4" height="4" fill="#12274A"/><rect x="68" y="32" width="4" height="4" fill="#12274A"/><rect x="68" y="36" width="4" height="4" fill="#12274A"/><rect x="68" y="60" width="4" height="4" fill="#12274A"/><rect x="68" y="64" width="4" height="4" fill="#12274A"/><rect x="68" y="68" width="4" height="4" fill="#12274A"/><rect x="68" y="88" width="4" height="4" fill="#12274A"/><rect x="68" y="92" width="4" height="4" fill="#12274A"/><rect x="68" y="96" width="4" height="4" fill="#12274A"/><rect x="72" y="40" width="4" height="4" fill="#12274A"/><rect x="72" y="48" width="4" height="4" fill="#12274A"/><rect x="72" y="72" width="4" height="4" fill="#12274A"/><rect x="72" y="80" width="4" height="4" fill="#12274A"/><rect x="76" y="32" width="4" height="4" fill="#12274A"/><rect x="76" y="40" width="4" height="4" fill="#12274A"/><rect x="76" y="52" width="4" height="4" fill="#12274A"/><rect x="76" y="64" width="4" height="4" fill="#12274A"/><rect x="76" y="72" width="4" height="4" fill="#12274A"/><rect x="76" y="76" width="4" height="4" fill="#12274A"/><rect x="76" y="80" width="4" height="4" fill="#12274A"/><rect x="76" y="84" width="4" height="4" fill="#12274A"/><rect x="76" y="96" width="4" height="4" fill="#12274A"/><rect x="80" y="36" width="4" height="4" fill="#12274A"/><rect x="80" y="52" width="4" height="4" fill="#12274A"/><rect x="80" y="60" width="4" height="4" fill="#12274A"/><rect x="80" y="68" width="4" height="4" fill="#12274A"/><rect x="80" y="72" width="4" height="4" fill="#12274A"/><rect x="80" y="76" width="4" height="4" fill="#12274A"/><rect x="80" y="84" width="4" height="4" fill="#12274A"/><rect x="80" y="96" width="4" height="4" fill="#12274A"/><rect x="84" y="36" width="4" height="4" fill="#12274A"/><rect x="84" y="44" width="4" height="4" fill="#12274A"/><rect x="84" y="68" width="4" height="4" fill="#12274A"/><rect x="84" y="72" width="4" height="4" fill="#12274A"/><rect x="84" y="80" width="4" height="4" fill="#12274A"/><rect x="84" y="84" width="4" height="4" fill="#12274A"/><rect x="84" y="96" width="4" height="4" fill="#12274A"/><rect x="88" y="32" width="4" height="4" fill="#12274A"/><rect x="88" y="36" width="4" height="4" fill="#12274A"/><rect x="88" y="40" width="4" height="4" fill="#12274A"/><rect x="88" y="44" width="4" height="4" fill="#12274A"/><rect x="88" y="48" width="4" height="4" fill="#12274A"/><rect x="88" y="52" width="4" height="4" fill="#12274A"/><rect x="88" y="72" width="4" height="4" fill="#12274A"/><rect x="88" y="80" width="4" height="4" fill="#12274A"/><rect x="88" y="84" width="4" height="4" fill="#12274A"/><rect x="88" y="88" width="4" height="4" fill="#12274A"/><rect x="92" y="36" width="4" height="4" fill="#12274A"/><rect x="92" y="40" width="4" height="4" fill="#12274A"/><rect x="92" y="56" width="4" height="4" fill="#12274A"/><rect x="92" y="60" width="4" height="4" fill="#12274A"/><rect x="92" y="72" width="4" height="4" fill="#12274A"/><rect x="92" y="88" width="4" height="4" fill="#12274A"/><rect x="92" y="92" width="4" height="4" fill="#12274A"/><rect x="92" y="96" width="4" height="4" fill="#12274A"/><rect x="96" y="32" width="4" height="4" fill="#12274A"/><rect x="96" y="44" width="4" height="4" fill="#12274A"/><rect x="96" y="48" width="4" height="4" fill="#12274A"/><rect x="96" y="56" width="4" height="4" fill="#12274A"/><rect x="96" y="68" width="4" height="4" fill="#12274A"/><rect x="96" y="76" width="4" height="4" fill="#12274A"/><rect x="96" y="88" width="4" height="4" fill="#12274A"/><rect x="96" y="92" width="4" height="4" fill="#12274A"/><rect x="96" y="96" width="4" height="4" fill="#12274A"/></symbol></svg>
+
+<!-- сердечко Лавки (двухцветное) -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="heart" viewBox="0 0 32 32">
+    <path fill="#fff" d="M16 29C9 24.4 2.5 19 2.5 11.8 2.5 6.4 6.6 3 11 3c2.1 0 4 .9 5 2.3C17 3.9 18.9 3 21 3c4.4 0 8.5 3.4 8.5 8.8C29.5 19 23 24.4 16 29z"/>
+    <path fill="#00ADFF" d="M16 24.2c-4.5-3.1-8.4-6.8-8.4-11.1 0-3.2 2.4-5.2 5-5.2 1.4 0 2.6.6 3.4 1.6.8-1 2-1.6 3.4-1.6 2.6 0 5 2 5 5.2 0 4.3-3.9 8-8.4 11.1z"/>
+  </symbol>
+  <symbol id="heart-line" viewBox="0 0 32 32">
+    <path fill="none" stroke="rgba(143,199,242,.2)" stroke-width="1" d="M16 29C9 24.4 2.5 19 2.5 11.8 2.5 6.4 6.6 3 11 3c2.1 0 4 .9 5 2.3C17 3.9 18.9 3 21 3c4.4 0 8.5 3.4 8.5 8.8C29.5 19 23 24.4 16 29z"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <h1>Бейдж · День партнёров</h1>
+  <p class="lead">5 вариантов лицевой стороны на фирменном градиенте (фон — чистый CSS, без картинок) и 2 варианта оборота на ровном тёмно-синем. Формат 105×148 мм, отверстия под ленту учтены в композиции.</p>
+
+  <h2>Лицевая сторона — 5 вариантов</h2>
+  <div class="grid">
+
+    <!-- ================= V1 ================= -->
+    <div class="item">
+      <div class="badge badge--grad v1">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="b-in">
+          <div class="top">
+            <div>
+              <div class="logo">Яндекс <svg><use href="#heart"/></svg> <span class="lv">Лавка</span></div>
+              <span class="chip-b chip-fr">Франшиза</span>
+            </div>
+            <span class="chip-b chip-guest">Гость</span>
+          </div>
+          <div class="bottom">
+            <div class="eyebrow">День партнёров Яндекс Лавки</div>
+            <div class="name">Мария<br>Швиндт</div>
+            <div class="role">руководитель франшизы<br>Яндекс Лавки</div>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-v1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>V1 · «Афиша»</b>Контент прижат к нижней кромке, имя — главный элемент, как заголовок на лендинге. Статус — чипом в правом верхнем углу, верх остаётся воздушным.</p>
+    </div>
+
+    <!-- ================= V2 ================= -->
+    <div class="item">
+      <div class="badge badge--grad v2">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="b-in">
+          <div style="display:flex;flex-direction:column;align-items:center">
+            <div class="logo">Яндекс <svg><use href="#heart"/></svg> <span class="lv">Лавка</span></div>
+            <span class="chip-b chip-fr">Франшиза</span>
+          </div>
+          <div class="mid">
+            <div class="eyebrow">День партнёров Яндекс Лавки</div>
+            <div class="name">Мария<br>Швиндт</div>
+            <div class="role">руководитель франшизы<br>Яндекс Лавки</div>
+          </div>
+          <span class="pill">Гость</span>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-v2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>V2 · «Симметрия»</b>Классическая центровка: читается с любого расстояния, статус — крупной пилюлей внизу. Самый спокойный и «конференционный» вариант.</p>
+    </div>
+
+    <!-- ================= V3 ================= -->
+    <div class="item">
+      <div class="badge badge--grad v3">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="wm">Гость</div>
+        <div class="b-in">
+          <div class="top">
+            <div class="logo">Яндекс <svg><use href="#heart"/></svg> <span class="lv">Лавка</span></div>
+            <span class="chip-b chip-fr">Франшиза</span>
+          </div>
+          <div class="stack">
+            <div class="eyebrow">День партнёров Яндекс Лавки</div>
+            <div class="name">Мария<br>Швиндт</div>
+            <div class="role">руководитель франшизы<br>Яндекс Лавки</div>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-v3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>V3 · «Вотермарк»</b>Статус — гигантским контуром по нижней кромке: издалека видно роль, вблизи читается имя. Для спикеров/организаторов контур можно перекрашивать (оранжевый, розовый).</p>
+    </div>
+
+    <!-- ================= V4 ================= -->
+    <div class="item">
+      <div class="badge badge--grad v4">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="vert">День партнёров Яндекс Лавки</div>
+        <div class="vline"></div>
+        <div class="b-in">
+          <div>
+            <div class="logo">Яндекс <svg><use href="#heart"/></svg> <span class="lv">Лавка</span></div>
+            <span class="chip-b chip-fr">Франшиза</span>
+          </div>
+          <div class="stack">
+            <div class="name">Мария<br>Швиндт</div>
+            <div class="role">руководитель франшизы<br>Яндекс Лавки</div>
+          </div>
+          <div class="stub">
+            <span class="st">Гость</span>
+            <svg><use href="#heart"/></svg>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-v4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>V4 · «Билет»</b>Название события — вертикально вдоль края, низ отбит перфорацией как отрывной корешок билета: там живёт статус. Самый «событийный» вариант.</p>
+    </div>
+
+    <!-- ================= V5 ================= -->
+    <div class="item">
+      <div class="badge badge--grad v5">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <svg class="w-heart"><use href="#heart-line"/></svg>
+        <div class="b-in">
+          <div class="top">
+            <div class="logo">Яндекс <svg><use href="#heart"/></svg> <span class="lv">Лавка</span></div>
+            <span class="chip-b chip-fr">Франшиза</span>
+          </div>
+          <div class="name">Мария<br><span class="accent">Швиндт</span></div>
+          <div class="role">руководитель франшизы<br>Яндекс Лавки</div>
+          <div class="bottom">
+            <span class="chip-b chip-guest">Гость</span>
+            <div class="ev">День партнёров<br>Яндекс Лавки</div>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-v5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>V5 · «Editorial»</b>Имя в две краски — фамилия фирменным голубым, контурное сердце как графическая деталь. Самый смелый, ближе к постеру, чем к пропуску.</p>
+    </div>
+
+  </div>
+
+  <h2>Оборотная сторона — 2 варианта (ровный тёмно-синий, без плашек)</h2>
+  <div class="grid">
+
+    <!-- ================= Back A ================= -->
+    <div class="item">
+      <div class="badge badge--flat ba">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="b-in">
+          <div class="head">
+            <h3>Программа дня</h3>
+            <svg><use href="#heart"/></svg>
+          </div>
+          <div class="sched">
+            <div class="srow"><span class="stime">10:00</span><span class="slabel">Welcome-фуршет</span></div>
+            <div class="srow"><span class="stime">11:00</span><span class="slabel">Старт официальной программы</span></div>
+            <div class="srow"><span class="stime">13:30</span><span class="slabel">Welcome-фуршет</span></div>
+            <div class="srow"><span class="stime">14:30</span><span class="slabel">Продолжение программы</span></div>
+            <div class="srow"><span class="stime">17:00</span><span class="slabel">Фуршет / активности /<br>нетворкинг</span></div>
+            <div class="srow"><span class="stime">19:00</span><span class="slabel">Конец программы</span></div>
+          </div>
+          <div class="contact">
+            <h3>Связаться с нами<br>после встречи</h3>
+            <div class="qr"><svg><use href="#qr-ph"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-back-a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>Оборот A · «Сетка»</b>Время — колонкой голубым, тонкие линейки вместо плашек. Контакт и QR — внизу, на одной оси. QR стоит на белой подложке только ради считываемости.</p>
+    </div>
+
+    <!-- ================= Back B ================= -->
+    <div class="item">
+      <div class="badge badge--flat bb">
+        <span class="hole hole--l"></span><span class="hole hole--r"></span>
+        <div class="b-in">
+          <div class="eyebrow">День партнёров Яндекс Лавки</div>
+          <h3>Программа дня</h3>
+          <div class="rows">
+            <div class="brow"><span class="btime">10:00</span><span class="blabel">Welcome-фуршет</span></div>
+            <div class="brow"><span class="btime">11:00</span><span class="blabel">Старт официальной программы</span></div>
+            <div class="brow"><span class="btime">13:30</span><span class="blabel">Welcome-фуршет</span></div>
+            <div class="brow"><span class="btime">14:30</span><span class="blabel">Продолжение программы</span></div>
+            <div class="brow"><span class="btime">17:00</span><span class="blabel">Фуршет / активности / нетворкинг</span></div>
+            <div class="brow"><span class="btime">19:00</span><span class="blabel">Конец программы</span></div>
+          </div>
+          <div class="contact">
+            <h3>Связаться с нами<br>после встречи</h3>
+            <div class="qr"><svg><use href="#qr-ph"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <button class="dl" data-name="badge-back-b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/></svg> Скачать SVG</button>
+      <p class="cap"><b>Оборот B · «Центр»</b>Всё по одной оси, время и пункт в одну строку — максимум воздуха. Хорошо смотрится, если пунктов не прибавится.</p>
+    </div>
+
+  </div>
+
+  <ul class="notes">
+    <li>Фон лицевой — три радиальных «пятна» поверх линейного градиента, чистый CSS: легко перенести в любой макет или перекрасить.</li>
+    <li>Формат 105×148 мм (420×592 px, 4 px/мм). Красную линию реза и вылеты добавит типография — в макете не рисуем.</li>
+    <li>QR — заглушка для вёрстки, перед печатью заменить на боевой код.</li>
+    <li>В исходнике на 13:30 повторяется «Welcome-фуршет» (как в 10:00) — возможно, там должен быть обед. Оставил как в источнике, но стоит проверить.</li>
+    <li>Статусы можно кодировать цветом чипа/пилюли: гость — голубой #00ADFF, спикер — оранжевый #FF6D2F, команда — розовый #FF95CC.</li>
+    <li>«Скачать SVG» отдаёт честный вектор: текст остаётся текстом, шрифты встроены base64 (файл ~1,4 МБ — в браузере откроется со шрифтами где угодно). Для Figma встроенные шрифты не работают — нужны установленные YS Geo/YS Text, тогда текст подхватится редактируемым. Если открыть страницу с file://, SVG скачается, но без встроенных шрифтов — лучше через локальный сервер (python3 -m http.server).</li>
+  </ul>
+</div>
+
+<script>
+/* ============================================================
+   Экспорт бейджа в честный вектор-SVG:
+   текст остаётся текстом, координаты берём из живой вёрстки,
+   CSS-градиент фона переведён в SVG-градиенты, шрифты — base64.
+   ============================================================ */
+(() => {
+  const FONTS = [
+    ['YS Geo', 700, 'YS Geo-Bold.ttf'],
+    ['YS Geo', 800, 'YS Geo-Heavy.ttf'],
+    ['YS Geo', 900, 'YS Geo-Black.ttf'],
+    ['YS Text', 400, 'YS Text-Regular.ttf'],
+    ['YS Text', 500, 'YS Text-Medium.ttf'],
+  ];
+  let fontCSSPromise = null;
+  const fontCSS = () => fontCSSPromise ??= (async () => {
+    try {
+      const parts = await Promise.all(FONTS.map(async ([fam, w, file]) => {
+        const buf = await (await fetch('../references/fonts/' + encodeURIComponent(file))).arrayBuffer();
+        let bin = ''; const bytes = new Uint8Array(buf), CH = 0x8000;
+        for (let i = 0; i < bytes.length; i += CH) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CH));
+        return `@font-face{font-family:'${fam}';font-weight:${w};src:url(data:font/ttf;base64,${btoa(bin)}) format('truetype');}`;
+      }));
+      return parts.join('\n');
+    } catch (e) { return '/* шрифты не встроены: страница открыта не по http */'; }
+  })();
+  /* греем кэш шрифтов сразу: скачивание по клику должно быть мгновенным,
+     иначе Chrome может счесть отложенный a.click() не-пользовательским действием */
+  addEventListener('load', () => { fontCSS(); });
+
+  /* фон .badge--grad, переведённый в SVG (те же цвета и геометрия) */
+  const GRAD_DEFS =
+    '<linearGradient id="lin" gradientUnits="userSpaceOnUse" x1="360.88" y1="-27.57" x2="59.12" y2="619.57">' +
+      '<stop offset="0" stop-color="#24497F"/><stop offset=".48" stop-color="#1B3A6A"/><stop offset="1" stop-color="#122649"/></linearGradient>' +
+    '<radialGradient id="g3" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(231,355.2) scale(252,266.4)">' +
+      '<stop offset="0" stop-color="#3557CC" stop-opacity=".28"/><stop offset=".7" stop-color="#3557CC" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="g2" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(8.4,556.48) scale(336,367.04)">' +
+      '<stop offset="0" stop-color="#80B4E6" stop-opacity=".48"/><stop offset=".58" stop-color="#80B4E6" stop-opacity="0"/></radialGradient>' +
+    '<radialGradient id="g1" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform="translate(378,130.24) scale(399,444)">' +
+      '<stop offset="0" stop-color="#4E94D0" stop-opacity=".55"/><stop offset=".62" stop-color="#4E94D0" stop-opacity="0"/></radialGradient>';
+
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const n2 = v => Math.round(v * 100) / 100;
+  const mctx = document.createElement('canvas').getContext('2d');
+
+  async function buildSVG(badge) {
+    await document.fonts.ready;
+    const out = [];
+    const bR = badge.getBoundingClientRect();
+    const X = r => n2(r.left - bR.left), Y = r => n2(r.top - bR.top);
+
+    const metrics = cs => {
+      mctx.font = `${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const m = mctx.measureText('Мр');
+      return { asc: m.fontBoundingBoxAscent, desc: m.fontBoundingBoxDescent };
+    };
+
+    const boxOf = el => {
+      const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+      const bg = cs.backgroundColor;
+      if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+        const br = cs.borderTopLeftRadius;
+        if (br.endsWith('%') && parseFloat(br) >= 50 && Math.abs(r.width - r.height) < 1) {
+          out.push(`<circle cx="${n2(X(r) + r.width / 2)}" cy="${n2(Y(r) + r.height / 2)}" r="${n2(r.width / 2)}" fill="${bg}"/>`);
+        } else {
+          const rx = Math.min(parseFloat(br) || 0, r.height / 2, r.width / 2);
+          out.push(`<rect x="${X(r)}" y="${Y(r)}" width="${n2(r.width)}" height="${n2(r.height)}"${rx ? ` rx="${n2(rx)}"` : ''} fill="${bg}"/>`);
+        }
+      }
+      const bt = parseFloat(cs.borderTopWidth);
+      if (bt > 0 && cs.borderTopStyle !== 'none') {
+        const dash = cs.borderTopStyle === 'dashed' ? ' stroke-dasharray="7 6"' : '';
+        out.push(`<line x1="${X(r)}" y1="${n2(Y(r) + bt / 2)}" x2="${n2(X(r) + r.width)}" y2="${n2(Y(r) + bt / 2)}" stroke="${cs.borderTopColor}" stroke-width="${bt}"${dash}/>`);
+      }
+      const bb = parseFloat(cs.borderBottomWidth);
+      if (bb > 0 && cs.borderBottomStyle !== 'none') {
+        out.push(`<line x1="${X(r)}" y1="${n2(Y(r) + r.height - bb / 2)}" x2="${n2(X(r) + r.width)}" y2="${n2(Y(r) + r.height - bb / 2)}" stroke="${cs.borderBottomColor}" stroke-width="${bb}"/>`);
+      }
+    };
+
+    const iconOf = svgEl => {
+      const use = svgEl.querySelector('use');
+      if (!use) return;
+      const sym = document.querySelector(use.getAttribute('href'));
+      if (!sym) return;
+      const vb = sym.viewBox.baseVal, r = svgEl.getBoundingClientRect();
+      const op = getComputedStyle(svgEl).opacity;
+      out.push(`<g transform="translate(${X(r)},${Y(r)}) scale(${n2(r.width / vb.width)},${n2(r.height / vb.height)})"${op !== '1' ? ` opacity="${op}"` : ''}>${sym.innerHTML}</g>`);
+    };
+
+    const textOf = node => {
+      const el = node.parentElement, cs = getComputedStyle(el);
+      let txt = node.textContent.replace(/\s+/g, ' ').trim();
+      if (!txt) return;
+      if (cs.textTransform === 'uppercase') txt = txt.toUpperCase();
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      const rects = [...range.getClientRects()].filter(r => r.width > 0.5);
+      if (!rects.length) return;
+      const r = rects[0];
+      const { asc, desc } = metrics(cs);
+      const fs = parseFloat(cs.fontSize);
+      const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+      const ls = cs.letterSpacing !== 'normal' ? ` letter-spacing="${parseFloat(cs.letterSpacing)}"` : '';
+      const strokeW = parseFloat(cs.webkitTextStrokeWidth || '0');
+      const paint = strokeW > 0
+        ? ` fill="${cs.color === 'rgba(0, 0, 0, 0)' ? 'none' : cs.color}" stroke="${cs.webkitTextStrokeColor}" stroke-width="${strokeW}"`
+        : ` fill="${cs.color}"`;
+      const attrs = `font-family="${fam}" font-size="${fs}" font-weight="${cs.fontWeight}"${ls}${paint}`;
+      if (cs.writingMode.startsWith('vertical')) {
+        const off = (r.width - (asc + desc)) / 2 + asc;
+        out.push(`<text transform="translate(${n2(X(r) + off)},${n2(Y(r) + r.height)}) rotate(-90)" ${attrs}>${esc(txt)}</text>`);
+      } else {
+        const by = Y(r) + (r.height - (asc + desc)) / 2 + asc;
+        out.push(`<text x="${X(r)}" y="${n2(by)}" ${attrs}>${esc(txt)}</text>`);
+      }
+    };
+
+    const walk = el => {
+      for (const node of el.childNodes) {
+        if (node.nodeType === 3) textOf(node);
+        else if (node.nodeType === 1) {
+          const tag = node.tagName.toLowerCase();
+          if (tag === 'svg') { iconOf(node); continue; }
+          if (tag === 'br') continue;
+          boxOf(node);
+          walk(node);
+        }
+      }
+    };
+    walk(badge);
+
+    const grad = badge.classList.contains('badge--grad');
+    const defs = '<clipPath id="clip"><rect width="420" height="592" rx="26"/></clipPath>' + (grad ? GRAD_DEFS : '');
+    const bg = grad
+      ? '<rect width="420" height="592" fill="url(#lin)"/><rect width="420" height="592" fill="url(#g3)"/><rect width="420" height="592" fill="url(#g2)"/><rect width="420" height="592" fill="url(#g1)"/>'
+      : '<rect width="420" height="592" fill="#1B3A6A"/>';
+    const css = await fontCSS();
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="592" viewBox="0 0 420 592"><defs>${defs}</defs>` +
+      `<style><![CDATA[\n${css}\n]]></style><g clip-path="url(#clip)">${bg}\n${out.join('\n')}</g></svg>`;
+  }
+
+  async function download(badge, name) {
+    const svg = await buildSVG(badge);
+    const blob = new Blob([svg], { type: 'image/svg+xml' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name + '.svg';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+
+  document.querySelectorAll('.dl').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const badge = btn.closest('.item').querySelector('.badge');
+      btn.disabled = true;
+      try { await download(badge, btn.dataset.name); }
+      finally { btn.disabled = false; }
+    });
+  });
+
+  /* для автотестов */
+  window.__buildBadgeSVG = sel => buildSVG(document.querySelector(sel));
+})();
+</script>
+</body>
+</html>

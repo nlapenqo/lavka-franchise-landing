@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v7 — Переключатель-одометр</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg-light); }
+
+  /* ============ 04 · v7 — табы-чипы + одна мега-цифра ============ */
+  .odo { padding-block: var(--section-pad); }
+
+  .odo__label { display: block; margin-bottom: clamp(18px, 2.4vw, 30px); }
+
+  .odo__tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: clamp(28px, 4vw, 52px); }
+  .odo__tab {
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .odo__tab:hover { transform: translateY(-2px); }
+  .odo__tab[aria-selected="true"] { background: var(--navy); color: #fff; }
+  .odo__tab:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+  .odo__stage { min-height: clamp(220px, 26vw, 330px); }
+
+  .odo__numline { display: flex; align-items: baseline; gap: clamp(14px, 2vw, 28px); flex-wrap: wrap; }
+  .odo__num {
+    font-weight: 900; font-size: var(--fs-mega);
+    line-height: .8; letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums;
+    color: var(--blue);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .odo__stage[data-seg="progress"] .odo__num { color: var(--navy); }
+  .odo__stage[data-seg="seeking"]  .odo__num { color: var(--orange); }
+
+  .odo__cap {
+    max-width: 300px;
+    color: var(--text-dim);
+  }
+
+  .odo__cities { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(22px, 3vw, 36px); }
+
+  .odo__cap, .odo__cities {
+    transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+  }
+  .odo__stage.is-swap .odo__cap,
+  .odo__stage.is-swap .odo__cities { opacity: 0; transform: translateY(8px); }
+
+  .legal { text-align: center; margin-top: clamp(28px, 4vw, 48px); }
+
+  @media (max-width: 560px) {
+    .odo__numline { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .odo__stage.is-swap .odo__cap,
+    .odo__stage.is-swap .odo__cities { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · v7 — Переключатель-одометр</div>
+
+  <section class="odo" aria-label="Цифры сети — переключатель">
+    <div class="container">
+
+      <span class="t-label odo__label reveal">Сеть сегодня</span>
+
+      <div class="odo__tabs reveal reveal-d1" role="tablist" aria-label="Показатели сети">
+        <button class="chip odo__tab" id="tab-launched" role="tab" aria-selected="true"  aria-controls="odo-panel" data-seg="launched">Запущено</button>
+        <button class="chip odo__tab" id="tab-progress" role="tab" aria-selected="false" aria-controls="odo-panel" data-seg="progress" tabindex="-1">В работе</button>
+        <button class="chip odo__tab" id="tab-seeking"  role="tab" aria-selected="false" aria-controls="odo-panel" data-seg="seeking"  tabindex="-1">Ищем партнёров</button>
+      </div>
+
+      <div class="odo__stage reveal reveal-d2" id="odoStage" data-seg="launched"
+           role="tabpanel" aria-labelledby="tab-launched">
+        <div class="odo__numline">
+          <span class="odo__num" id="odoNum"><span data-count="14">0</span></span>
+          <p class="odo__cap t-sub" id="odoCap">городов запущено по&nbsp;франшизе</p>
+        </div>
+        <div class="odo__cities" id="odoCities">
+          <span class="chip">Москва</span><span class="chip">Казань</span><span class="chip">Челябинск</span><span class="chip">Тюмень</span><span class="chip">Воронеж</span><span class="chip chip--outline">и ещё 9</span>
+        </div>
+      </div>
+
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script>
+    /* табы-чипы: перелистывают одну мега-цифру с одометр-анимацией */
+    (function () {
+      var stage = document.getElementById('odoStage'),
+          num   = document.getElementById('odoNum'),
+          cap   = document.getElementById('odoCap'),
+          list  = document.getElementById('odoCities'),
+          tabs  = Array.prototype.slice.call(document.querySelectorAll('.odo__tab'));
+      if (!stage || !num || !cap || !list || !tabs.length) return;
+
+      var data = {
+        launched: { v: 14, cap: 'городов запущено по франшизе',
+          cities: ['Москва', 'Казань', 'Челябинск', 'Тюмень', 'Воронеж', 'и ещё 9'] },
+        progress: { v: 25, cap: 'городов в работе',
+          cities: ['Пермь', 'Самара', 'Уфа', 'Саратов', 'и ещё 21'] },
+        seeking:  { v: 9, cap: 'партнёров ищем сейчас',
+          cities: ['Ижевск', 'Оренбург', 'Ульяновск', 'Тольятти', 'и ещё 5'] }
+      };
+
+      var fmt = new Intl.NumberFormat('ru-RU');
+      var current = 14, raf = null, doneTimer = null;
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+      function setNum(v) { num.textContent = fmt.format(Math.round(v)); }
+
+      function animateTo(target) {
+        if (raf) cancelAnimationFrame(raf);
+        if (doneTimer) clearTimeout(doneTimer);
+        if (reduce.matches) { current = target; setNum(target); return; }
+        var from = current, t0 = performance.now(), dur = 700;
+        /* страховка: финальное значение даже если rAF заглушен */
+        doneTimer = setTimeout(function () {
+          if (raf) cancelAnimationFrame(raf);
+          raf = null; current = target; setNum(target);
+        }, dur + 80);
+        (function tick(t) {
+          var p = Math.min((t - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          current = from + (target - from) * eased;
+          setNum(current);
+          if (p < 1) raf = requestAnimationFrame(tick);
+          else { raf = null; current = target; }
+        })(t0);
+      }
+
+      function select(tab) {
+        var seg = tab.dataset.seg, d = data[seg];
+        if (!d || stage.dataset.seg === seg) return;
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+        });
+        stage.setAttribute('aria-labelledby', tab.id);
+        stage.classList.add('is-swap');
+        animateTo(d.v);
+        setTimeout(function () {
+          stage.dataset.seg = seg;
+          cap.textContent = d.cap;
+          list.innerHTML = d.cities.map(function (c, i) {
+            var last = i === d.cities.length - 1;
+            return '<span class="chip' + (last ? ' chip--outline' : '') + '">' + c + '</span>';
+          }).join('');
+          stage.classList.remove('is-swap');
+        }, reduce.matches ? 0 : 200);
+      }
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () { select(tab); });
+        tab.addEventListener('keydown', function (e) {
+          var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!dir) return;
+          e.preventDefault();
+          var next = tabs[(i + dir + tabs.length) % tabs.length];
+          next.focus(); select(next);
+        });
+      });
+    })();
+  </script>
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

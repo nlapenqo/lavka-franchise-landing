@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 · Как устроен бизнес · final&nbsp;— Карусель-история</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{ overflow-x: clip; }
+
+  /* ---------- заголовок секции ---------- */
+  .sec-head{ margin-bottom: clamp(28px, 4vw, 48px); }
+  .sec-head .t-label{ display: block; margin-bottom: 14px; }
+  .sec-head p{ margin-top: 16px; max-width: 560px; color: var(--text-dim); }
+
+  /* ---------- большая карточка-слайдер ---------- */
+  .slider-card{
+    background: var(--bg-light);
+    border-radius: var(--r-card);
+    padding: clamp(24px, 4vw, 56px);
+  }
+  .slider-viewport{ overflow: hidden; border-radius: 24px; }
+  .slider-track{
+    display: flex;
+    transition: transform .6s var(--ease-out);
+  }
+  .slide{
+    flex: 0 0 100%; min-width: 0;
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+    min-height: 480px;
+  }
+  .slide-copy{
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: clamp(16px, 2vw, 24px);
+    max-width: 54ch;
+  }
+  .slide-copy .t-h2{ font-size: clamp(28px, 3.4vw, 48px); }
+  .slide-copy p{ color: var(--text-dim); max-width: 46ch; }
+  .chip--white{
+    background: #fff; color: var(--navy);
+    box-shadow: 0 4px 14px rgba(27,58,106,.08);
+  }
+  .chip--white b{ color: var(--blue); font-weight: 800; margin-right: 8px; }
+
+  /* ---------- визуал-карточки (фото-заглушки) ---------- */
+  .slide-visual{
+    position: relative; border-radius: 24px; overflow: hidden;
+    min-height: 420px; align-self: stretch;
+    display: grid; place-items: center;
+  }
+  .slide-visual .stub-ill{ width: min(58%, 320px); height: auto; }
+  .stub-cap{
+    position: absolute; left: 20px; bottom: 16px;
+    font-family: var(--font-cond); font-weight: 300;
+    font-size: 12px; letter-spacing: .02em;
+    color: rgba(255,255,255,.78);
+  }
+  .visual-chip{
+    position: absolute; top: 16px; left: 16px;
+    background: rgba(255,255,255,.92); color: var(--navy);
+    font-size: 13px; font-weight: 500;
+    padding: .45em 1em; border-radius: var(--r-pill);
+  }
+  .visual--pack { background: linear-gradient(135deg, var(--navy) 0%, var(--accent-blue) 100%); }
+  .visual--owner{ background: linear-gradient(135deg, var(--mid-blue) 0%, var(--navy) 100%); }
+  .visual--wms{
+    background-color: var(--navy);
+    background-image:
+      linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+  .visual--pack::after, .visual--owner::after{
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(90% 70% at 78% 10%, rgba(255,255,255,.14), transparent 60%);
+  }
+  .wln{ fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .wln-thin{ fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; opacity: .65; }
+
+  /* ---------- управление слайдером: стрелки + табы-чипы + свайп ---------- */
+  .slider-ui{
+    display: flex; align-items: center; gap: 14px;
+    margin-top: clamp(20px, 3vw, 32px);
+  }
+  .arrow{
+    width: 52px; height: 52px; border-radius: 50%; flex: none;
+    background: #fff; color: var(--navy);
+    box-shadow: var(--shadow-card);
+    display: grid; place-items: center;
+    transition: background var(--dur-fast), color var(--dur-fast),
+                transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast);
+  }
+  .arrow:hover{ background: var(--blue); color: #fff; transform: translateY(-2px); }
+  .arrow:active{ transform: none; }
+  .arrow[disabled]{ opacity: .35; pointer-events: none; }
+  .arrow svg{ width: 20px; height: 20px; }
+  .tabs{ display: flex; flex-wrap: wrap; gap: 8px; margin-left: 8px; }
+  .tabs .chip{ transition: background var(--dur-fast), color var(--dur-fast); }
+  .tabs .chip:not(.chip--active){ background: #fff; box-shadow: 0 2px 10px rgba(27,58,106,.07); }
+  .tabs .chip:not(.chip--active):hover{ color: var(--navy); }
+  .slider-count{
+    margin-left: auto;
+    font-weight: 500; font-size: 14px; letter-spacing: .06em;
+    color: var(--text-dim); font-variant-numeric: tabular-nums;
+  }
+  button:focus-visible, a:focus-visible{ outline: 3px solid var(--sky); outline-offset: 2px; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 920px){
+    .slide{ grid-template-columns: 1fr; min-height: 0; gap: 22px; }
+    .slide-visual{ order: -1; width: 100%; height: auto; min-height: 0; aspect-ratio: 4 / 3; max-height: 380px; }
+    .slide-copy{ max-width: none; }
+  }
+  @media (max-width: 560px){
+    .slider-card{ padding: 18px; border-radius: var(--r-card-sm); }
+    .slider-viewport{ border-radius: 16px; }
+    .arrow{ width: 46px; height: 46px; }
+    .slider-ui{ flex-wrap: wrap; }
+    .tabs{ order: 3; width: 100%; margin: 6px 0 0; }
+    .tabs .chip{ font-size: 12px; }
+    .slider-count{ margin-left: auto; }
+  }
+  .proto-footer{ display: flex; justify-content: center; padding: 20px 0 28px; }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">05 · Как устроен бизнес · final&nbsp;— на&nbsp;основе v1</div>
+
+<section class="section" aria-label="Как устроен бизнес" id="business">
+  <div class="container">
+    <header class="sec-head reveal">
+      <span class="t-label">Бизнес-модель</span>
+      <h2 class="t-h1">Как устроен бизнес</h2>
+      <p class="t-sub">Три слайда&nbsp;— одна модель: что такое Лавка, за&nbsp;что отвечает франчайзи и&nbsp;что берёт на&nbsp;себя Яндекс</p>
+    </header>
+
+    <div class="slider-card reveal">
+      <div class="slider-viewport" id="viewport">
+        <div class="slider-track" id="track">
+
+          <!-- слайд 1 · Что такое Лавка -->
+          <article class="slide" role="group" aria-roledescription="слайд" aria-label="1 из 3">
+            <div class="slide-copy">
+              <span class="chip chip--white"><b>01</b>Что такое Лавка</span>
+              <h3 class="t-h2">Бизнес на&nbsp;скорости: дарксторы с&nbsp;доставкой за&nbsp;10–15&nbsp;минут</h3>
+              <p class="t-body">Клиенты заказывают через Лавку, Маркет, Еду, Go и&nbsp;Деливери. Франчайзи управляет дарксторами в&nbsp;своём городе&nbsp;— трафик приходит из&nbsp;всей экосистемы Яндекса.</p>
+              <a class="btn btn--blue" href="#form">Стать партнёром</a>
+            </div>
+            <div class="slide-visual visual--pack" aria-hidden="true">
+              <svg class="stub-ill" viewBox="0 0 220 170">
+                <g class="wln">
+                  <rect x="84" y="48" width="96" height="78" rx="14"/>
+                  <path d="M132 48v30"/>
+                  <rect x="100" y="96" width="30" height="14" rx="4"/>
+                </g>
+                <g class="wln-thin">
+                  <path d="M22 62h32"/><path d="M12 88h44"/><path d="M22 114h32"/>
+                </g>
+                <circle cx="182" cy="48" r="16" fill="var(--blue)"/>
+                <path class="wln" d="M175 48l5 5 10-11"/>
+              </svg>
+              <span class="visual-chip">сборка заказа · 10–15 минут</span>
+              <span class="stub-cap">фото-заглушка · сборка заказа в&nbsp;дарксторе</span>
+            </div>
+          </article>
+
+          <!-- слайд 2 · Зона франчайзи -->
+          <article class="slide" role="group" aria-roledescription="слайд" aria-label="2 из 3">
+            <div class="slide-copy">
+              <span class="chip chip--white"><b>02</b>Зона франчайзи</span>
+              <h3 class="t-h2">Франчайзи отвечает за</h3>
+              <p class="t-body">Поиск и&nbsp;ремонт помещений, найм и&nbsp;управление персоналом&nbsp;— включая курьеров и&nbsp;сборщиков. А&nbsp;также операционное управление бизнесом.</p>
+            </div>
+            <div class="slide-visual visual--owner" aria-hidden="true">
+              <svg class="stub-ill" viewBox="0 0 220 170">
+                <g class="wln">
+                  <circle cx="78" cy="52" r="20"/>
+                  <path d="M40 138c0-24 17-42 38-42s38 18 38 42"/>
+                  <rect x="128" y="40" width="56" height="84" rx="12"/>
+                  <rect x="146" y="32" width="20" height="12" rx="4"/>
+                </g>
+                <g class="wln-thin">
+                  <path d="M140 64h32"/><path d="M140 82h32"/><path d="M140 100h20"/>
+                </g>
+                <circle cx="184" cy="124" r="13" fill="var(--blue)"/>
+                <path class="wln" d="M178 124l5 5 8-9"/>
+              </svg>
+              <span class="visual-chip">помещения · команда · операционка</span>
+              <span class="stub-cap">фото-заглушка · франчайзи и&nbsp;команда даркстора</span>
+            </div>
+          </article>
+
+          <!-- слайд 3 · Зона Яндекса -->
+          <article class="slide" role="group" aria-roledescription="слайд" aria-label="3 из 3">
+            <div class="slide-copy">
+              <span class="chip chip--white"><b>03</b>Зона Яндекса</span>
+              <h3 class="t-h2">Яндекс берёт на&nbsp;себя</h3>
+              <p class="t-body">Поставщики, ассортимент и&nbsp;логистика „средней мили“. Плюс IT-инфраструктура&nbsp;— WMS, автозаказ, WFM, приложения и&nbsp;отчётность&nbsp;— и&nbsp;полная маркетинговая поддержка.</p>
+            </div>
+            <div class="slide-visual visual--wms" aria-hidden="true">
+              <svg class="stub-ill" viewBox="0 0 220 170">
+                <g class="wln">
+                  <rect x="36" y="24" width="148" height="112" rx="14"/>
+                  <path d="M36 52h148"/>
+                </g>
+                <circle cx="54" cy="38" r="3" fill="#fff"/>
+                <circle cx="66" cy="38" r="3" fill="#fff"/>
+                <path class="wln-thin" d="M84 38h56"/>
+                <rect x="54"  y="74" width="16" height="46" rx="4" fill="var(--sky)"/>
+                <rect x="78"  y="88" width="16" height="32" rx="4" fill="var(--blue)"/>
+                <rect x="102" y="66" width="16" height="54" rx="4" fill="var(--sky)"/>
+                <rect x="126" y="96" width="16" height="24" rx="4" fill="var(--blue)"/>
+                <rect x="150" y="80" width="16" height="40" rx="4" fill="var(--sky)"/>
+                <path class="wln-thin" d="M50 126h120"/>
+                <g class="wln-thin"><rect x="120" y="146" width="64" height="18" rx="9"/></g>
+              </svg>
+              <span class="visual-chip">WMS · автозаказ · «средняя миля»</span>
+              <span class="stub-cap">заглушка · интерфейс WMS, автозаказ и&nbsp;отчётность</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="slider-ui">
+        <button class="arrow" id="prev" aria-label="Предыдущий слайд">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="arrow" id="next" aria-label="Следующий слайд">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Слайды бизнес-модели">
+          <button class="chip chip--active" role="tab" aria-selected="true">Что такое Лавка</button>
+          <button class="chip" role="tab" aria-selected="false">Франчайзи отвечает</button>
+          <button class="chip" role="tab" aria-selected="false">Яндекс берёт на&nbsp;себя</button>
+        </div>
+        <span class="slider-count" id="count" aria-live="polite">01 / 03</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="proto-footer"><p class="t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</p></footer>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+(() => {
+  const track = document.getElementById('track');
+  const viewport = document.getElementById('viewport');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const tabs = [...document.querySelectorAll('#tabs .chip')];
+  const count = document.getElementById('count');
+  const N = track.children.length;
+  let i = 0;
+
+  function update(){
+    track.style.transform = `translateX(${-i * 100}%)`;
+    tabs.forEach((t, k) => {
+      t.classList.toggle('chip--active', k === i);
+      t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+    });
+    prev.disabled = (i === 0);
+    next.disabled = (i === N - 1);
+    count.textContent = `0${i + 1} / 0${N}`;
+  }
+  const go = n => { i = Math.max(0, Math.min(N - 1, n)); update(); };
+
+  prev.addEventListener('click', () => go(i - 1));
+  next.addEventListener('click', () => go(i + 1));
+  tabs.forEach((t, k) => t.addEventListener('click', () => go(k)));
+
+  /* свайп на тач: горизонтальный жест листает, вертикальный — скроллит страницу */
+  let x0 = null, y0 = 0, dx = 0, horiz = false;
+  viewport.addEventListener('touchstart', e => {
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+    dx = 0; horiz = false;
+  }, { passive: true });
+  viewport.addEventListener('touchmove', e => {
+    if (x0 === null) return;
+    dx = e.touches[0].clientX - x0;
+    const dy = e.touches[0].clientY - y0;
+    if (!horiz && Math.abs(dx) > Math.abs(dy) + 8) horiz = true;
+  }, { passive: true });
+  viewport.addEventListener('touchend', () => {
+    if (horiz && Math.abs(dx) > 48) go(i + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+
+  update();
+})();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

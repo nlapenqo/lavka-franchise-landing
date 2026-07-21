@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 9/14&nbsp;— Контур-фон</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { position: relative; overflow: hidden; padding-block: clamp(44px, 6vw, 80px); }
+  .ghost-num { position: absolute; right: clamp(-30px, -1vw, 20px); top: 50%; transform: translateY(-47%); font-weight: 900; font-size: clamp(180px, 26vw, 380px); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 2.5px var(--sky); font-variant-numeric: tabular-nums; user-select: none; pointer-events: none; }
+  .txt { position: relative; z-index: 1; max-width: 560px; }
+  .txt h3 { font-weight: 900; font-size: clamp(30px, 3.4vw, 52px); line-height: .98; letter-spacing: -.01em; color: var(--navy); }
+  .txt p { margin-top: 14px; font-size: clamp(14px, 1.25vw, 18px); line-height: 1.35; color: var(--text-dim); max-width: 470px; }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 720px) { .ghost-num { opacity: .55; } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 9/14&nbsp;— Контур-фон</div>
+
+  <section class="band">
+    <span class="ghost-num" aria-hidden="true">14</span>
+    <div class="container">
+      <div class="txt reveal">
+        <h3>14 городов запущено<br>по&nbsp;франшизе</h3>
+        <p>Сеть растёт каждый месяц: 25 городов в&nbsp;работе, набор партнёров открыт ещё в&nbsp;девяти</p>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

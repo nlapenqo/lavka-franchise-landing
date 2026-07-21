@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · v5 — Типографический манифест</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+  .hero {
+    position: relative;
+    min-height: clamp(560px, 100vh, 900px);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--navy);
+  }
+
+  /* ---------- Мини-шапка ---------- */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Гигантский заголовок с медиа-пилюлями ---------- */
+  .hero__in {
+    flex: 1; width: 100%;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 116px; padding-bottom: 96px;
+  }
+  .hero__title { font-size: clamp(44px, 8.6vw, 132px); }
+  .hero__title .line { display: block; }
+  .mpill {
+    display: inline-block; vertical-align: baseline;
+    width: 1.75em; height: .68em;
+    margin-inline: .04em;
+    border-radius: var(--r-pill);
+    transform: translateY(.075em);
+    transition: width .45s var(--ease-out);
+    overflow: hidden;
+    position: relative;
+  }
+  .hero__title .line:hover .mpill { width: 2.35em; }
+  .mpill--store {
+    background:
+      radial-gradient(rgba(255, 255, 255, .5) 1.4px, transparent 1.6px) 0 0 / 12px 12px,
+      linear-gradient(120deg, var(--blue), var(--mid-blue));
+  }
+  .mpill--speed { background: linear-gradient(120deg, var(--orange), var(--peach)); }
+  .mpill--speed::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(105deg, transparent 32%, rgba(255, 255, 255, .55) 46%, transparent 60%);
+    animation: sweep 2.8s var(--ease-out) infinite;
+  }
+  @keyframes sweep { 0% { transform: translateX(-100%); } 55%, 100% { transform: translateX(100%); } }
+  .mpill--city {
+    background:
+      linear-gradient(0deg, rgba(27, 58, 106, .28) 1.5px, transparent 1.6px) 0 0 / 100% 26%,
+      var(--lavender);
+  }
+  .mpill i {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: #fff;
+  }
+  .mpill i svg { width: .34em; height: .34em; }
+
+  /* ---------- Нижний ряд: саблайн + CTA + факты ---------- */
+  .hero__foot {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px 48px; flex-wrap: wrap;
+    margin-top: clamp(30px, 4.5vh, 56px);
+  }
+  .hero__sub { max-width: 480px; color: var(--text-dim); }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .facts {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: clamp(24px, 3.5vh, 40px);
+  }
+  .facts .chip { background: var(--bg-light); color: var(--navy); box-shadow: inset 0 0 0 1.5px var(--bg-card); }
+
+  .hero__legal {
+    position: absolute; z-index: 15; left: 50%; bottom: 20px;
+    transform: translateX(-50%);
+    color: var(--navy); white-space: nowrap;
+  }
+
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { padding-top: 92px; padding-bottom: 88px; }
+    .hero__title { font-size: clamp(42px, 12.5vw, 66px); }
+    .hero__foot { align-items: flex-start; flex-direction: column; gap: 22px; }
+    .facts .chip { font-size: 12px; }
+    .hero__legal { bottom: 14px; }
+  }
+  @media (max-width: 420px) { .logo__chip { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .mpill { transition: none; }
+    .mpill--speed::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <h1 class="t-hero hero__title">
+      <span class="line reveal">Запустите</span>
+      <span class="line reveal reveal-d1">Яндекс&nbsp;Лавку<span class="mpill mpill--store" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 9.6 5.8 5.4h12.4l1.2 4.2"/><path d="M5.4 9.8v8.8h13.2V9.8"/><path d="M10 18.6v-4.4h4v4.4"/></svg></i></span></span>
+      <span class="line reveal reveal-d2">по&nbsp;франшизе<span class="mpill mpill--speed" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 5 13.5h5.5L11 22l8-11.5h-5.5L13 2Z"/></svg></i></span></span>
+      <span class="line reveal reveal-d3">в&nbsp;своём городе<span class="mpill mpill--city" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></i></span></span>
+    </h1>
+
+    <div class="hero__foot reveal reveal-d3">
+      <p class="hero__sub t-sub">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+    </div>
+
+    <ul class="facts reveal reveal-d4">
+      <li><span class="chip">600+ дарксторов</span></li>
+      <li><span class="chip">Доставка 10–15&nbsp;минут</span></li>
+      <li><span class="chip">3 формата партнёрства</span></li>
+      <li><span class="chip">Инвестиции от&nbsp;75&nbsp;млн&nbsp;₽</span></li>
+    </ul>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и визуалы — заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · v5 — Типографический манифест</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

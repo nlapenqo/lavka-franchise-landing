@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · Мероприятие · wf — По вайрфрейму</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 03 · wf — компактная полоса под хиро ============ */
+  .wf-event { padding-block: clamp(20px, 3vw, 40px); }
+
+  .strip {
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    padding: clamp(14px, 1.8vw, 20px) clamp(18px, 2.5vw, 28px);
+    border-radius: var(--r-card-sm);
+    background: var(--bg-card);
+    transition: background var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .strip:hover { background: var(--sky); box-shadow: var(--shadow-card); }
+  .strip:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+  .strip__go {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 500; font-size: clamp(15px, 1.2vw, 18px);
+    color: var(--navy);
+  }
+  .strip__go svg {
+    width: 20px; height: 20px;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .strip:hover .strip__go svg { transform: translateX(4px); }
+
+  .legal { text-align: center; margin-top: clamp(16px, 2.5vw, 28px); }
+
+  @media (max-width: 440px) {
+    .strip { padding-inline: 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">03 · Мероприятие · wf — По вайрфрейму</div>
+
+  <section class="wf-event">
+    <div class="container">
+      <a class="strip reveal" href="#event-form" aria-label="Набор на мероприятие открыт — участвовать">
+        <span class="chip chip--active">набор открыт</span>
+        <span class="strip__go">
+          Участвовать
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h15"/><path d="M13 6l6 6-6 6"/>
+          </svg>
+        </span>
+      </a>
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · v6 — Коридор-тур</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{ overflow-x: clip; background: var(--bg-light); }
+
+  .head{
+    display: grid; grid-template-columns: minmax(0,1fr) auto;
+    gap: var(--space-4); align-items: end;
+    margin-bottom: clamp(26px, 4vw, 44px);
+  }
+  .head p{ max-width: 520px; margin-top: 18px; color: var(--text-dim); }
+
+  .tour-nav{ display: flex; align-items: center; gap: 12px; }
+  .arrow{
+    width: 52px; height: 52px; border-radius: 50%; flex: none;
+    background: #fff; color: var(--navy);
+    box-shadow: var(--shadow-card);
+    display: grid; place-items: center;
+    transition: background var(--dur-fast), color var(--dur-fast), opacity var(--dur-fast);
+  }
+  .arrow:hover{ background: var(--blue); color: #fff; }
+  .arrow[disabled]{ opacity: .3; pointer-events: none; }
+  .arrow svg{ width: 20px; height: 20px; }
+  .tour-count{
+    font-weight: 800; font-size: 18px; color: var(--navy);
+    font-variant-numeric: tabular-nums; min-width: 4.6ch; text-align: center;
+  }
+
+  /* ---------- прогресс «коридора» ---------- */
+  .progress{
+    height: 5px; border-radius: 3px; background: var(--bg-card);
+    margin-bottom: clamp(18px, 2.5vw, 26px); overflow: hidden;
+  }
+  .progress i{
+    display: block; height: 100%; width: 100%;
+    background: var(--blue); border-radius: 3px;
+    transform-origin: left; transform: scaleX(.143);
+    transition: transform .3s var(--ease-out);
+  }
+
+  /* ---------- лента зон ---------- */
+  .hall{
+    display: flex; gap: clamp(12px, 1.5vw, 18px);
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 14px;
+    scrollbar-width: none;
+  }
+  .hall::-webkit-scrollbar{ display: none; }
+  .room{
+    position: relative; flex: 0 0 min(360px, 82vw);
+    scroll-snap-align: start;
+    min-height: 430px;
+    border-radius: var(--r-card);
+    padding: clamp(22px, 2.6vw, 32px);
+    display: flex; flex-direction: column; gap: 12px; align-items: flex-start;
+    overflow: hidden;
+    background: var(--room-bg, #fff); color: var(--room-fg, var(--navy));
+    box-shadow: var(--shadow-card);
+  }
+  .room__step{
+    font-weight: 900; font-size: clamp(72px, 8vw, 110px);
+    line-height: .8; letter-spacing: -.01em;
+    opacity: .16;
+  }
+  .room__ico{
+    position: absolute; top: clamp(22px, 2.6vw, 32px); right: clamp(22px, 2.6vw, 32px);
+    width: 50px; height: 50px; border-radius: 15px;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,.65); color: var(--navy);
+  }
+  .room--dark .room__ico{ background: rgba(255,255,255,.14); color: #fff; }
+  .room__ico svg{ width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .room h3{
+    margin-top: auto;
+    font-weight: 800; font-size: clamp(24px, 2.2vw, 32px);
+    line-height: 1; letter-spacing: -.005em;
+  }
+  .room p{ font-size: var(--fs-small); line-height: 1.35; opacity: .8; max-width: 34ch; }
+  .room__meta{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .room__meta .chip{ background: rgba(255,255,255,.72); color: var(--navy); }
+  .chip--owner-fr{ background: var(--blue) !important; color: #fff !important; }
+  .chip--owner-ya{ background: var(--navy) !important; color: #fff !important; }
+
+  .room--middle  { --room-bg: var(--navy); --room-fg: var(--text-on-dark); }
+  .room--middle p{ color: var(--text-dim-dark); opacity: 1; }
+  .room--dry     { --room-bg: var(--warm-gray); }
+  .room--freezer { --room-bg: var(--sky); }
+  .room--cold    { --room-bg: #fff; }
+  .room--kitchen { --room-bg: var(--peach); }
+  .room--assembly{ --room-bg: var(--lavender); }
+  .room--pickup  { --room-bg: var(--blue); --room-fg: #fff; }
+  .room--pickup .room__meta .chip{ background: rgba(255,255,255,.9); }
+
+  .legend{
+    display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+    margin-top: clamp(20px, 3vw, 30px);
+  }
+  .legal{ margin-top: var(--space-4); text-align: center; }
+  a:focus-visible, button:focus-visible{ outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  @media (max-width: 640px){
+    .head{ grid-template-columns: 1fr; }
+    .tour-nav{ justify-content: flex-start; }
+    .room{ min-height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">05.1 · Даркстор изнутри · v6 — Коридор-тур</div>
+
+<section class="section" aria-label="Даркстор изнутри">
+  <div class="container">
+
+    <header class="head reveal">
+      <div>
+        <span class="chip chip--navy">Даркстор изнутри</span>
+        <h1 class="t-h1" style="margin-top:16px">Пройдите по&nbsp;складу</h1>
+        <p class="t-sub">Семь зон в&nbsp;порядке пути товара&nbsp;— от&nbsp;поставки до&nbsp;курьера. Листайте, как будто идёте по&nbsp;коридору</p>
+      </div>
+      <div class="tour-nav">
+        <button class="arrow" id="prev" aria-label="Предыдущая зона">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <span class="tour-count" id="count" aria-live="polite">01 / 07</span>
+        <button class="arrow" id="next" aria-label="Следующая зона">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="progress reveal" aria-hidden="true"><i id="fill"></i></div>
+
+    <div class="hall reveal" id="hall" tabindex="0" aria-label="Лента зон даркстора — прокручивается горизонтально">
+
+      <article class="room room--middle">
+        <span class="room__step" aria-hidden="true">01</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M4 9h15v12H4zM19 13h5l4 4.5V21h-9"/><circle cx="10" cy="23.5" r="2.5"/><circle cx="24" cy="23.5" r="2.5"/></svg></span>
+        <h3>Средняя миля</h3>
+        <p>Бесперебойное снабжение товаром&nbsp;— поставки приходят по&nbsp;расписанию из&nbsp;инфраструктуры Яндекса</p>
+        <div class="room__meta"><span class="chip chip--owner-ya">Яндекс</span><span class="chip">Логистика</span></div>
+      </article>
+
+      <article class="room room--dry">
+        <span class="room__step" aria-hidden="true">02</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M5 27V6h22v21M5 13h22M5 20h22M12 6v21M20 6v21"/></svg></span>
+        <h3>Стеллажи сухого хранения</h3>
+        <p>Основной товарный запас: единая ассортиментная матрица и&nbsp;автозаказ&nbsp;— на&nbsp;стороне Яндекса</p>
+        <div class="room__meta"><span class="chip chip--owner-ya">Яндекс</span><span class="chip">Автозаказ</span></div>
+      </article>
+
+      <article class="room room--freezer">
+        <span class="room__step" aria-hidden="true">03</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 4v24M7 9l18 14M25 9 7 23M11 5l5 4 5-4M11 27l5-4 5 4"/></svg></span>
+        <h3>Морозильная камера</h3>
+        <p>Хранение заморозки в&nbsp;отдельном контуре с&nbsp;постоянным контролем температуры</p>
+        <div class="room__meta"><span class="chip chip--owner-fr">Франчайзи</span><span class="chip">−18°C</span></div>
+      </article>
+
+      <article class="room room--cold">
+        <span class="room__step" aria-hidden="true">04</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><rect x="7" y="4" width="18" height="24" rx="4"/><path d="M7 15h18M12 8v2M12 20v3"/></svg></span>
+        <h3>Холодильные камеры</h3>
+        <p>Фреш, молочная продукция и&nbsp;овощи в&nbsp;стабильном температурном режиме</p>
+        <div class="room__meta"><span class="chip chip--owner-fr">Франчайзи</span><span class="chip">+2…+4°C</span></div>
+      </article>
+
+      <article class="room room--kitchen">
+        <span class="room__step" aria-hidden="true">05</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M7 5v9a4 4 0 0 0 8 0V5M11 5v22M21 5v22M21 5c4 3 4 9 0 12"/></svg></span>
+        <h3>Кухня</h3>
+        <p>Готовая еда и&nbsp;кофе собственного производства&nbsp;— отдельный сценарий внутри даркстора</p>
+        <div class="room__meta"><span class="chip chip--owner-fr">Франчайзи</span><span class="chip">Готовая еда</span></div>
+      </article>
+
+      <article class="room room--assembly">
+        <span class="room__step" aria-hidden="true">06</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m5 10 11-5 11 5-11 5-11-5Zm0 0v12l11 5 11-5V10M16 15v12"/></svg></span>
+        <h3>Зона сборки</h3>
+        <p>Сборщики франчайзи собирают заказ за&nbsp;считанные минуты по&nbsp;маршруту из&nbsp;WMS</p>
+        <div class="room__meta"><span class="chip chip--owner-fr">Франчайзи</span><span class="chip">WMS-маршрут</span></div>
+      </article>
+
+      <article class="room room--pickup">
+        <span class="room__step" aria-hidden="true">07</span>
+        <span class="room__ico" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="9" cy="24" r="4"/><circle cx="23" cy="24" r="4"/><path d="M9 24h5l4-9h4l3 5M6 12h7l4 8"/></svg></span>
+        <h3>Зона выдачи</h3>
+        <p>Передача заказов курьерам и&nbsp;велопарковка&nbsp;— финальная точка перед доставкой за&nbsp;10–15&nbsp;минут</p>
+        <div class="room__meta"><span class="chip chip--owner-fr">Франчайзи</span><span class="chip">Курьеры</span></div>
+      </article>
+
+    </div>
+
+    <div class="legend reveal">
+      <span class="chip chip--owner-fr">Франчайзи · команда и операционка</span>
+      <span class="chip chip--owner-ya">Яндекс · поставки и технологии</span>
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const hall = document.getElementById('hall');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  const count = document.getElementById('count');
+  const fill = document.getElementById('fill');
+  if (!hall || !prev || !next) return;
+  const rooms = [...hall.children];
+  const N = rooms.length;
+
+  const cardStep = () => rooms.length > 1
+    ? rooms[1].offsetLeft - rooms[0].offsetLeft
+    : hall.clientWidth;
+
+  const index = () => Math.min(N - 1, Math.round(hall.scrollLeft / cardStep()));
+
+  function update(){
+    const i = index();
+    if (count) count.textContent = `0${i + 1} / 0${N}`;
+    const max = hall.scrollWidth - hall.clientWidth;
+    const p = max > 0 ? hall.scrollLeft / max : 0;
+    if (fill) fill.style.transform = `scaleX(${Math.max(1 / N, p)})`;
+    prev.disabled = hall.scrollLeft <= 4;
+    next.disabled = hall.scrollLeft >= max - 4;
+  }
+
+  prev.addEventListener('click', () => hall.scrollBy({ left: -cardStep(), behavior: 'smooth' }));
+  next.addEventListener('click', () => hall.scrollBy({ left: cardStep(), behavior: 'smooth' }));
+
+  let ticking = false;
+  hall.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; update(); });
+  }, { passive: true });
+  addEventListener('resize', update, { passive: true });
+  update();
+})();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

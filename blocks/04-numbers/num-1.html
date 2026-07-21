@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 1/6&nbsp;— Строка-минимум</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 26px 48px; }
+  .n { display: flex; align-items: baseline; gap: 16px; }
+  .n b { font-weight: 900; font-size: clamp(48px, 5vw, 84px); line-height: .9; letter-spacing: -.02em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .n span { font-weight: 500; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.2; color: var(--text-dim); max-width: 150px; }
+  .n--open span { position: relative; padding-left: 17px; }
+  .n--open span::before { content: ""; position: absolute; left: 0; top: .32em; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 900px) { .row { justify-content: flex-start; } }
+  @media (max-width: 600px) { .row { flex-direction: column; align-items: flex-start; gap: 22px; } .n b { font-size: clamp(44px, 13vw, 60px); } }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 1/6&nbsp;— Строка-минимум</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="row reveal">
+        <div class="n"><b data-count="14">0</b><span>городов запущено по&nbsp;франшизе</span></div>
+        <div class="n"><b data-count="25">0</b><span>городов в&nbsp;работе</span></div>
+        <div class="n n--open"><b data-count="9">0</b><span>партнёров ищем&nbsp;— набор открыт</span></div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

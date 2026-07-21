@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Футер · v6 — Индекс-футер</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .index { padding-top: clamp(44px, 6vw, 84px); }
+  .index__label { display: block; margin-bottom: 20px; }
+  .index-nav { display: grid; }
+  .index-row { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: clamp(18px, 2.6vw, 32px) clamp(4px, .6vw, 10px); border-top: 2px solid var(--bg-card); font-weight: 900; font-size: clamp(28px, 4.4vw, 64px); line-height: .95; letter-spacing: -.015em; transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast), padding var(--dur-fast) var(--ease-out); }
+  .index-row:last-child { border-bottom: 2px solid var(--bg-card); }
+  .index-row small { font-family: var(--font-cond); font-weight: 300; font-size: 14px; letter-spacing: .06em; color: var(--text-dim); margin-right: auto; margin-left: 18px; align-self: flex-start; padding-top: 8px; }
+  .index-row svg { flex: none; width: clamp(28px, 3vw, 44px); transition: transform var(--dur-fast) var(--ease-out); }
+  .index-row:hover { background: var(--navy); color: var(--text-on-dark); padding-inline: clamp(16px, 2.4vw, 34px); }
+  .index-row:hover small { color: var(--text-dim-dark); }
+  .index-row:hover svg { transform: translateX(8px); }
+  .index-row--tg:hover { background: var(--blue); }
+  .index-row--tg:hover svg { transform: translate(6px, -6px); }
+  .index-row:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+  .bottom { margin-top: clamp(40px, 6vw, 72px); background: var(--navy); color: var(--text-dim-dark); }
+  .bottom__grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(220px, .6fr) auto; gap: clamp(24px, 4vw, 52px); align-items: start; padding-block: clamp(28px, 4vw, 44px); }
+  .bottom .t-legal { opacity: .8; line-height: 1.5; }
+  .bottom__links { display: grid; gap: 8px; }
+  .bottom__links a:hover { color: var(--sky); }
+  .bottom a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 4px; }
+  .age { font-family: var(--font-text); font-size: 26px; font-weight: 500; color: var(--text-on-dark); }
+  .prototype { opacity: 1; text-align: center; padding: 0 var(--container-pad) 26px; background: var(--navy); color: var(--text-dim-dark); }
+  @media (max-width: 760px) {
+    .index-row small { display: none; }
+    .bottom__grid { grid-template-columns: 1fr auto; }
+    .bottom__grid > .t-legal { grid-column: 1 / -1; }
+  }
+  @media (max-width: 480px) {
+    .bottom__grid { grid-template-columns: 1fr; }
+    .bottom__grid > .t-legal { grid-column: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .index-row:hover svg, .index-row--tg:hover svg { transform: none; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">12 · Футер · v6 — Индекс-футер</div>
+
+<footer class="footer">
+  <div class="index">
+    <div class="container">
+      <span class="t-label index__label reveal">Яндекс Лавка · Франшиза</span>
+      <nav class="index-nav reveal" aria-label="Навигация футера">
+        <a class="index-row" href="#formats"><span>Форматы</span><small>три сценария входа</small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="index-row" href="#business"><span>Бизнес-модель</span><small>как устроена Лавка</small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="index-row" href="#steps"><span>Путь партнёра</span><small>от заявки до запуска</small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="index-row" href="#form"><span>Стать партнёром</span><small>короткая заявка</small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="index-row index-row--tg" href="https://t.me/yandex_lavka_franchise"><span>Telegram</span><small>канал для партнёров</small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="container bottom__grid">
+      <p class="t-legal">ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1. Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p>
+      <div class="bottom__links t-legal">
+        <a href="#privacy">Политика конфиденциальности</a>
+        <a href="#personal">Обработка персональных данных</a>
+        <span>© 2026 ООО «Яндекс.Лавка»</span>
+      </div>
+      <span class="age" aria-label="Для лиц старше восемнадцати лет">18+</span>
+    </div>
+  </div>
+</footer>
+
+<p class="t-legal prototype">Прототип · данные — заглушка (рыба)</p>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

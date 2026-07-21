@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · v6 — Полосы роста</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 04 · v6 — полосы роста (пилюли-прогресс) ============ */
+  .growth { background: var(--bg); padding-block: var(--section-pad); }
+
+  .growth__head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .7fr);
+    gap: clamp(20px, 4vw, 56px); align-items: end;
+    margin-bottom: clamp(36px, 5.5vw, 72px);
+  }
+  .growth__head p { color: var(--text-dim); }
+
+  .grp + .grp { margin-top: clamp(22px, 3vw, 36px); }
+
+  .grp__cap {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    margin-bottom: 12px;
+  }
+  .grp__cap .t-sub { color: var(--navy); }
+  .grp__share { color: var(--text-dim); white-space: nowrap; }
+
+  .track {
+    border-radius: var(--r-pill);
+    background: var(--bg-light);
+  }
+  .bar {
+    display: flex; align-items: center; justify-content: flex-end;
+    width: 0; min-width: clamp(96px, 12vw, 150px);
+    height: clamp(64px, 8.5vw, 108px);
+    padding-inline: clamp(20px, 2.4vw, 34px);
+    border-radius: var(--r-pill);
+    color: #fff;
+    transition: width 1.2s var(--ease-out) .15s;
+  }
+  .grp.is-in .bar { width: var(--w); }
+  .bar--launched { background: var(--blue); box-shadow: var(--shadow-cta); }
+  .bar--progress { background: var(--navy); }
+  .bar--seeking  { background: var(--orange); box-shadow: 0 8px 28px rgba(255,109,47,.3); }
+
+  .bar__num {
+    font-weight: 900; font-size: clamp(34px, 4.2vw, 60px);
+    line-height: .85; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .growth__note { margin-top: clamp(24px, 3.5vw, 40px); color: var(--text-dim); }
+  .legal { text-align: center; margin-top: clamp(20px, 3vw, 32px); }
+
+  @media (max-width: 800px) {
+    .growth__head { grid-template-columns: 1fr; align-items: start; }
+  }
+  @media (max-width: 480px) {
+    .grp__share { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar { width: var(--w); transition: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · v6 — Полосы роста</div>
+
+  <section class="growth" aria-label="Цифры сети — полосы роста">
+    <div class="container">
+
+      <header class="growth__head reveal">
+        <h1 class="t-h1">Сеть растёт<br>каждый месяц</h1>
+        <p class="t-sub">Полосы — в&nbsp;масштабе друг друга: сравните запущенные города, стройку и&nbsp;открытый набор</p>
+      </header>
+
+      <div class="grp reveal" style="--w: 56%">
+        <div class="grp__cap">
+          <span class="t-sub">городов запущено по&nbsp;франшизе</span>
+          <span class="grp__share t-small">уже работают</span>
+        </div>
+        <div class="track">
+          <div class="bar bar--launched"><span class="bar__num"><span data-count="14">0</span></span></div>
+        </div>
+      </div>
+
+      <div class="grp reveal reveal-d1" style="--w: 100%">
+        <div class="grp__cap">
+          <span class="t-sub">городов в&nbsp;работе</span>
+          <span class="grp__share t-small">готовим к&nbsp;запуску</span>
+        </div>
+        <div class="track">
+          <div class="bar bar--progress"><span class="bar__num"><span data-count="25">0</span></span></div>
+        </div>
+      </div>
+
+      <div class="grp reveal reveal-d2" style="--w: 36%">
+        <div class="grp__cap">
+          <span class="t-sub">партнёров ищем сейчас</span>
+          <span class="grp__share t-small">набор открыт</span>
+        </div>
+        <div class="track">
+          <div class="bar bar--seeking"><span class="bar__num"><span data-count="9">0</span></span></div>
+        </div>
+      </div>
+
+      <p class="growth__note t-small reveal reveal-d3">Ширина полосы — доля от&nbsp;самой большой цифры ряда</p>
+      <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+    </div>
+  </section>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

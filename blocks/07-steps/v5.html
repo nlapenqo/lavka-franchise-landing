@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · v5 — Таймлайн со сроками</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg); }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr);
+    gap: clamp(32px, 5vw, 96px);
+    align-items: start;
+  }
+
+  /* ---------- Левая колонка (sticky) ---------- */
+  .aside { position: sticky; top: clamp(24px, 6vh, 72px); }
+  .aside__eyebrow { display: block; margin-bottom: 16px; }
+  .aside__sub { margin-top: 16px; max-width: 340px; color: var(--text-dim); }
+  .total { margin-top: clamp(28px, 4vw, 52px); display: flex; align-items: baseline; gap: 12px; }
+  .total__num {
+    font-weight: 900; font-size: clamp(72px, 8vw, 128px);
+    line-height: .9; letter-spacing: -.015em; color: var(--blue);
+    font-variant-numeric: tabular-nums;
+  }
+  .total__cap { max-width: 120px; font-weight: 700; font-size: clamp(16px, 1.4vw, 21px); line-height: 1.1; }
+
+  /* ---------- Таймлайн ---------- */
+  .tl { --progress: 0; position: relative; padding-left: 34px; }
+  .tl__rail, .tl__fill {
+    position: absolute; left: 13px; top: 10px; bottom: 42px;
+    width: 4px; border-radius: var(--r-pill);
+  }
+  .tl__rail { background: var(--bg-card); }
+  .tl__fill { bottom: auto; height: calc((100% - 52px) * var(--progress)); background: var(--blue); transition: height .12s linear; }
+
+  .tl__item { position: relative; padding-bottom: clamp(32px, 4vw, 52px); }
+  .tl__item:last-child { padding-bottom: 0; }
+  .tl__dot {
+    position: absolute; left: -34px; top: 2px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--bg); border: 3px solid var(--bg-card);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 12px; color: var(--text-dim);
+    transition: background var(--dur-med) var(--ease-out), border-color var(--dur-med), color var(--dur-med), transform var(--dur-med) var(--ease-spring);
+  }
+  .tl__item.is-active .tl__dot { background: var(--blue); border-color: var(--blue); color: #fff; transform: scale(1.12); }
+  .tl__item:last-child.is-active .tl__dot { background: var(--navy); border-color: var(--navy); }
+
+  .tl__row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; }
+  .tl__dur { transition: background var(--dur-med), color var(--dur-med); }
+  .tl__item.is-active .tl__dur { background: var(--sky); color: var(--navy); }
+  .tl__copy { margin-top: 10px; max-width: 46ch; color: var(--text-dim); }
+
+  .legal { margin-top: var(--space-6); }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; gap: 40px; }
+    .aside { position: static; }
+    .total { margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">07 · Как стать партнёром · v5 — Таймлайн со сроками</div>
+
+<section class="section" id="partner-steps">
+  <div class="container">
+    <div class="split">
+
+      <!-- Sticky-шапка с общим сроком -->
+      <header class="aside reveal">
+        <span class="aside__eyebrow t-label">Как стать партнёром</span>
+        <h1 class="t-h1">Пять шагов до&nbsp;запуска</h1>
+        <p class="aside__sub t-sub">С понятными сроками на каждом этапе — от заявки до первого заказа</p>
+        <p class="total">
+          <span class="total__num">≈4</span>
+          <span class="total__cap">месяца до&nbsp;запуска</span>
+        </p>
+      </header>
+
+      <!-- Таймлайн -->
+      <ol class="tl" aria-label="Этапы запуска франшизы и их сроки">
+        <div class="tl__rail" aria-hidden="true"></div>
+        <div class="tl__fill" aria-hidden="true"></div>
+
+        <li class="tl__item reveal">
+          <span class="tl__dot" aria-hidden="true">01</span>
+          <div class="tl__row"><h2 class="t-h3">Заявка</h2><span class="chip tl__dur">1&nbsp;день</span></div>
+          <p class="tl__copy t-body">Короткая форма: расскажите о себе, капитале и городе — вернёмся с ответом</p>
+        </li>
+
+        <li class="tl__item reveal">
+          <span class="tl__dot" aria-hidden="true">02</span>
+          <div class="tl__row"><h2 class="t-h3">Встреча и скоринг</h2><span class="chip tl__dur">1–2&nbsp;недели</span></div>
+          <p class="tl__copy t-body">Знакомимся лично, сверяем ожидания, оцениваем опыт и финансовую модель</p>
+        </li>
+
+        <li class="tl__item reveal">
+          <span class="tl__dot" aria-hidden="true">03</span>
+          <div class="tl__row"><h2 class="t-h3">Договор</h2><span class="chip tl__dur">2–4&nbsp;недели</span></div>
+          <p class="tl__copy t-body">Закрепляем город, формат партнёрства и условия — юристы обеих сторон на связи</p>
+        </li>
+
+        <li class="tl__item reveal">
+          <span class="tl__dot" aria-hidden="true">04</span>
+          <div class="tl__row"><h2 class="t-h3">Подготовка и обучение</h2><span class="chip tl__dur">2–3&nbsp;месяца</span></div>
+          <p class="tl__copy t-body">Помещения, ремонт, найм команды и обучение процессам Лавки — вместе с нашими экспертами</p>
+        </li>
+
+        <li class="tl__item reveal">
+          <span class="tl__dot" aria-hidden="true">05</span>
+          <div class="tl__row"><h2 class="t-h3">Запуск</h2><span class="chip tl__dur chip--navy">день&nbsp;X</span></div>
+          <p class="tl__copy t-body">Открываем даркстор — первые заказы едут к клиентам за 10–15&nbsp;минут</p>
+        </li>
+      </ol>
+
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба), сроки ориентировочные</p>
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var tl = document.querySelector('.tl');
+    var items = Array.prototype.slice.call(document.querySelectorAll('.tl__item'));
+    if (!tl || !items.length) return;
+    function update() {
+      var r = tl.getBoundingClientRect();
+      var start = innerHeight * .78;
+      var end = innerHeight * .3;
+      var p = Math.max(0, Math.min(1, (start - r.top) / Math.max(1, r.height - (innerHeight - start) - end)));
+      tl.style.setProperty('--progress', p.toFixed(3));
+      items.forEach(function (item, i) {
+        item.classList.toggle('is-active', p >= i / Math.max(1, items.length - 1) - .04);
+      });
+    }
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

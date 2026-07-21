@@ -10,6 +10,7 @@ CLAUDE.md
 # QA-скриншоты и артефакты автоматизации
 blocks/_shots/
 .playwright-mcp/
+.playwright-cli/
 output/
 
 # Внутренние исходники и бриф заказчика (оставляем только шрифты)

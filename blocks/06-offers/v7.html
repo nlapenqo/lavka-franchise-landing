@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 · Предложения · v7 — Орбиты форматов</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+
+  /* ---------- Шапка секции ---------- */
+  .sec-head { text-align: center; margin-bottom: clamp(36px, 5vw, 64px); }
+  .sec-head__sub { margin-top: 18px; margin-inline: auto; max-width: 480px; color: var(--text-dim); }
+
+  /* ---------- Три орбиты (фирменный приём: овалы в ряд) ---------- */
+  .orbits {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: clamp(12px, 2vw, 28px);
+    align-items: center;
+  }
+  .orbit {
+    position: relative;
+    aspect-ratio: 1 / 1.16;
+    border-radius: 50%;
+    display: grid; align-content: center; justify-items: center;
+    text-align: center; padding: 12%;
+    transition: transform .45s var(--ease-spring), box-shadow .45s var(--ease-out), background var(--dur-fast);
+  }
+  .orbit--a { background: var(--sky); }
+  .orbit--b { background: rgba(191,168,255,.42); }
+  .orbit--v { background: rgba(255,153,119,.38); }
+  .orbit:hover { transform: translateY(-8px); }
+  .orbit:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+  .orbit[aria-selected="true"] {
+    transform: scale(1.05);
+    box-shadow: 0 22px 60px rgba(27,58,106,.18), inset 0 0 0 3px var(--navy);
+  }
+
+  .orbit__type { font-size: 12px; color: rgba(27,58,106,.66); }
+  .orbit__name { margin-top: 8px; font-weight: 900; font-size: clamp(17px, 1.7vw, 26px); line-height: .95; letter-spacing: -.01em; }
+  .orbit__sum { margin-top: clamp(10px, 1.6vw, 20px); font-weight: 900; font-size: clamp(24px, 3vw, 46px); line-height: .95; letter-spacing: -.015em; font-variant-numeric: tabular-nums; }
+  .orbit__sum small { display: block; margin-top: 6px; font-weight: 600; font-size: clamp(11px, .9vw, 14px); color: rgba(27,58,106,.6); letter-spacing: 0; }
+  .orbit__meta { margin-top: clamp(10px, 1.6vw, 18px); font-size: 13px; color: rgba(27,58,106,.66); }
+
+  /* ---------- Панель выбранного формата ---------- */
+  .detail {
+    margin-top: clamp(24px, 3.4vw, 44px);
+    transition: opacity .3s var(--ease-out), transform .3s var(--ease-out);
+  }
+  .detail.is-swap { opacity: 0; transform: translateY(10px); }
+  .detail__inner {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .8fr);
+    gap: clamp(20px, 3vw, 48px); align-items: center;
+  }
+  .detail__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .detail__chips .chip { background: #fff; }
+  .detail__desc { margin-top: 18px; max-width: 46ch; }
+  .detail__cta { margin-top: 24px; }
+
+  .detail__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .param { background: #fff; border-radius: 16px; padding: 16px 18px; }
+  .param dt { margin-bottom: 8px; }
+  .p-val {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; position: relative;
+    font-weight: 800; font-size: clamp(19px, 1.6vw, 25px); line-height: 1.05;
+  }
+  .unit { font-weight: 600; font-size: .62em; color: var(--text-dim); }
+
+  /* ---------- Тултип роялти ---------- */
+  .info {
+    flex: none; align-self: center;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 50%;
+    color: var(--mid-blue);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .info svg { width: 18px; height: 18px; }
+  .info:hover { color: var(--blue); }
+  .info:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  .tip {
+    position: absolute; right: 0; bottom: calc(100% + 12px); z-index: 6;
+    width: min(250px, 74vw);
+    background: var(--navy); color: #fff;
+    font-weight: 400; font-size: 13px; line-height: 1.45;
+    padding: 12px 14px; border-radius: 14px;
+    box-shadow: 0 14px 34px rgba(27,58,106,.28);
+    opacity: 0; transform: translateY(6px); pointer-events: none;
+    transition: opacity .25s var(--ease-out), transform .25s var(--ease-out);
+  }
+  .info:hover + .tip, .info:focus-visible + .tip, .info.is-open + .tip {
+    opacity: 1; transform: none; pointer-events: auto;
+  }
+
+  .legal { text-align: center; margin-top: var(--space-5); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit, .detail { transition: none; }
+    .detail.is-swap { opacity: 1; transform: none; }
+  }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 760px) {
+    .orbits { grid-template-columns: 1fr; gap: 12px; }
+    .orbit {
+      aspect-ratio: auto; border-radius: var(--r-pill);
+      grid-template-columns: 1fr auto; align-items: center; justify-items: start;
+      text-align: left; padding: 18px 26px;
+    }
+    .orbit[aria-selected="true"] { transform: none; }
+    .orbit__type { grid-column: 1; }
+    .orbit__name { grid-column: 1; margin-top: 4px; }
+    .orbit__sum { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; justify-self: end; text-align: right; }
+    .orbit__meta { display: none; }
+    .detail__inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">06 · Предложения · v7 — Орбиты форматов</div>
+
+<section class="section">
+  <div class="container">
+
+    <header class="sec-head reveal">
+      <h1 class="t-h1">Форматы партнёрства</h1>
+      <p class="sec-head__sub t-sub">Три орбиты входа — выберите свою</p>
+    </header>
+
+    <div class="orbits reveal" role="tablist" aria-label="Выбор формата партнёрства">
+      <button class="orbit orbit--a" type="button" role="tab" id="tab-ready" aria-selected="false" aria-controls="detailPanel" tabindex="-1" data-seg="ready">
+        <span class="orbit__type t-label">Действующая сеть</span>
+        <span class="orbit__name">Готовый бизнес</span>
+        <span class="orbit__sum">400–600<small>млн ₽ инвестиций</small></span>
+        <span class="orbit__meta">5 городов</span>
+      </button>
+      <button class="orbit orbit--b" type="button" role="tab" id="tab-million" aria-selected="true" aria-controls="detailPanel" data-seg="million">
+        <span class="orbit__type t-label">Новый город</span>
+        <span class="orbit__name">Миллионники</span>
+        <span class="orbit__sum">250–450<small>млн ₽ инвестиций</small></span>
+        <span class="orbit__meta">3 города</span>
+      </button>
+      <button class="orbit orbit--v" type="button" role="tab" id="tab-large" aria-selected="false" aria-controls="detailPanel" tabindex="-1" data-seg="large">
+        <span class="orbit__type t-label">Новый город</span>
+        <span class="orbit__name">Крупные города</span>
+        <span class="orbit__sum">75–150<small>млн ₽ инвестиций</small></span>
+        <span class="orbit__meta">6 городов</span>
+      </button>
+    </div>
+
+    <div class="detail card reveal reveal-d1" id="detailPanel" role="tabpanel" aria-labelledby="tab-million" aria-live="polite">
+      <div class="detail__inner">
+        <div>
+          <div class="detail__chips" id="detailCities">
+            <span class="chip">Самара</span><span class="chip">Уфа</span><span class="chip">Саратов</span>
+          </div>
+          <p class="detail__desc t-sub" id="detailDesc">Запуск сервиса с нуля в городе-миллионнике</p>
+          <a class="btn btn--blue detail__cta" href="#lead">
+            Стать партнёром
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <dl class="detail__grid">
+          <div class="param">
+            <dt class="t-label">Инвестиции</dt>
+            <dd class="p-val" id="detailInvest"><span>250–450</span><span class="unit">млн&nbsp;₽</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Окупаемость</dt>
+            <dd class="p-val" id="detailPayback"><span>от&nbsp;3&nbsp;лет</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Паушальный взнос</dt>
+            <dd class="p-val"><span>1&nbsp;млн&nbsp;₽</span><span class="unit">/&nbsp;даркстор</span></dd>
+          </div>
+          <div class="param">
+            <dt class="t-label">Роялти</dt>
+            <dd class="p-val">
+              <span>0–7%</span>
+              <button class="info" type="button" aria-label="Подробнее о ставке роялти" aria-describedby="tip-r">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="7.5" x2="12" y2="7.51"/></svg>
+              </button>
+              <span class="tip" role="tooltip" id="tip-r">Ставка роялти зависит от этапа развития города и выручки сети — от&nbsp;0% на&nbsp;старте</span>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <p class="legal t-legal">Прототип · данные — заглушка (рыба), суммы и города не финальные · не является публичной офертой</p>
+
+  </div>
+</section>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.orbit'));
+    var panel = document.getElementById('detailPanel');
+    var citiesEl = document.getElementById('detailCities');
+    var descEl = document.getElementById('detailDesc');
+    var investEl = document.getElementById('detailInvest');
+    var paybackEl = document.getElementById('detailPayback');
+    if (!tabs.length || !panel) return;
+
+    var SEGS = {
+      ready: {
+        cities: ['Казань', 'Челябинск', 'Тюмень', 'Воронеж', 'Пермь'],
+        desc: 'Передача в совместное партнёрство действующей сети дарксторов',
+        invest: '<span>400–600</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 2,5 лет</span>'
+      },
+      million: {
+        cities: ['Самара', 'Уфа', 'Саратов'],
+        desc: 'Запуск сервиса с нуля в городе-миллионнике',
+        invest: '<span>250–450</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 3 лет</span>'
+      },
+      large: {
+        cities: ['Ижевск', 'Оренбург', 'Ульяновск', 'Тольятти', 'Пенза', 'Киров'],
+        desc: 'Запуск сервиса с нуля в крупном городе',
+        invest: '<span>75–150</span><span class="unit">млн ₽</span>',
+        payback: '<span>от 3 лет</span>'
+      }
+    };
+    var swapTimer = null;
+
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panel.setAttribute('aria-labelledby', tab.id);
+
+      var s = SEGS[tab.dataset.seg];
+      if (!s) return;
+      panel.classList.add('is-swap');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function () {
+        citiesEl.innerHTML = s.cities.map(function (c) { return '<span class="chip">' + c + '</span>'; }).join('');
+        descEl.textContent = s.desc;
+        investEl.innerHTML = s.invest;
+        paybackEl.innerHTML = s.payback;
+        panel.classList.remove('is-swap');
+      }, 180);
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { select(tab); });
+      tab.addEventListener('keydown', function (e) {
+        var dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        var next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus(); select(next);
+      });
+    });
+  })();
+
+  /* Тултип роялти: тап/клик для тач-устройств (hover/focus — в CSS) */
+  document.querySelectorAll('.info').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      document.querySelectorAll('.info.is-open').forEach(function (b) { if (b !== btn) b.classList.remove('is-open'); });
+      btn.classList.toggle('is-open');
+    });
+  });
+  document.addEventListener('click', function () {
+    document.querySelectorAll('.info.is-open').forEach(function (b) { b.classList.remove('is-open'); });
+  });
+</script>
+
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

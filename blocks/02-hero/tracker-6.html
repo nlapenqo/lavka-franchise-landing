@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 6/6&nbsp;— Табло рейса</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ---------- Хиро ---------- */
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+
+  /* ---------- Мини-шапка ---------- */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Сплит ---------- */
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); }
+  .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); }
+  .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; transition: opacity var(--dur-fast) var(--ease-out); }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--blue); animation: blink 1.2s ease-in-out infinite alternate; }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+
+  /* ---------- Embed в сборке / solo в сравнивалке ---------- */
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+  html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; }
+  html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 34px !important; padding-bottom: 34px; }
+  html.is-solo .stage { justify-self: center !important; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; }
+    html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+    .stage { justify-self: center; }
+    .hero__legal { bottom: 14px; }
+  }
+
+
+  /* ---------- Тёмное табло статусов ---------- */
+  .stage { position: relative; max-width: 440px; width: 100%; justify-self: end; background: var(--navy); color: var(--text-on-dark); border-radius: var(--r-card); padding: clamp(26px, 3vw, 38px); font-family: var(--font-cond); font-weight: 300; box-shadow: 0 26px 60px rgba(27, 58, 106, .32); }
+  .b-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim-dark); }
+  .b-head span:first-child { display: inline-flex; align-items: center; gap: 9px; }
+  .b-rows { margin-top: 16px; }
+  .b-row { display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px dashed rgba(170, 217, 252, .18); font-size: 15px; letter-spacing: .05em; color: var(--text-dim-dark); }
+  .b-row > span:first-child { opacity: .55; font-variant-numeric: tabular-nums; }
+  .b-row b { font-weight: 300; text-transform: uppercase; }
+  .b-status { justify-self: end; font-size: 12px; letter-spacing: .12em; opacity: .38; transition: opacity .3s, color .3s; font-variant-numeric: tabular-nums; }
+  .b-row.is-done { color: var(--text-on-dark); }
+  .b-row.is-done .b-status { opacity: 1; color: var(--sky); }
+  .b-row.is-active { color: var(--text-on-dark); }
+  .b-row.is-active .b-status { opacity: 1; color: var(--blue); animation: blink 1s ease-in-out infinite alternate; }
+  .b-foot { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 20px; }
+  .b-foot span { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim-dark); }
+  .b-days { font-family: var(--font-geo); font-weight: 900; font-size: clamp(26px, 2.4vw, 32px); letter-spacing: 0; color: #fff; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .b-bar { display: flex; gap: 5px; margin-top: 13px; }
+  .b-bar i { height: 8px; flex: 1; border-radius: 2px; background: rgba(170, 217, 252, .16); transition: background .3s; }
+  .b-bar i.on { background: var(--blue); }
+  .stage__note { margin-top: 16px; text-align: right; color: var(--text-dim-dark); opacity: .8; }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" aria-hidden="true">
+      <div class="b-head"><span><span class="live-dot"></span>Открытие Лавки</span><span>рейс Ф·2026</span></div>
+      <div class="b-rows" id="rows">
+        <div class="b-row"><span>01</span><b>Заявка</b><span class="b-status">ОЖИДАЕТ</span></div>
+        <div class="b-row"><span>02</span><b>Встреча и скоринг</b><span class="b-status">ОЖИДАЕТ</span></div>
+        <div class="b-row"><span>03</span><b>Договор</b><span class="b-status">ОЖИДАЕТ</span></div>
+        <div class="b-row"><span>04</span><b>Подготовка и обучение</b><span class="b-status">ОЖИДАЕТ</span></div>
+        <div class="b-row"><span>05</span><b>Запуск</b><span class="b-status">ОЖИДАЕТ</span></div>
+      </div>
+      <div class="b-foot"><span>До запуска</span><b class="b-days" id="days">≈120&nbsp;дней</b></div>
+      <div class="b-bar" id="bar"></div>
+      <div class="stage__note t-legal">этапы и&nbsp;сроки&nbsp;— иллюстрация</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · трекер 6/6&nbsp;— Табло рейса</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var SOLO = /[?&]solo=1/.test(location.search);
+    if (SOLO) document.documentElement.classList.add('is-solo');
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED || SOLO) document.documentElement.classList.add('is-embed');
+
+    /* Единый таймлайн: один rAF-тик, все элементы считаются от одного p */
+    var CYCLE = 14000, ARRIVE = .9, DAYS = 120, N = 5;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    function fmtDays(p) { var n = Math.round(DAYS * (1 - p)); return '≈' + n + '\u00A0' + dayWord(n); }
+
+    var rows = [].slice.call(document.querySelectorAll('#rows .b-row'));
+    var days = document.getElementById('days');
+    var barWrap = document.getElementById('bar');
+    for (var i = 0; i < 12; i++) barWrap.appendChild(document.createElement('i'));
+    var segs = [].slice.call(barWrap.children);
+
+    function render(t) {
+      var p = Math.min(t / ARRIVE, 1);
+      days.textContent = fmtDays(p);
+      var idx = Math.min(N - 1, Math.floor(p * N));
+      rows.forEach(function (r, i) {
+        var done = i < idx || p >= 1, act = i === idx && p < 1;
+        r.classList.toggle('is-done', done);
+        r.classList.toggle('is-active', act);
+        r.querySelector('.b-status').textContent = done ? 'ГОТОВО' : (act ? 'СЕЙЧАС' : 'ОЖИДАЕТ');
+      });
+      var k = Math.round(p * 12);
+      segs.forEach(function (s, i) { s.classList.toggle('on', i < k); });
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; }
+    var t0 = performance.now();
+    (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

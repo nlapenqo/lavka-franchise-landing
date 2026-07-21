@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 · Мероприятие · v5 — Вращающийся стикер</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; }
+
+  /* ============ 03 · v5 — вращающийся стикер на шве блоков ============ */
+  .seam {
+    position: relative;
+    padding-block: clamp(44px, 6.5vw, 88px);
+    background: var(--bg);
+    overflow: hidden;
+  }
+  /* «шов» между блоками */
+  .seam__line {
+    position: absolute; left: 0; right: 0; top: 50%;
+    border-top: 1.5px dashed var(--sky);
+    pointer-events: none;
+  }
+  /* призрачная дата на подложке */
+  .seam__date {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-weight: 900; font-size: clamp(120px, 24vw, 330px);
+    line-height: 1; letter-spacing: -.02em;
+    color: transparent; -webkit-text-stroke: 1.5px var(--sky);
+    opacity: .55;
+    pointer-events: none; user-select: none;
+  }
+
+  /* — стикер-печать — */
+  .sticker {
+    position: relative; z-index: 1;
+    display: grid; place-items: center;
+    width: clamp(216px, 26vw, 300px);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 18px 48px rgba(255,109,47,.38);
+    transform: rotate(-8deg);
+    transition: transform var(--dur-med) var(--ease-spring), box-shadow var(--dur-med) var(--ease-out);
+  }
+  .sticker:hover { transform: rotate(-2deg) scale(1.05); box-shadow: 0 24px 60px rgba(255,109,47,.45); }
+  .sticker:focus-visible { outline: 4px solid var(--blue); outline-offset: 6px; }
+
+  .sticker__ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sticker__ring text {
+    fill: #fff; font-family: var(--font-geo);
+    font-weight: 800; font-size: 12.5px; letter-spacing: .1em;
+  }
+  .sticker__spin { animation: sticker-spin 26s linear infinite; transform-origin: 100px 100px; }
+  @keyframes sticker-spin { to { transform: rotate(360deg); } }
+  .sticker:hover .sticker__spin { animation-play-state: paused; }
+
+  .sticker__core {
+    position: relative; z-index: 1;
+    width: 54%; aspect-ratio: 1;
+    display: grid; place-content: center; justify-items: center; gap: 8px;
+    border-radius: 50%;
+    background: #fff; color: var(--navy);
+    font-weight: 500; font-size: clamp(14px, 1.15vw, 17px);
+    text-align: center;
+    box-shadow: 0 4px 18px rgba(27,58,106,.14);
+  }
+  .sticker__core svg {
+    width: clamp(22px, 2vw, 28px); height: auto;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .sticker:hover .sticker__core svg { transform: translate(3px, -3px); }
+
+  .sticker__chip {
+    position: absolute; z-index: 2;
+    top: -6px; right: -18px;
+    transform: rotate(8deg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .legal { position: relative; z-index: 1; text-align: center; margin-top: clamp(24px, 3.5vw, 40px); }
+
+  @media (max-width: 560px) {
+    .seam__date { font-size: 96px; }
+    .sticker__chip { right: -8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sticker__spin { animation: none; }
+    .sticker { transform: rotate(-8deg); }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">03 · Мероприятие · v5 — Вращающийся стикер</div>
+
+  <section class="seam" aria-label="Мероприятие: День партнёров">
+    <div class="seam__line" aria-hidden="true"></div>
+    <div class="seam__date" aria-hidden="true">27.08</div>
+
+    <a class="sticker reveal" href="#event-form"
+       aria-label="День партнёров · 27 августа · Москва-Сити · набор открыт — участвовать">
+      <svg class="sticker__ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs>
+          <path id="ringPath" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/>
+        </defs>
+        <g class="sticker__spin">
+          <text><textPath href="#ringPath" textLength="464" lengthAdjust="spacingAndGlyphs">ДЕНЬ ПАРТНЁРОВ · 27 АВГУСТА · МОСКВА-СИТИ · НАБОР ОТКРЫТ · </textPath></text>
+        </g>
+      </svg>
+      <span class="sticker__core">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 18 18 6"/><path d="M9 6h9v9"/>
+        </svg>
+        Участвовать
+      </span>
+      <span class="sticker__chip chip chip--active">набор открыт</span>
+    </a>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+  </section>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

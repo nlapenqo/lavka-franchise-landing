@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О нас говорят · v4 — Пресс-вырезки</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+  .head { text-align: center; margin-bottom: clamp(48px, 7vw, 92px); }
+  .head .t-label { display: block; margin-bottom: 14px; }
+  .head__sub { max-width: 480px; margin: 20px auto 0; color: var(--text-dim); }
+  .board { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(18px, 2.6vw, 34px); }
+  .clip { position: relative; grid-column: span 4; display: flex; flex-direction: column; gap: 22px; padding: clamp(26px, 2.8vw, 40px); border-radius: 10px; background: var(--bg); box-shadow: var(--shadow-card); transition: transform .45s var(--ease-spring), box-shadow .45s var(--ease-out); }
+  .clip::before { content: ""; position: absolute; left: 50%; top: -13px; width: 92px; height: 26px; translate: -50%; rotate: -2deg; background: rgba(170,217,252,.75); border-radius: 3px; }
+  .clip--r1 { transform: rotate(-2.4deg); }
+  .clip--r2 { transform: rotate(1.6deg); }
+  .clip--r3 { transform: rotate(-1.2deg); }
+  .clip--r4 { transform: rotate(2.2deg); }
+  .clip:hover, .clip:focus-within { transform: rotate(0) translateY(-8px); box-shadow: 0 22px 56px rgba(27,58,106,.16); z-index: 1; }
+  .clip--navy { background: var(--navy); color: var(--text-on-dark); }
+  .clip--navy::before { background: rgba(170,217,252,.4); }
+  .clip--sky { background: var(--sky); }
+  .clip--wide { grid-column: span 6; }
+  .clip__masthead { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding-bottom: 14px; border-bottom: 2px solid currentColor; }
+  .clip__brand { font-weight: 900; font-size: clamp(24px, 2.2vw, 32px); letter-spacing: -.04em; }
+  .clip__rubric { font-family: var(--font-cond); font-weight: 300; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
+  .clip__quote { font-weight: 800; font-size: clamp(19px, 1.8vw, 26px); line-height: 1.1; letter-spacing: -.005em; }
+  .clip--wide .clip__quote { font-size: clamp(22px, 2.3vw, 34px); }
+  .clip__link { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; font-weight: 500; color: var(--blue); }
+  .clip--navy .clip__link { color: var(--sky); }
+  .clip--sky .clip__link { color: var(--navy); }
+  .clip__link svg { width: 18px; height: 18px; transition: transform var(--dur-fast); }
+  .clip:hover .clip__link svg { transform: translate(3px, -3px); }
+  .legal { margin-top: var(--space-6); text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .clip, .clip:hover { transform: none; } }
+  @media (max-width: 960px) { .clip, .clip--wide { grid-column: span 6; } }
+  @media (max-width: 620px) { .clip, .clip--wide { grid-column: span 12; transform: rotate(0); } .head { text-align: left; } .head__sub { margin-inline: 0; } }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О нас говорят · v4 — Пресс-вырезки</div>
+<section class="section"><div class="container">
+  <header class="head reveal">
+    <span class="t-label">О нас говорят</span>
+    <h1 class="t-h1">Вырезки<br>из&nbsp;прессы</h1>
+    <p class="head__sub t-sub">Что деловые СМИ пишут о&nbsp;франшизе и&nbsp;рынке быстрой доставки</p>
+  </header>
+  <div class="board">
+    <article class="clip clip--r1 reveal">
+      <div class="clip__masthead"><span class="clip__brand">РБК</span><span class="clip__rubric">бизнес</span></div>
+      <h2 class="clip__quote">«Быстрая доставка выходит в&nbsp;новые города: как устроена модель партнёрства»</h2>
+      <a class="clip__link" href="#publication-rbc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="clip clip--navy clip--r2 reveal reveal-d1">
+      <div class="clip__masthead"><span class="clip__brand">Forbes</span><span class="clip__rubric">компании</span></div>
+      <h2 class="clip__quote">«Технологии вместо догадок: почему ритейл считает спрос до&nbsp;открытия точки»</h2>
+      <a class="clip__link" href="#publication-forbes">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="clip clip--sky clip--r3 reveal reveal-d2">
+      <div class="clip__masthead"><span class="clip__brand">vc.ru</span><span class="clip__rubric">ритейл</span></div>
+      <h2 class="clip__quote">«Из&nbsp;одного даркстора в&nbsp;сеть: разбор операционной модели франчайзи»</h2>
+      <a class="clip__link" href="#publication-vc">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="clip clip--wide clip--r4 reveal">
+      <div class="clip__masthead"><span class="clip__brand">Коммерсантъ</span><span class="clip__rubric">рынок</span></div>
+      <h2 class="clip__quote">«Дарксторы становятся ближе: рынок экспресс-доставки в&nbsp;регионах»</h2>
+      <a class="clip__link" href="#publication-kommersant">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+    <article class="clip clip--wide clip--r1 reveal reveal-d1">
+      <div class="clip__masthead"><span class="clip__brand">РБК</span><span class="clip__rubric">технологии</span></div>
+      <h2 class="clip__quote">«Как технологии меняют быструю доставку»</h2>
+      <a class="clip__link" href="#publication-rbc-tech">Читать публикацию<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+  </div>
+  <p class="t-legal legal">Прототип · данные — заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

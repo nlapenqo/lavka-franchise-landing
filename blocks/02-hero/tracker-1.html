@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · трекер 1/6&nbsp;— Чек Лавки</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ---------- Хиро ---------- */
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+
+  /* ---------- Мини-шапка ---------- */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy); }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Сплит ---------- */
+  .hero__in { flex: 1; width: 100%; display: grid; grid-template-columns: 1.15fr .95fr; gap: clamp(32px, 5vw, 72px); align-items: center; padding-top: 120px; padding-bottom: 96px; }
+  .hero__copy .t-h1 { color: var(--navy); }
+  .hero__sub { max-width: 480px; margin-top: 26px; color: var(--text-dim); }
+  .hero__cta { display: flex; align-items: center; flex-wrap: wrap; gap: 18px 28px; margin-top: 38px; }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; font-size: clamp(15px, 1.25vw, 18px); color: var(--navy); opacity: .8; transition: opacity var(--dur-fast) var(--ease-out); }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--blue); animation: blink 1.2s ease-in-out infinite alternate; }
+  @keyframes blink { from { opacity: 1; } to { opacity: .25; } }
+
+  .hero__legal { position: absolute; z-index: 15; left: 50%; bottom: 20px; transform: translateX(-50%); color: var(--navy); white-space: nowrap; }
+
+  /* ---------- Embed в сборке / solo в сравнивалке ---------- */
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(140px, 13vw, 170px); }
+  html.is-solo .hero__copy, html.is-solo .hero__legal { display: none; }
+  html.is-solo .hero__in { grid-template-columns: 1fr; justify-items: center; padding-top: 34px !important; padding-bottom: 34px; }
+  html.is-solo .stage { justify-self: center !important; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 1024px) { .hero__in { grid-template-columns: 1.05fr 1fr; gap: 32px; } }
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+    .hero__in { grid-template-columns: 1fr; gap: 40px; padding-top: 96px; padding-bottom: 88px; align-items: start; }
+    html.is-embed .hero__in { padding-top: 120px; }
+    .hero__sub { margin-top: 18px; }
+    .hero__cta { margin-top: 26px; gap: 14px 20px; }
+    .stage { justify-self: center; }
+    .hero__legal { bottom: 14px; }
+  }
+
+
+  /* ---------- Трекер-чек ---------- */
+  .stage { position: relative; max-width: 380px; width: 100%; justify-self: end; filter: drop-shadow(0 18px 40px rgba(27, 58, 106, .16)); }
+  .receipt { position: relative; background: #fff; padding: 30px 28px 26px; font-family: var(--font-cond); font-weight: 300; color: var(--navy); }
+  .receipt::before, .receipt::after { content: ""; position: absolute; left: 0; right: 0; height: 12px; background-image: linear-gradient(45deg, #fff 25%, transparent 25.5%), linear-gradient(-45deg, #fff 25%, transparent 25.5%); background-size: 16px 24px; background-position: 0 0; background-repeat: repeat-x; }
+  .receipt::before { top: -11px; transform: scaleY(-1); }
+  .receipt::after { bottom: -11px; }
+  .r-head { text-align: center; }
+  .r-head svg { width: 34px; height: 34px; margin-inline: auto; }
+  .r-title { margin-top: 10px; font-weight: 300; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; }
+  .r-sub { margin-top: 4px; font-size: 12px; opacity: .55; }
+  .r-line { border: 0; border-top: 1.5px dashed rgba(27, 58, 106, .25); margin: 16px 0; }
+  .r-rows { display: grid; gap: 10px; }
+  .r-row { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; opacity: .28; transition: opacity .4s var(--ease-out), transform .4s var(--ease-out); transform: translateY(3px); }
+  .r-row.is-on { opacity: 1; transform: none; }
+  .r-row.is-active { font-weight: 500; color: var(--accent-blue); }
+  .r-row b { font-weight: 300; font-variant-numeric: tabular-nums; }
+  .r-total { display: flex; justify-content: space-between; align-items: baseline; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+  .r-days { font-family: var(--font-geo); font-weight: 900; font-size: 30px; letter-spacing: 0; text-transform: none; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .barcode { display: flex; align-items: stretch; justify-content: center; gap: 0; height: 34px; margin-top: 16px; }
+  .barcode i { background: var(--navy); }
+  .r-code { margin-top: 8px; text-align: center; font-size: 11px; letter-spacing: .3em; opacity: .55; text-transform: uppercase; }
+  .stamp { position: absolute; right: 22px; bottom: 168px; z-index: 2; padding: 7px 14px; border: 3px solid var(--orange); border-radius: 12px; color: var(--orange); font-family: var(--font-geo); font-weight: 900; font-size: 17px; letter-spacing: .1em; text-transform: uppercase; transform: rotate(-12deg) scale(1.35); opacity: 0; transition: opacity .25s var(--ease-out), transform .25s var(--ease-out); }
+  .stamp.is-on { opacity: .92; transform: rotate(-12deg) scale(1); }
+  .stage__note { margin-top: 14px; text-align: center; color: var(--text-dim); }
+  @media (max-width: 760px) { .stage { max-width: 340px; } }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <h1 class="t-h1 reveal">Запустите<br>Яндекс&nbsp;Лавку<br>по&nbsp;франшизе<br>в&nbsp;своём городе</h1>
+      <p class="hero__sub t-sub reveal reveal-d1">Войдите в&nbsp;рынок быстрой доставки продуктов вместе с&nbsp;сильным брендом</p>
+      <div class="hero__cta reveal reveal-d2">
+        <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+        <a class="link-how" href="#how">
+          Как это работает
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="stage reveal reveal-d3" aria-hidden="true">
+      <div class="receipt">
+        <div class="r-head">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="var(--blue)"/><path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/></svg>
+          <div class="r-title">Яндекс Лавка · Франшиза</div>
+          <div class="r-sub">заказ: Лавка в&nbsp;вашем городе</div>
+        </div>
+        <hr class="r-line">
+        <div class="r-rows" id="rows">
+        <div class="r-row"><span>Заявка</span><b>день 1</b></div>
+        <div class="r-row"><span>Встреча и скоринг</span><b>неделя 2</b></div>
+        <div class="r-row"><span>Договор</span><b>месяц 1</b></div>
+        <div class="r-row"><span>Подготовка и обучение</span><b>мес 2–3</b></div>
+        <div class="r-row"><span>Запуск</span><b>месяц 4</b></div>
+        </div>
+        <hr class="r-line">
+        <div class="r-total"><span>Итого до&nbsp;запуска</span><span class="r-days" id="days">≈120&nbsp;дней</span></div>
+        <div class="barcode" id="barcode"></div>
+        <div class="r-code">франшиза·2026</div>
+        <span class="stamp" id="stamp">Открыто</span>
+      </div>
+      <div class="stage__note t-legal">этапы и&nbsp;сроки&nbsp;— иллюстрация</div>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · трекер 1/6&nbsp;— Чек Лавки</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var SOLO = /[?&]solo=1/.test(location.search);
+    if (SOLO) document.documentElement.classList.add('is-solo');
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED || SOLO) document.documentElement.classList.add('is-embed');
+
+    /* Единый таймлайн: один rAF-тик, все элементы считаются от одного p */
+    var CYCLE = 14000, ARRIVE = .9, DAYS = 120, N = 5;
+    function dayWord(n) { var m = n % 100, d = n % 10; if (m > 10 && m < 20) return 'дней'; if (d === 1) return 'день'; if (d > 1 && d < 5) return 'дня'; return 'дней'; }
+    function fmtDays(p) { var n = Math.round(DAYS * (1 - p)); return '≈' + n + '\u00A0' + dayWord(n); }
+
+    var rows = [].slice.call(document.querySelectorAll('#rows .r-row'));
+    var days = document.getElementById('days');
+    var stamp = document.getElementById('stamp');
+    /* штрих-код из псевдослучайных полос */
+    var bc = document.getElementById('barcode');
+    for (var i = 0; i < 42; i++) { var b = document.createElement('i'); b.style.width = ((i * 7 + 3) % 4 + 1) + 'px'; b.style.marginRight = ((i * 5 + 2) % 3 + 1) + 'px'; bc.appendChild(b); }
+
+    function render(t) {
+      var p = Math.min(t / ARRIVE, 1);
+      days.textContent = fmtDays(p);
+      var idx = Math.min(N - 1, Math.floor(p * N));
+      rows.forEach(function (r, i) {
+        r.classList.toggle('is-on', i <= idx);
+        r.classList.toggle('is-active', i === idx && p < 1);
+      });
+      stamp.classList.toggle('is-on', t >= ARRIVE);
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { render(.999); return; }
+    var t0 = performance.now();
+    (function loop(now) { render(((now - t0) % CYCLE) / CYCLE); requestAnimationFrame(loop); })(t0);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · v7 — Изометрия-тумблер</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{ overflow-x: clip; background: var(--bg); }
+
+  .head{
+    display: grid; grid-template-columns: minmax(0,1fr) auto;
+    gap: var(--space-4); align-items: end;
+    margin-bottom: clamp(30px, 4vw, 52px);
+  }
+  .head p{ max-width: 540px; margin-top: 18px; color: var(--text-dim); }
+
+  /* ---------- тумблер ---------- */
+  .switch{
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 10px 18px 10px 12px;
+    border-radius: var(--r-pill);
+    background: var(--bg-light);
+    font-weight: 500; font-size: 15px; color: var(--navy);
+    transition: background var(--dur-fast);
+  }
+  .switch:hover{ background: var(--bg-card); }
+  .switch__track{
+    width: 46px; height: 26px; border-radius: var(--r-pill); flex: none;
+    background: #c9d8ea; position: relative;
+    transition: background var(--dur-fast);
+  }
+  .switch__knob{
+    position: absolute; top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; box-shadow: 0 2px 6px rgba(27,58,106,.25);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .switch[aria-checked="true"] .switch__track{ background: var(--blue); }
+  .switch[aria-checked="true"] .switch__knob{ transform: translateX(20px); }
+
+  /* ---------- сцена + панель ---------- */
+  .iso-layout{
+    display: grid; grid-template-columns: minmax(0,1.45fr) minmax(300px,.55fr);
+    gap: 20px; align-items: stretch;
+  }
+  .stage{
+    position: relative; overflow: hidden;
+    border-radius: var(--r-card);
+    background: var(--bg-light);
+    padding: clamp(14px, 2vw, 26px);
+  }
+  .stage svg{ width: 100%; height: auto; display: block; }
+
+  .izone{
+    cursor: pointer;
+    transition: fill .45s var(--ease-out), stroke var(--dur-fast), filter var(--dur-fast);
+    stroke: var(--bg-light); stroke-width: 5;
+  }
+  .izone:hover{ filter: brightness(1.06) saturate(1.1); }
+  .izone.is-active{ stroke: var(--orange); stroke-width: 7; }
+  .izone:focus-visible{ outline: none; stroke: var(--orange); stroke-width: 7; stroke-dasharray: 14 8; }
+
+  /* дефолтная раскраска — по функции */
+  .izone--dry     { fill: var(--warm-gray); }
+  .izone--freezer { fill: var(--sky); }
+  .izone--cold    { fill: #fff; }
+  .izone--kitchen { fill: var(--peach); }
+  .izone--assembly{ fill: var(--lavender); }
+  .izone--pickup  { fill: var(--bg-card); }
+  .izone--middle  { fill: var(--mid-blue); }
+
+  /* режим «по ответственности» */
+  .stage[data-mode="owner"] .izone[data-owner="fr"]{ fill: var(--blue); }
+  .stage[data-mode="owner"] .izone[data-owner="ya"]{ fill: var(--navy); }
+  .stage[data-mode="owner"] .izone[data-owner="mix"]{ fill: var(--mid-blue); }
+
+  .pin{ pointer-events: none; }
+  .pin circle{ fill: #fff; stroke: var(--navy); stroke-width: 2.5; }
+  .pin text{
+    font-family: var(--font-geo); font-weight: 800; font-size: 17px;
+    fill: var(--navy); text-anchor: middle; dominant-baseline: central;
+  }
+  .pin.is-active circle{ fill: var(--orange); stroke: #fff; }
+  .pin.is-active text{ fill: #fff; }
+
+  .owner-legend{
+    position: absolute; left: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2vw, 26px);
+    display: flex; gap: 8px; flex-wrap: wrap;
+    opacity: 0; translate: 0 8px;
+    transition: opacity var(--dur-fast) var(--ease-out), translate var(--dur-fast) var(--ease-out);
+    pointer-events: none;
+  }
+  .stage[data-mode="owner"] .owner-legend{ opacity: 1; translate: none; }
+  .lg{ display: inline-flex; align-items: center; gap: 7px; padding: .45em 1em; border-radius: var(--r-pill); background: #fff; box-shadow: var(--shadow-card); font-size: 13px; font-weight: 500; color: var(--navy); }
+  .lg i{ width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .lg--fr i{ background: var(--blue); } .lg--ya i{ background: var(--navy); } .lg--mix i{ background: var(--mid-blue); }
+
+  .panel{
+    display: flex; flex-direction: column;
+    padding: clamp(26px, 3vw, 40px);
+    border-radius: var(--r-card);
+    background: var(--navy); color: var(--text-on-dark);
+  }
+  .panel__index{ color: var(--blue); font-weight: 900; font-size: clamp(52px, 5vw, 84px); line-height: .8; }
+  .panel h2{ margin-top: 26px; font-size: clamp(28px, 2.6vw, 40px); }
+  .panel__copy{ margin-top: 14px; color: var(--text-dim-dark); line-height: 1.4; }
+  .panel__meta{ display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 28px; }
+  .panel__hint{ margin-top: 16px; font-family: var(--font-cond); font-weight: 300; font-size: 12px; color: var(--text-dim-dark); }
+
+  .legal{ margin-top: var(--space-5); text-align: center; }
+  a:focus-visible, button:focus-visible{ outline: 3px solid var(--orange); outline-offset: 2px; }
+
+  @media (max-width: 940px){
+    .iso-layout{ grid-template-columns: 1fr; }
+    .panel{ min-height: 0; }
+  }
+  @media (max-width: 640px){
+    .head{ grid-template-columns: 1fr; align-items: start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-tag">05.1 · Даркстор изнутри · v7 — Изометрия-тумблер</div>
+
+<section class="section" aria-label="Даркстор изнутри">
+  <div class="container">
+
+    <header class="head reveal">
+      <div>
+        <span class="chip chip--outline">Даркстор изнутри</span>
+        <h1 class="t-h1" style="margin-top:16px">Склад в&nbsp;изометрии</h1>
+        <p class="t-sub">Наведите на&nbsp;зоны&nbsp;— как устроен склад, которым вы&nbsp;будете управлять. Тумблер показывает, где чья ответственность</p>
+      </div>
+      <button class="switch" type="button" role="switch" aria-checked="false" id="ownerSwitch">
+        <span class="switch__track" aria-hidden="true"><span class="switch__knob"></span></span>
+        Раскрасить по&nbsp;ответственности
+      </button>
+    </header>
+
+    <div class="iso-layout reveal">
+
+      <div class="stage" id="stage" data-mode="fn">
+        <svg viewBox="-450 -30 1110 690" role="group" aria-label="Изометрический план даркстора: семь зон">
+          <!-- «толщина» пола -->
+          <g transform="matrix(0.866,0.5,-0.866,0.5,0,16)" aria-hidden="true">
+            <rect x="-14" y="-14" width="748" height="508" rx="18" fill="var(--navy)"/>
+          </g>
+          <!-- пол -->
+          <g transform="matrix(0.866,0.5,-0.866,0.5,0,0)" aria-hidden="true">
+            <rect x="-14" y="-14" width="748" height="508" rx="18" fill="var(--mid-blue)" opacity=".35"/>
+          </g>
+          <!-- зоны -->
+          <g transform="matrix(0.866,0.5,-0.866,0.5,0,0)" id="zones">
+            <rect class="izone izone--dry"      data-zone="dry"      data-owner="ya"  x="6"   y="6"   width="288" height="258" rx="12" tabindex="0" role="button" aria-label="Стеллажи сухого хранения"/>
+            <rect class="izone izone--freezer"  data-zone="freezer"  data-owner="fr"  x="306" y="6"   width="168" height="138" rx="12" tabindex="0" role="button" aria-label="Морозильная камера, минус 18 градусов"/>
+            <rect class="izone izone--cold"     data-zone="cold"     data-owner="fr"  x="486" y="6"   width="228" height="138" rx="12" tabindex="0" role="button" aria-label="Холодильные камеры, плюс 2–4 градуса"/>
+            <rect class="izone izone--kitchen"  data-zone="kitchen"  data-owner="mix" x="306" y="156" width="168" height="108" rx="12" tabindex="0" role="button" aria-label="Кухня"/>
+            <rect class="izone izone--assembly" data-zone="assembly" data-owner="fr"  x="6"   y="276" width="348" height="198" rx="12" tabindex="0" role="button" aria-label="Зона сборки"/>
+            <rect class="izone izone--pickup"   data-zone="pickup"   data-owner="fr"  x="366" y="276" width="168" height="198" rx="12" tabindex="0" role="button" aria-label="Зона выдачи"/>
+            <rect class="izone izone--middle"   data-zone="middle"   data-owner="ya"  x="546" y="156" width="168" height="318" rx="12" tabindex="0" role="button" aria-label="Средняя миля"/>
+          </g>
+          <!-- номера-пины (в экранных координатах — не искажаются) -->
+          <g class="pin is-active" data-zone="dry"      aria-hidden="true"><circle cx="13"    cy="142.5" r="17"/><text x="13"    y="143.5">01</text></g>
+          <g class="pin" data-zone="freezer"  aria-hidden="true"><circle cx="272.8"  cy="232.5" r="17"/><text x="272.8" y="233.5">02</text></g>
+          <g class="pin" data-zone="cold"     aria-hidden="true"><circle cx="454.7"  cy="337.5" r="17"/><text x="454.7" y="338.5">03</text></g>
+          <g class="pin" data-zone="kitchen"  aria-hidden="true"><circle cx="155.9"  cy="300"   r="17"/><text x="155.9" y="301">04</text></g>
+          <g class="pin" data-zone="assembly" aria-hidden="true"><circle cx="-168.9" cy="277.5" r="17"/><text x="-168.9" y="278.5">05</text></g>
+          <g class="pin" data-zone="pickup"   aria-hidden="true"><circle cx="65"     cy="412.5" r="17"/><text x="65"    y="413.5">06</text></g>
+          <g class="pin" data-zone="middle"   aria-hidden="true"><circle cx="272.8"  cy="472.5" r="17"/><text x="272.8" y="473.5">07</text></g>
+        </svg>
+
+        <div class="owner-legend" aria-hidden="true">
+          <span class="lg lg--fr"><i></i>Франчайзи</span>
+          <span class="lg lg--ya"><i></i>Яндекс</span>
+          <span class="lg lg--mix"><i></i>Совместно</span>
+        </div>
+      </div>
+
+      <aside class="panel" aria-live="polite">
+        <span class="panel__index" id="pIndex">01</span>
+        <h2 class="t-h2" id="pTitle">Стеллажи сухого хранения</h2>
+        <p class="panel__copy t-body" id="pCopy">Основной товарный запас. Единая ассортиментная матрица и&nbsp;автозаказ&nbsp;— на&nbsp;стороне Яндекса.</p>
+        <div class="panel__meta">
+          <span class="chip chip--active" id="pOwner">Яндекс</span>
+          <span class="chip" id="pTag" style="background:#fff">Ассортимент</span>
+        </div>
+        <p class="panel__hint">Наведите или нажмите на&nbsp;зону плана&nbsp;— описание обновится</p>
+      </aside>
+
+    </div>
+
+    <p class="t-legal legal">Прототип · данные — заглушка (рыба) · изометрия — собственная SVG-заглушка</p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const zoneData = {
+    dry:      { index: '01', title: 'Стеллажи сухого хранения', copy: 'Основной товарный запас. Единая ассортиментная матрица и автозаказ — на стороне Яндекса.', owner: 'Яндекс', tag: 'Ассортимент' },
+    freezer:  { index: '02', title: 'Морозильная камера', copy: 'Хранение заморозки в отдельном контуре с постоянным контролем температуры.', owner: 'Франчайзи', tag: '−18°C' },
+    cold:     { index: '03', title: 'Холодильные камеры', copy: 'Фреш, молочная продукция и овощи в стабильном режиме +2…+4°C рядом с маршрутом сборщика.', owner: 'Франчайзи', tag: '+2…+4°C' },
+    kitchen:  { index: '04', title: 'Кухня', copy: 'Готовая еда и кофе собственного производства — отдельный производственный сценарий внутри даркстора.', owner: 'Совместно', tag: 'Готовая еда' },
+    assembly: { index: '05', title: 'Зона сборки', copy: 'Сборщики франчайзи собирают заказ за считанные минуты — WMS строит короткий маршрут по полкам.', owner: 'Франчайзи', tag: 'WMS-маршрут' },
+    pickup:   { index: '06', title: 'Зона выдачи', copy: 'Передача заказов курьерам и велопарковка — без пересечения с потоком поставок.', owner: 'Франчайзи', tag: 'Курьеры' },
+    middle:   { index: '07', title: 'Средняя миля', copy: 'Бесперебойное снабжение товаром — логистика Яндекса связывает даркстор с распределительной инфраструктурой.', owner: 'Яндекс', tag: 'Логистика' }
+  };
+  const zones = [...document.querySelectorAll('.izone')];
+  const pins  = [...document.querySelectorAll('.pin')];
+  const el = id => document.getElementById(id);
+  const pIndex = el('pIndex'), pTitle = el('pTitle'), pCopy = el('pCopy'), pOwner = el('pOwner'), pTag = el('pTag');
+
+  function select(key){
+    const d = zoneData[key];
+    if (!d || !pIndex) return;
+    zones.forEach(z => z.classList.toggle('is-active', z.dataset.zone === key));
+    pins.forEach(p => p.classList.toggle('is-active', p.dataset.zone === key));
+    pIndex.textContent = d.index;
+    pTitle.textContent = d.title;
+    pCopy.textContent = d.copy;
+    pOwner.textContent = d.owner;
+    pTag.textContent = d.tag;
+  }
+
+  zones.forEach(z => {
+    z.addEventListener('click', () => select(z.dataset.zone));
+    z.addEventListener('mouseenter', () => select(z.dataset.zone));
+    z.addEventListener('focus', () => select(z.dataset.zone));
+    z.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(z.dataset.zone); }
+    });
+  });
+
+  const sw = el('ownerSwitch');
+  const stage = el('stage');
+  if (sw && stage) sw.addEventListener('click', () => {
+    const on = sw.getAttribute('aria-checked') === 'true';
+    sw.setAttribute('aria-checked', String(!on));
+    stage.dataset.mode = on ? 'fn' : 'owner';
+  });
+})();
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

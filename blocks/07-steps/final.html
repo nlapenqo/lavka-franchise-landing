@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 · Как стать партнёром · final&nbsp;— Тёмная секция</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--navy); }
+  .story { --progress: 0; min-height: 260vh; position: relative; background: var(--navy); color: var(--text-on-dark); }
+  .story__sticky { position: sticky; top: 0; min-height: 100svh; display: grid; align-items: center; overflow: hidden; }
+  .head { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); align-items: end; }
+  .head__eyebrow { color: var(--text-dim-dark); margin-bottom: 20px; }
+  .head__status { justify-self: end; color: var(--text-dim-dark); font-size: clamp(16px, 1.5vw, 22px); }
+  .head__status strong { color: var(--blue); font-size: 2em; margin-right: 8px; }
+  .progress { position: relative; height: 10px; margin-top: clamp(44px, 6vw, 76px); border-radius: var(--r-pill); background: rgba(167,190,224,.18); overflow: hidden; }
+  .progress__fill { height: 100%; width: calc(var(--progress) * 100%); background: var(--blue); border-radius: inherit; transition: width .1s linear; }
+  .stage { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 22px; }
+  .stage__item { min-height: 190px; padding: 22px; border: 1px solid rgba(167,190,224,.2); border-radius: var(--r-card-sm); color: var(--text-dim-dark); cursor: pointer; transition: background var(--dur-med), color var(--dur-med), transform var(--dur-med) var(--ease-out), border-color var(--dur-med); }
+  /* ховер подсвечивает ячейку — приглашение перехватить управление */
+  .stage__item:hover { border-color: rgba(0, 173, 255, .65); background: rgba(0, 173, 255, .12); color: var(--text-on-dark); }
+  .stage__item:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .stage__item.is-active { background: var(--blue); color: var(--text-on-dark); border-color: var(--blue); transform: translateY(-10px); }
+  .stage__num { display: block; font-size: 13px; margin-bottom: 54px; opacity: .7; }
+  .stage__item h3 { font-size: clamp(18px, 1.6vw, 25px); }
+  .stage__item p { margin-top: 9px; opacity: .7; }
+  .legal { margin-top: var(--space-4); color: var(--text-on-dark); }
+  /* embed в галерее: sticky в iframe-автовысоте не пинится — секция обычная,
+     этапы идут автоциклом до первого действия курсором */
+  html.is-embed .story { min-height: 0; }
+  html.is-embed .story__sticky { position: static; min-height: 0; }
+  @media (max-width: 760px) {
+    .story { min-height: 300vh; }
+    .story__sticky { align-items: start; padding-top: 56px; }
+    html.is-embed .story__sticky { padding-top: 0; }
+    .head { grid-template-columns: 1fr; gap: 14px; }
+    .head__status { justify-self: start; }
+    .progress { margin-top: 32px; }
+    .stage { grid-template-columns: 1fr; gap: 8px; }
+    .stage__item { min-height: 0; padding: 15px 18px; display: grid; grid-template-columns: 34px 1fr; gap: 0 10px; opacity: .45; }
+    .stage__item.is-active { transform: translateX(8px); opacity: 1; }
+    .stage__num { margin: 2px 0 0; grid-row: 1 / span 2; }
+    .stage__item p { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">07 · Как стать партнёром · final&nbsp;— на&nbsp;основе v3</div>
+<section class="story" id="steps">
+  <div class="story__sticky section">
+    <div class="container">
+      <header class="head">
+        <div><p class="head__eyebrow t-label">Маршрут партнёра</p><h2 class="t-h1">Дойдём<br>до&nbsp;запуска</h2></div>
+        <p class="head__status"><strong data-current>01</strong>из&nbsp;05</p>
+      </header>
+      <div class="progress" role="progressbar" aria-label="Прогресс этапов запуска" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress__fill"></div></div>
+      <ol class="stage">
+        <li class="stage__item is-active" tabindex="0"><span class="stage__num">01</span><h3 class="t-h3">Заявка</h3><p class="t-small">Первое знакомство</p></li>
+        <li class="stage__item" tabindex="0"><span class="stage__num">02</span><h3 class="t-h3">Встреча и&nbsp;скоринг</h3><p class="t-small">Сверяем возможности</p></li>
+        <li class="stage__item" tabindex="0"><span class="stage__num">03</span><h3 class="t-h3">Договор</h3><p class="t-small">Закрепляем условия</p></li>
+        <li class="stage__item" tabindex="0"><span class="stage__num">04</span><h3 class="t-h3">Подготовка и&nbsp;обучение</h3><p class="t-small">Строим и&nbsp;учимся</p></li>
+        <li class="stage__item" tabindex="0"><span class="stage__num">05</span><h3 class="t-h3">Запуск</h3><p class="t-small">Принимаем заказы</p></li>
+      </ol>
+      <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+    </div>
+  </div>
+</section>
+<script src="../_shared/proto.js" defer></script>
+<script id="steps-logic">
+  (function () {
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED) document.documentElement.classList.add('is-embed');
+    var story = document.querySelector('.story'); var current = document.querySelector('[data-current]');
+    var bar = story.querySelector('.progress'); var items = Array.from(story.querySelectorAll('.stage__item'));
+
+    function apply(p, index) {
+      story.style.setProperty('--progress', p.toFixed(3)); current.textContent = String(index + 1).padStart(2, '0');
+      bar.setAttribute('aria-valuenow', Math.round(p * 100)); items.forEach(function (el, i) { el.classList.toggle('is-active', i === index); });
+    }
+    function setStage(i) { apply((i + 1) / 5, i); }
+
+    /* курсор переключает этап сразу; продолжение скролла снова
+       перехватывает управление (update ниже без всяких гейтов) */
+    var idx = 0;
+    items.forEach(function (el, i) {
+      el.addEventListener('mouseenter', function () { idx = i; setStage(i); });
+      el.addEventListener('click', function () { idx = i; setStage(i); });
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); idx = i; setStage(i); } });
+    });
+
+    if (EMBED) {
+      /* без скролл-сцены: автоцикл, курсор задаёт точку, цикл идёт дальше от неё */
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { apply(1, 4); return; }
+      setStage(0);
+      setInterval(function () { idx = (idx + 1) % 5; setStage(idx); }, 2600);
+      return;
+    }
+    function update() {
+      var r = story.getBoundingClientRect(); var travel = Math.max(1, r.height - innerHeight);
+      var p = Math.max(0, Math.min(1, -r.top / travel)); var index = Math.min(4, Math.floor(p * 5));
+      apply(p, index);
+    }
+    addEventListener('scroll', update, { passive: true }); addEventListener('resize', update); update();
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

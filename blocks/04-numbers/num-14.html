@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · вариант 14/14&nbsp;— Строка городов</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+
+  body { overflow-x: clip; background: var(--bg); }
+  .band { padding-block: clamp(36px, 5vw, 64px); }
+  .row { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
+  .lead { flex: none; }
+  .lead b { display: block; font-weight: 900; font-size: clamp(44px, 4.6vw, 72px); line-height: .9; letter-spacing: -.02em; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .lead span { display: block; margin-top: 6px; font-weight: 500; font-size: 14px; color: var(--text-dim); }
+  .cities { position: relative; flex: 1; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 78%, transparent 99%); mask-image: linear-gradient(90deg, #000 78%, transparent 99%); }
+  .cities p { white-space: nowrap; font-weight: 500; font-size: clamp(16px, 1.5vw, 22px); line-height: 1.6; color: var(--text-dim); }
+  .cities b { color: var(--navy); font-weight: 800; }
+  .more { flex: none; }
+  .legal { text-align: center; padding: 18px 16px 26px; }
+  @media (max-width: 720px) {
+    .row { flex-wrap: wrap; gap: 14px 20px; }
+    .cities { flex-basis: 100%; order: 3; }
+  }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · вариант 14/14&nbsp;— Строка городов</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="row reveal">
+        <div class="lead"><b data-count="14">0</b><span>городов с&nbsp;Лавкой</span></div>
+        <div class="cities" aria-hidden="true"><p><b>Казань</b> · Челябинск · <b>Тюмень</b> · Воронеж · <b>Пермь</b> · Самара · Уфа · Саратов · Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров</p></div>
+        <span class="chip chip--navy more">+ ещё 25 в&nbsp;работе</span>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>
