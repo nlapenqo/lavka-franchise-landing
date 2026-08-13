@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05.1 · Даркстор изнутри · final&nbsp;— Фокус-точки</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .55fr); gap: var(--space-5); align-items: end; margin-bottom: clamp(36px, 6vw, 72px); }
+  .head p { max-width: 480px; color: var(--text-dim); }
+  .focus { position: relative; }
+  .map-stage { position: relative; aspect-ratio: 1660 / 1171; overflow: hidden; border-radius: var(--r-card); background: var(--navy); box-shadow: var(--shadow-card); }
+  .map-scene { position: absolute; inset: 0; transform: scale(1); transition: transform .8s var(--ease-out); will-change: transform; }
+  .map-scene.is-zoomed { transform: scale(1.58); }
+  .map-scene img { width: 100%; height: 100%; object-fit: cover; }
+  .hotspot { --hotspot-size: clamp(38px, 3.2vw, 52px); position: absolute; z-index: 3; left: var(--x); top: var(--y); width: var(--hotspot-size); height: var(--hotspot-size); display: grid; place-items: center; translate: -50% -50%; border: 2px solid rgba(255,255,255,.7); border-radius: 50%; background: #24262A; color: #fff; font-size: clamp(24px, 2vw, 34px); line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.28); transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast), box-shadow var(--dur-fast); }
+  .hotspot::before { content: "+"; translate: 0 -1px; }
+  .hotspot:hover, .hotspot.is-active { background: var(--blue); border-color: #fff; box-shadow: 0 0 0 8px rgba(0,173,255,.18), var(--shadow-cta); }
+  .hotspot.is-active::before { content: "×"; }
+  .hotspot:focus-visible { outline: 4px solid var(--orange); outline-offset: 3px; }
+  .map-hint { position: absolute; z-index: 4; left: clamp(18px, 3vw, 38px); top: clamp(18px, 3vw, 38px); display: flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: var(--r-pill); color: var(--text-on-dark); background: rgba(27,58,106,.86); backdrop-filter: blur(10px); }
+  .map-hint span { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; background: var(--blue); font-size: 20px; }
+  .map-info { position: absolute; z-index: 8; top: clamp(18px, 3vw, 38px); right: clamp(18px, 3vw, 38px); width: min(390px, calc(100% - 36px)); padding: clamp(24px, 3vw, 36px); border-radius: var(--r-card); color: var(--navy); background: rgba(255,255,255,.96); box-shadow: 0 20px 60px rgba(14,41,78,.28); backdrop-filter: blur(14px); }
+  .map-info[hidden] { display: none; }
+  .map-info:not([hidden]) { animation: map-card-in 360ms var(--ease-out) both; }
+  @keyframes map-card-in { from { opacity: 0; transform: translateY(12px); } }
+  .map-info__top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 26px; }
+  .map-info__index { color: var(--blue); font-weight: 900; font-size: 44px; line-height: .8; }
+  .map-info__close { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-card); font-size: 23px; }
+  .map-info h3 { font-size: clamp(30px, 3vw, 46px); }
+  .map-info__copy { margin-top: 16px; color: var(--text-dim); }
+  .map-info__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .legal { margin-top: 28px; text-align: center; }
+  @media (max-width: 780px) {
+    .head { grid-template-columns: 1fr; }
+    .map-stage { border-radius: 24px; }
+    .map-hint { max-width: calc(100% - 36px); font-size: 13px; }
+    .map-info { position: relative; inset: auto; width: 100%; margin-top: 14px; border: 1px solid var(--sky); box-shadow: var(--shadow-card); }
+    .map-scene.is-zoomed { transform: none; }
+  }
+  @media (max-width: 480px) {
+    .map-stage { min-height: 300px; aspect-ratio: auto; }
+    .map-scene { inset: 50% auto auto 50%; width: 470px; height: 332px; translate: -50% -50%; }
+    .map-scene.is-zoomed { transform: none; }
+    .hotspot { --hotspot-size: 34px; font-size: 23px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-scene.is-zoomed { transform: none; }
+    .map-info:not([hidden]) { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">05.1 · Даркстор изнутри · final&nbsp;— на&nbsp;основе v4</div>
+<section class="section"><div class="container">
+  <header class="head reveal"><h2 class="t-h1">Нажмите.<br>Посмотрите ближе</h2><p class="t-sub">Каждый плюс приближает конкретную зону даркстора и&nbsp;раскрывает её роль в&nbsp;ежедневной работе</p></header>
+  <div class="focus reveal">
+    <div class="map-stage">
+      <div class="map-hint"><span>+</span><p class="t-small">Выберите зону на&nbsp;карте</p></div>
+      <div class="map-scene">
+        <img src="../../assets/figma/darkstore-map.png" alt="Изометрическая карта зон даркстора">
+        <button class="hotspot" style="--x:25%;--y:42%" type="button" aria-label="Сухое хранение" data-index="01" data-title="Сухое хранение" data-copy="Основной товарный запас. Ассортиментная матрица и автозаказ помогают поддерживать нужное наличие без ручных таблиц." data-owner="Яндекс" data-tag="Ассортимент">&#8203;</button>
+        <button class="hotspot" style="--x:37%;--y:20%" type="button" aria-label="Морозильная камера" data-index="02" data-title="Морозильная камера" data-copy="Отдельный контур для замороженных продуктов. Температура контролируется на всех этапах хранения и сборки." data-owner="Партнёр" data-tag="−18°C">&#8203;</button>
+        <button class="hotspot" style="--x:32%;--y:63%" type="button" aria-label="Холодильники" data-index="03" data-title="Холодильники" data-copy="Овощи, молочные продукты и напитки хранятся в стабильном режиме рядом с маршрутом сборщика." data-owner="Партнёр" data-tag="+2…+4°C">&#8203;</button>
+        <button class="hotspot" style="--x:53%;--y:31%" type="button" aria-label="Кухня" data-index="04" data-title="Кухня" data-copy="Здесь готовят кофе и часть готовой еды. Это отдельный производственный сценарий внутри даркстора." data-owner="Совместно" data-tag="Готовая еда">&#8203;</button>
+        <button class="hotspot" style="--x:60%;--y:62%" type="button" aria-label="Сборка заказов" data-index="05" data-title="Сборка заказов" data-copy="WMS строит короткий маршрут по полкам, а сборщик комплектует корзину за несколько минут." data-owner="Партнёр" data-tag="WMS-маршрут">&#8203;</button>
+        <button class="hotspot" style="--x:60%;--y:79%" type="button" aria-label="Выдача курьерам" data-index="06" data-title="Выдача курьерам" data-copy="Готовые заказы передаются курьерам в отдельной точке без пересечения с поставками и сборкой." data-owner="Партнёр" data-tag="Последняя миля">&#8203;</button>
+        <button class="hotspot" style="--x:88%;--y:64%" type="button" aria-label="Средняя миля" data-index="07" data-title="Средняя миля" data-copy="Регулярные поставки связывают даркстор с распределительной инфраструктурой и общим товарным контуром Яндекса." data-owner="Яндекс" data-tag="Поставки">&#8203;</button>
+      </div>
+    </div>
+    <aside class="map-info" aria-live="polite" hidden>
+      <div class="map-info__top"><span class="map-info__index">01</span><button class="map-info__close" type="button" aria-label="Вернуться к полной карте">×</button></div>
+      <h3 class="t-h2">Сухое хранение</h3>
+      <p class="map-info__copy t-body"></p>
+      <div class="map-info__meta"><span class="chip chip--active">Зона</span><span class="chip">Параметр</span></div>
+    </aside>
+  </div>
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба) · схема предоставлена пользователем</p>
+</div></section>
+<script>
+  const scene = document.querySelector('.map-scene');
+  const hotspots = document.querySelectorAll('.hotspot');
+  const info = document.querySelector('.map-info');
+  const reset = () => { scene.classList.remove('is-zoomed'); hotspots.forEach(item => item.classList.remove('is-active')); info.hidden = true; };
+  hotspots.forEach(hotspot => hotspot.addEventListener('click', () => {
+    if (hotspot.classList.contains('is-active')) { reset(); return; }
+    hotspots.forEach(item => item.classList.toggle('is-active', item === hotspot));
+    scene.style.transformOrigin = `${hotspot.style.getPropertyValue('--x')} ${hotspot.style.getPropertyValue('--y')}`;
+    scene.classList.add('is-zoomed');
+    info.querySelector('.map-info__index').textContent = hotspot.dataset.index;
+    info.querySelector('h3').textContent = hotspot.dataset.title;
+    info.querySelector('.map-info__copy').textContent = hotspot.dataset.copy;
+    const chips = info.querySelectorAll('.chip'); chips[0].textContent = hotspot.dataset.owner; chips[1].textContent = hotspot.dataset.tag;
+    info.hidden = false;
+  }));
+  info.querySelector('.map-info__close').addEventListener('click', reset);
+  addEventListener('keydown', event => { if (event.key === 'Escape') reset(); });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>
