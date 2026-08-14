@@ -224,7 +224,7 @@
   const stepsSection = document.querySelector('[data-pst]');
   if (stepsSection) {
     const STEPS = [
-      { n: '01', t: 'Заявка на сайте', d: 'Заполните анкету — мы свяжемся с вами, обсудим формат сотрудничества и ответим на первые вопросы', e: '1 неделя' },
+      { n: '01', t: 'Заявка на сайте', d: 'Заполните анкету — мы свяжемся с вами, обсудим формат сотрудничества и ответим на первые вопросы', e: '1 неделя', cta: 'Оставить заявку' },
       { n: '02', t: 'Собеседование и отбор', d: 'Обсуждаем ваш опыт, мотивацию и возможности. В каждом городе выбираем одного партнёра для открытия сети дарксторов', e: '2–3 недели' },
       { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по стандартам сети, мы готовим планировку и помогаем с поставщиками оборудования. Ремонт и стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4 месяца' },
       { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и директоров дарксторов. Помогаем привлекать персонал с помощью операционного маркетинга', e: '1–2 месяца' },
@@ -237,13 +237,19 @@
     const progressBox = stepsSection.querySelector('[data-pst-progress]');
     STEPS.forEach((step, i) => {
       panes.insertAdjacentHTML('beforeend',
-        `<div class="pst-pane${i ? '' : ' is-active'}"><h3>${step.t}</h3><p>${step.d}</p><em>${step.e}</em></div>`);
-      rail.insertAdjacentHTML('beforeend',
-        `<div class="pst-mini${i ? '' : ' is-active'}">
-           <div class="pst-fold"><span>${step.n}</span><b>${step.t}<span class="pst-note">${step.d}</span><span class="pst-term">${step.e}</span></b></div>
-           <div class="pst-open"><strong>${step.n}</strong><b>${step.t.toLowerCase()}</b></div>
-           <div class="pst-tick">${tick}</div>
+        `<div class="pst-pane${i ? '' : ' is-active'}">
+           <h3>${step.t}</h3><p>${step.d}</p>
+           <div class="pst-foot"><em>${step.e}</em>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
          </div>`);
+      rail.insertAdjacentHTML('beforeend',
+        `<button class="pst-mini${i ? '' : ' is-active'}" type="button" aria-label="Шаг ${step.n}: ${step.t}, ${step.e}">
+           <span class="pst-fold">
+             <span class="pst-num">${step.n}</span>
+             <span class="pst-foldbot"><b>${step.t}<span class="pst-note">${step.d}</span></b><i class="pst-when">${step.e}</i></span>
+           </span>
+           <span class="pst-open"><strong>${step.n}</strong><b>${step.t.toLowerCase()}</b></span>
+           <span class="pst-tick">${tick}</span>
+         </button>`);
     });
     const paneNodes = [...panes.children];
     const miniNodes = [...rail.children];
@@ -266,6 +272,15 @@
         node.classList.toggle('is-done', allDone || i < index);
       });
     };
+    // клик по шагу прокручивает к его отрезку — состояние по-прежнему считается от скролла
+    miniNodes.forEach((node, i) => {
+      node.addEventListener('click', () => {
+        const travel = stepsSection.offsetHeight - innerHeight;
+        if (travel <= 0) return;
+        const top = stepsSection.getBoundingClientRect().top + scrollY + ((i + 0.5) / STEPS.length) * travel;
+        scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' });
+      });
+    });
     addEventListener('scroll', stepOnScroll, { passive: true });
     addEventListener('resize', stepOnScroll, { passive: true });
     stepOnScroll();
