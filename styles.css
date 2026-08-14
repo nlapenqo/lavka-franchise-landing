@@ -110,11 +110,15 @@ ul{padding:0;list-style:none}
 
 /* Numbers */
 .numbers{padding:128px 138px;background:#fff}
-.numbers__grid{width:1154px;max-width:100%;margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:31px}
-.number-card{height:399px;border-radius:31px;background:var(--navy);box-shadow:inset 0 0 103px var(--blue);color:#fff;text-align:center;padding:48px 38px 30px;display:flex;flex-direction:column;align-items:center}
-.number-card .counter{font-size:154px;line-height:.9;font-weight:900;letter-spacing:-.02em}
-.number-card h2{margin-top:18px;font-size:31px;line-height:1.05;font-weight:800}
-.number-card p{margin-top:auto;width:270px;max-width:100%;font-size:13.5px;line-height:1.35;color:#c0d2ec}
+.numbers__grid{width:min(1154px,100%);margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:31px}
+.number-card{position:relative;isolation:isolate;overflow:hidden;min-height:399px;border-radius:31px;background:var(--navy);color:#fff;text-align:center;padding:63px 38px 51px;display:flex;flex-direction:column;align-items:center}
+/* Figma: два размытых эллипса #00ADFF (layer blur 150) заходят на карточку сверху */
+.number-card::before,.number-card::after{content:"";position:absolute;z-index:-1;width:100%;background:var(--blue);border-radius:50%;filter:blur(150px)}
+.number-card::before{left:-10px;top:-250px;height:345px}
+.number-card::after{left:10px;top:-112px;height:141px}
+.number-card .counter{font-size:154px;line-height:.9;font-weight:900}
+.number-card h2{margin-top:22px;font-size:31px;line-height:1.05;font-weight:800}
+.number-card p{margin-top:auto;width:266px;max-width:100%;font-size:13.5px;line-height:1.35;color:#c0d2ec}
 
 /* Business */
 .business{padding-inline:0}
@@ -328,7 +332,7 @@ ul{padding:0;list-style:none}
   .site-header{position:fixed;inset:12px 12px auto;height:62px;padding:9px 10px 9px 16px}.site-header.is-solid{height:62px;padding:9px 10px 9px 16px;transform:translate3d(0,-4px,0)}.brand{width:270px;--brand-scale:.65}.site-header.is-solid .brand{--brand-scale:.49}.desktop-nav{display:none}.menu-toggle{display:flex}
   .mobile-menu{position:fixed;z-index:45;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:25px;padding:90px 30px 40px;background:rgba(27,58,106,.97);color:#fff;font-size:28px;font-weight:800;opacity:0;visibility:hidden;transform:translateY(-12px);transition:.24s}.mobile-menu.is-open{opacity:1;visibility:visible;transform:none}
   .ambient-field{transform:scale(.78);transform-origin:50% 0;width:128.205%;height:128.205%;left:-14.102%}.hero{height:700px}.hero__content{height:624px;margin-top:76px;gap:25px}.hero__headline{font-size:68px}.hero__lead{font-size:19px}.event{height:64px}.event__cta{padding-left:72px}.event__item{font-size:15px}
-  .numbers{padding:72px 20px}.numbers__grid{grid-template-columns:1fr;max-width:430px}.number-card{height:360px}.number-card .counter{font-size:132px}
+  .numbers{padding:72px 20px}.numbers__grid{grid-template-columns:1fr;max-width:430px}.number-card{min-height:360px;padding:56px 30px 46px}.number-card .counter{font-size:132px}
   .business-carousel{height:auto;padding:28px}.business-carousel__viewport{height:760px}.business-slide{height:760px;grid-template-columns:1fr;grid-template-rows:1fr 380px;gap:28px;align-items:start}.business-slide__copy{height:352px;align-self:center}.business-slide__copy h3{font-size:42px}.business-slide__visual{width:100%;height:380px}.business-carousel__controls{right:48px;bottom:48px}
   .darkstore .section-title{margin-bottom:46px}.map-stage{height:auto;min-height:620px;padding:90px 20px 24px}.map-picture{position:relative;left:auto;top:auto;width:100%;height:auto;transform:none!important}.hotspot{width:38px;height:38px}.zone-card{position:relative;right:auto;top:auto;width:100%;min-height:0;margin-top:16px;padding:25px}.zone-card h3{font-size:34px;margin:14px 0 10px}.map-hint{left:20px;top:20px}
   .format-grid{grid-template-columns:1fr;max-width:520px;margin:auto}.format-card{min-height:0}.formats .section-title{margin-bottom:34px}
@@ -340,7 +344,7 @@ ul{padding:0;list-style:none}
 
 @media (max-width:520px){
   .container{width:calc(100% - 32px)}.page-section,.steps,.lead-form{padding:56px 0}.section-title,.lead-copy h2{font-size:42px}.button{font-size:16px;padding:14px 24px}.brand{width:250px;--brand-scale:.56}.site-header.is-solid .brand{--brand-scale:.42}
-  .ambient-field{transform:scale(.64);width:156.25%;height:156.25%;left:-28.125%}.hero{height:640px}.hero__headline{font-size:48px;max-width:100%}.hero__lead{font-size:17px}.hero__lead br{display:none}.hero__actions{flex-direction:column;gap:15px}.event{height:56px}.event__track{animation-duration:64s}.event__cta{padding-left:48px;padding-right:10px}.event__cta .button{font-size:13px;padding:.5em 1.15em}.event__item{padding-inline:22px}.numbers{padding:56px 16px}.number-card{height:330px}.number-card .counter{font-size:112px}.number-card h2{font-size:27px}
+  .ambient-field{transform:scale(.64);width:156.25%;height:156.25%;left:-28.125%}.hero{height:640px}.hero__headline{font-size:48px;max-width:100%}.hero__lead{font-size:17px}.hero__lead br{display:none}.hero__actions{flex-direction:column;gap:15px}.event{height:56px}.event__track{animation-duration:64s}.event__cta{padding-left:48px;padding-right:10px}.event__cta .button{font-size:13px;padding:.5em 1.15em}.event__item{padding-inline:22px}.numbers{padding:56px 16px}.number-card{min-height:330px;padding:48px 24px 40px}.number-card .counter{font-size:112px}.number-card h2{font-size:27px}
   .business-carousel{margin-top:30px;padding:20px;border-radius:24px}.business-carousel__viewport{height:650px}.business-slide{height:650px;grid-template-rows:348px 280px;gap:22px}.business-slide__copy{height:348px;gap:18px}.business-slide__copy h3{font-size:34px}.business-slide__copy p{font-size:16px}.business-slide__copy p br{display:none}.business-slide__visual{height:280px;border-radius:18px}.business-carousel__controls{right:34px;bottom:34px}.business-carousel__arrow{width:46px;height:46px}
   .map-stage{min-height:540px}.hotspot{display:none}.zone-card{display:block}.format-card{padding:22px}.format-card dd b{font-size:42px}.section-cta{margin-top:34px}
   .steps{padding:56px 0}.pst-fold{padding:18px}
