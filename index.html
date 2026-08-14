@@ -159,21 +159,18 @@
         <h2 class="section-title reveal">Форматы партнёрства</h2>
         <div class="format-grid">
           <article class="format-card reveal" data-format-card>
-            <button class="format-card__select" type="button" data-format-select aria-label="Выбрать формат: Готовый бизнес" aria-pressed="false"></button>
             <div class="chips"><span class="chip chip--navy">Готовый бизнес</span></div>
             <p class="cities">Казань · Челябинск · Тюмень · Воронеж · Пермь</p>
             <dl><div><dt>Инвестиции</dt><dd><b>400–600</b> млн ₽</dd></div><div><dt>Окупаемость</dt><dd>от 2,5 лет</dd></div><div><dt>Паушальный взнос</dt><dd>1 млн ₽ <small>/ даркстор</small></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от оборота и условий конкретного города</span></button></dd></div></dl>
             <p class="format-note">Передача в совместное партнёрство действующей сети дарксторов</p>
           </article>
           <article class="format-card format-card--featured reveal" style="--delay:.08s" data-format-card>
-            <button class="format-card__select" type="button" data-format-select aria-label="Выбрать формат: Новый город, миллионники" aria-pressed="true"></button>
             <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Миллионники</span></div>
             <p class="cities">Самара · Уфа · Саратов</p>
             <dl><div><dt>Инвестиции</dt><dd><b>250–450</b> млн ₽</dd></div><div><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div><dt>Паушальный взнос</dt><dd>1 млн ₽ <small>/ даркстор</small></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от оборота и условий конкретного города</span></button></dd></div></dl>
             <p class="format-note">Запуск сервиса с нуля в городе-миллионнике</p>
           </article>
           <article class="format-card reveal" style="--delay:.16s" data-format-card>
-            <button class="format-card__select" type="button" data-format-select aria-label="Выбрать формат: Новый город, крупные города" aria-pressed="false"></button>
             <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Крупные города</span></div>
             <p class="cities">Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров</p>
             <dl><div><dt>Инвестиции</dt><dd><b>75–150</b> млн ₽</dd></div><div><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div><dt>Паушальный взнос</dt><dd>1 млн ₽ <small>/ даркстор</small></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от оборота и условий конкретного города</span></button></dd></div></dl>
@@ -184,7 +181,7 @@
       </div>
     </section>
 
-    <section class="steps section-dark" id="steps" data-steps data-ambient>
+    <section class="steps section-dark" id="steps" data-pst data-ambient>
       <div class="steps__sticky">
         <div class="ambient-field ambient-field--steps" aria-hidden="true">
           <div class="ambient-glow ambient-glow--steps-left ambient-glow--medium">
@@ -200,16 +197,12 @@
         <div class="container steps__inner">
           <div class="steps__header">
             <h2 class="section-title">Как стать<br>партнёром?</h2>
-            <div class="steps__count"><strong data-step-current>01</strong><span>из 05</span></div>
           </div>
-          <div class="steps__layout">
-            <div class="step-progress" role="progressbar" aria-label="Прогресс запуска" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-step-progress><span></span></div>
-            <div class="step-list">
-              <button class="step is-active" type="button" data-step="0"><span>01</span><strong>Заявка<br>на сайте</strong><p>Заполните анкету — мы свяжемся с вами, обсудим формат сотрудничества<br>и ответим на первые вопросы</p><em>1 неделя</em></button>
-              <button class="step" type="button" data-step="1"><span>02</span><strong>Собеседование<br>и отбор</strong><p>Обсуждаем ваш опыт, мотивацию и возможности. В каждом городе выбираем одного партнёра для открытия сети дарксторов</p><em>2–3 недели</em></button>
-              <button class="step" type="button" data-step="2"><span>03</span><strong>Подготовка<br>помещений</strong><p>Подбираете помещение по стандартам сети, мы готовим планировку и помогаем<br>с поставщиками оборудования. Ремонт и стройку ведёте вы, мы сопровождаем каждый этап</p><em>2–4 месяца</em></button>
-              <button class="step" type="button" data-step="3"><span>04</span><strong>Подбор<br>персонала</strong><p>Параллельно набираете команду: кладовщиков, курьеров и директоров дарксторов. Помогаем привлекать персонал с помощью операционного маркетинга</p><em>1–2 месяца</em></button>
-              <button class="step" type="button" data-step="4"><span>05</span><strong>Запуск<br>сервиса</strong><p>Дарксторы заполняются товарами, мы разворачиваем IT-инфраструктуру<br>и запускаем рекламную кампанию в городе — вы начинаете принимать заказы</p><em>1–2 недели</em></button>
+          <div class="pst-layout">
+            <div class="pst-bigcard" data-pst-panes></div>
+            <div class="pst-right">
+              <div class="pst-bar" role="progressbar" aria-label="Прогресс шагов" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pst-progress><i data-pst-bar></i></div>
+              <div class="pst-rail" data-pst-rail></div>
             </div>
           </div>
         </div>

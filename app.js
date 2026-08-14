@@ -215,44 +215,57 @@
   addEventListener('keydown', event => { if (event.key === 'Escape' && mapStage?.classList.contains('has-zoom')) closeZone(); });
 
   const formatCards = [...document.querySelectorAll('[data-format-card]')];
-  const selectFormat = selected => {
-    formatCards.forEach(card => {
-      const active = card === selected;
-      card.classList.toggle('format-card--featured', active);
-      card.querySelector('[data-format-select]')?.setAttribute('aria-pressed', String(active));
-    });
-  };
   formatCards.forEach(card => {
-    card.querySelector('[data-format-select]')?.addEventListener('click', () => selectFormat(card));
+    card.addEventListener('mouseenter', () => {
+      formatCards.forEach(item => item.classList.toggle('format-card--featured', item === card));
+    });
   });
 
-  const stepsSection = document.querySelector('[data-steps]');
-  const stepNodes = [...document.querySelectorAll('[data-step]')];
-  const stepProgress = document.querySelector('[data-step-progress]');
-  const applyStep = (progress, index) => {
-    const safe = Math.max(0, Math.min(stepNodes.length - 1, index));
-    stepNodes.forEach((node, i) => node.classList.toggle('is-active', i === safe));
-    const number = document.querySelector('[data-step-current]');
-    if (number) number.textContent = String(safe + 1).padStart(2, '0');
-    const value = Math.max(0, Math.min(1, progress));
-    stepsSection?.style.setProperty('--progress', value.toFixed(3));
-    stepProgress?.setAttribute('aria-valuenow', String(Math.round(value * 100)));
-  };
-  const setStep = index => applyStep((index + 1) / stepNodes.length, index);
-  stepNodes.forEach((node, index) => {
-    node.addEventListener('click', () => setStep(index));
-    node.addEventListener('mouseenter', () => { if (innerWidth > 820) setStep(index); });
-  });
-  const stepOnScroll = () => {
-    if (!stepsSection || reduced || innerWidth <= 820) return;
-    const rect = stepsSection.getBoundingClientRect();
-    const travel = Math.max(1, rect.height - innerHeight);
-    const progress = Math.max(0, Math.min(1, -rect.top / travel));
-    const index = Math.min(stepNodes.length - 1, Math.floor(progress * stepNodes.length));
-    applyStep(progress, index);
-  };
+  const stepsSection = document.querySelector('[data-pst]');
   if (stepsSection) {
-    applyStep(0, 0);
+    const STEPS = [
+      { n: '01', t: 'Заявка на сайте', d: 'Заполните анкету — мы свяжемся с вами, обсудим формат сотрудничества и ответим на первые вопросы', e: '1 неделя' },
+      { n: '02', t: 'Собеседование и отбор', d: 'Обсуждаем ваш опыт, мотивацию и возможности. В каждом городе выбираем одного партнёра для открытия сети дарксторов', e: '2–3 недели' },
+      { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по стандартам сети, мы готовим планировку и помогаем с поставщиками оборудования. Ремонт и стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4 месяца' },
+      { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и директоров дарксторов. Помогаем привлекать персонал с помощью операционного маркетинга', e: '1–2 месяца' },
+      { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем IT-инфраструктуру и запускаем рекламную кампанию в городе — вы начинаете принимать заказы', e: '1–2 недели' }
+    ];
+    const tick = '<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const panes = stepsSection.querySelector('[data-pst-panes]');
+    const rail = stepsSection.querySelector('[data-pst-rail]');
+    const bar = stepsSection.querySelector('[data-pst-bar]');
+    const progressBox = stepsSection.querySelector('[data-pst-progress]');
+    STEPS.forEach((step, i) => {
+      panes.insertAdjacentHTML('beforeend',
+        `<div class="pst-pane${i ? '' : ' is-active'}"><h3>${step.t}</h3><p>${step.d}</p><em>${step.e}</em></div>`);
+      rail.insertAdjacentHTML('beforeend',
+        `<div class="pst-mini${i ? '' : ' is-active'}">
+           <div class="pst-fold"><span>${step.n}</span><b>${step.t}<span class="pst-note">${step.d}</span><span class="pst-term">${step.e}</span></b></div>
+           <div class="pst-open"><strong>${step.n}</strong><b>${step.t.toLowerCase()}</b></div>
+           <div class="pst-tick">${tick}</div>
+         </div>`);
+    });
+    const paneNodes = [...panes.children];
+    const miniNodes = [...rail.children];
+    let stepState = '';
+    const stepOnScroll = () => {
+      const travel = stepsSection.offsetHeight - innerHeight;
+      if (travel <= 0) return;
+      const progress = Math.max(0, Math.min(1, -stepsSection.getBoundingClientRect().top / travel));
+      bar.style.width = (progress * 100) + '%';
+      progressBox?.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+      const index = Math.min(STEPS.length - 1, Math.floor(progress * STEPS.length));
+      // на излёте последнего шага закрывается и он сам — все пять плашек с галочками
+      const allDone = progress >= 0.95;
+      const state = index + (allDone ? ':done' : '');
+      if (state === stepState) return;
+      stepState = state;
+      paneNodes.forEach((node, i) => node.classList.toggle('is-active', i === index));
+      miniNodes.forEach((node, i) => {
+        node.classList.toggle('is-active', !allDone && i === index);
+        node.classList.toggle('is-done', allDone || i < index);
+      });
+    };
     addEventListener('scroll', stepOnScroll, { passive: true });
     addEventListener('resize', stepOnScroll, { passive: true });
     stepOnScroll();
