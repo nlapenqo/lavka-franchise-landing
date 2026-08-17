@@ -134,21 +134,29 @@
 
     <section class="darkstore page-section">
       <div class="container">
-        <h2 class="section-title darkstore__title reveal">Нажмите.<br>Посмотрите ближе</h2>
+        <div class="darkstore__head reveal">
+          <h2 class="section-title darkstore__title">Как работает даркстор?</h2>
+          <p class="darkstore__lead">Даркстор — специализированный склад, в котором хранятся товары и собираются заказы, откуда и происходит доставка</p>
+        </div>
         <div class="map-stage reveal" data-map-stage>
-          <div class="map-hint"><span>+</span> Выберите зону на карте</div>
-          <div class="map-picture" data-map-picture><img src="./assets/figma/darkstore-map.png" alt="Схема даркстора с интерактивными зонами"></div>
-          <button class="hotspot is-active" style="--x:35%;--y:20%" data-zone="storage" aria-label="Сухое хранение">+</button>
-          <button class="hotspot" style="--x:51%;--y:31%" data-zone="cold" aria-label="Холодильники">+</button>
-          <button class="hotspot" style="--x:23%;--y:43%" data-zone="freezer" aria-label="Морозильная камера">+</button>
-          <button class="hotspot" style="--x:65%;--y:48%" data-zone="packing" aria-label="Зона сборки">+</button>
-          <button class="hotspot" style="--x:43%;--y:65%" data-zone="kitchen" aria-label="Кухня">+</button>
-          <button class="hotspot" style="--x:73%;--y:73%" data-zone="dispatch" aria-label="Зона выдачи">+</button>
-          <button class="hotspot" style="--x:89%;--y:67%" data-zone="middle" aria-label="Средняя миля">+</button>
-          <article class="zone-card" data-zone-card>
+          <div class="map-glow map-glow--a" aria-hidden="true"><div class="map-glow__axis"><img src="./assets/figma/darkstore-glow-a.svg" alt="" loading="lazy" decoding="async"></div></div>
+          <div class="map-glow map-glow--b" aria-hidden="true"><div class="map-glow__axis"><img src="./assets/figma/darkstore-glow-b.svg" alt="" loading="lazy" decoding="async"></div></div>
+          <div class="map-world" data-map-world>
+            <div class="map-picture"><img src="./assets/figma/darkstore-map.png" alt="Схема даркстора с интерактивными зонами"></div>
+            <button class="hotspot is-active" style="--x:49.23%;--y:37.76%" data-zone="kitchen" aria-label="Кухня">+</button>
+            <button class="hotspot" style="--x:25%;--y:42.02%" data-zone="storage" aria-label="Склад с продуктами">+</button>
+            <button class="hotspot" style="--x:58.68%;--y:72.84%" data-zone="dispatch" aria-label="Зона выдачи заказа">+</button>
+            <button class="hotspot" style="--x:87.97%;--y:63.95%" data-zone="loading" aria-label="Зона погрузки">+</button>
+            <button class="hotspot" style="--x:41.84%;--y:66.02%" data-zone="cold" aria-label="Холодильные камеры">+</button>
+            <button class="hotspot" style="--x:51.98%;--y:75.76%" data-zone="waiting" aria-label="Зона ожидания заказа">+</button>
+            <button class="hotspot" style="--x:37.71%;--y:23.63%" data-zone="freezer" aria-label="Морозильная камера">+</button>
+          </div>
+          <article class="zone-card" data-zone-card aria-live="polite">
             <div class="zone-card__top"><strong data-zone-number>01</strong><button type="button" data-zone-close aria-label="Закрыть описание">×</button></div>
-            <h3 data-zone-title>Сухое хранение</h3>
-            <p data-zone-text>Основной товарный запас. Ассортиментная матрица и автозаказ помогают поддерживать нужное наличие без ручных таблиц.</p>
+            <div class="zone-card__text">
+              <h3 data-zone-title>Кухня</h3>
+              <p data-zone-text>Здесь повара готовят горячий фастфуд — на одно блюдо уходит около 7 минут. Готовую еду повара передают кладовщикам, которые собирают весь заказ клиента</p>
+            </div>
           </article>
         </div>
       </div>

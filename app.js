@@ -185,34 +185,82 @@
   }
 
   const zones = {
-    storage: ['01', 'Сухое хранение', 'Основной товарный запас. Ассортиментная матрица и автозаказ помогают поддерживать нужное наличие без ручных таблиц.'],
-    cold: ['02', 'Холодильники', 'Зона для товаров, которым нужна температура +2…+4 °C. Стандарты хранения и контроль качества задаёт Яндекс Лавка.'],
-    freezer: ['03', 'Морозильная камера', 'Температура −18 °C поддерживается круглосуточно. Команда партнёра отвечает за правильное размещение и ротацию товара.'],
-    packing: ['04', 'Зона сборки', 'Здесь сборщики комплектуют заказы за несколько минут. WMS строит маршрут по даркстору и снижает число ошибок.'],
-    kitchen: ['05', 'Кухня', 'Готовая еда и кофе производятся по технологическим картам с едиными требованиями к качеству.'],
-    dispatch: ['06', 'Зона выдачи', 'Готовые заказы передаются курьерам. Партнёр организует команду, велопарковку и ежедневную операционную работу.'],
-    middle: ['07', 'Средняя миля', 'Поставки от распределительного центра до даркстора и работу с поставщиками организует Яндекс Лавка.']
+    kitchen: ['01', 'Кухня', 'Здесь повара готовят горячий фастфуд — на одно блюдо уходит около 7 минут. Готовую еду повара передают кладовщикам, которые собирают весь заказ клиента'],
+    storage: ['02', 'Склад с продуктами', 'Полки с тысячами товаров — с помощью наших технологий кладовщики собирают любой заказ за несколько минут'],
+    dispatch: ['03', 'Зона выдачи заказа', 'Здесь кладовщик передаёт курьеру собранные заказы для клиентов'],
+    loading: ['04', 'Зона погрузки', 'Благодаря автозаказу в Лавку регулярно привозят необходимые товары от проверенных поставщиков'],
+    cold: ['05', 'Холодильные камеры', 'Температурный режим под постоянным контролем, что гарантирует минимальный уровень списаний и свежий товар'],
+    waiting: ['06', 'Зона ожидания заказа', 'Здесь курьеры ожидают заказы. Они получают их сразу после сборки и отвозят клиенту за установленное в приложении время'],
+    freezer: ['07', 'Морозильная камера', 'Отдельный температурный режим для заморозки. Эти товары кладовщики собирают последними, чтобы заказ доехал до клиента без потери качества']
   };
   const mapStage = document.querySelector('[data-map-stage]');
+  const mapWorld = document.querySelector('[data-map-world]');
   const zoneCard = document.querySelector('[data-zone-card]');
-  const showZone = button => {
-    const data = zones[button.dataset.zone];
-    if (!data) return;
-    document.querySelectorAll('[data-zone]').forEach(item => item.classList.toggle('is-active', item === button));
+  const hotspots = [...document.querySelectorAll('[data-zone]')];
+  const ZOOM = 2.2;
+  let activeZone = 'kitchen';
+  let swapTimer = 0;
+  const fillZone = data => {
     zoneCard.querySelector('[data-zone-number]').textContent = data[0];
     zoneCard.querySelector('[data-zone-title]').textContent = data[1];
     zoneCard.querySelector('[data-zone-text]').textContent = data[2];
-    zoneCard.classList.remove('is-hidden');
-    if (!reduced && innerWidth > 820) {
-      mapStage.style.setProperty('--pan-x', `${(50 - parseFloat(button.style.getPropertyValue('--x'))) * .09}%`);
-      mapStage.style.setProperty('--pan-y', `${(50 - parseFloat(button.style.getPropertyValue('--y'))) * .06}%`);
-      mapStage.classList.add('has-zoom');
-    }
   };
-  document.querySelectorAll('[data-zone]').forEach(button => button.addEventListener('click', () => showZone(button)));
-  const closeZone = () => { zoneCard?.classList.add('is-hidden'); mapStage?.classList.remove('has-zoom'); document.querySelectorAll('[data-zone]').forEach(item => item.classList.remove('is-active')); };
+  const zoomTo = button => {
+    if (!mapWorld || !mapStage) return;
+    if (reduced || innerWidth <= 820) { mapWorld.style.transform = ''; mapStage.style.setProperty('--z', 1); return; }
+    const w = mapStage.clientWidth;
+    const h = mapStage.clientHeight;
+    const px = parseFloat(button.style.getPropertyValue('--x')) / 100 * w;
+    const py = parseFloat(button.style.getPropertyValue('--y')) / 100 * h;
+    // Точка зоны едет в центр свободной от карточки области (левые ~63% сцены),
+    // но картинку стараемся не отрывать от краёв сцены и от карточки.
+    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+    const pic = { l: .061 * w, r: .9476 * w, t: .1818 * h, b: .8883 * h };
+    let tx = w * .315 - px * ZOOM;
+    let ty = h * .5 - py * ZOOM;
+    tx = clamp(tx, w * .63 - pic.r * ZOOM, -pic.l * ZOOM);
+    ty = clamp(ty, h - pic.b * ZOOM, -pic.t * ZOOM);
+    // Сама точка при этом должна остаться в безопасной зоне (не под карточкой, не у края)
+    tx = clamp(tx, w * .12 - px * ZOOM, w * .55 - px * ZOOM);
+    ty = clamp(ty, h * .18 - py * ZOOM, h * .82 - py * ZOOM);
+    mapStage.style.setProperty('--z', ZOOM);
+    mapWorld.style.transform = `translate(${tx}px, ${ty}px) scale(${ZOOM})`;
+    mapStage.classList.add('has-zoom');
+  };
+  const resetZoom = () => {
+    if (!mapWorld || !mapStage) return;
+    mapWorld.style.transform = '';
+    mapStage.style.setProperty('--z', 1);
+    mapStage.classList.remove('has-zoom');
+  };
+  const showZone = button => {
+    const data = zones[button.dataset.zone];
+    if (!data || !zoneCard) return;
+    hotspots.forEach(item => item.classList.toggle('is-active', item === button));
+    const cardVisible = !zoneCard.classList.contains('is-hidden');
+    clearTimeout(swapTimer);
+    if (cardVisible && button.dataset.zone !== activeZone && !reduced) {
+      // Кроссфейд: старая карточка уходит в прозрачность, новая появляется
+      zoneCard.classList.add('is-swapping');
+      swapTimer = setTimeout(() => { fillZone(data); zoneCard.classList.remove('is-swapping'); }, 260);
+    } else {
+      fillZone(data);
+      zoneCard.classList.remove('is-hidden', 'is-swapping');
+    }
+    activeZone = button.dataset.zone;
+    zoomTo(button);
+  };
+  hotspots.forEach(button => button.addEventListener('click', () => showZone(button)));
+  const closeZone = () => {
+    clearTimeout(swapTimer);
+    zoneCard?.classList.add('is-hidden');
+    zoneCard?.classList.remove('is-swapping');
+    hotspots.forEach(item => item.classList.remove('is-active'));
+    resetZoom();
+  };
   document.querySelector('[data-zone-close]')?.addEventListener('click', closeZone);
   addEventListener('keydown', event => { if (event.key === 'Escape' && mapStage?.classList.contains('has-zoom')) closeZone(); });
+  addEventListener('resize', () => { if (mapStage?.classList.contains('has-zoom')) { const active = hotspots.find(item => item.classList.contains('is-active')); active ? zoomTo(active) : resetZoom(); } }, { passive: true });
 
   const formatCards = [...document.querySelectorAll('[data-format-card]')];
   formatCards.forEach(card => {
