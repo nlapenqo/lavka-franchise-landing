@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пять вариантов движения градиента · Яндекс Лавка</title>
+  <style>
+    @font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+    @font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+    @font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Heavy.ttf') format('truetype');font-weight:800;font-display:swap}
+    @font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Black.ttf') format('truetype');font-weight:900;font-display:swap}
+
+    :root{--navy:#1b3a6a;--blue:#00adff;--sky:#aad9fc;--white:#fff;--dim:#a7bee0;--ease:cubic-bezier(.22,.61,.36,1)}
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--navy)}
+    body{margin:0;background:var(--navy);color:#fff;font-family:'YS Geo',Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+    button,a{font:inherit;color:inherit}
+    a{text-decoration:none}
+    button{border:0;background:none;cursor:pointer}
+    img{display:block}
+
+    .topbar{position:fixed;z-index:100;left:50%;top:18px;translate:-50% 0;width:min(1200px,calc(100% - 32px));min-height:60px;padding:8px 10px 8px 18px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(14,41,78,.58);box-shadow:0 18px 54px rgba(8,29,61,.28);display:flex;align-items:center;gap:18px;backdrop-filter:blur(20px) saturate(1.35)}
+    .topbar__brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;white-space:nowrap}
+    .topbar__mark{width:28px;height:28px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-size:16px}
+    .topbar nav{margin-left:auto;display:flex;align-items:center;gap:4px}
+    .topbar nav a{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--dim);font-size:13px;font-weight:800;transition:.2s}
+    .topbar nav a:hover,.topbar nav a.is-active{background:var(--blue);color:#fff;transform:scale(1.06)}
+    .motion-toggle{min-height:40px;padding:0 17px;border-radius:999px;background:#fff;color:var(--navy);font-size:13px;font-weight:800;white-space:nowrap}
+
+    .intro{position:relative;min-height:100svh;padding:150px 24px 80px;display:grid;place-items:center;text-align:center;overflow:hidden;background:var(--navy)}
+    .intro::before{content:'';position:absolute;width:780px;height:780px;right:-310px;top:-360px;background:radial-gradient(ellipse at center,rgba(0,173,255,.55),rgba(0,173,255,.08) 42%,transparent 70%);filter:blur(20px)}
+    .intro__in{position:relative;z-index:1;max-width:1000px}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border-radius:999px;background:rgba(170,217,252,.12);color:var(--sky);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px rgba(0,173,255,.12)}
+    .intro h1{margin:28px 0 22px;font-size:clamp(58px,8vw,116px);line-height:.88;letter-spacing:-.012em;font-weight:900}
+    .intro p{max-width:720px;margin:0 auto;color:var(--dim);font-size:clamp(18px,1.7vw,24px);line-height:1.25}
+    .intro__hint{margin-top:48px;display:inline-flex;align-items:center;gap:12px;color:#fff;font-size:14px;font-weight:500}
+    .intro__hint span{width:42px;height:42px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:grid;place-items:center;animation:hint 1.8s ease-in-out infinite}
+    @keyframes hint{50%{transform:translateY(7px)}}
+
+    .demo{position:relative;height:140vh;background:var(--navy)}
+    .demo--scroll{height:190vh}
+    .stage{position:sticky;top:0;height:100svh;min-height:720px;overflow:hidden;background:var(--navy);isolation:isolate}
+    .stage::after{content:'';position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(9,30,61,.13),transparent 22%,transparent 76%,rgba(9,30,61,.18))}
+    .ambient{position:absolute;z-index:0;inset:0;overflow:hidden}
+    .driver{position:absolute;will-change:transform;transform-style:preserve-3d}
+    .driver::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.78) 0%,rgba(0,173,255,.67) 18%,rgba(0,173,255,.43) 40%,rgba(0,173,255,.2) 62%,rgba(0,173,255,.075) 78%,rgba(0,173,255,.018) 90%,transparent 100%);will-change:transform;transform-origin:center}
+    .driver img{display:none}
+    .driver--a{width:120vw;aspect-ratio:1733.36/2116.12;left:-76vw;top:18vh}
+    .driver--b{width:88vw;aspect-ratio:1516.9/1744.31;right:-28vw;top:-45vh}
+    .driver--c{width:88vw;aspect-ratio:1516.9/1744.31;right:-16vw;bottom:-64vh}
+
+    .copy{position:absolute;z-index:4;left:max(5vw,40px);right:max(5vw,40px);top:50%;translate:0 -50%;display:grid;grid-template-columns:minmax(0,760px) 1fr;gap:48px;align-items:end;pointer-events:none}
+    .copy__num{display:block;margin-bottom:16px;color:var(--blue);font-size:16px;font-weight:800;letter-spacing:.08em}
+    .copy h2{margin:0;font-size:clamp(58px,7vw,104px);line-height:.88;letter-spacing:-.012em;font-weight:900}
+    .copy__aside{max-width:410px;justify-self:end;padding-bottom:8px}
+    .copy__aside p{margin:0;color:var(--dim);font-size:18px;line-height:1.4}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+    .tag{padding:8px 12px;border-radius:999px;background:rgba(170,217,252,.12);color:var(--sky);font-size:12px;font-weight:500}
+    .progress{position:absolute;z-index:5;left:max(5vw,40px);right:max(5vw,40px);bottom:34px;height:2px;background:rgba(170,217,252,.16);overflow:hidden}
+    .progress span{display:block;width:var(--progress-width,0%);height:100%;background:var(--blue);transform-origin:left center}
+    .live-meter{position:absolute;z-index:5;right:max(5vw,40px);top:116px;display:flex;align-items:center;gap:10px;color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+    .live-meter i{width:46px;height:6px;border-radius:999px;background:rgba(170,217,252,.18);overflow:hidden}
+    .live-meter i::after{content:'';display:block;width:var(--velocity-meter,50%);height:100%;background:var(--blue);transition:width .12s linear}
+
+    /* 01 — заметный автоматический дрейф */
+    .v1 .driver--a::before{animation:drift-a 11s cubic-bezier(.45,.05,.55,.95) infinite alternate}
+    .v1 .driver--b::before{animation:drift-b 9s cubic-bezier(.45,.05,.55,.95) -2.6s infinite alternate}
+    .v1 .driver--c::before{animation:drift-c 13s cubic-bezier(.45,.05,.55,.95) -5.4s infinite alternate}
+    @keyframes drift-a{0%{transform:translate3d(-10px,40px,0) scale(.92) rotate(-4deg)}52%{transform:translate3d(78px,-52px,0) scale(1.08) rotate(3deg)}100%{transform:translate3d(24px,22px,0) scale(.98) rotate(-1deg)}}
+    @keyframes drift-b{0%{transform:translate3d(34px,-28px,0) scale(.95)}58%{transform:translate3d(-86px,72px,0) scale(1.1)}100%{transform:translate3d(18px,20px,0) scale(1)}}
+    @keyframes drift-c{0%{transform:translate3d(42px,48px,0) scale(1.04)}46%{transform:translate3d(-72px,-62px,0) scale(.91)}100%{transform:translate3d(6px,-20px,0) scale(1.08)}}
+
+    /* 02 — круговые траектории */
+    .v2 .driver--a::before{animation:orbit-a 14s linear infinite}
+    .v2 .driver--b::before{animation:orbit-b 11s linear infinite reverse}
+    .v2 .driver--c::before{animation:orbit-c 17s linear -4s infinite}
+    @keyframes orbit-a{0%{transform:translate3d(0,-40px,0) rotate(0) scale(.96)}25%{transform:translate3d(82px,18px,0) rotate(3deg) scale(1.04)}50%{transform:translate3d(18px,82px,0) rotate(0) scale(.98)}75%{transform:translate3d(-74px,12px,0) rotate(-3deg) scale(1.06)}100%{transform:translate3d(0,-40px,0) rotate(0) scale(.96)}}
+    @keyframes orbit-b{0%{transform:translate3d(0,-56px,0) scale(1)}25%{transform:translate3d(68px,0,0) scale(.92)}50%{transform:translate3d(0,58px,0) scale(1.06)}75%{transform:translate3d(-68px,0,0) scale(.96)}100%{transform:translate3d(0,-56px,0) scale(1)}}
+    @keyframes orbit-c{0%{transform:translate3d(-42px,-18px,0) scale(.94)}25%{transform:translate3d(24px,-64px,0) scale(1.06)}50%{transform:translate3d(68px,22px,0) scale(.98)}75%{transform:translate3d(-18px,60px,0) scale(1.08)}100%{transform:translate3d(-42px,-18px,0) scale(.94)}}
+
+    /* 03 — глубина от курсора */
+    .v3 .driver{transition:transform .9s var(--ease)}
+    .v3 .driver--a{transform:translate3d(var(--pointer-a-x,0px),var(--pointer-a-y,0px),0)}
+    .v3 .driver--b{transform:translate3d(var(--pointer-b-x,0px),var(--pointer-b-y,0px),0)}
+    .v3 .driver--c{transform:translate3d(var(--pointer-c-x,0px),var(--pointer-c-y,0px),0)}
+    .v3 .driver::before{animation:pointer-breathe 7s ease-in-out infinite alternate}
+    .v3 .driver--b::before{animation-delay:-2.4s}.v3 .driver--c::before{animation-delay:-4.8s}
+    @keyframes pointer-breathe{from{transform:scale(.96)}to{transform:scale(1.07)}}
+
+    /* 04 — слои расходятся по скроллу */
+    .v4 .driver--a{transform:translate3d(var(--scroll-a-x,0px),var(--scroll-a-y,0px),0) scale(var(--scroll-a-scale,1))}
+    .v4 .driver--b{transform:translate3d(var(--scroll-b-x,0px),var(--scroll-b-y,0px),0) scale(var(--scroll-b-scale,1))}
+    .v4 .driver--c{transform:translate3d(var(--scroll-c-x,0px),var(--scroll-c-y,0px),0) scale(var(--scroll-c-scale,1))}
+    .v4 .driver{transition:transform .08s linear}
+
+    /* 05 — схождение + импульс от скорости скролла */
+    .v5 .driver{transition:transform .14s cubic-bezier(.2,.8,.2,1)}
+    .v5 .driver--a{transform:translate3d(var(--fluid-a-x,0px),var(--fluid-a-y,0px),0) scale(var(--fluid-a-scale,1))}
+    .v5 .driver--b{transform:translate3d(var(--fluid-b-x,0px),var(--fluid-b-y,0px),0) scale(var(--fluid-b-scale,1))}
+    .v5 .driver--c{transform:translate3d(var(--fluid-c-x,0px),var(--fluid-c-y,0px),0) scale(var(--fluid-c-scale,1))}
+    .v5 .driver::before{transform:scaleX(var(--fluid-x-scale,1)) scaleY(var(--fluid-y-scale,1))}
+
+    body.is-paused .driver,body.is-paused .driver::before,body.is-paused .intro__hint span{animation-play-state:paused!important;transition:none!important}
+    body.is-paused .driver{transform:none!important}
+    body.is-paused .driver::before{transform:none!important}
+
+    @media(max-width:820px){
+      .topbar{gap:8px}.topbar__brand span:last-child{display:none}.topbar nav a{width:32px;height:32px}.motion-toggle{padding-inline:12px}
+      .copy{grid-template-columns:1fr;top:auto;bottom:74px;translate:0;gap:22px}.copy h2{font-size:clamp(52px,15vw,78px)}.copy__aside{justify-self:start}.copy__aside p{font-size:16px}.tags{margin-top:14px}
+      .driver--a{width:190vw;left:-130vw}.driver--b,.driver--c{width:145vw}.driver--b{right:-68vw}.driver--c{right:-56vw}
+      .live-meter{display:none}
+    }
+    @media(max-width:520px){.topbar{top:10px;width:calc(100% - 20px)}.topbar nav{display:none}.motion-toggle{margin-left:auto}.intro{padding-inline:18px}.intro h1{font-size:58px}.copy{left:20px;right:20px}.copy__aside p{font-size:15px}.tag{font-size:11px}.progress{left:20px;right:20px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.driver,.driver::before,.intro__hint span{animation:none!important;transition:none!important;transform:none!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="topbar__brand" href="#top"><span class="topbar__mark">V</span><span>Motion lab · blur-круги</span></a>
+    <nav aria-label="Варианты анимации">
+      <a href="#v1" data-nav="v1">1</a><a href="#v2" data-nav="v2">2</a><a href="#v3" data-nav="v3">3</a><a href="#v4" data-nav="v4">4</a><a href="#v5" data-nav="v5">5</a>
+    </nav>
+    <button class="motion-toggle" type="button" data-motion-toggle>Пауза</button>
+  </header>
+
+  <main id="top">
+    <section class="intro">
+      <div class="intro__in">
+        <span class="eyebrow">5 вариантов движения</span>
+        <h1>Живой синий<br>фон</h1>
+        <p>Все сцены используют те же размытые эллипсы из Figma. Листайте вниз и сравнивайте характер движения.</p>
+        <a class="intro__hint" href="#v1"><span>↓</span> Начать просмотр</a>
+      </div>
+    </section>
+
+    <section class="demo v1" id="v1" data-demo>
+      <div class="stage">
+        <div class="ambient"><div class="driver driver--a"><img src="./assets/figma/orbit-large.svg" alt=""></div><div class="driver driver--b"><img src="./assets/figma/orbit-small.svg" alt=""></div><div class="driver driver--c"><img src="./assets/figma/orbit-small.svg" alt=""></div></div>
+        <div class="copy"><div><span class="copy__num">01 · AUTO</span><h2>Заметный<br>дрейф</h2></div><div class="copy__aside"><p>Текущий подход, но с амплитудой в 3–4 раза больше. Спокойный и премиальный, движение уже невозможно пропустить.</p><div class="tags"><span class="tag">автоматически</span><span class="tag">9–13 секунд</span><span class="tag">низкий риск</span></div></div></div>
+        <div class="progress"><span></span></div>
+      </div>
+    </section>
+
+    <section class="demo v2" id="v2" data-demo>
+      <div class="stage">
+        <div class="ambient"><div class="driver driver--a"><img src="./assets/figma/orbit-large.svg" alt="" loading="lazy"></div><div class="driver driver--b"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div><div class="driver driver--c"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div></div>
+        <div class="copy"><div><span class="copy__num">02 · AUTO</span><h2>Медленные<br>орбиты</h2></div><div class="copy__aside"><p>Круги описывают разные овальные траектории и будто перетекают друг вокруг друга. Более декоративный и явно «живой» вариант.</p><div class="tags"><span class="tag">автоматически</span><span class="tag">11–17 секунд</span><span class="tag">выразительно</span></div></div></div>
+        <div class="progress"><span></span></div>
+      </div>
+    </section>
+
+    <section class="demo v3" id="v3" data-demo data-pointer>
+      <div class="stage">
+        <div class="ambient"><div class="driver driver--a"><img src="./assets/figma/orbit-large.svg" alt="" loading="lazy"></div><div class="driver driver--b"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div><div class="driver driver--c"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div></div>
+        <div class="copy"><div><span class="copy__num">03 · POINTER</span><h2>Глубина<br>за курсором</h2></div><div class="copy__aside"><p>Подвигайте курсором. Ближний и дальние слои смещаются с разной скоростью — появляется глубина без тяжёлого WebGL.</p><div class="tags"><span class="tag">курсор</span><span class="tag">инерция 900 мс</span><span class="tag">десктоп</span></div></div></div>
+        <div class="progress"><span></span></div>
+      </div>
+    </section>
+
+    <section class="demo demo--scroll v4" id="v4" data-demo data-scroll-motion>
+      <div class="stage">
+        <div class="ambient"><div class="driver driver--a"><img src="./assets/figma/orbit-large.svg" alt="" loading="lazy"></div><div class="driver driver--b"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div><div class="driver driver--c"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div></div>
+        <div class="copy"><div><span class="copy__num">04 · SCROLL</span><h2>Слои<br>по скроллу</h2></div><div class="copy__aside"><p>Круги двигаются в противоположных направлениях строго вместе со страницей. Хорошо связывает соседние блоки и ощущается «дорого».</p><div class="tags"><span class="tag">scroll-linked</span><span class="tag">параллакс</span><span class="tag">мой фаворит</span></div></div></div>
+        <div class="progress"><span></span></div>
+      </div>
+    </section>
+
+    <section class="demo demo--scroll v5" id="v5" data-demo data-scroll-motion data-velocity-motion>
+      <div class="stage">
+        <div class="ambient"><div class="driver driver--a"><img src="./assets/figma/orbit-large.svg" alt="" loading="lazy"></div><div class="driver driver--b"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div><div class="driver driver--c"><img src="./assets/figma/orbit-small.svg" alt="" loading="lazy"></div></div>
+        <div class="copy"><div><span class="copy__num">05 · VELOCITY</span><h2>Жидкая<br>инерция</h2></div><div class="copy__aside"><p>При быстром скролле пятна получают импульс, слегка вытягиваются и сходятся к центру. Самый эффектный, но и самый характерный вариант.</p><div class="tags"><span class="tag">скорость скролла</span><span class="tag">деформация</span><span class="tag">вау-эффект</span></div></div></div>
+        <div class="live-meter">скорость <i></i></div><div class="progress"><span></span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const demos = [...document.querySelectorAll('[data-demo]')];
+      const toggle = document.querySelector('[data-motion-toggle]');
+      let paused = reduced;
+      let lastY = scrollY;
+      let lastTime = performance.now();
+      let velocity = 0;
+
+      const setPaused = value => {
+        paused = value;
+        document.body.classList.toggle('is-paused', paused);
+        toggle.textContent = paused ? 'Запустить' : 'Пауза';
+        toggle.setAttribute('aria-pressed', String(paused));
+      };
+      setPaused(paused);
+      toggle.addEventListener('click', () => setPaused(!paused));
+
+      const pointerDemo = document.querySelector('[data-pointer]');
+      pointerDemo.addEventListener('pointermove', event => {
+        if (paused) return;
+        const rect = pointerDemo.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width * 2 - 1;
+        const y = (event.clientY - Math.max(0, rect.top)) / innerHeight * 2 - 1;
+        pointerDemo.style.setProperty('--pointer-a-x', `${x * -105}px`);
+        pointerDemo.style.setProperty('--pointer-a-y', `${y * -68}px`);
+        pointerDemo.style.setProperty('--pointer-b-x', `${x * 72}px`);
+        pointerDemo.style.setProperty('--pointer-b-y', `${y * 54}px`);
+        pointerDemo.style.setProperty('--pointer-c-x', `${x * 46}px`);
+        pointerDemo.style.setProperty('--pointer-c-y', `${y * -88}px`);
+      });
+      pointerDemo.addEventListener('pointerleave', () => {
+        ['--pointer-a-x','--pointer-a-y','--pointer-b-x','--pointer-b-y','--pointer-c-x','--pointer-c-y'].forEach(name => pointerDemo.style.setProperty(name, '0px'));
+      });
+
+      const update = now => {
+        const dt = Math.max(16, now - lastTime);
+        const rawVelocity = Math.max(-1, Math.min(1, (scrollY - lastY) / dt / 1.15));
+        velocity += (rawVelocity - velocity) * .16;
+        lastY = scrollY;
+        lastTime = now;
+
+        let activeId = '';
+        let activeDistance = Infinity;
+        demos.forEach(section => {
+          const rect = section.getBoundingClientRect();
+          const distance = Math.abs((rect.top + rect.bottom) / 2 - innerHeight / 2);
+          if (rect.top < innerHeight * .58 && rect.bottom > innerHeight * .42 && distance < activeDistance) {
+            activeId = section.id;
+            activeDistance = distance;
+          }
+          const travel = Math.max(1, rect.height - innerHeight);
+          const progress = Math.max(0, Math.min(1, -rect.top / travel));
+          const centered = progress * 2 - 1;
+          const converge = Math.sin(progress * Math.PI);
+          section.style.setProperty('--progress-width', `${progress * 100}%`);
+          if (!paused && section.hasAttribute('data-scroll-motion')) {
+            section.style.setProperty('--scroll-a-x', `${centered * -120}px`);
+            section.style.setProperty('--scroll-a-y', `${centered * 180}px`);
+            section.style.setProperty('--scroll-a-scale', String(1 + Math.abs(centered) * .05));
+            section.style.setProperty('--scroll-b-x', `${centered * 92}px`);
+            section.style.setProperty('--scroll-b-y', `${centered * -240}px`);
+            section.style.setProperty('--scroll-b-scale', String(1 - centered * .035));
+            section.style.setProperty('--scroll-c-x', `${centered * -70}px`);
+            section.style.setProperty('--scroll-c-y', `${centered * -150}px`);
+            section.style.setProperty('--scroll-c-scale', String(1 + centered * .05));
+          }
+          if (!paused && section.hasAttribute('data-velocity-motion')) {
+            section.style.setProperty('--fluid-a-x', `${converge * 420 + velocity * -80}px`);
+            section.style.setProperty('--fluid-a-y', `${converge * -80 + velocity * 90}px`);
+            section.style.setProperty('--fluid-a-scale', String(1 + converge * .12));
+            section.style.setProperty('--fluid-b-x', `${converge * -330 + velocity * 72}px`);
+            section.style.setProperty('--fluid-b-y', `${converge * 190 + velocity * -110}px`);
+            section.style.setProperty('--fluid-b-scale', String(1 + converge * .1));
+            section.style.setProperty('--fluid-c-x', `${converge * -280 + velocity * 96}px`);
+            section.style.setProperty('--fluid-c-y', `${converge * -230 + velocity * 72}px`);
+            section.style.setProperty('--fluid-c-scale', String(1 + converge * .08));
+            section.style.setProperty('--fluid-x-scale', String(1 + Math.abs(velocity) * .13));
+            section.style.setProperty('--fluid-y-scale', String(1 - Math.abs(velocity) * .07));
+            section.style.setProperty('--velocity-meter', `${(velocity + 1) * 50}%`);
+          }
+        });
+        document.querySelectorAll('[data-nav]').forEach(link => link.classList.toggle('is-active', link.dataset.nav === activeId));
+        requestAnimationFrame(update);
+      };
+      requestAnimationFrame(update);
+    })();
+  </script>
+</body>
+</html>

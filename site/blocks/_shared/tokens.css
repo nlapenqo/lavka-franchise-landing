@@ -1,0 +1,70 @@
+/* ============================================================
+   Яндекс Лавка · Франшиза — дизайн-токены (из брендбука)
+   docs/brandbook-extract.md — источник значений
+   ============================================================ */
+
+:root {
+  /* Фирменная палитра */
+  --navy:      #1B3A6A;  /* основной, Pantone 654C */
+  --blue:      #00ADFF;  /* дополнительный/B2C, CTA, Pantone 2925C */
+  --mid-blue:  #3E88C5;  /* Pantone 2170C */
+  --sky:       #AAD9FC;  /* плашки, Pantone 657C */
+
+  /* Акцентная палитра */
+  --accent-blue: #3557CC; /* Pantone 2132C */
+  --orange:      #FF6D2F; /* BTL/акции/HR, Pantone 1585C */
+  --peach:       #FF9977; /* Pantone 2022C */
+  --pink:        #FF95CC; /* Pantone 210C */
+  --warm-gray:   #E2DBD1; /* Warm Gray 1C */
+  --lavender:    #BFA8FF; /* ДИДЖИТАЛ-орбиты; HEX-гипотеза, уточнить у бренд-команды */
+
+  /* Фоны */
+  --bg:        #FFFFFF;
+  --bg-light:  #F2F7FC;  /* светло-голубой фон секций (реф. drinkit) */
+  --bg-card:   #EAF3FC;  /* карточки на светлом */
+
+  /* Текст */
+  --text:        var(--navy);
+  --text-dim:    #5A749B; /* вторичный на светлом */
+  --text-on-dark:#FFFFFF;
+  --text-dim-dark: #A7BEE0; /* вторичный на тёмно-синем */
+
+  /* Типографика */
+  --font-geo:  'YS Geo', 'Inter Tight', system-ui, sans-serif;
+  --font-text: 'YS Text', system-ui, sans-serif;
+  --font-cond: 'YS Text Cond', 'Arial Narrow', sans-serif;
+
+  /* Шкала (клампы под 375→1440+) */
+  --fs-hero:  clamp(44px, 7.5vw, 112px);  /* Superheader: YS Geo Black, ls -1%, lh 90% */
+  --fs-h1:    clamp(38px, 5.5vw, 80px);
+  --fs-h2:    clamp(30px, 4vw, 56px);     /* YS Geo Heavy */
+  --fs-h3:    clamp(22px, 2.2vw, 32px);
+  --fs-sub:   clamp(18px, 1.6vw, 24px);   /* саблайн: YS Geo Medium/Regular */
+  --fs-body:  clamp(15px, 1.15vw, 18px);
+  --fs-small: 14px;
+  --fs-legal: 12px;                        /* YS Text Cond Light */
+  --fs-mega:  clamp(64px, 11vw, 168px);   /* гигантские цифры */
+
+  /* Радиусы */
+  --r-card:  32px;
+  --r-card-sm: 20px;
+  --r-pill:  999px;
+
+  /* Отступы */
+  --space-1: 8px;  --space-2: 16px; --space-3: 24px; --space-4: 32px;
+  --space-5: 48px; --space-6: 64px; --space-7: 96px; --space-8: 128px;
+  --section-pad: clamp(64px, 9vw, 128px);
+
+  /* Контейнер */
+  --container: 1280px;
+  --container-pad: clamp(20px, 4vw, 64px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(.22,.61,.36,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --dur-fast: .3s; --dur-med: .6s; --dur-slow: .9s;
+
+  /* Тени */
+  --shadow-card: 0 12px 40px rgba(27,58,106,.10);
+  --shadow-cta:  0 8px 28px rgba(0,173,255,.35);
+}

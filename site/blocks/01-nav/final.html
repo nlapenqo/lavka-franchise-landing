@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шапка · Figma prototype</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { min-height: 130vh; background: var(--navy); }
+  .site-head {
+    position: fixed; z-index: 1000; inset: 0 0 auto;
+    height: 98px; padding: 24px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: #fff; transition: height 240ms ease, padding 240ms ease, background 240ms ease, box-shadow 240ms ease, backdrop-filter 240ms ease;
+  }
+  .site-head.is-solid {
+    height: 78px; padding-block: 15px;
+    background: rgba(27,58,106,.86);
+    box-shadow: 0 12px 40px rgba(6,27,58,.18);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+    backdrop-filter: blur(18px) saturate(1.25);
+  }
+  .brand-art { position: relative; width: 416px; height: 40px; display: block; flex: none; }
+  .brand-art img { position: absolute; display: block; }
+  .brand-art__base { left: 0; top: 0; width: 275px; height: 40px; }
+  .brand-art__heart { left: 126px; top: 0; width: 40px; height: 40px; }
+  .brand-art__badge { left: 286px; top: 7px; width: 129px; height: 29px; }
+  .head-actions { display: flex; align-items: center; gap: 24px; }
+  .telegram { font-weight: 500; font-size: 14px; }
+  .head-cta { min-height: 42px; padding: 11px 24px; border: 1px solid currentColor; border-radius: 999px; font-size: 15px; font-weight: 500; transition: background 180ms ease, color 180ms ease, transform 180ms ease; }
+  .head-cta:hover { background: #fff; color: var(--navy); transform: translateY(-2px); }
+  .menu-toggle { position:relative; display: none; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: #fff; }
+  .menu-toggle span, .menu-toggle::before, .menu-toggle::after { content: ''; position:absolute; left:11px; width:18px; height:2px; background:currentColor; border-radius:2px; transition:transform 220ms ease,opacity 220ms ease; }
+  .menu-toggle::before { top:13px; }.menu-toggle span { top:19px; }.menu-toggle::after { top:25px; }
+  .site-head.menu-open .menu-toggle::before { transform: translateY(6px) rotate(45deg); }
+  .site-head.menu-open .menu-toggle span { opacity: 0; }
+  .site-head.menu-open .menu-toggle::after { transform: translateY(-6px) rotate(-45deg); }
+  .mobile-menu { display: none; }
+  @media (max-width: 760px) {
+    .site-head, .site-head.is-solid { height: 76px; padding: 16px 20px; }
+    .brand-art { width: 250px; height: 24px; transform: none; }
+    .brand-art__base { width:165px; height:24px; }
+    .brand-art__heart { left:76px; width:24px; height:24px; }
+    .brand-art__badge { left:172px; top:4px; width:77px; height:18px; }
+    .telegram, .head-cta { display: none; }
+    .menu-toggle { display: block; }
+    .mobile-menu {
+      display: flex; position: fixed; z-index: 999; inset: 0;
+      padding: 116px 24px 38px; flex-direction: column; gap: 20px;
+      color: #fff; background: rgba(27,58,106,.98);
+      opacity: 0; visibility: hidden; transform: translateY(-10px);
+      transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease;
+    }
+    .site-head.menu-open + .mobile-menu { opacity: 1; visibility: visible; transform: none; }
+    .mobile-menu a { font-size: 32px; font-weight: 800; line-height: 1; }
+    .mobile-menu .btn { margin-top: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .site-head, .mobile-menu, .menu-toggle * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <a class="brand-art" href="#top" aria-label="Яндекс Лавка · Франшиза">
+    <img class="brand-art__base" data-site-asset="logo-main.svg" src="../../assets/figma/logo-main.svg" alt="">
+    <img class="brand-art__heart" data-site-asset="logo-word-1.svg" src="../../assets/figma/logo-word-1.svg" alt="">
+    <img class="brand-art__badge" data-site-asset="logo-word-2.svg" src="../../assets/figma/logo-word-2.svg" alt="">
+  </a>
+  <div class="head-actions"><a class="telegram" href="https://t.me/yandex_lavka_franchise">Telegram</a><a class="head-cta" href="#form">Стать партнёром</a><button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false"><span></span></button></div>
+</header>
+<nav class="mobile-menu" aria-label="Мобильная навигация"><a href="#business">Как устроен бизнес</a><a href="#formats">Форматы</a><a href="#steps">Как стать партнёром</a><a href="#faq">Вопросы</a><a class="btn btn--blue" href="#form">Стать партнёром</a></nav>
+<script>
+  const head = document.querySelector('.site-head');
+  const toggle = document.querySelector('.menu-toggle');
+  const close = () => { head.classList.remove('menu-open'); toggle.setAttribute('aria-expanded','false'); };
+  toggle.addEventListener('click', () => { const open = !head.classList.contains('menu-open'); head.classList.toggle('menu-open', open); toggle.setAttribute('aria-expanded', String(open)); });
+  document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', close));
+  addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+  addEventListener('scroll', () => head.classList.toggle('is-solid', scrollY > 90), { passive:true });
+</script>
+</body>
+</html>

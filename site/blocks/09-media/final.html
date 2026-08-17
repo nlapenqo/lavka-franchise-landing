@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>09 · О&nbsp;нас говорят · final&nbsp;— Логотипы СМИ</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+  body { background: var(--bg-light); }
+  .sec-head .t-label { display: block; margin-bottom: 14px; }
+  .sec-head .t-sub { margin-top: 16px; max-width: 460px; color: var(--text-dim); }
+  .logos { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(32px, 4vw, 56px); border-top: 1px solid var(--sky); border-bottom: 1px solid var(--sky); }
+  .logo {
+    min-height: clamp(110px, 12vw, 150px); display: grid; place-items: center;
+    border-right: 1px solid var(--sky);
+    color: var(--text-dim); filter: grayscale(1); opacity: .55;
+    padding: 28px; font-weight: 900; font-size: clamp(28px, 3vw, 46px); letter-spacing: -.04em;
+    transition: color var(--dur-fast), opacity var(--dur-fast), filter var(--dur-fast), background var(--dur-fast);
+  }
+  .logo:last-child { border-right: 0; }
+  .logo img { width: min(100%, 244px); max-height: 44px; object-fit: contain; opacity: .74; transition: opacity var(--dur-fast), filter var(--dur-fast); }
+  .logo:hover img, .logo:focus-visible img { opacity: 1; filter: contrast(1.35); }
+  .logo:hover, .logo:focus-visible { color: var(--navy); opacity: 1; filter: none; background: var(--bg); }
+  .logo:focus-visible { outline: 3px solid var(--blue); outline-offset: -3px; }
+  .legal { margin-top: var(--space-4); text-align: center; }
+  @media (max-width: 760px) {
+    .logos { grid-template-columns: repeat(2, 1fr); }
+    .logo { min-height: 94px; border-bottom: 1px solid var(--sky); }
+    .logo:nth-child(2) { border-right: 0; }
+    .logo:nth-child(n+3) { border-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">09 · О&nbsp;нас говорят · final&nbsp;— на&nbsp;основе v2</div>
+<section class="section"><div class="container">
+  <header class="sec-head reveal">
+    <h2 class="t-h1">О&nbsp;нас говорят</h2>
+  </header>
+  <nav class="logos" aria-label="СМИ с публикациями о Яндекс&nbsp;Лавке">
+    <a class="logo reveal" href="#rbc" aria-label="РБК"><img src="../../assets/figma/media-rbc.svg" alt="РБК"></a>
+    <a class="logo reveal reveal-d1" href="#forbes" aria-label="Forbes"><img src="../../assets/figma/media-forbes.svg" alt="Forbes"></a>
+    <a class="logo reveal reveal-d2" href="#vc" aria-label="vc.ru"><img src="../../assets/figma/media-mark.svg" alt="vc.ru"></a>
+    <a class="logo reveal reveal-d3" href="#youtube" aria-label="YouTube"><img src="../../assets/figma/media-youtube.svg" alt="YouTube"></a>
+  </nav>
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+</div></section>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

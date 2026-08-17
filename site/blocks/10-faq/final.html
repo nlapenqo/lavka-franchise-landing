@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 · Q&amp;A · final&nbsp;— Аккордеон</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+  .faq__head { display: grid; grid-template-columns: 1.1fr .9fr; gap: var(--space-5); align-items: end; margin-bottom: clamp(32px, 4vw, 56px); }
+  .faq__head .t-label { display: block; margin-bottom: 14px; }
+  .faq__intro { max-width: 520px; color: var(--text-dim); justify-self: end; }
+  .faq-list { border-top: 2px solid var(--navy); }
+  .faq-item { border-bottom: 1px solid var(--sky); }
+  .faq-button { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 56px; gap: 24px; align-items: center; padding: clamp(22px, 3vw, 36px) 0; text-align: left; }
+  .faq-button:focus-visible { outline: 3px solid var(--blue); outline-offset: 8px; border-radius: 8px; }
+  .faq-button__title { font-weight: 800; font-size: clamp(21px, 2.1vw, 31px); line-height: 1.05; }
+  .faq-icon { position: relative; width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; background: var(--bg-card); transition: background var(--dur-fast), transform var(--dur-fast) var(--ease-out); }
+  .faq-icon::before, .faq-icon::after { content: ""; position: absolute; width: 20px; height: 2px; background: var(--navy); border-radius: 2px; transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast); }
+  .faq-icon::after { transform: rotate(90deg); }
+  .faq-button[aria-expanded="true"] .faq-icon { background: var(--blue); transform: rotate(45deg); }
+  .faq-button[aria-expanded="true"] .faq-icon::before, .faq-button[aria-expanded="true"] .faq-icon::after { background: var(--bg); }
+  .faq-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 260ms var(--ease-out); }
+  .faq-panel__inner { overflow: hidden; }
+  .faq-panel p { max-width: 780px; padding: 0 80px clamp(24px, 3vw, 38px) 0; color: var(--text-dim); font-size: clamp(16px, 1.4vw, 20px); line-height: 1.4; }
+  .faq-panel.is-open { grid-template-rows: 1fr; }
+  .faq-note { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: clamp(36px, 5vw, 64px); padding: 26px 30px; background: var(--sky); border-radius: var(--r-card-sm); }
+  .faq-note p { font-weight: 500; }
+  .faq-note a { flex: none; }
+  .legal { text-align: center; padding: 24px var(--container-pad) 36px; }
+  @media (max-width: 760px) {
+    .faq__head { grid-template-columns: 1fr; gap: 22px; }
+    .faq__intro { justify-self: start; }
+    .faq-button { grid-template-columns: minmax(0, 1fr) 44px; gap: 14px; }
+    .faq-icon { width: 42px; height: 42px; }
+    .faq-panel p { padding-right: 56px; }
+    .faq-note { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="proto-tag">10 · Q&amp;A · final&nbsp;— на&nbsp;основе v1</div>
+
+<section class="section faq" id="faq">
+  <div class="container">
+    <header class="faq__head reveal">
+      <div class="sec-head">
+        <span class="t-label">Разбираемся по&nbsp;делу</span>
+        <h2 class="t-h1">Частые вопросы</h2>
+      </div>
+      <p class="faq__intro t-sub">Всё, что важно знать до&nbsp;первой встречи с&nbsp;командой франшизы</p>
+    </header>
+
+    <div class="faq-list reveal" data-accordion>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a1"><span class="faq-button__title">Что такое даркстор?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a1" aria-hidden="true" inert><div class="faq-panel__inner"><p>Это магазин-склад без&nbsp;покупателей в&nbsp;зале. Сборщики комплектуют онлайн-заказы, а&nbsp;курьеры доставляют их жителям ближайших районов.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a2"><span class="faq-button__title">Какая команда нужна для&nbsp;запуска?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a2" aria-hidden="true" inert><div class="faq-panel__inner"><p>Обычно партнёр формирует управляющую команду, нанимает директора и&nbsp;заместителей, сборщиков и&nbsp;курьеров. Точный штат зависит от&nbsp;города, числа дарксторов и&nbsp;плановой нагрузки.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a3"><span class="faq-button__title">Сколько времени занимает запуск?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a3" aria-hidden="true" inert><div class="faq-panel__inner"><p>Подготовка одного даркстора занимает около трёх месяцев, запуск сети в&nbsp;городе&nbsp;— около четырёх. Финальный график зависит от&nbsp;помещений и&nbsp;масштаба проекта.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a4"><span class="faq-button__title">Каким должно быть помещение?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a4" aria-hidden="true" inert><div class="faq-panel__inner"><p>Ориентир&nbsp;— от&nbsp;350 м², удобный подъезд, зона разгрузки и&nbsp;место для&nbsp;велопарковки. Команда Яндекса помогает проверить потенциал выбранной точки.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a5"><span class="faq-button__title">Какой размер инвестиций?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a5" aria-hidden="true" inert><div class="faq-panel__inner"><p>Инвестиции зависят от&nbsp;формата партнёрства и&nbsp;города: ориентир для&nbsp;одного даркстора&nbsp;— от&nbsp;15 млн ₽, для&nbsp;городской сети&nbsp;— от&nbsp;75 млн ₽.</p></div></div>
+      </article>
+      <article class="faq-item">
+        <h3><button class="faq-button" type="button" aria-expanded="false" aria-controls="faq-a6"><span class="faq-button__title">Кто выбирает локацию?</span><span class="faq-icon" aria-hidden="true"></span></button></h3>
+        <div class="faq-panel" id="faq-a6" aria-hidden="true" inert><div class="faq-panel__inner"><p>Партнёр ищет варианты, а&nbsp;геоаналитики Яндекса оценивают спрос, логистику и&nbsp;покрытие. Решение о&nbsp;запуске принимается вместе.</p></div></div>
+      </article>
+    </div>
+
+    <aside class="faq-note reveal">
+      <p class="t-sub">Не&nbsp;нашли ответ? Разбираем бизнес-модель в&nbsp;Telegram-канале</p>
+      <a class="btn btn--navy" href="https://t.me/yandex_lavka_franchise">Перейти в&nbsp;Telegram</a>
+    </aside>
+  </div>
+</section>
+
+<p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+<script>
+  document.querySelectorAll('[data-accordion] .faq-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const root = button.closest('[data-accordion]');
+      const panel = document.getElementById(button.getAttribute('aria-controls'));
+      const willOpen = button.getAttribute('aria-expanded') !== 'true';
+      root.querySelectorAll('.faq-button').forEach((other) => {
+        const otherPanel = document.getElementById(other.getAttribute('aria-controls'));
+        other.setAttribute('aria-expanded', 'false');
+        otherPanel.classList.remove('is-open');
+        otherPanel.setAttribute('aria-hidden', 'true');
+        otherPanel.inert = true;
+      });
+      if (willOpen) {
+        panel.removeAttribute('aria-hidden');
+        panel.inert = false;
+        requestAnimationFrame(() => panel.classList.add('is-open'));
+        button.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+<script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>
