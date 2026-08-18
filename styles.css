@@ -202,61 +202,73 @@ ul{padding:0;list-style:none}
 .steps{min-height:520vh;padding:0;overflow:visible}
 .steps__sticky{position:sticky;top:0;min-height:100svh;padding:clamp(30px,5vh,58px) 0;display:grid;align-items:center;overflow:hidden}
 .steps__inner{z-index:1}
-.steps__header{margin-bottom:clamp(34px,4.4vw,64px)}
+.steps__header{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-bottom:clamp(30px,4vw,56px)}
 .steps .section-title{color:#fff}
-.pst-layout{display:grid;grid-template-columns:380px minmax(0,1fr);gap:28px;align-items:stretch}
-.pst-bigcard{position:relative;min-height:430px;border-radius:32px;background:var(--blue);box-shadow:0 24px 70px rgba(0,90,140,.35);overflow:hidden}
-.pst-pane{position:absolute;inset:36px;display:flex;flex-direction:column;opacity:0;transform:translateY(26px);transition:opacity .5s var(--ease),transform .5s var(--ease);pointer-events:none}
-.pst-pane.is-active{opacity:1;transform:none;transition-delay:.12s}
-.pst-pane h3{margin:0;font-size:32px;font-weight:800;line-height:1.06;letter-spacing:-.01em}
-.pst-pane p{margin:16px 0 0;font-size:17px;line-height:1.45}
-.pst-foot{margin-top:auto;padding-top:20px;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
-.pst-pane em{font-style:normal;font-size:17px;font-weight:500;opacity:.9}
-.pst-cta{display:inline-flex;align-items:center;min-height:46px;padding:13px 26px;border-radius:999px;background:#fff;color:var(--navy);font-size:16px;font-weight:500;line-height:1;transition:transform .2s var(--ease),box-shadow .2s}
+/* счётчик шага — как цифра зоны в блоке даркстора */
+.pst-count{display:flex;align-items:baseline;gap:10px;padding-top:12px;font-variant-numeric:tabular-nums}
+.pst-count b{font-size:44px;line-height:.8;color:var(--blue);font-weight:900;letter-spacing:-.01em}
+.pst-count > span{font-size:22px;font-weight:500;line-height:1;color:#fff}
+.pst-odo{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:top}
+.pst-odo i{display:block;font-style:normal;transition:transform .55s var(--ease-drum)}
+.pst-odo i em{display:block;height:1em;line-height:1;font-style:normal;font-weight:inherit;font-size:inherit;color:inherit}
+.pst-bar{height:2px;margin-bottom:22px;border-radius:2px;background:rgba(167,190,224,.2);overflow:hidden}
+.pst-bar i{display:block;height:100%;width:calc(var(--p,0) * 100%);border-radius:2px;background:var(--blue)}
+/* створки */
+.pst-rail{display:flex;gap:12px;height:clamp(360px,44vh,400px)}
+.pst-mini{position:relative;flex:0 0 118px;min-width:0;border-radius:22px;overflow:hidden;background:rgba(255,255,255,.045);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22);transition:flex-basis .62s var(--ease),background .5s var(--ease),box-shadow .5s var(--ease)}
+.pst-mini:hover{background:rgba(255,255,255,.08)}
+.pst-hit{position:absolute;inset:0;z-index:2;border-radius:inherit;background:none;cursor:pointer}
+.pst-hit:focus-visible{outline:3px solid rgba(0,173,255,.5);outline-offset:3px}
+.pst-strip{position:absolute;inset:0;padding:22px 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;transition:opacity .3s var(--ease)}
+.pst-num{display:block;font-size:13px;font-weight:500;line-height:1;color:var(--dim-dark);font-variant-numeric:tabular-nums;transition:color .4s,opacity .4s}
+.pst-vert{flex:1;min-height:0;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:15px;font-weight:500;line-height:1.2;color:var(--dim-dark);overflow:hidden;hyphens:none;transition:color .4s,opacity .4s}
+.pst-node{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(167,190,224,.38);transition:background .45s var(--ease),box-shadow .45s var(--ease)}
+.pst-tickmark{width:11px;height:11px;opacity:0;transform:scale(.4);transition:opacity .3s var(--ease),transform .5s var(--ease-drum)}
+.is-done .pst-tickmark{opacity:1;transform:none}
+/* раскрытая створка */
+.pst-full{position:absolute;inset:36px;width:572px;display:flex;flex-direction:column;overflow:hidden;opacity:0;pointer-events:none;transition:opacity .28s var(--ease)}
+.pst-full h3{margin:0;font-size:42px;font-weight:800;line-height:.95;letter-spacing:-.005em;color:#fff}
+.pst-full p{margin:16px 0 0;font-size:18px;line-height:1.45;color:#fff;max-width:520px}
+.pst-foot{margin-top:auto;padding-top:22px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.pst-term{display:inline-flex;align-items:center;gap:9px;font-size:17px;font-weight:800;line-height:1;color:#fff;white-space:nowrap}
+.pst-term svg{width:18px;height:18px;flex:none;opacity:.9}
+.pst-cta{position:relative;z-index:3;display:inline-flex;align-items:center;min-height:48px;padding:14px 28px;border-radius:999px;background:#fff;color:var(--navy);font-size:16px;font-weight:500;line-height:1;white-space:nowrap;transition:transform .2s var(--ease),box-shadow .2s}
 .pst-cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(9,40,80,.28)}
 .pst-cta:focus-visible{outline:3px solid rgba(255,255,255,.6);outline-offset:3px}
-.pst-right{display:flex;flex-direction:column;gap:28px;min-width:0}
-.pst-bar{height:8px;border-radius:999px;background:rgba(167,190,224,.18);overflow:hidden}
-.pst-bar i{display:block;height:100%;width:0;border-radius:inherit;background:var(--blue)}
-.pst-rail{display:flex;gap:12px;flex:1}
-/* плашка кликабельна, но подсвечивается только текущий шаг — hover-состояния нет, лишь курсор */
-.pst-mini{position:relative;flex:1;min-width:0;padding:0;border-radius:20px;text-align:left;color:var(--dim-dark);background:none;box-shadow:inset 0 0 0 1px rgba(167,190,224,.28);overflow:hidden;cursor:pointer;transition:flex-grow .6s var(--ease),box-shadow .5s,background .5s}
-.pst-mini:focus-visible{outline:3px solid rgba(0,173,255,.45);outline-offset:2px}
-.pst-fold,.pst-open{position:absolute;inset:18px 14px;display:flex;flex-direction:column;justify-content:space-between;transition:opacity .4s var(--ease)}
-.pst-num{font-size:14px;font-weight:500}
-.pst-foldbot{display:flex;flex-direction:column;gap:7px;min-width:0}
-.pst-fold b{font-size:13px;font-weight:500;line-height:1.3;opacity:.85;hyphens:none}
-.pst-when{font-style:normal;font-size:12px;font-weight:500;line-height:1.2;color:var(--blue)}
-.pst-open{opacity:0}
-.pst-open strong{font-size:clamp(34px,4.2vw,58px);font-weight:800;line-height:1;letter-spacing:-.01em;color:#fff}
-.pst-open b{font-size:14px;font-weight:500;line-height:1.3;color:#fff;opacity:.85;hyphens:none}
-.pst-tick{position:absolute;top:16px;right:14px;width:22px;height:22px;border-radius:50%;background:transparent;box-shadow:inset 0 0 0 1.5px rgba(167,190,224,.4);display:grid;place-items:center;transition:background .45s var(--ease),box-shadow .45s var(--ease)}
-.pst-tick svg{width:11px;height:11px;opacity:0;transform:scale(.4);transition:opacity .35s var(--ease),transform .45s var(--ease)}
-.pst-mini.is-active{flex-grow:1.4;background:rgba(0,173,255,.14);box-shadow:inset 0 0 0 1.5px rgba(0,173,255,.75)}
-.pst-mini.is-active .pst-fold{opacity:0}
-.pst-mini.is-active .pst-open{opacity:1;transition-delay:.15s}
-.pst-mini.is-done{background:var(--navy);box-shadow:inset 0 0 0 1px rgba(167,190,224,.12)}
-.pst-mini.is-done .pst-fold{opacity:.55}
-.pst-mini.is-done .pst-tick{background:var(--blue);box-shadow:none}
-.pst-mini.is-done .pst-tick svg{opacity:1;transform:none}
-.pst-mini.is-done .pst-when{color:var(--dim-dark);opacity:.7}
+.pst-big{position:absolute;right:36px;bottom:30px;font-size:48px;font-weight:800;line-height:.95;letter-spacing:-.005em;color:#fff;font-variant-numeric:tabular-nums;opacity:0;transform:translateY(10px);transition:opacity .35s var(--ease),transform .5s var(--ease);pointer-events:none}
+.pst-tickcorner{position:absolute;top:22px;right:24px;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .35s var(--ease),transform .5s var(--ease-drum)}
+.pst-tickcorner .pst-tickmark{opacity:1;transform:none;width:13px;height:13px}
+.pst-mini.is-active{flex-basis:644px;background:var(--blue);box-shadow:0 24px 70px rgba(0,90,140,.35)}
+.pst-mini.is-active .pst-strip{opacity:0}
+.pst-mini.is-active .pst-full{opacity:1;pointer-events:auto;transition-delay:.24s}
+.pst-mini.is-active .pst-big{opacity:1;transform:none;transition-delay:.3s}
+.pst-mini.is-done{background:rgba(9,32,66,.5);box-shadow:inset 0 0 0 1px rgba(167,190,224,.12)}
+.pst-mini.is-done .pst-vert{opacity:.5}
+.pst-mini.is-done .pst-num{opacity:.45}
+.pst-mini.is-done .pst-node{background:var(--blue);box-shadow:none}
+/* последняя створка в финале: раскрыта, голубая, с галочкой в углу */
+.pst-mini.is-done.is-active{background:var(--blue);box-shadow:0 24px 70px rgba(0,90,140,.35)}
+.pst-mini.is-done.is-active .pst-strip{opacity:0}
+.pst-mini.is-done.is-active .pst-tickcorner{opacity:1;transform:none;transition-delay:.25s}
 .pst-note{display:none}
+.pst-fold{display:none}
 
 /* Steps — узкие экраны: без пина, вертикальный список */
 @media (max-width:1199px){
   .steps{min-height:auto;padding:88px 0;overflow:hidden}
   .steps__sticky{position:static;min-height:0;padding:0;display:block;overflow:visible}
   .steps__inner{position:static}
-  .pst-layout{grid-template-columns:1fr;gap:0}
-  .pst-bigcard,.pst-bar{display:none}
-  .pst-rail{flex-direction:column;gap:10px}
-  .pst-mini,.pst-mini.is-active,.pst-mini.is-done{flex:none;flex-grow:0;width:100%;cursor:default;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22)}
-  .pst-fold{position:static;inset:auto;padding:20px 22px;gap:8px}
-  .pst-mini.is-active .pst-fold,.pst-mini.is-done .pst-fold{opacity:1}
-  .pst-fold b{font-size:20px;font-weight:800;color:#fff;opacity:1}
-  .pst-open,.pst-tick{display:none}
+  .steps__header{display:block}
+  .pst-count,.pst-bar{display:none}
+  .pst-rail{flex-direction:column;gap:10px;height:auto}
+  .pst-mini,.pst-mini.is-active,.pst-mini.is-done,.pst-mini.is-done.is-active{flex:none;width:100%;cursor:default;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22)}
+  .pst-strip,.pst-full,.pst-big,.pst-tickcorner,.pst-hit{display:none}
+  .pst-fold{display:flex;flex-direction:column;gap:8px;padding:20px 22px}
+  .pst-fold .pst-num{font-size:14px}
+  .pst-fold b{font-size:20px;font-weight:800;line-height:1.3;color:#fff}
   .pst-note{display:block;margin-top:8px;font-size:15px;font-weight:400;line-height:1.4;color:var(--dim-dark)}
-  .pst-when{font-size:15px}
+  .pst-when{display:block;font-style:normal;font-size:15px;font-weight:500;color:var(--blue)}
+  .pst-fold .pst-cta{margin-top:12px;align-self:flex-start}
 }
 
 /* Reviews */

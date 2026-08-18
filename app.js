@@ -276,53 +276,55 @@
       { n: '02', t: 'Собеседование и отбор', d: 'Обсуждаем ваш опыт, мотивацию и возможности. В каждом городе выбираем одного партнёра для открытия сети дарксторов', e: '2–3 недели' },
       { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по стандартам сети, мы готовим планировку и помогаем с поставщиками оборудования. Ремонт и стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4 месяца' },
       { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и директоров дарксторов. Помогаем привлекать персонал с помощью операционного маркетинга', e: '1–2 месяца' },
-      { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем IT-инфраструктуру и запускаем рекламную кампанию в городе — вы начинаете принимать заказы', e: '1–2 недели' }
+      { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем <span style="white-space:nowrap">IT-инфраструктуру</span> и запускаем рекламную кампанию в городе — вы начинаете принимать заказы', e: '1–2 недели' }
     ];
-    const tick = '<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    const panes = stepsSection.querySelector('[data-pst-panes]');
+    const tick = '<svg class="pst-tickmark" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const clock = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const rail = stepsSection.querySelector('[data-pst-rail]');
     const bar = stepsSection.querySelector('[data-pst-bar]');
     const progressBox = stepsSection.querySelector('[data-pst-progress]');
+    const odo = stepsSection.querySelector('[data-pst-odo]');
     STEPS.forEach((step, i) => {
-      panes.insertAdjacentHTML('beforeend',
-        `<div class="pst-pane${i ? '' : ' is-active'}">
-           <h3>${step.t}</h3><p>${step.d}</p>
-           <div class="pst-foot"><em>${step.e}</em>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
-         </div>`);
       rail.insertAdjacentHTML('beforeend',
-        `<button class="pst-mini${i ? '' : ' is-active'}" type="button" aria-label="Шаг ${step.n}: ${step.t}, ${step.e}">
-           <span class="pst-fold">
-             <span class="pst-num">${step.n}</span>
-             <span class="pst-foldbot"><b>${step.t}<span class="pst-note">${step.d}</span></b><i class="pst-when">${step.e}</i></span>
-           </span>
-           <span class="pst-open"><strong>${step.n}</strong><b>${step.t.toLowerCase()}</b></span>
-           <span class="pst-tick">${tick}</span>
-         </button>`);
+        `<div class="pst-mini${i ? '' : ' is-active'}">
+           <button class="pst-hit" type="button" aria-label="Шаг ${step.n}: ${step.t}, ${step.e}"></button>
+           <span class="pst-strip"><span class="pst-num">${step.n}</span><span class="pst-vert">${step.t}</span><span class="pst-node">${tick}</span></span>
+           <div class="pst-full"><h3>${step.t}</h3><p>${step.d}</p>
+             <div class="pst-foot"><span class="pst-term">${clock}${step.e}</span>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
+           </div>
+           <span class="pst-big" aria-hidden="true">${step.n}</span>
+           <span class="pst-tickcorner" aria-hidden="true">${tick}</span>
+           <span class="pst-fold"><span class="pst-num">${step.n}</span><b>${step.t}</b><span class="pst-note">${step.d}</span><i class="pst-when">${step.e}</i>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</span>
+         </div>`);
     });
-    const paneNodes = [...panes.children];
     const miniNodes = [...rail.children];
     let stepState = '';
     const stepOnScroll = () => {
       const travel = stepsSection.offsetHeight - innerHeight;
       if (travel <= 0) return;
       const progress = Math.max(0, Math.min(1, -stepsSection.getBoundingClientRect().top / travel));
-      bar.style.width = (progress * 100) + '%';
-      progressBox?.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
-      const index = Math.min(STEPS.length - 1, Math.floor(progress * STEPS.length));
-      // на излёте последнего шага закрывается и он сам — все пять плашек с галочками
+      const raw = progress * STEPS.length;
+      const index = Math.min(STEPS.length - 1, Math.floor(raw));
+      const local = Math.max(0, Math.min(1, raw - index));
+      // на излёте последнего шага путь пройден: все пять с галочками, полоса до конца, последняя створка остаётся раскрытой
       const allDone = progress >= 0.95;
+      bar.style.setProperty('--p', (allDone ? 1 : (index + local) / STEPS.length).toFixed(4));
+      progressBox?.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
       const state = index + (allDone ? ':done' : '');
       if (state === stepState) return;
       stepState = state;
-      paneNodes.forEach((node, i) => node.classList.toggle('is-active', i === index));
+      const last = STEPS.length - 1;
       miniNodes.forEach((node, i) => {
-        node.classList.toggle('is-active', !allDone && i === index);
+        const active = allDone ? i === last : i === index;
+        node.classList.toggle('is-active', active);
         node.classList.toggle('is-done', allDone || i < index);
+        node.setAttribute('aria-current', active ? 'step' : 'false');
       });
+      if (odo) odo.style.transform = `translateY(-${index}em)`;
     };
-    // клик по шагу прокручивает к его отрезку — состояние по-прежнему считается от скролла
+    // клик по створке прокручивает к её отрезку — состояние по-прежнему считается от скролла
     miniNodes.forEach((node, i) => {
-      node.addEventListener('click', () => {
+      node.querySelector('.pst-hit').addEventListener('click', () => {
         const travel = stepsSection.offsetHeight - innerHeight;
         if (travel <= 0) return;
         const top = stepsSection.getBoundingClientRect().top + scrollY + ((i + 0.5) / STEPS.length) * travel;
