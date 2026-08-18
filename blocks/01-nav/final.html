@@ -28,8 +28,10 @@
   .brand-art__badge { left: 286px; top: 7px; width: 129px; height: 29px; }
   .head-actions { display: flex; align-items: center; gap: 24px; }
   .telegram { font-weight: 500; font-size: 14px; }
-  .head-cta { min-height: 42px; padding: 11px 24px; border: 1px solid currentColor; border-radius: 999px; font-size: 15px; font-weight: 500; transition: background 180ms ease, color 180ms ease, transform 180ms ease; }
+  .head-cta { min-height: 42px; padding: 11px 24px; border: 1px solid currentColor; border-radius: 999px; font-size: 15px; font-weight: 500; transition: background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease; }
   .head-cta:hover { background: #fff; color: var(--navy); transform: translateY(-2px); }
+  .site-head.is-solid .head-cta { background: var(--blue); border-color: var(--blue); color: #fff; box-shadow: var(--shadow-cta); }
+  .site-head.is-solid .head-cta:hover { background: #1FB6FF; border-color: #1FB6FF; color: #fff; }
   .menu-toggle { position:relative; display: none; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.7); border-radius: 50%; color: #fff; }
   .menu-toggle span, .menu-toggle::before, .menu-toggle::after { content: ''; position:absolute; left:11px; width:18px; height:2px; background:currentColor; border-radius:2px; transition:transform 220ms ease,opacity 220ms ease; }
   .menu-toggle::before { top:13px; }.menu-toggle span { top:19px; }.menu-toggle::after { top:25px; }
