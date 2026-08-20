@@ -49,7 +49,7 @@
 
   const cityRot = document.querySelector('[data-city-rot]');
   if (cityRot) {
-    const cities = ['в Казани', 'в Самаре', 'в Уфе', 'в Тюмени', 'в Ижевске', 'в своём городе'];
+    const cities = ['в\u00A0Казани', 'в\u00A0Самаре', 'в\u00A0Уфе', 'в\u00A0Тюмени', 'в\u00A0Ижевске', 'в\u00A0своём городе'];
     const home = cities.length - 1;
     const hold = 2400;
     const holdHome = 4400;
@@ -122,10 +122,10 @@
     const end = Number(element.dataset.count);
     if (reduced || !Number.isFinite(end)) return;
     const started = performance.now();
-    const duration = 1300;
+    const duration = 2000;
     const tick = now => {
       const progress = Math.min(1, (now - started) / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
+      const eased = 1 - Math.pow(1 - progress, 4);
       element.textContent = String(Math.round(end * eased));
       if (progress < 1) requestAnimationFrame(tick);
     };
@@ -136,12 +136,49 @@
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-visible');
-      entry.target.querySelectorAll?.('[data-count]').forEach(count);
-      if (entry.target.matches('[data-count]')) count(entry.target);
       revealObserver.unobserve(entry.target);
     });
   }, { threshold: .16, rootMargin: '0px 0px -7% 0px' });
-  document.querySelectorAll('.reveal,.number-card').forEach(node => revealObserver.observe(node));
+  document.querySelectorAll('.reveal').forEach(node => revealObserver.observe(node));
+
+  // Счётчики стартуют, только когда карточка на 60% в кадре (не при загрузке)
+  const counters = [...document.querySelectorAll('[data-count]')];
+  if (!reduced) counters.forEach(node => { node.textContent = '0'; });
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        count(entry.target);
+      } else if (entry.boundingClientRect.top < 0) {
+        // карточку проскочили быстрым скроллом — показываем итог без анимации
+        entry.target.dataset.done = 'true';
+        entry.target.textContent = entry.target.dataset.count;
+      } else return;
+      counterObserver.unobserve(entry.target);
+    });
+  }, { threshold: .6 });
+  counters.forEach(node => counterObserver.observe(node));
+
+  // Свечение карточек цифр: тянется к курсору с ленивым догоном
+  if (!reduced && matchMedia('(hover:hover)').matches) {
+    document.querySelectorAll('.number-card').forEach(card => {
+      let targetX = 0, targetY = 0, glowX = 0, glowY = 0, raf = 0;
+      const step = () => {
+        glowX += (targetX - glowX) * .085;
+        glowY += (targetY - glowY) * .085;
+        card.style.setProperty('--glow-x', glowX.toFixed(2));
+        card.style.setProperty('--glow-y', glowY.toFixed(2));
+        raf = (Math.abs(targetX - glowX) > .08 || Math.abs(targetY - glowY) > .08) ? requestAnimationFrame(step) : 0;
+      };
+      const wake = () => { if (!raf) raf = requestAnimationFrame(step); };
+      card.addEventListener('pointermove', event => {
+        const box = card.getBoundingClientRect();
+        targetX = ((event.clientX - box.left) / box.width - .5) * 44;
+        targetY = ((event.clientY - box.top) / box.height - .5) * 26;
+        wake();
+      });
+      card.addEventListener('pointerleave', () => { targetX = 0; targetY = 0; wake(); });
+    });
+  }
 
   const businessCarousel = document.querySelector('[data-business-carousel]');
   if (businessCarousel) {
@@ -151,9 +188,16 @@
     const businessCounter = businessCarousel.querySelector('[data-business-counter]');
     let businessCurrent = 0;
     let businessPointerStart = null;
+    let slidingTimer = 0;
 
     const setBusinessSlide = index => {
-      businessCurrent = Math.max(0, Math.min(businessSlides.length - 1, index));
+      const next = Math.max(0, Math.min(businessSlides.length - 1, index));
+      if (next !== businessCurrent && !reduced) {
+        businessCarousel.classList.add('is-sliding');
+        clearTimeout(slidingTimer);
+        slidingTimer = setTimeout(() => businessCarousel.classList.remove('is-sliding'), 720);
+      }
+      businessCurrent = next;
       businessCarousel.style.setProperty('--business-slide', businessCurrent);
       businessSlides.forEach((slide, slideIndex) => {
         const hidden = slideIndex !== businessCurrent;
@@ -185,13 +229,13 @@
   }
 
   const zones = {
-    kitchen: ['01', 'Кухня', 'Здесь повара готовят горячую еду из полуфабрикатов — на одно блюдо уходит около 7 минут. Готовую еду повара передают кладовщикам, которые собирают весь заказ'],
-    storage: ['02', 'Склад с продуктами', 'Полки с тысячами товаров — с помощью наших технологий кладовщики собирают любой заказ за несколько минут'],
-    dispatch: ['03', 'Зона выдачи заказа', 'Здесь кладовщик передаёт курьеру собранные заказы для клиентов'],
-    loading: ['04', 'Зона погрузки', 'Благодаря автозаказу в Лавку регулярно привозят необходимые товары от проверенных поставщиков'],
-    cold: ['05', 'Холодильные камеры', 'Температурный режим под постоянным контролем, что гарантирует минимальный уровень списаний и свежий товар'],
-    waiting: ['06', 'Зона ожидания заказа', 'Здесь курьеры ожидают заказы. Они получают их сразу после сборки и отвозят клиенту за установленное в приложении время'],
-    freezer: ['07', 'Морозильная камера', 'Отдельный температурный режим для заморозки. Кладовщик собирает такие товары последними, чтобы заказ доехал без потери качества']
+    kitchen: ['01', 'Кухня', 'Здесь повара готовят горячую еду из\u00A0полуфабрикатов\u00A0— на\u00A0одно блюдо уходит около 7\u00A0минут. Готовую еду повара передают кладовщикам, которые собирают весь заказ'],
+    storage: ['02', 'Склад с\u00A0продуктами', 'Полки с\u00A0тысячами товаров\u00A0— с\u00A0помощью наших технологий кладовщики собирают любой заказ за\u00A0несколько минут'],
+    dispatch: ['03', 'Зона выдачи заказа', 'Здесь кладовщик передаёт курьеру собранные заказы для\u00A0клиентов'],
+    loading: ['04', 'Зона погрузки', 'Благодаря автозаказу в\u00A0Лавку регулярно привозят необходимые товары от\u00A0проверенных поставщиков'],
+    cold: ['05', 'Холодильные камеры', 'Температурный режим под\u00A0постоянным контролем, что гарантирует минимальный уровень списаний и\u00A0свежий товар'],
+    waiting: ['06', 'Зона ожидания заказа', 'Здесь курьеры ожидают заказы. Они получают их сразу после сборки и\u00A0отвозят клиенту за\u00A0установленное в\u00A0приложении время'],
+    freezer: ['07', 'Морозильная камера', 'Отдельный температурный режим для\u00A0заморозки. Кладовщик собирает такие товары последними, чтобы заказ доехал без\u00A0потери качества']
   };
   const mapStage = document.querySelector('[data-map-stage]');
   const mapWorld = document.querySelector('[data-map-world]');
@@ -272,11 +316,11 @@
   const stepsSection = document.querySelector('[data-pst]');
   if (stepsSection) {
     const STEPS = [
-      { n: '01', t: 'Заявка на сайте', d: 'Заполните анкету — мы свяжемся с вами, обсудим формат сотрудничества и ответим на первые вопросы', e: '1 неделя', cta: 'Оставить заявку' },
-      { n: '02', t: 'Собеседование и отбор', d: 'Обсуждаем ваш опыт, мотивацию и возможности. В каждом городе выбираем одного партнёра для открытия сети дарксторов', e: '2–3 недели' },
-      { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по стандартам сети, мы готовим планировку и помогаем с поставщиками оборудования. Ремонт и стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4 месяца' },
-      { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и директоров дарксторов. Помогаем привлекать персонал с помощью операционного маркетинга', e: '1–2 месяца' },
-      { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем <span style="white-space:nowrap">IT-инфраструктуру</span> и запускаем рекламную кампанию в городе — вы начинаете принимать заказы', e: '1–2 недели' }
+      { n: '01', t: 'Заявка на\u00A0сайте', d: 'Заполните анкету\u00A0— мы свяжемся с\u00A0вами, обсудим формат сотрудничества и\u00A0ответим на\u00A0первые вопросы', e: '1\u00A0неделя', cta: 'Оставить заявку' },
+      { n: '02', t: 'Собеседование и\u00A0отбор', d: 'Обсуждаем ваш опыт, мотивацию и\u00A0возможности. В\u00A0каждом городе выбираем одного партнёра для\u00A0открытия сети дарксторов', e: '2–3\u00A0недели' },
+      { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по\u00A0стандартам сети, мы готовим планировку и\u00A0помогаем с\u00A0поставщиками оборудования. Ремонт и\u00A0стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4\u00A0месяца' },
+      { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и\u00A0директоров дарксторов. Помогаем привлекать персонал с\u00A0помощью операционного маркетинга', e: '1–2\u00A0месяца' },
+      { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем <span style="white-space:nowrap">IT-инфраструктуру</span> и\u00A0запускаем рекламную кампанию в\u00A0городе\u00A0— вы начинаете принимать заказы', e: '1–2\u00A0недели' }
     ];
     const tick = '<svg class="pst-tickmark" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const clock = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -373,7 +417,7 @@
     if (!form.reportValidity()) return;
     const endpoint = form.dataset.endpoint;
     if (!endpoint) {
-      status.textContent = 'Отправка будет доступна после подключения формы к CRM.';
+      status.textContent = 'Отправка будет доступна после подключения формы к\u00A0CRM.';
       return;
     }
     const submit = form.querySelector('[data-submit]');
@@ -382,12 +426,12 @@
     status.textContent = '';
     try {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-      if (!response.ok) throw new Error('Не удалось отправить заявку');
+      if (!response.ok) throw new Error('Не\u00A0удалось отправить заявку');
       status.textContent = 'Спасибо! Заявка отправлена.';
       status.style.color = '#198754';
       form.reset();
     } catch (error) {
-      status.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз.';
+      status.textContent = 'Не\u00A0удалось отправить заявку. Попробуйте ещё раз.';
     } finally {
       submit.disabled = false;
       submit.classList.remove('is-loading');
