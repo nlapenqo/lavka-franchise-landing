@@ -122,7 +122,7 @@ ul{padding:0;list-style:none}
 .number-card:hover{--glow-scale:1.12}
 .number-card:hover::before,.number-card:hover::after{filter:blur(124px)}
 .number-card .counter{font-size:154px;line-height:.9;font-weight:900}
-.number-card h2{margin-top:22px;font-size:31px;line-height:1.05;font-weight:800}
+.number-card h2{margin-top:22px;margin-bottom:14px;font-size:31px;line-height:1.05;font-weight:800}
 .number-card p{margin-top:auto;width:266px;max-width:100%;font-size:13px;line-height:1.35;color:#c0d2ec}
 
 /* Business */
