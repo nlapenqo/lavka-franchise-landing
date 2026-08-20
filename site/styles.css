@@ -115,9 +115,12 @@ ul{padding:0;list-style:none}
 .numbers__grid{width:min(1154px,100%);margin:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:31px}
 .number-card{position:relative;isolation:isolate;overflow:hidden;min-height:399px;border-radius:31px;background:var(--navy);color:#fff;text-align:center;padding:63px 38px 51px;display:flex;flex-direction:column;align-items:center}
 /* Figma: два размытых эллипса #00ADFF (layer blur 150) заходят на карточку сверху */
-.number-card::before,.number-card::after{content:"";position:absolute;z-index:-1;width:100%;background:var(--blue);border-radius:50%;filter:blur(150px)}
-.number-card::before{left:-10px;top:-250px;height:345px}
-.number-card::after{left:10px;top:-112px;height:141px}
+/* Свет усиливается плотностью, а не brightness(): тот тянул зелёный канал (173→216) и уводил в бирюзу */
+.number-card::before,.number-card::after{content:"";position:absolute;z-index:-1;width:100%;background:var(--blue);border-radius:50%;filter:blur(150px);transition:filter .55s var(--ease),transform .5s var(--ease)}
+.number-card::before{left:-10px;top:-250px;height:345px;transform:translate3d(calc(var(--glow-x,0)*1px),calc(var(--glow-y,0)*1px),0) scale(var(--glow-scale,1))}
+.number-card::after{left:10px;top:-112px;height:141px;transform:translate3d(calc(var(--glow-x,0)*1.4px),calc(var(--glow-y,0)*1.4px),0) scale(var(--glow-scale,1))}
+.number-card:hover{--glow-scale:1.12}
+.number-card:hover::before,.number-card:hover::after{filter:blur(124px)}
 .number-card .counter{font-size:154px;line-height:.9;font-weight:900}
 .number-card h2{margin-top:22px;font-size:31px;line-height:1.05;font-weight:800}
 .number-card p{margin-top:auto;width:266px;max-width:100%;font-size:13.5px;line-height:1.35;color:#c0d2ec}
@@ -127,7 +130,16 @@ ul{padding:0;list-style:none}
 .business .container{width:min(1280px,calc(100% - 48px));padding-inline:64px}
 .business-carousel{--slide-gap:40px;position:relative;width:1140px;max-width:100%;height:587px;margin-top:46px;padding:53px 56px;overflow:hidden;border-radius:32px;background:var(--card);outline:none}
 .business-carousel:focus-visible{box-shadow:0 0 0 4px var(--sky)}
-.business-carousel__viewport{height:481px;overflow:hidden}
+/* Маска вместо overflow: горизонтально прячет соседние слайды, вниз пропускает тень кнопки.
+   --edge растёт только на время перехода — тогда края слайдов растворяются, а не срезаются. */
+@property --edge{syntax:'<length>';inherits:false;initial-value:0px}
+.business-carousel__viewport{height:481px;overflow:visible;--edge:0px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--edge),#000 calc(100% - var(--edge)),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 var(--edge),#000 calc(100% - var(--edge)),transparent 100%);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:100% calc(100% + 70px);mask-size:100% calc(100% + 70px);
+  transition:--edge .34s var(--ease-slide)}
+.business-carousel.is-sliding .business-carousel__viewport{--edge:72px;transition:--edge .2s var(--ease-slide)}
 .business-carousel__track{height:100%;display:flex;gap:var(--slide-gap);transform:translate3d(calc(var(--business-slide) * (-100% - var(--slide-gap))),0,0);transition:transform .72s var(--ease-slide);will-change:transform}
 .business-slide{min-width:100%;height:481px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:start;transition:opacity .5s var(--ease-slide),transform .72s var(--ease-slide)}
 .business-slide[aria-hidden='true']{opacity:.4;transform:scale(.975)}
