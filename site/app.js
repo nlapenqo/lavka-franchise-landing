@@ -242,6 +242,22 @@
     zoneCard.querySelector('[data-zone-title]').textContent = data[1];
     zoneCard.querySelector('[data-zone-text]').textContent = data[2];
   };
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+  const view = { x: 0, y: 0 };
+  // Пределы сдвига: картинка не отрывается от краёв сцены, справа всегда остаётся
+  // видимой хотя бы часть под карточкой зоны — дальше утащить нельзя.
+  const panLimits = () => {
+    const w = mapStage.clientWidth;
+    const h = mapStage.clientHeight;
+    const pic = { l: .061 * w, r: .9476 * w, t: .1818 * h, b: .8883 * h };
+    return {
+      minX: w * .63 - pic.r * ZOOM, maxX: -pic.l * ZOOM,
+      minY: h - pic.b * ZOOM, maxY: -pic.t * ZOOM
+    };
+  };
+  const applyView = () => {
+    mapWorld.style.transform = `translate(${view.x}px, ${view.y}px) scale(${ZOOM})`;
+  };
   const zoomTo = button => {
     if (!mapWorld || !mapStage) return;
     if (reduced || innerWidth <= 820) { mapWorld.style.transform = ''; mapStage.style.setProperty('--z', 1); return; }
@@ -251,25 +267,68 @@
     const py = parseFloat(button.style.getPropertyValue('--y')) / 100 * h;
     // Точка зоны едет в центр свободной от карточки области (левые ~63% сцены),
     // но картинку стараемся не отрывать от краёв сцены и от карточки.
-    const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-    const pic = { l: .061 * w, r: .9476 * w, t: .1818 * h, b: .8883 * h };
-    let tx = w * .315 - px * ZOOM;
-    let ty = h * .5 - py * ZOOM;
-    tx = clamp(tx, w * .63 - pic.r * ZOOM, -pic.l * ZOOM);
-    ty = clamp(ty, h - pic.b * ZOOM, -pic.t * ZOOM);
+    const lim = panLimits();
+    let tx = clamp(w * .315 - px * ZOOM, lim.minX, lim.maxX);
+    let ty = clamp(h * .5 - py * ZOOM, lim.minY, lim.maxY);
     // Сама точка при этом должна остаться в безопасной зоне (не под карточкой, не у края)
     tx = clamp(tx, w * .12 - px * ZOOM, w * .55 - px * ZOOM);
     ty = clamp(ty, h * .18 - py * ZOOM, h * .82 - py * ZOOM);
+    view.x = tx;
+    view.y = ty;
     mapStage.style.setProperty('--z', ZOOM);
-    mapWorld.style.transform = `translate(${tx}px, ${ty}px) scale(${ZOOM})`;
+    applyView();
     mapStage.classList.add('has-zoom');
   };
   const resetZoom = () => {
     if (!mapWorld || !mapStage) return;
+    view.x = 0;
+    view.y = 0;
     mapWorld.style.transform = '';
     mapStage.style.setProperty('--z', 1);
     mapStage.classList.remove('has-zoom');
   };
+
+  // Перетаскивание приближённой карты мышью. Указатель захватываем не сразу,
+  // а только когда пошло реальное движение: иначе capture подменяет цель клика
+  // и хотспот перестаёт нажиматься.
+  let dragArmed = false;
+  let dragging = false;
+  let dragMoved = 0;
+  let dragFrom = { x: 0, y: 0, vx: 0, vy: 0 };
+  if (mapStage) {
+    mapStage.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch' || event.button !== 0) return;
+      if (!mapStage.classList.contains('has-zoom')) return;
+      dragArmed = true;
+      dragging = false;
+      dragMoved = 0;
+      dragFrom = { x: event.clientX, y: event.clientY, vx: view.x, vy: view.y };
+    });
+    mapStage.addEventListener('pointermove', event => {
+      if (!dragArmed) return;
+      const dx = event.clientX - dragFrom.x;
+      const dy = event.clientY - dragFrom.y;
+      dragMoved = Math.max(dragMoved, Math.abs(dx) + Math.abs(dy));
+      if (!dragging) {
+        if (dragMoved < 4) return;
+        dragging = true;
+        mapStage.setPointerCapture(event.pointerId);
+        mapStage.classList.add('is-dragging');
+      }
+      const lim = panLimits();
+      view.x = clamp(dragFrom.vx + dx, lim.minX, lim.maxX);
+      view.y = clamp(dragFrom.vy + dy, lim.minY, lim.maxY);
+      applyView();
+    });
+    const endDrag = () => {
+      dragArmed = false;
+      if (!dragging) return;
+      dragging = false;
+      mapStage.classList.remove('is-dragging');
+    };
+    mapStage.addEventListener('pointerup', endDrag);
+    mapStage.addEventListener('pointercancel', endDrag);
+  }
   const showZone = button => {
     const data = zones[button.dataset.zone];
     if (!data || !zoneCard) return;
@@ -287,7 +346,10 @@
     activeZone = button.dataset.zone;
     zoomTo(button);
   };
-  hotspots.forEach(button => button.addEventListener('click', () => showZone(button)));
+  hotspots.forEach(button => button.addEventListener('click', () => {
+    if (dragMoved > 5) return;
+    button.classList.contains('is-active') ? closeZone() : showZone(button);
+  }));
   const closeZone = () => {
     clearTimeout(swapTimer);
     zoneCard?.classList.add('is-hidden');
