@@ -188,16 +188,9 @@
     const businessCounter = businessCarousel.querySelector('[data-business-counter]');
     let businessCurrent = 0;
     let businessPointerStart = null;
-    let slidingTimer = 0;
 
     const setBusinessSlide = index => {
-      const next = Math.max(0, Math.min(businessSlides.length - 1, index));
-      if (next !== businessCurrent && !reduced) {
-        businessCarousel.classList.add('is-sliding');
-        clearTimeout(slidingTimer);
-        slidingTimer = setTimeout(() => businessCarousel.classList.remove('is-sliding'), 720);
-      }
-      businessCurrent = next;
+      businessCurrent = Math.max(0, Math.min(businessSlides.length - 1, index));
       businessCarousel.style.setProperty('--business-slide', businessCurrent);
       businessSlides.forEach((slide, slideIndex) => {
         const hidden = slideIndex !== businessCurrent;
