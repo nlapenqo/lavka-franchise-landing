@@ -130,16 +130,12 @@ ul{padding:0;list-style:none}
 .business .container{width:min(1280px,calc(100% - 48px));padding-inline:64px}
 .business-carousel{--slide-gap:40px;position:relative;width:1140px;max-width:100%;height:587px;margin-top:46px;padding:53px 56px;overflow:hidden;border-radius:32px;background:var(--card);outline:none}
 .business-carousel:focus-visible{box-shadow:0 0 0 4px var(--sky)}
-/* Маска вместо overflow: горизонтально прячет соседние слайды, вниз пропускает тень кнопки.
-   --edge растёт только на время перехода — тогда края слайдов растворяются, а не срезаются. */
-@property --edge{syntax:'<length>';inherits:false;initial-value:0px}
-.business-carousel__viewport{height:481px;overflow:visible;--edge:0px;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--edge),#000 calc(100% - var(--edge)),transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 var(--edge),#000 calc(100% - var(--edge)),transparent 100%);
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-  -webkit-mask-size:100% calc(100% + 70px);mask-size:100% calc(100% + 70px);
-  transition:--edge .34s var(--ease-slide)}
-.business-carousel.is-sliding .business-carousel__viewport{--edge:72px;transition:--edge .2s var(--ease-slide)}
+/* clip-path вместо overflow: соседние слайды прячет, но пропускает свечение кнопки.
+   Кнопка прижата к левому краю вьюпорта, поэтому по бокам режем не по границе, а с запасом
+   в зазор между слайдами минус 6px — тень целиком помещается, соседний слайд ещё не виден. */
+.business-carousel__viewport{height:481px;overflow:visible;
+  --clip-side:calc(-1 * (var(--slide-gap) - 6px));
+  clip-path:inset(0 var(--clip-side) -60px var(--clip-side))}
 .business-carousel__track{height:100%;display:flex;gap:var(--slide-gap);transform:translate3d(calc(var(--business-slide) * (-100% - var(--slide-gap))),0,0);transition:transform .72s var(--ease-slide);will-change:transform}
 .business-slide{min-width:100%;height:481px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:start;transition:opacity .5s var(--ease-slide),transform .72s var(--ease-slide)}
 .business-slide[aria-hidden='true']{opacity:.4;transform:scale(.975)}
@@ -218,7 +214,7 @@ ul{padding:0;list-style:none}
 .steps__header{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;margin-bottom:clamp(30px,4vw,56px)}
 .steps .section-title{color:#fff}
 /* счётчик шага — как цифра зоны в блоке даркстора */
-.pst-count{display:flex;align-items:baseline;gap:10px;padding-top:12px;font-variant-numeric:tabular-nums}
+.pst-count{display:flex;align-items:baseline;gap:10px;padding-top:12px}
 .pst-count b{font-size:44px;line-height:.8;color:var(--blue);font-weight:900;letter-spacing:-.01em}
 .pst-count > span{font-size:22px;font-weight:500;line-height:1;color:#fff}
 .pst-odo{display:inline-block;height:1em;line-height:1;overflow:hidden;vertical-align:top}
@@ -233,7 +229,7 @@ ul{padding:0;list-style:none}
 .pst-hit{position:absolute;inset:0;z-index:2;border-radius:inherit;background:none;cursor:pointer}
 .pst-hit:focus-visible{outline:3px solid rgba(0,173,255,.5);outline-offset:3px}
 .pst-strip{position:absolute;inset:0;padding:22px 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:14px;transition:opacity .3s var(--ease)}
-.pst-num{display:block;font-size:13px;font-weight:500;line-height:1;color:var(--dim-dark);font-variant-numeric:tabular-nums;transition:color .4s,opacity .4s}
+.pst-num{display:block;font-size:13px;font-weight:500;line-height:1;color:var(--dim-dark);transition:color .4s,opacity .4s}
 .pst-vert{flex:1;min-height:0;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:15px;font-weight:500;line-height:1.2;color:var(--dim-dark);overflow:hidden;hyphens:none;transition:color .4s,opacity .4s}
 .pst-node{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:inset 0 0 0 1.5px rgba(167,190,224,.38);transition:background .45s var(--ease),box-shadow .45s var(--ease)}
 .pst-tickmark{width:11px;height:11px;opacity:0;transform:scale(.4);transition:opacity .3s var(--ease),transform .5s var(--ease-drum)}
@@ -248,7 +244,7 @@ ul{padding:0;list-style:none}
 .pst-cta{position:relative;z-index:3;display:inline-flex;align-items:center;min-height:48px;padding:14px 28px;border-radius:999px;background:#fff;color:var(--navy);font-size:16px;font-weight:500;line-height:1;white-space:nowrap;transition:transform .2s var(--ease),box-shadow .2s}
 .pst-cta:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(9,40,80,.28)}
 .pst-cta:focus-visible{outline:3px solid rgba(255,255,255,.6);outline-offset:3px}
-.pst-big{position:absolute;right:36px;bottom:30px;font-size:48px;font-weight:800;line-height:.95;letter-spacing:-.005em;color:#fff;font-variant-numeric:tabular-nums;opacity:0;transform:translateY(10px);transition:opacity .35s var(--ease),transform .5s var(--ease);pointer-events:none}
+.pst-big{position:absolute;right:36px;bottom:30px;font-size:48px;font-weight:800;line-height:.95;letter-spacing:-.005em;color:#fff;opacity:0;transform:translateY(10px);transition:opacity .35s var(--ease),transform .5s var(--ease);pointer-events:none}
 .pst-tickcorner{position:absolute;top:22px;right:24px;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .35s var(--ease),transform .5s var(--ease-drum)}
 .pst-tickcorner .pst-tickmark{opacity:1;transform:none;width:13px;height:13px}
 .pst-mini.is-active{flex-basis:644px;background:var(--blue);box-shadow:0 24px 70px rgba(0,90,140,.35)}
