@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Лендинг франшизы · Сборка v4 — продуктовый интерактивный</title>
-<link rel="stylesheet" href="../blocks/_shared/tokens.css">
-<link rel="stylesheet" href="../blocks/_shared/base.css">
+<title>Лендинг франшизы · Сборка v1 — строго по вайрфрейму</title>
+<link rel="stylesheet" href="../../blocks/_shared/tokens.css">
+<link rel="stylesheet" href="../../blocks/_shared/base.css">
 <style>
   body { background: var(--bg); overflow-x: clip; }
   .landing-stack { display: flex; flex-direction: column; }
@@ -42,25 +42,25 @@
 
 <main class="landing-stack" id="stack" aria-label="Собранный лендинг из блоков-прототипов"></main>
 
-<div class="build-tag" id="buildTag"><b>Сборка v4 · продуктовый интерактивный</b> · </div>
+<div class="build-tag" id="buildTag"><b>Сборка v1 · строго по вайрфрейму</b> · </div>
 <p class="t-legal build-legal">Прототип-сборка · данные — заглушка (рыба) · не является публичной офертой</p>
 
 <script>
   /* Состав сборки: порядок вайрфрейма v11 */
   const BLOCKS = [
-    ['01-nav', 'v5'],
-    ['02-hero', 'v6'],
-    ['03-event', 'v6'],
-    ['04-numbers', 'v1'],
-    ['05-business', 'v6'],
-    ['05-1-darkstore', 'v7'],
-    ['06-offers', 'v1'],
-    ['07-steps', 'v6'],
-    ['08-reviews', 'v5'],
-    ['09-media', 'v5'],
-    ['10-faq', 'v4'],
-    ['11-form', 'v4'],
-    ['12-footer', 'v5'],
+    ['01-nav', 'wf'],
+    ['02-hero', 'wf'],
+    ['03-event', 'wf'],
+    ['04-numbers', 'wf'],
+    ['05-business', 'wf'],
+    ['05-1-darkstore', 'wf'],
+    ['06-offers', 'wf'],
+    ['07-steps', 'wf'],
+    ['08-reviews', 'wf'],
+    ['09-media', 'wf'],
+    ['10-faq', 'wf'],
+    ['11-form', 'wf'],
+    ['12-footer', 'wf'],
   ];
 
   /* Автовысота same-origin iframe: замер на load, через ResizeObserver
@@ -103,7 +103,7 @@
   const stack = document.getElementById('stack');
   BLOCKS.forEach(([dir, ver], i) => {
     const f = document.createElement('iframe');
-    f.src = `../blocks/${dir}/${ver}.html?embed=1`;
+    f.src = `../../blocks/${dir}/${ver}.html?embed=1`;
     if (i > 2) f.loading = 'lazy'; /* первые блоки грузим сразу, ниже — лениво */
     f.title = `Блок ${dir} · ${ver}`;
     autoHeight(f, dir);

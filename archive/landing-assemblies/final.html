@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Лендинг франшизы · Финальная сборка</title>
-<link rel="stylesheet" href="../blocks/_shared/tokens.css">
-<link rel="stylesheet" href="../blocks/_shared/base.css">
+<link rel="stylesheet" href="../../blocks/_shared/tokens.css">
+<link rel="stylesheet" href="../../blocks/_shared/base.css">
 <style>
   body { background: var(--bg); overflow-x: clip; }
   .landing-stack { display: flex; flex-direction: column; }
@@ -97,7 +97,7 @@
   const BUST = Date.now(); /* прототип: не даём браузеру склеивать старые версии блоков из кэша */
 
   async function mountNav() {
-    const html = await (await fetch('../blocks/01-nav/final.html', { cache: 'reload' })).text();
+    const html = await (await fetch('../../blocks/01-nav/final.html', { cache: 'reload' })).text();
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const st = document.createElement('style');
     st.textContent =
@@ -116,7 +116,7 @@
      работает от родного скролла страницы; клик по ячейке отвязывает
      этапы от скролла (логика живёт в #steps-logic самого блока) */
   async function mountSteps(placeholder) {
-    const html = await (await fetch('../blocks/07-steps/final.html', { cache: 'reload' })).text();
+    const html = await (await fetch('../../blocks/07-steps/final.html', { cache: 'reload' })).text();
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const st = document.createElement('style');
     st.textContent =
@@ -181,7 +181,7 @@
       return;
     }
     const f = document.createElement('iframe');
-    f.src = `../blocks/${dir}/${ver}.html?embed=1&v=${BUST}`;
+    f.src = `../../blocks/${dir}/${ver}.html?embed=1&v=${BUST}`;
     f.title = `Блок ${dir} · ${ver}`;
     frames[dir] = f;
     f.addEventListener('load', () => cleanDoc(f, dir));

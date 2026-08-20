@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Лендинг франшизы · Сборка v5 — контрастный микс</title>
-<link rel="stylesheet" href="../blocks/_shared/tokens.css">
-<link rel="stylesheet" href="../blocks/_shared/base.css">
+<link rel="stylesheet" href="../../blocks/_shared/tokens.css">
+<link rel="stylesheet" href="../../blocks/_shared/base.css">
 <style>
   body { background: var(--bg); overflow-x: clip; }
   .landing-stack { display: flex; flex-direction: column; }
@@ -103,7 +103,7 @@
   const stack = document.getElementById('stack');
   BLOCKS.forEach(([dir, ver], i) => {
     const f = document.createElement('iframe');
-    f.src = `../blocks/${dir}/${ver}.html?embed=1`;
+    f.src = `../../blocks/${dir}/${ver}.html?embed=1`;
     if (i > 2) f.loading = 'lazy'; /* первые блоки грузим сразу, ниже — лениво */
     f.title = `Блок ${dir} · ${ver}`;
     autoHeight(f, dir);
