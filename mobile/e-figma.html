@@ -11,6 +11,8 @@
 /* Широкое окно — показываем концепт в макете айфона: сам по себе он там теряется.
    Не трогаем страницу внутри iframe (витрина, хаб) и явный запрос ?full=1. */
 (() => {
+  /* режим витрины помечаем на <html> до отрисовки: прячем полосу прокрутки, ставим вырезы */
+  if (/(^|[?&])frame=iphone(&|$)/.test(location.search)) document.documentElement.className += ' framed';
   if (window.top !== window.self) return;
   if (/(^|[?&])(full=1|frame=iphone)(&|$)/.test(location.search)) return;
   const wide = matchMedia('(min-width: 768px)');
@@ -37,6 +39,10 @@
   --line-dark:rgba(170,217,252,.16);              /* hairline на тёмном */
   --ease-city:cubic-bezier(.19,1,.22,1);          /* барабан городов — как на сайте */
 }
+
+/* в макете айфона системной полосы прокрутки быть не должно */
+html.framed{scrollbar-width:none}
+html.framed::-webkit-scrollbar{width:0;height:0}
 
 /* ---------- типошкала (7 стилей) ---------- */
 .h1{font-size:clamp(40px,12.3vw,50px);line-height:.92;font-weight:900;letter-spacing:-.01em}  /* «в своём городе» должно помещаться и на 360px */
@@ -76,28 +82,28 @@
    экрана — анимация на паузе. */
 .glow{position:absolute;pointer-events:none;animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;will-change:transform}
 .amb-off .glow{animation-play-state:paused}
-.glow::before{content:'';position:absolute;inset:0;transform:rotate(-32.9deg);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.78) 0%,rgba(0,173,255,.67) 18%,rgba(0,173,255,.43) 40%,rgba(0,173,255,.2) 62%,rgba(0,173,255,.075) 78%,rgba(0,173,255,.018) 90%,transparent 100%)}
-.glow--a{width:470px;height:560px;left:-205px;bottom:-130px;animation-name:amb-a;animation-duration:8.2s}
-.glow--b{width:370px;height:430px;right:-160px;top:150px;animation-name:amb-b;animation-duration:6.7s;animation-delay:-2.6s}
-.glow--c{width:330px;height:360px;left:36%;top:-150px;animation-name:amb-c;animation-duration:9.6s;animation-delay:-5.4s}
+.glow::before{content:'';position:absolute;inset:0;transform:rotate(-32.9deg);filter:blur(42px);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.44) 0%,rgba(0,173,255,.37) 20%,rgba(0,173,255,.23) 42%,rgba(0,173,255,.11) 62%,rgba(0,173,255,.04) 78%,rgba(0,173,255,.01) 90%,transparent 100%)}
+.glow--a{width:700px;height:830px;left:-330px;bottom:-260px;animation-name:amb-a;animation-duration:13.5s}
+.glow--b{width:580px;height:670px;right:-280px;top:60px;animation-name:amb-b;animation-duration:11s;animation-delay:-4.2s}
+.glow--c{width:520px;height:560px;left:24%;top:-260px;animation-name:amb-c;animation-duration:15.5s;animation-delay:-8.6s}
 @keyframes amb-a{
-  0%{transform:translate3d(-14px,56px,0) scale(.92) rotate(-4deg)}
-  52%{transform:translate3d(109px,-73px,0) scale(1.08) rotate(3deg)}
-  100%{transform:translate3d(34px,31px,0) scale(.98) rotate(-1deg)}
+  0%{transform:translate3d(-8px,34px,0) scale(.95) rotate(-2.5deg)}
+  52%{transform:translate3d(65px,-44px,0) scale(1.05) rotate(2deg)}
+  100%{transform:translate3d(20px,19px,0) scale(.99) rotate(-.5deg)}
 }
 @keyframes amb-b{
-  0%{transform:translate3d(48px,-39px,0) scale(.95)}
-  58%{transform:translate3d(-120px,101px,0) scale(1.1)}
-  100%{transform:translate3d(25px,28px,0) scale(1)}
+  0%{transform:translate3d(29px,-23px,0) scale(.97)}
+  58%{transform:translate3d(-72px,61px,0) scale(1.06)}
+  100%{transform:translate3d(15px,17px,0) scale(1)}
 }
 @keyframes amb-c{
-  0%{transform:translate3d(59px,67px,0) scale(1.04)}
-  46%{transform:translate3d(-101px,-87px,0) scale(.91)}
-  100%{transform:translate3d(8px,-28px,0) scale(1.08)}
+  0%{transform:translate3d(35px,40px,0) scale(1.02)}
+  46%{transform:translate3d(-61px,-52px,0) scale(.95)}
+  100%{transform:translate3d(5px,-17px,0) scale(1.04)}
 }
 
 /* снап-лента — один каркас на цифры / бизнес / отзывы */
-.swipe{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:var(--gut);scroll-padding-left:var(--gut)}
+.swipe{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:var(--gut);scroll-padding-left:var(--gut)}
 .swipe::-webkit-scrollbar{display:none}
 .swipe>*{scroll-snap-align:start}
 .dots{display:flex;gap:6px;justify-content:center;align-items:center;margin-top:20px}
@@ -155,6 +161,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* ---------- 03 · цифры: карточки по фигме — крупный счётчик и синее свечение ---------- */
 .nums{background:#fff;padding:56px 0 var(--sec)}
+.nums .rv{transform:none}     /* только проявление: сдвиг вверх давал вертикальную прокрутку ленты */
 .ncard{position:relative;isolation:isolate;overflow:hidden;flex:0 0 300px;border-radius:31px;padding:48px 26px 40px;text-align:center;color:#fff;background:var(--navy);display:flex;flex-direction:column;align-items:center}
 /* два размытых голубых пятна над карточкой — тот же приём, что в site/styles.css */
 .ncard::before,.ncard::after{content:'';position:absolute;z-index:-1;width:100%;background:var(--blue);border-radius:50%;filter:blur(110px)}
@@ -166,23 +173,24 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* ---------- 04 · как устроен бизнес: только горизонтальное пролистывание ---------- */
 .biz{background:#fff}
+.biz__title{padding-inline:var(--gut)}
 .biz .swipe{margin-top:24px}
 .bcard{flex:0 0 calc(100vw - 2*var(--gut));border-radius:var(--r-big);background:var(--card);padding:26px 24px 24px;display:flex;flex-direction:column}
 .bcard h3{font-size:28px;line-height:1.02;font-weight:800;margin-bottom:14px}
 .bcard p{font-size:15px;line-height:1.48;color:var(--dim);margin-bottom:24px}
-.bcard__f{margin-top:auto}
+.bcard__f{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 
 /* ---------- 05 · даркстор: фирменная тёмная сцена с голубыми пятнами ---------- */
 .dark{background:#fff}
 .dark .h2,.dark__lead{padding-inline:var(--gut)}
 .dark .h2{margin-bottom:12px}
 .dark__lead{margin-bottom:24px}
-.stage{position:relative;margin-inline:16px;border-radius:var(--r-big);padding:18px;overflow:hidden;background:var(--navy)}
+.stage{position:relative;border-radius:var(--r-big);padding:18px;overflow:hidden;background:var(--navy)}
 /* эллипсы из фигмы: #00ADFF под сильным блюром, наклон −32.9°, прозрачность .4 / .5 */
 .stage__glow{position:absolute;z-index:0;border-radius:50%;background:var(--blue);pointer-events:none;filter:blur(42px)}
 .stage__glow--a{width:158px;height:270px;right:-46px;top:-52px;opacity:.4;transform:rotate(-32.9deg)}
 .stage__glow--b{width:214px;height:368px;left:-96px;top:30%;opacity:.5;transform:rotate(-32.9deg)}
-.map{position:relative;z-index:1;width:88%;margin:14px auto 8px}
+.map{position:relative;z-index:1;width:98%;margin:12px auto 10px}
 .map img{width:100%;height:auto}
 .map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transition:transform .35s var(--ease-spring),background .25s,color .25s}
 .map__pin.on{background:#fff;color:var(--blue);transform:scale(1.22)}
@@ -199,9 +207,9 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .fmt{background:var(--light)}
 .fmt .h2{padding-inline:var(--gut);margin-bottom:10px}
 .fmt .sub{padding-inline:var(--gut);margin-bottom:18px}
-.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 var(--gut) 16px;scroll-padding-left:var(--gut)}
-.tabs::-webkit-scrollbar{display:none}
-.tabs button{flex:none;height:38px;padding:0 16px;border-radius:999px;background:#fff;color:var(--navy);font-size:14px;font-weight:500;box-shadow:0 2px 10px rgba(27,58,106,.06);transition:background .25s,color .25s}
+/* три равных колонки: все форматы видны сразу, переключение без прокрутки */
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 var(--gut) 16px}
+.tabs button{min-height:42px;padding:6px 8px;border-radius:999px;background:#fff;color:var(--navy);font-size:13px;line-height:1.15;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(27,58,106,.06);transition:background .25s,color .25s}
 .tabs button.on{background:var(--navy);color:#fff}
 .fpanel{margin:0 var(--gut);padding:24px 22px 22px;border-radius:26px;background:#fff;box-shadow:0 10px 34px rgba(27,58,106,.09)}
 .fpanel__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
@@ -289,9 +297,9 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .form .h2{margin-bottom:12px}
 .form__lead{font-size:16px;line-height:1.35;color:var(--ink-soft);margin-bottom:24px}
 .perks{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
-.perks li{border-radius:20px;background:#fff;color:var(--navy);padding:18px 20px}
+.perks li{border-radius:20px;background:var(--sky);color:var(--navy);padding:18px 20px}
 .perks li strong{display:block;font-size:16.5px;line-height:1.2;font-weight:800}
-.perks li span{display:block;margin-top:4px;font-size:13.5px;line-height:1.35;color:var(--dim)}
+.perks li span{display:block;margin-top:4px;font-size:13.5px;line-height:1.35;color:#42618c}
 .fcardbox{padding:26px 22px 24px;border-radius:30px;background:#fff;color:var(--navy);display:flex;flex-direction:column;gap:14px}
 .fcardbox h3{font-size:26px;line-height:1;font-weight:900;margin-bottom:4px}
 .fcardbox label{display:flex;flex-direction:column;gap:6px}
@@ -359,13 +367,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   </section>
 
   <section class="biz sec" id="business">
-    <div class="sec__head">
-      <h2 class="h2 rv">Как устроен бизнес?</h2>
-      <div class="rnds rv">
-        <button class="rnd rnd--l" id="bizPrev" type="button" aria-label="Предыдущий слайд"><i></i></button>
-        <button class="rnd rnd--r" id="bizNext" type="button" aria-label="Следующий слайд"><i></i></button>
-      </div>
-    </div>
+    <h2 class="h2 rv biz__title">Как устроен бизнес?</h2>
     <div class="swipe" id="bizTrack"></div>
   </section>
 
@@ -391,7 +393,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   </section>
 
   <section class="steps" id="steps">
-    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="glow glow--a"></div><div class="glow glow--b"></div><div class="glow glow--c"></div>
     <div class="steps__in">
       <h2 class="h2 rv">Как стать партнёром?</h2>
       <article class="sfeat rv" id="sfeat"></article>
@@ -425,7 +427,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   </section>
 
   <section class="form" id="form">
-    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="glow glow--a"></div><div class="glow glow--b"></div><div class="glow glow--c"></div>
     <div class="form__in">
       <h2 class="h2 rv">Станьте франчайзи Яндекс&nbsp;Лавки</h2>
       <p class="form__lead rv">Оставьте заявку — обсудим план запуска и отправим финансовую модель</p>
@@ -470,7 +472,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   const NB = ' ';
 
   /* В iframe витрины env(safe-area-*) не работает — подставляем вырезы iPhone вручную */
-  if (/(^|[?&])frame=iphone(&|$)/.test(location.search)) {
+  if (document.documentElement.classList.contains('framed')) {
     document.documentElement.style.setProperty('--safe-t', '59px');
     document.documentElement.style.setProperty('--safe-b', '34px');
   }
@@ -490,8 +492,9 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   /* карточки бизнеса едут только по горизонтали — без появления снизу */
   $('#bizTrack').innerHTML = D.business.map(b =>
     `<article class="bcard"><h3>${b.h}</h3><p>${b.p}</p>
-      <div class="bcard__f"><a class="btn btn--blue" href="#form">Стать партнёром</a></div>
-     </article>`).join('');
+      <div class="bcard__f"><a class="btn btn--blue" href="#form">Стать партнёром</a>
+        <div class="rnds"><button class="rnd rnd--card rnd--l" data-nav="-1" type="button" aria-label="Предыдущий слайд"><i></i></button><button class="rnd rnd--card rnd--r" data-nav="1" type="button" aria-label="Следующий слайд"><i></i></button></div>
+      </div></article>`).join('');
   $('#revTrack').innerHTML = D.reviews.map(r =>
     `<article class="rcard"><div class="av">${r.i}</div><h3>${r.n}</h3><small>${r.m}</small><p>${r.p}</p></article>`).join('');
   $('#medGrid').innerHTML = D.media.map(m =>
@@ -575,26 +578,31 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   });
 
   /* ---------- карусели: стрелки двигают ленту и гаснут на краях ---------- */
+  /* Стрелок у ленты может быть несколько пар (в бизнесе — своя в каждой карточке).
+     Состояние у них общее: оно зависит только от положения ленты. */
   const carousel = (trackSel, prevSel, nextSel) => {
-    const track = $(trackSel), prev = $(prevSel), next = $(nextSel);
-    if (!track || !prev || !next) return;
+    const track = $(trackSel);
+    const prev = [...document.querySelectorAll(prevSel)];
+    const next = [...document.querySelectorAll(nextSel)];
+    if (!track || !prev.length || !next.length) return;
     const step = () => (track.children[1] ? track.children[1].offsetLeft - track.children[0].offsetLeft : track.clientWidth) || 1;
     const upd = () => {
       const max = track.scrollWidth - track.clientWidth;
-      prev.classList.toggle('dis', track.scrollLeft < 8);
-      next.classList.toggle('dis', track.scrollLeft > max - 8);
+      const atStart = track.scrollLeft < 8, atEnd = track.scrollLeft > max - 8;
+      prev.forEach(b => b.classList.toggle('dis', atStart));
+      next.forEach(b => b.classList.toggle('dis', atEnd));
     };
-    /* доводим состояние стрелок и по таймеру: событий scroll может не хватить,
+    /* доводим состояние и по таймеру: событий scroll может не хватить,
        если плавная прокрутка не успела стартовать к моменту клика */
     const go = dir => { track.scrollBy({ left: dir * step(), behavior: 'smooth' }); setTimeout(upd, 480); };
-    prev.addEventListener('click', () => go(-1));
-    next.addEventListener('click', () => go(1));
+    prev.forEach(b => b.addEventListener('click', () => go(-1)));
+    next.forEach(b => b.addEventListener('click', () => go(1)));
     let f = 0;
     track.addEventListener('scroll', () => { if (!f) f = requestAnimationFrame(() => { f = 0; upd(); }); }, { passive: true });
     addEventListener('resize', upd, { passive: true });
     upd();
   };
-  carousel('#bizTrack', '#bizPrev', '#bizNext');
+  carousel('#bizTrack', '#bizTrack [data-nav="-1"]', '#bizTrack [data-nav="1"]');
   carousel('#revTrack', '#revPrev', '#revNext');
 
   /* ---------- шапка: стекло после хиро, компактный CTA после его кнопки ---------- */
