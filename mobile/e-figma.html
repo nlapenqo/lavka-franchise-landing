@@ -7,6 +7,18 @@
 <title>Мобилка E — Одна сущность · Франшиза Яндекс Лавки</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="./_shared/base.css">
+<script>
+/* Широкое окно — показываем концепт в макете айфона: сам по себе он там теряется.
+   Не трогаем страницу внутри iframe (витрина, хаб) и явный запрос ?full=1. */
+(() => {
+  if (window.top !== window.self) return;
+  if (/(^|[?&])(full=1|frame=iphone)(&|$)/.test(location.search)) return;
+  const wide = matchMedia('(min-width: 768px)');
+  const jump = () => { if (wide.matches) location.replace('./showcase.html' + location.hash); };
+  jump();
+  wide.addEventListener ? wide.addEventListener('change', jump) : wide.addListener(jump);
+})();
+</script>
 <style>
 /* ============================================================
    ВАРИАНТ E — «ОДНА СУЩНОСТЬ»
@@ -58,13 +70,31 @@
 .rnd--r i{transform:rotate(45deg);margin-right:4px}
 .rnds{display:flex;gap:8px}
 
-/* свечения тёмных секций — как на веб-версии */
-.glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);opacity:.85}
-.glow--a{width:430px;height:520px;left:-190px;top:auto;bottom:-120px;background:radial-gradient(closest-side,rgba(0,173,255,.85),rgba(0,173,255,0));animation:fa 13s var(--ease) infinite alternate}
-.glow--b{width:340px;height:400px;right:-150px;top:160px;background:radial-gradient(closest-side,rgba(0,173,255,.6),rgba(0,173,255,0));animation:fb 11s var(--ease) infinite alternate}
-.glow--c{width:300px;height:330px;left:40%;top:-140px;background:radial-gradient(closest-side,rgba(0,173,255,.4),rgba(0,173,255,0));animation:fa 15s var(--ease) infinite alternate-reverse}
-@keyframes fa{to{transform:translate3d(60px,-70px,0) scale(1.12)}}
-@keyframes fb{to{transform:translate3d(-70px,60px,0) scale(.9)}}
+/* ---------- свечения тёмных секций: та же система, что в site/styles.css ----------
+   Эллипс #00ADFF с фигма-раскладкой стопов, повёрнутый на −32.9°, дрейфует по трём
+   разным кривым. Дистанции пересчитаны с 1440-канваса на 390. Пока секция вне
+   экрана — анимация на паузе. */
+.glow{position:absolute;pointer-events:none;animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;will-change:transform}
+.amb-off .glow{animation-play-state:paused}
+.glow::before{content:'';position:absolute;inset:0;transform:rotate(-32.9deg);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.78) 0%,rgba(0,173,255,.67) 18%,rgba(0,173,255,.43) 40%,rgba(0,173,255,.2) 62%,rgba(0,173,255,.075) 78%,rgba(0,173,255,.018) 90%,transparent 100%)}
+.glow--a{width:470px;height:560px;left:-205px;bottom:-130px;animation-name:amb-a;animation-duration:8.2s}
+.glow--b{width:370px;height:430px;right:-160px;top:150px;animation-name:amb-b;animation-duration:6.7s;animation-delay:-2.6s}
+.glow--c{width:330px;height:360px;left:36%;top:-150px;animation-name:amb-c;animation-duration:9.6s;animation-delay:-5.4s}
+@keyframes amb-a{
+  0%{transform:translate3d(-14px,56px,0) scale(.92) rotate(-4deg)}
+  52%{transform:translate3d(109px,-73px,0) scale(1.08) rotate(3deg)}
+  100%{transform:translate3d(34px,31px,0) scale(.98) rotate(-1deg)}
+}
+@keyframes amb-b{
+  0%{transform:translate3d(48px,-39px,0) scale(.95)}
+  58%{transform:translate3d(-120px,101px,0) scale(1.1)}
+  100%{transform:translate3d(25px,28px,0) scale(1)}
+}
+@keyframes amb-c{
+  0%{transform:translate3d(59px,67px,0) scale(1.04)}
+  46%{transform:translate3d(-101px,-87px,0) scale(.91)}
+  100%{transform:translate3d(8px,-28px,0) scale(1.08)}
+}
 
 /* снап-лента — один каркас на цифры / бизнес / отзывы */
 .swipe{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:var(--gut);scroll-padding-left:var(--gut)}
@@ -113,15 +143,13 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .city span.out{transform:translate(-50%,-78%) rotateX(72deg);opacity:0}
 
 /* ---------- 02 · мероприятие: полоса во всю ширину поверх стыка ---------- */
-.evt{position:relative;z-index:3;display:grid;grid-template-columns:46px 1fr 32px;gap:13px;align-items:center;margin:-37px 0 0;padding:14px var(--gut);background:var(--sky);color:var(--navy);box-shadow:0 16px 38px rgba(14,34,65,.18);transition:background .2s}
+.evt{position:relative;z-index:3;display:grid;grid-template-columns:48px 1fr 32px;gap:13px;align-items:center;margin:-37px 0 0;padding:13px var(--gut);border-radius:var(--r-big);background:var(--sky);color:var(--navy);box-shadow:0 16px 38px rgba(14,34,65,.18);transition:background .2s}
 .evt:active{background:#9ed2fb}
-.evt__d{width:46px;height:46px;border-radius:var(--r-ctl);background:var(--navy);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.evt__d b{font-size:15px;line-height:1;font-weight:800}
-.evt__d span{font-size:9.5px;letter-spacing:.08em;font-weight:500;margin-top:2px}
+.evt__d{width:48px;height:48px;border-radius:13px;overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(14,34,65,.14)}
+.evt__d b{flex:1;display:grid;place-items:center;font-size:18px;line-height:1;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+.evt__d span{height:17px;display:grid;place-items:center;background:var(--blue);color:#fff;font-size:9.5px;line-height:1;letter-spacing:.07em;font-weight:800}
 .evt__t b{display:block;font-size:14.5px;font-weight:800;line-height:1.15}
-.evt__t span{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:12px;color:#47658e}
-.evt__live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(255,109,47,.55);animation:pulse 2.2s var(--ease) infinite}
-@keyframes pulse{70%,100%{box-shadow:0 0 0 7px rgba(255,109,47,0)}}
+.evt__t span{display:block;margin-top:3px;font-size:12px;color:#47658e}
 .evt__c{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center}
 .evt__c i{display:block;width:7px;height:7px;border-right:2px solid var(--navy);border-top:2px solid var(--navy);transform:rotate(45deg);margin-right:2px;border-radius:1px}
 
@@ -451,7 +479,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   const [evDay, evMon] = D.event.when.split(' ');
   $('#evtDate').innerHTML = `<b>${evDay}</b><span>${evMon.slice(0, 3).toUpperCase()}</span>`;
   $('#evtTitle').textContent = D.event.name;
-  $('#evtMeta').innerHTML = `<i class="evt__live" aria-hidden="true"></i>${D.event.when} · ${D.event.status}`;
+  $('#evtMeta').textContent = `${D.event.when} · ${D.event.status}`;
   $('#evt').setAttribute('aria-label', `${D.event.name}, ${D.event.when}, ${D.event.status} — ${D.event.cta.toLowerCase()}`);
 
   /* ---------- рендер общих блоков ---------- */
@@ -579,6 +607,12 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   };
   addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(onScroll); }, { passive: true });
   onScroll();
+
+  /* свечения замирают у секции, ушедшей с экрана. Гейт «на паузу», а не «в работу»:
+     если обсервер не сработает, фон останется живым, а не застынет */
+  const ambIO = new IntersectionObserver(es => es.forEach(e =>
+    e.target.classList.toggle('amb-off', !e.isIntersecting)), { rootMargin: '10% 0px' });
+  document.querySelectorAll('.hero, .steps, .form').forEach(n => ambIO.observe(n));
 
   MB.menu('#burger', '#menu');
 })();
