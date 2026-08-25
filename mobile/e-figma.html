@@ -196,16 +196,18 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .stage__glow{position:absolute;z-index:0;border-radius:50%;background:var(--blue);pointer-events:none;filter:blur(42px)}
 .stage__glow--a{width:158px;height:270px;right:-46px;top:-52px;opacity:.4;transform:rotate(-32.9deg)}
 .stage__glow--b{width:214px;height:368px;left:-96px;top:30%;opacity:.5;transform:rotate(-32.9deg)}
-/* окно карты: мир внутри двигается и масштабируется к выбранной зоне */
-.map{position:relative;z-index:1;width:98%;margin:12px auto 10px;overflow:hidden;border-radius:16px;--z:1}
+/* Окно карты: мир внутри двигается и масштабируется к выбранной зоне.
+   Собственной рамки у карты нет — она лежит в края сцены, а скругление ей
+   задают углы самого блока через его overflow:hidden. */
+.map{position:relative;z-index:1;margin:-18px -18px 0;overflow:hidden;--z:1}
 .map__world{position:relative;transform-origin:0 0;transition:transform .6s cubic-bezier(.22,.61,.36,1);will-change:transform}
 .map__world img{width:100%;height:auto;display:block}
-.map__reset{position:absolute;z-index:2;right:8px;bottom:8px;height:32px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.94);color:var(--navy);font-size:12px;font-weight:600;box-shadow:0 4px 14px rgba(8,40,80,.3);opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .3s,transform .3s}
+.map__reset{position:absolute;z-index:3;right:10px;bottom:38px;height:32px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.94);color:var(--navy);font-size:12px;font-weight:600;box-shadow:0 4px 14px rgba(8,40,80,.3);opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .3s,transform .3s}
 .map.zoomed .map__reset{opacity:1;transform:none;pointer-events:auto}
 .map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
 .map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
 .map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
-.zcard{position:relative;z-index:1;margin-top:12px;border-radius:var(--r-card);background:#fff;padding:24px 24px 26px;min-height:238px}
+.zcard{position:relative;z-index:2;margin-top:-26px;border-radius:var(--r-card);background:#fff;padding:24px 24px 26px;min-height:238px}
 .zcard__top{display:flex;align-items:center;justify-content:space-between}
 .zcard__n{font-size:40px;line-height:.9;font-weight:900;color:var(--blue)}
 .zcard h3{margin-top:16px;font-size:27px;line-height:1;font-weight:900}
@@ -421,7 +423,6 @@ body.locked{overflow:hidden}
   </section>
 
   <section class="steps" id="steps">
-    <div class="glow glow--a"></div><div class="glow glow--b"></div><div class="glow glow--c"></div>
     <div class="steps__in">
       <h2 class="h2 rv">Как стать партнёром?</h2>
       <article class="sfeat rv" id="sfeat"></article>
@@ -614,15 +615,20 @@ body.locked{overflow:hidden}
   };
   /* Приближение к выбранной зоне: «мир» масштабируем от левого верхнего угла и
      сдвигаем так, чтобы пин встал в центр окна, не оголяя краёв картинки. */
-  const world = $('#mapWorld'), ZOOM = 2;
+  const world = $('#mapWorld'), reset = $('#mapReset'), ZOOM = 2;
   const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-  let zoomed = false;
+  let zoomed = true;   /* открываем сразу на зоне 01 */
   const applyZoom = () => {
     const vw = map.clientWidth, vh = map.clientHeight;
+    const show = on => {
+      reset.style.opacity = on ? '1' : '0';
+      reset.style.pointerEvents = on ? 'auto' : 'none';
+    };
     if (!zoomed || !vw) {
       world.style.transform = '';
       map.style.setProperty('--z', 1);
       map.classList.remove('zoomed');
+      show(false);
       return;
     }
     const [, , , x, y] = D.zones[zi];
@@ -632,6 +638,7 @@ body.locked{overflow:hidden}
     world.style.transform = `translate(${tx}px, ${ty}px) scale(${ZOOM})`;
     map.style.setProperty('--z', ZOOM);
     map.classList.add('zoomed');
+    show(true);
   };
   map.addEventListener('click', e => {
     const p = e.target.closest('.map__pin');
@@ -642,6 +649,9 @@ body.locked{overflow:hidden}
   });
   $('#mapReset').addEventListener('click', () => { zoomed = false; applyZoom(); });
   addEventListener('resize', applyZoom, { passive: true });
+  /* до загрузки картинки у окна нулевая высота — пересчитываем приближение по load */
+  const mapImg = map.querySelector('img');
+  if (!mapImg.complete) mapImg.addEventListener('load', applyZoom, { once: true });
   zcard.addEventListener('click', e => { const b = e.target.closest('[data-z]'); if (b) zgo(zi + +b.dataset.z); });
   zgo(0);
 
@@ -719,7 +729,7 @@ body.locked{overflow:hidden}
      если обсервер не сработает, фон останется живым, а не застынет */
   const ambIO = new IntersectionObserver(es => es.forEach(e =>
     e.target.classList.toggle('amb-off', !e.isIntersecting)), { rootMargin: '10% 0px' });
-  document.querySelectorAll('.hero, .steps, .form').forEach(n => ambIO.observe(n));
+  document.querySelectorAll('.hero, .form').forEach(n => ambIO.observe(n));
 
   MB.menu('#burger', '#menu');
 })();
