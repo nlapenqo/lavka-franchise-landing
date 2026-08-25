@@ -7,7 +7,7 @@
 @font-face{font-family:'YS Text Cond';src:url('../../fonts/YS Text Cond-Light.ttf') format('truetype');font-weight:300;font-display:swap}
 
 :root{
-  --navy:#1b3a6a;--blue:#00adff;--sky:#aad9fc;--light:#f2f7fc;--card:#eaf3fc;
+  --navy:#1b3a6a;--navy-deep:#152e56;--blue:#00adff;--sky:#aad9fc;--light:#f2f7fc;--card:#eaf3fc;
   --mid:#3e88c5;--dim:#5a749b;--dim-dark:#a7bee0;--white:#fff;
   --orange:#ff6d2f;
   --ease:cubic-bezier(.22,.61,.36,1);
