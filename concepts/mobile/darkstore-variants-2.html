@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1c34">
+<title>Даркстор · раунд 2 — шесть механик</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ДАРКСТОР, РАУНД 2: ШЕСТЬ РАЗНЫХ МЕХАНИК, А НЕ ПОВЕРХНОСТЕЙ
+   F — превью + кнопка, тур на весь экран
+   G — текст на карте, зоны — таблетки
+   H — свайп-лента карточек ведёт карту
+   I — аккордеон-список всех зон
+   J — скролл-история: карта пришпилена, тексты наезжают
+   K — иммерсив-вьюер: кадр во всю ширину, стрелки на карте
+   ============================================================ */
+body{background:#0b1c34;color:#e8f1fb}
+
+.head{padding:40px 24px 8px;max-width:980px;margin:0 auto;text-align:center}
+.head h1{font-size:26px;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:10px}
+.head p{font-size:15px;line-height:1.45;color:rgba(190,214,244,.72)}
+.head b{color:var(--blue);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,390px);gap:34px 22px;justify-content:center;padding:30px 14px 72px;align-items:start}
+.pcard{display:flex;flex-direction:column;gap:14px}
+.p{position:relative;width:390px;border-radius:26px;overflow:hidden;background:#fff;color:var(--navy);box-shadow:0 22px 50px rgba(3,12,28,.5)}
+.meta{padding-inline:4px}
+.meta b{display:block;font-size:16px;font-weight:800;margin-bottom:5px}
+.meta span{display:block;font-size:13.5px;line-height:1.4;color:rgba(190,214,244,.66)}
+
+/* ---------- общее внутри превью ---------- */
+.blk{padding-top:44px}
+.pad{padding-inline:var(--gut)}
+.h2m{font-size:var(--fs-h2);line-height:.94;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:12px}
+.leadm{font-size:var(--fs-text);line-height:1.4;color:var(--dim);margin-bottom:24px}
+.nx{background:var(--light);padding:40px var(--gut) 30px}
+.nx b{display:block;font-size:var(--fs-h2);line-height:.94;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:8px}
+.nx span{font-size:var(--fs-text);color:var(--dim)}
+
+.map{position:relative;overflow:hidden;--z:1;background:var(--navy)}
+.map__world{position:relative;transform-origin:0 0;transition:transform .65s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.map__world img{width:100%;height:auto;display:block}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
+.map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
+.map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
+
+.rnd{flex:none;width:46px;height:46px;border-radius:50%;background:var(--light);display:grid;place-items:center;transition:background .2s,transform .18s var(--ease)}
+.rnd:active{transform:scale(.93)}
+.rnd i{display:block;width:9px;height:9px;border-right:2.2px solid var(--navy);border-top:2.2px solid var(--navy);border-radius:1px}
+.rnd--l i{transform:rotate(-135deg);margin-left:4px}
+.rnd--r i{transform:rotate(45deg);margin-right:4px}
+.rnds{display:flex;gap:8px}
+.zf{animation:zf .3s var(--ease-out)}
+@keyframes zf{from{opacity:0;transform:translateY(8px)}}
+
+/* ============ F · превью + кнопка, тур на весь экран ============ */
+.v-f .tease{position:relative;margin:0 12px;border-radius:28px;overflow:hidden;background:var(--navy)}
+.v-f .tease .map{height:250px;pointer-events:none}
+.v-f .tease::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,28,52,0) 40%,rgba(11,28,52,.66) 100%);pointer-events:none}
+.v-f .tease__meta{position:absolute;left:20px;bottom:18px;z-index:2;color:#fff}
+.v-f .tease__meta b{display:block;font-size:var(--fs-h4);font-weight:800;letter-spacing:var(--ls-tight)}
+.v-f .tease__meta span{display:block;margin-top:4px;font-size:var(--fs-caption);color:var(--dim-dark)}
+.v-f .go{display:flex;justify-content:center;padding:16px 20px 0}
+.v-f .btnf{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 26px;border-radius:999px;background:var(--blue);color:#fff;font-size:var(--fs-body);font-weight:500;box-shadow:var(--shadow-cta);transition:transform .18s var(--ease)}
+.v-f .btnf:active{transform:scale(.97)}
+.v-f .btnf svg{width:18px;height:18px}
+.v-f .blk{padding-bottom:40px}
+/* полноэкранный тур — в прототипе это «экран телефона», т.е. вся карточка */
+.fs{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;background:var(--navy);color:#fff;opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s}
+.fs.on{opacity:1;visibility:visible}
+.fs__top{flex:none;display:flex;align-items:center;justify-content:space-between;padding:18px 14px 14px 20px}
+.fs__top b{font-size:var(--fs-body);font-weight:800;letter-spacing:var(--ls-tight)}
+.fs__x{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center}
+.fs__x i{position:relative;display:block;width:16px;height:16px}
+.fs__x i::before,.fs__x i::after{content:'';position:absolute;left:0;top:7px;width:16px;height:2px;background:#fff;border-radius:2px}
+.fs__x i::before{transform:rotate(45deg)}.fs__x i::after{transform:rotate(-45deg)}
+.fs .map{flex:1;min-height:0}
+.fs__cap{flex:none;padding:18px 20px 24px}
+.fs__cap .zi__top{display:flex;align-items:center;justify-content:space-between}
+.fs__cap .zi__n{font-size:var(--fs-h3);line-height:.9;font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.fs__cap .rnd{background:rgba(255,255,255,.12)}
+.fs__cap .rnd i{border-color:#fff}
+.fs__cap h3{margin-top:12px;font-size:var(--fs-h4);line-height:1.05;font-weight:900}
+.fs__cap p{margin-top:8px;font-size:var(--fs-small);line-height:1.45;color:var(--dim-dark);min-height:81px}
+
+/* ============ G · текст на карте, зоны — таблетки ============ */
+.v-g .scene{position:relative;margin:0 12px;border-radius:28px;overflow:hidden;background:var(--navy)}
+.v-g .map{height:560px}
+.v-g .scrim{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:96px 20px 22px;background:linear-gradient(180deg,rgba(11,28,52,0) 0%,rgba(11,28,52,.55) 34%,rgba(11,28,52,.92) 78%);color:#fff;pointer-events:none}
+.v-g .scrim h3{font-size:var(--fs-h3-s);line-height:1;font-weight:900;display:flex;align-items:baseline;gap:10px}
+.v-g .scrim h3 em{font-style:normal;font-size:var(--fs-small);font-weight:800;color:var(--blue);letter-spacing:var(--ls-num)}
+.v-g .scrim p{margin-top:10px;font-size:var(--fs-small);line-height:1.45;color:rgba(214,231,250,.9);min-height:81px}
+.v-g .chips{position:absolute;left:0;right:0;top:0;z-index:4;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:14px 14px 18px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 24px),transparent)}
+.v-g .chips::-webkit-scrollbar{display:none}
+.v-g .chips button{flex:none;height:38px;padding:0 15px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--navy);font-size:var(--fs-caption);font-weight:500;white-space:nowrap;box-shadow:0 4px 14px rgba(8,40,80,.25);transition:background .25s,color .25s}
+.v-g .chips button.on{background:var(--blue);color:#fff}
+.v-g .map__pin:not(.on),.v-k .map__pin:not(.on){opacity:.5}
+.v-g .blk{padding-bottom:40px}
+
+/* ============ H · свайп-лента карточек ведёт карту ============ */
+.v-h .map{margin:0 12px;border-radius:28px;height:280px}
+.v-h .lane{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;padding:14px 12px 0;scroll-padding-left:12px}
+.v-h .lane::-webkit-scrollbar{display:none}
+.v-h .zc{flex:0 0 292px;scroll-snap-align:start;border-radius:20px;background:var(--card);padding:18px 20px 20px;opacity:.55;transition:opacity .3s}
+.v-h .zc.on{opacity:1}
+.v-h .zc b{font-size:var(--fs-h4);line-height:1;font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.v-h .zc h3{margin-top:8px;font-size:var(--fs-lead);line-height:1.05;font-weight:800}
+.v-h .zc p{margin-top:8px;font-size:var(--fs-caption);line-height:1.42;color:var(--dim)}
+.v-h .dots{display:flex;gap:6px;justify-content:center;align-items:center;margin-top:16px}
+.v-h .dots i{width:6px;height:6px;border-radius:999px;background:var(--sky);transition:width .3s var(--ease),background .3s}
+.v-h .dots i.on{width:22px;background:var(--navy)}
+.v-h .blk{padding-bottom:36px}
+
+/* ============ I · аккордеон-список всех зон ============ */
+.v-i .map{margin:0 12px;border-radius:28px}
+.v-i .list{padding:8px var(--gut) 0}
+.v-i .row{border-bottom:1px solid var(--card)}
+.v-i .row:last-child{border-bottom:0}
+.v-i .row button{width:100%;display:flex;align-items:center;gap:14px;padding:15px 0;text-align:left}
+.v-i .row b{flex:none;width:30px;font-size:var(--fs-body);font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.v-i .row h3{flex:1;font-size:var(--fs-body);line-height:1.1;font-weight:800}
+.v-i .row .c{flex:none;width:8px;height:8px;border-right:2px solid var(--mid);border-bottom:2px solid var(--mid);transform:rotate(45deg);transition:transform .3s var(--ease);margin-right:3px}
+.v-i .row.open .c{transform:rotate(225deg)}
+.v-i .fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease-out)}
+.v-i .row.open .fold{grid-template-rows:1fr}
+.v-i .fold>div{overflow:hidden}
+.v-i .fold p{padding:0 0 16px 44px;font-size:var(--fs-small);line-height:1.45;color:var(--dim)}
+.v-i .blk{padding-bottom:28px}
+
+/* ============ J · скролл-история: карта пришпилена ============ */
+.v-j .story{position:relative;margin:0 12px;border-radius:28px;background:var(--navy);height:600px;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory;scrollbar-width:none;overscroll-behavior:contain}
+.v-j .story::-webkit-scrollbar{display:none}
+.v-j .story__pin{position:sticky;top:0;height:600px;margin-bottom:-600px;z-index:1}
+.v-j .story__pin .map{height:600px}
+.v-j .slide{position:relative;z-index:2;height:600px;scroll-snap-align:start;display:flex;align-items:flex-end;padding:0 10px 56px;pointer-events:none}
+.v-j .slide article{width:100%;border-radius:20px;padding:16px 16px 18px;color:#fff;background:rgba(16,38,72,.68);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22);opacity:0;transform:translateY(14px);transition:opacity .4s var(--ease-out),transform .4s var(--ease-out)}
+.v-j .slide.on article{opacity:1;transform:none}
+.v-j .slide b{font-size:var(--fs-h3);line-height:.9;font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.v-j .slide h3{margin-top:8px;font-size:var(--fs-h4);line-height:1.05;font-weight:900}
+.v-j .slide p{margin-top:8px;font-size:var(--fs-caption);line-height:1.45;color:rgba(214,231,250,.85)}
+.v-j .story__hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;background:rgba(16,38,72,.68);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22);color:#fff;font-size:var(--fs-caption);white-space:nowrap;transition:opacity .3s;pointer-events:none}
+.v-j .story__hint i{display:block;width:7px;height:7px;border-right:2px solid var(--blue);border-bottom:2px solid var(--blue);transform:rotate(45deg);margin-top:-3px;animation:jh 1.5s ease-in-out infinite}
+@keyframes jh{0%,100%{transform:translateY(0) rotate(45deg)}50%{transform:translateY(4px) rotate(45deg)}}
+.v-j .story.moved .story__hint{opacity:0}
+.v-j .story__num{position:absolute;right:14px;top:14px;z-index:3;height:32px;padding:0 13px;display:flex;align-items:center;border-radius:999px;background:rgba(16,38,72,.68);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22);color:#fff;font-size:var(--fs-caption);font-weight:800;letter-spacing:var(--ls-num)}
+.v-j .story__num em{font-style:normal;color:var(--blue)}
+.v-j .blk{padding-bottom:40px}
+
+/* ============ K · иммерсив-вьюер: кадр во всю ширину ============ */
+.v-k .frame{position:relative;background:var(--navy)}
+.v-k .map{height:600px}
+.v-k .scrim{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:110px 20px 24px;background:linear-gradient(180deg,rgba(11,28,52,0) 0%,rgba(11,28,52,.6) 40%,rgba(11,28,52,.94) 82%);color:#fff;pointer-events:none}
+.v-k .scrim b{font-size:var(--fs-h2);line-height:.9;font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.v-k .scrim h3{margin-top:10px;font-size:var(--fs-h3-s);line-height:1;font-weight:900}
+.v-k .scrim p{margin-top:10px;font-size:var(--fs-small);line-height:1.45;color:rgba(214,231,250,.9);min-height:81px}
+.v-k .nav{position:absolute;z-index:4;top:206px;width:44px;height:44px;border-radius:50%;background:rgba(16,38,72,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(170,217,252,.25);display:grid;place-items:center;transition:transform .18s var(--ease),background .2s}
+.v-k .nav:active{transform:scale(.92)}
+.v-k .nav i{display:block;width:9px;height:9px;border-right:2.2px solid #fff;border-top:2.2px solid #fff;border-radius:1px}
+.v-k .nav--l{left:12px}.v-k .nav--l i{transform:rotate(-135deg);margin-left:4px}
+.v-k .nav--r{right:12px}.v-k .nav--r i{transform:rotate(45deg);margin-right:4px}
+.v-k .count{position:absolute;right:14px;top:14px;z-index:4;height:32px;padding:0 13px;display:flex;align-items:center;border-radius:999px;background:rgba(16,38,72,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(170,217,252,.25);color:#fff;font-size:var(--fs-caption);font-weight:800;letter-spacing:var(--ls-num)}
+.v-k .count em{font-style:normal;color:var(--blue)}
+.v-k .blk{padding-bottom:0}
+.v-k .frame{margin-bottom:44px}
+
+@media (prefers-reduced-motion:reduce){.map__world{transition:none}.v-j .story__hint i{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>Даркстор, раунд 2 — шесть механик</h1>
+  <p>Теперь различается не поверхность плашки, а сам способ смотреть карту: тур на весь экран, текст на карте, свайп, список, скролл-история, вьюер. Всё интерактивно. <b>Скажите букву — перенесу в мобильный концепт.</b></p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+const D = window.LAVKA;
+const Z = D.zones;
+const HEAD = `<div class="pad"><h2 class="h2m">Как работает даркстор?</h2><p class="leadm">${D.darkstoreLead}</p></div>`;
+const MAP = `<div class="map"><div class="map__world"><img src="../../site/assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора"></div></div>`;
+const NX = `<div class="nx"><b>Форматы партнёрства</b><span>Три сценария входа — выберите свой</span></div>`;
+const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+/* Карта-«мир»: только панорамирование к зоне. Масштаб един на вариант:
+   max(zoom, cover-масштаб × boost); focusY смещает точку интереса вверх,
+   когда низ занят текстом. */
+function makeMap(mapEl, { zoom = 2, boost = 1, focusY = .5, pins = true, onPin } = {}) {
+  const world = mapEl.querySelector('.map__world'), img = world.querySelector('img');
+  if (pins) {
+    world.insertAdjacentHTML('beforeend', Z.map(([n, t, , x, y], i) =>
+      `<button type="button" class="map__pin ${i ? '' : 'on'}" style="--x:${x}%;--y:${y}%" data-i="${i}" aria-label="Зона ${n} — ${t}">${n}</button>`).join(''));
+  }
+  const pinEls = [...world.querySelectorAll('.map__pin')];
+  let cur = 0;
+  const apply = () => {
+    const vw = mapEl.clientWidth, vh = mapEl.clientHeight;
+    if (!vw || !vh || !img.naturalWidth) return;
+    const h0 = vw * img.naturalHeight / img.naturalWidth;
+    let s0 = Math.max(1, vh / h0);
+    if (s0 < 1.02) s0 = 1;
+    const S = Math.max(zoom, s0 * boost);
+    const [, , , x, y] = Z[cur];
+    const tx = clamp(vw / 2 - x / 100 * vw * S, vw - vw * S, 0);
+    const ty = clamp(vh * focusY - y / 100 * h0 * S, vh - h0 * S, 0);
+    world.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
+    mapEl.style.setProperty('--z', S);
+  };
+  const go = i => {
+    cur = (i + Z.length) % Z.length;
+    pinEls.forEach((p, j) => p.classList.toggle('on', j === cur));
+    apply();
+    return cur;
+  };
+  if (onPin) mapEl.addEventListener('click', e => {
+    const p = e.target.closest('.map__pin');
+    if (p) onPin(+p.dataset.i);
+  });
+  if (!img.complete) img.addEventListener('load', apply, { once: true });
+  addEventListener('resize', apply, { passive: true });
+  apply();
+  return { go, apply };
+}
+const fade = el => { el.classList.remove('zf'); void el.offsetWidth; el.classList.add('zf'); };
+
+const VARIANTS = [
+  ['f', 'F · Кнопка и тур на весь экран', 'В потоке — только превью карты и кнопка. Тап открывает полноэкранный тур: карта на весь экран телефона, подпись снизу, стрелки и пины.',
+`<section class="blk">${HEAD}
+  <div class="tease">${MAP}<div class="tease__meta"><b>7 зон — от приёмки до курьера</b><span>Интерактивная схема даркстора</span></div></div>
+  <div class="go"><button class="btnf" type="button" data-open>Смотреть, как работает<svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M7 4.5h-3v3M11 4.5h3v3M7 13.5h-3v-3M11 13.5h3v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+</section>${NX}
+<div class="fs" data-fs>
+  <div class="fs__top"><b>Как работает даркстор</b><button class="fs__x" type="button" data-close aria-label="Закрыть"><i></i></button></div>
+  ${MAP}
+  <div class="fs__cap" id="cap-f"></div>
+</div>`],
+  ['g', 'G · Текст на карте, зоны — таблетки', 'Плашки нет: высокая карта, название и текст зоны лежат на скриме внизу, зоны переключаются лентой таблеток поверх карты.',
+`<section class="blk">${HEAD}
+  <div class="scene">${MAP}
+    <div class="chips" id="chips-g"></div>
+    <div class="scrim" id="scrim-g"></div>
+  </div>
+</section>${NX}`],
+  ['h', 'H · Свайп-лента карточек', 'Навигация без кнопок: под картой снап-лента компактных карточек, как в «цифрах» и «отзывах». Свайп карточек панорамирует карту.',
+`<section class="blk">${HEAD}
+  ${MAP}
+  <div class="lane" id="lane-h"></div>
+  <div class="dots" id="dots-h"></div>
+</section>${NX}`],
+  ['i', 'I · Аккордеон-список зон', 'Все 7 зон видны сразу списком, как FAQ. Тап по строке раскрывает описание и наводит карту. Ни плашек, ни стрелок.',
+`<section class="blk">${HEAD}
+  ${MAP}
+  <div class="list" id="list-i"></div>
+</section>${NX}`],
+  ['j', 'J · Скролл-история', 'Карта пришпилена, зональные карточки наезжают снизу по мере прокрутки со снапом. В финале — механика от скролла страницы, тут — внутренняя прокрутка.',
+`<section class="blk">${HEAD}
+  <div class="story" id="story-j">
+    <div class="story__pin">${MAP}</div>
+    <div class="story__num"><em id="num-j">01</em>&nbsp;/ 07</div>
+    ${Z.map(([n, t, d], i) => `<div class="slide${i ? '' : ' on'}"><article><b>${n}</b><h3>${t}</h3><p>${d}</p></article></div>`).join('')}
+    <div class="story__hint">Листайте<i></i></div>
+  </div>
+</section>${NX}`],
+  ['k', 'K · Иммерсив-вьюер', 'Кадр во всю ширину без рамок, стрелки лежат на самой карте по бокам, счётчик зон в углу, текст на скриме. Максимум карты в потоке.',
+`<section class="blk">${HEAD}
+  <div class="frame">${MAP}
+    <div class="count"><em id="num-k">01</em>&nbsp;/ 07</div>
+    <button class="nav nav--l" type="button" data-nav="-1" aria-label="Предыдущая зона"><i></i></button>
+    <button class="nav nav--r" type="button" data-nav="1" aria-label="Следующая зона"><i></i></button>
+    <div class="scrim" id="scrim-k"></div>
+  </div>
+</section>${NX}`]
+];
+
+document.getElementById('grid').innerHTML = VARIANTS.map(([key, title, note, body]) =>
+  `<article class="pcard"><div class="p v-${key}" data-v="${key}">${body}</div>
+   <div class="meta"><b>${title}</b><span>${note}</span></div></article>`).join('');
+
+/* ---------- F: превью статично, тур — своя карта ---------- */
+{
+  const root = document.querySelector('[data-v="f"]');
+  makeMap(root.querySelector('.tease .map'), { zoom: 1.6, focusY: .5, pins: false });
+  const fs = root.querySelector('[data-fs]'), cap = root.querySelector('#cap-f');
+  let mm = null, cur = 0;
+  const paint = () => {
+    cap.innerHTML = `<div class="zi__top"><span class="zi__n">${Z[cur][0]}</span>
+      <div class="rnds"><button class="rnd rnd--l" data-z="-1" type="button" aria-label="Назад"><i></i></button><button class="rnd rnd--r" data-z="1" type="button" aria-label="Вперёд"><i></i></button></div></div>
+      <h3>${Z[cur][1]}</h3><p>${Z[cur][2]}</p>`;
+    MB.typo('#cap-f');
+    fade(cap);
+  };
+  root.querySelector('[data-open]').addEventListener('click', () => {
+    fs.classList.add('on');
+    if (!mm) {
+      mm = makeMap(fs.querySelector('.map'), { zoom: 2, boost: 1.18, focusY: .5, onPin: i => { cur = mm.go(i); paint(); } });
+      requestAnimationFrame(() => { mm.apply(); });
+      paint();
+    }
+  });
+  root.querySelector('[data-close]').addEventListener('click', () => fs.classList.remove('on'));
+  cap.addEventListener('click', e => {
+    const b = e.target.closest('[data-z]');
+    if (b) { cur = mm.go(cur + +b.dataset.z); paint(); }
+  });
+}
+
+/* ---------- G: таблетки + скрим ---------- */
+{
+  const root = document.querySelector('[data-v="g"]');
+  const chips = root.querySelector('#chips-g'), scrim = root.querySelector('#scrim-g');
+  chips.innerHTML = Z.map(([n, t], i) => `<button type="button" class="${i ? '' : 'on'}" data-i="${i}">${t}</button>`).join('');
+  const btns = [...chips.children];
+  let cur = 0;
+  const paint = () => {
+    scrim.innerHTML = `<h3><em>${Z[cur][0]}</em>${Z[cur][1]}</h3><p>${Z[cur][2]}</p>`;
+    MB.typo('#scrim-g');
+    fade(scrim);
+    btns.forEach((b, j) => b.classList.toggle('on', j === cur));
+    const b = btns[cur];
+    chips.scrollTo({ left: b.offsetLeft - (chips.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
+  };
+  const mm = makeMap(root.querySelector('.map'), { zoom: 2, boost: 1.12, focusY: .4, onPin: i => { cur = mm.go(i); paint(); } });
+  chips.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) { cur = mm.go(+b.dataset.i); paint(); }
+  });
+  paint();
+}
+
+/* ---------- H: свайп-лента ---------- */
+{
+  const root = document.querySelector('[data-v="h"]');
+  const lane = root.querySelector('#lane-h'), dots = root.querySelector('#dots-h');
+  lane.innerHTML = Z.map(([n, t, d], i) => `<article class="zc${i ? '' : ' on'}"><b>${n}</b><h3>${t}</h3><p>${d}</p></article>`).join('');
+  dots.innerHTML = Z.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('');
+  const cards = [...lane.children], marks = [...dots.children];
+  MB.typo('#lane-h');
+  const mm = makeMap(root.querySelector('.map'), { zoom: 2, boost: 1.1, focusY: .5,
+    onPin: i => lane.scrollTo({ left: cards[i].offsetLeft - 12, behavior: 'smooth' }) });
+  let cur = 0, f = 0;
+  const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : lane.clientWidth) || 1;
+  lane.addEventListener('scroll', () => {
+    if (f) return;
+    f = requestAnimationFrame(() => {
+      f = 0;
+      const i = clamp(Math.round(lane.scrollLeft / step()), 0, Z.length - 1);
+      if (i === cur) return;
+      cur = mm.go(i);
+      cards.forEach((c, j) => c.classList.toggle('on', j === i));
+      marks.forEach((m, j) => m.classList.toggle('on', j === i));
+    });
+  }, { passive: true });
+}
+
+/* ---------- I: аккордеон ---------- */
+{
+  const root = document.querySelector('[data-v="i"]');
+  const list = root.querySelector('#list-i');
+  list.innerHTML = Z.map(([n, t, d], i) => `<div class="row${i ? '' : ' open'}">
+      <button type="button" data-i="${i}" aria-expanded="${i ? 'false' : 'true'}"><b>${n}</b><h3>${t}</h3><span class="c"></span></button>
+      <div class="fold"><div><p>${d}</p></div></div>
+    </div>`).join('');
+  MB.typo('#list-i');
+  const rows = [...list.children];
+  const open = i => rows.forEach((r, j) => {
+    r.classList.toggle('open', j === i);
+    r.querySelector('button').setAttribute('aria-expanded', String(j === i));
+  });
+  const mm = makeMap(root.querySelector('.map'), { zoom: 2, focusY: .5, onPin: i => { open(mm.go(i)); } });
+  list.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) open(mm.go(+b.dataset.i));
+  });
+}
+
+/* ---------- J: скролл-история ---------- */
+{
+  const root = document.querySelector('[data-v="j"]');
+  const story = root.querySelector('#story-j'), num = root.querySelector('#num-j');
+  const slides = [...story.querySelectorAll('.slide')];
+  slides.forEach(s => MB.typo('#story-j'));
+  const mm = makeMap(story.querySelector('.map'), { zoom: 2, boost: 1.12, focusY: .34, pins: true });
+  let cur = 0, f = 0;
+  story.addEventListener('scroll', () => {
+    if (f) return;
+    f = requestAnimationFrame(() => {
+      f = 0;
+      story.classList.toggle('moved', story.scrollTop > 40);
+      const i = clamp(Math.round(story.scrollTop / story.clientHeight), 0, Z.length - 1);
+      if (i === cur) return;
+      cur = mm.go(i);
+      num.textContent = Z[i][0];
+      slides.forEach((s, j) => s.classList.toggle('on', j === i));
+    });
+  }, { passive: true });
+}
+
+/* ---------- K: иммерсив-вьюер ---------- */
+{
+  const root = document.querySelector('[data-v="k"]');
+  const scrim = root.querySelector('#scrim-k'), num = root.querySelector('#num-k');
+  let cur = 0;
+  const paint = () => {
+    scrim.innerHTML = `<b>${Z[cur][0]}</b><h3>${Z[cur][1]}</h3><p>${Z[cur][2]}</p>`;
+    MB.typo('#scrim-k');
+    fade(scrim);
+    num.textContent = Z[cur][0];
+  };
+  const mm = makeMap(root.querySelector('.map'), { zoom: 2, boost: 1.12, focusY: .38, onPin: i => { cur = mm.go(i); paint(); } });
+  root.querySelector('.frame').addEventListener('click', e => {
+    const b = e.target.closest('[data-nav]');
+    if (b) { cur = mm.go(cur + +b.dataset.nav); paint(); }
+  });
+  paint();
+}
+</script>
+</body>
+</html>

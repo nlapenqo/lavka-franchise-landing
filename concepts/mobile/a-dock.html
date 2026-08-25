@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Мобилка A — Док · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ВАРИАНТ A — «ДОК»
+   Система: главная кнопка — один физический элемент .cta.
+   Он стартует в шапке, а при уходе хиро переезжает вниз и
+   остаётся плавать над контентом до самой формы.
+   Характер: светлая, воздушная, чередование white / #f2f7fc.
+   ============================================================ */
+
+/* --- типошкала варианта --- */
+.h1{font-size:44px;line-height:.92;font-weight:900;letter-spacing:-.015em}
+.h2{font-size:34px;line-height:.95;font-weight:900;letter-spacing:-.01em}
+.h3{font-size:21px;line-height:1.1;font-weight:800}
+.lead{font-size:17px;line-height:1.3;font-weight:500}
+.body{font-size:15px;line-height:1.4}
+.cap{font-size:12px;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.sec{padding:64px 0}
+.h2{margin-bottom:24px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-size:17px;font-weight:500;white-space:nowrap;transition:transform .18s var(--ease),background .2s}
+.btn:active{transform:scale(.97)}
+.btn--blue{background:var(--blue);color:#fff;box-shadow:0 8px 24px rgba(0,173,255,.3)}
+.btn--navy{background:var(--navy);color:#fff}
+.btn--ghost{background:var(--card);color:var(--navy)}
+.btn--wide{width:100%}
+
+/* ---------- шапка ---------- */
+.hdr{position:fixed;z-index:55;inset:12px 16px auto;height:56px;padding:0 14px;display:flex;align-items:center;border-radius:999px;color:#fff;transition:background .3s var(--ease),box-shadow .3s,height .3s var(--ease),backdrop-filter .3s}
+.hdr.solid{background:rgba(27,58,106,.78);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22),0 10px 30px rgba(14,34,65,.26);height:50px}
+.hdr .lg{--lg:.38}
+.hdr.solid .lg{--lg:.33}
+.burger{margin-left:auto;width:44px;height:44px;margin-right:-8px;display:grid;place-items:center;border-radius:50%;transition:background .2s}
+.burger i{position:relative;display:block;width:19px;height:1.8px;background:currentColor;border-radius:2px;transition:transform .28s var(--ease),opacity .2s}
+.burger i::before,.burger i::after{content:'';position:absolute;left:0;width:19px;height:1.8px;background:currentColor;border-radius:2px;transition:transform .28s var(--ease)}
+.burger i::before{top:-6px}.burger i::after{top:6px}
+body.is-locked .burger i{background:transparent}
+body.is-locked .burger i::before{transform:translateY(6px) rotate(45deg)}
+body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
+/* нить прогресса чтения по низу шапки */
+.hdr__pg{position:absolute;left:16px;right:16px;bottom:7px;height:2px;border-radius:2px;background:rgba(255,255,255,.18);opacity:0;transition:opacity .3s}
+.hdr.solid .hdr__pg{opacity:1}
+.hdr__pg i{display:block;height:100%;width:calc(var(--p,0) * 100%);border-radius:2px;background:var(--blue);transition:width .1s linear}
+
+/* ---------- главная кнопка: один элемент на две позиции ---------- */
+.cta{position:fixed;z-index:60;inset:auto auto 0 0;display:flex;align-items:center;justify-content:center;
+  width:var(--w,176px);height:var(--h,44px);border-radius:999px;
+  background:var(--blue);color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;
+  transform:translate3d(var(--x,0px),var(--y,0px),0);
+  box-shadow:0 10px 30px rgba(0,120,190,.34);
+  transition:width .5s var(--ease-out),height .5s var(--ease-out),transform .58s var(--ease-out),box-shadow .4s,opacity .3s;
+  will-change:transform,width}
+.cta.docked{box-shadow:0 -2px 40px rgba(14,34,65,.18),0 12px 34px rgba(0,120,190,.4)}
+.cta__t{position:relative;display:block;font-size:16px;transition:font-size .4s var(--ease-out)}
+.cta.docked .cta__t{font-size:18px}
+.cta__t span{display:block;transition:transform .3s var(--ease-out),opacity .25s}
+.cta__t.swap span{transform:translateY(-120%);opacity:0}
+.cta.hidden{opacity:0;pointer-events:none;transform:translate3d(var(--x,0px),calc(var(--y,0px) + 90px),0)}
+
+/* подпись-контекст над доком */
+.cta-hint{position:fixed;z-index:59;left:0;bottom:0;width:100%;padding:0 var(--gut);display:flex;justify-content:center;
+  transform:translateY(var(--hy,0px));opacity:0;transition:opacity .35s,transform .5s var(--ease-out);pointer-events:none}
+.cta-hint.on{opacity:1}
+.cta-hint span{padding:5px 13px;border-radius:999px;background:rgba(27,58,106,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;font-size:12px;font-weight:500;line-height:1.2}
+/* подложка, чтобы док не «висел в воздухе» над светлым контентом */
+.dock-fade{position:fixed;z-index:58;left:0;right:0;bottom:0;height:126px;pointer-events:none;opacity:0;
+  transition:opacity .4s,background .4s;
+  -webkit-mask-image:linear-gradient(to top,#000 44%,transparent);mask-image:linear-gradient(to top,#000 44%,transparent);
+  -webkit-backdrop-filter:blur(11px);backdrop-filter:blur(11px);
+  background:linear-gradient(to top,rgba(255,255,255,.74),rgba(255,255,255,0))}
+.dock-fade.on-dark{background:linear-gradient(to top,rgba(20,44,82,.82),rgba(20,44,82,0))}
+.dock-fade.on{opacity:1}
+
+/* ---------- меню ---------- */
+.menu{position:fixed;z-index:54;inset:0;padding:96px var(--gut) calc(96px + var(--safe-b));background:var(--navy);color:#fff;
+  display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(-14px);transition:.3s var(--ease)}
+.menu.open{opacity:1;visibility:visible;transform:none}
+.menu a{display:flex;align-items:baseline;gap:12px;padding:13px 0;font-size:26px;font-weight:800;border-bottom:1px solid rgba(170,217,252,.16)}
+.menu a em{font-style:normal;font-size:12px;font-weight:500;color:var(--blue);letter-spacing:.06em}
+.menu__foot{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:12px}
+.menu__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:999px;background:rgba(255,255,255,.1);font-weight:500}
+.menu__tg img{width:18px;height:18px}
+
+/* ---------- хиро ---------- */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--gut) 34px;background:var(--navy);color:#fff;overflow:hidden}
+.hero__pic{position:absolute;z-index:1;right:-112px;top:118px;width:468px;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 74%,transparent 98%);mask-image:linear-gradient(to bottom,#000 74%,transparent 98%);filter:drop-shadow(0 30px 60px rgba(6,22,46,.45));animation:float 7s var(--ease) infinite alternate}
+@keyframes float{to{transform:translateY(-16px) rotate(-1.5deg)}}
+.glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(60px);opacity:.85}
+.hero .glow--a{width:420px;height:520px;left:-180px;top:-40px;background:radial-gradient(closest-side,rgba(0,173,255,.9),rgba(0,173,255,0));animation:fa 13s var(--ease) infinite alternate}
+.hero .glow--b{width:340px;height:400px;right:-150px;top:180px;background:radial-gradient(closest-side,rgba(0,173,255,.75),rgba(0,173,255,0));animation:fb 11s var(--ease) infinite alternate}
+.hero .glow--c{width:300px;height:330px;left:60px;bottom:-60px;background:radial-gradient(closest-side,rgba(0,173,255,.5),rgba(0,173,255,0));animation:fa 15s var(--ease) infinite alternate-reverse}
+@keyframes fa{to{transform:translate3d(70px,90px,0) scale(1.15)}}
+@keyframes fb{to{transform:translate3d(-80px,-70px,0) scale(.9)}}
+.hero__in{position:relative;z-index:2;padding-bottom:22px}
+.hero .h1{margin-bottom:18px}
+.hero__lead{font-size:17px;line-height:1.28;font-weight:500;color:#dbe9fa;max-width:330px;margin-bottom:26px}
+.hero__more{display:inline-flex;align-items:center;gap:10px;font-size:16px;font-weight:500;color:var(--sky)}
+.city{position:relative;display:inline-flex;vertical-align:bottom;color:var(--blue);height:1em;padding-bottom:.18em;margin-bottom:-.18em;box-sizing:content-box;white-space:nowrap;overflow:hidden;transition:width .9s var(--ease-out)}
+.city span{position:absolute;left:0;top:0;line-height:1;white-space:nowrap;opacity:0;transform:translateY(78%);transition:transform .85s var(--ease-out),opacity .4s}
+.city span.cur{opacity:1;transform:none}
+.city span.out{opacity:0;transform:translateY(-78%)}
+.hero__scroll{position:absolute;left:50%;bottom:14px;z-index:1;width:22px;height:34px;margin-left:-11px;border-radius:12px;box-shadow:inset 0 0 0 1.5px rgba(170,217,252,.4);opacity:.9}
+.hero__scroll i{position:absolute;left:50%;top:8px;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:var(--sky);animation:sc 1.8s var(--ease) infinite}
+@keyframes sc{0%{transform:translateY(0);opacity:0}30%{opacity:1}100%{transform:translateY(12px);opacity:0}}
+
+/* ---------- бегущая строка мероприятия ---------- */
+.evt{position:relative;display:block;height:58px;background:var(--sky);color:var(--navy);overflow:hidden}
+.evt__t{display:flex;width:max-content;height:100%;align-items:center;white-space:nowrap;animation:run 38s linear infinite}
+.evt__g{display:flex;align-items:center;height:100%}
+.evt__i{display:flex;align-items:center;gap:8px;padding-inline:16px;font-size:14px;font-weight:500}
+.evt__i::after{content:'→';margin-left:10px}
+.evt__i b{font-weight:800}
+.evt__i i{width:7px;height:7px;border-radius:50%;background:var(--orange);flex:none}
+.evt__cta{position:absolute;inset-block:0;right:0;z-index:2;display:flex;align-items:center;padding:0 12px 0 46px;background:linear-gradient(90deg,rgba(170,217,252,0),var(--sky) 42%)}
+.evt__cta span{height:36px;padding:0 16px;border-radius:999px;background:var(--navy);color:#fff;font-size:13px;font-weight:500;display:grid;place-items:center}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* ---------- цифры ---------- */
+.nums{background:#fff;padding:56px 0 64px}
+.nums__list{display:flex;flex-direction:column;gap:14px;padding-inline:var(--gut)}
+.ncard{position:relative;overflow:hidden;border-radius:28px;background:var(--navy);color:#fff;padding:28px 24px 26px;display:grid;grid-template-columns:auto 1fr;gap:0 18px;align-items:center}
+.ncard::before{content:'';position:absolute;left:-40px;top:-120px;width:220px;height:220px;border-radius:50%;background:var(--blue);filter:blur(70px);opacity:.55}
+.ncard b{position:relative;font-size:76px;line-height:.82;font-weight:900;letter-spacing:-.03em;min-width:96px}
+.ncard h3{position:relative;font-size:20px;line-height:1.06;font-weight:800}
+.ncard p{position:relative;grid-column:1/-1;margin-top:16px;font-size:14px;line-height:1.35;color:var(--dim-dark)}
+
+/* ---------- как устроен бизнес: свайп ---------- */
+.biz{background:var(--light);padding:64px 0}
+.biz .h2{padding-inline:var(--gut)}
+.swipe{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:var(--gut);scroll-padding-left:var(--gut)}
+.swipe::-webkit-scrollbar{display:none}
+.bslide{scroll-snap-align:start;flex:0 0 calc(100vw - 2*var(--gut) - 34px);border-radius:28px;background:var(--navy);color:#fff;overflow:hidden;display:flex;flex-direction:column}
+.bslide__pic{position:relative;height:190px;background:#12294c;overflow:hidden}
+.bslide__pic img{width:100%;height:100%;object-fit:cover}
+.bslide__pic--glow::after{content:'';position:absolute;left:50%;top:50%;width:280px;height:280px;margin:-140px 0 0 -140px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,173,255,.9),rgba(0,173,255,0));filter:blur(28px)}
+.bslide__c{padding:22px 22px 26px;display:flex;flex-direction:column;gap:12px;flex:1}
+.bslide__c h3{font-size:24px;line-height:1.02;font-weight:900}
+.bslide__c p{font-size:14px;line-height:1.4;color:var(--dim-dark)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:18px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--sky);transition:width .3s var(--ease),background .3s}
+.dots i.on{width:22px;background:var(--blue)}
+
+/* ---------- даркстор: карта + зоны ---------- */
+.dark{background:#fff;padding:64px 0}
+.dark .h2,.dark__lead{padding-inline:var(--gut)}
+.dark .h2{margin-bottom:12px}
+.dark__lead{margin:0 0 22px;font-size:15px;line-height:1.4;color:var(--dim)}
+.map{position:relative;margin-inline:var(--gut);border-radius:24px;overflow:hidden;background:var(--navy);aspect-ratio:1/1}
+.map__w{position:absolute;inset:0;transition:transform .7s var(--ease-out);will-change:transform}
+.map__w img{width:100%;height:auto}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:rgba(0,173,255,.9);box-shadow:0 0 0 5px rgba(0,173,255,.22);transition:transform .4s var(--ease-spring),background .3s}
+.map__pin.on{transform:scale(1.35);background:#fff;box-shadow:0 0 0 7px rgba(255,255,255,.28)}
+.zones{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:16px var(--gut) 0;scroll-padding-left:var(--gut)}
+.zones::-webkit-scrollbar{display:none}
+.zones button{flex:none;height:38px;padding:0 16px;border-radius:999px;background:var(--card);color:var(--navy);font-size:14px;font-weight:500;transition:background .25s,color .25s}
+.zones button.on{background:var(--navy);color:#fff}
+.zcard{margin:14px var(--gut) 0;padding:22px;border-radius:24px;background:var(--card);min-height:150px}
+.zcard b{display:block;font-size:12px;font-weight:500;letter-spacing:.08em;color:var(--mid);margin-bottom:8px}
+.zcard h3{font-size:24px;line-height:1;font-weight:900;margin-bottom:10px}
+.zcard p{font-size:15px;line-height:1.4;color:var(--dim)}
+
+/* ---------- форматы ---------- */
+.fmt{background:var(--light);padding:64px 0}
+.fmt .h2{padding-inline:var(--gut)}
+.fcard{margin:0 var(--gut) 14px;padding:24px 22px 22px;border-radius:28px;background:#fff;box-shadow:0 8px 30px rgba(27,58,106,.07)}
+.fcard--top{background:var(--navy);color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{height:30px;padding:0 13px;border-radius:999px;display:inline-flex;align-items:center;font-size:13px;font-weight:500;background:var(--navy);color:#fff}
+.fcard--top .chip{background:var(--blue)}
+.chip--soft{background:var(--card);color:var(--navy)}
+.fcard--top .chip--soft{background:rgba(255,255,255,.16);color:#fff}
+.fcard__cities{font-size:14px;line-height:1.35;color:var(--dim);margin-bottom:18px}
+.fcard--top .fcard__cities{color:var(--sky)}
+.fcard__inv{padding-top:16px;border-top:1px solid var(--card)}
+.fcard--top .fcard__inv{border-color:rgba(170,217,252,.2)}
+.fcard__inv dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.fcard--top .fcard__inv dt{color:var(--dim-dark)}
+.fcard__inv dd{display:flex;align-items:baseline;gap:7px;margin:0}
+.fcard__inv b{font-size:40px;line-height:.9;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+.fcard__inv span{font-size:16px;font-weight:500;white-space:nowrap}
+.fcard__row{display:flex;gap:0;margin-top:16px}
+.fcard__row div{flex:1}
+.fcard__row dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.fcard--top .fcard__row dt{color:var(--dim-dark)}
+.fcard__row dd{font-size:16px;font-weight:800}
+.fcard__note{margin-top:18px;padding:14px 16px;border-radius:16px;background:var(--card);font-size:14px;line-height:1.35;color:var(--navy)}
+.fcard--top .fcard__note{background:rgba(255,255,255,.1);color:#fff}
+
+/* ---------- шаги ---------- */
+.steps{position:relative;background:var(--navy);color:#fff;padding:64px 0;overflow:hidden}
+.steps .glow--a{width:380px;height:460px;left:-160px;top:120px;background:radial-gradient(closest-side,rgba(0,173,255,.55),rgba(0,173,255,0))}
+.steps .glow--b{width:300px;height:340px;right:-140px;bottom:60px;background:radial-gradient(closest-side,rgba(0,173,255,.4),rgba(0,173,255,0))}
+.steps__in{position:relative;z-index:1;padding-inline:var(--gut)}
+.tl{position:relative;padding-left:38px}
+.tl::before{content:'';position:absolute;left:11px;top:8px;bottom:40px;width:2px;background:rgba(170,217,252,.22)}
+.tl__fill{position:absolute;left:11px;top:8px;width:2px;height:var(--fh,0px);background:var(--blue);box-shadow:0 0 12px rgba(0,173,255,.7);transition:height .18s linear}
+.tstep{position:relative;padding-bottom:34px}
+.tstep::before{content:'';position:absolute;left:-33px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--navy);box-shadow:inset 0 0 0 2px rgba(170,217,252,.4);transition:background .35s,box-shadow .35s,transform .35s var(--ease-spring)}
+.tstep.on::before{background:var(--blue);box-shadow:inset 0 0 0 2px var(--blue),0 0 14px rgba(0,173,255,.8);transform:scale(1.15)}
+.tstep b{display:block;font-size:11px;letter-spacing:.1em;color:var(--blue);margin-bottom:6px}
+.tstep h3{font-size:22px;line-height:1.05;font-weight:800;margin-bottom:8px}
+.tstep p{font-size:14px;line-height:1.4;color:var(--dim-dark)}
+.tstep em{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-style:normal;font-size:13px;font-weight:500;color:var(--sky)}
+.tstep em::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sky);opacity:.7}
+
+/* ---------- отзывы ---------- */
+.rev{background:#fff;padding:64px 0}
+.rev .h2{padding-inline:var(--gut)}
+.rcard{scroll-snap-align:start;flex:0 0 calc(100vw - 2*var(--gut) - 40px);padding:26px 24px;border-radius:28px;background:var(--card);display:flex;flex-direction:column}
+.rcard .av{width:52px;height:52px;border-radius:50%;background:var(--sky);display:grid;place-items:center;font-size:15px;font-weight:800;margin-bottom:14px}
+.rcard h3{font-size:20px;font-weight:800;line-height:1}
+.rcard small{display:block;margin-top:3px;font-size:13px;color:var(--dim)}
+.rcard p{margin-top:14px;font-size:16px;line-height:1.32}
+
+/* ---------- медиа ---------- */
+.med{background:var(--light);padding:56px 0}
+.med .h2{padding-inline:var(--gut)}
+.med__g{display:grid;grid-template-columns:1fr 1fr;margin-inline:var(--gut);border-radius:24px;overflow:hidden;background:#fff}
+.med__g a{height:96px;display:grid;place-items:center;padding:20px;filter:saturate(0);opacity:.55}
+.med__g a:nth-child(odd){border-right:1px solid var(--card)}
+.med__g a:nth-child(-n+2){border-bottom:1px solid var(--card)}
+.med__g img{max-height:30px;max-width:100%}
+.med__t{font-family:Georgia,serif;font-size:28px;color:#7293bd;text-transform:lowercase}
+
+/* ---------- FAQ ---------- */
+.faq{background:#fff;padding:64px 0}
+.faq .h2,.acc{padding-inline:var(--gut)}
+.acc article{border-bottom:1px solid var(--card)}
+.acc button{width:100%;padding:20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:left;font-size:18px;line-height:1.15;font-weight:800}
+.acc i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-style:normal;font-size:20px;font-weight:400;transition:transform .3s var(--ease),background .25s}
+.acc article.open i{transform:rotate(45deg);background:var(--blue);color:#fff}
+.acc article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.acc article.open>div{grid-template-rows:1fr}
+.acc article>div>p{overflow:hidden;font-size:15px;line-height:1.45;color:var(--dim)}
+.acc article.open>div>p{padding-bottom:20px}
+.tgstrip{margin:26px var(--gut) 0;padding:22px;border-radius:24px;background:var(--sky);display:flex;flex-direction:column;gap:16px}
+.tgstrip span{font-size:17px;line-height:1.2;font-weight:500}
+
+/* ---------- форма ---------- */
+.form{position:relative;background:var(--navy);color:#fff;padding:64px 0 72px;overflow:hidden}
+.form .glow--a{width:400px;height:480px;left:-170px;top:-60px;background:radial-gradient(closest-side,rgba(0,173,255,.6),rgba(0,173,255,0))}
+.form .glow--b{width:320px;height:360px;right:-150px;bottom:100px;background:radial-gradient(closest-side,rgba(0,173,255,.45),rgba(0,173,255,0))}
+.form__in{position:relative;z-index:1;padding-inline:var(--gut)}
+.form .h2{margin-bottom:14px}
+.form__lead{font-size:16px;line-height:1.3;color:var(--sky);margin-bottom:24px}
+.perks{display:flex;flex-direction:column;gap:16px;margin-bottom:30px}
+.perks li strong{display:block;font-size:16px;line-height:1.15}
+.perks li span{display:block;margin-top:3px;font-size:13px;line-height:1.3;color:var(--dim-dark)}
+.fcardbox{padding:24px 20px;border-radius:28px;background:#fff;color:var(--navy);display:flex;flex-direction:column;gap:12px}
+.fcardbox h3{font-size:22px;font-weight:800;margin-bottom:2px}
+.fcardbox label{display:flex;flex-direction:column;gap:6px}
+.fcardbox label>span:first-child{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.fcardbox input,.fcardbox textarea{width:100%;border:1px solid var(--sky);border-radius:14px;background:var(--light);padding:13px 15px;outline:none;font-size:16px;transition:border .2s,box-shadow .2s,background .2s;resize:vertical}
+.fcardbox input:focus,.fcardbox textarea:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(0,173,255,.12)}
+.consent{display:grid!important;grid-template-columns:20px 1fr;gap:10px;align-items:start}
+.consent input{appearance:none;width:20px;height:20px;padding:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky);background:transparent;transition:background .25s,box-shadow .25s}
+.consent input:checked{background:var(--blue);box-shadow:none}
+.consent span{font-size:11px!important;line-height:1.35;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
+.fnote{font-size:12px;color:var(--dim);text-align:center}
+
+/* ---------- футер ---------- */
+.ftr{background:var(--navy);color:#fff;padding:0 0 calc(30px + var(--safe-b));border-top:1px solid rgba(170,217,252,.16)}
+.ftr__in{padding:30px var(--gut) 0}
+.ftr .lg{--lg:.5;margin-bottom:22px}
+.ftr nav{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;font-size:14px;color:var(--dim-dark);margin-bottom:24px}
+.ftr__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:999px;background:var(--blue);font-size:14px;font-weight:500;margin-bottom:24px}
+.ftr__tg img{width:17px;height:17px}
+.ftr__legal{padding-top:20px;border-top:1px solid rgba(170,217,252,.16);font-family:'YS Text Cond',Arial,sans-serif;font-size:11px;line-height:1.45;color:rgba(167,190,224,.8);display:flex;flex-direction:column;gap:10px}
+/* запас снизу, чтобы док не перекрывал последний экран */
+.pad-dock{height:0}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <a class="lg" href="#top" aria-label="Яндекс Лавка — Франшиза">
+    <img class="lg__main" src="../../site/assets/figma/logo-main.svg" alt="">
+    <img class="lg__mark" src="../../site/assets/figma/logo-word-1.svg" alt="">
+    <img class="lg__badge" src="../../site/assets/figma/logo-word-2.svg" alt="">
+  </a>
+  <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false"><i></i></button>
+  <div class="hdr__pg"><i id="pgbar"></i></div>
+</header>
+
+<!-- главная кнопка живёт вне шапки: она одна и та же в обеих позициях -->
+<a class="cta" id="cta" href="#form"><span class="cta__t" id="ctaT"><span>Стать партнёром</span></span></a>
+<div class="cta-hint" id="ctaHint"><span id="ctaHintT">Инвестиции от 75 млн ₽</span></div>
+<div class="dock-fade" id="dockFade"></div>
+
+<nav class="menu" id="menu" aria-hidden="true">
+  <div id="menuLinks"></div>
+  <div class="menu__foot">
+    <a class="menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram-канал</a>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="glow glow--a"></div><div class="glow glow--b"></div><div class="glow glow--c"></div>
+    <img class="hero__pic" src="../../site/assets/figma/hero-photo.png" alt="" aria-hidden="true">
+    <div class="hero__in">
+      <h1 class="h1">Запустите<br>Яндекс Лавку<br><span class="city" id="city"></span></h1>
+      <p class="hero__lead">Франшиза быстрой доставки продуктов с технологиями, снабжением и поддержкой Яндекса</p>
+      <a class="hero__more" href="#business">Как это работает →</a>
+    </div>
+    <div class="hero__scroll" aria-hidden="true"><i></i></div>
+  </section>
+
+  <a class="evt" href="#form" aria-label="День партнёров Яндекс Лавки — участвовать">
+    <div class="evt__t" id="evtT"></div>
+    <span class="evt__cta"><span>Участвовать</span></span>
+  </a>
+
+  <section class="nums" id="nums" aria-label="Лавка в цифрах"><div class="nums__list" id="numsList"></div></section>
+
+  <section class="biz sec" id="business">
+    <h2 class="h2 rv">Как устроен бизнес?</h2>
+    <div class="swipe" id="bizTrack"></div>
+    <div class="dots" id="bizDots"></div>
+  </section>
+
+  <section class="dark" id="darkstore">
+    <h2 class="h2 rv">Как работает даркстор?</h2>
+    <p class="dark__lead rv">Даркстор — специализированный склад, в котором хранятся товары и собираются заказы, откуда и происходит доставка</p>
+    <div class="map rv">
+      <div class="map__w" id="mapW">
+        <img src="../../site/assets/figma/darkstore-map.png" alt="Схема даркстора" loading="lazy">
+      </div>
+    </div>
+    <div class="zones" id="zoneTabs"></div>
+    <article class="zcard" id="zcard"></article>
+  </section>
+
+  <section class="fmt" id="formats">
+    <h2 class="h2 rv">Форматы партнёрства</h2>
+    <div id="fmtList"></div>
+  </section>
+
+  <section class="steps" id="steps">
+    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="steps__in">
+      <h2 class="h2" style="margin-bottom:30px">Как стать<br>партнёром?</h2>
+      <div class="tl" id="tl"><div class="tl__fill" id="tlFill"></div></div>
+    </div>
+  </section>
+
+  <section class="rev" id="reviews">
+    <h2 class="h2 rv">Отзывы франчайзи</h2>
+    <div class="swipe" id="revTrack"></div>
+  </section>
+
+  <section class="med">
+    <h2 class="h2 rv">О нас говорят</h2>
+    <div class="med__g rv" id="medGrid"></div>
+  </section>
+
+  <section class="faq" id="faq">
+    <h2 class="h2 rv">Вопросы и ответы</h2>
+    <div class="acc" id="acc"></div>
+    <div class="tgstrip rv">
+      <span>Не нашли ответ? Разбираем бизнес-модель в Telegram-канале</span>
+      <a class="btn btn--navy btn--wide" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer">Перейти в Telegram</a>
+    </div>
+  </section>
+
+  <section class="form" id="form">
+    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="form__in">
+      <h2 class="h2">Станьте<br>франчайзи<br>Яндекс Лавки</h2>
+      <p class="form__lead">Оставьте заявку — обсудим план запуска и отправим финансовую модель</p>
+      <ul class="perks" id="perks"></ul>
+      <form class="fcardbox" id="leadForm" novalidate>
+        <h3>Расскажите о себе</h3>
+        <label><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+        <label><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+        <label><span>Город</span><input name="city" placeholder="Где хотите развивать Лавку" required></label>
+        <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+        <label class="consent"><input type="checkbox" required><span>Согласен на обработку персональных данных и принимаю политику конфиденциальности</span></label>
+        <button class="btn btn--blue btn--wide" type="submit">Стать партнёром</button>
+        <p class="fnote">Свяжемся в течение 2 рабочих дней</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="ftr__in">
+    <a class="lg" href="#top" aria-label="Яндекс Лавка — Франшиза">
+      <img class="lg__main" src="../../site/assets/figma/logo-footer.svg" alt="">
+      <img class="lg__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+      <img class="lg__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt="">
+    </a>
+    <nav id="ftrNav"></nav>
+    <a class="ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram</a>
+    <div class="ftr__legal">
+      <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д. 22, стр. 1</p>
+      <p>Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</p>
+      <p>© 2026 ООО «Яндекс.Лавка» · 18+</p>
+    </div>
+  </div>
+  <div class="pad-dock" id="padDock"></div>
+</footer>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+(() => {
+  const D = window.LAVKA, $ = s => document.querySelector(s);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const A = '../../site/assets/figma/';
+
+  /* ---------- рендер общих блоков ---------- */
+  MB.marquee('#evtT', D.event, 2);
+  MB.cities('#city', D.cities, reduced);
+  $('#numsList').innerHTML = D.numbers.map((n,i) =>
+    `<article class="ncard rv" style="--d:${i*.07}s"><b data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p></article>`).join('');
+  $('#bizTrack').innerHTML = D.business.map(b =>
+    `<article class="bslide"><div class="bslide__pic ${b.img?'':'bslide__pic--glow'}">${b.img?`<img src="${A}business/${b.img}.png" alt="" loading="lazy">`:''}</div>
+      <div class="bslide__c"><h3>${b.h}</h3><p>${b.p}</p></div></article>`).join('');
+  MB.dots('#bizTrack', '#bizDots');
+  $('#fmtList').innerHTML = D.formats.map((f,i) =>
+    `<article class="fcard rv ${f.featured?'fcard--top':''}" style="--d:${i*.06}s">
+      <div class="chips">${f.chips.map((c,j)=>`<span class="chip ${j?'chip--soft':''}">${c}</span>`).join('')}</div>
+      <p class="fcard__cities">${f.cities}</p>
+      <dl class="fcard__inv"><dt>Инвестиции в город</dt><dd><b>${f.inv}</b><span>млн ₽</span></dd></dl>
+      <dl class="fcard__row">
+        <div><dt>Окупаемость</dt><dd>${f.pay}</dd></div>
+        <div><dt>Паушальный</dt><dd>${D.formatCommon.fee}</dd></div>
+        <div><dt>Роялти</dt><dd>${D.formatCommon.royalty}</dd></div>
+      </dl>
+      <p class="fcard__note">${f.note}</p>
+    </article>`).join('');
+  $('#tl').insertAdjacentHTML('beforeend', D.steps.map(s =>
+    `<article class="tstep"><b>${s.n}</b><h3>${s.t}</h3><p>${s.d}</p><em>${s.e}</em></article>`).join(''));
+  $('#revTrack').innerHTML = D.reviews.map(r =>
+    `<article class="rcard"><div class="av">${r.i}</div><h3>${r.n}</h3><small>${r.m}</small><p>${r.p}</p></article>`).join('');
+  $('#medGrid').innerHTML = D.media.map(m =>
+    `<a href="#" aria-label="${m.alt}">${m.src?`<img src="${A}${m.src}" alt="${m.alt}" loading="lazy">`:`<span class="med__t">${m.text}</span>`}</a>`).join('');
+  $('#acc').innerHTML = D.faq.map(([q,a]) =>
+    `<article><button type="button" aria-expanded="false"><span>${q}</span><i>+</i></button><div><p>${a}</p></div></article>`).join('');
+  $('#perks').innerHTML = D.perks.map(([t,s]) => `<li><strong>${t}</strong><span>${s}</span></li>`).join('');
+  $('#ftrNav').innerHTML = D.nav.map(([h,t]) => `<a href="${h}">${t}</a>`).join('');
+  $('#menuLinks').innerHTML = D.nav.map(([h,t],i) => `<a href="${h}"><em>0${i+1}</em>${t}</a>`).join('');
+
+  MB.reveal(); MB.counters(); MB.accordion('#acc'); MB.form('#leadForm');
+  MB.zones({ tabs:'#zoneTabs', card:'#zcard', world:'#mapW', data:D.zones, zoom:2.15 });
+  MB.timeline('#tl', '#tlFill', '.tstep');
+
+  /* ============================================================
+     СИСТЕМА «ДОК»
+     .cta — один элемент. JS считает две геометрии (в шапке / в доке)
+     и переключает между ними; CSS-переход отыгрывает перелёт.
+     ============================================================ */
+  const hdr = $('#hdr'), cta = $('#cta'), ctaT = $('#ctaT'), hint = $('#ctaHint'), fade = $('#dockFade');
+  const HEAD_W = 168, HEAD_H = 44, DOCK_H = 56;
+  const gut = 16;
+
+  const geo = () => {
+    const dockY = -(gut + (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--safe-b')) || 0));
+    return {
+      head: { w: HEAD_W, h: HEAD_H, x: innerWidth - gut - HEAD_W, y: -(innerHeight - 12 - (56 - HEAD_H) / 2 - HEAD_H) },
+      dock: { w: innerWidth - gut * 2, h: DOCK_H, x: gut, y: dockY }
+    };
+  };
+  let docked = false, G = geo();
+  const place = () => {
+    const s = docked ? G.dock : G.head;
+    cta.style.setProperty('--w', s.w + 'px');
+    cta.style.setProperty('--h', s.h + 'px');
+    cta.style.setProperty('--x', s.x + 'px');
+    cta.style.setProperty('--y', s.y + 'px');
+    hint.style.setProperty('--hy', -(DOCK_H + gut * 2 + 10 + (docked ? 0 : 0)) + 'px');
+  };
+  place();
+  addEventListener('resize', () => { G = geo(); place(); }, { passive: true });
+
+  /* контекстная подпись кнопки: под каждым разделом — своя цель */
+  const CTX = [
+    { id: 'formats', label: 'Выбрать формат',   hint: 'Инвестиции от 75 млн ₽' },
+    { id: 'steps',   label: 'Оставить заявку',  hint: 'Первый шаг — 1 неделя' },
+    { id: 'reviews', label: 'Оставить заявку',  hint: 'Отвечаем за 2 рабочих дня' },
+    { id: 'faq',     label: 'Оставить заявку',  hint: 'Отвечаем за 2 рабочих дня' }
+  ];
+  const DEFAULT = { label: 'Стать партнёром', hint: 'Инвестиции от 75 млн ₽' };
+  let ctxNow = DEFAULT.label;
+  const setLabel = (label, hintText) => {
+    if (label === ctxNow) return;
+    ctxNow = label;
+    ctaT.classList.add('swap');
+    setTimeout(() => { ctaT.innerHTML = `<span>${label}</span>`; ctaT.classList.remove('swap'); }, 240);
+    $('#ctaHintT').textContent = hintText;
+  };
+
+  const form = $('#form');
+  let frame = 0;
+  const onScroll = () => {
+    frame = 0;
+    const y = scrollY, vh = innerHeight;
+    hdr.classList.toggle('solid', y > 60);
+    $('#pgbar').style.setProperty('--p', Math.min(1, y / (document.body.scrollHeight - vh)).toFixed(3));
+
+    /* кнопка уезжает в док, когда хиро ушло больше чем наполовину */
+    const want = y > vh * .58 || document.body.classList.contains('is-locked');
+    if (want !== docked) { docked = want; place(); cta.classList.toggle('docked', docked); }
+
+    /* у формы док прячется — кнопка уже есть на экране */
+    const fr = form.getBoundingClientRect();
+    const atForm = fr.top < vh * .72 && fr.bottom > 0;
+    const locked = document.body.classList.contains('is-locked');
+    cta.classList.toggle('hidden', atForm);
+    hint.classList.toggle('on', docked && !atForm && !locked);
+    fade.classList.toggle('on', docked && !atForm && !locked);
+    const line = vh - 40;
+    const overDark = ['steps','form'].some(id => {
+      const r = document.getElementById(id)?.getBoundingClientRect();
+      return r && r.top < line && r.bottom > line;
+    });
+    fade.classList.toggle('on-dark', overDark);
+
+    let ctx = DEFAULT;
+    for (const c of CTX) {
+      const el = document.getElementById(c.id);
+      if (el && el.getBoundingClientRect().top < vh * .5) ctx = c;
+    }
+    setLabel(ctx.label, ctx.hint);
+  };
+  addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(onScroll); }, { passive: true });
+  onScroll();
+
+  /* нижний отступ страницы под док */
+  $('#padDock').style.height = (DOCK_H + gut * 2) + 'px';
+
+  MB.menu('#burger', '#menu', () => onScroll());
+})();
+</script>
+</body>
+</html>

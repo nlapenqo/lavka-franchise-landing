@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Мобилка C — Лента · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ВАРИАНТ C — «ЛЕНТА»
+   Система: тонкая шапка-строка всегда наверху и показывает,
+   где ты находишься (01/09 · название секции + прогресс).
+   Главная кнопка стартует в шапке, а когда шапка ужимается —
+   отлетает в правый нижний угол и живёт там: во время скролла
+   сжата в кружок, на остановке разворачивается в кнопку.
+   Характер: лента карточек-секций на светло-голубом поле.
+   ============================================================ */
+body{background:#e3ecf7}
+
+.h1{font-size:42px;line-height:.93;font-weight:900;letter-spacing:-.015em}
+.h2{font-size:30px;line-height:.97;font-weight:900;letter-spacing:-.01em}
+.h3{font-size:20px;line-height:1.08;font-weight:800}
+.sub{font-size:15px;line-height:1.35;color:var(--dim);margin-top:10px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.eyebrow::before{content:'';width:18px;height:1.5px;background:currentColor}
+
+/* каждая секция — карточка ленты */
+.card{margin:0 var(--gut) 12px;padding:30px 22px 32px;border-radius:30px;background:#fff;position:relative;overflow:hidden}
+.card--navy{background:var(--navy);color:#fff}
+.card--navy .sub{color:var(--dim-dark)}
+.card--navy .eyebrow{color:var(--blue)}
+.card--sky{background:var(--sky);color:var(--navy)}
+.card--flush{padding-inline:0}
+.card--flush>.card__head{padding-inline:22px}
+.card:last-of-type{margin-bottom:0}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-size:17px;font-weight:500;white-space:nowrap;transition:transform .18s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn--blue{background:var(--blue);color:#fff;box-shadow:0 8px 22px rgba(0,173,255,.32)}
+.btn--navy{background:var(--navy);color:#fff}
+.btn--wide{width:100%}
+.tag{display:inline-flex;align-items:center;height:30px;padding:0 13px;border-radius:999px;font-size:13px;font-weight:500;background:var(--card);color:var(--navy)}
+.tag--navy{background:var(--navy);color:#fff}
+.tag--blue{background:var(--blue);color:#fff}
+
+/* ---------- шапка-строка ---------- */
+.top{position:fixed;z-index:55;inset:0 0 auto;height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) var(--gut) 0;
+  display:flex;align-items:center;gap:12px;color:var(--navy);
+  background:rgba(227,236,247,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);
+  transition:background .3s,backdrop-filter .3s,color .3s,box-shadow .3s}
+.top.on{background:rgba(227,236,247,.82);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 1px 0 rgba(27,58,106,.08)}
+.top--dark{color:#fff}
+.top--dark.on{background:rgba(19,42,79,.8);box-shadow:0 1px 0 rgba(170,217,252,.14)}
+.top__lg{--lg:.36;flex:none;overflow:hidden;transition:opacity .3s,width .35s var(--ease)}
+.top__where{flex:1;min-width:0;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.top.on .top__where{opacity:1;transform:none}
+.top.on .top__lg{width:calc(275px * .36)}
+.top.on .top__lg .lg__badge{opacity:0}
+.top__no{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--blue);flex:none}
+.top__nm{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top__nm span{display:block;transition:transform .28s var(--ease-out),opacity .22s}
+.top__nm.swap span{transform:translateY(-110%);opacity:0}
+.top__burger{flex:none;width:38px;height:38px;margin-right:-8px;display:grid;place-items:center;border-radius:50%}
+.top__burger i{display:block;width:18px;height:1.8px;background:currentColor;border-radius:2px;position:relative;transition:transform .28s var(--ease)}
+.top__burger i::before,.top__burger i::after{content:'';position:absolute;left:0;width:18px;height:1.8px;background:currentColor;border-radius:2px;transition:transform .28s var(--ease)}
+.top__burger i::before{top:-6px}.top__burger i::after{top:6px}
+body.is-locked .top__burger i{background:transparent}
+body.is-locked .top__burger i::before{transform:translateY(6px) rotate(45deg)}
+body.is-locked .top__burger i::after{transform:translateY(-6px) rotate(-45deg)}
+.top__pg{position:absolute;left:0;right:0;bottom:0;height:2px;background:transparent}
+.top__pg i{display:block;height:100%;width:calc(var(--p,0) * 100%);background:var(--blue);transition:width .1s linear}
+/* кнопка в шапке — стартовая позиция главного действия */
+.top__cta{flex:none;height:36px;max-width:220px;padding:0 16px;border-radius:999px;background:var(--blue);color:#fff;font-size:14px;font-weight:500;
+  display:grid;place-items:center;white-space:nowrap;overflow:hidden;
+  transition:max-width .38s var(--ease-out),padding .34s var(--ease-out),margin .34s var(--ease-out),opacity .26s,transform .34s var(--ease-out)}
+/* кнопка не прячется, а уходит из шапки — её место занимает FAB внизу */
+.top.on .top__cta{max-width:0;padding:0;margin-left:-12px;opacity:0;transform:translateY(8px) scale(.92);pointer-events:none}
+
+/* ---------- FAB ---------- */
+.fab{position:fixed;z-index:56;right:var(--gut);bottom:calc(var(--gut) + var(--safe-b));
+  display:flex;align-items:center;height:56px;max-width:300px;border-radius:999px;overflow:hidden;white-space:nowrap;
+  background:var(--blue);color:#fff;box-shadow:0 12px 32px rgba(0,120,190,.42);
+  opacity:0;transform:translateY(16px) scale(.86);pointer-events:none;
+  transition:max-width .42s var(--ease-out),opacity .3s,transform .42s var(--ease-spring),background .3s}
+.fab.on{opacity:1;transform:none;pointer-events:auto}
+.fab.mini{max-width:56px}
+.fab__ic{flex:none;width:56px;height:56px;display:grid;place-items:center;font-size:21px;line-height:1}
+.fab__l{padding-right:24px;font-size:17px;font-weight:500}
+.fab__l b{display:block;font-weight:500;transition:transform .3s var(--ease-out),opacity .25s}
+.fab__l.swap b{transform:translateY(-120%);opacity:0}
+
+/* ---------- меню-лист ---------- */
+.scrim{position:fixed;z-index:57;inset:0;background:rgba(12,30,58,.55);opacity:0;visibility:hidden;transition:.3s}
+.scrim.open{opacity:1;visibility:visible}
+.sheet{position:fixed;z-index:58;left:0;right:0;bottom:0;padding:10px var(--gut) calc(22px + var(--safe-b));
+  border-radius:30px 30px 0 0;background:#fff;visibility:hidden;transform:translateY(102%);transition:transform .42s var(--ease-out),visibility .42s}
+.sheet.open{visibility:visible;transform:none}
+.sheet__grip{width:38px;height:4px;border-radius:4px;background:var(--card);margin:0 auto 14px}
+.sheet a{display:flex;align-items:center;gap:12px;padding:13px 2px;font-size:17px;font-weight:800;border-bottom:1px solid var(--light)}
+.sheet a em{font-style:normal;font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--mid);width:22px;flex:none}
+.sheet a.cur{color:var(--blue)}
+.sheet a.cur em{color:var(--blue)}
+.sheet__tg{margin-top:14px;justify-content:center;border-bottom:0!important;height:48px;border-radius:999px;background:var(--card);font-size:15px!important}
+.sheet__tg img{width:17px;height:17px}
+
+/* ---------- хиро ---------- */
+.hero{margin:calc(56px + env(safe-area-inset-top,0px)) var(--gut) 12px;padding:34px 24px 28px;border-radius:34px;background:var(--navy);color:#fff;position:relative;overflow:hidden;min-height:calc(100svh - 84px);display:flex;flex-direction:column}
+.hero__glow{position:absolute;border-radius:50%;pointer-events:none;filter:blur(56px)}
+.hero__glow--a{width:400px;height:480px;left:-170px;top:-60px;background:radial-gradient(closest-side,rgba(0,173,255,.9),rgba(0,173,255,0));animation:fa 12s var(--ease) infinite alternate}
+.hero__glow--b{width:320px;height:380px;right:-140px;top:210px;background:radial-gradient(closest-side,rgba(0,173,255,.6),rgba(0,173,255,0));animation:fb 10s var(--ease) infinite alternate}
+@keyframes fa{to{transform:translate3d(60px,70px,0) scale(1.12)}}
+@keyframes fb{to{transform:translate3d(-60px,-50px,0) scale(.92)}}
+.hero__pic{position:absolute;z-index:1;right:-88px;top:88px;width:388px;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 97%);mask-image:linear-gradient(to bottom,#000 72%,transparent 97%);filter:drop-shadow(0 24px 50px rgba(6,22,46,.5));animation:float 7s var(--ease) infinite alternate}
+@keyframes float{to{transform:translateY(-14px) rotate(-1.5deg)}}
+.hero__in{position:relative;z-index:2;margin-top:auto}
+.hero .h1{margin-bottom:16px}
+.hero__lead{font-size:16px;line-height:1.3;color:var(--sky);max-width:300px;margin-bottom:22px}
+.hero__act{display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.hero__act .more{font-size:15px;font-weight:500;color:var(--sky)}
+.city{position:relative;display:inline-flex;vertical-align:bottom;color:var(--blue);height:1em;padding-bottom:.18em;margin-bottom:-.18em;box-sizing:content-box;white-space:nowrap;overflow:hidden;transition:width .9s var(--ease-out)}
+.city span{position:absolute;left:0;top:0;line-height:1;white-space:nowrap;opacity:0;transform:translateY(78%);transition:transform .85s var(--ease-out),opacity .4s}
+.city span.cur{opacity:1;transform:none}
+.city span.out{opacity:0;transform:translateY(-78%)}
+
+/* ---------- мероприятие: карточка-строка ---------- */
+.evt{display:flex;align-items:center;gap:14px;margin:0 var(--gut) 12px;padding:16px 18px;border-radius:26px;background:var(--sky);color:var(--navy)}
+.evt__l{flex:1;min-width:0}
+.evt__l b{display:block;font-size:16px;font-weight:800;line-height:1.1}
+.evt__l span{display:block;margin-top:3px;font-size:13px;color:#33608f}
+.evt__live{display:inline-flex;align-items:center;gap:6px;margin-top:7px;font-size:12px;font-weight:500}
+.evt__live i{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 1.8s var(--ease) infinite}
+@keyframes pulse{50%{opacity:.35;transform:scale(.85)}}
+.evt__go{flex:none;height:38px;padding:0 16px;border-radius:999px;background:var(--navy);color:#fff;font-size:13px;font-weight:500;display:grid;place-items:center}
+
+/* ---------- цифры ---------- */
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.ncard{padding:20px 18px 18px;border-radius:24px;background:var(--light);display:flex;flex-direction:column}
+.ncard:first-child{grid-column:1/-1;background:var(--navy);color:#fff;padding:26px 22px 24px}
+.ncard b{font-size:52px;line-height:.82;font-weight:900;letter-spacing:-.03em}
+.ncard:first-child b{font-size:84px}
+.ncard h3{margin-top:10px;font-size:15px;line-height:1.1;font-weight:800}
+.ncard:first-child h3{font-size:20px}
+.ncard p{margin-top:10px;font-size:12px;line-height:1.35;color:var(--dim)}
+.ncard:first-child p{font-size:14px;color:var(--dim-dark)}
+
+/* ---------- лента внутри карточек ---------- */
+.rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 22px;scroll-padding-left:22px;margin-top:20px}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{scroll-snap-align:start;flex:0 0 calc(100vw - 2*var(--gut) - 44px - 30px)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:16px}
+.dots i{width:6px;height:6px;border-radius:50%;background:var(--sky);transition:width .3s var(--ease),background .3s}
+.dots i.on{width:22px;background:var(--blue)}
+.card--navy .dots i{background:rgba(170,217,252,.32)}
+.card--navy .dots i.on{background:var(--blue)}
+
+.bcard{border-radius:24px;overflow:hidden;background:var(--light);display:flex;flex-direction:column}
+.bcard__pic{position:relative;height:160px;background:var(--navy);overflow:hidden}
+.bcard__pic img{width:100%;height:100%;object-fit:cover}
+.bcard__pic--glow::after{content:'';position:absolute;left:50%;top:50%;width:240px;height:240px;margin:-120px 0 0 -120px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,173,255,.9),rgba(0,173,255,0));filter:blur(24px)}
+.bcard__c{padding:18px;display:flex;flex-direction:column;gap:9px}
+.bcard__c h3{font-size:20px;line-height:1.05;font-weight:900}
+.bcard__c p{font-size:14px;line-height:1.38;color:var(--dim)}
+
+/* ---------- даркстор ---------- */
+.map{position:relative;margin-top:20px;border-radius:24px;overflow:hidden;background:var(--navy);aspect-ratio:4/3}
+.map__w{position:absolute;inset:0;transition:transform .7s var(--ease-out);will-change:transform}
+.map__w img{width:100%;height:auto}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:rgba(0,173,255,.9);box-shadow:0 0 0 5px rgba(0,173,255,.2);transition:transform .4s var(--ease-spring),background .3s}
+.map__pin.on{transform:scale(1.35);background:#fff;box-shadow:0 0 0 7px rgba(255,255,255,.26)}
+.zones{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:14px -22px 0;padding:0 22px}
+.zones::-webkit-scrollbar{display:none}
+.zones button{flex:none;height:36px;padding:0 15px;border-radius:999px;background:var(--light);color:var(--navy);font-size:14px;font-weight:500;transition:background .25s,color .25s}
+.zones button.on{background:var(--navy);color:#fff}
+.zcard{margin-top:12px;padding:20px;border-radius:24px;background:var(--light);min-height:150px}
+.zcard b{display:block;font-size:11px;font-weight:500;letter-spacing:.09em;color:var(--mid);margin-bottom:8px}
+.zcard h3{font-size:22px;line-height:1;font-weight:900;margin-bottom:9px}
+.zcard p{font-size:14px;line-height:1.4;color:var(--dim)}
+
+/* ---------- форматы ---------- */
+.fcard{margin-top:12px;padding:22px 20px;border-radius:26px;background:var(--light)}
+.fcard--top{background:var(--navy);color:#fff}
+.fcard__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.fcard--top .tag{background:rgba(255,255,255,.15);color:#fff}
+.fcard--top .tag--navy{background:var(--blue)}
+.fcard__cities{font-size:13px;line-height:1.35;color:var(--dim);margin-bottom:16px}
+.fcard--top .fcard__cities{color:var(--sky)}
+.fcard__grid{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding-top:14px;border-top:1px solid rgba(27,58,106,.1)}
+.fcard--top .fcard__grid{border-color:rgba(170,217,252,.22)}
+.fcard__grid b{font-size:38px;line-height:.9;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+.fcard__grid>span{font-size:14px;font-weight:500;color:var(--dim)}
+.fcard--top .fcard__grid>span{color:var(--dim-dark)}
+.fcard__meta{grid-column:1/-1;display:flex;gap:16px;margin-top:14px;font-size:13px}
+.fcard__meta div span{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:2px}
+.fcard--top .fcard__meta div span{color:var(--dim-dark)}
+.fcard__meta div b{font-size:15px;font-weight:800}
+.fcard__note{margin-top:14px;font-size:13px;line-height:1.35;color:var(--dim)}
+.fcard--top .fcard__note{color:var(--sky)}
+
+/* ---------- шаги ---------- */
+.stp{margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.stp article{border-radius:22px;background:rgba(170,217,252,.1);box-shadow:inset 0 0 0 1px rgba(170,217,252,.18);overflow:hidden;transition:background .3s}
+.stp article.open{background:rgba(170,217,252,.16)}
+.stp button{width:100%;padding:16px 18px;display:flex;align-items:center;gap:12px;text-align:left}
+.stp b{flex:none;width:30px;height:30px;border-radius:50%;background:rgba(170,217,252,.18);display:grid;place-items:center;font-size:11px;font-weight:800;transition:background .3s,color .3s}
+.stp article.open b{background:var(--blue);color:#fff}
+.stp h3{flex:1;font-size:17px;line-height:1.12;font-weight:800}
+.stp em{flex:none;font-style:normal;font-size:12px;font-weight:500;color:var(--blue)}
+.stp article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.stp article.open>div{grid-template-rows:1fr}
+.stp article>div>p{overflow:hidden;padding-inline:18px;font-size:14px;line-height:1.42;color:var(--dim-dark)}
+.stp article.open>div>p{padding-bottom:18px}
+
+/* ---------- отзывы ---------- */
+.rcard{border-radius:24px;padding:22px 20px;background:var(--light);display:flex;flex-direction:column;min-height:230px}
+.rcard .av{width:46px;height:46px;border-radius:50%;background:var(--sky);display:grid;place-items:center;font-size:14px;font-weight:800;margin-bottom:12px}
+.rcard h3{font-size:18px;font-weight:800;line-height:1}
+.rcard small{display:block;margin-top:3px;font-size:12px;color:var(--dim)}
+.rcard p{margin-top:12px;font-size:15px;line-height:1.35}
+
+/* ---------- медиа ---------- */
+.med{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.med a{height:76px;border-radius:20px;background:var(--light);display:grid;place-items:center;padding:16px;filter:saturate(0);opacity:.6}
+.med img{max-height:26px;max-width:100%}
+.med__t{font-family:Georgia,serif;font-size:24px;color:#7293bd;text-transform:lowercase}
+
+/* ---------- FAQ ---------- */
+.acc{margin-top:18px}
+.acc article{border-bottom:1px solid var(--light)}
+.acc article:last-child{border-bottom:0}
+.acc button{width:100%;padding:17px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:left;font-size:17px;line-height:1.15;font-weight:800}
+.acc i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-style:normal;font-size:18px;font-weight:400;transition:transform .3s var(--ease),background .25s}
+.acc article.open i{transform:rotate(45deg);background:var(--blue);color:#fff}
+.acc article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.acc article.open>div{grid-template-rows:1fr}
+.acc article>div>p{overflow:hidden;font-size:14px;line-height:1.45;color:var(--dim)}
+.acc article.open>div>p{padding-bottom:17px}
+
+/* ---------- форма ---------- */
+.perks{display:flex;flex-direction:column;gap:12px;margin:20px 0 22px}
+.perks li{display:flex;gap:12px;align-items:flex-start}
+.perks li i{flex:none;width:22px;height:22px;margin-top:1px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-style:normal;font-size:12px}
+.perks li strong{display:block;font-size:15px;line-height:1.18}
+.perks li span{display:block;margin-top:3px;font-size:12px;line-height:1.3;color:var(--dim-dark)}
+.fbox{display:flex;flex-direction:column;gap:11px}
+.fbox label{display:flex;flex-direction:column;gap:6px}
+.fbox label>span:first-child{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim-dark)}
+.fbox input,.fbox textarea{width:100%;border:0;border-radius:16px;background:rgba(170,217,252,.12);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22);padding:14px 16px;outline:none;font-size:16px;color:#fff;transition:box-shadow .2s,background .2s;resize:vertical}
+.fbox input::placeholder,.fbox textarea::placeholder{color:rgba(167,190,224,.7)}
+.fbox input:focus,.fbox textarea:focus{background:rgba(170,217,252,.18);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.consent{display:grid!important;grid-template-columns:20px 1fr;gap:10px;align-items:start}
+.consent input{appearance:none;width:20px;height:20px;padding:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(170,217,252,.5);background:transparent;transition:background .25s,box-shadow .25s}
+.consent input:checked{background:var(--blue);box-shadow:none}
+.consent span{font-size:11px!important;line-height:1.35;text-transform:none!important;letter-spacing:0!important;color:var(--dim-dark)!important}
+.fnote{font-size:12px;color:var(--dim-dark);text-align:center}
+
+/* ---------- футер ---------- */
+.ftr{margin:0 var(--gut);padding:28px 22px calc(24px + var(--safe-b));border-radius:30px 30px 0 0;background:var(--navy);color:#fff}
+.ftr .lg{--lg:.46;margin-bottom:18px}
+.ftr nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.ftr nav a{height:32px;padding:0 13px;border-radius:999px;background:rgba(170,217,252,.1);display:inline-flex;align-items:center;font-size:12px;color:var(--sky)}
+.ftr__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;border-radius:999px;background:var(--blue);font-size:14px;font-weight:500;margin-bottom:20px}
+.ftr__tg img{width:16px;height:16px}
+.ftr__legal{padding-top:16px;border-top:1px solid rgba(170,217,252,.16);font-family:'YS Text Cond',Arial,sans-serif;font-size:11px;line-height:1.45;color:rgba(167,190,224,.75);display:flex;flex-direction:column;gap:8px}
+.pad{height:84px}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <a class="lg top__lg" href="#page" aria-label="Яндекс Лавка — Франшиза">
+    <img class="lg__main" src="../../site/assets/figma/logo-main.svg" alt="">
+    <img class="lg__mark" src="../../site/assets/figma/logo-word-1.svg" alt="">
+    <img class="lg__badge" src="../../site/assets/figma/logo-word-2.svg" alt="">
+  </a>
+  <div class="top__where"><span class="top__no" id="whereNo">01</span><span class="top__nm" id="whereNm"><span>Франшиза Яндекс Лавки</span></span></div>
+  <a class="top__cta" id="topCta" href="#form">Стать партнёром</a>
+  <button class="top__burger" id="burger" type="button" aria-label="Разделы" aria-expanded="false"><i></i></button>
+  <div class="top__pg"><i id="pg"></i></div>
+</header>
+
+<a class="fab" id="fab" href="#form"><span class="fab__ic">↗</span><span class="fab__l" id="fabL"><b>Стать партнёром</b></span></a>
+
+<div class="scrim" id="scrim"></div>
+<nav class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet__grip"></div>
+  <div id="sheetLinks"></div>
+  <a class="sheet__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram-канал</a>
+</nav>
+
+<main id="page">
+  <section class="hero" data-sec="Франшиза Яндекс Лавки">
+    <div class="hero__glow hero__glow--a"></div><div class="hero__glow hero__glow--b"></div>
+    <img class="hero__pic" src="../../site/assets/figma/hero-photo.png" alt="" aria-hidden="true">
+    <div class="hero__in">
+      <h1 class="h1">Запустите<br>Яндекс Лавку<br><span class="city" id="city"></span></h1>
+      <p class="hero__lead">Франшиза быстрой доставки продуктов с технологиями, снабжением и поддержкой Яндекса</p>
+      <div class="hero__act">
+        <a class="btn btn--blue" id="heroCta" href="#form">Стать партнёром</a>
+        <a class="more" href="#business">Как это работает →</a>
+      </div>
+    </div>
+  </section>
+
+  <a class="evt" href="#form">
+    <div class="evt__l">
+      <b>День партнёров Яндекс Лавки</b>
+      <span>27 августа · Москва · о развитии бизнеса по франшизе</span>
+      <span class="evt__live"><i></i>Набор открыт</span>
+    </div>
+    <span class="evt__go">Участвовать</span>
+  </a>
+
+  <section class="card" data-sec="Лавка в цифрах">
+    <span class="eyebrow">Лавка в цифрах</span>
+    <h2 class="h2">Сервис уже работает — и растёт</h2>
+    <div class="nums" id="nums"></div>
+  </section>
+
+  <section class="card card--navy card--flush" id="business" data-sec="Как устроен бизнес">
+    <div class="card__head"><span class="eyebrow">Как устроен бизнес</span><h2 class="h2">Кто за что отвечает</h2></div>
+    <div class="rail" id="bizRail"></div>
+    <div class="dots" id="bizDots"></div>
+  </section>
+
+  <section class="card" id="darkstore" data-sec="Как работает даркстор">
+    <span class="eyebrow">Даркстор</span>
+    <h2 class="h2">Как устроен склад?</h2>
+    <p class="sub">Склад без торгового зала: здесь хранятся товары и собираются заказы</p>
+    <div class="map"><div class="map__w" id="mapW"><img src="../../site/assets/figma/darkstore-map.png" alt="Схема даркстора" loading="lazy"></div></div>
+    <div class="zones" id="zoneTabs"></div>
+    <article class="zcard" id="zcard"></article>
+  </section>
+
+  <section class="card" id="formats" data-sec="Форматы партнёрства">
+    <span class="eyebrow">Форматы</span>
+    <h2 class="h2">Три сценария входа</h2>
+    <div id="fmtList"></div>
+  </section>
+
+  <section class="card card--navy" id="steps" data-sec="Как стать партнёром">
+    <span class="eyebrow">Путь партнёра</span>
+    <h2 class="h2">Пять шагов до запуска</h2>
+    <div class="stp" id="stp"></div>
+  </section>
+
+  <section class="card card--flush" id="reviews" data-sec="Отзывы франчайзи">
+    <div class="card__head"><span class="eyebrow">Отзывы</span><h2 class="h2">Что говорят франчайзи</h2></div>
+    <div class="rail" id="revRail"></div>
+    <div class="dots" id="revDots"></div>
+  </section>
+
+  <section class="card" data-sec="О нас говорят">
+    <span class="eyebrow">Пресса</span>
+    <h2 class="h2">О нас говорят</h2>
+    <div class="med" id="med"></div>
+  </section>
+
+  <section class="card" id="faq" data-sec="Вопросы и ответы">
+    <span class="eyebrow">FAQ</span>
+    <h2 class="h2">Вопросы и ответы</h2>
+    <div class="acc" id="acc"></div>
+  </section>
+
+  <section class="card card--sky">
+    <h2 class="h2" style="font-size:24px">Не нашли ответ?<br>Разбираем бизнес-модель в Telegram</h2>
+    <a class="btn btn--navy btn--wide" style="margin-top:18px" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer">Перейти в Telegram</a>
+  </section>
+
+  <section class="card card--navy" id="form" data-sec="Оставить заявку">
+    <span class="eyebrow">Заявка</span>
+    <h2 class="h2">Станьте франчайзи Яндекс Лавки</h2>
+    <p class="sub">Оставьте заявку — обсудим план запуска и отправим финансовую модель</p>
+    <ul class="perks" id="perks"></ul>
+    <form class="fbox" id="leadForm" novalidate>
+      <label><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+      <label><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+      <label><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+      <label><span>Город</span><input name="city" placeholder="Где хотите развивать Лавку" required></label>
+      <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+      <label class="consent"><input type="checkbox" required><span>Согласен на обработку персональных данных и принимаю политику конфиденциальности</span></label>
+      <button class="btn btn--blue btn--wide" type="submit">Стать партнёром</button>
+      <p class="fnote">Свяжемся в течение 2 рабочих дней</p>
+    </form>
+  </section>
+</main>
+
+<footer class="ftr">
+  <a class="lg" href="#page" aria-label="Яндекс Лавка — Франшиза">
+    <img class="lg__main" src="../../site/assets/figma/logo-footer.svg" alt="">
+    <img class="lg__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+    <img class="lg__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt="">
+  </a>
+  <nav id="ftrNav"></nav>
+  <a class="ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram</a>
+  <div class="ftr__legal">
+    <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д. 22, стр. 1</p>
+    <p>Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</p>
+    <p>© 2026 ООО «Яндекс.Лавка» · 18+</p>
+  </div>
+  <div class="pad"></div>
+</footer>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+(() => {
+  const D = window.LAVKA, $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const A = '../../site/assets/figma/', FC = D.formatCommon;
+
+  MB.cities('#city', D.cities, reduced);
+  $('#nums').innerHTML = D.numbers.map(n =>
+    `<article class="ncard"><b data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p></article>`).join('');
+  $('#bizRail').innerHTML = D.business.map(b =>
+    `<article class="bcard"><div class="bcard__pic ${b.img?'':'bcard__pic--glow'}">${b.img?`<img src="${A}business/${b.img}.png" alt="" loading="lazy">`:''}</div>
+      <div class="bcard__c"><h3>${b.h}</h3><p>${b.p}</p></div></article>`).join('');
+  $('#fmtList').innerHTML = D.formats.map(f =>
+    `<article class="fcard ${f.featured?'fcard--top':''}">
+      <div class="fcard__chips">${f.chips.map((c,j)=>`<span class="tag ${j?'':'tag--navy'}">${c}</span>`).join('')}</div>
+      <p class="fcard__cities">${f.cities}</p>
+      <div class="fcard__grid"><b>${f.inv}</b><span>млн ₽<br>инвестиций</span>
+        <div class="fcard__meta">
+          <div><span>Окупаемость</span><b>${f.pay}</b></div>
+          <div><span>Паушальный</span><b>${FC.fee}</b></div>
+          <div><span>Роялти</span><b>${FC.royalty}</b></div>
+        </div>
+      </div>
+      <p class="fcard__note">${f.note}</p>
+    </article>`).join('');
+  $('#stp').innerHTML = D.steps.map((s,i) =>
+    `<article class="${i?'':'open'}"><button type="button" aria-expanded="${i?'false':'true'}"><b>${s.n}</b><h3>${s.t}</h3><em>${s.e}</em></button><div><p>${s.d}</p></div></article>`).join('');
+  $('#revRail').innerHTML = D.reviews.map(r =>
+    `<article class="rcard"><div class="av">${r.i}</div><h3>${r.n}</h3><small>${r.m}</small><p>${r.p}</p></article>`).join('');
+  $('#med').innerHTML = D.media.map(m =>
+    `<a href="#" aria-label="${m.alt}">${m.src?`<img src="${A}${m.src}" alt="${m.alt}" loading="lazy">`:`<span class="med__t">${m.text}</span>`}</a>`).join('');
+  $('#acc').innerHTML = D.faq.map(([q,a]) =>
+    `<article><button type="button" aria-expanded="false"><span>${q}</span><i>+</i></button><div><p>${a}</p></div></article>`).join('');
+  $('#perks').innerHTML = D.perks.map(([t,s]) => `<li><i>✓</i><div><strong>${t}</strong><span>${s}</span></div></li>`).join('');
+  $('#ftrNav').innerHTML = D.nav.map(([h,t]) => `<a href="${h}">${t}</a>`).join('');
+
+  MB.dots('#bizRail','#bizDots'); MB.dots('#revRail','#revDots');
+  MB.counters(); MB.accordion('#acc'); MB.accordion('#stp'); MB.form('#leadForm');
+  MB.zones({ tabs:'#zoneTabs', card:'#zcard', world:'#mapW', data:D.zones, zoom:2.0 });
+
+  /* ============================================================
+     СИСТЕМА «ЛЕНТА»
+     Шапка всегда на месте и отвечает на вопрос «где я».
+     Кнопка стартует в шапке и переезжает в правый нижний угол.
+     ============================================================ */
+  const secs = $$('[data-sec]');
+  $('#sheetLinks').innerHTML = secs.map((s,i) =>
+    `<a href="${s.id ? '#'+s.id : '#page'}" data-i="${i}"><em>${String(i+1).padStart(2,'0')}</em>${s.dataset.sec}</a>`).join('');
+  const links = $$('#sheetLinks a');
+
+  const top = $('#top'), fab = $('#fab'), fabL = $('#fabL'), heroCta = $('#heroCta');
+  const whereNo = $('#whereNo'), whereNm = $('#whereNm');
+  let curSec = -1, label = 'Стать партнёром', idle = 0;
+
+  const CTX = { formats:'Выбрать формат', steps:'Оставить заявку', faq:'Оставить заявку', reviews:'Оставить заявку' };
+  const setLabel = t => {
+    if (t === label) return; label = t;
+    fabL.classList.add('swap');
+    setTimeout(() => { fabL.innerHTML = `<b>${t}</b>`; fabL.classList.remove('swap'); }, 240);
+  };
+  const setWhere = i => {
+    if (i === curSec) return; curSec = i;
+    whereNo.textContent = String(i + 1).padStart(2, '0');
+    whereNm.classList.add('swap');
+    setTimeout(() => { whereNm.innerHTML = `<span>${secs[i].dataset.sec}</span>`; whereNm.classList.remove('swap'); }, 220);
+    links.forEach((a, j) => a.classList.toggle('cur', j === i));
+  };
+
+  let f = 0;
+  const onScroll = () => {
+    f = 0;
+    const y = scrollY, vh = innerHeight;
+    top.classList.toggle('on', y > 40);
+    $('#pg').style.setProperty('--p', Math.min(1, y / (document.body.scrollHeight - vh)).toFixed(3));
+
+    /* FAB включается ровно тогда, когда кнопка из хиро ушла с экрана */
+    const hr = heroCta.getBoundingClientRect();
+    const formNear = $('#form').getBoundingClientRect().top < vh * .55;
+    fab.classList.toggle('on', hr.bottom < 56 && !formNear);
+
+    /* пока палец скроллит — кружок; остановился — кнопка с подписью */
+    fab.classList.add('mini');
+    clearTimeout(idle);
+    idle = setTimeout(() => fab.classList.remove('mini'), 340);
+
+    let i = 0;
+    secs.forEach((s, j) => { if (s.getBoundingClientRect().top < 120) i = j; });
+    setWhere(i);
+    /* шапка перекрашивается, когда под ней тёмная карточка */
+    const el = document.elementFromPoint(innerWidth / 2, 30);
+    top.classList.toggle('top--dark', !!el?.closest('.card--navy, .hero, .ftr'));
+    setLabel(CTX[secs[i].id] || 'Стать партнёром');
+  };
+  addEventListener('scroll', () => { if (!f) f = requestAnimationFrame(onScroll); }, { passive:true });
+  onScroll();
+  setTimeout(() => fab.classList.remove('mini'), 400);
+
+  /* лист разделов */
+  const sheet = $('#sheet'), scrim = $('#scrim'), burger = $('#burger');
+  const close = () => {
+    document.body.classList.remove('is-locked');
+    sheet.classList.remove('open'); scrim.classList.remove('open');
+    sheet.setAttribute('aria-hidden','true'); burger.setAttribute('aria-expanded','false');
+  };
+  burger.addEventListener('click', () => {
+    const open = !sheet.classList.contains('open');
+    document.body.classList.toggle('is-locked', open);
+    sheet.classList.toggle('open', open); scrim.classList.toggle('open', open);
+    sheet.setAttribute('aria-hidden', String(!open)); burger.setAttribute('aria-expanded', String(open));
+  });
+  scrim.addEventListener('click', close);
+  sheet.addEventListener('click', e => { if (e.target.closest('a')) close(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>

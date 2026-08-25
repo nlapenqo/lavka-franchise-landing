@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1c34">
+<title>Варианты фона · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ШЕСТЬ ВАРИАНТОВ АНИМИРОВАННОГО ФОНА ТЁМНЫХ СЕКЦИЙ
+   Одна и та же подложка #1B3A6A, один и тот же контент хиро —
+   различается только слой свечения. Выбранный вариант потом
+   уезжает во все тёмные секции: хиро, шаги, анкета, футер.
+   ============================================================ */
+body{background:#0b1c34;color:#e8f1fb;font-family:'YS Geo',-apple-system,Arial,sans-serif}
+
+.head{padding:40px 24px 8px;max-width:980px;margin:0 auto;text-align:center}
+.head h1{font-size:26px;font-weight:900;letter-spacing:-.01em;margin-bottom:10px}
+.head p{font-size:15px;line-height:1.45;color:rgba(190,214,244,.72)}
+.head b{color:var(--blue);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,390px);gap:30px 18px;justify-content:center;padding:30px 14px 72px}
+
+.card{display:flex;flex-direction:column;gap:14px}
+/* превью = кусок хиро в проектной ширине мобилки */
+.p{position:relative;width:390px;height:560px;border-radius:26px;overflow:hidden;background:var(--navy);box-shadow:0 22px 50px rgba(3,12,28,.5)}
+.p__in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px}
+.p__mark{position:absolute;left:20px;top:20px;width:34px;height:34px;z-index:3}
+.p__in h2{font-size:42px;line-height:.92;font-weight:900;letter-spacing:-.01em;margin-bottom:18px}
+.p__in h2 em{font-style:normal;color:var(--blue)}
+.p__in p{font-size:16px;line-height:1.32;font-weight:500;color:#e8f1fb;max-width:300px;margin-bottom:26px}
+.p__in a{display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:var(--blue);color:#fff;font-size:15px;font-weight:500;box-shadow:0 10px 26px rgba(0,173,255,.32)}
+
+.meta{padding-inline:4px}
+.meta b{display:block;font-size:16px;font-weight:800;margin-bottom:5px}
+.meta span{display:block;font-size:13.5px;line-height:1.4;color:rgba(190,214,244,.66)}
+
+/* слой свечения — общий каркас: пятна лежат под контентом и не ловят курсор */
+.bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bg i{position:absolute;display:block;border-radius:50%;
+  animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;will-change:transform}
+
+/* ---------- A · как сейчас: три повёрнутых эллипса с сайта ---------- */
+.v-a i::before{content:'';position:absolute;inset:0;transform:rotate(-32.9deg);filter:blur(42px);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.44) 0%,rgba(0,173,255,.37) 20%,rgba(0,173,255,.23) 42%,rgba(0,173,255,.11) 62%,rgba(0,173,255,.04) 78%,rgba(0,173,255,.01) 90%,transparent 100%)}
+.v-a .g1{width:700px;height:830px;left:-330px;bottom:-260px;animation-name:d-a;animation-duration:13.5s}
+.v-a .g2{width:580px;height:670px;right:-280px;top:60px;animation-name:d-b;animation-duration:11s;animation-delay:-4.2s}
+.v-a .g3{width:520px;height:560px;left:24%;top:-260px;animation-name:d-c;animation-duration:15.5s;animation-delay:-8.6s}
+
+/* ---------- B · тихая масса: два огромных пятна, почти незаметное движение ---------- */
+.v-b i{filter:blur(90px);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.34) 0%,rgba(0,173,255,.2) 45%,rgba(0,173,255,.06) 75%,transparent 100%)}
+.v-b .g1{width:900px;height:1080px;left:-380px;bottom:-360px;animation-name:d-a;animation-duration:26s}
+.v-b .g2{width:760px;height:900px;right:-340px;top:-180px;animation-name:d-b;animation-duration:22s;animation-delay:-9s}
+
+/* ---------- C · дыхание: одно пятно во весь экран, пульсирует ---------- */
+.v-c i{filter:blur(70px);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.42) 0%,rgba(0,173,255,.24) 46%,rgba(0,173,255,.07) 76%,transparent 100%)}
+.v-c .g1{width:820px;height:940px;left:50%;top:50%;margin:-470px 0 0 -410px;animation-name:breathe;animation-duration:18s}
+.v-c .g2{width:420px;height:460px;left:-140px;top:-160px;animation-name:d-c;animation-duration:21s;animation-delay:-7s}
+@keyframes breathe{
+  0%{transform:scale(.86) translate3d(-20px,10px,0);opacity:.72}
+  100%{transform:scale(1.14) translate3d(24px,-16px,0);opacity:1}
+}
+
+/* ---------- D · меш без формы: градиенты ездят прямо в фоне слоя ---------- */
+.v-d .mesh{position:absolute;inset:-20%;
+  background-image:
+    radial-gradient(58% 48% at 22% 22%,rgba(0,173,255,.40),transparent 70%),
+    radial-gradient(54% 44% at 84% 40%,rgba(0,173,255,.32),transparent 70%),
+    radial-gradient(68% 58% at 46% 96%,rgba(0,173,255,.30),transparent 72%);
+  background-size:180% 180%,170% 170%,190% 190%;
+  filter:blur(30px);
+  animation:mesh 24s cubic-bezier(.45,.05,.55,.95) infinite alternate}
+@keyframes mesh{
+  0%{background-position:0% 30%,100% 18%,40% 100%}
+  100%{background-position:34% 0%,58% 64%,8% 66%}
+}
+
+/* ---------- E · четыре пятна: два акцентных и два светлых ---------- */
+.v-e i{filter:blur(72px)}
+.v-e .g1{width:520px;height:600px;left:-220px;top:-120px;background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.42),transparent 100%);animation-name:d-a;animation-duration:17s}
+.v-e .g2{width:460px;height:520px;right:-200px;top:120px;background:radial-gradient(ellipse closest-side at center,rgba(170,217,252,.30),transparent 100%);animation-name:d-b;animation-duration:14s;animation-delay:-5s}
+.v-e .g3{width:400px;height:460px;left:-120px;bottom:-180px;background:radial-gradient(ellipse closest-side at center,rgba(170,217,252,.24),transparent 100%);animation-name:d-c;animation-duration:19s;animation-delay:-11s}
+.v-e .g4{width:360px;height:420px;right:-140px;bottom:-140px;background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.34),transparent 100%);animation-name:d-b;animation-duration:21s;animation-delay:-3s}
+
+/* ---------- F · аврора: широкие диагональные полосы света ---------- */
+.v-f .mesh{position:absolute;inset:-30%;
+  background:linear-gradient(112deg,transparent 8%,rgba(0,173,255,.34) 28%,transparent 44%,rgba(170,217,252,.20) 60%,transparent 76%,rgba(0,173,255,.24) 90%,transparent 100%);
+  background-size:240% 240%;filter:blur(52px);
+  animation:aurora 22s cubic-bezier(.45,.05,.55,.95) infinite alternate}
+@keyframes aurora{0%{background-position:0% 50%;transform:rotate(-3deg)}100%{background-position:100% 50%;transform:rotate(3deg)}}
+
+/* общие траектории дрейфа — те же кривые, что на сайте */
+@keyframes d-a{
+  0%{transform:translate3d(-8px,34px,0) scale(.95) rotate(-2.5deg)}
+  52%{transform:translate3d(65px,-44px,0) scale(1.05) rotate(2deg)}
+  100%{transform:translate3d(20px,19px,0) scale(.99) rotate(-.5deg)}
+}
+@keyframes d-b{
+  0%{transform:translate3d(29px,-23px,0) scale(.97)}
+  58%{transform:translate3d(-72px,61px,0) scale(1.06)}
+  100%{transform:translate3d(15px,17px,0) scale(1)}
+}
+@keyframes d-c{
+  0%{transform:translate3d(35px,40px,0) scale(1.02)}
+  46%{transform:translate3d(-61px,-52px,0) scale(.95)}
+  100%{transform:translate3d(5px,-17px,0) scale(1.04)}
+}
+@media (prefers-reduced-motion:reduce){.bg i,.mesh{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>Анимированный фон тёмных секций — шесть вариантов</h1>
+  <p>Одна подложка <b>#1B3A6A</b>, один и тот же хиро, различается только слой свечения. Скажите букву — размножу выбранный на хиро, шаги, анкету и футер.</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const VARIANTS = [
+  ['a', 3, 'A · Как сейчас', 'Три повёрнутых на −32.9° эллипса с раскладкой стопов из site/styles.css. Дрейф 13.5 / 11 / 15.5 с, блюр 42.'],
+  ['b', 2, 'B · Тихая масса', 'Два огромных пятна, блюр 90, движение почти не читается: цикл 26 и 22 с. Максимально спокойный фон.'],
+  ['c', 2, 'C · Дыхание', 'Одно пятно во весь экран пульсирует по масштабу и прозрачности за 18 с, сверху небольшой акцент.'],
+  ['d', 0, 'D · Меш без формы', 'Три градиента живут прямо в фоне слоя и ездят по background-position.Форма круга не читается совсем.'],
+  ['e', 4, 'E · Четыре пятна', 'Два акцентных #00ADFF и два светлых #AAD9FC расходятся в разные стороны, блюр 72. Более цветной фон.'],
+  ['f', 0, 'F · Аврора', 'Широкие диагональные полосы света медленно проходят по экрану и слегка кренятся. Блюр 52, цикл 22 с.']
+];
+const HERO = `
+  <img class="p__mark" src="../../site/assets/figma/logo-word-1.svg" alt="">
+  <div class="p__in">
+    <h2>Запустите<br>Яндекс Лавку<br><em>в своём городе</em></h2>
+    <p>Франшиза быстрой доставки продуктов с технологиями, снабжением и поддержкой Яндекса</p>
+    <a href="#">Стать партнёром</a>
+  </div>`;
+
+document.getElementById('grid').innerHTML = VARIANTS.map(([key, blobs, title, note]) => {
+  const layer = blobs
+    ? Array.from({ length: blobs }, (_, i) => `<i class="g${i + 1}"></i>`).join('')
+    : '<div class="mesh"></div>';
+  return `<article class="card">
+      <div class="p v-${key}"><div class="bg">${layer}</div>${HERO}</div>
+      <div class="meta"><b>${title}</b><span>${note}</span></div>
+    </article>`;
+}).join('');
+</script>
+</body>
+</html>

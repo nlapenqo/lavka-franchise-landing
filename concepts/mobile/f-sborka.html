@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b3a6a">
+<title>Мобилка F — Сборка · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ВАРИАНТ F — «СБОРКА»
+   Верстка по фигма-сборке «Landing — Mobile 391» (102:108),
+   приведённая к одной системе:
+   · два мира — тёмное обрамление (хиро, шаги, форма, футер)
+     и светлые залы между ними; тёмный градиент один, светлых фона два;
+   · 8 текстовых стилей YS Geo, gutter 20, шаг ритма 4px;
+   · радиусы 16 / 28 / 40 + пилюля;
+   · кнопки одной геометрии (52) в трёх ролях: синяя, белая, нейви;
+   · круглые контролы 46 в двух ролях (на светлом / на синем);
+   · все ленты — один snap-компонент, стрелки и точки как в фигме.
+   Контент — _shared/content.js + правки до актуального site/index.html.
+   ============================================================ */
+
+/* ---------- 1 · ТОКЕНЫ ---------- */
+:root{
+  --note:#c0d2ec;
+  --hair:#dbe7f3;                       /* волосяные линии на светлом */
+  --hair-d:rgba(170,217,252,.22);       /* и на тёмном */
+  --r-s:16px;--r-m:28px;--r-l:40px;
+  --s2:8px;--s3:12px;--s4:16px;--s5:20px;--s6:24px;--s7:32px;--s8:40px;--s9:56px;--s10:72px;
+  --h-btn:52px;--h-ctl:46px;
+  --shadow-card:0 18px 40px -18px rgba(27,58,106,.28);
+}
+
+/* ---------- 2 · БАЗА И ТИПОШКАЛА (8 стилей) ---------- */
+body{background:#fff}
+.t-display{font-weight:900;font-size:48px;line-height:.92;letter-spacing:-.01em;text-wrap:balance}
+.t-h2{font-weight:900;font-size:34px;line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+.t-h3{font-weight:800;font-size:28px;line-height:1.05;letter-spacing:-.005em}
+.t-h4{font-weight:800;font-size:20px;line-height:1.1}
+.t-lead{font-weight:500;font-size:17px;line-height:1.35}
+.t-body{font-weight:400;font-size:16px;line-height:1.32}
+.t-small{font-weight:400;font-size:13px;line-height:1.35}
+.t-cap{font-weight:500;font-size:12px;line-height:1.2;letter-spacing:.06em;text-transform:uppercase}
+
+.sec{position:relative;padding-block:var(--s10) 0}
+.sec__head{margin-bottom:var(--s6)}
+.sec__sub{margin-top:var(--s3);color:var(--dim)}
+
+/* два мира: один тёмный градиент + свечения, два светлых фона */
+.g-dark{position:relative;background:linear-gradient(160deg,#1b3a6a 8%,#155089 55%,#0e70b0 100%);color:#fff;isolation:isolate}
+.g-dark::before,.g-dark::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(58% 44% at 88% 96%,rgba(170,217,252,.5),transparent 70%)}
+.g-dark::after{background:radial-gradient(42% 34% at 8% 76%,rgba(0,173,255,.28),transparent 72%)}
+.g-dark--deep{background:linear-gradient(178deg,#1e4c86,#16325c 90%)}
+.g-dark--deep::before{background:radial-gradient(52% 30% at 90% 6%,rgba(0,173,255,.22),transparent 70%)}
+.g-dark--deep::after{background:radial-gradient(46% 26% at 4% 52%,rgba(170,217,252,.14),transparent 72%)}
+.band{background:var(--light)}          /* светлый зал-полоса */
+
+/* ---------- 3 · КНОПКИ: одна геометрия, три роли ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:var(--h-btn);padding:0 26px;border-radius:999px;font-weight:500;font-size:16px;line-height:1;transition:transform .25s var(--ease-spring),box-shadow .25s,background .25s,opacity .2s;will-change:transform}
+.btn:active{transform:scale(.96)}
+.btn--blue{background:var(--blue);color:#fff;box-shadow:0 10px 26px -10px rgba(0,173,255,.55)}
+.btn--white{background:#fff;color:var(--navy);box-shadow:0 10px 24px -12px rgba(11,31,61,.5)}
+.btn--navy{background:var(--navy);color:#fff}
+.btn--wide{width:100%}
+.btn--sm{height:44px;padding:0 20px;font-size:15px}
+
+/* круглые контролы: 46, две роли */
+.ctl{flex:none;display:inline-flex;align-items:center;justify-content:center;width:var(--h-ctl);height:var(--h-ctl);border-radius:50%;background:var(--card);color:var(--navy);transition:opacity .2s,transform .2s,background .2s}
+.ctl:active{transform:scale(.92)}
+.ctl[disabled]{opacity:.38;pointer-events:none}
+.ctl--white{background:#fff;box-shadow:0 8px 20px -8px rgba(27,58,106,.35)}
+.ctl svg{display:block}
+
+/* точки лент */
+.dots{display:flex;justify-content:center;gap:8px;padding-block:var(--s5)}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--sky);opacity:.55;transition:opacity .25s,transform .25s,background .25s}
+.dots i.on{background:var(--navy);opacity:1;transform:scale(1.28)}
+
+/* ---------- 4 · ЛЕНТА: один snap-компонент ---------- */
+.lane{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-inline:var(--gut);scroll-padding-inline:var(--gut);scrollbar-width:none;overscroll-behavior-x:contain}
+.lane::-webkit-scrollbar{display:none}
+.lane>*{flex:none;scroll-snap-align:center}
+.lane--start>*{scroll-snap-align:start}
+
+/* ---------- 5 · ШАПКА-ПИЛЮЛЯ ---------- */
+.hdr{position:fixed;left:0;right:0;top:0;z-index:40;padding:10px 12px 0}
+.hdr__in{display:flex;align-items:center;gap:10px;height:56px;padding:0 8px 0 16px;border-radius:999px;transition:background .35s,box-shadow .35s,border-color .35s;border:1px solid transparent}
+.hdr.scrolled .hdr__in{background:rgba(15,36,68,.6);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-color:var(--hair-d);box-shadow:0 14px 34px -18px rgba(8,22,44,.65)}
+.hdr .lg{--lg:.4}
+.hdr__sp{flex:1}
+.hcta{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:var(--blue);color:#fff;font-size:14px;font-weight:500;opacity:0;transform:translateX(8px) scale(.9);pointer-events:none;transition:opacity .3s,transform .35s var(--ease-spring)}
+.hdr.past .hcta{opacity:1;transform:none;pointer-events:auto}
+.burger{position:relative;flex:none;width:44px;height:44px;border-radius:50%}
+.burger i,.burger i::before{content:'';position:absolute;left:50%;top:50%;width:18px;height:2px;border-radius:2px;background:#fff;transform:translate(-50%,-4px);transition:transform .3s var(--ease)}
+.burger i::before{transform:translate(-50%,7px)}
+.burger[aria-expanded="true"] i{transform:translate(-50%,-1px) rotate(45deg)}
+.burger[aria-expanded="true"] i::before{transform:translate(-50%,-1px) rotate(-90deg)}
+
+/* ---------- 6 · МЕНЮ ---------- */
+.menu{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;padding:96px var(--gut) calc(24px + var(--safe-b));background:linear-gradient(165deg,#16325c,#155089 70%,#0e70b0);opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.menu.open{opacity:1;pointer-events:auto}
+.menu a.mlink{display:flex;align-items:baseline;gap:14px;padding:13px 0;color:#fff;border-bottom:1px solid var(--hair-d);opacity:0;transform:translateY(14px);transition:opacity .4s var(--ease-out),transform .4s var(--ease-out)}
+.menu.open a.mlink{opacity:1;transform:none}
+.menu a.mlink b{font-weight:800;font-size:22px}
+.menu a.mlink i{font-style:normal;font-size:12px;color:var(--dim-dark)}
+.menu__ft{margin-top:auto;display:grid;gap:10px}
+.menu__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;color:var(--sky);font-size:15px}
+
+/* ---------- 7 · ХИРО ---------- */
+.hero{padding:128px 0 96px;text-align:center}
+.hero h1{color:#fff}
+.hero .city{position:relative;display:inline-flex;vertical-align:bottom;color:var(--blue);height:1em;padding-bottom:.16em;margin-bottom:-.16em;box-sizing:content-box;white-space:nowrap;overflow:hidden;transition:width .9s var(--ease-out)}
+.hero .city span{position:absolute;left:0;top:0;line-height:1;white-space:nowrap;opacity:0;transform:translateY(78%);transition:transform .85s var(--ease-out),opacity .4s}
+.hero .city span.cur{opacity:1;transform:none}
+.hero .city span.out{opacity:0;transform:translateY(-78%)}
+.hero__lead{max-width:330px;margin:var(--s6) auto 0;color:#eaf3fc}
+.hero__cta{margin-top:var(--s7)}
+
+/* ---------- 8 · СТРОКА МЕРОПРИЯТИЯ: мост между мирами ---------- */
+.evtbox{position:relative;z-index:2;margin-top:-37px;padding-inline:12px}
+.evt{display:flex;align-items:center;gap:13px;padding:14px;border-radius:22px;background:linear-gradient(180deg,#cde7fd,var(--sky));box-shadow:0 18px 38px -20px rgba(27,58,106,.45)}
+.evt__d{flex:none;width:46px;border-radius:12px;overflow:hidden;text-align:center;background:#fff;box-shadow:0 4px 12px -4px rgba(27,58,106,.35)}
+.evt__d b{display:block;padding-top:5px;font-weight:800;font-size:17px;color:var(--navy)}
+.evt__d i{display:block;margin-top:3px;padding:2px 0 3px;font-style:normal;font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--blue);color:#fff}
+.evt__t{flex:1;min-width:0}
+.evt__t b{display:block;font-weight:800;font-size:15.5px;line-height:1.15;color:var(--navy)}
+.evt__t i{display:block;margin-top:4px;font-style:normal;font-size:12.5px;color:var(--dim)}
+.evt__c{flex:none;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;transition:transform .25s var(--ease-spring)}
+.evt:active .evt__c{transform:translateX(3px)}
+
+/* ---------- 9 · ЦИФРЫ: нейви-карточки на светлом ---------- */
+.nums{padding-top:var(--s9)}
+.ncard{position:relative;width:286px;min-height:264px;padding:40px 20px 30px;border-radius:var(--r-l);overflow:hidden;text-align:center;color:#fff;background:linear-gradient(180deg,#24518f,var(--navy) 78%);isolation:isolate}
+.ncard::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(90% 52% at 50% -18%,rgba(170,217,252,.42),transparent 70%)}
+.ncard b{display:block;font-weight:900;font-size:72px;line-height:1;letter-spacing:-.01em}
+.ncard h3{margin-top:var(--s4)}
+.ncard p{max-width:225px;margin:var(--s3) auto 0;color:var(--note)}
+
+/* ---------- 10 · КАК УСТРОЕН БИЗНЕС ---------- */
+.bizwrap{position:relative}
+.bcard{width:calc(100vw - 2*var(--gut));max-width:350px;min-height:352px;padding:var(--s6) var(--s5) var(--s5);border-radius:var(--r-m);background:var(--card);display:flex;flex-direction:column}
+.bcard p{margin-top:var(--s4);color:var(--dim);max-width:308px}
+.bcard__ft{margin-top:auto;padding-top:var(--s6)}
+.biznav{position:absolute;right:calc(var(--gut) + 16px);bottom:23px;display:flex;gap:6px}
+.biznav .ctl{background:#fff}
+
+/* ---------- 11 · ДАРКСТОР ---------- */
+.dstage{margin-inline:var(--s4);padding:14px;border-radius:var(--r-m);background:linear-gradient(155deg,#2382c6,#0d5a9b 85%);position:relative;isolation:isolate;overflow:hidden}
+.dstage::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(70% 48% at 82% 0%,rgba(170,217,252,.34),transparent 70%)}
+.map{position:relative;border-radius:var(--r-s);overflow:hidden}
+.map img{width:100%}
+.map__pin{position:absolute;left:var(--x);top:var(--y);z-index:1;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:12.5px;box-shadow:0 0 0 3px rgba(255,255,255,.35),0 6px 14px -4px rgba(8,22,44,.5);transition:background .25s,color .25s,transform .25s var(--ease-spring)}
+.map__pin::after{content:'';position:absolute;inset:-8px;border-radius:50%}  /* тач-зона 46 */
+.map__pin.on{background:#fff;color:var(--navy);transform:scale(1.16)}
+.zcard{margin-top:12px;padding:var(--s6) var(--s6) var(--s7);border-radius:24px;background:#fff;color:var(--navy)}
+.zcard__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--s4)}
+.zcard__n{font-weight:900;font-size:38px;line-height:1;color:var(--blue)}
+.zcard__nav{display:flex;gap:6px}
+.zcard h3{letter-spacing:-.005em}
+.zcard p{margin-top:var(--s3);color:var(--dim);min-height:106px}
+
+/* ---------- 12 · ФОРМАТЫ: светлая полоса ---------- */
+.fmt{padding-bottom:var(--s10)}
+.chips{margin-top:var(--s5)}
+.chips button{flex:none;height:40px;padding:0 18px;border-radius:999px;background:#fff;color:var(--navy);font-size:14.5px;font-weight:500;box-shadow:inset 0 0 0 1px var(--hair);transition:background .25s,color .25s,box-shadow .25s}
+.chips button.on{background:var(--navy);color:#fff;box-shadow:none}
+.fpanel{margin:var(--s5) var(--gut) 0;padding:var(--s6);border-radius:var(--r-m);background:#fff;box-shadow:var(--shadow-card)}
+.fpanel__cities{color:var(--dim)}
+.fpanel__big{padding:var(--s5) 0 var(--s4);border-bottom:1px solid var(--hair)}
+.fpanel__big .t-cap{color:var(--dim)}
+.fpanel__big b{display:block;margin-top:6px;font-weight:900;font-size:44px;line-height:1;letter-spacing:-.01em}
+.fpanel__big b small{font-weight:800;font-size:16px;letter-spacing:0;margin-left:4px}
+.fpanel__row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:var(--s4) 0;border-bottom:1px solid var(--hair)}
+.fpanel__row dt{color:var(--dim)}
+.fpanel__row dd{margin-top:5px;font-weight:800;font-size:16px}
+.fpanel__row dd small{display:block;font-weight:400;font-size:12px;color:var(--dim);margin-top:2px}
+.fpanel__note{margin-top:var(--s4);color:var(--dim);min-height:42px}
+.fmt .seccta{padding:var(--s6) var(--s4) 0}
+.fswap{transition:opacity .25s,transform .25s}
+.fswap.out{opacity:0;transform:translateY(8px)}
+
+/* ---------- 13 · КАК СТАТЬ ПАРТНЁРОМ ---------- */
+.steps{padding-bottom:var(--s8)}
+.s1card{position:relative;margin-inline:var(--s4);padding:var(--s6) var(--s5) var(--s5);border-radius:var(--r-m);background:linear-gradient(165deg,#1fb4ff,#00a2f2);color:#fff;box-shadow:0 22px 44px -20px rgba(0,150,240,.6)}
+.s1card .t-cap{color:rgba(255,255,255,.85)}
+.s1card h3{margin-top:var(--s3)}
+.s1card p{margin-top:var(--s3);max-width:308px}
+.s1card__e{display:inline-block;margin-top:var(--s4);font-weight:800;font-size:13px}
+.s1card .btn{margin-top:var(--s5)}
+.tl{position:relative;margin:var(--s7) var(--gut) 0;padding-left:38px}
+.tl::before{content:'';position:absolute;left:11px;top:10px;bottom:26px;width:2px;background:var(--hair-d)}
+.tl__fill{position:absolute;left:11px;top:10px;width:2px;height:var(--fh,0);max-height:calc(100% - 36px);background:var(--blue);transition:height .2s linear}
+.tstep{position:relative;padding:var(--s5) 0 var(--s6)}
+.tstep::before{content:'';position:absolute;left:-34px;top:26px;width:10px;height:10px;border-radius:50%;background:#0f2c52;box-shadow:0 0 0 2px var(--hair-d);transition:background .3s,box-shadow .3s}
+.tstep.on::before{background:var(--blue);box-shadow:0 0 0 2px var(--blue),0 0 14px rgba(0,173,255,.8)}
+.tstep .t-cap{color:var(--dim-dark)}
+.tstep h3{margin-top:var(--s2);color:#fff}
+.tstep p{margin-top:var(--s3);color:var(--dim-dark)}
+.tstep__e{display:inline-block;margin-top:var(--s3);font-weight:800;font-size:13px;color:#35bcff}
+
+/* ---------- 14 · ОТЗЫВЫ ---------- */
+.headrow{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.headrow .nav{display:flex;gap:6px}
+.rcard{width:315px;min-height:296px;padding:var(--s6) var(--s5);border-radius:var(--r-m);background:var(--card);display:flex;flex-direction:column}
+.rcard__a{width:56px;height:56px;border-radius:50%;background:var(--sky);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;margin-bottom:var(--s5)}
+.rcard h3{font-size:20px}
+.rcard i{display:block;font-style:normal;margin-top:4px;color:var(--dim);font-size:13px}
+.rcard p{margin-top:var(--s4);color:var(--navy)}
+
+/* ---------- 15 · О НАС ГОВОРЯТ ---------- */
+.med{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:var(--s6)}
+.med a{display:flex;align-items:center;justify-content:center;height:84px;border-radius:24px;background:var(--light);transition:background .25s}
+.med a:active{background:var(--card)}
+.med img{max-width:64%;max-height:30px}
+.med .txt{font-family:Georgia,'Times New Roman',serif;font-size:21px;color:#b3c3d9}
+
+/* ---------- 16 · FAQ + ТЕЛЕГРАМ ---------- */
+.acc{border-top:1px solid var(--hair)}
+.acc article{border-bottom:1px solid var(--hair)}
+.acc button{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;min-height:72px;padding:var(--s4) 0;text-align:left;font-weight:800;font-size:17px;line-height:1.25;color:var(--navy)}
+.acc button i{flex:none;position:relative;width:34px;height:34px;border-radius:50%;background:var(--card);transition:transform .35s var(--ease)}
+.acc button i::before,.acc button i::after{content:'';position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:1px;background:var(--navy)}
+.acc button i::after{transform:rotate(90deg)}
+.acc article.open button i{transform:rotate(45deg)}
+.acc .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease)}
+.acc article.open .a{grid-template-rows:1fr}
+.acc .a>div{overflow:hidden}
+.acc .a p{max-width:330px;padding:0 44px var(--s5) 0;color:var(--dim)}
+.tgstrip{display:block;margin:var(--s7) var(--gut) 0;padding:var(--s5) var(--s5) var(--s5);border-radius:24px;background:linear-gradient(180deg,#c3e2fc,var(--sky))}
+.tgstrip b{display:block;max-width:300px;font-weight:800;font-size:17px;line-height:1.3;color:var(--navy)}
+.tgstrip .btn{margin-top:var(--s4)}
+
+/* ---------- 17 · ФОРМА: тёмная сцена с белой картой ---------- */
+.form{margin-top:var(--s10);border-radius:var(--r-m) var(--r-m) 0 0;padding-block:var(--s9) var(--s10)}
+.form__sub{margin-top:var(--s4);max-width:330px;color:#d7e6f9}
+.perks{display:grid;gap:10px;margin-top:var(--s6)}
+.perks li{padding:var(--s4) 18px;border-radius:20px;background:#fff}
+.perks b{display:block;font-weight:800;font-size:16.5px;line-height:1.25;color:var(--navy)}
+.perks span{display:block;margin-top:4px;font-size:13px;color:var(--dim)}
+.fcard{margin:var(--s6) var(--s4) 0;padding:var(--s6) var(--s5) var(--s7);border-radius:var(--r-m);background:#fff;color:var(--navy);box-shadow:0 30px 60px -30px rgba(8,22,44,.6)}
+.fcard h3{font-weight:900;font-size:30px;letter-spacing:-.01em}
+.fcard label{display:block;margin-top:var(--s4)}
+.fcard label span{display:block;margin-bottom:7px;font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.fcard input,.fcard textarea{width:100%;height:var(--h-btn);border:1px solid var(--sky);border-radius:var(--r-s);background:var(--light);padding:0 16px;outline:none;font-size:16px;transition:border .2s,box-shadow .2s,background .2s}
+.fcard textarea{height:auto;min-height:96px;padding:14px 16px;resize:vertical}
+.fcard input::placeholder,.fcard textarea::placeholder{color:#8ba4c6}
+.fcard input:focus,.fcard textarea:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(0,173,255,.14)}
+.fcard label.consent{display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;margin-top:var(--s5)}
+.consent input{appearance:none;width:20px;height:20px;padding:0;border:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky);background:transparent;transition:background .25s,box-shadow .25s}
+.consent input:checked{background:var(--blue);box-shadow:none}
+.consent span{margin:0!important;font-size:12px!important;line-height:1.35;letter-spacing:0!important;text-transform:none!important;color:var(--dim)!important}
+.fsubmit{display:flex;align-items:center;gap:14px;margin-top:var(--s5)}
+.fsubmit .fnote{flex:1;font-size:12.5px;line-height:1.3;color:var(--dim)}
+
+/* ---------- 18 · ФУТЕР ---------- */
+.ftr{background:var(--navy);color:#fff;padding:var(--s8) 0 calc(var(--s7) + var(--safe-b));border-top:1px solid var(--hair-d)}
+.ftr .lg{--lg:.5;margin-bottom:var(--s5)}
+.ftr__nav a{display:flex;align-items:center;min-height:48px;border-top:1px solid var(--hair-d);color:#e8f1fb;font-size:16px}
+.ftr__nav a:last-child{border-bottom:1px solid var(--hair-d)}
+.ftr__tg{margin-top:var(--s6)}
+.ftr__legal{margin-top:var(--s7);color:#8aa2c8;font-size:13px;line-height:1.45}
+.ftr__legal p+p{margin-top:var(--s3)}
+.ftr__legal a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:3px}
+.ftr__c{margin-top:var(--s4);color:#8aa2c8;font-size:13px}
+
+/* тач-зона лого-локапа (сам локап ниже 44px) */
+.lg::after{content:'';position:absolute;inset:-14px -8px}
+
+/* фокус с клавиатуры — одинаковый везде */
+:is(a,button,input,textarea):focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:8px}
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr">
+  <div class="hdr__in">
+    <a class="lg" href="#top" aria-label="Яндекс Лавка — франшиза, в начало">
+      <img class="lg__main" src="../../site/assets/figma/logo-footer.svg" alt="Яндекс Лавка">
+      <img class="lg__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+      <img class="lg__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt="Франшиза">
+    </a>
+    <span class="hdr__sp"></span>
+    <a class="hcta" href="#form">Заявка</a>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i></button>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-hidden="true" aria-label="Разделы страницы">
+  <div id="menuLinks"></div>
+  <div class="menu__ft">
+    <a class="btn btn--blue btn--wide" href="#form">Стать партнёром</a>
+    <a class="menu__tg" id="menuTg" href="#" target="_blank" rel="noreferrer">
+      <img src="../../site/assets/figma/telegram.svg" alt="" width="18" height="18">Telegram-канал франшизы
+    </a>
+  </div>
+</nav>
+
+<main id="top">
+
+  <!-- 01 · Хиро -->
+  <section class="hero g-dark">
+    <div class="wrap">
+      <h1 class="t-display rv">Запустите<br>Яндекс&nbsp;Лавку<br><span class="city" id="city"></span></h1>
+      <p class="hero__lead t-lead rv" style="--d:.08s">Франшиза быстрой доставки продуктов с&nbsp;технологиями, снабжением и&nbsp;поддержкой Яндекса</p>
+      <div class="hero__cta rv" style="--d:.16s"><a class="btn btn--blue" href="#form">Стать партнёром</a></div>
+    </div>
+  </section>
+
+  <!-- 02 · Строка мероприятия -->
+  <div class="evtbox">
+    <a class="evt rv" href="#form">
+      <span class="evt__d"><b>27</b><i>авг</i></span>
+      <span class="evt__t"><b>День партнёров Яндекс Лавки</b><i>27 августа · Москва · набор открыт</i></span>
+      <span class="evt__c" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </a>
+  </div>
+
+  <!-- 03 · Цифры -->
+  <section class="nums" aria-label="Лавка в цифрах">
+    <div class="lane" id="numsLane" tabindex="0" role="group" aria-label="Три карточки с цифрами, листаются вбок"></div>
+    <div class="dots" id="numsDots" aria-hidden="true"></div>
+  </section>
+
+  <!-- 04 · Как устроен бизнес -->
+  <section class="sec" id="business">
+    <div class="wrap sec__head"><h2 class="t-h2 rv">Как устроен бизнес?</h2></div>
+    <div class="bizwrap">
+      <div class="lane lane--start" id="bizLane" tabindex="0" role="group" aria-label="Как устроен бизнес: три карточки, листаются вбок"></div>
+      <div class="biznav">
+        <button class="ctl" id="bizPrev" type="button" aria-label="Предыдущая карточка"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4.5 6.5 10 12 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="ctl" id="bizNext" type="button" aria-label="Следующая карточка"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4.5 13.5 10 8 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · Даркстор -->
+  <section class="sec" id="darkstore">
+    <div class="wrap sec__head">
+      <h2 class="t-h2 rv">Как работает даркстор?</h2>
+      <p class="sec__sub t-body rv" style="--d:.06s">Даркстор — специализированный склад, в&nbsp;котором хранятся товары и&nbsp;собираются заказы, откуда и&nbsp;происходит доставка</p>
+    </div>
+    <div class="dstage rv">
+      <div class="map" id="map">
+        <img src="../../site/assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора: зоны хранения, кухня, холодильные камеры, зона выдачи и погрузки">
+      </div>
+      <article class="zcard" id="zcard">
+        <div class="zcard__top">
+          <b class="zcard__n" id="zN">01</b>
+          <div class="zcard__nav">
+            <button class="ctl ctl--white" id="zPrev" type="button" aria-label="Предыдущая зона"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4.5 6.5 10 12 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="ctl ctl--white" id="zNext" type="button" aria-label="Следующая зона"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4.5 13.5 10 8 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+        <div aria-live="polite"><h3 class="t-h3" id="zT"></h3><p class="t-body" id="zD"></p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 06 · Форматы -->
+  <section class="sec band fmt" id="formats">
+    <div class="wrap sec__head" style="margin-bottom:0">
+      <h2 class="t-h2 rv">Форматы партнёрства</h2>
+      <p class="sec__sub t-body rv" style="--d:.06s">Три сценария входа — выберите свой</p>
+    </div>
+    <div class="lane lane--start chips" id="fmtChips" role="tablist" aria-label="Форматы партнёрства"></div>
+    <div class="fpanel fswap rv" id="fmtPanel"></div>
+    <div class="seccta"><a class="btn btn--blue btn--wide rv" href="#form">Стать партнёром</a></div>
+  </section>
+
+  <!-- 07 · Как стать партнёром -->
+  <section class="sec steps g-dark g-dark--deep" id="steps">
+    <div class="wrap sec__head"><h2 class="t-h2 rv">Как стать партнёром?</h2></div>
+    <article class="s1card rv">
+      <span class="t-cap">01</span>
+      <h3 class="t-h3">Заявка на сайте</h3>
+      <p class="t-body" id="s1d"></p>
+      <span class="s1card__e" id="s1e"></span>
+      <a class="btn btn--white btn--wide" href="#form">Оставить заявку</a>
+    </article>
+    <div class="tl" id="tl"><div class="tl__fill" id="tlFill"></div><div id="tlSteps"></div></div>
+  </section>
+
+  <!-- 08 · Отзывы -->
+  <section class="sec" id="reviews">
+    <div class="wrap sec__head headrow">
+      <h2 class="t-h2 rv">Отзывы франчайзи</h2>
+      <div class="nav">
+        <button class="ctl" id="revPrev" type="button" aria-label="Предыдущий отзыв"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4.5 6.5 10 12 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="ctl" id="revNext" type="button" aria-label="Следующий отзыв"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4.5 13.5 10 8 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <div class="lane lane--start" id="revLane" tabindex="0" role="group" aria-label="Отзывы франчайзи: три карточки, листаются вбок"></div>
+  </section>
+
+  <!-- 09 · О нас говорят -->
+  <section class="sec" aria-label="Публикации о франшизе">
+    <div class="wrap">
+      <h2 class="t-h2 rv">О нас говорят</h2>
+      <div class="med rv" id="med"></div>
+    </div>
+  </section>
+
+  <!-- 10 · FAQ + телеграм -->
+  <section class="sec" id="faq">
+    <div class="wrap sec__head"><h2 class="t-h2 rv">Вопросы и ответы</h2></div>
+    <div class="wrap"><div class="acc rv" id="acc"></div></div>
+    <a class="tgstrip rv" id="tgStrip" href="#" target="_blank" rel="noreferrer">
+      <b>Не нашли ответ? Разбираем бизнес-модель в&nbsp;Telegram-канале</b>
+      <span class="btn btn--navy btn--sm">Перейти в Telegram</span>
+    </a>
+  </section>
+
+  <!-- 11 · Форма -->
+  <section class="sec form g-dark" id="form">
+    <div class="wrap">
+      <h2 class="t-h2 rv">Станьте франчайзи Яндекс&nbsp;Лавки</h2>
+      <p class="form__sub t-body rv" style="--d:.06s">Оставьте заявку — обсудим план запуска и&nbsp;отправим финансовую модель</p>
+      <ul class="perks rv" id="perks" style="--d:.12s"></ul>
+    </div>
+    <form class="fcard rv" id="leadForm" novalidate>
+      <h3>Расскажите о себе</h3>
+      <label><span>Имя</span><input name="name" autocomplete="name" placeholder="Ваше имя" required></label>
+      <label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 900 000-00-00" required></label>
+      <label><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+      <label><span>Город</span><input name="city" placeholder="Где хотите развивать Лавку" required></label>
+      <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+      <label class="consent"><input type="checkbox" required><span>Согласен на обработку персональных данных и принимаю политику конфиденциальности</span></label>
+      <div class="fsubmit">
+        <button class="btn btn--blue" type="submit">Стать партнёром</button>
+        <p class="fnote">Свяжемся в течение 2&nbsp;рабочих дней</p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <a class="lg" href="#top" aria-label="Яндекс Лавка — франшиза, в начало">
+      <img class="lg__main" src="../../site/assets/figma/logo-footer.svg" alt="Яндекс Лавка">
+      <img class="lg__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+      <img class="lg__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt="Франшиза">
+    </a>
+    <nav class="ftr__nav" id="ftrNav" aria-label="Разделы страницы"></nav>
+    <a class="btn btn--blue btn--wide ftr__tg" id="ftrTg" href="#" target="_blank" rel="noreferrer">
+      <img src="../../site/assets/figma/telegram.svg" alt="" width="20" height="20">Telegram
+    </a>
+    <div class="ftr__legal">
+      <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д. 22, стр. 1</p>
+      <p>Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</p>
+      <p><a href="https://yandex.ru/legal/lavka_termsofuse/" target="_blank" rel="noreferrer">Политика конфиденциальности</a></p>
+      <p><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Обработка персональных данных</a></p>
+    </div>
+    <p class="ftr__c">© 2026 ООО «Яндекс.Лавка»</p>
+  </div>
+</footer>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const L = window.LAVKA, A = '../../site/assets/figma/';
+
+  /* ---- контент: правки до актуального site/index.html ---- */
+  L.numbers = [
+    { v: 28, t: 'где работает сервис', d: 'Бизнес-модель, технологии и сильный бренд уже работают — не нужно строить с нуля' },
+    { v: 14, t: 'городов запущено по франшизе', d: 'Партнёры готовятся к запуску, а мы сопровождаем на каждом этапе' },
+    { v: 15, t: 'партнёров ищем сейчас', d: 'Передаём в управление готовый бизнес или запускаем с нуля' }
+  ];
+  L.formats[2].fee = '750 тыс ₽';
+  L.media = [
+    { alt: 'Коммерсантъ', src: 'media-kommersant.svg', href: 'https://www.kommersant.ru/doc/8675370' },
+    { alt: 'Газета.ru', text: 'газета.ru', href: 'https://www.gazeta.ru/business/news/2026/06/09/28650007.shtml' },
+    { alt: 'РИА Новости', src: 'media-ria.svg', href: 'https://ria.ru/20260407/franshiza-2085663626.html' },
+    { alt: 'РБК', src: 'media-rbk.svg', href: 'https://biztorg.ru/news/6a3148759a7947b75895aef7' }
+  ];
+
+  /* ---- ссылки на телеграм ---- */
+  ['#menuTg', '#tgStrip', '#ftrTg'].forEach(s => { const a = $(s); if (a) a.href = L.tg; });
+
+  /* ---- шапка: стекло после старта, «Заявка» после хиро ---- */
+  const hdr = $('#hdr');
+  const hero = $('.hero');
+  addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 8), { passive: true });
+  new IntersectionObserver(es => es.forEach(e =>
+    hdr.classList.toggle('past', !e.isIntersecting)
+  ), { rootMargin: '-64px 0px 0px 0px' }).observe(hero);
+
+  /* ---- меню ---- */
+  $('#menuLinks').innerHTML = L.nav.map(([h, t], i) =>
+    `<a class="mlink" href="${h}" style="transition-delay:${.05 + i * .04}s"><i>0${i + 1}</i><b>${t}</b></a>`).join('');
+  MB.menu('#burger', '#menu');
+
+  /* ---- хиро: барабан городов ---- */
+  MB.cities('#city', L.cities);
+
+  /* ---- цифры ---- */
+  $('#numsLane').innerHTML = L.numbers.map((n, i) => `
+    <article class="ncard rv" style="--d:${i * .07}s">
+      <b data-count="${n.v}">0</b><h3 class="t-h4">${n.t}</h3><p class="t-small">${n.d}</p>
+    </article>`).join('');
+  MB.dots('#numsLane', '#numsDots');
+
+  /* ---- бизнес ---- */
+  $('#bizLane').innerHTML = L.business.map((b, i) => `
+    <article class="bcard rv" style="--d:${i * .07}s">
+      <h3 class="t-h3">${b.h}</h3><p class="t-body">${b.p}</p>
+      <div class="bcard__ft">${i ? '' : '<a class="btn btn--blue" href="#form">Стать партнёром</a>'}</div>
+    </article>`).join('');
+
+  /* ---- один помощник для стрелок всех лент ---- */
+  const arrows = (laneSel, prevSel, nextSel) => {
+    const t = $(laneSel), p = $(prevSel), n = $(nextSel);
+    if (!t || !p || !n) return;
+    const step = () => (t.firstElementChild?.getBoundingClientRect().width ?? 300) + 12;
+    p.addEventListener('click', () => t.scrollBy({ left: -step(), behavior: 'smooth' }));
+    n.addEventListener('click', () => t.scrollBy({ left: step(), behavior: 'smooth' }));
+    const upd = () => {
+      p.disabled = t.scrollLeft < 20;
+      n.disabled = t.scrollLeft > t.scrollWidth - t.clientWidth - 20;
+    };
+    t.addEventListener('scroll', upd, { passive: true }); upd();
+  };
+  arrows('#bizLane', '#bizPrev', '#bizNext');
+
+  /* ---- даркстор: пины на карте + карточка зоны со стрелками ---- */
+  const zones = L.zones;
+  $('#map').insertAdjacentHTML('beforeend', zones.map(([n, t, d, x, y], i) =>
+    `<button type="button" class="map__pin${i ? '' : ' on'}" style="--x:${x}%;--y:${y}%" data-i="${i}" aria-label="Зона ${n} — ${t}">${n}</button>`).join(''));
+  const pins = [...document.querySelectorAll('.map__pin')];
+  let zi = 0;
+  const zGo = i => {
+    zi = (i + zones.length) % zones.length;
+    const [n, t, d] = zones[zi];
+    pins.forEach((p, j) => p.classList.toggle('on', j === zi));
+    $('#zN').textContent = n; $('#zT').textContent = t; $('#zD').textContent = d;
+  };
+  $('#map').addEventListener('click', e => { const b = e.target.closest('.map__pin'); if (b) zGo(+b.dataset.i); });
+  $('#zPrev').addEventListener('click', () => zGo(zi - 1));
+  $('#zNext').addEventListener('click', () => zGo(zi + 1));
+  let zx = null;
+  const zc = $('#zcard');
+  zc.addEventListener('pointerdown', e => { zx = e.clientX; }, { passive: true });
+  zc.addEventListener('pointerup', e => {
+    if (zx === null) return;
+    const dx = e.clientX - zx; zx = null;
+    if (Math.abs(dx) > 44) zGo(zi + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  zGo(0);
+
+  /* ---- форматы ---- */
+  const fmts = L.formats, FC = L.formatCommon;
+  $('#fmtChips').innerHTML = fmts.map((f, i) =>
+    `<button type="button" role="tab" aria-selected="${!i}" class="${i ? '' : 'on'}" data-i="${i}">${f.tab}</button>`).join('');
+  const fPanel = $('#fmtPanel');
+  const fRender = f => {
+    fPanel.innerHTML = `
+      <p class="fpanel__cities t-small">${f.cities}</p>
+      <div class="fpanel__big"><span class="t-cap">Инвестиции в город</span><b>${f.inv}<small>млн ₽</small></b></div>
+      <dl class="fpanel__row">
+        <div><dt class="t-cap">Окупаемость</dt><dd>${f.pay}</dd></div>
+        <div><dt class="t-cap">Паушальный</dt><dd>${f.fee || FC.fee}<small>${FC.feeUnit}</small></dd></div>
+        <div><dt class="t-cap">Роялти</dt><dd>${FC.royalty}<small>от оборота</small></dd></div>
+      </dl>
+      <p class="fpanel__note t-small">${f.note}</p>`;
+  };
+  $('#fmtChips').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || b.classList.contains('on')) return;
+    [...$('#fmtChips').children].forEach(c => { c.classList.toggle('on', c === b); c.setAttribute('aria-selected', String(c === b)); });
+    fPanel.classList.add('out');
+    setTimeout(() => { fRender(fmts[+b.dataset.i]); fPanel.classList.remove('out'); }, 220);
+  });
+  fRender(fmts[0]);
+
+  /* ---- шаги ---- */
+  const [s1, ...rest] = L.steps;
+  $('#s1d').textContent = s1.d; $('#s1e').textContent = '~' + s1.e;
+  $('#tlSteps').innerHTML = rest.map(s => `
+    <article class="tstep">
+      <span class="t-cap">${s.n}</span><h3 class="t-h3">${s.t}</h3>
+      <p class="t-body">${s.d}</p><span class="tstep__e">~${s.e}</span>
+    </article>`).join('');
+  MB.timeline('#tl', '#tlFill', '.tstep');
+
+  /* ---- отзывы ---- */
+  $('#revLane').innerHTML = L.reviews.map((r, i) => `
+    <article class="rcard rv" style="--d:${i * .07}s">
+      <span class="rcard__a">${r.i}</span><h3 class="t-h4">${r.n}</h3><i>${r.m}</i>
+      <p class="t-body">${r.p}</p>
+    </article>`).join('');
+  arrows('#revLane', '#revPrev', '#revNext');
+
+  /* ---- о нас говорят ---- */
+  $('#med').innerHTML = L.media.map(m => `
+    <a href="${m.href}" target="_blank" rel="noreferrer" aria-label="${m.alt}">
+      ${m.text ? `<span class="txt">${m.text}</span>` : `<img src="${A}${m.src}" alt="${m.alt}">`}
+    </a>`).join('');
+
+  /* ---- FAQ ---- */
+  $('#acc').innerHTML = L.faq.map(([q, a]) => `
+    <article>
+      <button type="button" aria-expanded="false">${q}<i aria-hidden="true"></i></button>
+      <div class="a"><div><p class="t-body">${a}</p></div></div>
+    </article>`).join('');
+  MB.accordion('#acc');
+
+  /* ---- форма ---- */
+  $('#perks').innerHTML = L.perks.map(([b, s]) => `<li><b>${b}</b><span>${s}</span></li>`).join('');
+  MB.form('#leadForm');
+
+  /* ---- футер: разделы страницы ---- */
+  $('#ftrNav').innerHTML = [
+    ['#formats', 'Форматы франшизы'],
+    ['#business', 'Как устроен бизнес'],
+    ['#steps', 'Как стать партнёром'],
+    ['#faq', 'Вопросы и ответы']
+  ].map(([h, t]) => `<a href="${h}">${t}</a>`).join('');
+
+  /* ---- общее поведение ---- */
+  MB.reveal();
+  MB.counters();
+})();
+</script>
+</body>
+</html>

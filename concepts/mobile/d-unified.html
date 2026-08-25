@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3d">
+<meta name="color-scheme" content="dark">
+<title>Мобилка D — Единая · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ВАРИАНТ D — «ЕДИНАЯ»
+   Одна система на все 13 блоков фигма-сборки:
+   один gutter, одна типошкала (8 стилей), один компонент
+   карусели, две роли кнопок, три радиуса, три пресета свечения.
+   Тёмная тема: глубина строится подъёмом плоскости,
+   а не чередованием светлых и тёмных секций.
+   ============================================================ */
+
+/* ---------- 1 · ТОКЕНЫ ---------- */
+:root{
+  /* поверхности — четыре уровня подъёма */
+  --bg:#0b1f3d; --surf:#122a52; --surf-2:#1a3a6b; --surf-3:#24518f; --deep:#08182f;
+  --line:rgba(170,217,252,.14); --line-2:rgba(170,217,252,.28);
+  /* акценты */
+  --acc:#00adff; --acc-2:#aad9fc;
+  /* текст */
+  --tx:#fff; --tx-2:#a7bee0; --tx-3:#7391bd;
+  /* ритм — шаг 4px, один gutter на весь документ */
+  --gut:20px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px;
+  --s6:24px; --s7:32px; --s8:40px; --s9:56px; --s10:72px;
+  /* радиусы — ровно три + пилюля */
+  --r-s:14px; --r-m:22px; --r-l:28px; --r-p:999px;
+  /* управление */
+  --h-btn:52px; --h-tap:44px;
+  /* типошкала — 8 стилей, YS Geo */
+  --f-display:42px; --f-h2:32px; --f-h3:20px; --f-lead:17px;
+  --f-body:15px; --f-sm:13px; --f-cap:12px; --f-num:64px;
+}
+
+/* ---------- 2 · БАЗА ---------- */
+html{color-scheme:dark}
+body{background:var(--bg);color:var(--tx);touch-action:manipulation;text-wrap:pretty}
+h1,h2,h3{text-wrap:balance}
+.wrap{position:relative;z-index:1}
+.sec{position:relative;isolation:isolate;padding-block:var(--s10)}
+section[id],main{scroll-margin-top:var(--s3)}
+.sec--tight{padding-block:var(--s9)}
+::selection{background:var(--acc);color:var(--bg)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:var(--r-s)}
+.skip{position:fixed;z-index:70;left:var(--gut);top:-64px;display:inline-flex;align-items:center;
+  min-height:var(--h-tap);padding:0 var(--s5);border-radius:var(--r-p);background:var(--acc);color:var(--bg);
+  font-size:var(--f-body);font-weight:500;transition:top .25s var(--ease-out)}
+.skip:focus{top:var(--s3)}
+
+/* ---------- 3 · ТИПОГРАФИКА (8 стилей) ---------- */
+.h1{font-size:var(--f-display);line-height:.94;font-weight:900;letter-spacing:-.02em}
+.h2{font-size:var(--f-h2);line-height:.98;font-weight:900;letter-spacing:-.015em}
+.h3{font-size:var(--f-h3);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+.lead{font-size:var(--f-lead);line-height:1.35;font-weight:500}
+.body{font-size:var(--f-body);line-height:1.45;font-weight:400}
+.sm{font-size:var(--f-sm);line-height:1.4;font-weight:400}
+.cap{font-size:var(--f-cap);line-height:1.2;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.num{font-size:var(--f-num);line-height:1;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.h2+.sec__lead{margin-top:var(--s4);color:var(--tx-2)}
+.sec>.wrap>.h2{margin-bottom:var(--s6)}
+
+/* ---------- 4 · СВЕЧЕНИЕ: три пресета, не больше одного на секцию ---------- */
+.glow{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.glow::before,.glow::after{content:'';position:absolute;border-radius:50%}
+/* A · края страницы — только хиро и форма */
+.glow--edge::before{width:840px;height:840px;left:-390px;top:-200px;
+  background:radial-gradient(circle,rgba(0,173,255,.34),rgba(0,173,255,0) 68%)}
+.glow--edge::after{width:660px;height:660px;right:-300px;top:110px;
+  background:radial-gradient(circle,rgba(36,81,143,.8),rgba(36,81,143,0) 70%)}
+/* B · сцена — под картой даркстора и под таймлайном */
+.glow--stage::before{width:560px;height:560px;left:50%;margin-left:-280px;top:-160px;
+  background:radial-gradient(circle,rgba(0,173,255,.2),rgba(0,173,255,0) 68%)}
+.glow--stage::after{width:460px;height:460px;left:-170px;bottom:-160px;
+  background:radial-gradient(circle,rgba(36,81,143,.62),rgba(36,81,143,0) 70%)}
+/* C · блик внутри карточки — цифры и отзывы */
+.glow--card::before{width:118%;height:330px;left:-9%;top:-206px;
+  background:radial-gradient(closest-side,rgba(0,173,255,.85),rgba(0,173,255,0))}
+.glow--card::after{width:78%;height:140px;left:11%;top:-82px;
+  background:radial-gradient(closest-side,rgba(0,173,255,.7),rgba(0,173,255,0))}
+
+/* ---------- 5 · КНОПКИ: две роли, высота 52 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);
+  min-height:var(--h-btn);padding:0 28px;border-radius:var(--r-p);
+  font-size:var(--f-lead);font-weight:500;line-height:1.1;white-space:nowrap;
+  transition:transform .18s var(--ease),background .22s,border-color .22s,color .22s}
+.btn:active{transform:scale(.97)}
+.btn--pri{background:var(--acc);color:var(--bg);box-shadow:0 8px 26px rgba(0,120,190,.4)}
+.btn--sec{background:transparent;color:var(--acc-2);box-shadow:inset 0 0 0 1px var(--line-2)}
+.btn--wide{display:flex;width:100%}
+/* иконочная — круг 44 */
+.ibtn{width:var(--h-tap);height:var(--h-tap);display:grid;place-items:center;border-radius:var(--r-p);
+  background:rgba(170,217,252,.1);transition:background .22s}
+
+/* ---------- 6 · КАРУСЕЛЬ: один компонент на все ленты ---------- */
+.rail{position:relative;z-index:1;display:flex;gap:var(--s3);
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;
+  padding-inline:var(--gut);scroll-padding-inline-start:var(--gut);
+  scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{flex:none;scroll-snap-align:start}
+.rail__card{width:min(300px,calc(100vw - var(--gut) * 2 - 26px))}
+/* таблетки — та же лента, другой размер элемента */
+.rail--pills{gap:var(--s2)}
+.rail--pills button{flex:none;min-height:var(--h-tap);padding:0 var(--s4);border-radius:var(--r-p);
+  background:var(--surf);color:var(--acc-2);font-size:var(--f-body);font-weight:500;
+  box-shadow:inset 0 0 0 1px var(--line);transition:background .25s,color .25s,box-shadow .25s}
+.rail--pills button.on{background:var(--acc);color:var(--bg);box-shadow:none}
+/* единственная система навигации: точки + счётчик, стрелок нет нигде */
+.rnav{display:flex;align-items:center;gap:var(--s3);margin-top:var(--s5)}
+.rnav__d{display:flex;gap:6px}
+.rnav__d i{width:6px;height:6px;border-radius:var(--r-p);background:var(--line-2);transition:width .3s var(--ease),background .3s}
+.rnav__d i.on{width:22px;background:var(--acc)}
+.rnav__c{margin-left:auto;font-size:var(--f-cap);font-weight:500;letter-spacing:.08em;color:var(--tx-3);font-variant-numeric:tabular-nums}
+
+/* ---------- 7 · ШАПКА ---------- */
+.hdr{position:fixed;z-index:55;inset:var(--s3) var(--s4) auto;height:56px;padding:0 var(--s3) 0 var(--s4);
+  display:flex;align-items:center;border-radius:var(--r-p);color:var(--tx);
+  transition:background .3s var(--ease),box-shadow .3s var(--ease),height .3s var(--ease)}
+.hdr.solid{height:50px;background:rgba(11,31,61,.76);
+  -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:inset 0 0 0 1px var(--line),0 10px 30px rgba(4,14,30,.5)}
+.hdr .lg,.ftr .lg{--tap:1}
+.lg[data-tap]::after{content:'';position:absolute;left:-10px;right:-10px;top:50%;height:var(--h-tap);transform:translateY(-50%)}
+.hdr .lg{--lg:.37}
+.hdr.solid .lg{--lg:.33}
+.burger{margin-left:auto;width:var(--h-tap);height:var(--h-tap);display:grid;place-items:center;border-radius:var(--r-p)}
+.burger i{position:relative;display:block;width:19px;height:1.8px;border-radius:2px;background:currentColor;transition:background .2s}
+.burger i::before,.burger i::after{content:'';position:absolute;left:0;width:19px;height:1.8px;border-radius:2px;background:currentColor;transition:transform .28s var(--ease)}
+.burger i::before{top:-6px} .burger i::after{top:6px}
+body.is-locked .burger i{background:transparent}
+body.is-locked .burger i::before{transform:translateY(6px) rotate(45deg)}
+body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
+.hdr__pg{position:absolute;left:var(--s4);right:var(--s4);bottom:7px;height:2px;border-radius:2px;background:rgba(170,217,252,.16);opacity:0;transition:opacity .3s}
+.hdr.solid .hdr__pg{opacity:1}
+.hdr__pg i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(var(--p,0));border-radius:2px;background:var(--acc);transition:transform .1s linear}
+
+/* ---------- 8 · МЕНЮ ---------- */
+.menu{position:fixed;inset:0;z-index:54;overscroll-behavior:contain;overflow-y:auto;padding:96px var(--gut) calc(var(--s8) + var(--safe-b));
+  display:flex;flex-direction:column;background:rgba(8,24,47,.92);
+  -webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);
+  opacity:0;visibility:hidden;transition:opacity .35s var(--ease-out),visibility .35s}
+.menu.open{opacity:1;visibility:visible}
+.menu a{display:flex;align-items:center;gap:var(--s4);min-height:var(--h-tap);padding-block:var(--s2);
+  font-size:26px;line-height:1.1;font-weight:800;letter-spacing:-.01em;
+  opacity:0;transform:translateY(18px);transition:opacity .4s var(--ease-out) var(--d,0s),transform .5s var(--ease-out) var(--d,0s)}
+.menu.open a{opacity:1;transform:none}
+.menu a em{font-style:normal;font-size:var(--f-cap);font-weight:500;letter-spacing:.08em;color:var(--acc)}
+.menu__tg{margin-top:auto;justify-content:center;font-size:var(--f-lead)!important;font-weight:500!important}
+.menu__tg img{width:20px;height:20px}
+
+/* ---------- 9 · СКВОЗНОЙ CTA: док уступает место секционной кнопке ---------- */
+.dock{position:fixed;z-index:60;left:var(--gut);right:var(--gut);bottom:calc(var(--s5) + var(--safe-b));
+  height:var(--h-btn);display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-p);background:var(--acc);color:var(--bg);
+  font-size:var(--f-lead);font-weight:500;box-shadow:0 10px 34px rgba(0,120,190,.45);
+  opacity:0;transform:translate3d(0,26px,0) scale(.96);pointer-events:none;
+  transition:opacity .32s var(--ease-out),transform .42s var(--ease-out);will-change:transform}
+body.dock-on .dock{opacity:1;transform:none;pointer-events:auto}
+body.dock-on .dock:active{transform:scale(.97)}
+.dock-fade{position:fixed;z-index:59;left:0;right:0;bottom:0;height:132px;pointer-events:none;opacity:0;
+  transition:opacity .4s;
+  -webkit-mask-image:linear-gradient(to top,#000 42%,transparent);mask-image:linear-gradient(to top,#000 42%,transparent);
+  background:linear-gradient(to top,rgba(11,31,61,.92),rgba(11,31,61,0))}
+body.dock-on .dock-fade{opacity:1}
+
+/* ---------- 10 · ХИРО ---------- */
+.hero{position:relative;isolation:isolate;padding:128px 0 var(--s9);text-align:center}
+.hero .h1{margin-bottom:var(--s6)}
+.city{position:relative;display:inline-flex;vertical-align:bottom;color:var(--acc);height:1em;
+  padding-bottom:.18em;margin-bottom:-.18em;box-sizing:content-box;white-space:nowrap;overflow:hidden;
+  transition:width .9s var(--ease-out)}
+.city span{position:absolute;left:0;top:0;line-height:1;white-space:nowrap;opacity:0;transform:translateY(78%);
+  transition:transform .85s var(--ease-out),opacity .4s}
+.city span.cur{opacity:1;transform:none}
+.city span.out{opacity:0;transform:translateY(-78%)}
+.hero .lead{color:var(--tx-2);margin-bottom:var(--s7)}
+.hero__act{display:flex;flex-direction:column;gap:var(--s3)}
+
+/* ---------- 11 · СТРОКА МЕРОПРИЯТИЯ ---------- */
+.evt{display:flex;align-items:center;gap:var(--s3);padding:var(--s3);border-radius:var(--r-m);
+  background:var(--surf);box-shadow:inset 0 0 0 1px var(--line);transition:background .22s}
+.evt:active{background:var(--surf-2)}
+.evt__d{flex:none;width:46px;height:46px;display:grid;place-content:center;justify-items:center;gap:1px;
+  border-radius:var(--r-s);background:var(--surf-3);color:var(--tx)}
+.evt__d b{font-size:var(--f-body);line-height:1;font-weight:800}
+.evt__d i{font-style:normal;font-size:var(--f-cap);line-height:1;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--acc-2)}
+.evt__t{flex:1;min-width:0;overflow-wrap:anywhere}
+.evt__t b{display:block;font-size:var(--f-body);line-height:1.2;font-weight:800}
+.evt__t i{display:block;margin-top:3px;font-style:normal;font-size:var(--f-sm);line-height:1.2;color:var(--tx-3)}
+.evt__c{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:var(--r-p);
+  background:rgba(170,217,252,.12);color:var(--acc-2)}
+
+/* ---------- 12 · ЦИФРЫ ---------- */
+.ncard{position:relative;isolation:isolate;overflow:hidden;padding:var(--s9) var(--s6) var(--s6);
+  border-radius:var(--r-m);background:var(--surf-2);text-align:center;min-height:264px;
+  display:flex;flex-direction:column;align-items:center}
+.ncard .num{color:var(--tx);position:relative;z-index:1;align-self:stretch;text-align:center}
+.ncard h3{position:relative;z-index:1;margin-top:var(--s4);font-size:var(--f-h3);line-height:1.15;font-weight:800}
+.ncard p{position:relative;z-index:1;margin-top:auto;padding-top:var(--s4);color:var(--tx-2);font-size:var(--f-sm);line-height:1.4}
+
+/* ---------- 13 · КАК УСТРОЕН БИЗНЕС ---------- */
+.bcard{position:relative;overflow:hidden;padding:var(--s6);border-radius:var(--r-m);
+  background:var(--surf);box-shadow:inset 0 0 0 1px var(--line);min-height:330px;
+  display:flex;flex-direction:column}
+.bcard__pic{height:112px;margin:calc(var(--s2) * -1) 0 var(--s5);display:grid;place-items:center}
+.bcard__pic img{max-height:112px;width:auto;border-radius:var(--r-s)}
+.bcard__pic--mark{position:relative}
+.bcard__pic--mark::before{content:'';width:96px;height:96px;border-radius:var(--r-p);
+  background:radial-gradient(circle,rgba(0,173,255,.5),rgba(0,173,255,0) 68%)}
+.bcard h3{margin-bottom:var(--s3)}
+.bcard p{color:var(--tx-2);font-size:var(--f-body);line-height:1.45}
+
+/* ---------- 14 · ДАРКСТОР ---------- */
+.mstage{position:relative;isolation:isolate;margin-top:var(--s5);padding:var(--s3);
+  border-radius:var(--r-l);background:var(--surf);box-shadow:inset 0 0 0 1px var(--line)}
+.map{position:relative;z-index:1;aspect-ratio:2627/1476;overflow:hidden;border-radius:var(--r-m);background:var(--surf-2)}
+.map__w{position:absolute;inset:0;transition:transform .7s var(--ease-out);will-change:transform}
+.map__w img{width:100%;height:100%}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:9px;height:9px;margin:-4.5px 0 0 -4.5px;
+  border-radius:var(--r-p);background:rgba(0,173,255,.92);box-shadow:0 0 0 2.4px rgba(0,173,255,.22);
+  transition:transform .4s var(--ease-spring),background .3s,box-shadow .3s}
+.map__pin.on{transform:scale(1.32);background:var(--tx);box-shadow:0 0 0 3.2px rgba(255,255,255,.3)}
+.zcard{position:relative;z-index:1;margin-top:var(--s3);padding:var(--s5);border-radius:var(--r-m);
+  background:var(--surf-2);min-height:196px}
+.zcard b{display:block;margin-bottom:var(--s2);font-size:var(--f-cap);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.zcard h3{margin-bottom:var(--s3);font-size:var(--f-h3);line-height:1.15;font-weight:800}
+.zcard p{color:var(--tx-2);font-size:var(--f-body);line-height:1.45}
+
+/* ---------- 15 · ФОРМАТЫ ---------- */
+.fpanel{margin-top:var(--s5);padding:var(--s6);border-radius:var(--r-l);background:var(--surf-2)}
+.fpanel__cities{color:var(--acc-2);font-size:var(--f-sm);line-height:1.4}
+.fpanel__big{margin-top:var(--s5);padding-bottom:var(--s5);border-bottom:1px solid var(--line)}
+.fpanel__big dt{font-size:var(--f-cap);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-3)}
+.fpanel__big dd{margin-top:var(--s2);display:flex;align-items:baseline;gap:var(--s2)}
+.fpanel__big b{font-size:38px;line-height:1;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fpanel__big span{font-size:var(--f-body);color:var(--tx-2)}
+.fpanel__row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);
+  padding-block:var(--s5);border-bottom:1px solid var(--line)}
+.fpanel__row dt{font-size:var(--f-cap);font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--tx-3)}
+.fpanel__row dd{margin-top:6px;font-size:var(--f-body);font-weight:800}
+.fpanel__note{padding-top:var(--s5);color:var(--tx-2);font-size:var(--f-sm);line-height:1.4}
+.fpanel+.btn{margin-top:var(--s5)}
+
+/* ---------- 16 · КАК СТАТЬ ПАРТНЁРОМ ---------- */
+.tl{position:relative;padding-left:var(--s8)}
+.tl::before{content:'';position:absolute;left:11px;top:8px;bottom:44px;width:2px;background:var(--line-2)}
+.tl__fill{position:absolute;left:11px;top:8px;width:2px;height:var(--fh,0px);background:var(--acc);
+  box-shadow:0 0 12px rgba(0,173,255,.7);transition:height .18s linear}
+.tstep{position:relative;padding-bottom:var(--s8)}
+.tstep:last-child{padding-bottom:0}
+.tstep::before{content:'';position:absolute;left:calc(var(--s8) * -1 + 4px);top:5px;width:16px;height:16px;
+  border-radius:var(--r-p);background:var(--bg);box-shadow:inset 0 0 0 2px var(--line-2);
+  transition:background .35s,box-shadow .35s,transform .35s var(--ease-spring)}
+.tstep.on::before{background:var(--acc);box-shadow:inset 0 0 0 2px var(--acc),0 0 14px rgba(0,173,255,.75);transform:scale(1.15)}
+.tstep b{display:block;margin-bottom:var(--s2);font-size:var(--f-cap);font-weight:500;letter-spacing:.1em;color:var(--acc)}
+.tstep h3{margin-bottom:var(--s2)}
+.tstep p{color:var(--tx-2);font-size:var(--f-body);line-height:1.45}
+.tstep em{display:inline-flex;align-items:center;gap:var(--s2);margin-top:var(--s3);
+  font-style:normal;font-size:var(--f-sm);font-weight:500;color:var(--acc-2)}
+.tstep em::before{content:'';width:6px;height:6px;border-radius:var(--r-p);background:var(--acc-2);opacity:.7}
+.tstep .btn{margin-top:var(--s5)}
+
+/* ---------- 17 · ОТЗЫВЫ ---------- */
+.rcard{position:relative;isolation:isolate;overflow:hidden;padding:var(--s6);border-radius:var(--r-m);
+  background:var(--surf-2);min-height:296px;display:flex;flex-direction:column}
+.rcard .av{position:relative;z-index:1;width:56px;height:56px;display:grid;place-items:center;border-radius:var(--r-p);
+  background:var(--surf-3);color:var(--tx);font-size:var(--f-body);font-weight:800;letter-spacing:.02em}
+.rcard h3{position:relative;z-index:1;margin-top:var(--s5)}
+.rcard small{position:relative;z-index:1;display:block;margin-top:var(--s1);font-size:var(--f-sm);color:var(--tx-3)}
+.rcard p{position:relative;z-index:1;margin-top:var(--s4);color:var(--tx-2);font-size:var(--f-body);line-height:1.45}
+
+/* ---------- 18 · О НАС ГОВОРЯТ ---------- */
+.med{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);margin-top:var(--s6)}
+.med a{display:grid;place-items:center;min-height:84px;border-radius:var(--r-m);
+  background:var(--surf);box-shadow:inset 0 0 0 1px var(--line);transition:background .22s}
+.med a:active{background:var(--surf-2)}
+.med img{max-width:130px;height:auto;filter:brightness(0) invert(1);opacity:.72}
+.med__t{font-size:var(--f-h3);font-weight:800;color:var(--tx-2)}
+
+/* ---------- 19 · FAQ ---------- */
+.acc article{border-bottom:1px solid var(--line)}
+.acc button{width:100%;min-height:var(--h-tap);padding:var(--s5) 0;display:flex;align-items:flex-start;
+  justify-content:space-between;gap:var(--s4);text-align:left;
+  font-size:var(--f-h3);line-height:1.15;font-weight:800;letter-spacing:-.01em}
+.acc i{flex:none;width:30px;height:30px;display:grid;place-items:center;border-radius:var(--r-p);
+  background:rgba(170,217,252,.1);color:var(--acc-2);font-style:normal;font-size:20px;font-weight:400;
+  transition:transform .3s var(--ease),background .25s,color .25s}
+.acc article.open i{transform:rotate(45deg);background:var(--acc);color:var(--bg)}
+.acc article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.acc article.open>div{grid-template-rows:1fr}
+.acc article>div>p{overflow:hidden;color:var(--tx-2);font-size:var(--f-body);line-height:1.45}
+.acc article.open>div>p{padding-bottom:var(--s5)}
+.tgstrip{margin-top:var(--s7);padding:var(--s6);border-radius:var(--r-l);background:var(--surf-2)}
+.tgstrip p{margin-bottom:var(--s5);font-size:var(--f-lead);line-height:1.3;font-weight:500}
+.tgstrip img{width:20px;height:20px}
+
+/* ---------- 20 · ФОРМА ---------- */
+.sec.form>.wrap>.h2{margin-bottom:var(--s4)}
+.form>.wrap>.lead{color:var(--tx-2);margin-bottom:var(--s6)}
+.perks{display:flex;flex-direction:column;gap:var(--s3)}
+.perks li{padding:var(--s5);border-radius:var(--r-m);background:var(--surf);box-shadow:inset 0 0 0 1px var(--line)}
+.perks strong{display:block;font-size:var(--f-body);line-height:1.25;font-weight:800}
+.perks span{display:block;margin-top:var(--s1);color:var(--tx-2);font-size:var(--f-sm);line-height:1.35}
+.fcard{margin-top:var(--s6);padding:var(--s6);border-radius:var(--r-l);background:var(--surf-2)}
+.fcard h3{margin-bottom:var(--s5);font-size:26px;line-height:1.05;font-weight:900;letter-spacing:-.015em}
+.fcard label{display:block;margin-bottom:var(--s4)}
+.fcard label>span{display:block;margin-bottom:6px;font-size:var(--f-cap);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--tx-3)}
+.fcard input,.fcard textarea{width:100%;min-height:var(--h-btn);padding:var(--s4);border-radius:var(--r-s);
+  background:var(--bg);color:var(--tx);font-size:var(--f-body);
+  border:1px solid var(--line);transition:border-color .22s,background .22s}
+.fcard textarea{min-height:88px;resize:vertical;line-height:1.4}
+.fcard input:focus,.fcard textarea:focus{border-color:var(--acc);background:var(--deep)}
+.fcard ::placeholder{color:var(--tx-3);opacity:1}
+.consent{display:flex!important;align-items:flex-start;gap:var(--s3);margin-bottom:var(--s5)!important;
+  min-height:var(--h-tap);padding-top:var(--s1)}
+.consent input{flex:none;width:24px;height:24px;min-height:0;margin:0;padding:0;border-radius:var(--r-p);
+  appearance:none;background:var(--bg);border:1px solid var(--line-2);transition:background .2s,border-color .2s}
+.consent input:checked{background:var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 10.5 8.5 14 15 6.5' stroke='%230b1f3d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;border-color:var(--acc)}
+.consent>span{margin:0!important;font-size:var(--f-sm);line-height:1.35;letter-spacing:0!important;
+  text-transform:none!important;color:var(--tx-2)!important;font-weight:400!important}
+.fsub{display:flex;align-items:center;gap:var(--s4)}
+.fsub .btn{flex:none}
+.fsub span{font-size:var(--f-sm);line-height:1.3;color:var(--tx-3)}
+
+/* ---------- 21 · ПОДВАЛ ---------- */
+.ftr{position:relative;padding:var(--s10) 0 calc(var(--s8) + var(--safe-b));background:var(--deep)}
+.ftr .lg{--lg:.5}
+.ftr nav{display:flex;flex-direction:column;margin-top:var(--s7)}
+.ftr nav a{display:flex;align-items:center;min-height:var(--h-tap);font-size:var(--f-lead);font-weight:500;color:var(--tx-2)}
+.ftr__tg{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);margin-top:var(--s5);
+  min-height:var(--h-btn);padding:0 28px;border-radius:var(--r-p);
+  box-shadow:inset 0 0 0 1px var(--line-2);color:var(--acc-2);font-size:var(--f-lead);font-weight:500}
+.ftr__tg img{width:20px;height:20px}
+.ftr__legal{margin-top:var(--s8);padding-top:var(--s6);border-top:1px solid var(--line);color:var(--tx-3)}
+.ftr__legal p{font-size:var(--f-sm);line-height:1.45}
+.ftr__legal p+p{margin-top:var(--s3)}
+.ftr__legal a{display:flex;align-items:center;min-height:var(--h-tap);font-size:var(--f-sm);color:var(--tx-2)}
+.ftr__legal a:first-of-type{margin-top:var(--s4)}
+.ftr__legal small{display:block;margin-top:var(--s3);font-size:var(--f-sm)}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#top">К содержанию</a>
+
+<header class="hdr" id="hdr">
+  <a class="lg" data-tap href="#top" aria-label="Яндекс Лавка — франшиза, в начало">
+    <img class="lg__main" width="275" height="40" src="../../site/assets/figma/logo-main.svg" alt="">
+    <img class="lg__mark" width="40" height="40" src="../../site/assets/figma/logo-word-1.svg" alt="">
+    <img class="lg__badge" width="130" height="30" src="../../site/assets/figma/logo-word-2.svg" alt="">
+  </a>
+  <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu"><i></i></button>
+  <div class="hdr__pg" aria-hidden="true"><i id="pgbar"></i></div>
+</header>
+
+<nav class="menu" id="menu" aria-hidden="true" aria-label="Разделы страницы">
+  <div id="menuLinks"></div>
+  <a class="menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer">
+    <img src="../../site/assets/figma/telegram.svg" width="20" height="20" alt="">Telegram-канал</a>
+</nav>
+
+<a class="dock" id="dock" href="#form">Стать партнёром</a>
+<div class="dock-fade" aria-hidden="true"></div>
+
+<main id="top">
+
+  <!-- 01 · Хиро -->
+  <section class="hero">
+    <div class="glow glow--edge" aria-hidden="true"></div>
+    <div class="wrap">
+      <h1 class="h1">Запустите<br>Яндекс&nbsp;Лавку<br><span class="city" id="city"></span></h1>
+      <p class="lead">Франшиза быстрой доставки продуктов с&nbsp;технологиями, снабжением и&nbsp;поддержкой Яндекса</p>
+      <div class="hero__act">
+        <a class="btn btn--pri" href="#form" data-cta>Стать партнёром</a>
+        <a class="btn btn--sec" href="#business">Как это работает</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · Мероприятие -->
+  <div class="wrap">
+    <a class="evt rv" href="#form" id="evt">
+      <span class="evt__d"><b id="evtD">27</b><i id="evtM">авг</i></span>
+      <span class="evt__t"><b>День партнёров Яндекс Лавки</b><i id="evtMeta"></i></span>
+      <span class="evt__c" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M7.5 4.2 13.3 10l-5.8 5.8" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </a>
+  </div>
+
+  <!-- 03 · Лавка в цифрах -->
+  <section class="sec sec--tight" aria-label="Лавка в цифрах">
+    <div class="rail" id="numsRail" tabindex="0" role="group" aria-label="Лавка в цифрах: три карточки, листаются вбок"></div>
+    <div class="rnav wrap" id="numsNav"><div class="rnav__d"></div><span class="rnav__c"></span></div>
+  </section>
+
+  <!-- 04 · Как устроен бизнес -->
+  <section class="sec" id="business">
+    <div class="wrap"><h2 class="h2 rv">Как устроен бизнес?</h2></div>
+    <div class="rail" id="bizRail" tabindex="0" role="group" aria-label="Как устроен бизнес: три карточки, листаются вбок"></div>
+    <div class="rnav wrap" id="bizNav"><div class="rnav__d"></div><span class="rnav__c"></span></div>
+  </section>
+
+  <!-- 05 · Как работает даркстор -->
+  <section class="sec" id="darkstore">
+    <div class="wrap rv">
+      <h2 class="h2">Как работает даркстор?</h2>
+      <p class="lead sec__lead">Даркстор&nbsp;— специализированный склад, в&nbsp;котором хранятся товары, собираются заказы, из&nbsp;которого происходит доставка</p>
+    </div>
+    <div class="rail rail--pills" id="zoneTabs" style="margin-top:var(--s6)" aria-label="Зоны даркстора"></div>
+    <div class="wrap">
+      <div class="mstage rv">
+        <div class="glow glow--stage" aria-hidden="true"></div>
+        <div class="map"><div class="map__w" id="mapW">
+          <img src="../../site/assets/figma/darkstore-map.png" width="2627" height="1476" alt="Изометрическая схема даркстора" loading="lazy" decoding="async">
+        </div></div>
+        <article class="zcard" id="zcard" aria-live="polite"></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · Форматы партнёрства -->
+  <section class="sec" id="formats">
+    <div class="wrap"><h2 class="h2 rv">Форматы партнёрства</h2></div>
+    <div class="rail rail--pills" id="fmtTabs" role="tablist" aria-label="Форматы партнёрства"></div>
+    <div class="wrap">
+      <div class="fpanel rv" id="fmtPanel"></div>
+      <a class="btn btn--pri btn--wide" href="#form" data-cta>Стать партнёром</a>
+    </div>
+  </section>
+
+  <!-- 07 · Как стать партнёром -->
+  <section class="sec steps" id="steps">
+    <div class="glow glow--stage" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 class="h2 rv">Как стать партнёром?</h2>
+      <div class="tl" id="tl"><div class="tl__fill" id="tlFill"></div></div>
+    </div>
+  </section>
+
+  <!-- 08 · Отзывы франчайзи -->
+  <section class="sec" id="reviews">
+    <div class="wrap"><h2 class="h2 rv">Отзывы франчайзи</h2></div>
+    <div class="rail" id="revRail" tabindex="0" role="group" aria-label="Отзывы франчайзи: три карточки, листаются вбок"></div>
+    <div class="rnav wrap" id="revNav"><div class="rnav__d"></div><span class="rnav__c"></span></div>
+  </section>
+
+  <!-- 09 · О нас говорят -->
+  <section class="sec sec--tight">
+    <div class="wrap rv">
+      <h2 class="h2">О&nbsp;нас говорят</h2>
+      <div class="med" id="med"></div>
+    </div>
+  </section>
+
+  <!-- 10 · Вопросы и ответы -->
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <h2 class="h2 rv">Вопросы и&nbsp;ответы</h2>
+      <div class="acc rv" id="acc"></div>
+      <div class="tgstrip rv">
+        <p>Не&nbsp;нашли ответ? Разбираем бизнес-модель в&nbsp;Telegram-канале</p>
+        <a class="btn btn--sec" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer" data-cta>
+          <img src="../../site/assets/figma/telegram.svg" width="20" height="20" alt="">Перейти в&nbsp;Telegram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · Заявка -->
+  <section class="sec form" id="form">
+    <div class="glow glow--edge" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 class="h2 rv">Станьте франчайзи Яндекс&nbsp;Лавки</h2>
+      <p class="lead rv">Оставьте заявку&nbsp;— обсудим план запуска и&nbsp;отправим финансовую модель</p>
+      <ul class="perks rv" id="perks"></ul>
+      <form class="fcard rv" id="leadForm" data-cta novalidate>
+        <h3>Расскажите о&nbsp;себе</h3>
+        <label><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+        <label><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label><span>Электронная почта</span><input name="email" type="email" inputmode="email" spellcheck="false" autocomplete="email" placeholder="Почта" required></label>
+        <label><span>Город</span><input name="city" autocomplete="address-level2" placeholder="Где хотите развивать Лавку" required></label>
+        <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+        <label class="consent"><input type="checkbox" required><span>Согласен на&nbsp;обработку персональных данных и&nbsp;принимаю политику конфиденциальности</span></label>
+        <div class="fsub">
+          <button class="btn btn--pri" type="submit">Стать партнёром</button>
+          <span>Свяжемся в&nbsp;течение<br>2&nbsp;рабочих дней</span>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <a class="lg" data-tap href="#top" aria-label="Яндекс Лавка — франшиза, в начало">
+      <img class="lg__main" width="275" height="40" src="../../site/assets/figma/logo-footer.svg" alt="">
+      <img class="lg__mark" width="40" height="40" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+      <img class="lg__badge" width="130" height="30" src="../../site/assets/figma/logo-footer-word-2.svg" alt="">
+    </a>
+    <nav id="ftrNav" aria-label="Разделы страницы"></nav>
+    <a class="ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer" data-cta>
+      <img src="../../site/assets/figma/telegram.svg" width="20" height="20" alt="">Telegram</a>
+    <div class="ftr__legal">
+      <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й&nbsp;Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p>
+      <p>Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p>
+      <a href="#">Политика конфиденциальности</a>
+      <a href="#">Обработка персональных данных</a>
+      <small>© 2026 ООО «Яндекс.Лавка»</small>
+    </div>
+  </div>
+</footer>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+(() => {
+  const D = window.LAVKA, $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const A = '../../site/assets/figma/';
+
+  /* Десктоп — источник правды по контенту: там, где он расходится
+     с общим content.js, берём десктопные значения. */
+  const NUMS = [
+    { v: 28, t: 'где работает сервис',           d: 'Бизнес-модель, технологии и&nbsp;сильный бренд уже работают&nbsp;— не&nbsp;нужно строить с&nbsp;нуля' },
+    { v: 14, t: 'городов запущено по&nbsp;франшизе', d: 'Партнёры готовятся к&nbsp;запуску, а&nbsp;мы сопровождаем на&nbsp;каждом этапе' },
+    { v: 15, t: 'партнёров ищем сейчас',         d: 'Передаём в&nbsp;управление готовый бизнес или&nbsp;запускаем с&nbsp;нуля' }
+  ];
+  const FEES = ['1 млн ₽', '1 млн ₽', '750 тыс ₽'];
+  const MEDIA = [
+    { alt: 'Коммерсантъ',  src: 'media-kommersant.svg' },
+    { alt: 'Газета.ru',    text: 'газета.ru' },
+    { alt: 'РИА Новости',  src: 'media-ria.svg' },
+    { alt: 'РБК',          src: 'media-rbk.svg' }
+  ];
+  const FTR_NAV = [['#formats','Форматы франшизы'],['#business','Как устроен бизнес'],
+                   ['#steps','Как стать партнёром'],['#faq','Вопросы и ответы']];
+
+  /* ---------- карусель: одна навигация на все ленты ---------- */
+  const rail = (trackSel, navSel) => {
+    const t = $(trackSel), nav = $(navSel);
+    if (!t || !nav) return;
+    const n = t.children.length;
+    const box = nav.querySelector('.rnav__d'), cnt = nav.querySelector('.rnav__c');
+    box.innerHTML = Array.from({ length: n }, (_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('');
+    const marks = [...box.children];
+    cnt.textContent = `1 / ${n}`;
+    const step = () => n > 1 ? t.children[1].offsetLeft - t.children[0].offsetLeft : 1;
+    let f = 0;
+    t.addEventListener('scroll', () => {
+      if (f) return;
+      f = requestAnimationFrame(() => {
+        f = 0;
+        const i = Math.max(0, Math.min(n - 1, Math.round(t.scrollLeft / step())));
+        marks.forEach((m, j) => m.classList.toggle('on', j === i));
+        cnt.textContent = `${i + 1} / ${n}`;
+      });
+    }, { passive: true });
+  };
+
+  /* ---------- рендер блоков ---------- */
+  MB.cities('#city', D.cities, reduced);
+
+  const [day, month] = D.event.when.split(' · ')[0].split(' ');
+  $('#evtD').textContent = day;
+  $('#evtM').textContent = month.slice(0, 3);
+  $('#evtMeta').textContent = `${D.event.when} · ${D.event.status.toLowerCase()}`;
+
+  $('#numsRail').innerHTML = NUMS.map(n =>
+    `<article class="rail__card ncard">
+       <div class="glow glow--card" aria-hidden="true"></div>
+       <b class="num" data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p>
+     </article>`).join('');
+
+  $('#bizRail').innerHTML = D.business.map(b =>
+    `<article class="rail__card bcard">
+       <div class="bcard__pic ${b.img ? '' : 'bcard__pic--mark'}">${b.img ? `<img src="${A}business/${b.img}.png" width="498" height="480" alt="" loading="lazy" decoding="async">` : ''}</div>
+       <h3 class="h3">${b.h}</h3><p>${b.p}</p>
+     </article>`).join('');
+
+  $('#tl').insertAdjacentHTML('beforeend', D.steps.map(s =>
+    `<article class="tstep"><b>${s.n}</b><h3 class="h3">${s.t}</h3><p>${s.d}</p><em>${s.e}</em>` +
+    (s.cta ? `<a class="btn btn--pri btn--wide" href="#form" data-cta>${s.cta}</a>` : '') +
+    `</article>`).join(''));
+
+  $('#revRail').innerHTML = D.reviews.map(r =>
+    `<article class="rail__card rcard">
+       <div class="glow glow--card" aria-hidden="true"></div>
+       <div class="av">${r.i}</div><h3 class="h3">${r.n}</h3><small>${r.m}</small><p>${r.p}</p>
+     </article>`).join('');
+
+  $('#med').innerHTML = MEDIA.map(m =>
+    `<a href="#" aria-label="${m.alt}">${m.src ? `<img src="${A}${m.src}" width="130" height="24" alt="${m.alt}" loading="lazy">` : `<span class="med__t">${m.text}</span>`}</a>`).join('');
+
+  $('#acc').innerHTML = D.faq.map(([q, a]) =>
+    `<article><button type="button" aria-expanded="false"><span>${q}</span><i aria-hidden="true">+</i></button><div><p>${a}</p></div></article>`).join('');
+
+  $('#perks').innerHTML = D.perks.map(([t, s]) => `<li><strong>${t}</strong><span>${s}</span></li>`).join('');
+  $('#ftrNav').innerHTML = FTR_NAV.map(([h, t]) => `<a href="${h}">${t}</a>`).join('');
+  $('#menuLinks').innerHTML = D.nav.map(([h, t], i) =>
+    `<a href="${h}" style="--d:${.06 + i * .04}s"><em>0${i + 1}</em>${t}</a>`).join('');
+
+  /* ---------- форматы: таблетки + одна панель ---------- */
+  const fmtTabs = $('#fmtTabs'), fmtPanel = $('#fmtPanel');
+  fmtTabs.innerHTML = D.formats.map((f, i) =>
+    `<button type="button" role="tab" class="${i ? '' : 'on'}" data-i="${i}" aria-selected="${!i}">${f.tab}</button>`).join('');
+  const fmtGo = i => {
+    const f = D.formats[i];
+    [...fmtTabs.children].forEach((b, j) => {
+      b.classList.toggle('on', j === i);
+      b.setAttribute('aria-selected', String(j === i));
+    });
+    fmtPanel.innerHTML =
+      `<p class="fpanel__cities">${f.cities}</p>
+       <dl class="fpanel__big"><dt>Инвестиции в город</dt><dd><b>${f.inv}</b><span>млн ₽</span></dd></dl>
+       <dl class="fpanel__row">
+         <div><dt>Окупаемость</dt><dd>${f.pay}</dd></div>
+         <div><dt>Паушальный</dt><dd>${FEES[i]}</dd></div>
+         <div><dt>Роялти</dt><dd>${D.formatCommon.royalty}</dd></div>
+       </dl>
+       <p class="fpanel__note">${f.note}</p>`;
+  };
+  fmtTabs.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    fmtGo(+b.dataset.i);
+    fmtTabs.scrollTo({ left: b.offsetLeft - (fmtTabs.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' });
+  });
+  fmtGo(0);
+
+  /* ---------- общее поведение ---------- */
+  /* Счётчики: MB.counters наблюдает за самими числами, а числа второй
+     и третьей карточки лежат за краем ленты и ожили бы только после свайпа.
+     Наблюдаем за лентой целиком — весь блок «в цифрах» оживает разом. */
+  const countUp = railSel => {
+    const box = $(railSel); if (!box) return;
+    const nums = [...box.querySelectorAll('[data-count]')];
+    if (reduced) return nums.forEach(n => n.textContent = n.dataset.count);
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      nums.forEach(n => {
+        const to = +n.dataset.count, t0 = performance.now(), dur = 1100;
+        const step = now => {
+          const k = Math.min(1, (now - t0) / dur);
+          n.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+          if (k < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }), { rootMargin: '0px 0px -18% 0px' });
+    io.observe(box);
+  };
+  countUp('#numsRail');
+
+  MB.reveal(); MB.accordion('#acc'); MB.form('#leadForm');
+  MB.zones({ tabs: '#zoneTabs', card: '#zcard', world: '#mapW', data: D.zones, zoom: 2.1 });
+  MB.timeline('#tl', '#tlFill', '.tstep');
+  rail('#numsRail', '#numsNav'); rail('#bizRail', '#bizNav'); rail('#revRail', '#revNav');
+
+  /* ============================================================
+     СКВОЗНОЙ CTA
+     Правило одно: на экране никогда не больше одного главного
+     действия. Док показывается ровно тогда, когда ни одна
+     секционная кнопка [data-cta] не видна.
+     ============================================================ */
+  const visible = new Set();
+  const sync = () => document.body.classList.toggle('dock-on',
+    visible.size === 0 && !document.body.classList.contains('is-locked'));
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => e.isIntersecting ? visible.add(e.target) : visible.delete(e.target));
+    sync();
+  }, { rootMargin: '-8% 0px -16% 0px' });
+  $$('[data-cta]').forEach(el => io.observe(el));
+
+  /* ---------- шапка: фон и нить прогресса ---------- */
+  const hdr = $('#hdr'), pg = $('#pgbar');
+  let f = 0;
+  const onScroll = () => {
+    f = 0;
+    const y = scrollY;
+    hdr.classList.toggle('solid', y > 40);
+    pg.style.setProperty('--p', Math.min(1, y / Math.max(1, document.body.scrollHeight - innerHeight)).toFixed(3));
+  };
+  addEventListener('scroll', () => { if (!f) f = requestAnimationFrame(onScroll); }, { passive: true });
+  onScroll();
+
+  MB.menu('#burger', '#menu', sync);
+})();
+</script>
+</body>
+</html>

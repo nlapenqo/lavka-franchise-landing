@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1c34">
+<title>Даркстор · 5 вариантов мобильного блока</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ПЯТЬ ВАРИАНТОВ МОБИЛЬНОГО БЛОКА «КАК РАБОТАЕТ ДАРКСТОР»
+   Карта и механика везде одни (пины, приближение, степпер) —
+   различаются поверхность и компоновка карточки зоны: сейчас
+   белая плашка сливается со страницей. Внизу каждого превью —
+   начало следующей секции, чтобы видеть стык.
+   ============================================================ */
+body{background:#0b1c34;color:#e8f1fb}
+
+.head{padding:40px 24px 8px;max-width:980px;margin:0 auto;text-align:center}
+.head h1{font-size:26px;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:10px}
+.head p{font-size:15px;line-height:1.45;color:rgba(190,214,244,.72)}
+.head b{color:var(--blue);font-weight:500}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,390px);gap:34px 22px;justify-content:center;padding:30px 14px 72px;align-items:start}
+.pcard{display:flex;flex-direction:column;gap:14px}
+.p{width:390px;border-radius:26px;overflow:hidden;background:#fff;color:var(--navy);box-shadow:0 22px 50px rgba(3,12,28,.5)}
+.meta{padding-inline:4px}
+.meta b{display:block;font-size:16px;font-weight:800;margin-bottom:5px}
+.meta span{display:block;font-size:13.5px;line-height:1.4;color:rgba(190,214,244,.66)}
+
+/* ---------- общее внутри превью ---------- */
+.blk{padding-top:44px}
+.pad{padding-inline:var(--gut)}
+.h2m{font-size:var(--fs-h2);line-height:.94;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:12px}
+.leadm{font-size:var(--fs-text);line-height:1.4;color:var(--dim);margin-bottom:24px}
+
+/* стык: начало секции «Форматы» — по нему видно, читается ли плашка */
+.nx{background:var(--light);padding:40px var(--gut) 30px}
+.nx b{display:block;font-size:var(--fs-h2);line-height:.94;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:8px}
+.nx span{font-size:var(--fs-text);color:var(--dim)}
+
+/* окно карты: мир масштабируется к выбранной зоне, как в e-figma */
+.map{position:relative;overflow:hidden;--z:1;background:var(--navy)}
+.map__world{position:relative;transform-origin:0 0;transition:transform .6s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.map__world img{width:100%;height:auto;display:block}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
+.map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
+.map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
+/* свечение сцены — эллипсы из фигмы, наклон −32.9° */
+.sglow{position:absolute;z-index:1;pointer-events:none;background:radial-gradient(closest-side,rgba(0,173,255,.85),rgba(0,173,255,.4) 45%,rgba(0,173,255,.1) 74%,transparent 100%)}
+.sglow--a{width:250px;height:400px;right:-92px;top:-118px;opacity:.4;transform:rotate(-32.9deg)}
+.sglow--b{width:320px;height:500px;left:-150px;top:24%;opacity:.5;transform:rotate(-32.9deg)}
+.map>.map__world{z-index:2}
+
+/* карточка зоны: один DOM во всех вариантах, поверхность задаёт вариант */
+.zinfo{position:relative}
+.zi__top{display:flex;align-items:center;justify-content:space-between}
+.zi__n{font-size:var(--fs-h2);line-height:.9;font-weight:900;letter-spacing:var(--ls-num);color:var(--blue)}
+.zi__fit{flex:none;width:38px;height:38px;margin-right:auto;margin-left:14px;display:grid;place-items:center;border-radius:50%;background:var(--light);color:var(--navy);opacity:0;pointer-events:none;transition:opacity .28s,background .2s}
+.zi__fit.on{opacity:1;pointer-events:auto}
+.zi__fit svg{width:17px;height:17px}
+.zinfo h3{margin-top:16px;font-size:var(--fs-h3-s);line-height:1;font-weight:900}
+.zinfo p{margin-top:12px;font-size:var(--fs-text);line-height:1.5;color:var(--dim)}
+.zf{animation:zf .3s var(--ease-out)}
+@keyframes zf{from{opacity:0;transform:translateY(8px)}}
+
+.rnd{flex:none;width:46px;height:46px;border-radius:50%;background:var(--light);display:grid;place-items:center;transition:background .2s,transform .18s var(--ease)}
+.rnd:active{transform:scale(.93)}
+.rnd i{display:block;width:9px;height:9px;border-right:2.2px solid var(--navy);border-top:2.2px solid var(--navy);border-radius:1px}
+.rnd--l i{transform:rotate(-135deg);margin-left:4px}
+.rnd--r i{transform:rotate(45deg);margin-right:4px}
+.rnds{display:flex;gap:8px}
+
+/* ============ A · один тёмный модуль ============
+   Карта и текст зоны — одна navy-карточка, белой плашки нет вовсе.
+   Текст живёт «в сцене», разделитель — тонкая линия. */
+.v-a .stage{margin:0 12px;border-radius:28px;overflow:hidden;background:var(--navy);position:relative}
+.v-a .map{background:none}
+.v-a .zinfo{padding:22px 22px 30px;color:#fff;border-top:1px solid rgba(170,217,252,.16);min-height:212px}
+.v-a .zinfo p{color:var(--dim-dark)}
+.v-a .zi__fit{background:rgba(255,255,255,.12);color:#fff}
+.v-a .rnd{background:rgba(255,255,255,.12)}
+.v-a .rnd i{border-color:#fff}
+.v-a .blk{padding-bottom:44px}
+
+/* ============ B · тёмная секция ============
+   Блок — фирменная тёмная полоса, как хиро и шаги. Карта в рамке,
+   белая карточка плавает на navy и наконец читается как карточка. */
+.v-b .blk{position:relative;overflow:hidden;background:var(--navy);color:#fff;padding-bottom:36px}
+.v-b .leadm{color:var(--dim-dark)}
+.v-b .bglow{position:absolute;pointer-events:none;background:radial-gradient(closest-side,rgba(0,173,255,.5),rgba(0,173,255,.22) 48%,rgba(0,173,255,.06) 76%,transparent 100%)}
+.v-b .bglow--a{width:460px;height:560px;right:-190px;top:-160px;transform:rotate(-32.9deg)}
+.v-b .bglow--b{width:420px;height:520px;left:-190px;bottom:-140px;transform:rotate(-32.9deg)}
+.v-b .map{position:relative;z-index:2;margin:0 var(--gut);border-radius:24px;height:300px;box-shadow:inset 0 0 0 1px rgba(170,217,252,.18)}
+.v-b .zinfo{z-index:3;margin:-26px 30px 0;border-radius:24px;background:#fff;color:var(--navy);padding:22px 22px 26px;min-height:216px;box-shadow:0 18px 44px rgba(3,12,28,.4)}
+
+/* ============ C · плашка на поверхности ============
+   Композиция как сейчас, но карточка зоны — на фирменной светлой
+   поверхности #EAF3FC, отделена зазором и скруглена со всех сторон. */
+.v-c .map{margin:0 12px;border-radius:28px}
+.v-c .zinfo{margin:8px 12px 0;border-radius:28px;background:var(--card);padding:22px 22px 28px;min-height:212px}
+.v-c .zi__fit{background:#fff}
+.v-c .rnd{background:#fff}
+.v-c .blk{padding-bottom:16px}
+
+/* ============ D · шторка на карте ============
+   Карта — почти на весь экран, текст зоны — стеклянная шторка
+   поверх нижнего края. Самый крупный размер карты, самый компакт. */
+.v-d .scene{position:relative;margin:0 12px;border-radius:28px;overflow:hidden;background:var(--navy)}
+.v-d .map{height:470px;background:none}
+.v-d .zinfo{position:absolute;left:10px;right:10px;bottom:10px;z-index:4;border-radius:20px;padding:16px 16px 18px;color:#fff;background:rgba(16,38,72,.68);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(170,217,252,.22);pointer-events:none}
+/* тапы проходят сквозь стекло к пинам под ним; живыми остаются только кнопки */
+.v-d .zinfo .zi__fit.on,.v-d .zinfo .rnd{pointer-events:auto}
+.v-d .zi__n{font-size:var(--fs-h3)}
+.v-d .zinfo h3{margin-top:10px;font-size:var(--fs-h4);line-height:1.05}
+.v-d .zinfo p{margin-top:8px;font-size:var(--fs-caption);line-height:1.45;color:rgba(214,231,250,.85)}
+.v-d .zi__fit{width:34px;height:34px;background:rgba(255,255,255,.14);color:#fff}
+.v-d .zi__fit svg{width:15px;height:15px}
+.v-d .rnd{width:40px;height:40px;background:rgba(255,255,255,.14)}
+.v-d .rnd i{border-color:#fff;width:8px;height:8px}
+.v-d .blk{padding-bottom:44px}
+
+/* ============ E · sky-плашка внахлёст ============
+   Композиция текущая, но плашка — брендовый sky #AAD9FC, как полоса
+   мероприятия: с фоном не спутать, стрелки — белые кружки оттуда же. */
+.v-e .map{border-radius:28px 28px 0 0;height:280px}
+.v-e .zinfo{margin:-30px 12px 0;border-radius:28px;background:var(--sky);color:var(--navy);padding:24px 22px 30px;min-height:216px;box-shadow:0 16px 38px rgba(14,34,65,.18)}
+.v-e .zi__n{color:var(--navy)}
+.v-e .zinfo p{color:var(--dim-sky)}
+.v-e .zi__fit{background:rgba(255,255,255,.85)}
+.v-e .rnd{background:rgba(255,255,255,.85)}
+.v-e .blk{padding-bottom:16px}
+
+@media (prefers-reduced-motion:reduce){.map__world{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>«Как работает даркстор» — пять вариантов плашки</h1>
+  <p>Карта и механика везде одни: пины, приближение к зоне, стрелки. Различается поверхность и компоновка карточки зоны — сейчас белая плашка сливается со страницей. Внизу каждого превью — стык со следующей секцией. <b>Скажите букву — перенесу в мобильный концепт.</b></p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+const D = window.LAVKA;
+
+/* [ключ, заголовок, заметка, {zoom, boost}, разметка сцены] — карту и карточку
+   собирает initZone, здесь только каркас варианта */
+const HEAD = `<div class="pad"><h2 class="h2m">Как работает даркстор?</h2><p class="leadm">${D.darkstoreLead}</p></div>`;
+const MAP = `<div class="map"><div class="map__world"><img src="../../site/assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора: зоны хранения, кухня, холодильные камеры, зона выдачи и погрузки"></div></div>`;
+const NX = `<div class="nx"><b>Форматы партнёрства</b><span>Три сценария входа — выберите свой</span></div>`;
+
+const VARIANTS = [
+  ['a', 'A · Один тёмный модуль', 'Карта и текст зоны — одна navy-карточка, белой плашки нет. Текст «в сцене», разделитель — hairline. Спутать с фоном нечего.',
+    { zoom: 2 },
+    `<section class="blk">${HEAD}
+       <div class="stage"><div class="sglow sglow--a"></div><div class="sglow sglow--b"></div>${MAP}<article class="zinfo" id="zi-a"></article></div>
+     </section>${NX}`],
+  ['b', 'B · Тёмная секция', 'Весь блок — фирменная тёмная полоса, как хиро и шаги. Карта в рамке, белая карточка плавает на navy с тенью — читается как карточка.',
+    { zoom: 2, boost: 1.32 },
+    `<section class="blk"><div class="bglow bglow--a"></div><div class="bglow bglow--b"></div>${HEAD}${MAP}<article class="zinfo" id="zi-b"></article></section>${NX}`],
+  ['c', 'C · Плашка на поверхности', 'Композиция текущая, но плашка — светлая поверхность #EAF3FC со скруглением со всех сторон и зазором от карты. Спокойнее всего.',
+    { zoom: 2 },
+    `<section class="blk">${HEAD}${MAP}<article class="zinfo" id="zi-c"></article></section>${NX}`],
+  ['d', 'D · Шторка на карте', 'Карта почти на весь экран — самый крупный план. Текст зоны — стеклянная шторка поверх нижнего края, как блюр у шапки. Самый компактный.',
+    { zoom: 2.4, boost: 1.3, overlay: true },
+    `<section class="blk">${HEAD}
+       <div class="scene"><div class="sglow sglow--a"></div>${MAP}<article class="zinfo" id="zi-d"></article></div>
+     </section>${NX}`],
+  ['e', 'E · Sky-плашка внахлёст', 'Композиция текущая, но плашка — брендовый sky #AAD9FC, как полоса мероприятия. Белые кружки-стрелки оттуда же. Самый цветной.',
+    { zoom: 2, boost: 1.25 },
+    `<section class="blk">${HEAD}${MAP}<article class="zinfo" id="zi-e"></article></section>${NX}`]
+];
+
+document.getElementById('grid').innerHTML = VARIANTS.map(([key, title, note, , body]) =>
+  `<article class="pcard"><div class="p v-${key}" data-v="${key}">${body}</div>
+   <div class="meta"><b>${title}</b><span>${note}</span></div></article>`).join('');
+
+/* ---------- механика зон: пины + приближение + степпер, экземпляр на вариант ----------
+   Отличие от e-figma: у карты может быть фиксированная высота выше пропорций
+   картинки — тогда базовое состояние не «целиком», а cover-обрезка, и целевой
+   масштаб берётся от неё (boost), чтобы приближение оставалось заметным. */
+const FIT_SVG = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 2.5h-5v5M12.5 2.5h5v5M7.5 17.5h-5v-5M12.5 17.5h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
+
+function initZone(root, { zoom = 2, boost = 1, overlay = false } = {}) {
+  const map = root.querySelector('.map'), world = root.querySelector('.map__world'),
+        info = root.querySelector('.zinfo'), img = world.querySelector('img');
+  world.insertAdjacentHTML('beforeend', D.zones.map(([n, t, , x, y], i) =>
+    `<button type="button" class="map__pin ${i ? '' : 'on'}" style="--x:${x}%;--y:${y}%" data-i="${i}" aria-label="Зона ${n} — ${t}">${n}</button>`).join(''));
+  const pins = [...world.querySelectorAll('.map__pin')];
+  let zi = 0, zoomed = true;
+
+  const apply = () => {
+    const vw = map.clientWidth, vh = map.clientHeight;
+    if (!vw || !img.naturalWidth) return;
+    const h0 = vw * img.naturalHeight / img.naturalWidth;   /* высота мира при scale 1 */
+    let s0 = Math.max(1, vh / h0);                          /* базовый cover-масштаб */
+    if (s0 < 1.02) s0 = 1;                                  /* округление высоты — не повод масштабировать */
+    const S = zoomed ? Math.max(zoom, s0 * boost) : s0;
+    const [, , , x, y] = D.zones[zi];
+    /* при шторке поверх карты зону центрируем в видимой полосе над ней */
+    const cy = (vh - (overlay ? info.offsetHeight + 10 : 0)) / 2;
+    const tx = clamp(vw / 2 - x / 100 * vw * S, vw - vw * S, 0);
+    const ty = clamp(cy - y / 100 * h0 * S, vh - h0 * S, 0);
+    world.style.transform = (S === 1) ? '' : `translate(${tx}px, ${ty}px) scale(${S})`;
+    map.style.setProperty('--z', S);
+    info.querySelector('[data-fit]')?.classList.toggle('on', zoomed);
+  };
+
+  const go = i => {
+    zi = (i + D.zones.length) % D.zones.length;
+    const [n, t, d] = D.zones[zi];
+    pins.forEach((p, j) => p.classList.toggle('on', j === zi));
+    info.classList.remove('zf'); void info.offsetWidth;
+    info.innerHTML = `<div class="zi__top"><span class="zi__n">${n}</span>
+        <button class="zi__fit" data-fit type="button" aria-label="Показать даркстор целиком" title="Показать целиком">${FIT_SVG}</button>
+        <div class="rnds"><button class="rnd rnd--l" data-z="-1" type="button" aria-label="Предыдущая зона"><i></i></button><button class="rnd rnd--r" data-z="1" type="button" aria-label="Следующая зона"><i></i></button></div>
+      </div><h3>${t}</h3><p>${d}</p>`;
+    MB.typo('#' + info.id);
+    info.classList.add('zf');
+    apply();
+  };
+
+  map.addEventListener('click', e => {
+    const p = e.target.closest('.map__pin');
+    if (!p) return;
+    const i = +p.dataset.i;
+    zoomed = !(zoomed && i === zi);   /* повторный тап по активной зоне отдаляет */
+    go(i);
+  });
+  info.addEventListener('click', e => {
+    if (e.target.closest('[data-fit]')) { zoomed = false; apply(); return; }
+    const b = e.target.closest('[data-z]');
+    if (b) go(zi + +b.dataset.z);
+  });
+  if (!img.complete) img.addEventListener('load', apply, { once: true });
+  addEventListener('resize', apply, { passive: true });
+  go(0);
+}
+
+VARIANTS.forEach(([key, , , opts]) => initZone(document.querySelector(`[data-v="${key}"]`), opts));
+</script>
+</body>
+</html>

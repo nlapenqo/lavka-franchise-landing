@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Мобильные концепты — франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<style>
+@font-face{font-family:'YS Geo';src:url('../../site/fonts/YS Geo-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('../../site/fonts/YS Geo-Medium.ttf') format('truetype');font-weight:500}
+@font-face{font-family:'YS Geo';src:url('../../site/fonts/YS Geo-Heavy.ttf') format('truetype');font-weight:800}
+@font-face{font-family:'YS Geo';src:url('../../site/fonts/YS Geo-Black.ttf') format('truetype');font-weight:900}
+:root{--navy:#1b3a6a;--blue:#00adff;--sky:#aad9fc;--light:#f2f7fc;--card:#eaf3fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;padding:56px 32px 80px;background:var(--light);color:var(--navy);font-family:'YS Geo',Arial,sans-serif}
+h1{margin:0 0 10px;font-size:52px;line-height:.94;font-weight:900;letter-spacing:-.015em}
+.intro{max-width:720px;font-size:17px;line-height:1.45;color:var(--dim);margin:0 0 44px}
+.grid{display:flex;flex-wrap:wrap;gap:28px}
+.item{flex:1 1 380px;max-width:440px;background:#fff;border-radius:28px;padding:26px;box-shadow:0 10px 34px rgba(27,58,106,.08)}
+.item h2{margin:0 0 4px;font-size:28px;font-weight:900;line-height:1}
+.item h2 b{color:var(--blue)}
+.item>p{margin:0 0 18px;font-size:15px;line-height:1.4;color:var(--dim)}
+.frame{position:relative;width:100%;aspect-ratio:390/720;border-radius:24px;overflow:hidden;background:var(--navy);box-shadow:inset 0 0 0 1px rgba(27,58,106,.12)}
+.frame iframe{position:absolute;left:0;top:0;width:390px;height:720px;border:0;transform-origin:0 0}
+dl{margin:18px 0 0;font-size:14px;line-height:1.4}
+dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:12px}
+dd{margin:3px 0 0}
+.open{display:inline-flex;align-items:center;justify-content:center;height:46px;margin-top:20px;width:100%;border-radius:999px;background:var(--blue);color:#fff;font-size:15px;font-weight:500;text-decoration:none}
+.note{margin-top:44px;padding:22px 24px;border-radius:22px;background:var(--card);font-size:14px;line-height:1.5;max-width:820px}
+.note b{display:block;margin-bottom:6px;font-size:15px}
+</style>
+</head>
+<body>
+<h1>Мобилка: шесть систем</h1>
+<p class="intro">Одинаковый контент и одна типографическая база, разные системы навигации и главного действия.
+В A, B и C главная кнопка стартует в шапке и остаётся доступной весь скролл — отличается то, куда она переезжает и что делает по дороге.
+D собран отдельно: это единая дизайн-система по фигма-сборке, тёмная тема, кнопка живёт в потоке и уступает место секционным CTA.
+E и F — две пересборки фигма-сборки «Landing — Mobile 391»: E переводит её в светлую веб-систему, F сохраняет её чередование тёмного и светлого.
+Открывать лучше в мобильном режиме девтулса (390 × 844).</p>
+
+<p class="intro" style="margin:-26px 0 34px"><a href="../../../mobile-hub/" style="color:#00adff">Сравнить все шесть версий мобилки по блокам →</a> — общий хаб: сюда же подключены drinkit-версия и два варианта fresh.</p>
+
+<div class="grid">
+  <article class="item">
+    <h2><b>A.</b> Док</h2>
+    <p>Светлая, воздушная. Кнопка физически переезжает из шапки в нижний док.</p>
+    <div class="frame"><iframe src="./a-dock.html" title="Вариант A" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>Один и тот же элемент: в шапке — компактная кнопка, после хиро перелетает вниз и растягивается на всю ширину. У формы прячется.</dd>
+      <dt>Навигация</dt><dd>Гамбургер → полноэкранное меню с нумерованными разделами.</dd>
+      <dt>Ориентир</dt><dd>Нить прогресса чтения по низу шапки + подпись-контекст над доком.</dd>
+      <dt>Блоки</dt><dd>Вертикальные карточки, шаги — таймлайн с заполняющейся линией, даркстор — таблетки зон с наездом карты.</dd>
+    </dl>
+    <a class="open" href="./a-dock.html">Открыть вариант A</a>
+  </article>
+
+  <article class="item">
+    <h2><b>B.</b> Капсула</h2>
+    <p>Тёмная, «капсульная». Вся шапка стекает вниз и живёт как плавающая капсула.</p>
+    <div class="frame"><iframe src="./b-capsule.html" title="Вариант B" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>Шапка целиком превращается в капсулу [меню][кнопка][наверх]. Кнопка внутри — та же, что была наверху, ширина капсулы подстраивается под её надпись.</dd>
+      <dt>Навигация</dt><dd>Меню раскрывается из капсулы вверх листом, кнопка остаётся видимой.</dd>
+      <dt>Ориентир</dt><dd>Кольцо прогресса вокруг кнопки «наверх».</dd>
+      <dt>Блоки</dt><dd>Всё листается вбок: цифры, бизнес, шаги, отзывы. Форматы — табы с одной панелью. Светлые вставки только у форматов и формы.</dd>
+    </dl>
+    <a class="open" href="./b-capsule.html">Открыть вариант B</a>
+  </article>
+
+  <article class="item">
+    <h2><b>C.</b> Лента</h2>
+    <p>Лента карточек-секций. Тонкая шапка отвечает «где я», кнопка уходит в правый нижний угол.</p>
+    <div class="frame"><iframe src="./c-feed.html" title="Вариант C" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>Стартует в шапке. Как только кнопка из хиро уходит с экрана, схлопывается в шапке и появляется как FAB справа снизу: во время скролла — кружок, на остановке разворачивается в кнопку с подписью.</dd>
+      <dt>Навигация</dt><dd>Гамбургер → нижний лист со всеми разделами и отметкой текущего.</dd>
+      <dt>Ориентир</dt><dd>Шапка постоянно показывает «05 · Форматы партнёрства» + полоса прогресса; перекрашивается под тёмными карточками.</dd>
+      <dt>Блоки</dt><dd>Каждая секция — карточка со скруглением на светло-голубом поле. Шаги — аккордеон, цифры — плитка 1+2.</dd>
+    </dl>
+    <a class="open" href="./c-feed.html">Открыть вариант C</a>
+  </article>
+
+  <article class="item">
+    <h2><b>D.</b> Единая</h2>
+    <p>Тёмная. Собрана по фигма-сборке и приведена к одной системе: один gutter, одна шкала, один компонент карусели.</p>
+    <div class="frame"><iframe src="./d-unified.html" title="Вариант D" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>Док во всю ширину внизу с одним правилом: на экране никогда не больше одной главной кнопки. Док показывается ровно тогда, когда ни один секционный CTA не виден — в хиро, у форматов, в шаге 01, у телеграм-полосы и в форме он молчит.</dd>
+      <dt>Навигация</dt><dd>Плавающая пилюля с лого и бургером, нить прогресса чтения по низу. Меню — полноэкранный оверлей с нумерованными разделами.</dd>
+      <dt>Система</dt><dd>Gutter 20 везде, 8 текстовых стилей YS Geo, шаг 4px, три радиуса (14 / 22 / 28), две роли кнопок высотой 52, три пресета свечения — и не больше одного на секцию.</dd>
+      <dt>Блоки</dt><dd>Все ленты — один компонент: цифры, бизнес, отзывы, зоны даркстора и табы форматов. Навигация лент одна на всех — точки плюс счётчик, стрелок нет.</dd>
+    </dl>
+    <a class="open" href="./d-unified.html">Открыть вариант D</a>
+  </article>
+
+  <article class="item">
+    <h2><b>E.</b> Одна сущность</h2>
+    <p>Светлая, как веб-версия. Пересборка фигма-макета в единую систему: те же токены и приёмы, что на десктопе.</p>
+    <div class="frame"><iframe src="./e-figma.html" title="Вариант E" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>Большая белая кнопка в центре хиро (как в фигме). После её ухода с экрана в шапке появляется компактная синяя — логотип сжимается до короткого локапа.</dd>
+      <dt>Навигация</dt><dd>Стеклянная пилюля-шапка + бургер, меню — полноэкранный оверлей с нумерованными разделами.</dd>
+      <dt>Система</dt><dd>Светлая база и тёмно-синие якоря (хиро → шаги → форма → футер), один акцент #00ADFF, три радиуса (14/22/28), одна круглая стрелка на все карусели, свечения — как у веб-хиро.</dd>
+      <dt>Блоки</dt><dd>По фигма-сборке: строка-переход мероприятия на стыке хиро, карусель navy-цифр с точками, синяя «сцена» даркстора с пинами и степпером зон, форматы — табы с одной панелью, шаг 01 — синяя витрина перед таймлайном.</dd>
+    </dl>
+    <a class="open" href="./e-figma.html">Открыть вариант E</a>
+  </article>
+
+  <article class="item">
+    <h2><b>F.</b> Сборка</h2>
+    <p>Верна фигме: тёмное обрамление (хиро → шаги → форма → футер) и светлые залы между ними.</p>
+    <div class="frame"><iframe src="./f-sborka.html" title="Вариант F" loading="lazy"></iframe></div>
+    <dl>
+      <dt>Главное действие</dt><dd>CTA живут в потоке, как в фигме: хиро, карточка бизнеса, форматы, шаг 01, форма. Постоянного дока нет — после хиро в шапке-пилюле вырастает компактная «Заявка».</dd>
+      <dt>Навигация</dt><dd>Плавающая стеклянная пилюля с лого и бургером, меню — полноэкранный оверлей. Строка-переход мероприятия — мост на стыке тёмного хиро и светлой середины.</dd>
+      <dt>Система</dt><dd>Палитра из переменных фигмы, 8 текстовых стилей, gutter 20, радиусы 16/28/40 + пилюля, кнопки 52 в трёх ролях (синяя/белая/нейви), круглые контролы 46 в двух ролях, один тёмный градиент с двумя пресетами свечений.</dd>
+      <dt>Блоки</dt><dd>Все ленты — один snap-компонент; стрелки и точки расставлены как в фигме. Даркстор — синяя сцена с кликабельными пинами и листанием зон. Числа, паушальный и «О нас говорят» сверены с десктопным лендингом.</dd>
+    </dl>
+    <a class="open" href="./f-sborka.html">Открыть вариант F</a>
+  </article>
+</div>
+
+<div class="note">
+  <b>Что общее во всех вариантах</b>
+  Один контент (<code>_shared/content.js</code>), одна база шрифтов и палитры (<code>_shared/base.css</code>), одно поведение блоков
+  (<code>_shared/blocks.js</code>): reveal, счётчики, ленты с точками, аккордеоны, зоны даркстора, отправка формы.
+  Боковое поле везде 20 px, кнопки 52 px, тач-цели не меньше 44 px, учтён safe-area снизу.
+  Логотип собран из тех же трёх SVG, что на десктопе, и нигде не обрезается.
+  <br><br>
+  <b>Чем отличается D</b>
+  A, B и C — три светлых системы навигации на общей базе. D сделан по фигма-сборке «Landing — Mobile 391» и снимает её рассинхроны:
+  боковые отступы 16/20/24 сведены к одному, три паттерна пагинации — к одному, стрелки каруселей 44 и 46 px убраны совсем,
+  кнопки 175/193/358 px заменены двумя ролями с фиксированными правилами ширины. Числа и паушальный взнос взяты с десктопа,
+  где он расходится с общим <code>content.js</code>.
+</div>
+
+<script>
+/* вписываем iframe 390px в колонку карточки */
+const fit = () => document.querySelectorAll('.frame').forEach(f => {
+  const k = f.clientWidth / 390;
+  f.querySelector('iframe').style.transform = `scale(${k})`;
+  f.querySelector('iframe').style.height = (f.clientHeight / k) + 'px';
+});
+addEventListener('resize', fit); addEventListener('load', fit); fit();
+</script>
+</body>
+</html>

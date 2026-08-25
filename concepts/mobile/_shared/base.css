@@ -1,0 +1,83 @@
+/* Общая база трёх мобильных концептов: шрифты, палитра, сброс.
+   Всё остальное — типошкала, ритм, компоненты — своё в каждом варианте. */
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Heavy.ttf') format('truetype');font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Black.ttf') format('truetype');font-weight:900;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url('../../../site/fonts/YS Text Cond-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+
+:root{
+  --navy:#1b3a6a;--navy-deep:#152e56;--blue:#00adff;--sky:#aad9fc;--light:#f2f7fc;--card:#eaf3fc;
+  --mid:#3e88c5;--dim:#5a749b;--dim-dark:#a7bee0;--white:#fff;
+  --orange:#ff6d2f;
+  --navy-soft:#20447a;        /* шейд навы для градиентов-заглушек */
+  --sky-press:#9ed2fb;        /* нажатое состояние sky-плашек */
+  --dim-sky:#42618c;          /* вторичный текст на sky-плашках (–dim не добирает контраст) */
+
+  /* Шкала кеглей — те же 15 ступеней, что в site/styles.css, значения мобильные.
+     Дробных размеров нет; новые значения не вводить — брать ближайшую ступень. */
+  --fs-mega:108px;                       /* счётчик в цифрах */
+  --fs-hero:clamp(40px,12.3vw,50px);     /* h1: «в своём городе» помещается и на 360px */
+  --fs-display:56px;                     /* суммы инвестиций */
+  --fs-h2:38px;
+  --fs-h3:28px;
+  --fs-h3-s:26px;
+  --fs-h4:22px;
+  --fs-sub:20px;
+  --fs-lead:18px;
+  --fs-body:16px;
+  --fs-text:15px;
+  --fs-small:14px;
+  --fs-caption:13px;
+  --fs-legal:12px;
+  --fs-micro:11px;
+
+  /* Трекинг: три роли вместо восьми ручных значений */
+  --ls-tight:-.01em;          /* заголовки, брендовое −1% */
+  --ls-num:-.02em;            /* крупные цифры */
+  --ls-caps:.06em;            /* капс-лейблы */
+
+  /* Тени — значения из site/styles.css */
+  --shadow-cta:0 10px 30px rgba(0,173,255,.35);
+  --shadow-card:0 12px 40px rgba(27,58,106,.10);
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.4,.5,1);
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --gut:20px;                 /* единственное боковое поле на всю мобилку */
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--navy);font-family:'YS Geo',-apple-system,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;overscroll-behavior-y:none}
+body.is-locked{overflow:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+a{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+p,h1,h2,h3,h4,dl,dd{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+input,textarea{font:inherit;color:inherit}
+
+.wrap{padding-inline:var(--gut)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Общий лого-локап: собран из тех же трёх SVG, что и на десктопе, но не режется */
+.lg{position:relative;display:block;flex:none;width:calc(415.5px * var(--lg,.44));height:calc(39.9px * var(--lg,.44));transition:width .3s var(--ease)}
+.lg img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0}
+.lg__main{width:275px;height:39.86px;transform:scale(var(--lg,.44))}
+.lg__mark{width:39.62px;height:39.62px;transform:translateX(calc(126.5px * var(--lg,.44))) scale(var(--lg,.44))}
+.lg__badge{width:129.4px;height:29.35px;transform:translate(calc(286.1px * var(--lg,.44)),calc(8.2px * var(--lg,.44))) scale(var(--lg,.44));transition:opacity .25s}
+.lg--short{width:calc(275px * var(--lg,.44))}
+.lg--short .lg__badge{opacity:0}
+
+/* reveal — одинаковый порог и тайминг во всех вариантах */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .55s var(--ease-out) var(--d,0s),transform .55s var(--ease-out) var(--d,0s)}
+.rv.on{opacity:1;transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+  .rv{opacity:1;transform:none}
+}

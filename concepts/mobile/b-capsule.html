@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Мобилка B — Капсула · Франшиза Яндекс Лавки</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="./_shared/base.css">
+<style>
+/* ============================================================
+   ВАРИАНТ B — «КАПСУЛА»
+   Система: шапка не исчезает, а стекает вниз и превращается
+   в плавающую капсулу [меню][Стать партнёром][наверх].
+   Кнопка внутри капсулы — та же самая, что была в шапке.
+   Меню раскрывается из капсулы вверх, кнопка остаётся видна.
+   Характер: тёмная мобилка, всё листается вбок, язык — пилюли.
+   ============================================================ */
+body{background:var(--navy);color:#fff}
+
+.h1{font-size:40px;line-height:.94;font-weight:900;letter-spacing:-.015em}
+.h2{font-size:32px;line-height:.96;font-weight:900;letter-spacing:-.01em;margin-bottom:8px}
+.sub{font-size:15px;line-height:1.35;color:var(--dim-dark);margin-bottom:22px}
+.sec{padding:0 0 58px}
+.nums{padding-top:52px}
+.sec>.h2,.sec>.sub,.sec>.top{padding-inline:var(--gut)}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.top .h2,.top .sub{margin:0}
+.cnt{display:flex;align-items:baseline;gap:4px;flex:none;font-size:13px;font-weight:500;color:var(--dim-dark)}
+.cnt b{font-size:20px;font-weight:900;color:var(--blue)}
+
+.pill{display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:500;background:rgba(170,217,252,.14);color:var(--sky)}
+.pill--blue{background:var(--blue);color:#fff}
+.pill--navy{background:var(--navy);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-size:17px;font-weight:500;white-space:nowrap;transition:transform .18s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn--blue{background:var(--blue);color:#fff}
+.btn--wide{width:100%}
+
+/* ленты: единый приём всей мобилки — всё листается вбок */
+.rail{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-inline:var(--gut);scroll-padding-left:var(--gut)}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{scroll-snap-align:start;flex:0 0 calc(100vw - 2*var(--gut) - 36px)}
+.dots{display:flex;gap:6px;justify-content:center;margin-top:18px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(170,217,252,.35);transition:width .3s var(--ease),background .3s}
+.dots i.on{width:22px;background:var(--blue)}
+
+/* ---------- капсула ---------- */
+.bar{position:fixed;z-index:60;inset:auto auto 0 0;display:flex;align-items:center;gap:8px;
+  height:var(--bh,56px);width:var(--bw,358px);padding:0 6px 0 var(--bpl,10px);border-radius:999px;
+  transform:translate3d(var(--bx,16px),var(--by,-772px),0);
+  background:rgba(27,58,106,0);box-shadow:0 0 0 0 rgba(0,0,0,0);
+  transition:width .55s var(--ease-out),height .45s var(--ease-out),transform .6s var(--ease-out),
+             background .4s,box-shadow .4s,padding .5s var(--ease-out);
+  will-change:transform,width}
+.bar.cap{background:rgba(19,42,79,.82);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);
+  box-shadow:inset 0 0 0 1px rgba(170,217,252,.2),0 14px 40px rgba(6,20,42,.55)}
+.bar__lg{--lg:.4;overflow:hidden;transition:width .45s var(--ease-out),opacity .3s}
+.bar.cap .bar__lg{width:0;opacity:0}
+.bar__ico{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(170,217,252,.14);
+  width:0;opacity:0;overflow:hidden;transition:width .45s var(--ease-out),opacity .3s}
+.bar.cap .bar__ico{width:44px;opacity:1}
+.bar__cta{flex:1;min-width:0;height:44px;border-radius:999px;background:var(--blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;white-space:nowrap;
+  box-shadow:0 8px 22px rgba(0,140,215,.42);margin-left:auto;transition:flex-basis .5s var(--ease-out)}
+.bar__cta span{display:block;transition:transform .3s var(--ease-out),opacity .25s}
+.bar__cta.swap span{transform:translateY(-120%);opacity:0}
+.bar__ico i{display:block;width:17px;height:1.7px;background:currentColor;border-radius:2px;position:relative;transition:transform .3s var(--ease)}
+.bar__ico i::before,.bar__ico i::after{content:'';position:absolute;left:0;width:17px;height:1.7px;background:currentColor;border-radius:2px;transition:transform .3s var(--ease)}
+.bar__ico i::before{top:-5.5px}.bar__ico i::after{top:5.5px}
+body.is-locked .bar__ico i{background:transparent}
+body.is-locked .bar__ico i::before{transform:translateY(5.5px) rotate(45deg)}
+body.is-locked .bar__ico i::after{transform:translateY(-5.5px) rotate(-45deg)}
+/* кольцо прогресса вокруг кнопки «наверх» */
+.bar__up{position:relative}
+.bar__up svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.bar__up circle{fill:none;stroke:var(--blue);stroke-width:2;stroke-linecap:round;
+  stroke-dasharray:132;stroke-dashoffset:calc(132 - 132 * var(--p,0));transition:stroke-dashoffset .12s linear}
+.bar__up b{font-size:15px;font-weight:500;line-height:1}
+
+/* лист меню выезжает из-под капсулы */
+.sheet{position:fixed;z-index:59;left:var(--gut);right:var(--gut);bottom:calc(var(--gut) + var(--safe-b));
+  padding:20px 20px calc(78px);border-radius:30px;background:rgba(19,42,79,.94);
+  -webkit-backdrop-filter:blur(24px) saturate(1.5);backdrop-filter:blur(24px) saturate(1.5);
+  box-shadow:inset 0 0 0 1px rgba(170,217,252,.2),0 24px 60px rgba(6,20,42,.6);
+  opacity:0;visibility:hidden;transform:translateY(24px) scale(.97);transform-origin:50% 100%;
+  transition:.42s var(--ease-out)}
+.sheet.open{opacity:1;visibility:visible;transform:none}
+.sheet a{display:flex;align-items:center;justify-content:space-between;padding:13px 0;font-size:19px;font-weight:800;border-bottom:1px solid rgba(170,217,252,.14)}
+.sheet a em{font-style:normal;font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--blue)}
+.sheet__tg{margin-top:16px;display:flex!important;align-items:center;justify-content:center!important;gap:8px;height:46px;border-radius:999px;background:rgba(170,217,252,.14);font-size:15px!important;font-weight:500!important;border:0!important}
+.sheet__tg img{width:17px;height:17px}
+.scrim{position:fixed;z-index:58;inset:0;background:rgba(9,24,48,.6);opacity:0;visibility:hidden;transition:.35s}
+.scrim.open{opacity:1;visibility:visible}
+
+/* ---------- хиро ---------- */
+.hero{position:relative;min-height:70svh;display:flex;flex-direction:column;justify-content:flex-end;padding:92px var(--gut) 38px;overflow:hidden}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+.hero .glow--a{width:460px;height:560px;left:-165px;top:0px;background:radial-gradient(closest-side,rgba(0,173,255,.85),rgba(0,173,255,0));filter:blur(50px);animation:fa 13s var(--ease) infinite alternate}
+.hero .glow--b{width:360px;height:420px;right:-160px;top:300px;background:radial-gradient(closest-side,rgba(0,173,255,.6),rgba(0,173,255,0));filter:blur(50px);animation:fb 11s var(--ease) infinite alternate}
+@keyframes fa{to{transform:translate3d(60px,80px,0) scale(1.12)}}
+@keyframes fb{to{transform:translate3d(-70px,-60px,0) scale(.92)}}
+.hero__in{position:relative;z-index:1}
+.hero .pill{margin-bottom:20px}
+.hero .h1{margin-bottom:16px}
+.hero__lead{font-size:16px;line-height:1.32;color:var(--sky);max-width:320px;margin-bottom:26px}
+.hero__facts{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut)}
+.hero__facts::-webkit-scrollbar{display:none}
+.hero__facts .pill{flex:none}
+.city{position:relative;display:inline-flex;vertical-align:bottom;color:var(--blue);height:1em;padding-bottom:.18em;margin-bottom:-.18em;box-sizing:content-box;white-space:nowrap;overflow:hidden;transition:width .9s var(--ease-out)}
+.city span{position:absolute;left:0;top:0;line-height:1;white-space:nowrap;opacity:0;transform:translateY(78%);transition:transform .85s var(--ease-out),opacity .4s}
+.city span.cur{opacity:1;transform:none}
+.city span.out{opacity:0;transform:translateY(-78%)}
+
+/* ---------- мероприятие ---------- */
+.evt{position:relative;display:block;height:56px;background:var(--sky);color:var(--navy);overflow:hidden}
+.evt__t{display:flex;width:max-content;height:100%;align-items:center;white-space:nowrap;animation:run 38s linear infinite}
+.evt__g{display:flex;align-items:center;height:100%}
+.evt__i{display:flex;align-items:center;gap:8px;padding-inline:16px;font-size:14px;font-weight:500}
+.evt__i::after{content:'→';margin-left:10px}
+.evt__i b{font-weight:800}
+.evt__i i{width:7px;height:7px;border-radius:50%;background:var(--orange);flex:none}
+.evt__cta{position:absolute;inset-block:0;right:0;z-index:2;display:flex;align-items:center;padding:0 12px 0 44px;background:linear-gradient(90deg,rgba(170,217,252,0),var(--sky) 42%)}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* ---------- цифры: лента капсул ---------- */
+
+.ncap{position:relative;overflow:hidden;border-radius:30px;padding:26px 24px 24px;background:linear-gradient(155deg,#25538f,#16305a);box-shadow:inset 0 0 0 1px rgba(170,217,252,.16);display:flex;flex-direction:column;min-height:240px}
+.ncap::before{content:'';position:absolute;right:-60px;top:-70px;width:200px;height:200px;border-radius:50%;background:var(--blue);filter:blur(60px);opacity:.5}
+.ncap b{position:relative;font-size:80px;line-height:.8;font-weight:900;letter-spacing:-.03em}
+.ncap h3{position:relative;margin-top:14px;font-size:19px;line-height:1.05;font-weight:800}
+.ncap p{position:relative;margin-top:auto;padding-top:14px;font-size:13px;line-height:1.35;color:var(--dim-dark)}
+
+/* ---------- бизнес ---------- */
+.bcard{border-radius:30px;overflow:hidden;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.16);display:flex;flex-direction:column}
+.bcard__pic{position:relative;height:180px;background:#12294c;overflow:hidden}
+.bcard__pic img{width:100%;height:100%;object-fit:cover}
+.bcard__pic--glow::after{content:'';position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,173,255,.9),rgba(0,173,255,0));filter:blur(26px)}
+.bcard__c{padding:22px;display:flex;flex-direction:column;gap:11px}
+.bcard__c h3{font-size:23px;line-height:1.03;font-weight:900}
+.bcard__c p{font-size:14px;line-height:1.4;color:var(--dim-dark)}
+
+/* ---------- даркстор ---------- */
+.map{position:relative;margin-inline:var(--gut);border-radius:26px;overflow:hidden;background:#12294c;aspect-ratio:4/3;box-shadow:inset 0 0 0 1px rgba(170,217,252,.16)}
+.map__w{position:absolute;inset:0;transition:transform .7s var(--ease-out);will-change:transform}
+.map__w img{width:100%;height:auto}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;background:rgba(0,173,255,.9);box-shadow:0 0 0 5px rgba(0,173,255,.2);transition:transform .4s var(--ease-spring),background .3s}
+.map__pin.on{transform:scale(1.35);background:#fff;box-shadow:0 0 0 7px rgba(255,255,255,.26)}
+.zones{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:14px var(--gut) 0;scroll-padding-left:var(--gut)}
+.zones::-webkit-scrollbar{display:none}
+.zones button{flex:none;height:36px;padding:0 15px;border-radius:999px;background:rgba(170,217,252,.14);color:var(--sky);font-size:14px;font-weight:500;transition:background .25s,color .25s}
+.zones button.on{background:var(--blue);color:#fff}
+.zcard{margin:12px var(--gut) 0;padding:22px;border-radius:26px;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.16);min-height:160px}
+.zcard b{display:block;font-size:11px;font-weight:500;letter-spacing:.09em;color:var(--blue);margin-bottom:8px}
+.zcard h3{font-size:23px;line-height:1;font-weight:900;margin-bottom:10px}
+.zcard p{font-size:15px;line-height:1.4;color:var(--dim-dark)}
+
+/* ---------- форматы: светлая вставка + табы ---------- */
+.fmt{background:var(--light);color:var(--navy);padding:60px 0;border-radius:36px 36px 0 0;margin-top:-4px}
+.fmt .sub{color:var(--dim)}
+.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 var(--gut) 16px;scroll-padding-left:var(--gut)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;height:38px;padding:0 16px;border-radius:999px;background:var(--card);color:var(--navy);font-size:14px;font-weight:500;transition:background .25s,color .25s}
+.tabs button.on{background:var(--navy);color:#fff}
+.fpanel{margin:0 var(--gut);padding:26px 24px 24px;border-radius:30px;background:#fff;box-shadow:0 10px 34px rgba(27,58,106,.09)}
+.fpanel__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.fpanel__cities{font-size:14px;line-height:1.35;color:var(--dim);margin-bottom:20px}
+.fpanel__big{padding-bottom:18px;border-bottom:1px solid var(--card)}
+.fpanel__big dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.fpanel__big dd{display:flex;align-items:baseline;gap:7px;margin:0}
+.fpanel__big b{font-size:44px;line-height:.88;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+.fpanel__big span{font-size:15px;font-weight:500;color:var(--dim)}
+.fpanel__row{display:flex;padding:16px 0;border-bottom:1px solid var(--card)}
+.fpanel__row div{flex:1}
+.fpanel__row dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+.fpanel__row dd{font-size:16px;font-weight:800}
+.fpanel__note{margin-top:16px;font-size:14px;line-height:1.35;color:var(--dim)}
+.fpanel__fade{animation:fadein .32s var(--ease-out)}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- шаги: лента карточек ---------- */
+.steps{position:relative;padding:60px 0;overflow:hidden}
+.steps .glow--a{width:360px;height:440px;left:-160px;top:80px;background:radial-gradient(closest-side,rgba(0,173,255,.5),rgba(0,173,255,0));filter:blur(50px)}
+.steps__bar{margin:0 var(--gut) 18px;height:3px;border-radius:3px;background:rgba(170,217,252,.2);position:relative;z-index:1}
+.steps__bar i{display:block;height:100%;width:calc(var(--p,.2) * 100%);border-radius:3px;background:var(--blue);transition:width .35s var(--ease-out)}
+.scard{position:relative;z-index:1;border-radius:30px;padding:26px 24px;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.18);display:flex;flex-direction:column;min-height:290px}
+.scard b{font-size:12px;letter-spacing:.1em;color:var(--blue);margin-bottom:12px}
+.scard h3{font-size:24px;line-height:1.02;font-weight:900;margin-bottom:10px}
+.scard p{font-size:14px;line-height:1.4;color:var(--dim-dark)}
+.scard em{align-self:flex-start;margin-top:auto;font-style:normal}
+
+/* ---------- отзывы ---------- */
+.rcard{border-radius:30px;padding:24px;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.16);display:flex;flex-direction:column;min-height:250px}
+.rcard .av{width:48px;height:48px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font-size:14px;font-weight:800;margin-bottom:14px}
+.rcard h3{font-size:19px;font-weight:800;line-height:1}
+.rcard small{display:block;margin-top:3px;font-size:13px;color:var(--dim-dark)}
+.rcard p{margin-top:14px;font-size:15px;line-height:1.35}
+
+/* ---------- медиа ---------- */
+.med{padding:44px 0}
+.med__r{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-inline:var(--gut)}
+.med__r::-webkit-scrollbar{display:none}
+.med__r a{flex:none;height:66px;min-width:132px;padding:0 22px;border-radius:20px;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.14);display:grid;place-items:center}
+.med__r img{max-height:24px;max-width:100px;filter:brightness(0) invert(1);opacity:.72}
+.med__t{font-family:Georgia,serif;font-size:24px;color:var(--sky);text-transform:lowercase;opacity:.8}
+
+/* ---------- FAQ: капсулы ---------- */
+.acc{padding-inline:var(--gut);display:flex;flex-direction:column;gap:8px}
+.acc article{border-radius:22px;background:rgba(170,217,252,.08);box-shadow:inset 0 0 0 1px rgba(170,217,252,.16);overflow:hidden;transition:background .25s}
+.acc article.open{background:rgba(170,217,252,.13)}
+.acc button{width:100%;padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:left;font-size:16px;line-height:1.2;font-weight:800}
+.acc i{flex:none;width:26px;height:26px;border-radius:50%;background:rgba(170,217,252,.16);display:grid;place-items:center;font-style:normal;font-size:17px;font-weight:400;transition:transform .3s var(--ease),background .25s}
+.acc article.open i{transform:rotate(45deg);background:var(--blue)}
+.acc article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
+.acc article.open>div{grid-template-rows:1fr}
+.acc article>div>p{overflow:hidden;padding-inline:20px;font-size:14px;line-height:1.45;color:var(--dim-dark)}
+.acc article.open>div>p{padding-bottom:18px}
+.tgcap{margin:20px var(--gut) 0;padding:20px;border-radius:26px;background:var(--sky);color:var(--navy);display:flex;flex-direction:column;gap:14px}
+.tgcap span{font-size:16px;line-height:1.22;font-weight:500}
+.tgcap a{height:46px;border-radius:999px;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:500}
+
+/* ---------- форма: светлая вставка ---------- */
+.form{background:var(--light);color:var(--navy);padding:56px 0 64px;border-radius:36px 36px 0 0}
+.form__in{padding-inline:var(--gut)}
+.form .sub{color:var(--dim)}
+.perks{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
+.perks li{padding:16px 18px;border-radius:22px;background:#fff}
+.perks li strong{display:block;font-size:15px;line-height:1.15}
+.perks li span{display:block;margin-top:4px;font-size:13px;line-height:1.3;color:var(--dim)}
+.fbox{padding:24px 20px;border-radius:30px;background:var(--navy);color:#fff;display:flex;flex-direction:column;gap:12px}
+.fbox h3{font-size:22px;font-weight:800;margin-bottom:2px}
+.fbox label{display:flex;flex-direction:column;gap:6px}
+.fbox label>span:first-child{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim-dark)}
+.fbox input,.fbox textarea{width:100%;border:0;border-radius:16px;background:rgba(170,217,252,.12);box-shadow:inset 0 0 0 1px rgba(170,217,252,.2);padding:14px 16px;outline:none;font-size:16px;color:#fff;transition:box-shadow .2s,background .2s;resize:vertical}
+.fbox input::placeholder,.fbox textarea::placeholder{color:rgba(167,190,224,.7)}
+.fbox input:focus,.fbox textarea:focus{background:rgba(170,217,252,.18);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.consent{display:grid!important;grid-template-columns:20px 1fr;gap:10px;align-items:start}
+.consent input{appearance:none;width:20px;height:20px;padding:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(170,217,252,.5);background:transparent;transition:background .25s,box-shadow .25s}
+.consent input:checked{background:var(--blue);box-shadow:none}
+.consent span{font-size:11px!important;line-height:1.35;text-transform:none!important;letter-spacing:0!important;color:var(--dim-dark)!important}
+.fnote{font-size:12px;color:var(--dim-dark);text-align:center}
+
+/* ---------- футер ---------- */
+.ftr{padding:34px var(--gut) calc(28px + var(--safe-b))}
+.ftr .lg{--lg:.48;margin-bottom:20px}
+.ftr nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.ftr nav a{height:34px;padding:0 14px;border-radius:999px;background:rgba(170,217,252,.1);display:inline-flex;align-items:center;font-size:13px;color:var(--sky)}
+.ftr__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:999px;background:var(--blue);font-size:14px;font-weight:500;margin-bottom:22px}
+.ftr__tg img{width:17px;height:17px}
+.ftr__legal{padding-top:18px;border-top:1px solid rgba(170,217,252,.16);font-family:'YS Text Cond',Arial,sans-serif;font-size:11px;line-height:1.45;color:rgba(167,190,224,.75);display:flex;flex-direction:column;gap:9px}
+.pad{height:96px}
+</style>
+</head>
+<body>
+
+<!-- капсула: она же шапка. Один элемент, две геометрии. -->
+<div class="bar" id="bar">
+  <a class="lg bar__lg" href="#top" aria-label="Яндекс Лавка — Франшиза">
+    <img class="lg__main" src="../../site/assets/figma/logo-main.svg" alt="">
+    <img class="lg__mark" src="../../site/assets/figma/logo-word-1.svg" alt="">
+    <img class="lg__badge" src="../../site/assets/figma/logo-word-2.svg" alt="">
+  </a>
+  <button class="bar__ico" id="barMenu" type="button" aria-label="Меню" aria-expanded="false"><i></i></button>
+  <a class="bar__cta" id="barCta" href="#form"><span>Стать партнёром</span></a>
+  <button class="bar__ico bar__up" id="barUp" type="button" aria-label="Наверх">
+    <svg viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="21"/></svg><b>↑</b>
+  </button>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<nav class="sheet" id="sheet" aria-hidden="true">
+  <div id="sheetLinks"></div>
+  <a class="sheet__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram-канал</a>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="glow glow--a"></div><div class="glow glow--b"></div>
+    <div class="hero__in">
+      <span class="pill pill--blue">Франшиза Яндекс Лавки</span>
+      <h1 class="h1">Запустите<br>Яндекс Лавку<br><span class="city" id="city"></span></h1>
+      <p class="hero__lead">Франшиза быстрой доставки продуктов с технологиями, снабжением и поддержкой Яндекса</p>
+      <div class="hero__facts">
+        <span class="pill">от 75 млн ₽</span>
+        <span class="pill">14 городов работают</span>
+        <span class="pill">запуск за 4 месяца</span>
+      </div>
+    </div>
+  </section>
+
+  <a class="evt" href="#form" aria-label="День партнёров Яндекс Лавки — участвовать">
+    <div class="evt__t" id="evtT"></div>
+    <span class="evt__cta"><span class="pill pill--navy" style="height:36px">Участвовать</span></span>
+  </a>
+
+  <section class="nums sec" aria-label="Лавка в цифрах">
+    <div class="top"><div><h2 class="h2">Лавка в цифрах</h2><p class="sub">Где сервис уже работает и где ищем партнёров</p></div></div>
+    <div class="rail" id="numsRail"></div>
+    <div class="dots" id="numsDots"></div>
+  </section>
+
+  <section class="sec" id="business">
+    <div class="top"><div><h2 class="h2">Как устроен бизнес?</h2><p class="sub">Кто за что отвечает в партнёрстве</p></div></div>
+    <div class="rail" id="bizRail"></div>
+    <div class="dots" id="bizDots"></div>
+  </section>
+
+  <section class="sec" id="darkstore">
+    <h2 class="h2">Как работает даркстор?</h2>
+    <p class="sub">Склад без торгового зала: здесь хранятся товары, собираются заказы и стартует доставка</p>
+    <div class="map">
+      <div class="map__w" id="mapW"><img src="../../site/assets/figma/darkstore-map.png" alt="Схема даркстора" loading="lazy"></div>
+    </div>
+    <div class="zones" id="zoneTabs"></div>
+    <article class="zcard" id="zcard"></article>
+  </section>
+
+  <section class="fmt" id="formats">
+    <h2 class="h2" style="padding-inline:var(--gut)">Форматы партнёрства</h2>
+    <p class="sub" style="padding-inline:var(--gut)">Три сценария входа — выберите свой</p>
+    <div class="tabs" id="fmtTabs"></div>
+    <div class="fpanel" id="fmtPanel"></div>
+  </section>
+
+  <section class="steps sec" id="steps">
+    <div class="glow glow--a"></div>
+    <div class="top" style="position:relative;z-index:1"><div><h2 class="h2">Как стать партнёром?</h2><p class="sub">Пять шагов от заявки до первых заказов</p></div><span class="cnt"><b id="stepNo">01</b>/ 05</span></div>
+    <div class="steps__bar"><i id="stepBar"></i></div>
+    <div class="rail" id="stepRail"></div>
+  </section>
+
+  <section class="sec" id="reviews">
+    <div class="top"><div><h2 class="h2">Отзывы франчайзи</h2><p class="sub">Партнёры о запуске и работе сети</p></div></div>
+    <div class="rail" id="revRail"></div>
+    <div class="dots" id="revDots"></div>
+  </section>
+
+  <section class="med">
+    <h2 class="h2" style="padding-inline:var(--gut);margin-bottom:16px">О нас говорят</h2>
+    <div class="med__r" id="medRow"></div>
+  </section>
+
+  <section class="sec" id="faq">
+    <h2 class="h2" style="padding-inline:var(--gut);margin-bottom:18px">Вопросы и ответы</h2>
+    <div class="acc" id="acc"></div>
+    <div class="tgcap">
+      <span>Не нашли ответ? Разбираем бизнес-модель в Telegram-канале</span>
+      <a href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer">Перейти в Telegram</a>
+    </div>
+  </section>
+
+  <section class="form" id="form">
+    <div class="form__in">
+      <h2 class="h2">Станьте франчайзи Яндекс Лавки</h2>
+      <p class="sub">Оставьте заявку — обсудим план запуска и отправим финансовую модель</p>
+      <ul class="perks" id="perks"></ul>
+      <form class="fbox" id="leadForm" novalidate>
+        <h3>Расскажите о себе</h3>
+        <label><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+        <label><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+        <label><span>Город</span><input name="city" placeholder="Где хотите развивать Лавку" required></label>
+        <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+        <label class="consent"><input type="checkbox" required><span>Согласен на обработку персональных данных и принимаю политику конфиденциальности</span></label>
+        <button class="btn btn--blue btn--wide" type="submit">Стать партнёром</button>
+        <p class="fnote">Свяжемся в течение 2 рабочих дней</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="ftr">
+  <a class="lg" href="#top" aria-label="Яндекс Лавка — Франшиза">
+    <img class="lg__main" src="../../site/assets/figma/logo-footer.svg" alt="">
+    <img class="lg__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt="">
+    <img class="lg__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt="">
+  </a>
+  <nav id="ftrNav"></nav>
+  <a class="ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../../site/assets/figma/telegram.svg" alt="">Telegram</a>
+  <div class="ftr__legal">
+    <p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д. 22, стр. 1</p>
+    <p>Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</p>
+    <p>© 2026 ООО «Яндекс.Лавка» · 18+</p>
+  </div>
+  <div class="pad"></div>
+</footer>
+
+<script src="./_shared/content.js"></script>
+<script src="./_shared/blocks.js"></script>
+<script>
+(() => {
+  const D = window.LAVKA, $ = s => document.querySelector(s);
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const A = '../../site/assets/figma/';
+
+  MB.marquee('#evtT', D.event, 2);
+  MB.cities('#city', D.cities, reduced);
+  $('#numsRail').innerHTML = D.numbers.map(n =>
+    `<article class="ncap"><b data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p></article>`).join('');
+  $('#bizRail').innerHTML = D.business.map(b =>
+    `<article class="bcard"><div class="bcard__pic ${b.img?'':'bcard__pic--glow'}">${b.img?`<img src="${A}business/${b.img}.png" alt="" loading="lazy">`:''}</div>
+      <div class="bcard__c"><h3>${b.h}</h3><p>${b.p}</p></div></article>`).join('');
+  $('#stepRail').innerHTML = D.steps.map(s =>
+    `<article class="scard"><b>ШАГ ${s.n}</b><h3>${s.t}</h3><p>${s.d}</p><em class="pill">${s.e}</em></article>`).join('');
+  $('#revRail').innerHTML = D.reviews.map(r =>
+    `<article class="rcard"><div class="av">${r.i}</div><h3>${r.n}</h3><small>${r.m}</small><p>${r.p}</p></article>`).join('');
+  $('#medRow').innerHTML = D.media.map(m =>
+    `<a href="#" aria-label="${m.alt}">${m.src?`<img src="${A}${m.src}" alt="${m.alt}" loading="lazy">`:`<span class="med__t">${m.text}</span>`}</a>`).join('');
+  $('#acc').innerHTML = D.faq.map(([q,a]) =>
+    `<article><button type="button" aria-expanded="false"><span>${q}</span><i>+</i></button><div><p>${a}</p></div></article>`).join('');
+  $('#perks').innerHTML = D.perks.map(([t,s]) => `<li><strong>${t}</strong><span>${s}</span></li>`).join('');
+  $('#ftrNav').innerHTML = D.nav.map(([h,t]) => `<a href="${h}">${t}</a>`).join('');
+  $('#sheetLinks').innerHTML = D.nav.map(([h,t],i) => `<a href="${h}">${t}<em>0${i+1}</em></a>`).join('');
+
+  MB.dots('#numsRail','#numsDots'); MB.dots('#bizRail','#bizDots'); MB.dots('#revRail','#revDots');
+  MB.reveal(); MB.counters(); MB.accordion('#acc'); MB.form('#leadForm');
+  MB.zones({ tabs:'#zoneTabs', card:'#zcard', world:'#mapW', data:D.zones, zoom:2.0 });
+
+  /* форматы: табы переключают одну панель — на мобилке это короче трёх простыней */
+  const tabs = $('#fmtTabs'), panel = $('#fmtPanel'), FC = D.formatCommon;
+  tabs.innerHTML = D.formats.map((f,i) => `<button type="button" class="${i?'':'on'}" data-i="${i}">${f.tab}</button>`).join('');
+  const paint = i => {
+    const f = D.formats[i];
+    [...tabs.children].forEach((b,j) => b.classList.toggle('on', j===i));
+    panel.className = 'fpanel fpanel__fade';
+    panel.innerHTML =
+      `<div class="fpanel__chips">${f.chips.map((c,j)=>`<span class="pill ${j?'':'pill--navy'}" style="${j?'background:var(--card);color:var(--navy)':''}">${c}</span>`).join('')}</div>
+       <p class="fpanel__cities">${f.cities}</p>
+       <dl class="fpanel__big"><dt>Инвестиции в город</dt><dd><b>${f.inv}</b><span>млн ₽</span></dd></dl>
+       <dl class="fpanel__row">
+         <div><dt>Окупаемость</dt><dd>${f.pay}</dd></div>
+         <div><dt>Паушальный</dt><dd>${FC.fee}</dd></div>
+         <div><dt>Роялти</dt><dd>${FC.royalty}</dd></div>
+       </dl>
+       <p class="fpanel__note">${f.note}</p>`;
+    void panel.offsetWidth;
+  };
+  tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) paint(+b.dataset.i); });
+  paint(0);
+
+  /* шаги: счётчик и полоса ведут ленту */
+  const stepRail = $('#stepRail'), stepNo = $('#stepNo'), stepBar = $('#stepBar');
+  const syncSteps = () => {
+    const i = Math.min(4, Math.round(stepRail.scrollLeft / (stepRail.scrollWidth / 5)));
+    stepNo.textContent = D.steps[i].n;
+    stepBar.style.setProperty('--p', ((i + 1) / 5).toFixed(2));
+  };
+  stepRail.addEventListener('scroll', () => requestAnimationFrame(syncSteps), { passive:true });
+  syncSteps();
+
+  /* ============================================================
+     СИСТЕМА «КАПСУЛА»
+     .bar — один элемент. Наверху это шапка во всю ширину,
+     после хиро он стекает вниз и сжимается в капсулу.
+     ============================================================ */
+  const bar = $('#bar'), cta = $('#barCta'), sheet = $('#sheet'), scrim = $('#scrim'), up = $('#barUp');
+  const gut = 16, BAR_H = 56, CAP_H = 60;
+  let capW = 300;
+
+  const measure = () => {
+    /* ширина капсулы = меню + кнопка по тексту + наверх + поля */
+    const probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:500 16px "YS Geo",Arial';
+    probe.textContent = cta.textContent;
+    document.body.append(probe);
+    const textW = probe.offsetWidth; probe.remove();
+    capW = Math.min(innerWidth - gut * 2, 44 + 8 + (textW + 44) + 8 + 44 + 16);
+  };
+  let capped = false;
+  const place = () => {
+    if (capped) {
+      bar.style.setProperty('--bw', capW + 'px');
+      bar.style.setProperty('--bh', CAP_H + 'px');
+      bar.style.setProperty('--bpl', '8px');
+      bar.style.setProperty('--bx', ((innerWidth - capW) / 2) + 'px');
+      bar.style.setProperty('--by', -(gut + safeB()) + 'px');
+    } else {
+      bar.style.setProperty('--bw', (innerWidth - gut * 2) + 'px');
+      bar.style.setProperty('--bh', BAR_H + 'px');
+      bar.style.setProperty('--bpl', '10px');
+      bar.style.setProperty('--bx', gut + 'px');
+      bar.style.setProperty('--by', -(innerHeight - 12 - BAR_H) + 'px');
+    }
+  };
+  const safeB = () => {
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:0;height:env(safe-area-inset-bottom,0px)';
+    document.body.append(t); const h = t.offsetHeight; t.remove(); return h;
+  };
+  measure(); place();
+  document.fonts?.ready?.then(() => { measure(); place(); });
+  addEventListener('resize', () => { measure(); place(); }, { passive:true });
+
+  /* контекстная надпись на кнопке */
+  const CTX = [['formats','Выбрать формат'],['steps','Оставить заявку'],['faq','Оставить заявку']];
+  let label = 'Стать партнёром';
+  const setLabel = t => {
+    if (t === label) return; label = t;
+    cta.classList.add('swap');
+    setTimeout(() => { cta.innerHTML = `<span>${t}</span>`; cta.classList.remove('swap'); measure(); place(); }, 240);
+  };
+
+  const form = $('#form');
+  let f = 0;
+  const onScroll = () => {
+    f = 0;
+    const y = scrollY, vh = innerHeight;
+    const want = y > vh * .6;
+    if (want !== capped) { capped = want; bar.classList.toggle('cap', capped); place(); }
+    up.style.setProperty('--p', Math.min(1, y / (document.body.scrollHeight - vh)).toFixed(3));
+
+    const fr = form.getBoundingClientRect();
+    bar.style.opacity = (fr.top < vh * .6 && fr.bottom > 0) ? '0' : '1';
+    bar.style.pointerEvents = bar.style.opacity === '0' ? 'none' : '';
+
+    let t = 'Стать партнёром';
+    for (const [id, l] of CTX) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top < vh * .5) t = l;
+    }
+    setLabel(t);
+  };
+  addEventListener('scroll', () => { if (!f) f = requestAnimationFrame(onScroll); }, { passive:true });
+  onScroll();
+
+  /* меню раскрывается из капсулы вверх, кнопка остаётся на месте */
+  const closeSheet = () => {
+    document.body.classList.remove('is-locked');
+    sheet.classList.remove('open'); scrim.classList.remove('open');
+    sheet.setAttribute('aria-hidden','true'); $('#barMenu').setAttribute('aria-expanded','false');
+  };
+  $('#barMenu').addEventListener('click', () => {
+    const open = !sheet.classList.contains('open');
+    if (open && !capped) { capped = true; bar.classList.add('cap'); place(); }
+    document.body.classList.toggle('is-locked', open);
+    sheet.classList.toggle('open', open); scrim.classList.toggle('open', open);
+    sheet.setAttribute('aria-hidden', String(!open));
+    $('#barMenu').setAttribute('aria-expanded', String(open));
+  });
+  scrim.addEventListener('click', closeSheet);
+  sheet.addEventListener('click', e => { if (e.target.closest('a')) closeSheet(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+  up.addEventListener('click', () => scrollTo({ top:0, behavior:'smooth' }));
+})();
+</script>
+</body>
+</html>
