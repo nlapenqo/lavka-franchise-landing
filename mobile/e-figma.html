@@ -31,27 +31,32 @@
    Структура блоков и их приёмы — из фигмы; токены — из site/.
    ============================================================ */
 
-/* ---------- токены варианта ---------- */
+/* ---------- токены варианта ----------
+   Кегли, трекинг, палитра и тени — только из _shared/base.css;
+   здесь остаётся геометрия варианта. */
 :root{
-  --r-card:22px; --r-big:28px; --r-ctl:14px;      /* три радиуса + пилюля */
+  --r-card:20px; --r-big:28px; --r-ctl:14px;      /* три радиуса + пилюля */
   --sec:64px;                                     /* вертикальный ритм секций */
-  --ink-soft:#e8f1fb;                             /* светлый текст на navy */
+  --ink-soft:var(--card);                         /* светлый текст на navy */
   --line-dark:rgba(170,217,252,.16);              /* hairline на тёмном */
   --ease-city:cubic-bezier(.19,1,.22,1);          /* барабан городов — как на сайте */
 }
+
+/* якоря из меню не должны прятать заголовок под fixed-шапку */
+main section[id]{scroll-margin-top:calc(88px + var(--safe-t))}
 
 /* в макете айфона системной полосы прокрутки быть не должно */
 html.framed{scrollbar-width:none}
 html.framed::-webkit-scrollbar{width:0;height:0}
 
-/* ---------- типошкала (7 стилей) ---------- */
-.h1{font-size:clamp(40px,12.3vw,50px);line-height:.92;font-weight:900;letter-spacing:-.01em}  /* «в своём городе» должно помещаться и на 360px */
-.h2{font-size:38px;line-height:.94;font-weight:900;letter-spacing:-.01em;margin-bottom:24px}
-.h3{font-size:26px;line-height:1.02;font-weight:800}
-.lead{font-size:17px;line-height:1.3;font-weight:500}
-.body{font-size:15px;line-height:1.45}
-.cap{font-size:11px;line-height:1.3;letter-spacing:.07em;text-transform:uppercase;font-weight:500}
-.sub{font-size:15px;line-height:1.4;color:var(--dim)}
+/* ---------- типостили на токенах шкалы ---------- */
+.h1{font-size:var(--fs-hero);line-height:.92;font-weight:900;letter-spacing:var(--ls-tight)}  /* «в своём городе» должно помещаться и на 360px */
+.h2{font-size:var(--fs-h2);line-height:.94;font-weight:900;letter-spacing:var(--ls-tight);margin-bottom:24px}
+.h3{font-size:var(--fs-h3-s);line-height:1.02;font-weight:800}
+.lead{font-size:var(--fs-lead);line-height:1.3;font-weight:500}
+.body{font-size:var(--fs-text);line-height:1.45}
+.cap{font-size:var(--fs-micro);line-height:1.3;letter-spacing:var(--ls-caps);text-transform:uppercase;font-weight:500}
+.sub{font-size:var(--fs-text);line-height:1.4;color:var(--dim)}
 
 .sec{padding:var(--sec) 0}
 /* заголовок секции + пара стрелок справа — один каркас на бизнес и отзывы */
@@ -59,9 +64,9 @@ html.framed::-webkit-scrollbar{width:0;height:0}
 .sec__head .h2{margin-bottom:0}
 
 /* ---------- кнопки: три роли, одна геометрия ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-size:16px;font-weight:500;white-space:nowrap;transition:transform .18s var(--ease),background .2s,box-shadow .25s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-size:var(--fs-body);font-weight:500;white-space:nowrap;transition:transform .18s var(--ease),background .2s,box-shadow .25s}
 .btn:active{transform:scale(.97)}
-.btn--blue{background:var(--blue);color:#fff;box-shadow:0 10px 26px rgba(0,173,255,.32)}
+.btn--blue{background:var(--blue);color:#fff;box-shadow:var(--shadow-cta)}
 .btn--white{background:#fff;color:var(--blue);box-shadow:0 12px 30px rgba(6,22,46,.28)}
 .btn--navy{background:var(--navy);color:#fff}
 .btn--wide{width:100%}
@@ -117,7 +122,7 @@ html.framed::-webkit-scrollbar{width:0;height:0}
 .mark{position:relative;flex:none;display:block;width:43px;height:43px;margin-right:auto}
 .mark img{width:100%;height:100%}
 .mark::after{content:'';position:absolute;inset:-6px}
-.hdr__cta{height:44px;padding:0 18px;border-radius:999px;background:var(--blue);color:#fff;font-size:15px;font-weight:500;display:inline-flex;align-items:center;box-shadow:0 6px 18px rgba(0,173,255,.35);opacity:0;pointer-events:none;transform:translateY(-4px) scale(.94);transition:opacity .3s,transform .35s var(--ease)}
+.hdr__cta{height:44px;padding:0 18px;border-radius:999px;background:var(--blue);color:#fff;font-size:var(--fs-text);font-weight:500;display:inline-flex;align-items:center;box-shadow:var(--shadow-cta);opacity:0;pointer-events:none;transform:translateY(-4px) scale(.94);transition:opacity .3s,transform .35s var(--ease)}
 .hdr.cta-on .hdr__cta{opacity:1;pointer-events:auto;transform:none}
 .burger{width:48px;height:48px;display:grid;place-items:center;border-radius:50%}
 .burger i{position:relative;display:block;width:21px;height:2px;background:currentColor;border-radius:2px;transition:transform .28s var(--ease),opacity .2s}
@@ -130,10 +135,9 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 /* ---------- меню ---------- */
 .menu{position:fixed;z-index:54;inset:0;padding:calc(104px + var(--safe-t)) var(--gut) calc(40px + var(--safe-b));background:var(--navy);color:#fff;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(-14px);transition:.3s var(--ease)}
 .menu.open{opacity:1;visibility:visible;transform:none}
-.menu a{display:flex;align-items:baseline;gap:12px;padding:13px 0;font-size:26px;font-weight:800;border-bottom:1px solid var(--line-dark)}
-.menu a em{font-style:normal;font-size:12px;font-weight:500;color:var(--blue);letter-spacing:.06em}
+.menu a{display:flex;align-items:baseline;gap:12px;padding:13px 0;font-size:var(--fs-h3-s);font-weight:800;border-bottom:1px solid var(--line-dark)}
+.menu a em{font-style:normal;font-size:var(--fs-legal);font-weight:500;color:var(--blue);letter-spacing:var(--ls-caps)}
 .menu__foot{margin-top:auto;padding-top:24px}
-.menu__tg{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:999px;background:rgba(255,255,255,.1);font-weight:500}
 .menu__tg img{width:18px;height:18px}
 
 /* ---------- 01 · хиро: во весь экран телефона, по центру ---------- */
@@ -141,7 +145,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .hero__in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
 .hero .h1{margin-bottom:22px}
 .hero .h1 .city,.hero .h1 .blue{color:var(--blue)}
-.hero__lead{font-size:19px;line-height:1.32;font-weight:500;color:var(--ink-soft);max-width:330px;margin-bottom:32px}
+.hero__lead{font-size:var(--fs-lead);line-height:1.32;font-weight:500;color:var(--ink-soft);max-width:330px;margin-bottom:32px}
 /* барабан городов 1-в-1 с site/: перспектива, поворот по X, та же кривая и тайминги */
 .city{position:relative;display:inline-flex;vertical-align:bottom;height:1em;padding-bottom:.2em;margin-bottom:-.2em;box-sizing:content-box;white-space:nowrap;perspective:640px;clip-path:inset(0 -100vw 0);transition:width 1.05s var(--ease-city)}
 .city span{position:absolute;left:50%;top:0;display:inline-block;line-height:1;white-space:nowrap;transform-origin:50% 50%;backface-visibility:hidden;transform:translate(-50%,78%) rotateX(-72deg);opacity:0;transition:transform 1.15s var(--ease-city),opacity .52s var(--ease);will-change:transform}
@@ -150,46 +154,47 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 
 /* ---------- 02 · мероприятие: полоса во всю ширину поверх стыка ---------- */
 .evt{position:relative;z-index:3;display:grid;grid-template-columns:54px 1fr 32px;gap:12px;align-items:center;margin:-37px 0 0;padding:15px 16px;border-radius:var(--r-big);background:var(--sky);color:var(--navy);box-shadow:0 16px 38px rgba(14,34,65,.18);transition:background .2s}
-.evt:active{background:#9ed2fb}
-.evt__d{width:54px;height:54px;border-radius:15px;overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(14,34,65,.14)}
-.evt__d b{flex:1;display:grid;place-items:center;font-size:20px;line-height:1;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
-.evt__d span{height:19px;display:grid;place-items:center;background:var(--blue);color:#fff;font-size:10.5px;line-height:1;letter-spacing:.07em;font-weight:800}
-.evt__t b{display:block;font-size:16px;font-weight:800;line-height:1.18;letter-spacing:-.01em}
-.evt__t span{display:block;margin-top:4px;font-size:13.5px;line-height:1.35;color:#42618c}
+.evt:active{background:var(--sky-press)}
+.evt__d{width:54px;height:54px;border-radius:var(--r-ctl);overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(14,34,65,.14)}
+.evt__d b{flex:1;display:grid;place-items:center;font-size:var(--fs-sub);line-height:1;font-weight:900;letter-spacing:var(--ls-num);color:var(--navy)}
+.evt__d span{height:19px;display:grid;place-items:center;background:var(--blue);color:#fff;font-size:var(--fs-micro);line-height:1;letter-spacing:var(--ls-caps);font-weight:800}
+.evt__t b{display:block;font-size:var(--fs-body);font-weight:800;line-height:1.18;letter-spacing:var(--ls-tight)}
+.evt__t span{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.35;color:var(--dim-sky)}
 .evt__c{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);display:grid;place-items:center}
 .evt__c i{display:block;width:7px;height:7px;border-right:2px solid var(--navy);border-top:2px solid var(--navy);transform:rotate(45deg);margin-right:2px;border-radius:1px}
 
 /* ---------- 03 · цифры: карточки по фигме — крупный счётчик и синее свечение ---------- */
 .nums{background:#fff;padding:56px 0 var(--sec)}
 .nums .rv{transform:none}     /* только проявление: сдвиг вверх давал вертикальную прокрутку ленты */
-.ncard{position:relative;isolation:isolate;overflow:hidden;flex:0 0 300px;border-radius:31px;padding:48px 26px 40px;text-align:center;color:#fff;background:var(--navy);display:flex;flex-direction:column;align-items:center}
+.ncard{position:relative;isolation:isolate;overflow:hidden;flex:0 0 300px;border-radius:var(--r-big);padding:48px 26px 40px;text-align:center;color:#fff;background:var(--navy);display:flex;flex-direction:column;align-items:center}
 /* два размытых голубых пятна над карточкой — тот же приём, что в site/styles.css */
 /* Свечение градиентом, а не размытием: filter уводит слой в отдельную
    композицию, и iOS перестаёт обрезать его по скруглению карточки. */
 .ncard::before,.ncard::after{content:'';position:absolute;z-index:-1;pointer-events:none}
 .ncard::before{left:-18%;right:-18%;top:-215px;height:470px;background:radial-gradient(closest-side,rgba(0,173,255,.66),rgba(0,173,255,.34) 46%,rgba(0,173,255,.1) 74%,transparent 100%)}
 .ncard::after{left:-4%;right:-4%;top:-140px;height:300px;background:radial-gradient(closest-side,rgba(0,173,255,.5),rgba(0,173,255,.13) 58%,transparent 100%)}
-.ncard b{display:block;font-size:108px;line-height:.9;font-weight:900;letter-spacing:-.03em}
-.ncard h3{margin:18px 0 14px;font-size:27px;line-height:1.05;font-weight:800}
-.ncard p{margin-top:auto;max-width:252px;font-size:14px;line-height:1.35;color:#c0d2ec}
+.ncard b{display:block;font-size:var(--fs-mega);line-height:.9;font-weight:900;letter-spacing:var(--ls-num)}
+.ncard h3{margin:18px 0 14px;font-size:var(--fs-h3-s);line-height:1.05;font-weight:800}
+.ncard p{margin-top:auto;max-width:252px;font-size:var(--fs-small);line-height:1.35;color:var(--dim-dark)}
 
 /* ---------- 04 · как устроен бизнес: только горизонтальное пролистывание ---------- */
 .biz{background:#fff}
 .biz__title{padding-inline:var(--gut)}
 .biz .swipe{margin-top:24px}
 .bcard{flex:0 0 calc(100vw - 2*var(--gut));border-radius:var(--r-big);background:var(--card);padding:26px 24px 24px;display:flex;flex-direction:column}
-.bcard__v{position:relative;height:150px;margin-bottom:20px;border-radius:20px;overflow:hidden;background:var(--navy)}
+.bcard__v{position:relative;height:150px;margin-bottom:20px;border-radius:var(--r-card);overflow:hidden;background:var(--navy)}
 .bcard__v img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
 /* у второй и третьей карточки готового кадра нет — как на десктопе, ставим фирменное свечение */
-.bcard__v--glow{background:linear-gradient(150deg,#20447a,#16305c)}
+.bcard__v--glow{background:linear-gradient(150deg,var(--navy-soft),var(--navy-deep))}
 .bcard__v--glow::before{content:'';position:absolute;left:50%;top:50%;width:340px;height:340px;margin:-170px 0 0 -170px;background:radial-gradient(closest-side,rgba(0,173,255,.55),rgba(0,173,255,.24) 42%,rgba(0,173,255,.07) 72%,transparent 100%)}
 .bcard__v--glow img{position:relative;width:auto;height:118%;margin:0 auto;object-fit:contain;opacity:.95}
-.bcard h3{font-size:28px;line-height:1.02;font-weight:800;margin-bottom:14px}
-.bcard p{font-size:15px;line-height:1.48;color:var(--dim);margin-bottom:24px}
+.bcard h3{font-size:var(--fs-h3);line-height:1.02;font-weight:800;margin-bottom:14px}
+.bcard p{font-size:var(--fs-text);line-height:1.48;color:var(--dim);margin-bottom:24px}
 .bcard__f{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 
 /* ---------- 05 · даркстор: фирменная тёмная сцена с голубыми пятнами ---------- */
-.dark{background:#fff}
+.dark{background:#fff;padding-bottom:0}
+.stage{position:relative;z-index:2;margin-bottom:-58px}
 .dark .h2,.dark__lead{padding-inline:var(--gut)}
 .dark .h2{margin-bottom:12px}
 .dark__lead{margin-bottom:24px}
@@ -209,49 +214,50 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .zcard__fit{flex:none;width:38px;height:38px;margin-right:auto;margin-left:14px;display:grid;place-items:center;border-radius:50%;background:var(--light);color:var(--navy);opacity:0;pointer-events:none;transition:opacity .28s,background .2s}
 .zcard__fit.on{opacity:1;pointer-events:auto}
 .zcard__fit svg{width:17px;height:17px}
-.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
 .map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
 .map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
 /* нижние углы не скругляем: их форму задаёт обрезка самой сцены,
    иначе в клин между двумя радиусами просвечивает карта */
 .zcard{position:relative;z-index:2;margin-top:-26px;border-radius:var(--r-big) var(--r-big) 0 0;background:#fff;padding:24px 24px 34px;min-height:238px}
 .zcard__top{display:flex;align-items:center;justify-content:space-between}
-.zcard__n{font-size:40px;line-height:.9;font-weight:900;color:var(--blue)}
-.zcard h3{margin-top:16px;font-size:27px;line-height:1;font-weight:900}
-.zcard p{margin-top:12px;font-size:15px;line-height:1.5;color:var(--dim)}
+.zcard__n{font-size:var(--fs-h2);line-height:.9;font-weight:900;color:var(--blue)}
+.zcard h3{margin-top:16px;font-size:var(--fs-h3-s);line-height:1;font-weight:900}
+.zcard p{margin-top:12px;font-size:var(--fs-text);line-height:1.5;color:var(--dim)}
 .zfade{animation:zf .3s var(--ease-out)}
 @keyframes zf{from{opacity:0;transform:translateY(8px)}}
 
 /* ---------- 06 · форматы: табы + панель с крупными цифрами и сносками ---------- */
-.fmt{background:var(--light)}
+/* верхний отступ увеличен на величину нахлёста сцены */
+.fmt{background:var(--light);position:relative;z-index:1;padding-top:calc(var(--sec) + 58px)}
 .fmt .h2{padding-inline:var(--gut);margin-bottom:10px}
 .fmt .sub{padding-inline:var(--gut);margin-bottom:18px}
 /* три равных колонки: все форматы видны сразу, переключение без прокрутки */
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 var(--gut) 16px}
-.tabs button{min-height:42px;padding:6px 4px;border-radius:999px;background:#fff;color:var(--navy);font-size:12px;letter-spacing:-.01em;line-height:1.15;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(27,58,106,.06);transition:background .25s,color .25s}
+.tabs button{min-height:42px;padding:6px 4px;border-radius:999px;background:#fff;color:var(--navy);font-size:var(--fs-legal);letter-spacing:var(--ls-tight);line-height:1.15;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(27,58,106,.06);transition:background .25s,color .25s}
 .tabs button.on{background:var(--navy);color:#fff}
-.fpanel{margin:0 var(--gut);padding:24px 22px 22px;border-radius:26px;background:#fff;box-shadow:0 10px 34px rgba(27,58,106,.09)}
-.fpanel__chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.fpanel__chips span{display:inline-flex;padding:6px 14px;border-radius:999px;background:var(--card);font-size:13px;font-weight:500;color:var(--dim)}
-.fpanel__chips span:first-child{background:var(--navy);color:#fff}
-.fpanel__cities{font-size:14px;line-height:1.35;color:var(--dim);margin-bottom:18px}
+.fpanel{margin:0 var(--gut);padding:24px 22px 22px;border-radius:var(--r-big);background:#fff;box-shadow:var(--shadow-card)}
+/* Раньше здесь были плашки: они дублировали таб и выглядели нажимаемыми,
+   хотя ими не были. Осталась только та часть, которой нет в табе. */
+.fpanel__kind{font-size:var(--fs-micro);letter-spacing:var(--ls-caps);text-transform:uppercase;font-weight:800;color:var(--blue);margin-bottom:10px}
+.fpanel__cities{font-size:var(--fs-small);line-height:1.35;color:var(--dim);margin-bottom:18px}
 .fpanel__big{padding-bottom:16px}
-.fpanel__big dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.fpanel__big dt{font-size:var(--fs-micro);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--dim);margin-bottom:6px}
 .fpanel__big dd{display:flex;align-items:baseline;gap:8px}
-.fpanel__big b{font-size:56px;line-height:.86;font-weight:900;letter-spacing:-.03em;white-space:nowrap}
-.fpanel__big span{font-size:16px;font-weight:500;color:var(--dim)}
+.fpanel__big b{font-size:var(--fs-display);line-height:.86;font-weight:900;letter-spacing:var(--ls-num);white-space:nowrap}
+.fpanel__big span{font-size:var(--fs-body);font-weight:500;color:var(--dim)}
 .fpanel__row{display:flex;flex-direction:column}
 .fpanel__row>div{padding:14px 0;border-top:1px solid var(--card)}
-.fpanel__row dt{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
-.fpanel__row dd{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;font-size:28px;line-height:1;font-weight:800;letter-spacing:-.02em}
-.fpanel__row dd small{font-size:14px;font-weight:500;color:var(--dim);white-space:nowrap}
+.fpanel__row dt{font-size:var(--fs-micro);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+.fpanel__row dd{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;font-size:var(--fs-h3);line-height:1;font-weight:800;letter-spacing:var(--ls-num)}
+.fpanel__row dd small{font-size:var(--fs-small);font-weight:500;color:var(--dim);white-space:nowrap}
 /* сноска: тап по «i» — та же подсказка, что прячется под ховером на десктопе */
-.info{position:relative;flex:none;align-self:center;display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--mid);border-radius:50%;font-size:12px;line-height:1;font-weight:500;color:var(--mid);transition:background .2s,color .2s}
+.info{position:relative;flex:none;align-self:center;display:inline-grid;place-items:center;width:20px;height:20px;border:1px solid var(--mid);border-radius:50%;font-size:var(--fs-legal);line-height:1;font-weight:500;color:var(--mid);transition:background .2s,color .2s}
 .info.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.info>span{position:absolute;right:-4px;bottom:calc(100% + 10px);z-index:6;width:214px;padding:11px 13px;border-radius:12px;background:var(--navy);color:#fff;font-size:12px;line-height:1.32;font-weight:400;letter-spacing:0;text-transform:none;text-align:left;opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .18s,transform .18s var(--ease)}
+.info>span{position:absolute;right:-4px;bottom:calc(100% + 10px);z-index:6;width:214px;padding:11px 13px;border-radius:var(--r-ctl);background:var(--navy);color:#fff;font-size:var(--fs-legal);line-height:1.32;font-weight:400;letter-spacing:0;text-transform:none;text-align:left;opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .18s,transform .18s var(--ease)}
 .info>span::after{content:'';position:absolute;right:9px;top:100%;border:6px solid transparent;border-top-color:var(--navy)}
 .info.on>span{opacity:1;transform:none}
-.fpanel__note{margin-top:16px;padding:14px 16px;border-radius:18px;background:var(--card);font-size:14px;line-height:1.35;color:var(--dim)}
+.fpanel__note{margin-top:16px;padding:14px 16px;border-radius:var(--r-card);background:var(--card);font-size:var(--fs-small);line-height:1.35;color:var(--dim)}
 .fpanel--fade{animation:zf .32s var(--ease-out)}
 .fmt__cta{padding:22px var(--gut) 0}
 
@@ -260,32 +266,33 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .steps__in{position:relative;z-index:1;padding-inline:var(--gut)}
 .steps .h2{margin-bottom:26px}
 .sfeat{border-radius:var(--r-big);padding:26px 24px;color:#fff;background:var(--blue);box-shadow:0 18px 44px rgba(4,32,68,.4)}
-.sfeat b{display:block;font-size:13px;font-weight:800;letter-spacing:.08em;color:rgba(255,255,255,.78)}
-.sfeat h3{margin-top:8px;font-size:26px;line-height:1;font-weight:900}
-.sfeat p{margin-top:10px;font-size:15px;line-height:1.45;color:rgba(255,255,255,.95)}
-.sfeat em{display:block;margin-top:14px;font-style:normal;font-size:14px;font-weight:500}
+/* тот же кружок, что у шагов таймлайна, только в цветах голубой плашки */
+.sfeat b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-legal);font-weight:800;letter-spacing:0;color:#fff;background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 2px rgba(255,255,255,.55)}
+.sfeat h3{margin-top:14px;font-size:var(--fs-h3-s);line-height:1;font-weight:900}
+.sfeat p{margin-top:10px;font-size:var(--fs-text);line-height:1.45;color:rgba(255,255,255,.95)}
+.sfeat em{display:block;margin-top:14px;font-style:normal;font-size:var(--fs-small);font-weight:500}
 .sfeat .btn{margin-top:18px;color:var(--blue)}
 /* Номер шага живёт внутри кружка на линии — как пины на карте даркстора,
    заголовок встаёт с ним на одну высоту. */
 .tl{position:relative;margin-top:30px;padding-left:46px}
 .tl::before{content:'';position:absolute;left:15px;top:14px;bottom:40px;width:2px;background:rgba(170,217,252,.25)}
-.tl__fill{position:absolute;left:15px;top:14px;width:2px;height:var(--fh,0px);background:var(--blue);box-shadow:0 0 12px rgba(0,173,255,.7);transition:height .18s linear}
+.tl__fill{position:absolute;left:15px;top:14px;width:2px;height:var(--fh,0px);background:var(--blue);transition:height .18s linear}
 .tstep{position:relative;padding-bottom:32px}
 .tstep:last-child{padding-bottom:0}
-.tstep b{position:absolute;left:-46px;top:-2px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;letter-spacing:0;color:var(--sky);background:var(--navy);box-shadow:inset 0 0 0 2px rgba(170,217,252,.4);transition:background .35s,box-shadow .35s,color .35s,transform .35s var(--ease-spring)}
-.tstep.on b{background:var(--blue);color:#fff;box-shadow:inset 0 0 0 2px var(--blue),0 0 14px rgba(0,173,255,.75);transform:scale(1.08)}
-.tstep h3{font-size:23px;line-height:1.05;font-weight:800}
-.tstep p{margin-top:8px;font-size:14.5px;line-height:1.45;color:var(--dim-dark)}
-.tstep em{display:block;margin-top:10px;font-style:normal;font-size:14px;font-weight:500;color:var(--blue)}
+.tstep b{position:absolute;left:-46px;top:-2px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-legal);font-weight:800;letter-spacing:0;color:var(--sky);background:var(--navy);box-shadow:inset 0 0 0 2px rgba(170,217,252,.4);transition:background .35s,box-shadow .35s,color .35s,transform .35s var(--ease-spring)}
+.tstep.on b{background:var(--blue);color:#fff;box-shadow:inset 0 0 0 2px var(--blue);transform:scale(1.08)}
+.tstep h3{font-size:var(--fs-h4);line-height:1.05;font-weight:800}
+.tstep p{margin-top:8px;font-size:var(--fs-text);line-height:1.45;color:var(--dim-dark)}
+.tstep em{display:block;margin-top:10px;font-style:normal;font-size:var(--fs-small);font-weight:500;color:var(--blue)}
 
 /* ---------- 08 · отзывы ---------- */
 .rev{background:#fff}
 .rev .swipe{margin-top:24px}
 .rcard{flex:0 0 315px;border-radius:var(--r-big);background:var(--card);padding:26px 24px}
-.rcard .av{width:52px;height:52px;border-radius:50%;background:var(--sky);display:grid;place-items:center;font-size:15px;font-weight:800;margin-bottom:16px}
-.rcard h3{font-size:20px;font-weight:800;line-height:1}
-.rcard small{display:block;margin-top:4px;font-size:13px;color:var(--dim)}
-.rcard p{margin-top:14px;font-size:16px;line-height:1.35}
+.rcard .av{width:52px;height:52px;border-radius:50%;background:var(--sky);display:grid;place-items:center;font-size:var(--fs-text);font-weight:800;margin-bottom:16px}
+.rcard h3{font-size:var(--fs-sub);font-weight:800;line-height:1}
+.rcard small{display:block;margin-top:4px;font-size:var(--fs-caption);color:var(--dim)}
+.rcard p{margin-top:14px;font-size:var(--fs-body);line-height:1.35}
 
 /* ---------- 09 · о нас говорят: все четыре логотипа — живые ссылки ---------- */
 .med{background:#fff;padding:56px 0}
@@ -294,37 +301,37 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .med__g a{height:90px;border-radius:var(--r-card);background:var(--light);display:grid;place-items:center;padding:18px;filter:saturate(0);opacity:.55;transition:filter .2s,opacity .2s}
 .med__g a:active{filter:none;opacity:1}
 .med__g img{max-height:26px;max-width:82%}
-.med__t{font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1;color:#7293bd;text-transform:lowercase}
+.med__t{font-family:Georgia,'Times New Roman',serif;font-size:var(--fs-h3-s);line-height:1;color:var(--dim);text-transform:lowercase}
 
 /* ---------- 10 · FAQ ---------- */
 .faq{background:#fff}
 .faq .h2,.acc{padding-inline:var(--gut)}
 .acc article{border-bottom:1px solid var(--card)}
-.acc button{width:100%;padding:20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:left;font-size:17.5px;line-height:1.2;font-weight:800}
-.acc i{flex:none;width:32px;height:32px;border-radius:50%;background:var(--light);display:grid;place-items:center;font-style:normal;font-size:20px;font-weight:400;transition:transform .3s var(--ease),background .25s,color .25s}
+.acc button{width:100%;padding:20px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;text-align:left;font-size:var(--fs-lead);line-height:1.2;font-weight:800}
+.acc i{flex:none;width:32px;height:32px;border-radius:50%;background:var(--light);display:grid;place-items:center;font-style:normal;font-size:var(--fs-sub);font-weight:400;transition:transform .3s var(--ease),background .25s,color .25s}
 .acc article.open i{transform:rotate(45deg);background:var(--blue);color:#fff}
 .acc article>div{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s var(--ease)}
 .acc article.open>div{grid-template-rows:1fr}
-.acc article>div>p{overflow:hidden;font-size:15px;line-height:1.5;color:var(--dim)}
+.acc article>div>p{overflow:hidden;font-size:var(--fs-text);line-height:1.5;color:var(--dim)}
 .acc article.open>div>p{padding-bottom:20px}
-.tgstrip{margin:28px var(--gut) 0;padding:24px;border-radius:26px;background:var(--sky);display:flex;flex-direction:column;gap:18px;align-items:flex-start}
-.tgstrip span{font-size:17px;line-height:1.3;font-weight:500}
-.tgstrip .btn{height:48px;font-size:15px}
+.tgstrip{margin:28px var(--gut) 0;padding:24px;border-radius:var(--r-big);background:var(--sky);display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.tgstrip span{font-size:var(--fs-lead);line-height:1.3;font-weight:500}
+.tgstrip .btn{height:48px;font-size:var(--fs-text)}
 
 /* ---------- 11 · форма ---------- */
 .form{position:relative;background:var(--navy);color:#fff;padding:72px 0 76px;overflow:hidden}
 .form__in{position:relative;z-index:1;padding-inline:var(--gut)}
 .form .h2{margin-bottom:12px}
-.form__lead{font-size:16px;line-height:1.35;color:var(--ink-soft);margin-bottom:24px}
+.form__lead{font-size:var(--fs-body);line-height:1.35;color:var(--ink-soft);margin-bottom:24px}
 .perks{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
-.perks li{border-radius:20px;background:var(--sky);color:var(--navy);padding:18px 20px}
-.perks li strong{display:block;font-size:16.5px;line-height:1.2;font-weight:800}
-.perks li span{display:block;margin-top:4px;font-size:13.5px;line-height:1.35;color:#42618c}
-.fcardbox{padding:26px 22px 24px;border-radius:30px;background:#fff;color:var(--navy);display:flex;flex-direction:column;gap:14px}
-.fcardbox h3{font-size:26px;line-height:1;font-weight:900;margin-bottom:4px}
+.perks li{border-radius:var(--r-card);background:var(--sky);color:var(--navy);padding:18px 20px}
+.perks li strong{display:block;font-size:var(--fs-body);line-height:1.2;font-weight:800}
+.perks li span{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.35;color:var(--dim-sky)}
+.fcardbox{padding:26px 22px 24px;border-radius:var(--r-big);background:#fff;color:var(--navy);display:flex;flex-direction:column;gap:14px}
+.fcardbox h3{font-size:var(--fs-h3-s);line-height:1;font-weight:900;margin-bottom:4px}
 .fcardbox label{display:flex;flex-direction:column;gap:6px}
-.fcardbox label>span:first-child{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-.fcardbox input,.fcardbox textarea{width:100%;border:1px solid var(--sky);border-radius:var(--r-ctl);background:var(--light);padding:13px 15px;outline:none;font-size:16px;transition:border .2s,box-shadow .2s,background .2s;resize:vertical}
+.fcardbox label>span:first-child{font-size:var(--fs-micro);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--dim)}
+.fcardbox input,.fcardbox textarea{width:100%;border:1px solid var(--sky);border-radius:var(--r-ctl);background:var(--light);padding:13px 15px;outline:none;font-size:var(--fs-body);transition:border .2s,box-shadow .2s,background .2s;resize:vertical}
 .fcardbox input:focus,.fcardbox textarea:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(0,173,255,.12)}
 .consent{display:grid!important;grid-template-columns:20px 1fr;gap:14px!important;align-items:start}
 .consent input{appearance:none;-webkit-appearance:none;width:20px;height:20px;padding:0;margin:0;border:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky);background:transparent;transition:background .25s,box-shadow .25s}
@@ -332,22 +339,22 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .consent input::after{content:'';display:block;width:100%;height:100%;background:center/10px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2 6.2 4.8 9 10 3.4' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");opacity:0;transform:scale(.4);transition:opacity .25s,transform .35s var(--ease-spring)}
 .consent input:checked{background:var(--blue);box-shadow:none}
 .consent input:checked::after{opacity:1;transform:none}
-.consent span{font-size:12px!important;line-height:1.4;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
+.consent span{font-size:var(--fs-legal)!important;line-height:1.4;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
 /* ---------- попап анкеты: открывается с любой кнопки страницы ---------- */
 .sheet{position:fixed;z-index:90;inset:0;display:flex;flex-direction:column;background:rgba(11,28,52,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
 .sheet.on{opacity:1;pointer-events:auto}
-.sheet__in{position:relative;margin-top:auto;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;color:var(--navy);border-radius:28px 28px 0 0;padding:26px var(--gut) calc(30px + var(--safe-b));transform:translateY(22px);transition:transform .34s var(--ease-spring)}
+.sheet__in{position:relative;margin-top:auto;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff;color:var(--navy);border-radius:var(--r-big) var(--r-big) 0 0;padding:26px var(--gut) calc(30px + var(--safe-b));transform:translateY(22px);transition:transform .34s var(--ease-spring)}
 .sheet.on .sheet__in{transform:none}
-.sheet__x{position:sticky;z-index:2;top:0;float:right;width:34px;height:34px;margin:-6px -4px 0 0;border-radius:50%;background:var(--light);color:var(--navy);font-size:19px;line-height:1;display:grid;place-items:center}
-.sheet h2{font-size:29px;line-height:1;font-weight:900;margin-bottom:8px;padding-right:40px}
-.sheet__lead{font-size:14.5px;line-height:1.4;color:var(--dim);margin-bottom:20px}
+.sheet__x{position:sticky;z-index:2;top:0;float:right;width:34px;height:34px;margin:-6px -4px 0 0;border-radius:50%;background:var(--light);color:var(--navy);font-size:var(--fs-lead);line-height:1;display:grid;place-items:center}
+.sheet h2{font-size:var(--fs-h3);line-height:1;font-weight:900;margin-bottom:8px;padding-right:40px}
+.sheet__lead{font-size:var(--fs-text);line-height:1.4;color:var(--dim);margin-bottom:20px}
 .sheet .fcardbox{padding:0;border-radius:0;background:none}
 .sheet .fcardbox h3{display:none}
 body.locked{overflow:hidden}
 
 .form__submit{display:flex;align-items:center;gap:14px}
 .form__submit .btn{flex:none}
-.form__submit p{flex:1;font-size:13px;line-height:1.3;color:var(--dim)}
+.form__submit p{flex:1;font-size:var(--fs-caption);line-height:1.3;color:var(--dim)}
 
 /* ---------- 12 · футер ---------- */
 /* Футер темнее секции анкеты намеренно: раньше оба были #1b3a6a и стык
@@ -357,10 +364,10 @@ body.locked{overflow:hidden}
 .ftr__in{padding-inline:var(--gut)}
 .ftr .lg{--lg:.84;margin-bottom:18px}
 .ftr nav{display:flex;flex-direction:column;border-top:1px solid var(--line-dark);margin-bottom:26px}
-.ftr nav a{display:flex;align-items:center;min-height:52px;font-size:16px;font-weight:500;color:var(--ink-soft);border-bottom:1px solid var(--line-dark)}
+.ftr nav a{display:flex;align-items:center;min-height:52px;font-size:var(--fs-body);font-weight:500;color:var(--ink-soft);border-bottom:1px solid var(--line-dark)}
 .ftr__tg{margin-bottom:30px}
 .ftr__tg img{width:18px;height:18px}
-.ftr__legal{padding-top:22px;border-top:1px solid var(--line-dark);display:flex;flex-direction:column;gap:12px;font-size:12.5px;line-height:1.5;color:rgba(167,190,224,.85)}
+.ftr__legal{padding-top:22px;border-top:1px solid var(--line-dark);display:flex;flex-direction:column;gap:12px;font-size:var(--fs-legal);line-height:1.5;color:rgba(167,190,224,.85)}
 .ftr__legal a{display:inline-block;padding-block:8px;margin-block:-8px;text-decoration:underline;text-underline-offset:3px}
 /* увеличенная зона нажатия у лого-локапа футера: сам локап ниже 44px */
 .ftr .lg::after{content:'';position:absolute;inset:-14px -10px}
@@ -379,7 +386,7 @@ body.locked{overflow:hidden}
 <nav class="menu" id="menu" aria-hidden="true">
   <div id="menuLinks"></div>
   <div class="menu__foot">
-    <a class="menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../assets/figma/telegram.svg" alt="">Telegram-канал</a>
+    <a class="btn btn--blue btn--wide menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../assets/figma/telegram-plane.svg" alt="">Telegram-канал</a>
   </div>
 </nav>
 
@@ -433,6 +440,7 @@ body.locked{overflow:hidden}
   </section>
 
   <section class="steps" id="steps">
+    <div class="glow glow--a"></div><div class="glow glow--b"></div><div class="glow glow--c"></div>
     <div class="steps__in">
       <h2 class="h2 rv">Как стать партнёром?</h2>
       <article class="sfeat rv" id="sfeat"></article>
@@ -676,7 +684,7 @@ body.locked{overflow:hidden}
     [...tabs.children].forEach((b, j) => b.classList.toggle('on', j === i));
     panel.classList.remove('fpanel--fade'); void panel.offsetWidth;
     panel.innerHTML =
-      `<div class="fpanel__chips">${f.chips.map(c => `<span>${c}</span>`).join('')}</div>
+      `<p class="fpanel__kind">${f.kind}</p>
        <p class="fpanel__cities">${f.cities}</p>
        <dl class="fpanel__big"><dt>Инвестиции</dt><dd><b>${f.inv}</b><span>млн ₽</span></dd></dl>
        <dl class="fpanel__row">
@@ -743,7 +751,7 @@ body.locked{overflow:hidden}
      если обсервер не сработает, фон останется живым, а не застынет */
   const ambIO = new IntersectionObserver(es => es.forEach(e =>
     e.target.classList.toggle('amb-off', !e.isIntersecting)), { rootMargin: '10% 0px' });
-  document.querySelectorAll('.hero, .form').forEach(n => ambIO.observe(n));
+  document.querySelectorAll('.hero, .steps, .form').forEach(n => ambIO.observe(n));
 
   MB.menu('#burger', '#menu');
 })();
