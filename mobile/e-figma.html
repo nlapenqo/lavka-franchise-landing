@@ -258,15 +258,16 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .sfeat p{margin-top:10px;font-size:15px;line-height:1.45;color:rgba(255,255,255,.95)}
 .sfeat em{display:block;margin-top:14px;font-style:normal;font-size:14px;font-weight:500}
 .sfeat .btn{margin-top:18px;color:var(--blue)}
-.tl{position:relative;margin-top:30px;padding-left:38px}
-.tl::before{content:'';position:absolute;left:11px;top:8px;bottom:40px;width:2px;background:rgba(170,217,252,.25)}
-.tl__fill{position:absolute;left:11px;top:8px;width:2px;height:var(--fh,0px);background:var(--blue);box-shadow:0 0 12px rgba(0,173,255,.7);transition:height .18s linear}
+/* Номер шага живёт внутри кружка на линии — как пины на карте даркстора,
+   заголовок встаёт с ним на одну высоту. */
+.tl{position:relative;margin-top:30px;padding-left:46px}
+.tl::before{content:'';position:absolute;left:15px;top:14px;bottom:40px;width:2px;background:rgba(170,217,252,.25)}
+.tl__fill{position:absolute;left:15px;top:14px;width:2px;height:var(--fh,0px);background:var(--blue);box-shadow:0 0 12px rgba(0,173,255,.7);transition:height .18s linear}
 .tstep{position:relative;padding-bottom:32px}
 .tstep:last-child{padding-bottom:0}
-.tstep::before{content:'';position:absolute;left:-33px;top:5px;width:16px;height:16px;border-radius:50%;background:var(--navy);box-shadow:inset 0 0 0 2px rgba(170,217,252,.4);transition:background .35s,box-shadow .35s,transform .35s var(--ease-spring)}
-.tstep.on::before{background:var(--blue);box-shadow:inset 0 0 0 2px var(--blue),0 0 14px rgba(0,173,255,.8);transform:scale(1.15)}
-.tstep b{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--sky)}
-.tstep h3{margin-top:6px;font-size:23px;line-height:1.05;font-weight:800}
+.tstep b{position:absolute;left:-46px;top:-2px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;letter-spacing:0;color:var(--sky);background:var(--navy);box-shadow:inset 0 0 0 2px rgba(170,217,252,.4);transition:background .35s,box-shadow .35s,color .35s,transform .35s var(--ease-spring)}
+.tstep.on b{background:var(--blue);color:#fff;box-shadow:inset 0 0 0 2px var(--blue),0 0 14px rgba(0,173,255,.75);transform:scale(1.08)}
+.tstep h3{font-size:23px;line-height:1.05;font-weight:800}
 .tstep p{margin-top:8px;font-size:14.5px;line-height:1.45;color:var(--dim-dark)}
 .tstep em{display:block;margin-top:10px;font-style:normal;font-size:14px;font-weight:500;color:var(--blue)}
 
@@ -318,10 +319,13 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .fcardbox label>span:first-child{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
 .fcardbox input,.fcardbox textarea{width:100%;border:1px solid var(--sky);border-radius:var(--r-ctl);background:var(--light);padding:13px 15px;outline:none;font-size:16px;transition:border .2s,box-shadow .2s,background .2s;resize:vertical}
 .fcardbox input:focus,.fcardbox textarea:focus{border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(0,173,255,.12)}
-.consent{display:grid!important;grid-template-columns:20px 1fr;gap:10px;align-items:start}
-.consent input{appearance:none;width:20px;height:20px;padding:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky);background:transparent;transition:background .25s,box-shadow .25s}
+.consent{display:grid!important;grid-template-columns:20px 1fr;gap:14px!important;align-items:start}
+.consent input{appearance:none;-webkit-appearance:none;width:20px;height:20px;padding:0;margin:0;border:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky);background:transparent;transition:background .25s,box-shadow .25s}
+/* галочка та же, что в веб-версии */
+.consent input::after{content:'';display:block;width:100%;height:100%;background:center/10px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2 6.2 4.8 9 10 3.4' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");opacity:0;transform:scale(.4);transition:opacity .25s,transform .35s var(--ease-spring)}
 .consent input:checked{background:var(--blue);box-shadow:none}
-.consent span{font-size:11px!important;line-height:1.35;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
+.consent input:checked::after{opacity:1;transform:none}
+.consent span{font-size:12px!important;line-height:1.4;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
 /* ---------- попап анкеты: открывается с любой кнопки страницы ---------- */
 .sheet{position:fixed;z-index:90;inset:0;display:flex;flex-direction:column;background:rgba(11,28,52,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
 .sheet.on{opacity:1;pointer-events:auto}
@@ -719,8 +723,10 @@ body.locked{overflow:hidden}
   let frame = 0;
   const onScroll = () => {
     frame = 0;
-    hdr.classList.toggle('solid', scrollY > 40);
-    hdr.classList.toggle('cta-on', scrollY > innerHeight * .62);
+    /* стекло и кнопка появляются одновременно, по одному порогу */
+    const on = scrollY > 40;
+    hdr.classList.toggle('solid', on);
+    hdr.classList.toggle('cta-on', on);
   };
   addEventListener('scroll', () => { if (!frame) frame = requestAnimationFrame(onScroll); }, { passive: true });
   onScroll();
