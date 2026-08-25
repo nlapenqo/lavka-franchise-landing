@@ -192,44 +192,43 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .bcard p{font-size:var(--fs-text);line-height:1.48;color:var(--dim);margin-bottom:24px}
 .bcard__f{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
 
-/* ---------- 05 · даркстор: фирменная тёмная сцена с голубыми пятнами ---------- */
-.dark{background:#fff;padding-bottom:0}
-.stage{position:relative;z-index:2;margin-bottom:-58px}
+/* ---------- 05 · даркстор: иммерсивный кадр с текстом на карте ----------
+   Высокая сцена, карта заполняет её целиком (cover) и панорамируется
+   к выбранной зоне. Плашки нет: подпись лежит на скриме, зоны
+   переключаются стрелками по бокам кадра или тапом по пину. */
+.dark{background:#fff}
 .dark .h2,.dark__lead{padding-inline:var(--gut)}
 .dark .h2{margin-bottom:12px}
 .dark__lead{margin-bottom:24px}
-.stage{position:relative;border-radius:var(--r-big);overflow:hidden;background:var(--navy)}
-/* эллипсы из фигмы: #00ADFF под сильным блюром, наклон −32.9°, прозрачность .4 / .5 */
-.stage__glow{position:absolute;z-index:0;pointer-events:none;background:radial-gradient(closest-side,rgba(0,173,255,.85),rgba(0,173,255,.4) 45%,rgba(0,173,255,.1) 74%,transparent 100%)}
-.stage__glow--a{width:250px;height:400px;right:-92px;top:-118px;opacity:.4;transform:rotate(-32.9deg)}
-.stage__glow--b{width:320px;height:500px;left:-150px;top:24%;opacity:.5;transform:rotate(-32.9deg)}
-/* Окно карты: мир внутри двигается и масштабируется к выбранной зоне.
-   Собственной рамки у карты нет — она лежит в края сцены, а скругление ей
-   задают углы самого блока через его overflow:hidden. */
-.map{position:relative;z-index:1;overflow:hidden;--z:1}
-.map__world{position:relative;transform-origin:0 0;transition:transform .6s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.stage{position:relative;margin:0 12px;border-radius:var(--r-big);overflow:hidden;background:var(--navy)}
+.map{position:relative;height:600px;overflow:hidden;--z:1}
+.map__world{position:relative;transform-origin:0 0;transition:transform .65s cubic-bezier(.22,.61,.36,1);will-change:transform}
 .map__world img{width:100%;height:auto;display:block}
-/* «Показать целиком» живёт в строке с номером зоны: на карте кнопка
-   попадала то под шапку, то под карточку. */
-.zcard__fit{flex:none;width:38px;height:38px;margin-right:auto;margin-left:14px;display:grid;place-items:center;border-radius:50%;background:var(--light);color:var(--navy);opacity:0;pointer-events:none;transition:opacity .28s,background .2s}
-.zcard__fit.on{opacity:1;pointer-events:auto}
-.zcard__fit svg{width:17px;height:17px}
-.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s,opacity .25s}
 .map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
+.map__pin:not(.on){opacity:.5}   /* под скримом неактивные пины не шумят */
 .map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
-/* нижние углы не скругляем: их форму задаёт обрезка самой сцены,
-   иначе в клин между двумя радиусами просвечивает карта */
-.zcard{position:relative;z-index:2;margin-top:-26px;border-radius:var(--r-big) var(--r-big) 0 0;background:#fff;padding:24px 24px 34px;min-height:238px}
-.zcard__top{display:flex;align-items:center;justify-content:space-between}
-.zcard__n{font-size:var(--fs-h2);line-height:.9;font-weight:900;color:var(--blue)}
-.zcard h3{margin-top:16px;font-size:var(--fs-h3-s);line-height:1;font-weight:900}
-.zcard p{margin-top:12px;font-size:var(--fs-text);line-height:1.5;color:var(--dim)}
+/* подпись зоны: градиент от прозрачного к navy, текст поверх карты */
+.stage__scrim{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:110px 20px 24px;background:linear-gradient(180deg,rgba(11,28,52,0) 0%,rgba(11,28,52,.55) 34%,rgba(11,28,52,.92) 78%);color:#fff;pointer-events:none}
+.stage__scrim h3{font-size:var(--fs-h3-s);line-height:1;font-weight:900;display:flex;align-items:baseline;gap:10px}
+.stage__scrim h3 em{font-style:normal;font-size:var(--fs-small);font-weight:800;color:var(--blue);letter-spacing:var(--ls-num)}
+/* min-height под самое длинное описание, чтобы стрелки не прыгали по зонам */
+.stage__scrim p{margin-top:10px;font-size:var(--fs-small);line-height:1.45;color:rgba(214,231,250,.9);min-height:81px}
+/* Стрелки лежат на самой карте: белые кружки, как .rnd в остальных блоках.
+   Центр — посередине свободной полосы между верхом кадра и подписью:
+   текст начинается на ~459px из 600, середина ≈ 230 минус полкруга. */
+.stage__nav{position:absolute;z-index:4;top:204px;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 6px 18px rgba(8,40,80,.28);display:grid;place-items:center;transition:transform .18s var(--ease),background .2s}
+.stage__nav:active{transform:scale(.92)}
+.stage__nav i{display:block;width:11px;height:11px;border-right:2.4px solid var(--navy);border-top:2.4px solid var(--navy);border-radius:1px}
+.stage__nav--l{left:12px}.stage__nav--l i{transform:rotate(-135deg);margin-left:4px}
+.stage__nav--r{right:12px}.stage__nav--r i{transform:rotate(45deg);margin-right:4px}
+.stage__count{position:absolute;right:14px;top:14px;z-index:4;height:32px;padding:0 13px;display:flex;align-items:center;border-radius:999px;background:rgba(16,38,72,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 0 0 1px rgba(170,217,252,.25);color:#fff;font-size:var(--fs-caption);font-weight:800;letter-spacing:var(--ls-num)}
+.stage__count em{font-style:normal;color:var(--blue)}
 .zfade{animation:zf .3s var(--ease-out)}
 @keyframes zf{from{opacity:0;transform:translateY(8px)}}
 
 /* ---------- 06 · форматы: табы + панель с крупными цифрами и сносками ---------- */
-/* верхний отступ увеличен на величину нахлёста сцены */
-.fmt{background:var(--light);position:relative;z-index:1;padding-top:calc(var(--sec) + 58px)}
+.fmt{background:var(--light);position:relative;z-index:1}
 .fmt .h2{padding-inline:var(--gut);margin-bottom:10px}
 .fmt .sub{padding-inline:var(--gut);margin-bottom:18px}
 /* три равных колонки: все форматы видны сразу, переключение без прокрутки */
@@ -420,14 +419,15 @@ body.locked{overflow:hidden}
     <h2 class="h2 rv">Как работает даркстор?</h2>
     <p class="dark__lead sub rv" id="darkLead"></p>
     <div class="stage rv">
-      <div class="stage__glow stage__glow--a" aria-hidden="true"></div>
-      <div class="stage__glow stage__glow--b" aria-hidden="true"></div>
       <div class="map" id="map">
         <div class="map__world" id="mapWorld">
           <img src="../assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора: зоны хранения, кухня, холодильные камеры, зона выдачи и погрузки">
         </div>
       </div>
-      <article class="zcard" id="zcard" aria-live="polite"></article>
+      <div class="stage__count"><em id="zoneNum">01</em>&nbsp;/ 07</div>
+      <button class="stage__nav stage__nav--l" id="zonePrev" type="button" aria-label="Предыдущая зона"><i></i></button>
+      <button class="stage__nav stage__nav--r" id="zoneNext" type="button" aria-label="Следующая зона"><i></i></button>
+      <div class="stage__scrim" id="zoneCap" aria-live="polite"></div>
     </div>
   </section>
 
@@ -613,66 +613,50 @@ body.locked{overflow:hidden}
   /* барабан городов запускаем после typo: он меряет ширину уже готовых строк */
   MB.cities('#city', D.cities.map(c => c.replace(' ', NB)), reduced);
 
-  /* ---------- даркстор: пины на карте + карточка-степпер ---------- */
-  const map = $('#map'), zcard = $('#zcard');
-  $('#mapWorld').insertAdjacentHTML('beforeend', D.zones.map(([n, t, d, x, y], i) =>
+  /* ---------- даркстор: кадр с панорамой, подпись на скриме, стрелки ---------- */
+  const map = $('#map'), world = $('#mapWorld'), zoneCap = $('#zoneCap'), zoneNum = $('#zoneNum');
+  world.insertAdjacentHTML('beforeend', D.zones.map(([n, t, d, x, y], i) =>
     `<button type="button" class="map__pin ${i ? '' : 'on'}" style="--x:${x}%;--y:${y}%" data-i="${i}" aria-label="Зона ${n} — ${t}">${n}</button>`).join(''));
   const pins = [...map.querySelectorAll('.map__pin')];
+  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
   let zi = 0;
+  /* Кадр всегда заполнен картой: масштаб не меньше cover-а сцены. Точка фокуса
+     смещена к 38% высоты — нижняя треть занята подписью. Сдвиг зажат краями
+     картинки, чтобы в кадр не попадала пустота. */
+  const zoneView = () => {
+    const vw = map.clientWidth, vh = map.clientHeight, img = world.querySelector('img');
+    if (!vw || !img.naturalWidth) return;
+    const h0 = vw * img.naturalHeight / img.naturalWidth;
+    let s0 = Math.max(1, vh / h0);
+    if (s0 < 1.02) s0 = 1;
+    const S = Math.max(2, s0 * 1.12);
+    const [, , , x, y] = D.zones[zi];
+    const tx = clamp(vw / 2 - x / 100 * vw * S, vw - vw * S, 0);
+    const ty = clamp(vh * .38 - y / 100 * h0 * S, vh - h0 * S, 0);
+    world.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
+    map.style.setProperty('--z', S);
+  };
   const zgo = i => {
     zi = (i + D.zones.length) % D.zones.length;
     const [n, t, d] = D.zones[zi];
     pins.forEach((p, j) => p.classList.toggle('on', j === zi));
-    zcard.classList.remove('zfade'); void zcard.offsetWidth;
-    zcard.innerHTML = `<div class="zcard__top"><span class="zcard__n">${n}</span>
-        <button class="zcard__fit" data-fit type="button" aria-label="Показать даркстор целиком" title="Показать целиком"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 2.5h-5v5M12.5 2.5h5v5M7.5 17.5h-5v-5M12.5 17.5h5v-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div class="rnds"><button class="rnd rnd--l" data-z="-1" type="button" aria-label="Предыдущая зона"><i></i></button><button class="rnd rnd--r" data-z="1" type="button" aria-label="Следующая зона"><i></i></button></div>
-      </div><h3>${t}</h3><p>${d}</p>`;
-    MB.typo('#zcard');
-    zcard.classList.add('zfade');
-    applyZoom();
-  };
-  /* Приближение к выбранной зоне: «мир» масштабируем от левого верхнего угла и
-     сдвигаем так, чтобы пин встал в центр окна, не оголяя краёв картинки. */
-  const world = $('#mapWorld'), ZOOM = 2;
-  const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
-  let zoomed = true;   /* открываем сразу на зоне 01 */
-  const applyZoom = () => {
-    const vw = map.clientWidth, vh = map.clientHeight;
-    const show = on => zcard.querySelector('[data-fit]')?.classList.toggle('on', on);
-    if (!zoomed || !vw) {
-      world.style.transform = '';
-      map.style.setProperty('--z', 1);
-      map.classList.remove('zoomed');
-      show(false);
-      return;
-    }
-    const [, , , x, y] = D.zones[zi];
-    const px = x / 100 * vw, py = y / 100 * vh;
-    const tx = clamp(vw / 2 - px * ZOOM, vw - vw * ZOOM, 0);
-    const ty = clamp(vh / 2 - py * ZOOM, vh - vh * ZOOM, 0);
-    world.style.transform = `translate(${tx}px, ${ty}px) scale(${ZOOM})`;
-    map.style.setProperty('--z', ZOOM);
-    map.classList.add('zoomed');
-    show(true);
+    zoneNum.textContent = n;
+    zoneCap.classList.remove('zfade'); void zoneCap.offsetWidth;
+    zoneCap.innerHTML = `<h3><em>${n}</em>${t}</h3><p>${d}</p>`;
+    MB.typo('#zoneCap');
+    zoneCap.classList.add('zfade');
+    zoneView();
   };
   map.addEventListener('click', e => {
     const p = e.target.closest('.map__pin');
-    if (!p) return;
-    const i = +p.dataset.i;
-    zoomed = !(zoomed && i === zi);   /* повторный тап по активной зоне отдаляет */
-    zgo(i);
+    if (p) zgo(+p.dataset.i);
   });
-
-  addEventListener('resize', applyZoom, { passive: true });
-  /* до загрузки картинки у окна нулевая высота — пересчитываем приближение по load */
+  $('#zonePrev').addEventListener('click', () => zgo(zi - 1));
+  $('#zoneNext').addEventListener('click', () => zgo(zi + 1));
+  addEventListener('resize', zoneView, { passive: true });
+  /* до загрузки картинки мир не имеет размеров — пересчитываем кадр по load */
   const mapImg = map.querySelector('img');
-  if (!mapImg.complete) mapImg.addEventListener('load', applyZoom, { once: true });
-  zcard.addEventListener('click', e => {
-    if (e.target.closest('[data-fit]')) { zoomed = false; applyZoom(); return; }
-    const b = e.target.closest('[data-z]');
-    if (b) zgo(zi + +b.dataset.z);
-  });
+  if (!mapImg.complete) mapImg.addEventListener('load', zoneView, { once: true });
   zgo(0);
 
   /* ---------- форматы: табы переключают одну панель ---------- */
