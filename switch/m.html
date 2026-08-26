@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1b3a6a">
 <title>Мобилка E — Одна сущность · Франшиза Яндекс Лавки</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="./_shared/base.css">
+<link rel="stylesheet" href="../mobile/_shared/base.css">
 <script>
 /* Широкое окно — показываем концепт в макете айфона: сам по себе он там теряется.
    Не трогаем страницу внутри iframe (витрина, хаб) и явный запрос ?full=1. */
@@ -16,9 +16,10 @@
   if (window.top !== window.self) return;
   if (/(^|[?&])(full=1|frame=iphone)(&|$)/.test(location.search)) return;
   const wide = matchMedia('(min-width: 768px)');
-  const jump = () => { if (wide.matches) location.replace('./showcase.html' + location.hash); };
+  const jump = () => { if (wide.matches) location.replace('./index.html' + location.hash); };
   jump();
   wide.addEventListener ? wide.addEventListener('change', jump) : wide.addListener(jump);
+  addEventListener('resize', jump);
 })();
 </script>
 <style>
@@ -519,8 +520,8 @@ body.locked{overflow:hidden}
   </div>
 </footer>
 
-<script src="./_shared/content.js"></script>
-<script src="./_shared/blocks.js"></script>
+<script src="../mobile/_shared/content.js"></script>
+<script src="../mobile/_shared/blocks.js"></script>
 <script>
 (() => {
   const D = window.LAVKA, $ = s => document.querySelector(s);

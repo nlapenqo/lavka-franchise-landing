@@ -116,7 +116,7 @@
   menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
   addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 
-  const count = element => {
+  const animateCounter = element => {
     if (element.dataset.done) return;
     element.dataset.done = 'true';
     const end = Number(element.dataset.count);
@@ -147,7 +147,7 @@
   const counterObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        count(entry.target);
+        animateCounter(entry.target);
       } else if (entry.boundingClientRect.top < 0) {
         // карточку проскочили быстрым скроллом — показываем итог без анимации
         entry.target.dataset.done = 'true';
@@ -185,7 +185,6 @@
     const businessSlides = [...businessCarousel.querySelectorAll('[data-business-slide]')];
     const businessPrev = businessCarousel.querySelector('[data-business-prev]');
     const businessNext = businessCarousel.querySelector('[data-business-next]');
-    const businessCounter = businessCarousel.querySelector('[data-business-counter]');
     let businessCurrent = 0;
     let businessPointerStart = null;
 
@@ -199,7 +198,6 @@
       });
       businessPrev.disabled = businessCurrent === 0;
       businessNext.disabled = businessCurrent === businessSlides.length - 1;
-      if (businessCounter) businessCounter.textContent = `${String(businessCurrent + 1).padStart(2, '0')} / ${String(businessSlides.length).padStart(2, '0')}`;
     };
 
     businessPrev.addEventListener('click', () => setBusinessSlide(businessCurrent - 1));
@@ -377,8 +375,8 @@
       { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и\u00A0директоров дарксторов. Помогаем привлекать персонал с\u00A0помощью операционного маркетинга', e: '1–2\u00A0месяца' },
       { n: '05', t: 'Запуск сервиса', d: 'Дарксторы заполняются товарами, мы разворачиваем <span style="white-space:nowrap">IT-инфраструктуру</span> и\u00A0запускаем рекламную кампанию в\u00A0городе\u00A0— вы начинаете принимать заказы', e: '1–2\u00A0недели' }
     ];
-    const tick = '<svg class="pst-tickmark" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    const clock = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const tickIcon = '<svg class="pst-tickmark" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6.2 4.8 9 10 3.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const clockIcon = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.6V8l2.4 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const rail = stepsSection.querySelector('[data-pst-rail]');
     const bar = stepsSection.querySelector('[data-pst-bar]');
     const progressBox = stepsSection.querySelector('[data-pst-progress]');
@@ -387,12 +385,12 @@
       rail.insertAdjacentHTML('beforeend',
         `<div class="pst-mini${i ? '' : ' is-active'}">
            <button class="pst-hit" type="button" aria-label="Шаг ${step.n}: ${step.t}, ${step.e}"></button>
-           <span class="pst-strip"><span class="pst-num">${step.n}</span><span class="pst-vert">${step.t}</span><span class="pst-node">${tick}</span></span>
+           <span class="pst-strip"><span class="pst-num">${step.n}</span><span class="pst-vert">${step.t}</span><span class="pst-node">${tickIcon}</span></span>
            <div class="pst-full"><h3>${step.t}</h3><p>${step.d}</p>
-             <div class="pst-foot"><span class="pst-term">${clock}${step.e}</span>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
+             <div class="pst-foot"><span class="pst-term">${clockIcon}${step.e}</span>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
            </div>
            <span class="pst-big" aria-hidden="true">${step.n}</span>
-           <span class="pst-tickcorner" aria-hidden="true">${tick}</span>
+           <span class="pst-tickcorner" aria-hidden="true">${tickIcon}</span>
            <span class="pst-fold"><span class="pst-num">${step.n}</span><b>${step.t}</b><span class="pst-note">${step.d}</span><i class="pst-when">${step.e}</i>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</span>
          </div>`);
     });
@@ -479,11 +477,12 @@
     submit.disabled = true;
     submit.classList.add('is-loading');
     status.textContent = '';
+    status.classList.remove('is-ok');
     try {
       const response = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
       if (!response.ok) throw new Error('Не\u00A0удалось отправить заявку');
       status.textContent = 'Спасибо! Заявка отправлена.';
-      status.style.color = '#198754';
+      status.classList.add('is-ok');
       form.reset();
     } catch (error) {
       status.textContent = 'Не\u00A0удалось отправить заявку. Попробуйте ещё раз.';
