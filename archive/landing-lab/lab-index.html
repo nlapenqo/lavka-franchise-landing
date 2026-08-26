@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FAFCFE">
+<title>Лендинг франшизы Лавки — четыре направления</title>
+<style>
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Black.ttf") format("truetype");font-weight:900;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Heavy.ttf") format("truetype");font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:'YS Text';src:url("../references/fonts/YS%20Text-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url("../references/fonts/YS%20Text%20Cond-Light.ttf") format("truetype");font-weight:300;font-display:swap}
+:root{
+  --navy:#1B3A6A;--sky:#00ADFF;--ice:#AAD9FC;--orange:#FF6D2F;--sand:#E2DBD1;
+  --paper:#FAFCFE;--hair:color-mix(in srgb,#1B3A6A,transparent 90%);
+  --ink-60:color-mix(in srgb,#1B3A6A,transparent 42%);
+  --e:cubic-bezier(.32,.72,0,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:light}
+body{font-family:'YS Text',-apple-system,sans-serif;background:var(--paper);color:var(--navy);line-height:1.55;-webkit-font-smoothing:antialiased;padding:clamp(28px,5vw,72px) clamp(16px,4vw,48px) 64px}
+a,button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2.5px solid var(--sky);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin-inline:auto}
+h1{font-family:'YS Geo',sans-serif;font-weight:900;font-size:clamp(2rem,1.2rem + 3vw,3.25rem);letter-spacing:-.01em;line-height:.94;max-width:18ch}
+.lead{margin-top:16px;max-width:62ch;color:var(--ink-60);font-size:clamp(1rem,.95rem + .3vw,1.1875rem)}
+.eyebrow{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:.78125rem;text-transform:uppercase;letter-spacing:.22em;color:color-mix(in srgb,#1B3A6A,transparent 55%);margin-bottom:18px;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:clamp(32px,4vw,56px)}
+.card{display:flex;flex-direction:column;text-decoration:none;color:inherit;border-radius:24px;overflow:hidden;background:#fff;box-shadow:inset 0 0 0 1px var(--hair);transition:transform .5s var(--e),box-shadow .5s var(--e)}
+.card:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 1px transparent,0 18px 46px color-mix(in srgb,#1B3A6A,transparent 86%)}
+.card__vis{height:132px;position:relative;display:grid;place-items:center;overflow:hidden}
+.card__vis b{font-family:'YS Geo',sans-serif;font-weight:900;font-size:2.25rem;letter-spacing:-.01em}
+/* Каждая обложка намекает на приём своего варианта */
+.v-clean{background:var(--navy);color:#fff}
+.v-atlas{background:linear-gradient(135deg,#fff,color-mix(in srgb,#AAD9FC,white 55%));color:var(--navy)}
+.v-atlas::after{content:"";position:absolute;inset:18px;border-radius:12px;box-shadow:0 0 0 1px color-mix(in srgb,#1B3A6A,transparent 88%),22px 22px 0 -10px color-mix(in srgb,#AAD9FC,transparent 40%)}
+.v-pulse{background:color-mix(in srgb,#1B3A6A,black 58%);color:#fff}
+.v-pulse::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 60% at 20% 15%,color-mix(in srgb,#3557CC,transparent 55%),transparent 70%),radial-gradient(45% 55% at 85% 80%,color-mix(in srgb,#00ADFF,transparent 70%),transparent 70%)}
+.v-pulse b{position:relative;z-index:1}
+.v-press{background:color-mix(in srgb,#E2DBD1,white 55%);color:var(--navy)}
+.v-press::after{content:"";position:absolute;left:18px;right:18px;top:50%;height:1.5px;background:var(--navy);opacity:.5}
+.card__body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card__t{font-family:'YS Geo',sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:-.005em}
+.card__x{font-size:.9375rem;color:var(--ink-60)}
+.card__meta{margin-top:auto;padding-top:14px;border-top:1px solid var(--hair);display:grid;gap:6px}
+.card__row{display:flex;gap:10px;font-size:.8125rem}
+.card__row dt{font-family:'YS Text Cond',sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.1em;color:color-mix(in srgb,#1B3A6A,transparent 58%);flex:0 0 74px}
+.card__row dd{color:var(--ink-60)}
+.note{margin-top:clamp(30px,4vw,52px);padding-top:20px;border-top:1px solid var(--hair);font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:.78125rem;color:color-mix(in srgb,#1B3A6A,transparent 45%);max-width:80ch;line-height:1.5}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">Яндекс Лавка · Франшиза · Прототипы</span>
+  <h1>Четыре направления одного лендинга</h1>
+  <p class="lead">Одинаковый контент и одна палитра брендбука, четыре разных способа его подать. Каждая страница&nbsp;— самостоятельный HTML: открывается и по&nbsp;http, и&nbsp;с&nbsp;file://</p>
+
+  <div class="grid">
+    <a class="card" href="clean.html">
+      <span class="card__vis v-clean"><b>Чистая</b></span>
+      <span class="card__body">
+        <span class="card__t">Чистая пересборка</span>
+        <span class="card__x">Базовая сборка с нуля по ТЗ. Тёмное хиро-полотно, трасса «120 дней» как сквозной мотив</span>
+        <dl class="card__meta">
+          <div class="card__row"><dt>Приём</dt><dd>Трасса запуска</dd></div>
+          <div class="card__row"><dt>Стек</dt><dd>Ваниль, ноль зависимостей</dd></div>
+        </dl>
+      </span>
+    </a>
+
+    <a class="card" href="lab-atlas.html">
+      <span class="card__vis v-atlas"><b>Атлас</b></span>
+      <span class="card__body">
+        <span class="card__t">Атлас</span>
+        <span class="card__x">Светлый, воздушный, массивный гротеск. Экспансия по городам показана бенто-сеткой</span>
+        <dl class="card__meta">
+          <div class="card__row"><dt>Приём</dt><dd>Бенто-атлас городов</dd></div>
+          <div class="card__row"><dt>Стек</dt><dd>GSAP + ScrollTrigger + SplitText</dd></div>
+        </dl>
+      </span>
+    </a>
+
+    <a class="card" href="lab-pulse.html">
+      <span class="card__vis v-pulse"><b>Пульс</b></span>
+      <span class="card__body">
+        <span class="card__t">Пульс</span>
+        <span class="card__x">Тёмное стекло и mesh-подсветка. Хиро — диспетчерская панель сети, этапы — Z-каскад карточек</span>
+        <dl class="card__meta">
+          <div class="card__row"><dt>Приём</dt><dd>Пульс франшизной сети</dd></div>
+          <div class="card__row"><dt>Стек</dt><dd>Lenis + CSS scroll-timeline</dd></div>
+        </dl>
+      </span>
+    </a>
+
+    <a class="card" href="lab-press.html">
+      <span class="card__vis v-press"><b>Полоса</b></span>
+      <span class="card__body">
+        <span class="card__t">Полоса</span>
+        <span class="card__x">Тёплая бумага и линейки делового издания. Форматы сравниваются настоящей таблицей</span>
+        <dl class="card__meta">
+          <div class="card__row"><dt>Приём</dt><dd>Сравнительная таблица</dd></div>
+          <div class="card__row"><dt>Стек</dt><dd>Splitting.js + CSS scroll-timeline</dd></div>
+        </dl>
+      </span>
+    </a>
+  </div>
+
+  <p class="note">Прототипы. Все цифры, имена и сроки&nbsp;— согласованная «рыба», информация не&nbsp;является публичной офертой. Библиотеки подключены локально из&nbsp;<code>lab-assets/vendor/</code>&nbsp;— внешних CDN нет. Scroll-driven анимации на&nbsp;нативном CSS работают в&nbsp;Chrome, Edge и&nbsp;Safari&nbsp;26+; в&nbsp;Firefox включается запасной путь на&nbsp;IntersectionObserver.</p>
+</div>
+</body>
+</html>

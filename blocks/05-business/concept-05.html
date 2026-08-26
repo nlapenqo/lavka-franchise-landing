@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Как устроен бизнес? · Заказ между системами</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    body {
+      background: var(--navy);
+    }
+
+    .order-business {
+      min-height: 100vh;
+      background: var(--navy);
+    }
+
+    .order-business .business-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 32px;
+      align-items: end;
+    }
+
+    .order-business .business-head__subtitle {
+      justify-self: end;
+      margin: 0 0 7px;
+      color: rgba(255, 255, 255, .64);
+      text-align: right;
+    }
+
+    .order-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 72px;
+      align-items: start;
+      margin-top: 80px;
+      padding-top: 34px;
+      border-top: 1px solid rgba(170, 217, 252, .22);
+    }
+
+    .order-intro .intro-title {
+      max-width: 14ch;
+    }
+
+    .order-intro .intro-copy {
+      max-width: 55ch;
+      color: rgba(255, 255, 255, .76);
+      font-size: 20px;
+      line-height: 1.42;
+    }
+
+    .order-systems {
+      margin-top: 72px;
+      padding: 40px 40px 44px;
+      overflow: hidden;
+      border: 1px solid rgba(170, 217, 252, .18);
+      border-radius: var(--r-card);
+      background: rgba(255, 255, 255, .045);
+    }
+
+    .system-zone__head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 27px;
+    }
+
+    .system-zone__head::after {
+      content: '';
+      flex: 1;
+      min-width: 40px;
+      height: 1px;
+      background: rgba(170, 217, 252, .18);
+    }
+
+    .system-zone .role-title {
+      color: #fff;
+    }
+
+    .system-zone__items {
+      display: grid;
+      gap: 0;
+    }
+
+    .system-zone--partner .system-zone__items {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .system-zone--yandex .system-zone__items {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .system-zone__items li {
+      min-width: 0;
+      padding: 3px 24px 0;
+      color: rgba(255, 255, 255, .78);
+      font-size: 17px;
+      line-height: 1.34;
+      text-wrap: pretty;
+    }
+
+    .system-zone__items li:first-child {
+      padding-left: 0;
+    }
+
+    .system-zone__items li:last-child {
+      padding-right: 0;
+    }
+
+    .system-zone__items li + li {
+      border-left: 1px solid rgba(170, 217, 252, .18);
+    }
+
+    .order-path {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+      min-height: 184px;
+      margin: 12px 0 14px;
+      padding-inline: 7%;
+    }
+
+    .order-path::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 7%;
+      right: 7%;
+      height: 3px;
+      border-radius: var(--r-pill);
+      background: var(--blue);
+      transform: translateY(-50%);
+    }
+
+    .order-path__step {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 0;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.18;
+      text-align: center;
+    }
+
+    .order-path__step::before {
+      content: '';
+      width: 15px;
+      height: 15px;
+      margin-bottom: 17px;
+      border: 4px solid var(--blue);
+      border-radius: 50%;
+      background: var(--navy);
+      box-shadow: 0 0 0 9px rgba(0, 173, 255, .13);
+      transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+    }
+
+    .order-path__step:hover::before {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 13px rgba(0, 173, 255, .12);
+    }
+
+    .order-path__step span {
+      display: block;
+      max-width: 18ch;
+      min-height: 43px;
+      padding: 0 12px;
+      background: #203f6f;
+      text-wrap: balance;
+    }
+
+    .order-action {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 1120px) {
+      .order-intro {
+        gap: 48px;
+      }
+
+      .order-systems {
+        padding-inline: 32px;
+      }
+
+      .system-zone__items li {
+        padding-inline: 18px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="business order-business on-dark" aria-labelledby="c05-title">
+    <div class="business__container">
+      <header class="business-head reveal">
+        <h1 id="c05-title">Как устроен бизнес?</h1>
+        <p class="business-head__subtitle">Как работает сервис?</p>
+      </header>
+
+      <section class="order-intro reveal reveal-d1" aria-labelledby="order-intro-title">
+        <h2 class="intro-title" id="order-intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+        <p class="intro-copy">Клиент делает заказ, он собирается в дарксторе — специализированном складе — и доставляется курьером от 15 минут. Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+      </section>
+
+      <section class="order-systems reveal reveal-d2" aria-label="Зоны ответственности и путь заказа">
+        <article class="system-zone system-zone--partner">
+          <div class="system-zone__head">
+            <h3 class="role-title">Франчайзи берёт на себя</h3>
+          </div>
+          <ul class="system-zone__items">
+            <li>Инвестиции в запуск целого города</li>
+            <li>Поиск помещений и открытие дарксторов</li>
+            <li>Привлечение и управление курьерами, сборщиками и директорами</li>
+            <li>Качество и операционное управление бизнесом</li>
+          </ul>
+        </article>
+
+        <ol class="order-path" aria-label="Как проходит заказ">
+          <li class="order-path__step"><span>Клиент делает заказ</span></li>
+          <li class="order-path__step"><span>Собирается в дарксторе</span></li>
+          <li class="order-path__step"><span>Доставляется курьером от 15 минут</span></li>
+        </ol>
+
+        <article class="system-zone system-zone--yandex">
+          <div class="system-zone__head">
+            <h3 class="role-title">Яндекс Лавка берёт на себя</h3>
+          </div>
+          <ul class="system-zone__items">
+            <li>Приложения, WMS и автозаказ</li>
+            <li>Маркетинговую поддержку и привлечение клиентов</li>
+            <li>Поставщиков, ассортимент и логистику средней мили</li>
+          </ul>
+        </article>
+      </section>
+
+      <div class="order-action reveal reveal-d3">
+        <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+      </div>
+    </div>
+  </main>
+  <script src="../_shared/proto.js" defer></script>
+</body>
+</html>

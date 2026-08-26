@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Путь — 4 подачи блока</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 44px;line-height:1.45}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.45}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.6}
+.note b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Путь</h1>
+  <p class="sub">4 подачи блока «Как стать партнёром?» вокруг идеи пути. Во всех — карточка 600×344 (было 380×430), справа компактные плашки; сетка 1164 = 600 + 28 + 536. Механика прежняя: пин, скролл ведёт по шагам, клик по плашке скроллит к шагу, кнопка на первом шаге, в финале все пять с галочками. Desktop 1440.</p>
+  <a class="item" href="v1.html"><span class="num">v1</span><b>Курьер</b><span>по линии пути едет точка-бегунок: стоит на станции, потом переезжает к следующей; пройденные узлы — галочки; под линией пять маленьких плашек</span></a>
+  <a class="item" href="v2.html"><span class="num">v2</span><b>Сторис</b><span>прогресс-бара нет — у каждой плашки своя полоска сверху, активная заполняется по ходу скролла внутри шага; пять полосок подряд и есть линия пути</span></a>
+  <a class="item" href="v3.html"><span class="num">v3</span><b>Дорога</b><span>лента широких плашек едет влево на каждом шаге, активная всегда на одном месте; контент карточки едет в ту же сторону; в финале лента складывается в пять галочек</span></a>
+  <a class="item" href="v4.html"><span class="num">v4</span><b>Хореография</b><span>ни одного нового элемента: бар и плашки как на сайте, только меньше; живость — в направленном движении карточки, подъёме активной плашки, пружинных галочках и финальной волне</span></a>
+  <p class="note">
+    Тексты шагов, цвета и шрифт YS Geo — из сайтовых исходников (<b>site/</b>). Ширина плашек справа упирается в слово «Собеседование»: при 536px на колонку и пяти плашках подписи идут 11px (Medium 80px, Heavy 82px при внутренней ширине 84–86px) без переносов внутри слов. У всех плашек добавлен ховер — на сайте его нет.<br>
+    Файлы самодостаточны: инлайн CSS/JS, шрифты в base64, без CDN; открываются и по file://, и по http.
+  </p>
+</div>
+</body>
+</html>

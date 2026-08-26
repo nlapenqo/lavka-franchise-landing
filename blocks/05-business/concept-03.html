@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Как устроен бизнес? — Путь и две зоны</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    .business--journey {
+      padding-bottom: 136px;
+    }
+
+    .business--journey .business-head {
+      margin-bottom: 70px;
+    }
+
+    .journey-intro {
+      max-width: 100%;
+    }
+
+    .journey-intro .intro-title {
+      max-width: 620px;
+    }
+
+    .service-journey {
+      position: relative;
+      display: grid;
+      grid-template-columns: .82fr 1.58fr 1.06fr;
+      margin-top: 40px;
+    }
+
+    .service-journey::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      right: 0;
+      left: 0;
+      height: 2px;
+      background: var(--sky);
+    }
+
+    .journey-step {
+      position: relative;
+      min-width: 0;
+      padding-top: 34px;
+      padding-right: 42px;
+      color: var(--navy);
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1.2;
+      text-wrap: pretty;
+    }
+
+    .journey-step:nth-child(2) {
+      padding-inline: 42px;
+    }
+
+    .journey-step:last-child {
+      padding-right: 0;
+      padding-left: 42px;
+    }
+
+    .journey-step::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 2px var(--sky);
+    }
+
+    .journey-step:nth-child(2)::before {
+      left: 42px;
+    }
+
+    .journey-step:last-child::before {
+      left: 42px;
+    }
+
+    .franchise-note {
+      max-width: 790px;
+      margin-top: 34px;
+      color: var(--text-dim);
+      font-size: 19px;
+      line-height: 1.42;
+      text-wrap: pretty;
+    }
+
+    .responsibility-map {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      margin-top: 62px;
+      overflow: hidden;
+      border-radius: var(--r-card);
+      background: var(--bg-light);
+    }
+
+    .responsibility-zone {
+      min-width: 0;
+      padding: 47px 48px 50px;
+    }
+
+    .responsibility-zone + .responsibility-zone {
+      border-left: 1px solid var(--business-rule);
+      background: rgba(170, 217, 252, .24);
+    }
+
+    .responsibility-zone .role-title {
+      max-width: 430px;
+      margin-bottom: 31px;
+    }
+
+    .responsibility-zone .responsibility-list {
+      gap: 18px;
+      max-width: 540px;
+    }
+
+    .responsibility-zone--lavka .responsibility-list li::before {
+      background: var(--navy);
+    }
+
+    .journey-actions {
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1120px) {
+      .business--journey .business-head {
+        margin-bottom: 62px;
+      }
+
+      .journey-step {
+        padding-right: 32px;
+        font-size: 21px;
+      }
+
+      .journey-step:nth-child(2) {
+        padding-inline: 32px;
+      }
+
+      .journey-step:last-child {
+        padding-left: 32px;
+      }
+
+      .journey-step:nth-child(2)::before,
+      .journey-step:last-child::before {
+        left: 32px;
+      }
+
+      .responsibility-zone {
+        padding-inline: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="business business--journey" id="business" aria-labelledby="business-title">
+      <div class="business__container">
+        <header class="business-head reveal">
+          <h1 id="business-title">Как устроен бизнес?</h1>
+          <p class="business-head__subtitle">Как работает сервис?</p>
+        </header>
+
+        <div class="journey-intro reveal reveal-d1">
+          <h2 class="intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+
+          <div class="service-journey" aria-label="Путь заказа">
+            <p class="journey-step">Клиент делает заказ,</p>
+            <p class="journey-step">он собирается в дарксторе — специализированном складе —</p>
+            <p class="journey-step">и доставляется курьером от 15 минут.</p>
+          </div>
+
+          <p class="franchise-note">Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+        </div>
+
+        <div class="responsibility-map reveal reveal-d2" aria-label="Распределение ответственности">
+          <section class="responsibility-zone" aria-labelledby="partner-role-title">
+            <h3 class="role-title" id="partner-role-title">Франчайзи берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Инвестиции в запуск целого города</li>
+              <li>Поиск помещений и открытие дарксторов</li>
+              <li>Привлечение и управление курьерами, сборщиками и директорами</li>
+              <li>Качество и операционное управление бизнесом</li>
+            </ul>
+          </section>
+
+          <section class="responsibility-zone responsibility-zone--lavka" aria-labelledby="lavka-role-title">
+            <h3 class="role-title" id="lavka-role-title">Яндекс Лавка берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Приложения, WMS и автозаказ</li>
+              <li>Маркетинговую поддержку и привлечение клиентов</li>
+              <li>Поставщиков, ассортимент и логистику средней мили</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="journey-actions reveal reveal-d3">
+          <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../_shared/proto.js" defer></script>
+</body>
+</html>

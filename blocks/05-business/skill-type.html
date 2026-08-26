@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · Web Typography</title>
+  <link rel="stylesheet" href="skill-shared.css">
+  <style>
+    .type-board { padding: 48px; }
+    .type-intro { display: grid; grid-template-columns: minmax(0,1fr) 430px; align-items: center; gap: 58px; }
+    .type-copy { max-width: 620px; }
+    .type-copy .skill-service-title { max-width: 18ch; font-size: 46px; line-height: .98; }
+    .type-copy .skill-service-copy { max-width: 58ch; margin: 24px 0 30px; font-size: 18px; line-height: 1.55; }
+    .type-intro .skill-visual { height: 360px; }
+    .type-intro .skill-visual img { height: 690px; top: -83px; right: -172px; }
+    .type-rule { height: 1px; margin: 42px 0 36px; background: #d5e6f4; }
+    .type-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; }
+    .type-role { max-width: 510px; }
+    .type-role .skill-role-title { max-width: 19ch; margin-bottom: 20px; font-size: 30px; line-height: 1.06; }
+    .type-role .skill-list { max-width: 46ch; gap: 12px; font-size: 18px; line-height: 1.5; }
+    .type-role--yandex .skill-list { max-width: 43ch; }
+    .skill-list li { padding-left: 20px; }
+    .skill-list li::before { top: .66em; }
+  </style>
+</head>
+<body>
+  <div class="proto-tag">Подход · Web Typography · читабельность реального текста</div>
+  <main class="skill-section">
+    <div class="container">
+      <header class="skill-head reveal"><h1>Как устроен бизнес?</h1><p>Как работает сервис?</p></header>
+      <section class="type-board skill-surface reveal">
+        <div class="type-intro">
+          <div class="type-copy">
+            <h2 class="skill-service-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+            <p class="skill-service-copy">Клиент делает заказ, он собирается в&nbsp;дарксторе — специализированном складе — и&nbsp;доставляется курьером от&nbsp;15&nbsp;минут. Сервис развивается по&nbsp;франшизе, отдавая партнёрам в&nbsp;управление города целиком.</p>
+            <a class="btn btn--blue" href="#form">Стать партнёром</a>
+          </div>
+          <div class="skill-visual" aria-hidden="true"><img src="assets/figma-raw-3.png" alt=""></div>
+        </div>
+        <div class="type-rule"></div>
+        <div class="type-roles">
+          <article class="type-role">
+            <h3 class="skill-role-title">Франчайзи берёт на&nbsp;себя</h3>
+            <ul class="skill-list"><li>Инвестиции в запуск целого города</li><li>Поиск помещений и открытие дарксторов</li><li>Привлечение и управление курьерами, сборщиками и директорами</li><li>Качество и операционное управление бизнесом</li></ul>
+          </article>
+          <article class="type-role type-role--yandex">
+            <h3 class="skill-role-title">Яндекс Лавка берёт на&nbsp;себя</h3>
+            <ul class="skill-list"><li>Приложения, WMS и автозаказ</li><li>Маркетинговую поддержку и привлечение клиентов</li><li>Поставщиков, ассортимент и логистику средней мили</li></ul>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="skill-footer"><p class="t-legal">Кегль 18 px, межстрочный 150–155%, ограниченная длина строки и предсказуемые переносы</p></footer>
+  <script src="../_shared/proto.js" defer></script><script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>
+

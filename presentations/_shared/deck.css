@@ -1,0 +1,57 @@
+/* ============================================================
+   Runtime презентации: показ по одному слайду, обзор, печать в PDF.
+   Подключать после tokens.css и slides.css.
+   ============================================================ */
+
+body.deck-body{background:#0d1c33;overflow:hidden}
+
+/* ---------- Сцена: слайд вписывается в окно ----------
+   Абсолютное центрирование, а не grid: элемент шире контейнера,
+   и grid в этом случае прижимает его к началу вместо центра. */
+.stage{position:fixed;inset:0;overflow:hidden}
+.slide-item{display:none;position:absolute;left:50%;top:50%;width:var(--slide-w);height:var(--slide-h);transform:translate(-50%,-50%) scale(var(--scale,1));box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.slide-item.is-current{display:block}
+
+/* ---------- Панель управления ---------- */
+.hud{position:fixed;z-index:20;left:0;right:0;bottom:0;height:56px;display:flex;align-items:center;gap:20px;padding:0 24px;color:#cfe0f5;font-family:var(--font-geo);font-size:14px;font-weight:500;background:linear-gradient(0deg,rgba(9,20,38,.9),transparent);opacity:0;transition:opacity .25s var(--ease);pointer-events:none}
+.hud.is-shown{opacity:1;pointer-events:auto}
+.hud button{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.1);color:inherit;font:inherit;transition:background .18s}
+.hud button:hover{background:rgba(255,255,255,.2)}
+.hud button:disabled{opacity:.35;cursor:default;background:rgba(255,255,255,.06)}
+.hud__spacer{flex:1}
+.hud__count{font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.hud__title{color:#8fb2dc;max-width:38vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Полоса прогресса */
+.progress{position:fixed;z-index:21;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.1)}
+.progress i{display:block;height:100%;width:calc(var(--p,0) * 100%);background:var(--blue);transition:width .3s var(--ease)}
+
+/* ---------- Обзор всех слайдов ---------- */
+.overview{position:fixed;z-index:30;inset:0;display:none;overflow-y:auto;padding:28px;background:#0d1c33}
+.overview.is-open{display:block}
+body.is-overview{overflow:hidden}
+.overview__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;max-width:1600px;margin:0 auto}
+.ov-cell{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;cursor:pointer;background:#fff;outline:2px solid transparent;transition:outline-color .18s,transform .18s var(--ease)}
+.ov-cell:hover{transform:translateY(-3px);outline-color:var(--blue)}
+.ov-cell.is-current{outline-color:var(--blue)}
+.ov-cell__num{position:absolute;z-index:2;right:8px;bottom:8px;min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:rgba(9,20,38,.75);color:#fff;font-family:var(--font-geo);font-size:13px;font-weight:500;display:grid;place-items:center}
+.ov-cell .slide{transform:scale(var(--ov-scale,.15));transform-origin:0 0;pointer-events:none}
+.overview__head{max-width:1600px;margin:0 auto 24px;display:flex;align-items:baseline;gap:16px;color:#cfe0f5;font-family:var(--font-geo)}
+.overview__head b{font-size:22px;font-weight:800;color:#fff}
+.overview__head span{font-size:14px;color:#8fb2dc}
+
+/* ---------- Печать: каждый слайд — отдельная страница ---------- */
+@page{size:1920px 1080px;margin:0}
+@media print{
+  body.deck-body{background:#fff;overflow:visible}
+  .hud,.progress,.overview{display:none!important}
+  .stage{position:static;display:block;overflow:visible}
+  .slide-item{display:block!important;position:relative;left:auto;top:auto;transform:none!important;box-shadow:none;break-after:page;page-break-after:always}
+  .slide-item:last-child{break-after:auto;page-break-after:auto}
+  .slide{box-shadow:none}
+}
+
+/* Подсказка при первом открытии */
+.hint{position:fixed;z-index:22;left:50%;bottom:76px;transform:translateX(-50%);padding:10px 20px;border-radius:999px;background:rgba(9,20,38,.82);color:#cfe0f5;font-family:var(--font-geo);font-size:13px;font-weight:500;white-space:nowrap;transition:opacity .4s}
+.hint.is-gone{opacity:0;pointer-events:none}
+.hint b{color:#fff;font-weight:800}

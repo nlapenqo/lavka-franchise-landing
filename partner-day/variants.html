@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>День партнёров — варианты блоков «Спикеры» и «Программа»</title>
+
+<!--
+  Сравнивалка v4:
+    Спикеры — выбран вариант «Общая сетка» (таб 2), остальные для справки.
+    Программа — семейство «Табло» (выбор 29.07): база + 3 вариации,
+    таб 5 — прежний «Одним взглядом» для контраста.
+  Состояние пишется в #hash (например #s2p3).
+  Токены — с боевой страницы lavka.yandex.ru/about/franchise/partner_day (см. README.md).
+-->
+
+<style>
+/*FONTS-START*/
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Medium.ttf")  format("truetype"); font-weight:500; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Black.ttf")   format("truetype"); font-weight:900; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../site/fonts/YS Text-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+/*FONTS-END*/
+
+/* Десктопная шкала боевой страницы; в узком окне макет пропорционально уменьшается */
+html { font-size:clamp(4.2px, 0.52vw, 10px); }
+
+:root {
+  --blue:    #1B3A6A;
+  --blue-bg: #E8F6FF;
+  --blue-hv: #D6ECFB;
+  --cta:     #00ADFF;
+  --sky:     #7FD0FF;
+  --grey:    #7D7D7D;
+  --line:    rgba(27,58,106,.12);
+  --wline:   rgba(255,255,255,.09);
+  --geo:  'YS Geo', Helvetica, Arial, sans-serif;
+  --text: 'YS Text', Helvetica, Arial, sans-serif;
+  --ez:   cubic-bezier(0.32, 0.72, 0, 1);   /* тяжёлый выкат */
+  --ezb:  cubic-bezier(0.36, 1.25, 0.3, 1); /* лёгкая пружина для флэпа */
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body { background:#fff; color:var(--blue); font-family:var(--geo); -webkit-font-smoothing:antialiased; }
+img { display:block; max-width:100%; }
+ul { list-style:none; }
+button { font:inherit; border:0; background:none; cursor:pointer; color:inherit; }
+
+.wrap { max-width:1920px; margin:0 auto; padding:0 8rem 12.8rem; }
+
+/* ── Шапка сравнивалки ────────────────────────────────────────────────── */
+.hdr { display:flex; align-items:baseline; gap:2.4rem; flex-wrap:wrap; padding:3.2rem 0 2.4rem; border-bottom:1px solid var(--line); }
+.hdr__t { font-weight:900; font-size:2.8rem; line-height:100%; }
+.hdr__s { font-family:var(--text); font-size:1.5rem; color:var(--grey); }
+
+/* ── Переключатель вариантов ──────────────────────────────────────────── */
+.bar {
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(8px);
+  padding:2rem 0 1.6rem; border-bottom:1px solid var(--line); margin-bottom:4rem;
+}
+.bar__label { font-weight:900; font-size:2.4rem; margin-right:1.6rem; }
+.tab { font-family:var(--geo); font-weight:500; font-size:1.6rem; line-height:1;
+       padding:1.2rem 2rem; border-radius:13.2rem; background:var(--blue-bg);
+       transition:background .35s var(--ez), color .35s var(--ez), transform .35s var(--ez); }
+.tab:hover { background:var(--blue-hv); }
+.tab:active { transform:scale(.97); }
+.tab:focus-visible { outline:2px solid var(--cta); outline-offset:2px; }
+.tab.on { background:var(--blue); color:#fff; }
+.bar__desc { flex-basis:100%; font-family:var(--text); font-size:1.5rem; color:var(--grey); padding-top:.6rem; }
+
+.sec { margin-top:4rem; }
+.sec + .sec { margin-top:11.2rem; }
+
+/* ── Общее ────────────────────────────────────────────────────────────── */
+.h2 { font-weight:900; font-size:8rem; line-height:100%; }
+.panel { background:var(--blue-bg); border-radius:4rem; padding:4.8rem; }
+.g-cap { font-weight:900; font-size:2.4rem; line-height:110%; opacity:.5; }
+.p-date { font-weight:500; font-size:2.4rem; line-height:110%; color:var(--grey); margin-top:1.6rem; }
+
+/* Появление: тяжёлый выкат и флэп. Стаггер через --d */
+.rv { opacity:0; transform:translateY(2.4rem); }
+.rv.in { opacity:1; transform:none;
+         transition:opacity .8s var(--ez) var(--d,0ms), transform .8s var(--ez) var(--d,0ms); }
+.fv { opacity:0; transform:perspective(60rem) rotateX(-86deg); transform-origin:50% 0; }
+.fv.in { opacity:1; transform:perspective(60rem) rotateX(0);
+         transition:opacity .55s var(--ezb) var(--d,0ms), transform .55s var(--ezb) var(--d,0ms); }
+@media (prefers-reduced-motion: reduce) {
+  .rv, .fv { opacity:1 !important; transform:none !important; transition:none !important; }
+}
+
+/* Карточка спикера (базовая) */
+.card { min-width:0; }
+.card__photo { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:2.4rem; background:#CFE9FB; }
+.card__name { font-weight:900; font-size:2.4rem; line-height:110%; margin-top:2rem; overflow-wrap:break-word; }
+.card__role { font-family:var(--text); font-size:1.8rem; line-height:120%; color:var(--grey); margin-top:.8rem; }
+
+/* ── С1–С5 (спикеры, без изменений) ───────────────────────────────────── */
+.s1-grid { display:grid; grid-template-columns:repeat(5,1fr); column-gap:2.7rem; margin-top:2.8rem; }
+.s1-group { margin-top:5.6rem; }
+.s1-group:first-of-type { margin-top:4.8rem; }
+.s2-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:4.8rem 2rem; margin-top:4.8rem; }
+.s2-kick { font-weight:500; font-size:1.3rem; line-height:1; opacity:.5; margin-top:1.6rem; }
+.s2-name { font-weight:900; font-size:2rem; line-height:110%; margin-top:.8rem; }
+.s2-role { font-family:var(--text); font-size:1.4rem; line-height:120%; color:var(--grey); margin-top:.6rem; }
+.s2-grid .card__photo { border-radius:2rem; }
+.s3-head { display:flex; align-items:baseline; justify-content:space-between; gap:2rem; }
+.s3-hint { font-weight:500; font-size:1.8rem; opacity:.5; }
+.s3-track { display:flex; gap:2rem; overflow-x:auto; scroll-snap-type:x mandatory;
+            margin-top:4.8rem; padding-bottom:1rem; scrollbar-width:none; }
+.s3-track::-webkit-scrollbar { display:none; }
+.s3-card { flex:0 0 24rem; scroll-snap-align:start; }
+.s3-card .card__name { font-size:2rem; margin-top:1.6rem; }
+.s3-card .card__role { font-size:1.4rem; }
+.s4-cols { display:grid; grid-template-columns:1fr 1fr; column-gap:8rem; margin-top:2rem; align-items:start; }
+.s4-cap { margin-top:3.6rem; }
+.s4-row { display:flex; align-items:center; gap:2.4rem; padding:1.8rem 0; border-bottom:1px solid var(--line); }
+.s4-ava { width:7.2rem; height:7.2rem; border-radius:50%; object-fit:cover; flex:none; background:#CFE9FB; }
+.s4-name { font-weight:900; font-size:2.2rem; line-height:110%; }
+.s4-role { font-family:var(--text); font-size:1.5rem; line-height:120%; color:var(--grey); margin-top:.4rem; }
+.s5-big { display:grid; grid-template-columns:repeat(4,1fr); column-gap:2.7rem; margin-top:4.8rem; }
+.s5-cap { margin-top:6.4rem; padding-top:4rem; border-top:1px solid var(--line); }
+.s5-small { display:grid; grid-template-columns:repeat(4,1fr); gap:3.2rem 2.7rem; margin-top:3.2rem; }
+.s5-item { display:flex; align-items:center; gap:1.8rem; min-width:0; }
+.s5-ava { width:6.4rem; height:6.4rem; border-radius:50%; object-fit:cover; flex:none; background:#CFE9FB; }
+.s5-name { font-weight:900; font-size:1.8rem; line-height:110%; }
+.s5-role { font-family:var(--text); font-size:1.3rem; line-height:120%; color:var(--grey); margin-top:.4rem; }
+
+/* ══════════ ПРОГРАММА: семейство «Табло» ══════════ */
+
+/* Двойной бэзель: тёмное ядро в светлом лотке */
+.bez { background:rgba(27,58,106,.06); border-radius:4.6rem; padding:1rem; margin-top:3.2rem; }
+.bez__core { background:var(--blue); border-radius:3.8rem; position:relative; overflow:hidden;
+             box-shadow:inset 0 1px 1px rgba(255,255,255,.14); }
+
+/* Шапка табло: eyebrow-чип + мигающая точка */
+.brd-head { display:flex; align-items:center; gap:1.6rem; padding:3.2rem 4.8rem 0; }
+.brd-chip { display:inline-flex; align-items:center; gap:1rem;
+            border:1px solid rgba(255,255,255,.22); border-radius:13.2rem;
+            padding:.9rem 1.8rem; color:var(--sky);
+            font-weight:500; font-size:1.2rem; letter-spacing:.14em; line-height:1; }
+.brd-dot { width:.7rem; height:.7rem; border-radius:50%; background:var(--cta);
+           animation:blink 1.6s steps(2, jump-none) infinite; }
+@keyframes blink { 50% { opacity:.15; } }
+@media (prefers-reduced-motion: reduce){ .brd-dot { animation:none; } }
+
+/* ── Т1 База: две колонки ─────────────────────────────────────────────── */
+.b1-list { columns:2; column-gap:7rem; padding:2.4rem 4.8rem 3.6rem; }
+.b1-row { break-inside:avoid; display:flex; gap:2rem; align-items:baseline;
+          padding:1.4rem 0; border-bottom:1px solid var(--wline); }
+.b1-time { flex:none; width:5.6rem; color:var(--sky); font-weight:500; font-size:1.6rem;
+           line-height:1; font-variant-numeric:tabular-nums; }
+.b1-topic { color:#fff; font-weight:900; font-size:1.7rem; line-height:130%; }
+.b1-who { font-family:var(--text); color:rgba(255,255,255,.5); font-size:1.3rem; }
+.b1-row.brk .b1-topic { color:rgba(255,255,255,.45); font-weight:500; }
+.b1-row.brk .b1-time { color:rgba(127,208,255,.5); }
+
+/* ── Т2 Департуры: колонки и статусы ──────────────────────────────────── */
+.t2-table { padding:2rem 4.8rem 4rem; }
+.t2-cols { display:grid; grid-template-columns:9rem 1fr 26rem 15rem; column-gap:3.2rem;
+           padding:2rem 1.6rem 1.4rem; color:rgba(255,255,255,.4);
+           font-weight:500; font-size:1.1rem; letter-spacing:.18em; }
+.t2-row { display:grid; grid-template-columns:9rem 1fr 26rem 15rem; column-gap:3.2rem;
+          align-items:center; padding:1.5rem 1.6rem; border-top:1px solid var(--wline);
+          border-radius:1.4rem;
+          transition:background .4s var(--ez); }
+.t2-row:hover { background:rgba(255,255,255,.05); }
+.t2-time { color:var(--sky); font-weight:900; font-size:1.7rem; line-height:1; font-variant-numeric:tabular-nums; }
+.t2-topic { color:#fff; font-weight:900; font-size:1.7rem; line-height:125%;
+            transition:transform .4s var(--ez); }
+.t2-row:hover .t2-topic { transform:translateX(.5rem); }
+.t2-who { font-family:var(--text); color:rgba(255,255,255,.5); font-size:1.4rem; line-height:130%; }
+.t2-st { justify-self:start; font-weight:500; font-size:1.2rem; letter-spacing:.06em; line-height:1;
+         padding:.8rem 1.4rem; border-radius:13.2rem; color:var(--sky);
+         border:1px solid rgba(127,208,255,.35); }
+.t2-st.brk { color:rgba(255,255,255,.45); border:1px dashed rgba(255,255,255,.3); }
+.t2-st.party { color:#fff; background:var(--cta); border:1px solid var(--cta); }
+.t2-row.brk .t2-topic { color:rgba(255,255,255,.5); font-weight:500; }
+.t2-row.brk .t2-time { color:rgba(127,208,255,.5); font-weight:500; }
+
+/* ── Т3 Сплит-флэп: окошки времени ────────────────────────────────────── */
+.t3-list { columns:2; column-gap:7rem; padding:2.4rem 4.8rem 4rem; }
+.t3-row { break-inside:avoid; display:flex; gap:2rem; align-items:center;
+          padding:1.5rem 0; border-bottom:1px solid var(--wline); }
+.t3-flap { flex:none; display:flex; gap:.4rem; }
+.t3-c { position:relative; width:2.1rem; height:3rem; border-radius:.6rem;
+        background:rgba(255,255,255,.09);
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.12), inset 0 -1px 0 rgba(0,0,0,.3);
+        color:#fff; font-weight:900; font-size:1.7rem; line-height:3rem; text-align:center;
+        font-variant-numeric:tabular-nums; }
+.t3-c::after { content:""; position:absolute; left:0; right:0; top:50%; height:1px;
+               background:rgba(0,0,0,.35); }
+.t3-c.colon { width:1.2rem; background:transparent; box-shadow:none; color:var(--sky); }
+.t3-c.colon::after { display:none; }
+.t3-body { min-width:0; }
+.t3-topic { color:#fff; font-weight:900; font-size:1.7rem; line-height:125%; }
+.t3-who { font-family:var(--text); color:rgba(255,255,255,.5); font-size:1.3rem; margin-top:.3rem; }
+.t3-row.brk .t3-topic { color:rgba(255,255,255,.45); font-weight:500; }
+.t3-row.brk .t3-c { background:rgba(255,255,255,.05); color:rgba(255,255,255,.55); }
+
+/* ── Т4 Крупные части: редакционное табло ─────────────────────────────── */
+.t4-wrap { padding:1.6rem 4.8rem 4.4rem; }
+.t4-part { display:grid; grid-template-columns:30rem 1fr; column-gap:6.4rem;
+           padding:4rem 0 4.4rem; border-top:1px solid var(--wline); align-items:start; }
+.t4-part:first-of-type { border-top:0; }
+.t4-range { color:var(--sky); font-weight:900; font-size:5.2rem; line-height:.95;
+            font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+            text-shadow:0 0 28px rgba(0,173,255,.35); }
+.t4-range small { display:block; font-size:2rem; font-weight:500; letter-spacing:0;
+                  color:rgba(127,208,255,.6); margin-top:.8rem; text-shadow:none; }
+.t4-title { color:#fff; font-weight:900; font-size:2.8rem; line-height:110%; margin-top:1.6rem; }
+.t4-list { columns:2; column-gap:5rem; }
+.t4-item { break-inside:avoid; padding:1.2rem 0; border-bottom:1px solid var(--wline); }
+.t4-topic { color:#fff; font-weight:500; font-size:1.7rem; line-height:130%; }
+.t4-who { font-family:var(--text); color:rgba(255,255,255,.45); font-size:1.3rem; margin-top:.3rem; }
+.t4-gap { display:flex; align-items:center; gap:2rem; padding:.4rem 0; }
+.t4-gap::before, .t4-gap::after { content:""; flex:1; border-top:1px dashed rgba(255,255,255,.18); }
+.t4-gap span { color:rgba(255,255,255,.5); font-weight:500; font-size:1.3rem; letter-spacing:.08em;
+               border:1px dashed rgba(255,255,255,.3); border-radius:13.2rem; padding:.9rem 1.8rem; line-height:1; }
+.t4-gap.party span { color:#fff; background:var(--cta); border:1px solid var(--cta); }
+
+/* ── Т5 Одним взглядом (светлый, для контраста) ───────────────────────── */
+.b5-panel { background:var(--blue-bg); border-radius:4rem; padding:4.4rem 4.8rem;
+            margin-top:3.2rem; display:grid; grid-template-columns:repeat(3,1fr); gap:3.2rem 4.8rem; }
+.b5-range { font-weight:500; font-size:1.6rem; line-height:1; opacity:.5; font-variant-numeric:tabular-nums; }
+.b5-title { font-weight:900; font-size:2.6rem; line-height:110%; margin-top:1.2rem; }
+.b5-digest { font-family:var(--text); font-size:1.4rem; line-height:155%; color:var(--grey); margin-top:1.4rem; }
+.b5-meta { grid-column:1/-1; border-top:1px solid var(--line); padding-top:2.4rem;
+           font-weight:500; font-size:1.5rem; line-height:1.4; }
+.b5-meta b { font-weight:900; }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <header class="hdr">
+    <div class="hdr__t">День партнёров — варианты блоков</div>
+    <div class="hdr__s">Спикеры — вариант 2; программа — семейство «Табло». Состояние в адресе (#s2p1)</div>
+  </header>
+
+  <!-- ═══ БЛОК «СПИКЕРЫ» ═══ -->
+  <section class="sec" id="sec-s">
+    <div class="bar" id="bar-s"></div>
+    <div id="body-s"></div>
+  </section>
+
+  <!-- ═══ БЛОК «ПРОГРАММА» ═══ -->
+  <section class="sec" id="sec-p">
+    <div class="bar" id="bar-p"></div>
+    <div id="body-p"></div>
+  </section>
+
+</div>
+
+<script>
+/* ── Данные ──────────────────────────────────────────────────────────── */
+var PH = "assets/speaker-placeholder.png";
+
+var SPEAKERS = [
+  {n:"Вадим Петров",      r:"Генеральный директор Яндекс Лавки",              g:"lavka"},
+  {n:"Мария Швиндт",      r:"Руководитель франшизы Яндекс Лавки",             g:"lavka"},
+  {n:"Наталья Крякова",   r:"Лид поддержки франчайзи Яндекс Лавки",           g:"lavka"},
+  {n:"Надежда Полюдова",  r:"Старший менеджер продукта Яндекс Лавки",         g:"lavka"},
+  {n:"Анита Краснова",    r:"Менеджер по развитию бизнеса Яндекс Байка",      g:"lavka"},
+  {n:"Наталья Марова",    r:"Руководитель Retail.ru, эксперт ритейла",        g:"ext"},
+  {n:"Михаил Бурмистров", r:"Генеральный директор «INFOLine-Аналитика»",      g:"ext"},
+  {n:"Василь Газизулин",  r:"Основатель TopFranchise",                        g:"ext"},
+  {n:"Виктор Ляшевский",  r:"Эксперт по франчайзингу, автор «Франшизы на 360»", g:"ext"},
+  {n:"Сергей Козлов",     r:"Франчайзи Яндекс Лавки",                         g:"fr"},
+  {n:"Станислав Лопатин", r:"Франчайзи Яндекс Лавки",                         g:"fr"},
+  {n:"Артём Сизов",       r:"Франчайзи Яндекс Лавки",                         g:"fr"}
+];
+var GROUPS = {lavka:"Команда Яндекса", ext:"Приглашённые эксперты", fr:"Действующие франчайзи"};
+var KICKS  = {lavka:"Яндекс", ext:"Эксперт", fr:"Франчайзи"};
+
+/* t — полная тема, s — короткая, w — спикер, org — компания */
+var PARTS = [
+  {num:"Часть 1", title:"Рынок и стратегия", range:"12:00", rangeEnd:"–13:50", talks:[
+    {t:"Сильная франшиза — сильная сеть: открытие Дня партнёров", s:"Открытие Дня партнёров",  w:"Вадим Петров",      org:"Яндекс Лавка",           time:"12:00"},
+    {t:"Рынок e-grocery: куда растёт спрос",                      s:"Рынок e-grocery",         w:"Наталья Марова",    org:"Retail.ru",              time:"12:20"},
+    {t:"Стратегия роста и выход в новые города",                  s:"Стратегия роста",         w:"Мария Швиндт",      org:"Яндекс Лавка",           time:"12:40"},
+    {t:"Франшиза как вход в готовую бизнес-модель",               s:"Готовая бизнес-модель",   w:"Василь Газизулин",  org:"TopFranchise",           time:"13:10"},
+    {t:"Зайти в новую нишу и вырасти: личный опыт франчайзи",     s:"Личный опыт франчайзи",   w:"Сергей Козлов",     org:"франчайзи Яндекс Лавки", time:"13:30"}
+  ]},
+  {num:"Часть 2", title:"Операционное управление", range:"14:20", rangeEnd:"–16:00", talks:[
+    {t:"Партнёр у руля: как устроено управление сервисом",        s:"Партнёр у руля",          w:"Наталья Крякова",   org:"Яндекс Лавка",           time:"14:20"},
+    {t:"Не теория: за что реально отвечает партнёр",              s:"Зона ответственности",    w:"Станислав Лопатин", org:"франчайзи Яндекс Лавки", time:"14:40"},
+    {t:"Метрики вместо интуиции: эффективность и результат",      s:"Метрики и результат",     w:"Артём Сизов",       org:"франчайзи Яндекс Лавки", time:"15:00"},
+    {t:"Трафик, конверсия, рост: как работает маркетинг",         s:"Маркетинг Лавки",         w:"Спикер Яндекс Лавки", org:"",                     time:"15:20"},
+    {t:"Горячая еда: частота заказов, чек и лояльность",          s:"Горячая еда",             w:"Спикер Яндекс Лавки", org:"",                     time:"15:40"}
+  ]},
+  {num:"Часть 3", title:"Экономика и технологии", range:"16:20", rangeEnd:"–18:00", talks:[
+    {t:"Практический разбор финансовой модели реального бизнеса", s:"Разбор финмодели",        w:"Мария Швиндт",      org:"Яндекс Лавка",           time:"16:20"},
+    {t:"Цифровая среда для франшизы: технологии Лавки",           s:"Технологии Лавки",        w:"Надежда Полюдова",  org:"Яндекс Лавка",           time:"16:50"},
+    {t:"Трансформация офлайн-торговли под влиянием AI",           s:"AI в ритейле",            w:"Спикер Яндекса",    org:"",                       time:"17:10"},
+    {t:"Синергия бизнесов: Яндекс Байк для последней мили",       s:"Яндекс Байк",             w:"Анита Краснова",    org:"Яндекс Байк",            time:"17:30"}
+  ]}
+];
+var BREAKS = { start:{time:"11:00", t:"Регистрация и приветственный кофе", st:"регистрация"},
+               mid1:{time:"13:50", t:"Перерыв и демо-стенды Яндекс Лавки", st:"демо-стенды"},
+               mid2:{time:"16:00", t:"Перерыв", st:"перерыв"},
+               end:{time:"18:00", t:"Фуршет, дегустация хитов Лавки и общение с командой", st:"фуршет"} };
+
+function who(t){ return t.org ? t.w + ", " + t.org : t.w; }
+function cardHTML(s){
+  return '<div class="card"><img class="card__photo" src="' + PH + '" alt="' + s.n + '">' +
+         '<div class="card__name">' + s.n + '</div><div class="card__role">' + s.r + '</div></div>';
+}
+function byGroup(g){ return SPEAKERS.filter(function(s){ return s.g === g; }); }
+
+function flatRows(){
+  var rows = [{time:BREAKS.start.time, t:BREAKS.start.t, brk:true, st:BREAKS.start.st}];
+  PARTS.forEach(function(p, i){
+    p.talks.forEach(function(x){ rows.push({time:x.time, t:x.t, w:who(x)}); });
+    if (i === 0) rows.push({time:BREAKS.mid1.time, t:BREAKS.mid1.t, brk:true, st:BREAKS.mid1.st});
+    if (i === 1) rows.push({time:BREAKS.mid2.time, t:BREAKS.mid2.t, brk:true, st:BREAKS.mid2.st});
+  });
+  rows.push({time:BREAKS.end.time, t:BREAKS.end.t, brk:true, st:BREAKS.end.st, party:true});
+  return rows;
+}
+
+/* ── Варианты «Спикеры» (выбран 2) ───────────────────────────────────── */
+var SV = {
+  1: { name:"Группы", desc:"Три группы с подписями — состав читается по ролям.",
+    html: function(){
+      var h = '<div class="panel"><h2 class="h2">Спикеры</h2>';
+      ["lavka","ext","fr"].forEach(function(g){
+        h += '<div class="s1-group"><div class="g-cap">' + GROUPS[g] + '</div><div class="s1-grid">' +
+             byGroup(g).map(cardHTML).join("") + '</div></div>';
+      });
+      return h + '</div>';
+    }},
+  2: { name:"Общая сетка", desc:"Выбранный вариант: все 12 в одной плотной сетке 6×2, группа — мелкой подписью в карточке.",
+    html: function(){
+      return '<h2 class="h2">Спикеры</h2><div class="s2-grid">' +
+        SPEAKERS.map(function(s){
+          return '<div class="card"><img class="card__photo" src="' + PH + '" alt="' + s.n + '">' +
+                 '<div class="s2-kick">' + KICKS[s.g] + '</div>' +
+                 '<div class="s2-name">' + s.n + '</div><div class="s2-role">' + s.r + '</div></div>';
+        }).join("") + '</div>';
+    }},
+  3: { name:"Лента", desc:"Один ряд с горизонтальной прокруткой — компактно по высоте.",
+    html: function(){
+      return '<div class="panel"><div class="s3-head"><h2 class="h2">Спикеры</h2>' +
+        '<div class="s3-hint">листайте →</div></div><div class="s3-track">' +
+        SPEAKERS.map(function(s){
+          return '<div class="card s3-card"><img class="card__photo" src="' + PH + '" alt="' + s.n + '">' +
+                 '<div class="card__name">' + s.n + '</div><div class="card__role">' + s.r + '</div></div>';
+        }).join("") + '</div></div>';
+    }},
+  4: { name:"Список", desc:"Строки с круглыми фото в две колонки — минимум высоты.",
+    html: function(){
+      function col(gs){
+        var h = "";
+        gs.forEach(function(g){
+          h += '<div class="g-cap s4-cap">' + GROUPS[g] + '</div>';
+          h += byGroup(g).map(function(s){
+            return '<div class="s4-row"><img class="s4-ava" src="' + PH + '" alt="' + s.n + '">' +
+                   '<div><div class="s4-name">' + s.n + '</div><div class="s4-role">' + s.r + '</div></div></div>';
+          }).join("");
+        });
+        return '<div>' + h + '</div>';
+      }
+      return '<div class="panel"><h2 class="h2">Спикеры</h2><div class="s4-cols">' +
+             col(["lavka"]) + col(["ext","fr"]) + '</div></div>';
+    }},
+  5: { name:"Иерархия", desc:"Четыре хедлайнера крупно, остальные компактно. Все на виду.",
+    html: function(){
+      var big = [SPEAKERS[0], SPEAKERS[1], SPEAKERS[5], SPEAKERS[7]];
+      var rest = SPEAKERS.filter(function(s){ return big.indexOf(s) < 0; });
+      return '<h2 class="h2">Спикеры</h2><div class="s5-big">' + big.map(cardHTML).join("") + '</div>' +
+        '<div class="g-cap s5-cap">Также выступают</div><div class="s5-small">' +
+        rest.map(function(s){
+          return '<div class="s5-item"><img class="s5-ava" src="' + PH + '" alt="' + s.n + '">' +
+                 '<div><div class="s5-name">' + s.n + '</div><div class="s5-role">' + s.r + '</div></div></div>';
+        }).join("") + '</div>';
+    }}
+};
+
+/* ── Варианты «Программа»: семейство «Табло» ─────────────────────────── */
+function progHead(){
+  return '<h2 class="h2">Программа</h2><div class="p-date">27 августа, Mercury Space</div>';
+}
+function boardOpen(){
+  return '<div class="bez"><div class="bez__core">' +
+    '<div class="brd-head"><span class="brd-chip"><span class="brd-dot"></span>ДЕЛОВАЯ ПРОГРАММА · 27.08 · MERCURY SPACE</span></div>';
+}
+function boardClose(){ return '</div></div>'; }
+
+var PV = {
+  1: { name:"База", desc:"Исходное табло: две колонки, весь день на одном экране.",
+    html: function(){
+      return progHead() + boardOpen() + '<div class="b1-list">' +
+        flatRows().map(function(r){
+          return '<div class="b1-row rv' + (r.brk ? ' brk' : '') + '">' +
+            '<div class="b1-time">' + r.time + '</div>' +
+            '<div><span class="b1-topic">' + r.t + '</span>' +
+            (r.w ? ' <span class="b1-who">— ' + r.w + '</span>' : '') + '</div></div>';
+        }).join("") + '</div>' + boardClose();
+    }},
+  2: { name:"Департуры", desc:"Табло вылетов: колонки время / доклад / спикер / статус, ховер подсвечивает рейс.",
+    html: function(){
+      function strow(r){
+        var st = r.st || "доклад";
+        var cls = r.party ? " party" : (r.brk ? " brk" : "");
+        return '<div class="t2-row rv' + (r.brk ? ' brk' : '') + '">' +
+          '<div class="t2-time">' + r.time + '</div>' +
+          '<div class="t2-topic">' + r.t + '</div>' +
+          '<div class="t2-who">' + (r.w || "") + '</div>' +
+          '<div class="t2-st' + cls + '">' + st + '</div></div>';
+      }
+      return progHead() + boardOpen() + '<div class="t2-table">' +
+        '<div class="t2-cols"><span>ВРЕМЯ</span><span>ДОКЛАД</span><span>СПИКЕР</span><span>СТАТУС</span></div>' +
+        flatRows().map(strow).join("") + '</div>' + boardClose();
+    }},
+  3: { name:"Сплит-флэп", desc:"Механическое табло: время в окошках-ячейках, при появлении строки перелистываются.",
+    html: function(){
+      function flap(time){
+        return '<div class="t3-flap">' + time.split("").map(function(ch){
+          return ch === ":" ? '<span class="t3-c colon fv">:</span>' : '<span class="t3-c fv">' + ch + '</span>';
+        }).join("") + '</div>';
+      }
+      return progHead() + boardOpen() + '<div class="t3-list">' +
+        flatRows().map(function(r){
+          return '<div class="t3-row rv' + (r.brk ? ' brk' : '') + '">' + flap(r.time) +
+            '<div class="t3-body"><div class="t3-topic">' + r.t + '</div>' +
+            (r.w ? '<div class="t3-who">' + r.w + '</div>' : '') + '</div></div>';
+        }).join("") + '</div>' + boardClose();
+    }},
+  4: { name:"Крупные части", desc:"Редакционное табло: время части гигантскими цифрами с подсветкой, доклады в две колонки.",
+    html: function(){
+      var h = progHead() + boardOpen() + '<div class="t4-wrap">';
+      h += '<div class="t4-gap rv"><span>' + BREAKS.start.time + ' — регистрация и кофе</span></div>';
+      PARTS.forEach(function(p, i){
+        h += '<div class="t4-part rv">' +
+          '<div><div class="t4-range">' + p.range + '<small>' + p.rangeEnd.replace("–","до ") + '</small></div>' +
+          '<div class="t4-title">' + p.title + '</div></div>' +
+          '<div class="t4-list">' +
+          p.talks.map(function(t){
+            return '<div class="t4-item"><div class="t4-topic">' + t.t + '</div>' +
+                   '<div class="t4-who">' + who(t) + '</div></div>';
+          }).join("") + '</div></div>';
+        if (i === 0) h += '<div class="t4-gap rv"><span>' + BREAKS.mid1.time + ' — перерыв · демо-стенды</span></div>';
+        if (i === 1) h += '<div class="t4-gap rv"><span>' + BREAKS.mid2.time + ' — перерыв</span></div>';
+      });
+      h += '<div class="t4-gap party rv"><span>' + BREAKS.end.time + ' — фуршет и дегустация хитов Лавки</span></div>';
+      return h + '</div>' + boardClose();
+    }},
+  5: { name:"Одним взглядом", desc:"Светлый контраст-вариант: три части, темы в строку, без списков.",
+    html: function(){
+      var h = progHead() + '<div class="b5-panel">';
+      PARTS.forEach(function(p){
+        h += '<div class="rv"><div class="b5-range">' + p.range + p.rangeEnd + '</div>' +
+          '<div class="b5-title">' + p.title + '</div>' +
+          '<div class="b5-digest">' + p.talks.map(function(t){ return t.s; }).join(" · ") + '</div></div>';
+      });
+      h += '<div class="b5-meta rv"><b>11:00</b> — сбор гостей и кофе · перерывы — демо-стенды Лавки · <b>18:00</b> — фуршет и дегустация</div>';
+      return h + '</div>';
+    }}
+};
+
+/* ── Переключатели ───────────────────────────────────────────────────── */
+var state = {s:2, p:1};
+
+function renderBar(kind, label, variants){
+  var bar = document.getElementById("bar-" + kind);
+  var h = '<div class="bar__label">' + label + '</div>';
+  for (var i = 1; i <= 5; i++){
+    h += '<button class="tab" data-kind="' + kind + '" data-v="' + i + '">' + i + " · " + variants[i].name + '</button>';
+  }
+  h += '<div class="bar__desc" id="desc-' + kind + '"></div>';
+  bar.innerHTML = h;
+  bar.addEventListener("click", function(e){
+    var b = e.target.closest(".tab");
+    if (b) setVariant(b.dataset.kind, +b.dataset.v);
+  });
+}
+
+/* Стаггер-ревил: --d по порядку, флэп-ячейки догоняют строку */
+function reveal(container){
+  var els = container.querySelectorAll(".rv, .fv");
+  var rowIdx = 0;
+  els.forEach(function(el){
+    if (el.classList.contains("rv")) { el.style.setProperty("--d", (rowIdx * 40) + "ms"); rowIdx++; }
+  });
+  container.querySelectorAll(".t3-row").forEach(function(row, ri){
+    row.querySelectorAll(".fv").forEach(function(c, ci){
+      c.style.setProperty("--d", (ri * 40 + ci * 45) + "ms");
+    });
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, {threshold:.15});
+  els.forEach(function(el){ io.observe(el); });
+}
+
+function setVariant(kind, v){
+  state[kind] = v;
+  var variants = kind === "s" ? SV : PV;
+  var body = document.getElementById("body-" + kind);
+  body.innerHTML = variants[v].html();
+  document.getElementById("desc-" + kind).textContent = variants[v].desc;
+  var bar = document.getElementById("bar-" + kind);
+  bar.querySelectorAll(".tab").forEach(function(t){ t.classList.toggle("on", +t.dataset.v === v); });
+  if (kind === "p") reveal(body);
+  history.replaceState(null, "", "#s" + state.s + "p" + state.p);
+}
+
+renderBar("s", "Спикеры", SV);
+renderBar("p", "Программа · табло", PV);
+
+var m = location.hash.match(/s(\d)/), m2 = location.hash.match(/p(\d)/);
+setVariant("s", m && SV[+m[1]] ? +m[1] : 2);
+setVariant("p", m2 && PV[+m2[1]] ? +m2[1] : 1);
+</script>
+</body>
+</html>

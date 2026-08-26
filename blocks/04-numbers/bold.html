@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 · Цифры · bold&nbsp;— крупнее, без маркера</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body { overflow-x: clip; background: var(--bg); }
+
+  /* ============ 04 · bold — композиция из трёх «н7»:
+     крупная цифра, справа заголовок и подзаголовок.
+
+     Композиционное правило: блок текста НЕ выходит за высоту цифры.
+     Бюджет при line-height цифры .82 — ровно её строка (~111px на 1440):
+       заголовок  2 строки × 1.06 ≈ 44px
+       отступ                        8px
+       подзаголовок 3 строки × 1.26 ≈ 57px
+     Итого ≈ 109px. Поэтому: заголовок ≤2 строк, подзаголовок ≤3 —
+     копия под это подрезана. При правке текста держать эти лимиты. ============ */
+  .band { padding-block: clamp(44px, 6vw, 76px); }
+  .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 3.4vw, 56px); }
+  .n { display: flex; align-items: center; gap: clamp(14px, 1.6vw, 22px); }
+  .n > b {
+    flex: none;
+    font-weight: 900; font-size: clamp(92px, 9.5vw, 161px); /* +44% к final (два шага по +20%) */
+    line-height: .82; letter-spacing: -.025em;
+    color: var(--navy); font-variant-numeric: tabular-nums;
+  }
+  .n h3 { font-weight: 800; font-size: clamp(16px, 1.45vw, 21px); line-height: 1.06; letter-spacing: -.005em; color: var(--navy); }
+  .n .sub { margin-top: 8px; font-size: clamp(13px, 1.05vw, 15px); line-height: 1.26; color: var(--text-dim); }
+
+  @media (max-width: 980px) {
+    .trio { grid-template-columns: 1fr; gap: 26px; }
+    .n .txt { max-width: 420px; }
+  }
+
+  .legal { text-align: center; padding: 18px 16px 26px; }
+</style>
+</head>
+<body>
+  <div class="proto-tag">04 · Цифры · bold&nbsp;— final, цифры +20%, без оранжевого маркера</div>
+
+  <section class="band">
+    <div class="container">
+      <div class="trio">
+        <div class="n reveal">
+          <b data-count="14">0</b>
+          <div class="txt">
+            <h3>городов запустили Лавку по&nbsp;франшизе</h3>
+            <p class="sub">От&nbsp;Казани до&nbsp;Тюмени&nbsp;— первые заказы через четыре месяца после заявки</p>
+          </div>
+        </div>
+        <div class="n reveal reveal-d1">
+          <b data-count="25">0</b>
+          <div class="txt">
+            <h3>городов готовим к&nbsp;запуску</h3>
+            <p class="sub">Геоаналитика уже посчитала спрос&nbsp;— идёт подбор помещений и&nbsp;команд</p>
+          </div>
+        </div>
+        <div class="n n--seek reveal reveal-d2">
+          <b data-count="9">0</b>
+          <div class="txt">
+            <h3>партнёров ищем сейчас</h3>
+            <p class="sub">Набор открыт&nbsp;— успейте забрать свой город до&nbsp;конца года</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="t-legal legal">Прототип · данные&nbsp;— заглушка (рыба)</p>
+
+  <script src="../_shared/proto.js" defer></script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · Гибрид 4</title>
+  <link rel="stylesheet" href="hybrid-shared.css">
+  <style>
+    .summary { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: end; gap: 60px; padding: 42px 46px; }
+    .summary-copy { max-width: 880px; }
+    .summary-copy .hybrid-title { max-width: 27ch; }
+    .summary-copy .hybrid-copy { max-width: 69ch; margin-top: 20px; }
+    .stage { display: grid; grid-template-columns: minmax(0,1fr) 310px minmax(0,1fr); align-items: stretch; gap: 0; min-height: 390px; margin-top: 22px; overflow: hidden; }
+    .stage .role { padding: 42px 38px; }
+    .stage .role:first-child { padding-right: 42px; }
+    .stage .role:last-child { padding-left: 42px; }
+    .stage .hybrid-role-title { margin-bottom: 21px; }
+    .stage-visual { min-height: 390px; border-radius: 0; }
+    .stage-visual img { height: 690px; top: -83px; right: -191px; }
+  </style>
+</head>
+<body>
+  <main class="hybrid-section">
+    <div class="container">
+      <header class="hybrid-head"><h1>Как устроен бизнес?</h1><p>Как работает сервис?</p></header>
+      <section class="summary hybrid-surface">
+        <div class="summary-copy">
+          <h2 class="hybrid-title">Яндекс Лавка. Сервис быстрой доставки продуктов</h2>
+          <p class="hybrid-copy">Клиент делает заказ. Его собирают в&nbsp;дарксторе, специализированном складе, и&nbsp;доставляют курьером от&nbsp;15&nbsp;минут. Сервис развивается по&nbsp;франшизе и&nbsp;передаёт партнёрам в&nbsp;управление города целиком.</p>
+        </div>
+        <a class="btn btn--blue" href="#form">Стать партнёром</a>
+      </section>
+      <section class="stage hybrid-surface">
+        <article class="role">
+          <h3 class="hybrid-role-title">Франчайзи берёт на&nbsp;себя</h3>
+          <ul class="hybrid-list"><li>Инвестиции в запуск целого города</li><li>Поиск помещений и открытие дарксторов</li><li>Привлечение и управление курьерами, сборщиками и директорами</li><li>Качество и операционное управление бизнесом</li></ul>
+        </article>
+        <div class="hybrid-visual stage-visual" aria-hidden="true"><img src="assets/figma-raw-3.png" alt=""></div>
+        <article class="role">
+          <h3 class="hybrid-role-title">Яндекс Лавка берёт на&nbsp;себя</h3>
+          <ul class="hybrid-list"><li>Приложения, WMS и автозаказ</li><li>Маркетинговую поддержку и привлечение клиентов</li><li>Поставщиков, ассортимент и логистику средней мили</li></ul>
+        </article>
+      </section>
+    </div>
+  </main>
+  <script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

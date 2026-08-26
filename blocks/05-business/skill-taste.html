@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · Design Taste</title>
+  <link rel="stylesheet" href="skill-shared.css">
+  <style>
+    .service {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) 500px;
+      align-items: center;
+      gap: 52px;
+      min-height: 510px;
+      padding: 46px;
+    }
+    .service-copy-wrap { max-width: 545px; }
+    .service-copy-wrap .skill-service-copy { max-width: 49ch; margin: 22px 0 28px; }
+    .service .skill-visual { height: 418px; }
+    .service .skill-visual img { height: 740px; top: -76px; right: -166px; }
+    .roles { display: grid; grid-template-columns: 1.08fr .92fr; gap: 22px; margin-top: 22px; }
+    .role { min-height: 272px; padding: 38px 40px; }
+    .role-kicker { margin-bottom: 16px; color: var(--mid-blue); font-size: 16px; font-weight: 500; }
+    .role--yandex .role-kicker { color: var(--navy); }
+    .role .skill-role-title { margin-bottom: 21px; }
+    .role .skill-list { grid-template-columns: 1fr 1fr; column-gap: 28px; }
+    .role--yandex .skill-list { grid-template-columns: 1fr; }
+  </style>
+</head>
+<body>
+  <div class="proto-tag">Подход · Design Taste · preserve mode</div>
+  <main class="skill-section">
+    <div class="container">
+      <header class="skill-head reveal"><h1>Как устроен бизнес?</h1><p>Как работает сервис?</p></header>
+      <section class="service skill-surface reveal">
+        <div class="service-copy-wrap">
+          <h2 class="skill-service-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+          <p class="skill-service-copy">Клиент делает заказ, он собирается в&nbsp;дарксторе — специализированном складе — и&nbsp;доставляется курьером от&nbsp;15&nbsp;минут. Сервис развивается по&nbsp;франшизе, отдавая партнёрам в&nbsp;управление города целиком.</p>
+          <a class="btn btn--blue" href="#form">Стать партнёром</a>
+        </div>
+        <div class="skill-visual" aria-hidden="true"><img src="assets/figma-raw-3.png" alt=""></div>
+      </section>
+      <div class="roles reveal">
+        <article class="role skill-surface">
+          <p class="role-kicker">Зона партнёра</p>
+          <h3 class="skill-role-title">Франчайзи берёт на&nbsp;себя</h3>
+          <ul class="skill-list"><li>Инвестиции в запуск целого города</li><li>Поиск помещений и открытие дарксторов</li><li>Привлечение и управление курьерами, сборщиками и директорами</li><li>Качество и операционное управление бизнесом</li></ul>
+        </article>
+        <article class="role role--yandex skill-surface">
+          <p class="role-kicker">Система Лавки</p>
+          <h3 class="skill-role-title">Яндекс Лавка берёт на&nbsp;себя</h3>
+          <ul class="skill-list"><li>Приложения, WMS и автозаказ</li><li>Маркетинговую поддержку и привлечение клиентов</li><li>Поставщиков, ассортимент и логистику средней мили</li></ul>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer class="skill-footer"><p class="t-legal">Сохранена исходная композиция, убраны номера, бейджи и лишняя интерактивность</p></footer>
+  <script src="../_shared/proto.js" defer></script><script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

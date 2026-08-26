@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Метрики вместо интуиции — Артём Сизов</title>
+<link rel="stylesheet" href="../../_shared/tokens.css">
+<link rel="stylesheet" href="../../_shared/slides.css">
+<link rel="stylesheet" href="../../_shared/blocks.css">
+<link rel="stylesheet" href="../../_shared/deck.css">
+</head>
+<body>
+<!-- Градиент свечения. Вставлять один раз сразу после <body> на каждой странице
+     со слайдами; сами свечения — <svg class="glow glow--a" ...> внутри слайда. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="lavka-glow" cx="50%" cy="50%" r="50%">
+<stop offset="0" stop-color="#00ADFF" stop-opacity=".62"/>
+<stop offset=".22" stop-color="#00ADFF" stop-opacity=".5"/>
+<stop offset=".42" stop-color="#00ADFF" stop-opacity=".33"/>
+<stop offset=".6" stop-color="#00ADFF" stop-opacity=".18"/>
+<stop offset=".76" stop-color="#00ADFF" stop-opacity=".08"/>
+<stop offset=".9" stop-color="#00ADFF" stop-opacity=".02"/>
+<stop offset="1" stop-color="#00ADFF" stop-opacity="0"/>
+</radialGradient></defs></svg>
+<div class="stage">
+
+<!-- 1 · Обложка -->
+<section class="slide-item"><div class="slide slide--dark">
+  <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg><svg class="glow glow--b" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+  <header class="row" style="justify-content:space-between">
+    <span class="lg" style="--lg:1">
+      <img class="lg__main" src="../../assets/logo/logo-main.svg" alt="Яндекс Лавка">
+      <img class="lg__mark" src="../../assets/logo/logo-word-1.svg" alt="">
+      <img class="lg__badge" src="../../assets/logo/logo-word-2.svg" alt="Франшиза">
+    </span>
+    <span class="t-caps dim">День партнёров · 27 августа</span>
+  </header>
+  <div style="display:grid;grid-template-columns:1fr 620px;gap:var(--s-7);align-items:center;flex:1;margin-top:var(--s-5)">
+    <div class="col gap-4">
+      <span class="s-kicker"><b>01 · Кейс партнёра</b></span>
+      <h1 class="t-hero">Метрики<br>вместо интуиции</h1>
+      <p class="t-sub dim" style="max-width:660px">Как технологии франчайзера помогают держать качество и не отдавать прибыль лишним часам</p>
+      <div style="margin-top:var(--s-3)"><span class="pill pill--blue">Артём Сизов · франчайзи Яндекс Лавки</span></div>
+    </div>
+    <div class="photo-frame" style="height:600px"><img src="../../assets/photos/food-laptop.jpg" alt=""></div>
+  </div>
+</div></section>
+
+<!-- 2 · Спикер -->
+<section class="slide-item"><div class="slide">
+  <span class="t-caps dim">Спикер</span>
+  <div class="speaker" style="margin-top:var(--s-5)">
+    <div class="speaker__photo"><img src="../../assets/photos/sizov.jpg" alt="Артём Сизов"></div>
+    <div class="speaker__info">
+      <h1 class="speaker__name">Артём Сизов</h1>
+      <p class="speaker__role">Франчайзи Яндекс Лавки · Ярославль и Иваново</p>
+      <ul class="speaker__facts">
+        <li>6 лет в бизнесе: ритейл и e-commerce</li>
+        <li>Команда сейчас — более 500 человек: курьеры, склад, офис</li>
+        <li>16 месяцев во франшизе, показатели выше среднего по сети</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="t-caps">Метрики вместо интуиции</span><span>2</span></footer>
+</div></section>
+
+<!-- 3 · Почему мне можно доверять -->
+<section class="slide-item"><div class="slide slide--light">
+  <span class="t-caps dim">02 · Почему мне можно доверять</span>
+  <h1 class="t-h1" style="margin-top:var(--s-4)">Маржу считаю <span class="accent">до рубля</span></h1>
+  <p class="t-sub dim" style="margin-top:var(--s-4);max-width:1280px">Пришёл из офлайн-ритейла. Франчайзер уже дал данные и технологии — моя задача применить их так, чтобы качество не покупалось лишним ФОТ</p>
+  <hr class="rule" style="margin:var(--s-6) 0 var(--s-5)">
+  <div class="figures">
+    <div class="figures__item">
+      <span class="figures__val">+157%</span>
+      <span class="figures__name">рост выручки за год</span>
+    </div>
+    <div class="figures__item">
+      <span class="figures__val figures__val--navy">2</span>
+      <span class="figures__name">прибыльных города</span>
+      <span class="figures__note">Ярославль · Иваново</span>
+    </div>
+    <div class="figures__item">
+      <span class="figures__val figures__val--navy">9</span>
+      <span class="figures__name">дарксторов</span>
+      <span class="figures__note">в управленческом опыте</span>
+    </div>
+  </div>
+  <div class="mt-auto" style="padding-top:var(--s-5)">
+    <p class="takeaway">16 месяцев во франшизе · показатели и доходность <b>выше среднего</b></p>
+  </div>
+  <footer class="slide-foot" style="margin-top:var(--s-4)"><span class="t-caps">Метрики вместо интуиции</span><span>3</span></footer>
+</div></section>
+
+<!-- 4 · Главная модель -->
+<section class="slide-item"><div class="slide slide--dark">
+  <svg class="glow glow--c" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+  <span class="t-caps dim">03 · Главная модель</span>
+  <h1 class="t-h2" style="margin-top:var(--s-3)">Франчайзер даёт систему координат:<br><span class="accent">CTE + OPH = управляемая экономика</span></h1>
+  <div class="formula mt-auto">
+    <div class="formula__term formula__term--blue">
+      <b>CTE</b>
+      <span>≤ 17 мин</span>
+    </div>
+    <span class="formula__op">+</span>
+    <div class="formula__term formula__term--navy">
+      <b>OPH</b>
+      <span>заказов / час</span>
+    </div>
+    <span class="formula__op">=</span>
+    <div class="formula__out">
+      <b>Прибыль</b>
+      <span>стандарт соблюдён,<br>часы не раздуты</span>
+    </div>
+  </div>
+  <div class="formula__legend" style="margin-top:var(--s-4)">
+    <span>CTE — время доставки заказа</span>
+    <span>OPH — оборачиваемость курьера</span>
+  </div>
+  <div class="mt-auto" style="padding-top:var(--s-5)">
+    <p class="takeaway">Если оптимизировать только одну метрику — другая превращается в <b>скрытый убыток</b></p>
+  </div>
+</div></section>
+
+<!-- 5 · Как искали баланс -->
+<section class="slide-item"><div class="slide">
+  <span class="t-caps dim">04 · Как искали баланс</span>
+  <h1 class="t-h1" style="margin-top:var(--s-3)">Оптимум появился не сразу</h1>
+  <p class="t-sub dim" style="margin-top:var(--s-3)">Мы прошли четыре крайности</p>
+  <div class="tl mt-auto">
+    <div class="tl__step">
+      <span class="tl__dot">01</span>
+      <span class="tl__name">Перестраховка</span>
+      <span class="tl__meta"><span>CTE 13</span><span>OPH 2</span></span>
+      <span class="tl__note">Клиент доволен,<br>маржа исчезает</span>
+    </div>
+    <div class="tl__step tl__step--warn">
+      <span class="tl__dot">02</span>
+      <span class="tl__name">Экономия</span>
+      <span class="tl__meta"><span>CTE 22</span><span>OPH 5</span></span>
+      <span class="tl__note">Экономия ломает<br>качество</span>
+    </div>
+    <div class="tl__step">
+      <span class="tl__dot">03</span>
+      <span class="tl__name">Зонирование</span>
+      <span class="tl__meta"><span>CTE 19</span><span>OPH 4,5</span></span>
+      <span class="tl__note">Алгоритму нужна<br>настройка</span>
+    </div>
+    <div class="tl__step tl__step--on">
+      <span class="tl__dot">04</span>
+      <span class="tl__name">Оптимум</span>
+      <span class="tl__meta"><span>CTE 16,7</span><span>OPH 3,5–4</span></span>
+      <span class="tl__note">CTE в стандарте,<br>ФОТ −15%</span>
+    </div>
+  </div>
+  <div class="mt-auto" style="padding-top:var(--s-6)">
+    <p class="takeaway">Не угадывать. Ставить эксперимент → смотреть <b>обе</b> метрики → корректировать</p>
+  </div>
+  <footer class="slide-foot" style="margin-top:var(--s-4)"><span class="t-caps">Метрики вместо интуиции</span><span>5</span></footer>
+</div></section>
+
+<!-- 6 · Где появляется маржа -->
+<section class="slide-item"><div class="slide slide--dark">
+  <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+  <span class="t-caps dim">05 · Где появляется маржа</span>
+  <h1 class="t-h1" style="margin-top:var(--s-3)">Каждая секунда —<br><span class="accent">на счету</span></h1>
+  <p class="t-sub dim" style="margin-top:var(--s-4);max-width:1200px">Технологии платформы показывают путь заказа до конкретного SKU и сотрудника</p>
+  <div class="tl tl--time mt-auto">
+    <div class="tl__step">
+      <span class="tl__dot">1</span>
+      <span class="tl__time">0 сек</span>
+      <span class="tl__name">Заказ получен</span>
+    </div>
+    <div class="tl__step">
+      <span class="tl__dot">2</span>
+      <span class="tl__time">≈ 15 сек</span>
+      <span class="tl__name">Принят к сборке</span>
+    </div>
+    <div class="tl__step">
+      <span class="tl__dot">3</span>
+      <span class="tl__time">2–4 мин</span>
+      <span class="tl__name">Сборка заказа</span>
+    </div>
+    <div class="tl__step">
+      <span class="tl__dot">4</span>
+      <span class="tl__time">≈ 20 сек</span>
+      <span class="tl__name">Передача курьеру</span>
+    </div>
+  </div>
+  <div class="mt-auto" style="padding-top:var(--s-6)">
+    <p class="takeaway">«Я знаю, сколько секунд сотрудник собирает пачку макарон»</p>
+  </div>
+</div></section>
+
+<!-- 7 · Как изменилось поведение -->
+<section class="slide-item"><div class="slide slide--light">
+  <span class="t-caps dim">06 · Как изменилось поведение</span>
+  <h1 class="t-h1" style="margin-top:var(--s-3)">Быстрее — <span class="accent">без лишних часов</span></h1>
+  <p class="t-sub dim" style="margin-top:var(--s-3)">Данные платформы и личный KPI ускорили сборку заказа</p>
+  <div class="ba" style="margin-top:var(--s-6)">
+    <div class="ba__side">
+      <span class="ba__label">Было</span>
+      <span class="ba__val">14–15</span>
+      <span class="ba__unit">секунд на SKU</span>
+    </div>
+    <span class="ba__arrow">→</span>
+    <div class="ba__side ba__side--after">
+      <span class="ba__label">Стало</span>
+      <span class="ba__val">10–11</span>
+      <span class="ba__unit">секунд на SKU</span>
+    </div>
+  </div>
+  <div class="kv mt-auto">
+    <div class="kv__row">
+      <span class="kv__name">Фонд оплаты труда</span>
+      <span class="kv__from">100%</span>
+      <span class="kv__arrow">→</span>
+      <span class="kv__to">85% база + 5% премия</span>
+    </div>
+    <div class="kv__row">
+      <span class="kv__name">Курьерские часы</span>
+      <span class="kv__from">100%</span>
+      <span class="kv__arrow">→</span>
+      <span class="kv__to">82%</span>
+    </div>
+  </div>
+  <div style="padding-top:var(--s-5)">
+    <p class="takeaway">Мотивация привязана к <b>измеримому действию</b>, а не к субъективному «старанию»</p>
+  </div>
+  <footer class="slide-foot" style="margin-top:var(--s-4)"><span class="t-caps">Метрики вместо интуиции</span><span>7</span></footer>
+</div></section>
+
+<!-- 8 · Главный вывод -->
+<section class="slide-item"><div class="slide slide--dark">
+  <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg><svg class="glow glow--c" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+  <span class="t-caps dim">07 · Главный вывод</span>
+  <h1 class="t-h2" style="margin-top:var(--s-3);max-width:1560px">Франчайзер даёт технологии.<br>Партнёр превращает их <span class="accent">в результат</span></h1>
+  <div class="split mt-auto">
+    <div class="split__col">
+      <span class="split__title split__title--sky">Франчайзер</span>
+      <ul class="list list--sky">
+        <li>Данные в реальном времени</li>
+        <li>Алгоритмы зонирования и прогноз пиков</li>
+        <li>Бенчмарки, KPI и поддержка команды</li>
+      </ul>
+    </div>
+    <div class="split__col">
+      <span class="split__title split__title--blue">Партнёр</span>
+      <ul class="list">
+        <li>Следит за CTE и OPH</li>
+        <li>Настраивает процессы и роли</li>
+        <li>Обучает, мотивирует и повторяет цикл</li>
+      </ul>
+    </div>
+  </div>
+  <div class="mt-auto" style="padding-top:var(--s-6)">
+    <p class="takeaway takeaway--blue">CTE в стандарте <b>+</b> OPH растёт <b>=</b> качество и прибыль</p>
+  </div>
+</div></section>
+
+</div>
+<script src="../../_shared/deck.js"></script>
+</body>
+</html>

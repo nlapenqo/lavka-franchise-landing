@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 · v8 · Формула города</title>
+<link rel="stylesheet" href="redesign-shared.css">
+<style>
+  .concept{background:#fff}
+  .equation{display:grid;grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr) 64px minmax(0,1.08fr);gap:14px;align-items:stretch}
+  .eq-sign{display:grid;place-items:center;font-size:58px;font-weight:300;color:var(--mid-blue)}
+  .factor-shell{padding:7px;border-radius:38px;background:rgba(27,58,106,.055);box-shadow:inset 0 0 0 1px rgba(27,58,106,.045)}
+  .factor{height:100%;min-height:510px;border-radius:31px;padding:34px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .7s cubic-bezier(.32,.72,0,1)}
+  .factor:hover{transform:translateY(-7px)}
+  .factor--partner{background:var(--sky)}
+  .factor--yandex{background:var(--navy);color:#fff}
+  .factor--result{background:var(--blue);color:#fff}
+  .factor__top{display:flex;justify-content:space-between;align-items:center;margin-bottom:50px}
+  .factor__index{font-size:13px;letter-spacing:.09em;text-transform:uppercase;opacity:.64}
+  .factor h3{font-size:36px;line-height:.94;letter-spacing:-.01em;font-weight:800;margin-bottom:24px}
+  .factor .clean-list{font-size:16px;color:inherit;opacity:.88}
+  .factor--result h3{font-size:43px;max-width:9ch;margin-bottom:18px}
+  .factor__summary{font-size:17px;line-height:1.3;opacity:.85;max-width:29ch}
+  .factor__bottom{margin-top:auto;padding-top:36px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+  .factor__metric strong{display:block;font-size:54px;line-height:.88;font-weight:900;letter-spacing:-.04em}
+  .factor__metric span{display:block;margin-top:10px;font-size:13px;opacity:.7}
+  .result-pulse{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--blue);box-shadow:0 0 0 0 rgba(255,255,255,.36);animation:pulse 2.6s cubic-bezier(.32,.72,0,1) infinite}
+  .result-pulse svg{width:31px}
+  @keyframes pulse{55%{box-shadow:0 0 0 18px rgba(255,255,255,0)}}
+  .formula-note{display:flex;align-items:center;justify-content:space-between;margin-top:28px;padding:0 8px;color:var(--text-dim);font-size:14px}
+  .formula-note b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="proto-tag">05 · новый раунд · v8 · Формула города</div>
+<main class="concept">
+  <div class="container">
+    <header class="concept-head reveal">
+      <div><span class="t-label">Бизнес-модель</span><h1 class="t-h1">Как устроен бизнес?</h1></div>
+      <p class="t-sub">Две зоны ответственности складываются в&nbsp;один сервис для целого города</p>
+    </header>
+
+    <div class="equation reveal" aria-label="Формула бизнеса Яндекс Лавки">
+      <div class="factor-shell"><article class="factor factor--partner">
+        <div class="factor__top"><span class="actor actor--partner">Франчайзи</span><span class="factor__index">01 / 03</span></div>
+        <h3>Запускает и&nbsp;управляет городом</h3>
+        <ul class="clean-list">
+          <li>Инвестирует в&nbsp;запуск целого города</li>
+          <li>Ищет помещения и&nbsp;открывает дарксторы</li>
+          <li>Управляет курьерами, сборщиками и&nbsp;директорами</li>
+          <li>Отвечает за&nbsp;качество и&nbsp;операционную работу</li>
+        </ul>
+        <div class="factor__bottom"><span class="concept-kicker">Локальная сила</span></div>
+      </article></div>
+
+      <div class="eq-sign" aria-hidden="true">+</div>
+
+      <div class="factor-shell"><article class="factor factor--yandex">
+        <div class="factor__top"><span class="actor actor--yandex">Яндекс Лавка</span><span class="factor__index">02 / 03</span></div>
+        <h3>Даёт технологии и&nbsp;спрос</h3>
+        <ul class="clean-list">
+          <li>Приложения, WMS и&nbsp;автозаказ</li>
+          <li>Маркетинг и&nbsp;привлечение клиентов</li>
+          <li>Поставщики и&nbsp;ассортимент</li>
+          <li>Логистика средней мили</li>
+        </ul>
+        <div class="factor__bottom"><span class="concept-kicker">Системная мощность</span></div>
+      </article></div>
+
+      <div class="eq-sign" aria-hidden="true">=</div>
+
+      <div class="factor-shell"><article class="factor factor--result">
+        <div class="factor__top"><span class="actor actor--both">Общий результат</span><span class="factor__index">03 / 03</span></div>
+        <h3>Лавка в&nbsp;вашем городе</h3>
+        <p class="factor__summary">Клиент делает заказ, даркстор собирает его, курьер доставляет от&nbsp;15&nbsp;минут. Партнёр получает в&nbsp;управление город целиком.</p>
+        <div class="factor__bottom">
+          <div class="factor__metric"><strong class="num">15</strong><span>минут — от заказа до доставки</span></div>
+          <div class="result-pulse" aria-hidden="true"><svg viewBox="0 0 32 24" fill="none"><path d="M3 5c4-4 9 0 13 7 4-7 9-11 13-7 5 5-4 13-13 18C7 18-2 10 3 5Z" fill="currentColor"/></svg></div>
+        </div>
+      </article></div>
+    </div>
+    <div class="formula-note"><span><b>Логика:</b> не три последовательных слайда, а&nbsp;одна формула партнёрства</span><a class="btn btn--blue" href="#form">Стать партнёром</a></div>
+  </div>
+</main>
+<footer class="proto-footer"><p class="t-legal">Концепт v8 · актуальный текст из Figma</p></footer>
+<script src="../_shared/proto.js" defer></script><script src="../_shared/preview-shell.js" defer></script>
+</body></html>

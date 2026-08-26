@@ -1,0 +1,44 @@
+@import url('../_shared/tokens.css');
+@import url('../_shared/base.css');
+
+html { min-width: 1080px; }
+body { overflow-x: hidden; background: #fff; }
+.skill-section { min-height: 900px; padding: 112px 0 96px; }
+.skill-section .container { max-width: 1280px; }
+.skill-head { margin-bottom: 46px; }
+.skill-head h1 {
+  max-width: 12ch;
+  font-size: 80px;
+  line-height: .92;
+  font-weight: 900;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.skill-head p { margin-top: 15px; color: var(--text-dim); font-size: 23px; font-weight: 500; }
+.skill-surface { background: var(--bg-light); border-radius: var(--r-card); }
+.skill-service-title {
+  font-size: 44px;
+  line-height: .96;
+  font-weight: 800;
+  letter-spacing: -.006em;
+  text-wrap: balance;
+}
+.skill-service-copy { color: var(--text-dim); font-size: 17px; line-height: 1.42; }
+.skill-role-title { font-size: 28px; line-height: 1.02; font-weight: 800; text-wrap: balance; }
+.skill-list { display: grid; gap: 11px; color: var(--text-dim); font-size: 16px; line-height: 1.42; }
+.skill-list li { position: relative; padding-left: 18px; }
+.skill-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+.skill-visual { position: relative; overflow: hidden; border-radius: 24px; background: var(--navy); }
+.skill-visual img { position: absolute; width: auto; max-width: none; }
+.skill-footer { display: flex; justify-content: center; padding: 18px 0 28px; color: var(--text-dim); }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+

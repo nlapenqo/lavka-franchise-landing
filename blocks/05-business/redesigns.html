@@ -1,0 +1,25 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Как устроен бизнес · 6 новых вариантов</title>
+<link rel="stylesheet" href="../_shared/tokens.css"><link rel="stylesheet" href="../_shared/base.css">
+<style>
+  body{background:#eef5fb;min-width:1100px}.review{max-width:1440px;margin:auto;padding:42px 42px 72px}.review-head{display:flex;justify-content:space-between;align-items:flex-end;gap:50px;margin-bottom:28px}.review-head h1{font-size:52px;line-height:.92;font-weight:900;letter-spacing:-.02em}.review-head p{max-width:520px;color:var(--text-dim);font-size:17px;line-height:1.3}
+  .tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:14px}.tab{appearance:none;border:0;border-radius:18px;background:#fff;color:var(--navy);padding:16px;text-align:left;min-height:90px;box-shadow:0 5px 18px rgba(27,58,106,.055);transition:transform .55s cubic-bezier(.32,.72,0,1),background .55s cubic-bezier(.32,.72,0,1),color .55s cubic-bezier(.32,.72,0,1)}.tab:hover{transform:translateY(-4px)}.tab.is-active{background:var(--navy);color:#fff}.tab small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.62;margin-bottom:7px}.tab strong{font-size:15px;line-height:1.08}
+  .frame-shell{padding:8px;border-radius:32px;background:rgba(27,58,106,.07);box-shadow:inset 0 0 0 1px rgba(27,58,106,.05),0 24px 68px rgba(27,58,106,.12)}iframe{display:block;width:100%;height:980px;border:0;border-radius:25px;background:#fff}.review-foot{display:flex;align-items:center;justify-content:space-between;margin-top:18px;color:var(--text-dim);font-size:13px}.open{display:inline-flex;align-items:center;gap:9px;color:var(--navy);font-weight:500}.open::after{content:'↗';width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#fff}
+</style></head><body>
+<main class="review">
+  <header class="review-head"><div><span class="t-label">Блок 05 · новый раунд</span><h1>6 вариантов<br>новой логики</h1></div><p>Во всех вариантах сохранён актуальный текст из Figma. Меняется не декор, а способ объяснить модель: от эмоциональной формулы до предельно рационального распределения ответственности.</p></header>
+  <nav class="tabs" aria-label="Выбор концепта">
+    <button class="tab is-active" data-src="v8.html"><small>v8 · Партнёрство</small><strong>Формула города</strong></button>
+    <button class="tab" data-src="v9.html"><small>v9 · Операции</small><strong>Операционный пульт</strong></button>
+    <button class="tab" data-src="v10.html"><small>v10 · Сервис</small><strong>Карта потока</strong></button>
+    <button class="tab" data-src="v11.html"><small>v11 · Имидж</small><strong>Две стороны</strong></button>
+    <button class="tab" data-src="v12.html"><small>v12 · Ясность</small><strong>Без мелкого шрифта</strong></button>
+    <button class="tab" data-src="v13.html"><small>v13 · Система</small><strong>Стек сервиса</strong></button>
+  </nav>
+  <div class="frame-shell"><iframe id="preview" src="v8.html?embed=1" title="Предпросмотр концепта"></iframe></div>
+  <footer class="review-foot"><span id="caption">v8 · Формула города — модель партнёрства как ясное уравнение</span><a class="open" id="open" href="v8.html" target="_blank">Открыть отдельно</a></footer>
+</main>
+<script>
+(() => { const tabs=[...document.querySelectorAll('.tab')], frame=document.getElementById('preview'), open=document.getElementById('open'), caption=document.getElementById('caption'); const notes=['v8 · Формула города — модель партнёрства как ясное уравнение','v9 · Операционный пульт — самый технологичный и процессный вариант','v10 · Карта потока — ответственность объясняется через путь заказа','v11 · Две стороны — самый имиджевый, брендовый и эмоциональный','v12 · Без мелкого шрифта — самый прозрачный и B2B-рациональный','v13 · Стек сервиса — интерактивная архитектура бизнес-модели']; tabs.forEach((tab,i)=>tab.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('is-active'));tab.classList.add('is-active');frame.src=tab.dataset.src+'?embed=1';open.href=tab.dataset.src;caption.textContent=notes[i]})); })();
+</script></body></html>

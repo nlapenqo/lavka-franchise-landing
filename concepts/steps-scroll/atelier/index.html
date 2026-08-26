@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ателье — 8 вариантов блока</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+h2{font-size:22px;font-weight:800;margin:38px 0 6px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 32px;line-height:1.45}
+.hint{color:var(--dim);font-size:15px;margin:0 0 16px;line-height:1.5}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.45}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.6}
+.note b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Ателье</h1>
+  <p class="sub">Восемь подач блока «Как стать партнёром?», собранных по правилам премиального веба: вложенные оправы вместо плоских карточек, надстрочные плашки вместо голых подписей, кнопка с вложенной стрелкой, собственные кривые вместо ease, движение только по transform и opacity. У каждого варианта ровно один фирменный приём — всё остальное держится тихо. Механика прежняя: пин, скролл ведёт по пяти шагам, клик по шагу, кнопка на первом, в финале все пять с галочками. Desktop 1440.</p>
+
+  <h2>a1–a3 — крупный шаг слева, путь справа</h2>
+  <p class="hint">Каркас как на сайте, отличается приём.</p>
+  <a class="item" href="a1.html"><span class="num">a1</span><b>Прошивка</b><span>SVG-траектория, которую скролл прочерчивает от узла к узлу; на кончике — перо, подписи уступом уходят вправо</span></a>
+  <a class="item" href="a2.html"><span class="num">a2</span><b>Перелёт</b><span>заголовок физически перелетает из строки рейки в карточку, вырастая с 15 до 40px (shared element transition)</span></a>
+  <a class="item" href="a3.html"><span class="num">a3</span><b>Оправа</b><span>весь блок — одна машинная оправа с концентрическими радиусами; наверху счётчик, где цифра шага прокручивается барабаном</span></a>
+
+  <h2>a4–a8 — вольная композиция</h2>
+  <a class="item" href="a4.html"><span class="num">a4</span><b>Барабан</b><span>шаги на вертикальном барабане во всю ширину: соседние выглядывают и растворяются в маске, барабан доезжает пружиной</span></a>
+  <a class="item" href="a5.html"><span class="num">a5</span><b>Кегль</b><span>без плашки: заголовок 64px поднимается из-под маски слово за словом, срок — надстрочная плашка</span></a>
+  <a class="item" href="a6.html"><span class="num">a6</span><b>Колода</b><span>пять шагов как физическая колода: следующие выглядывают снизу, пройденные уходят вверх, в финале стопка собирается</span></a>
+  <a class="item" href="a7.html"><span class="num">a7</span><b>Глубина</b><span>пять колонок открыты сразу, но в фокусе одна: соседние расфокусированы на 1,6px, дальние на 3px — глубина резкости вместо прозрачности</span></a>
+  <a class="item" href="a8.html"><span class="num">a8</span><b>Кассета</b><span>пять неподвижных корешков и один выдвинутый ящик под ними; нить-связка переезжает к активному, текст учитывает направление хода</span></a>
+
+  <p class="note">
+    Тексты шагов, палитра, типографика и радиусы — из сайтовых исходников (<b>site/styles.css</b>, <b>site/app.js</b>). Прошлые серии — <b>active-chip/</b>, <b>big-card/</b>, <b>timeline/</b>, <b>route/</b>, <b>stage/</b>, <b>move/</b>.<br>
+    Файлы самодостаточны: инлайн CSS/JS, шрифты YS Geo в base64, без CDN. Пересобрать все восемь — <b>node _build.mjs</b> в этой папке.
+  </p>
+</div>
+</body>
+</html>

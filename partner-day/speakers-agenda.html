@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>День партнёров — Спикеры и Программа (финальный макет)</title>
+
+<!--
+  ФИНАЛ (выбор 29.07): спикеры — «Общая сетка», программа — «Табло».
+  Два блока для lavka.yandex.ru/about/franchise/partner_day:
+    1) #speakers-group — все 12 спикеров сеткой 6×2, группа — мелкой подписью
+    2) #program-group  — тёмное табло: две колонки «время · тема — спикер»
+
+  Токены сняты с боевой страницы (window.__GLOBAL_STATE__ конструктора LPC):
+    цвета   #1B3A6A (основной), #E8F6FF (плашка), #00ADFF (CTA), #7D7D7D (вторичный текст)
+    шрифты  YS Geo (900 / 500 / 400), YS Text (400)
+    радиусы 2rem (фото), 13.2rem (пилюля), 4.6/3.8rem (табло: лоток и ядро)
+    поля страницы 8rem
+    1rem = 0.494493vw (768–1439) / 0.52vw (1440–1919) / 10px (≥1920) / 2.66738vw (≤767)
+
+  Подписи спикеров в табло намеренно короткие («франчайзи», а не «франчайзи Яндекс
+  Лавки») — строка должна оставаться однострочной, иначе рвётся ритм колонок.
+-->
+
+<style>
+/* ── Шрифты (в проде — woff2 из шрифтового CDN Яндекса) ───────────────── */
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Medium.ttf")  format("truetype"); font-weight:500; font-display:swap; }
+@font-face { font-family:'YS Geo'; src:url("../site/fonts/YS Geo-Black.ttf")   format("truetype"); font-weight:900; font-display:swap; }
+@font-face { font-family:'YS Text'; src:url("../site/fonts/YS Text-Regular.ttf") format("truetype"); font-weight:400; font-display:swap; }
+
+/* ── Ремовая шкала боевой страницы ────────────────────────────────────── */
+html { font-size: calc(0.494493vw); }
+@media (min-width:1440px) { html { font-size: calc(0.52vw); } }
+@media (min-width:1920px) { html { font-size: 10px; } }
+@media (max-width:767px)  { html { font-size: calc(2.66738vw); } }
+
+:root {
+  --blue:    #1B3A6A;
+  --blue-bg: #E8F6FF;
+  --cta:     #00ADFF;
+  --sky:     #7FD0FF;
+  --grey:    #7D7D7D;
+  --line:    rgba(27,58,106,.12);
+  --wline:   rgba(255,255,255,.09);
+  --geo:  'YS Geo', Helvetica, Arial, sans-serif;
+  --text: 'YS Text', Helvetica, Arial, sans-serif;
+  --ez:   cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+body { background:#fff; color:var(--blue); font-family:var(--geo); -webkit-font-smoothing:antialiased; }
+img { display:block; max-width:100%; }
+
+.pd-page { padding:6.4rem 8rem 9.6rem; }
+@media (max-width:767px) { .pd-page { padding:2.4rem 1.6rem 4rem; } }
+
+/* Заголовок секции — как «Формат мероприятия» на боевой странице */
+.pd-h2 { font-weight:900; font-size:8rem; line-height:100%; }
+@media (max-width:767px) { .pd-h2 { font-size:3.6rem; line-height:110%; } }
+
+/* ══════════════════════════════════════════════════════════════════════
+   БЛОК 1. СПИКЕРЫ — все 12 одной сеткой 6×2
+   ══════════════════════════════════════════════════════════════════════ */
+.pd-grid {
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  gap:4.8rem 2rem;
+  margin-top:4.8rem;
+}
+@media (max-width:767px) { .pd-grid { grid-template-columns:1fr 1fr; gap:2.8rem 1.6rem; margin-top:2.4rem; } }
+
+.pd-card { min-width:0; }
+.pd-card__photo {
+  width:100%; aspect-ratio:1/1; object-fit:cover;
+  border-radius:2rem; background:#CFE9FB;
+}
+.pd-card__kick { font-weight:500; font-size:1.3rem; line-height:1; opacity:.5; margin-top:1.6rem; }
+.pd-card__name { font-weight:900; font-size:2rem; line-height:110%; margin-top:.8rem; overflow-wrap:break-word; }
+.pd-card__role { font-family:var(--text); font-size:1.4rem; line-height:120%; color:var(--grey); margin-top:.6rem; overflow-wrap:break-word; }
+@media (max-width:767px) {
+  .pd-card__photo { border-radius:1.8rem; }
+  .pd-card__kick { font-size:1.1rem; margin-top:1.2rem; }
+  .pd-card__name { font-size:1.8rem; }
+  .pd-card__role { font-size:1.3rem; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   БЛОК 2. ПРОГРАММА — тёмное табло
+   ══════════════════════════════════════════════════════════════════════ */
+.pd-program { margin-top:9.6rem; }
+@media (max-width:767px) { .pd-program { margin-top:4.8rem; } }
+
+/* Лоток + ядро: тёмная пластина лежит в светлой рамке */
+.pd-bez { background:rgba(27,58,106,.06); border-radius:4.6rem; padding:1rem; margin-top:3.2rem; }
+.pd-board {
+  background:var(--blue); border-radius:3.8rem; overflow:hidden;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.14);
+}
+@media (max-width:767px) {
+  .pd-bez { border-radius:2.6rem; padding:.6rem; margin-top:2rem; }
+  .pd-board { border-radius:2.2rem; }
+}
+
+/* Шапка табло */
+.pd-board__head { padding:3.2rem 4.8rem 0; }
+.pd-chip {
+  display:inline-flex; align-items:center; gap:1rem;
+  border:1px solid rgba(255,255,255,.22); border-radius:13.2rem;
+  padding:.9rem 1.8rem; color:var(--sky);
+  font-weight:500; font-size:1.2rem; letter-spacing:.14em; line-height:1;
+}
+.pd-dot { width:.7rem; height:.7rem; border-radius:50%; background:var(--cta); animation:pd-blink 1.6s steps(2, jump-none) infinite; }
+@keyframes pd-blink { 50% { opacity:.15; } }
+@media (max-width:767px) {
+  .pd-board__head { padding:2.4rem 2rem 0; }
+  .pd-chip { font-size:1.1rem; padding:.8rem 1.4rem; letter-spacing:.1em; }
+}
+
+/* Строки: две колонки на десктопе, одна на мобиле */
+.pd-list { columns:2; column-gap:7rem; padding:2.4rem 4.8rem 3.6rem; }
+.pd-row {
+  break-inside:avoid; display:flex; gap:2rem; align-items:baseline;
+  padding:1.4rem 0; border-bottom:1px solid var(--wline);
+}
+.pd-row > div:last-child { min-width:0; }
+.pd-time { flex:none; width:5.6rem; color:var(--sky); font-weight:500; font-size:1.6rem; line-height:1; font-variant-numeric:tabular-nums; }
+.pd-topic { color:#fff; font-weight:900; font-size:1.7rem; line-height:130%; }
+.pd-who { font-family:var(--text); color:rgba(255,255,255,.5); font-size:1.3rem; }
+.pd-row_break .pd-topic { color:rgba(255,255,255,.45); font-weight:500; }
+.pd-row_break .pd-time { color:rgba(127,208,255,.5); }
+@media (max-width:767px) {
+  .pd-list { columns:1; padding:1.6rem 2rem 2.4rem; }
+  .pd-row { gap:1.4rem; padding:1.2rem 0; }
+  .pd-time { width:4.4rem; font-size:1.4rem; }
+  .pd-topic { font-size:1.6rem; }
+  .pd-who { font-size:1.3rem; }
+}
+
+/* Появление строк на скролле (опционально — в конструкторе можно опустить) */
+.pd-rv { opacity:0; transform:translateY(2.4rem); }
+.pd-rv.in { opacity:1; transform:none; transition:opacity .8s var(--ez) var(--d,0ms), transform .8s var(--ez) var(--d,0ms); }
+@media (prefers-reduced-motion: reduce) {
+  .pd-rv { opacity:1 !important; transform:none !important; transition:none !important; }
+  .pd-dot { animation:none; }
+}
+</style>
+</head>
+
+<body>
+<div class="pd-page">
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     БЛОК «СПИКЕРЫ» — ставится вместо плашки «Скоро здесь появится
+     деловая программа» (#speaker-grid)
+     ═══════════════════════════════════════════════════════════════════ -->
+<section id="speakers-group">
+  <h2 class="pd-h2">Спикеры</h2>
+
+  <div class="pd-grid">
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Вадим Петров">
+      <div class="pd-card__kick">Яндекс</div>
+      <div class="pd-card__name">Вадим Петров</div>
+      <div class="pd-card__role">Генеральный директор Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Мария Швиндт">
+      <div class="pd-card__kick">Яндекс</div>
+      <div class="pd-card__name">Мария Швиндт</div>
+      <div class="pd-card__role">Руководитель франшизы Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Наталья Крякова">
+      <div class="pd-card__kick">Яндекс</div>
+      <div class="pd-card__name">Наталья Крякова</div>
+      <div class="pd-card__role">Лид поддержки франчайзи Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Надежда Полюдова">
+      <div class="pd-card__kick">Яндекс</div>
+      <div class="pd-card__name">Надежда Полюдова</div>
+      <div class="pd-card__role">Старший менеджер продукта Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Анита Краснова">
+      <div class="pd-card__kick">Яндекс</div>
+      <div class="pd-card__name">Анита Краснова</div>
+      <div class="pd-card__role">Менеджер по развитию бизнеса Яндекс Байка</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Наталья Марова">
+      <div class="pd-card__kick">Эксперт</div>
+      <div class="pd-card__name">Наталья Марова</div>
+      <div class="pd-card__role">Руководитель Retail.ru, эксперт ритейла</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Михаил Бурмистров">
+      <div class="pd-card__kick">Эксперт</div>
+      <div class="pd-card__name">Михаил Бурмистров</div>
+      <div class="pd-card__role">Генеральный директор «INFOLine-Аналитика»</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Василь Газизулин">
+      <div class="pd-card__kick">Эксперт</div>
+      <div class="pd-card__name">Василь Газизулин</div>
+      <div class="pd-card__role">Основатель TopFranchise</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Виктор Ляшевский">
+      <div class="pd-card__kick">Эксперт</div>
+      <div class="pd-card__name">Виктор Ляшевский</div>
+      <div class="pd-card__role">Эксперт по франчайзингу, автор «Франшизы на 360»</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Сергей Козлов">
+      <div class="pd-card__kick">Франчайзи</div>
+      <div class="pd-card__name">Сергей Козлов</div>
+      <div class="pd-card__role">Франчайзи Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Станислав Лопатин">
+      <div class="pd-card__kick">Франчайзи</div>
+      <div class="pd-card__name">Станислав Лопатин</div>
+      <div class="pd-card__role">Франчайзи Яндекс Лавки</div>
+    </div>
+
+    <div class="pd-card">
+      <img class="pd-card__photo" src="assets/speaker-placeholder.png" alt="Артём Сизов">
+      <div class="pd-card__kick">Франчайзи</div>
+      <div class="pd-card__name">Артём Сизов</div>
+      <div class="pd-card__role">Франчайзи Яндекс Лавки</div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     БЛОК «ПРОГРАММА» — новая секция после спикеров,
+     на неё же переводится пункт меню «Программа»
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="pd-program" id="program-group">
+  <h2 class="pd-h2">Программа</h2>
+
+  <div class="pd-bez">
+    <div class="pd-board">
+
+      <div class="pd-board__head">
+        <span class="pd-chip"><span class="pd-dot"></span>ДЕЛОВАЯ ПРОГРАММА · 27.08 · MERCURY SPACE</span>
+      </div>
+
+      <div class="pd-list">
+
+        <div class="pd-row pd-row_break pd-rv">
+          <div class="pd-time">11:00</div>
+          <div><span class="pd-topic">Регистрация и приветственный кофе</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">12:00</div>
+          <div><span class="pd-topic">Сильная франшиза — сильная сеть: открытие Дня партнёров</span>
+               <span class="pd-who">— Вадим Петров, Яндекс Лавка</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">12:20</div>
+          <div><span class="pd-topic">Рынок e-grocery: куда растёт спрос</span>
+               <span class="pd-who">— Наталья Марова, Retail.ru</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">12:40</div>
+          <div><span class="pd-topic">Стратегия роста и выход в новые города</span>
+               <span class="pd-who">— Мария Швиндт, Яндекс Лавка</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">13:10</div>
+          <div><span class="pd-topic">Франшиза как вход в готовую бизнес-модель</span>
+               <span class="pd-who">— Василь Газизулин, TopFranchise</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">13:30</div>
+          <div><span class="pd-topic">Зайти в новую нишу и вырасти: личный опыт франчайзи</span>
+               <span class="pd-who">— Сергей Козлов</span></div>
+        </div>
+
+        <div class="pd-row pd-row_break pd-rv">
+          <div class="pd-time">13:50</div>
+          <div><span class="pd-topic">Перерыв и демо-стенды Яндекс Лавки</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">14:20</div>
+          <div><span class="pd-topic">Партнёр у руля: как устроено управление сервисом</span>
+               <span class="pd-who">— Наталья Крякова, Яндекс Лавка</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">14:40</div>
+          <div><span class="pd-topic">Не теория: за что реально отвечает партнёр</span>
+               <span class="pd-who">— Станислав Лопатин, франчайзи</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">15:00</div>
+          <div><span class="pd-topic">Метрики вместо интуиции: эффективность и результат</span>
+               <span class="pd-who">— Артём Сизов, франчайзи</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">15:20</div>
+          <div><span class="pd-topic">Трафик, конверсия, рост: как работает маркетинг</span>
+               <span class="pd-who">— Спикер Яндекс Лавки</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">15:40</div>
+          <div><span class="pd-topic">Горячая еда: частота заказов, чек и лояльность</span>
+               <span class="pd-who">— Спикер Яндекс Лавки</span></div>
+        </div>
+
+        <div class="pd-row pd-row_break pd-rv">
+          <div class="pd-time">16:00</div>
+          <div><span class="pd-topic">Перерыв</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">16:20</div>
+          <div><span class="pd-topic">Разбор финансовой модели реального бизнеса</span>
+               <span class="pd-who">— Мария Швиндт, Яндекс Лавка</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">16:50</div>
+          <div><span class="pd-topic">Цифровая среда для франшизы: технологии Лавки</span>
+               <span class="pd-who">— Надежда Полюдова</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">17:10</div>
+          <div><span class="pd-topic">Трансформация офлайн-торговли под влиянием AI</span>
+               <span class="pd-who">— Спикер Яндекса</span></div>
+        </div>
+
+        <div class="pd-row pd-rv">
+          <div class="pd-time">17:30</div>
+          <div><span class="pd-topic">Синергия бизнесов: Яндекс Байк для последней мили</span>
+               <span class="pd-who">— Анита Краснова</span></div>
+        </div>
+
+        <div class="pd-row pd-row_break pd-rv">
+          <div class="pd-time">18:00</div>
+          <div><span class="pd-topic">Фуршет, дегустация хитов Лавки и общение с командой</span></div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* Появление строк табло каскадом. Необязательно — вёрстка работает и без скрипта. */
+(function(){
+  var rows = document.querySelectorAll('.pd-rv');
+  rows.forEach(function(el, i){ el.style.setProperty('--d', (i * 40) + 'ms'); });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {threshold:.15});
+  rows.forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>

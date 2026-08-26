@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лента — 3 механики</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 32px;line-height:1.45}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.45}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.6}
+.note b{color:var(--navy)}
+</style></head><body><div class="wrap">
+<h1>Лента</h1>
+<p class="sub">Три механики поверх композиции <b>variant-4</b> (полноширинная лента, активная карточка растёт). В оригинале дёргалось из-за трёх вещей сразу: flex-basis анимировался на 400px (соседи «переезжают»), центр считался по мгновенным offsetLeft, а лента ехала только в последних 40% шага — «стоп → рывок → стоп». Здесь всё движение только через transform, положение — одна непрерывная функция от скролла.</p>
+  <a class="item" href="r1.html"><span class="num">r1</span><b>Ровный ход</b><span>карточки одной ширины, ничего не растёт; лента едет непрерывно с мягким «магнитом» к центру</span></a>
+  <a class="item" href="r2.html"><span class="num">r2</span><b>Пружина</b><span>скролл выбирает цель, лента догоняет её пружиной; карточки одной ширины, ничего не растёт</span></a>
+  <a class="item" href="r3.html"><span class="num">r3</span><b>Веер</b><span>лента не едет: карточки стоят веером, активная выходит вперёд, остальные отступают назад со scale</span></a>
+<p class="note">Пересобрать — <b>node _build.mjs</b> в этой папке. Оригинал — <b>../variant-4.html</b>.</p>
+</div></body></html>

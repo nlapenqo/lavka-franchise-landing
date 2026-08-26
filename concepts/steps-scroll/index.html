@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Как стать партнёром? — все концепты</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b;--line:#dbe7f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:72px 24px 120px}
+h1{font-size:56px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 28px;line-height:1.5;max-width:760px}
+.verdict{background:#fff;border-radius:20px;padding:22px 26px;margin-bottom:44px;box-shadow:0 8px 24px rgba(27,58,106,.08);font-size:15px;line-height:1.6;color:var(--dim)}
+.verdict b{color:var(--navy)}
+
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:56px;position:sticky;top:16px;z-index:10}
+nav a{background:#fff;color:var(--navy);text-decoration:none;font-size:14px;font-weight:700;padding:9px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(27,58,106,.10)}
+nav a:hover{background:var(--navy);color:#fff}
+
+section{margin-bottom:56px;scroll-margin-top:16px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+h2{font-size:30px;font-weight:900;letter-spacing:-.01em;margin:0}
+.tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:999px}
+.tag.new{background:#e3f6ff;color:#0087c9}
+.tag.old{background:#eef1f6;color:var(--dim)}
+.sec-note{color:var(--dim);font-size:15px;line-height:1.5;margin:0 0 20px;max-width:760px}
+
+a.item{display:flex;align-items:baseline;gap:18px;padding:20px 24px;margin-bottom:12px;border-radius:18px;background:#fff;box-shadow:0 6px 18px rgba(27,58,106,.07);text-decoration:none;color:var(--navy);transition:transform .15s,box-shadow .15s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(27,58,106,.13)}
+a.item b{font-size:19px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:15px;line-height:1.4}
+.num{color:var(--blue);font-weight:800;font-size:19px;white-space:nowrap}
+
+.foot{margin-top:60px;color:var(--dim);font-size:13px;line-height:1.6;border-top:1px solid var(--line);padding-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Как стать партнёром?</h1>
+  <p class="sub">Все концепты блока в одном месте: 10 серий, 55 вариантов. Каждая серия — отдельная папка со своими самодостаточными HTML-файлами (шрифты и стили инлайнены, работают по file://).</p>
+
+  <div class="verdict"><b>Вердикт АД по серии «Таймлайн»:</b> лучше всех — «линия пути» (v2), хуже всех — «ступени» (v3). Пожелания: больше места левой карточке, справа плашки меньше; без иллюстраций / паттернов / декора / цифр фоном; «что-то несложное про путь». Серии «Путь» и «Сцена» — попытки ответить на это.</div>
+
+  <nav>
+    <a href="#shutters">Створки</a>
+    <a href="#ribbon">Лента</a>
+    <a href="#atelier">Ателье</a>
+    <a href="#move">Ход</a>
+    <a href="#stage">Сцена</a>
+    <a href="#route">Путь</a>
+    <a href="#timeline">Таймлайн</a>
+    <a href="#big-card">Большая карточка</a>
+    <a href="#active-chip">Активная плашка</a>
+    <a href="#legacy">Ранние наброски</a>
+  </nav>
+
+  <section id="shutters">
+    <div class="sec-head"><h2>Створки</h2><span class="tag new">18.08 · новое · развитие выбранного</span></div>
+    <p class="sec-note">Развитие <b>move/v4</b> — выбран за основу 18.08. Во всех трёх: крупная цифра шага в правом нижнем углу голубой плашки, счётчик «04/05» в шапке (цифра крутится барабаном), срок выделен контурной меткой с часами. Отличаются тем, как полоса прогресса «подсоединена» к створкам.</p>
+    <a class="item" href="shutters/s1.html"><span class="num">s1</span><b>Нить сквозь узлы</b><span>полоса лежит на высоте узлов створок и заливается от узла к узлу; внутри активной плашки продолжается белым отрезком под сроком</span></a>
+    <a class="item" href="shutters/s2.html"><span class="num">s2</span><b>Пол</b><span>полоса 6px под створками как «пол»; заливка идёт по ширине створок, от активной вниз спускается засечка</span></a>
+    <a class="item" href="shutters/s3.html"><span class="num">s3</span><b>Указатель</b><span>полоса над створками (как было), но 4px и её голубой отрезок стоит ровно над активной и растягивается вместе с ней той же анимацией</span></a>
+  </section>
+
+  <section id="ribbon">
+    <div class="sec-head"><h2>Лента</h2><span class="tag new">18.08</span></div>
+    <p class="sec-note">Переработка механики <b>variant-4</b> (полноширинная лента, активная карточка растёт). В оригинале дёргалось из-за трёх вещей сразу: flex-basis анимировался на 400px (соседи «переезжают»), центр считался по мгновенным offsetLeft, а лента ехала только в последних 40% шага — «стоп → рывок → стоп». Здесь всё движение только через transform, положение — одна непрерывная функция.</p>
+    <a class="item" href="ribbon/r1.html"><span class="num">r1</span><b>Ровный ход</b><span>карточки одной ширины, ничего не растёт; лента привязана к скроллу, но по гладкой кривой: стоит 62% шага, потом плавно переезжает</span></a>
+    <a class="item" href="ribbon/r2.html"><span class="num">r2</span><b>Пружина</b><span>скролл только выбирает цель, лента догоняет её пружиной (stiffness 120, damping 22); карточки одной ширины</span></a>
+    <a class="item" href="ribbon/r3.html"><span class="num">r3</span><b>Веер</b><span>лента не едет вообще: карточки стоят веером в центре, активная выходит вперёд, остальные отступают назад со scale</span></a>
+  </section>
+
+  <section id="atelier">
+    <div class="sec-head"><h2>Ателье</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">Серия собрана по правилам премиального веба (скиллы <b>high-end-visual-design</b>, <b>frontend-design</b>, <b>unlumen-ui</b>, <b>animation-vocabulary</b>): вложенные оправы вместо плоских карточек, надстрочные плашки вместо голых подписей, кнопка с вложенной стрелкой, свои кривые вместо ease, движение только по transform и opacity. У каждого варианта ровно один фирменный приём — остальное держится тихо.</p>
+    <a class="item" href="atelier/a1.html"><span class="num">a1</span><b>Прошивка</b><span>SVG-траектория, которую скролл прочерчивает от узла к узлу; на кончике перо, подписи уступом уходят вправо</span></a>
+    <a class="item" href="atelier/a2.html"><span class="num">a2</span><b>Перелёт</b><span>заголовок физически перелетает из строки рейки в карточку, вырастая с 15 до 40px (shared element transition)</span></a>
+    <a class="item" href="atelier/a3.html"><span class="num">a3</span><b>Оправа</b><span>весь блок — одна машинная оправа с концентрическими радиусами; наверху счётчик с барабаном цифр</span></a>
+    <a class="item" href="atelier/a4.html"><span class="num">a4</span><b>Барабан</b><span>шаги на вертикальном барабане во всю ширину: соседние выглядывают и растворяются в маске</span></a>
+    <a class="item" href="atelier/a5.html"><span class="num">a5</span><b>Кегль</b><span>без плашки: заголовок 64px поднимается из-под маски слово за словом, срок — надстрочная плашка</span></a>
+    <a class="item" href="atelier/a6.html"><span class="num">a6</span><b>Колода</b><span>пять шагов как физическая колода: следующие выглядывают снизу, пройденные уходят вверх</span></a>
+    <a class="item" href="atelier/a7.html"><span class="num">a7</span><b>Глубина</b><span>пять колонок открыты сразу, но в фокусе одна — глубина резкости вместо прозрачности</span></a>
+    <a class="item" href="atelier/a8.html"><span class="num">a8</span><b>Кассета</b><span>пять неподвижных корешков и выдвинутый ящик под ними; нить-связка переезжает к активному</span></a>
+  </section>
+
+  <section id="move">
+    <div class="sec-head"><h2>Ход</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">Восемь вариантов в двух группах. <b>v1–v3</b> — внутри текущей концепции (слева крупный блок, справа таймлайн), три разных решения таймлайна и пропорции. <b>v4–v8</b> — вольная композиция: обязательны только пять шагов со сроками, ощущение пути, скролл, состояния и кнопка на первом шаге. Во всех появилось движение внутри шага (а не только между шагами) и ховер.</p>
+    <a class="item" href="move/v1.html"><span class="num">v1</span><b>Шкала</b><span>ось времени вместо рейки: высота отрезка = длительность шага, по линии непрерывно едет метка «сейчас»; 736 + 28 + 400</span></a>
+    <a class="item" href="move/v2.html"><span class="num">v2</span><b>Полки</b><span>рейка стала аккордеоном: активная полка раскрывается и показывает срок крупно, пройденные складываются в строку с галочкой; 700 + 28 + 436</span></a>
+    <a class="item" href="move/v3.html"><span class="num">v3</span><b>Метка</b><span>крайняя перепропорция 836/300: справа список из пяти строк с ползущей меткой и крупный срок активного шага</span></a>
+    <a class="item" href="move/v4.html"><span class="num">v4</span><b>Створки</b><span>горизонтальный аккордеон: активная створка разъезжается до 644px, остальные стоят корешками; в финале пять равных панелей с галочками</span></a>
+    <a class="item" href="move/v5.html"><span class="num">v5</span><b>Строки</b><span>заголовок ушёл в левую колонку, справа вертикальный аккордеон из пяти строк; линия пути стоит в зазоре между колонками</span></a>
+    <a class="item" href="move/v6.html"><span class="num">v6</span><b>Ползун</b><span>пять строк во всю ширину и одно голубое выделение, которое переезжает со строки на строку; высоты не меняются</span></a>
+    <a class="item" href="move/v7.html"><span class="num">v7</span><b>Чтение</b><span>все пять шагов открыты текстом, скролл ведёт по ним подсветку — активный абзац белый, пройденные с галочкой</span></a>
+    <a class="item" href="move/v8.html"><span class="num">v8</span><b>Спуск</b><span>ось слева, голубая плашка физически спускается от станции к станции; заливка оси идёт чуть впереди плашки</span></a>
+  </section>
+
+  <section id="stage">
+    <div class="sec-head"><h2>Сцена</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">Одна крупная плашка, раскрывающая шаг, + таймлайн из пяти станций. В трёх из четырёх таймлайн ушёл вниз на всю ширину, подписи станций выросли с 11px до 15px.</p>
+    <a class="item" href="stage/v1.html"><span class="num">v1</span><b>Афиша</b><span>заголовок секции в ряд с плашкой; под ними линия пути во всю ширину с пятью станциями и крупными подписями</span></a>
+    <a class="item" href="stage/v2.html"><span class="num">v2</span><b>Полоса</b><span>плашка во всю ширину контейнера, номер и заголовок слева, описание и кнопка справа; снизу пять станций-вагонов на линии</span></a>
+    <a class="item" href="stage/v2a.html"><span class="num">v2a</span><b>Полоса · Колонка</b><span>тот же низ, что в v2; голубой блок одним потоком: срок крупно слева и «01 из 05» справа → заголовок → описание → кнопка. <b>18.08 — выбран для развития</b></span></a>
+    <a class="item" href="stage/v2b.html"><span class="num">v2b</span><b>Полоса · Цифра</b><span>тот же низ; слева крупная цифра шага держит край, справа поток: срок, заголовок, описание, кнопка</span></a>
+    <a class="item" href="stage/v2c.html"><span class="num">v2c</span><b>Полоса · Плашки</b><span>тот же низ; номер и срок в чипах сверху, кнопка внизу справа в паре с подписью «Дальше: …»</span></a>
+    <a class="item" href="stage/v3.html"><span class="num">v3</span><b>Обложка</b><span>всё внутри одной голубой плоскости 1164×540: заголовок секции, шаг и таймлайн; активная станция — белая</span></a>
+    <a class="item" href="stage/v4.html"><span class="num">v4</span><b>Каретка</b><span>таймлайн во всю ширину экрана как «пол» секции, плашка едет над ним от станции к станции</span></a>
+  </section>
+
+  <section id="route">
+    <div class="sec-head"><h2>Путь</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">Карточка 600×344, справа компактные плашки. Ответ на пожелание АД «что-то несложное про путь».</p>
+    <a class="item" href="route/v1.html"><span class="num">v1</span><b>Курьер</b><span>по линии пути едет точка-бегунок; пройденные узлы — галочки; под линией пять маленьких плашек</span></a>
+    <a class="item" href="route/v2.html"><span class="num">v2</span><b>Сторис</b><span>у каждой плашки своя полоска сверху, активная заполняется по ходу скролла внутри шага</span></a>
+    <a class="item" href="route/v3.html"><span class="num">v3</span><b>Дорога</b><span>лента широких плашек едет влево на каждом шаге, активная всегда на одном месте</span></a>
+    <a class="item" href="route/v4.html"><span class="num">v4</span><b>Хореография</b><span>без новых элементов: живость — в движении карточки, подъёме активной плашки, пружинных галочках и финальной волне</span></a>
+  </section>
+
+  <section id="timeline">
+    <div class="sec-head"><h2>Таймлайн</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">Пропорции смещены в пользу левой карточки, правая колонка компактнее. Отсюда — вердикт АД (v2 «Линия пути» лучший, v3 «Ступени» худший).</p>
+    <a class="item" href="timeline/v1.html"><span class="num">v1</span><b>Пропорции</b><span>карточка 640×310 вместо 380×430, рейка внизу справа — 5 узких плашек по 160px</span></a>
+    <a class="item" href="timeline/v2.html"><span class="num">v2</span><b>Линия пути</b><span>прогресс-бар стал треком с пятью узлами: линия заполняется по скроллу, пройденный узел с галочкой</span></a>
+    <a class="item" href="timeline/v3.html"><span class="num">v3</span><b>Ступени</b><span>только ритм высот: плашки растут от 01 к 05, активная поднимается выше всех</span></a>
+    <a class="item" href="timeline/v4.html"><span class="num">v4</span><b>Вертикальный путь</b><span>рейка развёрнута в вертикальный таймлайн: линия сверху вниз, пять узлов, карточка 750px</span></a>
+  </section>
+
+  <section id="big-card">
+    <div class="sec-head"><h2>Большая карточка</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">4 подачи активного шага в большой голубой карточке. Рейка справа, прогресс-бар, скролл-механика — как на сайте, меняется только сама карточка.</p>
+    <a class="item" href="big-card/v1.html"><span class="num">v1</span><b>Крупная цифра</b><span>номер шага 80px Black отдельной строкой над заголовком</span></a>
+    <a class="item" href="big-card/v2.html"><span class="num">v2</span><b>Цифра в строку</b><span>номер тем же кеглем, что заголовок, приглушённый до 62%</span></a>
+    <a class="item" href="big-card/v3.html"><span class="num">v3</span><b>Иконка шага</b><span>линейная иконка 56px сверху (анкета / диалог / здание / люди / ракета), номера нет</span></a>
+    <a class="item" href="big-card/v4.html"><span class="num">v4</span><b>Крупный заголовок</b><span>без цифры и иконки — карточка держится на типографике, заголовок 50px Heavy</span></a>
+  </section>
+
+  <section id="active-chip">
+    <div class="sec-head"><h2>Активная плашка</h2><span class="tag new">17.08</span></div>
+    <p class="sec-note">4 подачи активной плашки, остальная композиция блока не менялась.</p>
+    <a class="item" href="active-chip/v1.html"><span class="num">v1</span><b>Крупная типографика</b><span>номер ≈100px Heavy, название 18px Heavy, срок голубым — только шрифт</span></a>
+    <a class="item" href="active-chip/v2.html"><span class="num">v2</span><b>Иконка шага</b><span>линейная иконка 48px, номер 16px рядом, название и срок внизу</span></a>
+    <a class="item" href="active-chip/v3.html"><span class="num">v3</span><b>Раскрытие с описанием</b><span>активная плашка ~230px: номер + название + 2–3 строки описания + срок</span></a>
+    <a class="item" href="active-chip/v4.html"><span class="num">v4</span><b>Только крупная цифра</b><span>минимальный ход: всё как на сайте, только номер сверху ≈78px Heavy</span></a>
+  </section>
+
+  <section id="legacy">
+    <div class="sec-head"><h2>Ранние наброски</h2><span class="tag old">14.08 · до текущего дизайна сайта</span></div>
+    <p class="sec-note">Первая волна концептов, калька с внешнего рефа — ещё до того, как блок устоялся в site/. Механики радикальнее: аккордеон, колода, 3D-барабан.</p>
+    <a class="item" href="variant-1.html"><span class="num">01</span><b>Калька рефа</b><span>большая карточка слева подменяет контент, справа лента свёрнутых плашек с раскрытием активной</span></a>
+    <a class="item" href="variant-1b.html"><span class="num">1b</span><b>Вертикальный барабан</b><span>контент большой карточки слайдится вертикально, справа вертикальная стопка плашек</span></a>
+    <a class="item" href="variant-1c.html"><span class="num">1c</span><b>С памятью шагов</b><span>пройденные плашки заливаются тёмно-синим с галочкой, прогресс-бар сегментирован по пяти шагам</span></a>
+    <a class="item" href="variant-1d.html"><span class="num">1d</span><b>Рейка-номера</b><span>узкие полоски только с номерами, активная вырастает в мини-карточку</span></a>
+    <a class="item" href="variant-2.html"><span class="num">02</span><b>Горизонтальный аккордеон</b><span>свёрнутая вертикальная плашка сама разъезжается в большую карточку, остальные сжимаются</span></a>
+    <a class="item" href="variant-2b.html"><span class="num">2b</span><b>Аккордеон с памятью</b><span>пройденные плашки остаются залитыми тёмно-синим с галочкой</span></a>
+    <a class="item" href="variant-2c.html"><span class="num">2c</span><b>Аккордеон с предраскрытием</b><span>следующая плашка приоткрывается заранее (peek), счётчик живёт внутри активной карточки</span></a>
+    <a class="item" href="variant-3.html"><span class="num">03</span><b>Колода</b><span>карточки лежат стопкой, верхняя улетает влево с поворотом и открывает следующий шаг</span></a>
+    <a class="item" href="variant-4.html"><span class="num">04</span><b>Полноширинная лента</b><span>скролл тянет горизонтальную ленту, активная карточка расширяется и заливается голубым</span></a>
+    <a class="item" href="variant-5.html"><span class="num">05</span><b>3D-барабан</b><span>шаги на вращающемся цилиндре, скролл прокручивает его как слот-машину</span></a>
+  </section>
+
+  <p class="foot">Тексты шагов, цвета (#1b3a6a / #00adff) и шрифт YS Geo — из сайтовых исходников. Каждая серия имеет и свою локальную галерею (active-chip/index.html и т.д.) — эта страница просто собирает все шесть в одном месте. Desktop-only, смотреть от 1200px (route/stage — от 1440px).</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Сдержанный вариант 01 · Редакционная ось</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    .c01-business {
+      background: #fff;
+    }
+
+    .c01-layout {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+      align-items: start;
+    }
+
+    .c01-head {
+      grid-column: 1 / span 4;
+      position: sticky;
+      top: 48px;
+    }
+
+    .c01-head h1 {
+      max-width: 360px;
+    }
+
+    .c01-intro {
+      grid-column: 5 / -1;
+      max-width: 760px;
+      padding-top: 4px;
+    }
+
+    .c01-intro .intro-title {
+      max-width: 660px;
+    }
+
+    .c01-intro .intro-copy {
+      max-width: 720px;
+      margin-top: 26px;
+    }
+
+    .c01-intro .business-cta {
+      margin-top: 34px;
+    }
+
+    .c01-roles {
+      grid-column: 5 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 108px;
+    }
+
+    .c01-role {
+      min-width: 0;
+      padding-right: 46px;
+    }
+
+    .c01-role + .c01-role {
+      border-left: 1px solid var(--business-rule);
+      padding-right: 0;
+      padding-left: 46px;
+    }
+
+    .c01-role .role-title {
+      max-width: 300px;
+    }
+
+    .c01-role .responsibility-list {
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    @media (max-width: 1120px) {
+      .c01-layout {
+        column-gap: 20px;
+      }
+
+      .c01-head h1 {
+        max-width: 310px;
+      }
+
+      .c01-role {
+        padding-right: 34px;
+      }
+
+      .c01-role + .c01-role {
+        padding-left: 34px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="business c01-business" aria-labelledby="c01-title">
+      <div class="business__container c01-layout">
+        <header class="business-head c01-head">
+          <h1 id="c01-title">Как устроен бизнес?</h1>
+          <p class="business-head__subtitle">Как работает сервис?</p>
+        </header>
+
+        <div class="c01-intro">
+          <h2 class="intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+          <p class="intro-copy">Клиент делает заказ, он собирается в дарксторе — специализированном складе — и доставляется курьером от 15 минут. Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+          <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+        </div>
+
+        <div class="c01-roles" aria-label="Распределение ответственности">
+          <section class="c01-role" aria-labelledby="c01-partner-title">
+            <h3 class="role-title" id="c01-partner-title">Франчайзи берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Инвестиции в запуск целого города</li>
+              <li>Поиск помещений и открытие дарксторов</li>
+              <li>Привлечение и управление курьерами, сборщиками и директорами</li>
+              <li>Качество и операционное управление бизнесом</li>
+            </ul>
+          </section>
+
+          <section class="c01-role" aria-labelledby="c01-yandex-title">
+            <h3 class="role-title" id="c01-yandex-title">Яндекс Лавка берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Приложения, WMS и автозаказ</li>
+              <li>Маркетинговую поддержку и привлечение клиентов</li>
+              <li>Поставщиков, ассортимент и логистику средней мили</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../_shared/proto.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!doctype html><html lang="ru"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 · v13 · Стек сервиса</title><link rel="stylesheet" href="redesign-shared.css">
+<style>
+  .concept{background:#fff}
+  .stack-shell{padding:8px;border-radius:40px;background:rgba(27,58,106,.055);box-shadow:inset 0 0 0 1px rgba(27,58,106,.045)}
+  .stack-board{display:grid;grid-template-columns:1fr 390px;min-height:610px;border-radius:32px;overflow:hidden;background:var(--bg-light)}
+  .stack{padding:32px;display:flex;flex-direction:column;gap:10px}
+  .stack-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:var(--text-dim);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .layer{appearance:none;border:0;width:100%;display:grid;grid-template-columns:52px 1fr auto;gap:18px;align-items:center;min-height:91px;padding:15px 18px;border-radius:24px;background:#fff;color:var(--navy);text-align:left;box-shadow:0 8px 22px rgba(27,58,106,.055);transition:transform .65s cubic-bezier(.32,.72,0,1),background .65s cubic-bezier(.32,.72,0,1),color .65s cubic-bezier(.32,.72,0,1)}
+  .layer:hover{transform:translateX(8px)}.layer.is-active{background:var(--navy);color:#fff;transform:translateX(14px)}
+  .layer__num{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:var(--bg-card);font-size:13px;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}.layer.is-active .layer__num{background:var(--blue);color:#fff}
+  .layer__copy strong{display:block;font-size:22px;line-height:1;font-weight:800}.layer__copy span{display:block;margin-top:8px;font-size:13px;color:var(--text-dim)}.layer.is-active .layer__copy span{color:var(--text-dim-dark)}
+  .detail{background:var(--navy);color:#fff;padding:38px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .detail::before{content:'';position:absolute;width:330px;height:330px;border-radius:50%;right:-170px;top:-160px;background:var(--blue);opacity:.2}
+  .detail__top{position:relative;display:flex;justify-content:space-between;align-items:center}.detail__count{font-size:13px;letter-spacing:.08em;color:var(--text-dim-dark)}
+  .detail h2{position:relative;margin:58px 0 20px;font-size:39px;line-height:.94;font-weight:800;letter-spacing:-.015em}
+  .detail p{position:relative;font-size:16px;line-height:1.38;color:var(--text-dim-dark)}
+  .detail__meta{margin-top:26px;padding-top:22px;border-top:1px solid rgba(170,217,252,.16);display:grid;gap:10px;font-size:14px;color:rgba(255,255,255,.82)}
+  .detail__meta span{display:flex;gap:10px}.detail__meta i{width:7px;height:7px;border-radius:50%;background:var(--blue);margin-top:.45em;flex:none}
+  .promise{position:relative;margin-top:auto;padding-top:40px}.promise strong{display:block;font-size:62px;line-height:.86;font-weight:900;color:#fff;letter-spacing:-.045em}.promise span{display:block;margin-top:12px;font-size:13px;color:var(--text-dim-dark)}
+</style></head><body>
+<div class="proto-tag">05 · новый раунд · v13 · Стек сервиса</div>
+<main class="concept"><div class="container">
+  <header class="concept-head reveal"><div><span class="t-label">Архитектура бизнеса</span><h1 class="t-h1">Лавка — это система из&nbsp;пяти слоёв</h1></div><p class="t-sub">Наведение или клик раскрывает, как каждый слой поддерживает обещание клиенту и&nbsp;кто им управляет</p></header>
+  <div class="stack-shell reveal"><section class="stack-board">
+    <div class="stack" role="tablist" aria-label="Слои бизнес-модели"><div class="stack-label"><span>От спроса к доставке</span><span>Выберите слой →</span></div>
+      <button class="layer is-active focus-ring" role="tab" aria-selected="true" data-title="Поток клиентов" data-owner="Яндекс Лавка" data-text="Маркетинг и продукты экосистемы приводят клиентов в сервис — партнёру не нужно строить спрос с нуля." data-items="Маркетинговая поддержка|Привлечение клиентов"><span class="layer__num">01</span><span class="layer__copy"><strong>Спрос</strong><span>Маркетинг и привлечение клиентов</span></span><span class="actor actor--yandex">Яндекс</span></button>
+      <button class="layer focus-ring" role="tab" aria-selected="false" data-title="Технологическое ядро" data-owner="Яндекс Лавка" data-text="Приложения, WMS и автозаказ связывают клиента, склад и товарный поток в одну управляемую систему." data-items="Приложения и WMS|Автозаказ"><span class="layer__num">02</span><span class="layer__copy"><strong>Платформа</strong><span>Приложения · WMS · автозаказ</span></span><span class="actor actor--yandex">Яндекс</span></button>
+      <button class="layer focus-ring" role="tab" aria-selected="false" data-title="Товарный контур" data-owner="Яндекс Лавка" data-text="Лавка управляет поставщиками, ассортиментом и логистикой средней мили, чтобы дарксторы были готовы собирать заказ." data-items="Поставщики и ассортимент|Средняя миля"><span class="layer__num">03</span><span class="layer__copy"><strong>Снабжение</strong><span>Товар и логистика средней мили</span></span><span class="actor actor--yandex">Яндекс</span></button>
+      <button class="layer focus-ring" role="tab" aria-selected="false" data-title="Физическая сеть города" data-owner="Франчайзи" data-text="Партнёр инвестирует в запуск города, находит помещения и разворачивает локальную сеть дарксторов." data-items="Инвестиции в город|Помещения и открытия"><span class="layer__num">04</span><span class="layer__copy"><strong>Дарксторы</strong><span>Инвестиции · помещения · открытия</span></span><span class="actor actor--partner">Франчайзи</span></button>
+      <button class="layer focus-ring" role="tab" aria-selected="false" data-title="Ежедневная операция" data-owner="Франчайзи" data-text="Курьеры, сборщики и директора обеспечивают качество, скорость сборки и доставку заказа клиенту." data-items="Управление персоналом|Качество и операционка"><span class="layer__num">05</span><span class="layer__copy"><strong>Команда</strong><span>Курьеры · сборщики · директора</span></span><span class="actor actor--partner">Франчайзи</span></button>
+    </div>
+    <aside class="detail" aria-live="polite"><div class="detail__top"><span class="actor actor--both" id="owner">Яндекс Лавка</span><span class="detail__count" id="detailCount">01 / 05</span></div><h2 id="detailTitle">Поток клиентов</h2><p id="detailText">Маркетинг и продукты экосистемы приводят клиентов в сервис — партнёру не нужно строить спрос с нуля.</p><div class="detail__meta" id="detailMeta"><span><i></i>Маркетинговая поддержка</span><span><i></i>Привлечение клиентов</span></div><div class="promise"><strong>от 15 минут</strong><span>общее обещание системы клиенту</span></div></aside>
+  </section></div>
+</div></main><footer class="proto-footer"><p class="t-legal">Концепт v13 · актуальный текст из Figma</p></footer>
+<script>
+(() => {
+ const layers=[...document.querySelectorAll('.layer')], title=document.getElementById('detailTitle'), text=document.getElementById('detailText'), owner=document.getElementById('owner'), meta=document.getElementById('detailMeta'), count=document.getElementById('detailCount');
+ const select=(button,index)=>{layers.forEach((x,i)=>{x.classList.toggle('is-active',i===index);x.setAttribute('aria-selected',i===index?'true':'false')});title.textContent=button.dataset.title;text.textContent=button.dataset.text;owner.textContent=button.dataset.owner;owner.className='actor '+(button.dataset.owner==='Франчайзи'?'actor--partner':'actor--both');meta.innerHTML=button.dataset.items.split('|').map(x=>`<span><i></i>${x}</span>`).join('');count.textContent=`0${index+1} / 05`};
+ layers.forEach((button,index)=>{button.addEventListener('click',()=>select(button,index));button.addEventListener('mouseenter',()=>select(button,index))});
+})();
+</script><script src="../_shared/proto.js" defer></script><script src="../_shared/preview-shell.js" defer></script>
+</body></html>

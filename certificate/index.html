@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подарочный сертификат в Яндекс Лавку — варианты макета</title>
+<style>
+/* ---------- Шрифты (те же, что на лендинге) ---------- */
+@font-face{font-family:'YS Geo';src:url("../site/fonts/YS Geo-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../site/fonts/YS Geo-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../site/fonts/YS Geo-Bold.ttf") format("truetype");font-weight:700;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../site/fonts/YS Geo-Heavy.ttf") format("truetype");font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../site/fonts/YS Geo-Black.ttf") format("truetype");font-weight:900;font-display:swap}
+@font-face{font-family:'YS Text';src:url("../site/fonts/YS Text-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:'YS Text';src:url("../site/fonts/YS Text-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url("../site/fonts/YS Text Cond-Light.ttf") format("truetype");font-weight:300;font-display:swap}
+
+:root{
+  --navy:#1B3A6A; --navy-lift:#24497F; --navy-deep:#12264A;
+  --blue:#00ADFF; --mid:#3E88C5; --sky:#AAD9FC; --sky-soft:#8FC7F2;
+  --light:#F2F7FC; --card:#EAF3FC; --page:#E9EFF6;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'YS Text',system-ui,sans-serif;background:var(--page);color:var(--navy);padding:56px 24px 120px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-family:'YS Geo';font-weight:900;font-size:44px;letter-spacing:-.01em;line-height:.95}
+.lead{margin-top:14px;font-size:16px;line-height:1.5;color:#41598a;max-width:680px}
+h2.sec{font-family:'YS Geo';font-weight:800;font-size:26px;margin:72px 0 28px;letter-spacing:-.005em}
+
+/* ---------- Панель управления ---------- */
+.panel{position:sticky;top:0;z-index:20;margin-top:28px;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1.5px solid rgba(27,58,106,.12);border-radius:20px;padding:16px 22px}
+.panel .grp{display:flex;align-items:center;gap:10px}
+.panel .cap{font-size:13px;font-weight:500;color:#41598a}
+.panel button.nom{border:0;border-radius:999px;background:var(--card);color:var(--navy);font:500 14px 'YS Text',sans-serif;padding:9px 16px;cursor:pointer;transition:.18s}
+.panel button.nom:hover{background:var(--sky)}
+.panel button.nom.on{background:var(--navy);color:#fff}
+.panel input{border:1.5px solid rgba(27,58,106,.18);border-radius:999px;background:#fff;padding:9px 16px;font:500 14px 'YS Text',sans-serif;width:200px;letter-spacing:.04em;text-transform:uppercase}
+.panel input:focus{outline:none;border-color:var(--blue)}
+.panel .prt{margin-left:auto;border:0;border-radius:999px;background:var(--navy);color:#fff;font:500 14px 'YS Text',sans-serif;padding:11px 22px;cursor:pointer}
+.panel .prt:hover{background:#24497F}
+
+/* ---------- Сетка галереи ---------- */
+.grid{display:flex;flex-wrap:wrap;gap:64px 48px}
+.item{max-width:100%}
+.cap-txt{margin-top:18px;font-size:14px;line-height:1.5;color:#41598a;max-width:840px}
+.cap-txt b{font-family:'YS Geo';font-weight:800;color:var(--navy);display:block;margin-bottom:4px;font-size:16px}
+.notes{margin-top:80px;padding-top:28px;border-top:1.5px solid rgba(27,58,106,.15);font-size:14px;line-height:1.6;color:#41598a;max-width:760px}
+.notes li{margin:8px 0 8px 20px}
+.notes b{color:var(--navy)}
+
+/* ============================================================
+   СЕРТИФИКАТ — общее
+   Горизонталь: 210×148 мм (A5) → 840×592 px   (4 px/мм)
+   Вертикаль:   148×210 мм (A5) → 592×840 px
+   ============================================================ */
+.cert{position:relative;overflow:hidden;border-radius:28px;color:#fff;font-family:'YS Geo';box-shadow:0 26px 60px rgba(27,58,106,.26)}
+.cert--h{width:840px;height:592px}
+.cert--v{width:592px;height:840px}
+.in{position:absolute;inset:0;display:flex;flex-direction:column;padding:52px}
+
+/* фон: тёмно-синий + градиентные «пятна» (тот же приём, что в hero) */
+.bg-dark{
+  background:
+    radial-gradient(74% 66% at 10% 4%,   rgba(0,173,255,.42) 0%, rgba(0,173,255,0) 62%),
+    radial-gradient(66% 72% at 92% 96%,  rgba(53,87,204,.42) 0%, rgba(53,87,204,0) 64%),
+    radial-gradient(52% 60% at 78% 10%,  rgba(143,199,242,.24) 0%, rgba(143,199,242,0) 66%),
+    linear-gradient(158deg,#24497F 0%,#1B3A6A 46%,#12264A 100%);
+}
+.bg-light{
+  background:
+    radial-gradient(70% 78% at 6% 6%,    rgba(0,173,255,.30) 0%, rgba(0,173,255,0) 60%),
+    radial-gradient(64% 72% at 96% 92%,  rgba(170,217,252,.75) 0%, rgba(170,217,252,0) 62%),
+    radial-gradient(46% 54% at 76% 12%,  rgba(62,136,197,.16) 0%, rgba(62,136,197,0) 64%),
+    linear-gradient(150deg,#FFFFFF 0%,#F2F7FC 58%,#E4EEF9 100%);
+  color:var(--navy);
+}
+
+/* лого-локап (та же геометрия, что в шапке сайта) */
+.lg{--s:.62;position:relative;display:block;flex:none;width:calc(275px * var(--s));height:calc(39.9px * var(--s))}
+.lg img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0;display:block}
+.lg .w{width:275px;height:39.86px;transform:scale(var(--s))}
+.lg .m{width:39.62px;height:39.62px;transform:translateX(calc(126.5px * var(--s))) scale(var(--s))}
+
+/* типографика карточки */
+.eyebrow{font-family:'YS Text';font-weight:500;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--sky-soft)}
+.bg-light .eyebrow{color:var(--mid)}
+.ttl{font-weight:900;line-height:.9;letter-spacing:-.015em}
+.amt{font-weight:900;line-height:.82;letter-spacing:-.025em;white-space:nowrap}
+.amt .cur{color:var(--blue)}
+.lbl{font-family:'YS Text';font-weight:500;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--sky-soft)}
+.bg-light .lbl{color:var(--mid)}
+.code{font-weight:800;letter-spacing:.07em;white-space:nowrap}
+.lgl{font-family:'YS Text Cond';font-weight:300;font-size:13.5px;line-height:1.25;letter-spacing:-.01em;color:rgba(255,255,255,.62)}
+.bg-light .lgl{color:rgba(27,58,106,.55)}
+.how{font-family:'YS Text';font-weight:400;font-size:14.5px;line-height:1.4;color:rgba(255,255,255,.78);max-width:330px}
+.bg-light .how{color:rgba(27,58,106,.72)}
+
+/* плашка промокода */
+.promo{display:flex;align-items:center;justify-content:space-between;gap:24px;border-radius:22px;padding:22px 28px}
+.promo--ghost{background:rgba(255,255,255,.10);box-shadow:inset 0 0 0 1.5px rgba(170,217,252,.45)}
+.promo--dash{background:rgba(255,255,255,.06);border:2px dashed rgba(170,217,252,.55)}
+.promo--white{background:#fff;color:var(--navy)}
+.promo--sky{background:var(--sky);color:var(--navy)}
+.promo--white .lbl,.promo--sky .lbl{color:var(--mid)}
+
+/* ============================================================
+   1 · АФИША — горизонталь
+   ============================================================ */
+.c1 .head{display:flex;align-items:center;justify-content:space-between}
+.c1 .body{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:36px}
+.c1 .ttl{font-size:50px;white-space:nowrap}
+.c1 .how{margin-top:22px}
+.c1 .num{flex:none;text-align:right}
+.c1 .amt{font-size:82px;margin-top:12px}
+.c1 .promo{margin-top:auto}
+.c1 .code{font-size:30px}
+
+/* ============================================================
+   2 · БИЛЕТ — горизонталь с отрывным корешком
+   ============================================================ */
+.c2 .in{padding:0;flex-direction:row}
+.c2 .main{flex:1;display:flex;flex-direction:column;padding:52px 46px 52px 52px}
+.c2 .ttl{font-size:56px;margin-top:42px}
+.c2 .how{margin-top:20px;max-width:340px}
+.c2 .foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
+.c2 .amt{font-size:92px}
+.c2 .lgl{max-width:190px;text-align:right}
+.c2 .stub{width:228px;flex:none;background:var(--sky);color:var(--navy);border-left:2.5px dashed rgba(27,58,106,.45);
+  display:flex;flex-direction:column;align-items:center;text-align:center;padding:44px 24px 40px}
+.c2 .stub .vert{margin:auto 0;writing-mode:vertical-rl;transform:rotate(180deg);font-family:'YS Text';font-weight:500;
+  font-size:12.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(27,58,106,.6)}
+.c2 .stub .lbl{color:var(--mid)}
+.c2 .stub .code{font-size:19px;letter-spacing:.03em;margin-top:10px;white-space:nowrap}
+.c2 .stub .sum{font-weight:900;font-size:32px;letter-spacing:-.02em;margin-top:22px;padding-top:20px;border-top:1.5px solid rgba(27,58,106,.25);width:100%}
+
+/* ============================================================
+   3 · СВЕТЛЫЙ — горизонталь, номинал в круге
+   ============================================================ */
+.c3 .head{display:flex;align-items:center;justify-content:space-between}
+.c3 .chip{display:inline-flex;align-items:center;border-radius:999px;background:var(--sky);color:var(--navy);
+  font-family:'YS Text';font-weight:500;font-size:13.5px;letter-spacing:.02em;padding:11px 20px}
+.c3 .body{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding-bottom:38px}
+.c3 .ttl{font-size:56px;color:var(--navy)}
+.c3 .how{margin-top:20px;max-width:320px}
+.c3 .disc{flex:none;width:238px;height:238px;border-radius:50%;background:var(--blue);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 18px 44px rgba(0,173,255,.38)}
+.c3 .disc .lbl{color:rgba(255,255,255,.8)}
+.c3 .disc .amt{font-size:52px;margin-top:10px}
+.c3 .disc .amt .cur{color:#fff}
+.c3 .promo{margin-top:auto;background:#fff;color:var(--navy);box-shadow:0 10px 30px rgba(27,58,106,.10)}
+.c3 .promo .lbl{color:var(--mid)}
+.c3 .code{font-size:30px;color:var(--navy)}
+
+/* ============================================================
+   4 · МЕГА-НОМИНАЛ — горизонталь
+   ============================================================ */
+.c4 .head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.c4 .pill{display:inline-flex;align-items:center;border-radius:999px;box-shadow:inset 0 0 0 1.5px rgba(170,217,252,.55);
+  font-weight:500;font-size:18px;padding:13px 24px;color:#fff;white-space:nowrap}
+.c4 .mid{margin:auto 0;text-align:center}
+.c4 .amt{font-size:168px}
+.c4 .rule{height:1.5px;background:rgba(170,217,252,.3);margin:0 0 30px}
+.c4 .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+.c4 .code{font-size:32px;margin-top:10px}
+.c4 .lgl{max-width:260px;text-align:right}
+
+/* ============================================================
+   5 · ОТКРЫТКА — вертикаль
+   ============================================================ */
+.c5 .in{align-items:center;text-align:center;padding:56px 46px 46px}
+.c5 .eyebrow{margin-top:22px}
+.c5 .ttl{font-size:52px;margin-top:auto}
+.c5 .amt{font-size:112px;margin-top:34px}
+.c5 .how{margin-top:26px;max-width:340px;margin-bottom:auto}
+.c5 .promo{width:100%;flex-direction:column;gap:8px;padding:24px 20px;text-align:center}
+.c5 .code{font-size:30px}
+.c5 .lgl{margin-top:18px;text-align:center}
+
+/* ============================================================
+   6 · ПОЛОСА — вертикаль, светлая
+   ============================================================ */
+.c6 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--navy);color:#fff;
+  border-radius:999px;padding:13px 24px 13px 22px}
+.c6 .bar .eyebrow{color:var(--sky)}
+.c6 .ttl{font-size:52px;color:var(--navy);margin-top:52px}
+.c6 .how{margin-top:22px}
+.c6 .num{margin-top:auto;padding-top:30px;padding-bottom:36px;border-top:1.5px solid rgba(27,58,106,.16)}
+.c6 .amt{font-size:112px}
+.c6 .promo{flex-direction:column;align-items:flex-start;gap:10px;padding:26px 28px}
+.c6 .code{font-size:32px}
+.c6 .lgl{margin-top:18px}
+
+/* ============================================================
+   Печать: 1 сертификат на страницу, в реальном размере
+   ============================================================ */
+@media print{
+  @page{size:210mm 148mm;margin:0}
+  @page vert{size:148mm 210mm;margin:0}
+  body{background:#fff;padding:0}
+  .chrome{display:none!important}
+  .grid{display:block;gap:0}
+  .item{max-width:none}
+  .cert{border-radius:0;box-shadow:none;transform:scale(.944882);transform-origin:top left;
+    break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cert--v{page:vert}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="chrome">
+  <h1>Подарочный сертификат<br>в Яндекс Лавку</h1>
+  <p class="lead">Шесть вариантов макета в стиле лендинга франшизы: фирменная палитра, YS&nbsp;Geo, тёмно-синий фон с градиентными «пятнами» из hero. Четыре горизонтальных (210×148&nbsp;мм) и два вертикальных (148×210&nbsp;мм). Обязательный минимум на каждом: логотип, лайн «Сертификат в Яндекс Лавку», номинал, место под промокод.</p>
+
+  <div class="panel">
+    <div class="grp"><span class="cap">Номинал</span>
+      <button class="nom" data-val="1000">1 000&nbsp;₽</button>
+      <button class="nom" data-val="3000">3 000&nbsp;₽</button>
+      <button class="nom on" data-val="5000">5 000&nbsp;₽</button>
+      <button class="nom" data-val="10000">10 000&nbsp;₽</button>
+    </div>
+    <div class="grp"><span class="cap">Промокод</span>
+      <input id="codeInput" value="LVK-8F42-QM19" spellcheck="false">
+    </div>
+    <button class="prt" onclick="window.print()">Печать / PDF</button>
+  </div>
+</header>
+
+<h2 class="sec chrome">Горизонтальные · 210×148 мм</h2>
+<div class="grid">
+
+  <!-- ============ 1 · АФИША ============ -->
+  <div class="item">
+    <article class="cert cert--h bg-dark c1">
+      <div class="in">
+        <div class="head">
+          <span class="lg"><img class="w" src="assets/logo-word.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <span class="eyebrow">Подарочный сертификат</span>
+        </div>
+        <div class="body">
+          <div>
+            <h3 class="ttl">Сертификат<br>в Яндекс Лавку</h3>
+            <p class="how">Активируйте промокод в приложении Яндекс&nbsp;Лавка — в разделе «Промокоды», и сумма ляжет на счёт заказов.</p>
+          </div>
+          <div class="num">
+            <span class="lbl">Номинал</span>
+            <div class="amt" data-amount>5 000 <span class="cur">₽</span></div>
+          </div>
+        </div>
+        <div class="promo promo--ghost">
+          <div>
+            <span class="lbl">Промокод</span>
+            <div class="code" data-code>LVK-8F42-QM19</div>
+          </div>
+          <p class="lgl">Действует до 31.12.2026<br>Не подлежит обмену на деньги</p>
+        </div>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>1 · Афиша</b>Базовый вариант: композиция и ритм hero-блока лендинга. Лайн слева, номинал справа, промокод — плашкой во всю ширину.</p>
+  </div>
+
+  <!-- ============ 2 · БИЛЕТ ============ -->
+  <div class="item">
+    <article class="cert cert--h bg-dark c2">
+      <div class="in">
+        <div class="main">
+          <span class="lg"><img class="w" src="assets/logo-word.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <h3 class="ttl">Сертификат<br>в Яндекс Лавку</h3>
+          <p class="how">Подарок на продукты, готовую еду и всё, что привозит Лавка за 15 минут.</p>
+          <div class="foot">
+            <div>
+              <span class="lbl">Номинал</span>
+              <div class="amt" data-amount style="margin-top:10px">5 000 <span class="cur">₽</span></div>
+            </div>
+            <p class="lgl">Действует до 31.12.2026. Не подлежит обмену на деньги</p>
+          </div>
+        </div>
+        <div class="stub">
+          <span class="lg" style="--s:.42"><img class="w" src="assets/logo-word-navy.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <div class="vert">Подарочный сертификат</div>
+          <div>
+            <span class="lbl">Промокод</span>
+            <div class="code" data-code>LVK-8F42-QM19</div>
+            <div class="sum" data-amount>5 000 <span class="cur" style="color:inherit">₽</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>2 · Билет</b>Отрывной корешок с промокодом: гостю — сертификат, организатору — корешок (или наоборот). Перфорация — линия реза для типографии.</p>
+  </div>
+
+  <!-- ============ 3 · СВЕТЛЫЙ ============ -->
+  <div class="item">
+    <article class="cert cert--h bg-light c3">
+      <div class="in">
+        <div class="head">
+          <span class="lg"><img class="w" src="assets/logo-word-navy.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <span class="chip">Подарочный сертификат</span>
+        </div>
+        <div class="body">
+          <div>
+            <h3 class="ttl">Сертификат<br>в Яндекс Лавку</h3>
+            <p class="how">Активируйте промокод в приложении Яндекс&nbsp;Лавка — в разделе «Промокоды».</p>
+          </div>
+          <div class="disc">
+            <span class="lbl">Номинал</span>
+            <div class="amt" data-amount>5 000 <span class="cur">₽</span></div>
+          </div>
+        </div>
+        <div class="promo">
+          <div>
+            <span class="lbl">Промокод</span>
+            <div class="code" data-code>LVK-8F42-QM19</div>
+          </div>
+          <p class="lgl">Действует до 31.12.2026<br>Не подлежит обмену на деньги</p>
+        </div>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>3 · Светлый</b>Тот&nbsp;же фон-градиент с «пятнами», но по светлому. Дешевле в печати, легче читается, номинал — синим кругом-стикером.</p>
+  </div>
+
+  <!-- ============ 4 · МЕГА-НОМИНАЛ ============ -->
+  <div class="item">
+    <article class="cert cert--h bg-dark c4">
+      <div class="in">
+        <div class="head">
+          <span class="lg"><img class="w" src="assets/logo-word.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <span class="pill">Сертификат в Яндекс Лавку</span>
+        </div>
+        <div class="mid">
+          <span class="lbl">Номинал сертификата</span>
+          <div class="amt" data-amount style="margin-top:18px">5 000 <span class="cur">₽</span></div>
+        </div>
+        <div class="rule"></div>
+        <div class="foot">
+          <div>
+            <span class="lbl">Промокод</span>
+            <div class="code" data-code>LVK-8F42-QM19</div>
+          </div>
+          <p class="lgl">Активация в приложении Яндекс Лавка, раздел «Промокоды». Действует до 31.12.2026</p>
+        </div>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>4 · Мега-номинал</b>Приём блока «цифры»: номинал во всю карточку. Обязательный лайн уходит в пилюлю справа сверху, вся остальная служебка — мелко внизу.</p>
+  </div>
+</div>
+
+<h2 class="sec chrome">Вертикальные · 148×210 мм</h2>
+<div class="grid">
+
+  <!-- ============ 5 · ОТКРЫТКА ============ -->
+  <div class="item">
+    <article class="cert cert--v bg-dark c5">
+      <div class="in">
+        <span class="lg"><img class="w" src="assets/logo-word.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+        <span class="eyebrow">Подарочный сертификат</span>
+        <h3 class="ttl">Сертификат<br>в Яндекс Лавку</h3>
+        <div class="amt" data-amount>5 000 <span class="cur">₽</span></div>
+        <p class="how">Активируйте промокод в приложении Яндекс&nbsp;Лавка — в разделе «Промокоды», и сумма ляжет на счёт заказов.</p>
+        <div class="promo promo--white">
+          <span class="lbl">Промокод</span>
+          <div class="code" data-code>LVK-8F42-QM19</div>
+        </div>
+        <p class="lgl">Действует до 31.12.2026 · Не подлежит обмену на деньги</p>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>5 · Открытка</b>Вертикаль по центральной оси — вкладывается в конверт, хорошо смотрится в руке. Промокод — белой плашкой, максимальный контраст.</p>
+  </div>
+
+  <!-- ============ 6 · ПОЛОСА ============ -->
+  <div class="item">
+    <article class="cert cert--v bg-light c6">
+      <div class="in">
+        <div class="bar">
+          <span class="lg" style="--s:.55"><img class="w" src="assets/logo-word.svg" alt="Яндекс Лавка"><img class="m" src="assets/logo-mark.svg" alt=""></span>
+          <span class="eyebrow">Подарочный сертификат</span>
+        </div>
+        <h3 class="ttl">Сертификат<br>в Яндекс Лавку</h3>
+        <p class="how">Активируйте промокод в приложении Яндекс&nbsp;Лавка — в разделе «Промокоды».</p>
+        <div class="num">
+          <span class="lbl">Номинал</span>
+          <div class="amt" data-amount style="margin-top:14px">5 000 <span class="cur">₽</span></div>
+        </div>
+        <div class="promo promo--sky">
+          <span class="lbl">Промокод</span>
+          <div class="code" data-code>LVK-8F42-QM19</div>
+        </div>
+        <p class="lgl">Действует до 31.12.2026 · Не подлежит обмену на деньги</p>
+      </div>
+    </article>
+    <p class="cap-txt chrome"><b>6 · Полоса</b>Светлая вертикаль с «шапкой сайта» — пилюлей-навбаром сверху. Номинал крупно, промокод — на фирменной голубой плашке.</p>
+  </div>
+</div>
+
+<ul class="notes chrome">
+  <li><b>Формат.</b> 210×148 и 148×210&nbsp;мм (A5), вёрстка 4&nbsp;px = 1&nbsp;мм. Под конверт-евро (210×99) или A6 (148×105) перевёрстываю за одну итерацию — скажи, какой берём.</li>
+  <li><b>Под печать.</b> В типографию нужны вылеты 3&nbsp;мм со всех сторон и обрезка углов по прямой (скругление 7&nbsp;мм здесь — экранное). Это добавим уже в Figma.</li>
+  <li><b>Плейсхолдеры.</b> Промокод «LVK-8F42-QM19», срок «31.12.2026» и формулировка про раздел «Промокоды» — рыба, нужны реальные от Артёма: механика активации, срок и юридическая строка.</li>
+  <li><b>Логотип.</b> Ставлю чистый «Яндекс Лавка» без бейджа «Франшиза» — сертификат тратится в Лавке, а не в франшизе. Если нужен бейдж мероприятия — добавлю.</li>
+  <li><b>Номинал и промокод</b> в панели сверху меняются на всех макетах сразу — удобно показывать.</li>
+</ul>
+
+</div>
+
+<script>
+(() => {
+  const BASE = new WeakMap();
+  const fmt = v => v.toLocaleString('ru-RU').replace(/\s/g, ' ') + ' ';
+  const setAmount = v => document.querySelectorAll('[data-amount]').forEach(el => {
+    if (!BASE.has(el)) BASE.set(el, parseFloat(getComputedStyle(el).fontSize));
+    const cur = el.querySelector('.cur');
+    const txt = fmt(v);
+    el.textContent = txt;
+    if (cur) el.appendChild(cur);
+    /* «10 000 ₽» длиннее «5 000 ₽» — ужимаем кегль, чтобы ширина блока не поехала */
+    const len = txt.length + 1;
+    el.style.fontSize = (BASE.get(el) * 7 / Math.max(7, len)) + 'px';
+  });
+  document.querySelectorAll('.nom').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.nom').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    setAmount(+b.dataset.val);
+  }));
+  const input = document.getElementById('codeInput');
+  input.addEventListener('input', () => {
+    const v = input.value.toUpperCase() || ' ';
+    document.querySelectorAll('[data-code]').forEach(el => el.textContent = v);
+  });
+})();
+</script>
+</body>
+</html>

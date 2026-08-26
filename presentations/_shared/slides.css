@@ -1,0 +1,121 @@
+/* ============================================================
+   Презентации мероприятия · база слайдов
+   Каркас 1920×1080 + типоклассы + компоненты из финального сайта.
+   Подключать после tokens.css.
+   ============================================================ */
+
+@font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Heavy.ttf') format('truetype');font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('./fonts/YS Geo-Black.ttf') format('truetype');font-weight:900;font-display:swap}
+@font-face{font-family:'YS Text';src:url('./fonts/YS Text-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'YS Text';src:url('./fonts/YS Text-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url('./fonts/YS Text Cond-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#dfe7f0;font-family:var(--font-geo);color:var(--text);-webkit-font-smoothing:antialiased}
+p,h1,h2,h3,h4,ul,ol,dl,dd,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Каркас деки: слайды в колонку, масштаб под окно ---------- */
+.deck{display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 0}
+.slide-frame{width:min(var(--slide-w), 100vw - 48px);aspect-ratio:16/9;position:relative;box-shadow:0 24px 80px rgba(14,34,65,.18);border-radius:8px;overflow:hidden}
+.slide{position:absolute;left:0;top:0;width:var(--slide-w);height:var(--slide-h);transform:scale(var(--deck-scale,1));transform-origin:0 0;overflow:hidden;background:var(--bg);color:var(--text);padding:var(--pad);display:flex;flex-direction:column}
+
+/* Варианты фона */
+.slide--dark{background:var(--navy);color:#fff}
+.slide--light{background:var(--light)}
+
+/* ---------- Фирменное свечение тёмных слайдов ----------
+   Эллипс #00ADFF с мягким затуханием — приём хиро и блока цифр лендинга.
+   Свечение рисуем ИНЛАЙНОВЫМ <svg> с радиальным градиентом (разметка:
+   <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none">
+   <ellipse cx="500" cy="700" rx="500" ry="700"/></svg>, градиент #lavka-glow
+   объявлен один раз в начале страницы).
+   Ни CSS-градиент, ни SVG в background-image не подходят: Chrome растеризует
+   такой большой повёрнутый слой и на тёмном фоне проступает жёсткая диагональ
+   (замерено по пикселям PDF: скачок alpha 0.35→0.55 на трёх пикселях).
+   Инлайновый SVG уходит в PDF векторной заливкой и остаётся гладким.
+   Наклон -32.9° — как в исходном макете. */
+.glow{position:absolute;pointer-events:none;user-select:none;overflow:visible;transform:rotate(-32.9deg)}
+.glow ellipse{fill:url(#lavka-glow)}
+.glow--soft{opacity:.6}
+.glow--a{width:1560px;height:2195px;left:-620px;top:-660px}
+.glow--b{width:1180px;height:1660px;left:1180px;top:-720px}
+.glow--c{width:1400px;height:1970px;left:1080px;top:180px}
+
+/* Контентные слои поверх свечения */
+.slide>*{position:relative;z-index:1}
+.slide .glow{position:absolute;z-index:0}
+
+/* ---------- Типографика ---------- */
+.t-mega{font-size:var(--fs-mega);font-weight:900;line-height:.9;letter-spacing:var(--ls-num)}
+.t-hero{font-size:var(--fs-hero);font-weight:900;line-height:.92;letter-spacing:var(--ls-tight)}
+.t-h1{font-size:var(--fs-h1);font-weight:900;line-height:.92;letter-spacing:var(--ls-tight)}
+.t-h2{font-size:var(--fs-h2);font-weight:800;line-height:.95;letter-spacing:var(--ls-tight)}
+.t-h3{font-size:var(--fs-h3);font-weight:800;line-height:1;letter-spacing:-.005em}
+.t-h4{font-size:var(--fs-h4);font-weight:800;line-height:1.05}
+.t-sub{font-size:var(--fs-sub);font-weight:500;line-height:1.15}
+.t-body{font-size:var(--fs-body);font-weight:400;line-height:1.3}
+.t-small{font-size:var(--fs-small);font-weight:500;line-height:1.25}
+.t-caps{font-size:var(--fs-small);font-weight:500;line-height:1;letter-spacing:var(--ls-caps);text-transform:uppercase}
+.t-legal{font-family:var(--font-cond);font-weight:300;font-size:var(--fs-legal);line-height:1.35;letter-spacing:-.02em;opacity:.7}
+
+/* Вторичный текст */
+.dim{color:var(--dim)}
+.slide--dark .dim{color:var(--dim-dark)}
+.accent{color:var(--blue)}
+
+/* ---------- Логотип-локап (та же сборка из трёх SVG, что на сайте) ----------
+   Ассеты белые с голубым — только для тёмных слайдов. */
+.lg{position:relative;display:block;flex:none;width:calc(415.5px * var(--lg,1));height:calc(39.9px * var(--lg,1))}
+.lg img{position:absolute;left:0;top:0;max-width:none;transform-origin:0 0}
+.lg__main{width:275px;height:39.86px;transform:scale(var(--lg,1))}
+.lg__mark{width:39.62px;height:39.62px;transform:translateX(calc(126.5px * var(--lg,1))) scale(var(--lg,1))}
+.lg__badge{width:129.4px;height:29.35px;transform:translate(calc(286.1px * var(--lg,1)),calc(8.2px * var(--lg,1))) scale(var(--lg,1))}
+.lg--short{width:calc(275px * var(--lg,1))}
+.lg--short .lg__badge{display:none}
+
+/* ---------- Компоненты ---------- */
+
+/* Пилюля-кнопка (CTA финального сайта) */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:72px;padding:20px 44px;border-radius:var(--r-pill);font-size:var(--fs-sub);font-weight:500;line-height:1;white-space:nowrap}
+.pill--blue{background:var(--blue);color:#fff;box-shadow:var(--shadow-cta)}
+.pill--navy{background:var(--navy);color:#fff}
+.pill--white{background:#fff;color:var(--navy);box-shadow:var(--shadow-card)}
+.pill--outline{border:2px solid rgba(255,255,255,.75);color:#fff}
+
+/* Чип (метки форматов) */
+.chip{display:inline-flex;align-items:center;align-self:flex-start;padding:10px 24px;border-radius:var(--r-pill);background:var(--card);font-size:var(--fs-small);font-weight:500;color:var(--dim-sky);white-space:nowrap}
+.chip--navy{background:var(--navy);color:#fff}
+.chip--sky{background:var(--sky);color:var(--navy)}
+.chip--live{background:var(--sky);color:var(--navy)}
+.chip--live::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--orange);margin-right:10px}
+
+/* Карточка на светлом слайде */
+.card{border-radius:var(--r-card);background:var(--card);padding:var(--s-5)}
+.card--white{background:#fff;box-shadow:var(--shadow-card)}
+
+/* Navy-карточка со свечением (блок цифр финального сайта) */
+.card--stat{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--r-card);background:var(--navy);color:#fff;text-align:center;padding:var(--s-6) var(--s-5) var(--s-5);display:flex;flex-direction:column;align-items:center;gap:var(--s-3)}
+.card--stat::before{content:'';position:absolute;z-index:-1;left:-5%;top:-58%;width:110%;height:80%;border-radius:50%;background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.8) 0%,rgba(0,173,255,.45) 45%,rgba(0,173,255,.12) 75%,transparent 100%)}
+.card--stat .stat-num{font-size:var(--fs-mega);font-weight:900;line-height:.9;letter-spacing:var(--ls-num)}
+.card--stat .stat-note{margin-top:auto;font-size:var(--fs-small);font-weight:400;line-height:1.35;color:var(--card-note)}
+
+/* Стат-строка без карточки: голубая цифра + подпись (счётчик шагов сайта) */
+.stat-inline{display:flex;align-items:baseline;gap:18px}
+.stat-inline b{font-size:var(--fs-h3);line-height:.8;color:var(--blue);font-weight:900;letter-spacing:var(--ls-tight)}
+
+/* Линии-разделители (media grid, аккордеон) */
+.rule{border:0;border-top:1px solid var(--sky);margin:0}
+.slide--dark .rule{border-top-color:rgba(170,217,252,.22)}
+
+/* Колонтитул слайда: капс-лейбл слева, номер справа */
+.slide-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;color:var(--dim);font-size:var(--fs-small);font-weight:500}
+.slide--dark .slide-foot{color:var(--dim-dark)}
+
+/* Сетки карточек */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}

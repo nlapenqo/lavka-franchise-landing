@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>gen</title></head>
+<body>
+<!--
+  Служебная страница: снимает готовую вёрстку speakers-agenda.html на ширине 1440
+  и выдаёт SVG для переноса в Figma (нативные слои: прямоугольники, линии, текст).
+  Открыть через http://127.0.0.1:<port>/partner-day/gen-figma-svg.html,
+  забрать содержимое <pre id="out">.
+-->
+<iframe id="f" src="speakers-agenda.html" style="width:1440px;height:2600px;border:0"></iframe>
+<pre id="out"></pre>
+<script>
+const frame = document.getElementById('f');
+
+frame.addEventListener('load', async () => {
+  const doc = frame.contentDocument, win = frame.contentWindow;
+  await doc.fonts.ready;
+
+  // Снимаем reveal-анимацию: элементы должны стоять на финальных местах
+  doc.querySelectorAll('.pd-rv').forEach(el => {
+    el.style.transition = 'none';
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+  });
+  await new Promise(r => setTimeout(r, 400));
+
+  const W = 1440, H = Math.ceil(doc.body.scrollHeight);
+  const page = doc.querySelector('.pd-page');
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const n = v => (Math.round(v * 10) / 10);
+
+  const bg = [];    // фоны, обводки, линии
+  const shapes = []; // фото-плейсхолдеры
+  const text = [];   // текстовые слои
+
+  // rgba(...) → {c:"#rrggbb"-совместимый rgb(), a:alpha}
+  function color(str){
+    const m = str.match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    const p = m[1].split(',').map(x => parseFloat(x));
+    const a = p.length > 3 ? p[3] : 1;
+    if (a === 0) return null;
+    return { c:`rgb(${p[0]}, ${p[1]}, ${p[2]})`, a };
+  }
+  function radius(cs, h){
+    let r = parseFloat(cs.borderTopLeftRadius) || 0;
+    if (cs.borderTopLeftRadius.includes('%')) r = h / 2;
+    return r;
+  }
+
+  // ── 1. Фоны, обводки и разделители ─────────────────────────────────
+  page.querySelectorAll('*').forEach(el => {
+    const cs = win.getComputedStyle(el);
+    if (cs.display === 'none' || el.tagName === 'IMG') return;
+    const b = el.getBoundingClientRect();
+    if (b.width < 1 || b.height < 1) return;
+
+    const fill = color(cs.backgroundColor);
+    const r = radius(cs, b.height);
+
+    if (fill) {
+      bg.push(`<rect x="${n(b.left)}" y="${n(b.top)}" width="${n(b.width)}" height="${n(b.height)}"` +
+        (r ? ` rx="${n(r)}"` : '') + ` fill="${fill.c}"` + (fill.a < 0.99 ? ` fill-opacity="${fill.a.toFixed(2)}"` : '') + `/>`);
+    }
+
+    // Полная рамка (чип табло)
+    const bw = parseFloat(cs.borderTopWidth) || 0;
+    const bwB = parseFloat(cs.borderBottomWidth) || 0;
+    const bwL = parseFloat(cs.borderLeftWidth) || 0;
+    if (bw && bwL) {
+      const st = color(cs.borderTopColor);
+      if (st) bg.push(`<rect x="${n(b.left + bw/2)}" y="${n(b.top + bw/2)}" width="${n(b.width - bw)}" height="${n(b.height - bw)}"` +
+        (r ? ` rx="${n(r)}"` : '') + ` fill="none" stroke="${st.c}"` +
+        (st.a < 0.99 ? ` stroke-opacity="${st.a.toFixed(2)}"` : '') + ` stroke-width="${n(bw)}"/>`);
+    }
+    // Только нижняя граница — разделитель строки
+    else if (bwB && !bw && !bwL) {
+      const st = color(cs.borderBottomColor);
+      if (st) bg.push(`<line x1="${n(b.left)}" y1="${n(b.bottom)}" x2="${n(b.right)}" y2="${n(b.bottom)}"` +
+        ` stroke="${st.c}"` + (st.a < 0.99 ? ` stroke-opacity="${st.a.toFixed(2)}"` : '') + ` stroke-width="${n(bwB)}"/>`);
+    }
+  });
+
+  // ── 2. Фото-плейсхолдеры ───────────────────────────────────────────
+  doc.querySelectorAll('.pd-card__photo').forEach((el, i) => {
+    const b = el.getBoundingClientRect();
+    const r = parseFloat(win.getComputedStyle(el).borderRadius) || 16;
+    const x = b.left, y = b.top, w = b.width, h = b.height;
+    shapes.push(`<clipPath id="c${i}"><rect x="${n(x)}" y="${n(y)}" width="${n(w)}" height="${n(h)}" rx="${n(r)}"/></clipPath>` +
+      `<g clip-path="url(#c${i})">` +
+      `<rect x="${n(x)}" y="${n(y)}" width="${n(w)}" height="${n(h)}" fill="url(#phg)"/>` +
+      `<ellipse cx="${n(x + w/2)}" cy="${n(y + h*0.40)}" rx="${n(w*0.175)}" ry="${n(h*0.21)}" fill="#1D3E70"/>` +
+      `<ellipse cx="${n(x + w/2)}" cy="${n(y + h*1.06)}" rx="${n(w*0.38)}" ry="${n(h*0.42)}" fill="#1D3E70"/></g>`);
+  });
+
+  // ── 3. Текст (построчно, через Range) ──────────────────────────────
+  const canvas = doc.createElement('canvas'), ctx = canvas.getContext('2d');
+  const mcache = {};
+  function metrics(fw, fs, ff){
+    const k = fw + '/' + fs + '/' + ff;
+    if (!mcache[k]){
+      ctx.font = `${fw} ${fs}px ${ff}`;
+      const m = ctx.measureText('Мg');
+      mcache[k] = { a:m.fontBoundingBoxAscent, d:m.fontBoundingBoxDescent };
+    }
+    return mcache[k];
+  }
+
+  const tw = doc.createTreeWalker(page, NodeFilter.SHOW_TEXT, {
+    acceptNode: nd => nd.data.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+  });
+  let node;
+  while (node = tw.nextNode()){
+    const el = node.parentElement;
+    const cs = win.getComputedStyle(el);
+    const fs = parseFloat(cs.fontSize), fw = cs.fontWeight;
+    const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+    const col = color(cs.color) || { c:'rgb(0,0,0)', a:1 };
+    let op = col.a, p = el;
+    while (p && p !== page.parentElement){ op *= parseFloat(win.getComputedStyle(p).opacity); p = p.parentElement; }
+    const ls = parseFloat(cs.letterSpacing);
+    const m = metrics(fw, fs, cs.fontFamily);
+    const range = doc.createRange();
+    const s = node.data;
+    let lineStart = 0, lineTop = null;
+
+    const flush = (from, to) => {
+      if (to <= from) return;
+      range.setStart(node, from); range.setEnd(node, to);
+      const b = range.getBoundingClientRect();
+      const txt = s.slice(from, to).replace(/\s+/g, ' ').trim();
+      if (!txt) return;
+      const baseline = b.top + (b.height - (m.a + m.d)) / 2 + m.a;
+      text.push(`<text x="${n(b.left)}" y="${n(baseline)}" font-family="${fam}" font-weight="${fw}"` +
+        ` font-size="${n(fs)}" fill="${col.c}"` +
+        (op < 0.99 ? ` fill-opacity="${op.toFixed(2)}"` : '') +
+        (ls ? ` letter-spacing="${n(ls)}"` : '') + `>${esc(txt)}</text>`);
+    };
+
+    for (let i = 1; i <= s.length; i++){
+      range.setStart(node, i-1); range.setEnd(node, i);
+      const rr = range.getBoundingClientRect();
+      if (rr.width === 0 && rr.height === 0) continue;
+      if (lineTop === null) lineTop = rr.top;
+      else if (rr.top - lineTop > fs * 0.6){ flush(lineStart, i-1); lineStart = i-1; lineTop = rr.top; }
+    }
+    flush(lineStart, s.length);
+  }
+
+  const svg = [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`,
+    `<defs><linearGradient id="phg" x1="1" y1="0" x2="0" y2="1">` +
+      `<stop offset="0" stop-color="#E9F6FF"/><stop offset="1" stop-color="#7FC4EF"/></linearGradient></defs>`,
+    `<rect width="${W}" height="${H}" fill="#FFFFFF"/>`,
+    ...bg, ...shapes, ...text, `</svg>`
+  ].join('\n');
+
+  document.getElementById('out').textContent = svg;
+  document.title = 'DONE';
+});
+</script>
+</body>
+</html>

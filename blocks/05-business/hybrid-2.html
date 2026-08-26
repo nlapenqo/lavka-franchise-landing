@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · Гибрид 2</title>
+  <link rel="stylesheet" href="hybrid-shared.css">
+  <style>
+    .board { display: grid; grid-template-columns: minmax(0,1fr) 430px; grid-template-rows: auto auto; gap: 42px 52px; min-height: 660px; padding: 48px; }
+    .intro { max-width: 620px; padding-top: 5px; }
+    .intro .hybrid-copy { margin: 23px 0 29px; }
+    .board-visual { grid-column: 2; grid-row: 1 / 3; min-height: 564px; }
+    .board-visual img { height: 850px; top: -96px; right: -197px; }
+    .roles { display: grid; grid-template-columns: 1fr 1fr; align-self: end; gap: 36px; padding-top: 35px; border-top: 1px solid #d5e6f4; }
+    .role .hybrid-role-title { min-height: 61px; margin-bottom: 18px; font-size: 27px; }
+    .role .hybrid-list { font-size: 16px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main class="hybrid-section">
+    <div class="container">
+      <header class="hybrid-head"><h1>Как устроен бизнес?</h1><p>Как работает сервис?</p></header>
+      <section class="board hybrid-surface">
+        <div class="intro">
+          <h2 class="hybrid-title">Яндекс Лавка. Сервис быстрой доставки продуктов</h2>
+          <p class="hybrid-copy">Клиент делает заказ. Его собирают в&nbsp;дарксторе, специализированном складе, и&nbsp;доставляют курьером от&nbsp;15&nbsp;минут. Сервис развивается по&nbsp;франшизе и&nbsp;передаёт партнёрам в&nbsp;управление города целиком.</p>
+          <a class="btn btn--blue" href="#form">Стать партнёром</a>
+        </div>
+        <div class="roles">
+          <article class="role">
+            <h3 class="hybrid-role-title">Франчайзи берёт на&nbsp;себя</h3>
+            <ul class="hybrid-list"><li>Инвестиции в запуск целого города</li><li>Поиск помещений и открытие дарксторов</li><li>Привлечение и управление курьерами, сборщиками и директорами</li><li>Качество и операционное управление бизнесом</li></ul>
+          </article>
+          <article class="role">
+            <h3 class="hybrid-role-title">Яндекс Лавка берёт на&nbsp;себя</h3>
+            <ul class="hybrid-list"><li>Приложения, WMS и автозаказ</li><li>Маркетинговую поддержку и привлечение клиентов</li><li>Поставщиков, ассортимент и логистику средней мили</li></ul>
+          </article>
+        </div>
+        <div class="hybrid-visual board-visual" aria-hidden="true"><img src="assets/figma-raw-3.png" alt=""></div>
+      </section>
+    </div>
+  </main>
+  <script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

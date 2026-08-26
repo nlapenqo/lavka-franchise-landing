@@ -1,0 +1,186 @@
+/* ============================================================
+   Компоненты слайдов сверх базовых: таймлайны, матрицы, до/после,
+   фото-слайды, списки. Подключать после slides.css.
+   Все значения — из шкалы tokens.css, новых кеглей не вводим.
+   ============================================================ */
+
+/* ---------- Шапка слайда ---------- */
+.s-head{display:flex;flex-direction:column;gap:var(--s-3)}
+.s-head .t-caps{color:var(--dim)}
+.slide--dark .s-head .t-caps{color:var(--dim-dark)}
+.s-kicker{display:flex;align-items:baseline;gap:16px}
+.s-kicker b{color:var(--blue);font-weight:800;font-size:var(--fs-small);letter-spacing:var(--ls-caps)}
+
+/* ---------- Списки ---------- */
+.list{display:flex;flex-direction:column;gap:var(--s-3)}
+.list li{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;font-size:var(--fs-body);line-height:1.3}
+.list li::before{content:'';width:12px;height:12px;margin-top:.45em;border-radius:50%;background:var(--blue)}
+.list--sky li::before{background:var(--sky)}
+.list--check li::before{content:'';width:12px;height:12px;margin-top:.45em;border-radius:50%;background:var(--blue)}
+.list--num{counter-reset:n}
+.list--num li{counter-increment:n;grid-template-columns:auto 1fr;gap:24px;align-items:baseline}
+.list--num li::before{content:counter(n,decimal-leading-zero);width:auto;height:auto;margin:0;border-radius:0;background:none;color:var(--blue);font-size:var(--fs-h4);font-weight:900;line-height:1;letter-spacing:var(--ls-num)}
+.list--lg li{font-size:var(--fs-sub);font-weight:500}
+
+/* Два списка «за / против» */
+.list--no li::before{background:var(--dim);opacity:.5}
+
+/* ---------- Горизонтальный таймлайн ---------- */
+.tl{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:var(--s-4)}
+.tl::before{content:'';position:absolute;z-index:0;left:26px;right:26px;top:26px;height:2px;background:var(--sky)}
+.slide--dark .tl::before{background:rgba(170,217,252,.3)}
+.tl__step{position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--s-3)}
+.tl__dot{width:52px;height:52px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--dim-sky);font-size:var(--fs-small);font-weight:800;letter-spacing:0}
+.slide--dark .tl__dot{background:#25457a;color:#fff}
+.tl__step--on .tl__dot{background:var(--blue);color:#fff}
+.tl__step--warn .tl__dot{background:var(--orange);color:#fff}
+.tl__name{font-size:var(--fs-h4);font-weight:800;line-height:1.05}
+.tl__step--on .tl__name{color:var(--blue)}
+.slide--dark .tl__step--on .tl__name{color:var(--sky)}
+.tl__meta{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-body);font-weight:800;line-height:1.15}
+.tl__note{font-size:var(--fs-small);font-weight:400;line-height:1.3;color:var(--dim)}
+.slide--dark .tl__note{color:var(--dim-dark)}
+
+/* Таймлайн-лента с временем (путь заказа) */
+.tl--time .tl__dot{background:#fff;color:var(--navy);box-shadow:0 6px 18px rgba(9,32,66,.2)}
+.tl--time .tl__time{font-size:var(--fs-h4);font-weight:900;line-height:1;letter-spacing:var(--ls-num);color:var(--blue)}
+
+/* Цепочка-поток: шаг → шаг (иконочная лента без времени) */
+.flow{display:flex;align-items:center;gap:var(--s-2);flex-wrap:wrap}
+.flow__node{display:flex;flex-direction:column;align-items:center;gap:14px;min-width:150px}
+.flow__badge{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--navy);font-size:var(--fs-h4);font-weight:900;letter-spacing:var(--ls-num)}
+.slide--dark .flow__badge{background:#25457a;color:#fff}
+.flow__node--on .flow__badge{background:var(--blue);color:#fff}
+.flow__label{font-size:var(--fs-body);font-weight:500;text-align:center;line-height:1.2}
+.flow__arrow{color:var(--sky);font-size:var(--fs-h4);line-height:1;flex:none}
+.slide--dark .flow__arrow{color:rgba(170,217,252,.55)}
+
+/* ---------- Формула: A + B = C ---------- */
+.formula{display:flex;align-items:center;justify-content:center;gap:var(--s-5);flex-wrap:wrap}
+.formula__op{font-size:var(--fs-h2);font-weight:800;line-height:1;color:var(--sky)}
+.formula__term{width:300px;height:300px;flex:none;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
+.formula__term--blue{background:var(--blue);color:#fff}
+.formula__term--navy{background:#16305a;color:#fff;box-shadow:inset 0 0 0 2px rgba(170,217,252,.28)}
+.formula__term b{font-size:var(--fs-h3);font-weight:900;line-height:1;letter-spacing:var(--ls-tight)}
+.formula__term span{font-size:var(--fs-body);font-weight:500;line-height:1.2;opacity:.9}
+.formula__out{width:400px;flex:none;padding:44px 36px;border-radius:var(--r-card);background:#fff;color:var(--navy);text-align:center;display:flex;flex-direction:column;gap:14px}
+.formula__out b{font-size:var(--fs-h3);font-weight:900;line-height:1;letter-spacing:var(--ls-tight)}
+.formula__out span{font-size:var(--fs-body);line-height:1.3;color:var(--dim)}
+.formula__legend{display:flex;justify-content:center;gap:var(--s-7);font-size:var(--fs-small);color:var(--dim-dark)}
+
+/* ---------- До / после ---------- */
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:var(--s-5);align-items:center}
+.ba__side{display:flex;flex-direction:column;gap:10px}
+.ba__label{font-size:var(--fs-small);font-weight:500;letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--dim)}
+.slide--dark .ba__label{color:var(--dim-dark)}
+.ba__val{font-size:var(--fs-mega);font-weight:900;line-height:.9;letter-spacing:var(--ls-num)}
+.ba__side--after .ba__label,.ba__side--after .ba__val{color:var(--blue)}
+.ba__unit{font-size:var(--fs-body);color:var(--dim)}
+.slide--dark .ba__unit{color:var(--dim-dark)}
+.ba__arrow{font-size:var(--fs-h2);color:var(--sky);line-height:1}
+
+/* Строки «показатель: было → стало» */
+.kv{display:flex;flex-direction:column}
+.kv__row{display:grid;grid-template-columns:1fr auto auto auto;gap:var(--s-4);align-items:baseline;padding:var(--s-3) 0;border-top:1px solid var(--sky)}
+.slide--dark .kv__row{border-top-color:rgba(170,217,252,.22)}
+.kv__name{font-size:var(--fs-body);font-weight:500}
+.kv__from{font-size:var(--fs-h4);font-weight:800;color:var(--dim)}
+.slide--dark .kv__from{color:var(--dim-dark)}
+.kv__arrow{color:var(--sky)}
+.kv__to{font-size:var(--fs-h4);font-weight:800;color:var(--blue);text-align:right;min-width:340px}
+
+/* ---------- Две зоны ответственности ---------- */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-5)}
+.split__col{display:flex;flex-direction:column;gap:var(--s-4)}
+.split__title{display:inline-flex;align-self:flex-start;align-items:center;padding:12px 28px;border-radius:var(--r-pill);font-size:var(--fs-small);font-weight:800;letter-spacing:var(--ls-caps);text-transform:uppercase}
+.split__title--blue{background:var(--blue);color:#fff}
+.split__title--navy{background:var(--navy);color:#fff}
+.split__title--sky{background:var(--sky);color:var(--navy)}
+
+/* ---------- Матрица зон ответственности ---------- */
+.matrix{display:grid;gap:12px;align-items:start}
+.matrix__col{display:flex;flex-direction:column;gap:10px}
+.matrix__head{padding:14px 12px;border-radius:var(--r-card-sm);background:var(--navy);color:#fff;text-align:center;font-size:var(--fs-small);font-weight:800;line-height:1.15}
+.matrix__cell{padding:14px 12px;border-radius:14px;text-align:center;font-size:var(--fs-small);font-family:var(--font-geo);font-weight:500;line-height:1.2;letter-spacing:0}
+.matrix__cell--lavka{background:var(--sky);color:var(--navy)}
+.matrix__cell--partner{background:var(--mid);color:#fff}
+.legend{display:flex;gap:var(--s-5);align-items:center;font-size:var(--fs-small);font-weight:500}
+.legend i{display:inline-block;width:20px;height:20px;border-radius:6px;margin-right:10px;vertical-align:-4px}
+.legend .is-lavka{background:var(--sky)}
+.legend .is-partner{background:var(--mid)}
+
+/* ---------- Плитки-темы (карточка с шапкой) ---------- */
+.tile{display:flex;flex-direction:column;gap:var(--s-2);padding:var(--s-4);border-radius:var(--r-card-sm);background:var(--card)}
+.tile__title{font-size:var(--fs-h4);font-weight:800;line-height:1.05;color:var(--navy)}
+.tile ul{display:flex;flex-direction:column;gap:10px}
+.tile li{position:relative;padding-left:24px;font-size:var(--fs-small);line-height:1.3;color:var(--dim-sky)}
+.tile li::before{content:'';position:absolute;left:0;top:.5em;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+/* Плитка без списка: держит собственную высоту, заголовок прижат вниз —
+   иначе одинокие подписи в сетке читаются как мелкие пилюли */
+.tile--solo{min-height:var(--solo-h,210px);justify-content:flex-end;padding:var(--s-4) var(--s-4) var(--s-5)}
+.slide--dark .tile{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(170,217,252,.18)}
+.slide--dark .tile__title{color:#fff}
+.slide--dark .tile li{color:var(--dim-dark)}
+
+/* ---------- Строка цифр без карточек ---------- */
+.figures{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:var(--s-5)}
+.figures__item{display:flex;flex-direction:column;gap:12px}
+.figures__val{font-size:var(--fs-h1);font-weight:900;line-height:.9;letter-spacing:var(--ls-num);color:var(--blue);white-space:nowrap}
+.figures__val--navy{color:var(--navy)}
+/* Четыре и более цифр в ряд: ступенью ниже, иначе длинные значения
+   вроде «+14,3 пп» не помещаются в колонку */
+.figures--sm .figures__val{font-size:var(--fs-h2)}
+.slide--dark .figures__val--navy{color:#fff}
+.figures__name{font-size:var(--fs-body);font-weight:800;line-height:1.1}
+.figures__note{font-size:var(--fs-small);font-weight:400;line-height:1.3;color:var(--dim)}
+.slide--dark .figures__note{color:var(--dim-dark)}
+
+/* ---------- Полоса-вывод внизу слайда ---------- */
+.takeaway{padding:24px 36px;border-radius:var(--r-pill);background:var(--card);color:var(--navy);font-size:var(--fs-body);font-weight:500;line-height:1.25;text-align:center}
+.takeaway--sky{background:var(--sky)}
+.takeaway--blue{background:var(--blue);color:#fff}
+.slide--dark .takeaway{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1px rgba(170,217,252,.22)}
+.takeaway b{font-weight:800}
+
+/* ---------- Фото ---------- */
+.slide--photo{padding:0}
+.photo-bleed{position:absolute;inset:0;z-index:0}
+.photo-bleed img{width:100%;height:100%;object-fit:cover}
+.photo-bleed::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,28,51,.92) 0%,rgba(13,28,51,.75) 42%,rgba(13,28,51,.15) 78%,transparent 100%)}
+.photo-copy{position:relative;z-index:1;height:100%;padding:var(--pad);display:flex;flex-direction:column;justify-content:flex-end;color:#fff}
+.photo-frame{border-radius:var(--r-card);overflow:hidden;background:var(--navy)}
+.photo-frame img{width:100%;height:100%;object-fit:cover}
+
+/* Портрет спикера */
+.speaker{display:grid;grid-template-columns:520px 1fr;gap:var(--s-7);align-items:center;flex:1}
+.speaker__photo{width:520px;height:520px;border-radius:var(--r-card);overflow:hidden;background:var(--blue)}
+.speaker__photo img{width:100%;height:100%;object-fit:cover}
+.speaker__info{display:flex;flex-direction:column;gap:var(--s-3)}
+.speaker__name{font-size:var(--fs-h1);font-weight:900;line-height:.92;letter-spacing:var(--ls-tight)}
+.speaker__role{font-size:var(--fs-sub);font-weight:500;color:var(--blue)}
+.speaker__facts{margin-top:var(--s-3);display:flex;flex-direction:column;gap:var(--s-2)}
+.speaker__facts li{display:grid;grid-template-columns:auto 1fr;gap:18px;font-size:var(--fs-body);line-height:1.3}
+.speaker__facts li::before{content:'—';color:var(--blue);font-weight:800}
+
+/* ---------- Цитата ---------- */
+.pull{display:flex;flex-direction:column;gap:var(--s-4);max-width:1500px}
+.pull__text{font-size:var(--fs-h2);font-weight:800;line-height:1.05;letter-spacing:var(--ls-tight)}
+.pull__who{display:flex;align-items:baseline;gap:20px}
+
+/* ---------- Сноска ---------- */
+.foot-note{display:flex;align-items:flex-start;gap:14px;font-size:var(--fs-small);line-height:1.3;color:var(--dim)}
+.slide--dark .foot-note{color:var(--dim-dark)}
+.foot-note i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--navy);font-style:normal;font-size:var(--fs-legal);font-weight:800}
+.slide--dark .foot-note i{background:rgba(170,217,252,.2);color:#fff}
+
+/* Утилиты раскладки */
+/* Основная сетка слайда: занимает всю свободную высоту, ряды растягиваются.
+   Ставить вместо .mt-auto там, где сетка — главное содержимое слайда,
+   иначе карточки жмутся к низу и посередине зияет пустота. */
+.fill{flex:1;min-height:0;margin-top:var(--s-6)}
+.mt-auto{margin-top:auto}
+.gap-3{gap:var(--s-3)}.gap-4{gap:var(--s-4)}.gap-5{gap:var(--s-5)}.gap-6{gap:var(--s-6)}
+.col{display:flex;flex-direction:column}
+.row{display:flex;align-items:center}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.flex-1{flex:1;min-height:0}

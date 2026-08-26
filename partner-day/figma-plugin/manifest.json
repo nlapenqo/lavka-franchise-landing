@@ -1,0 +1,9 @@
+{
+  "name": "День партнёров — блоки",
+  "id": "lavka-partner-day-blocks",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": { "allowedDomains": ["none"] }
+}

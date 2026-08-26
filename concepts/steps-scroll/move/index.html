@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ход — 8 вариантов блока</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:880px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+h2{font-size:22px;font-weight:800;margin:38px 0 6px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 32px;line-height:1.45}
+.hint{color:var(--dim);font-size:15px;margin:0 0 16px;line-height:1.5}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.45}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.6}
+.note b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Ход</h1>
+  <p class="sub">Восемь подач блока «Как стать партнёром?». Механика везде прежняя: секция пинится, скролл ведёт по пяти шагам, клик по шагу скроллит к нему, кнопка на первом шаге, в финале все пять закрываются галочками. Во всех вариантах появилось то, чего на сайте нет: движение внутри шага (не только между шагами) и ховер. Desktop 1440.</p>
+
+  <h2>v1–v3 — внутри текущей концепции</h2>
+  <p class="hint">Слева крупный активный блок, справа таймлайн; отличаются решением таймлайна и пропорцией.</p>
+  <a class="item" href="v1.html"><span class="num">v1</span><b>Шкала</b><span>ось времени вместо рейки: высота отрезка = длительность шага, по линии непрерывно едет метка «сейчас»</span></a>
+  <a class="item" href="v2.html"><span class="num">v2</span><b>Полки</b><span>рейка стала аккордеоном: активная полка раскрывается и показывает срок крупно, пройденные складываются в строку с галочкой</span></a>
+  <a class="item" href="v3.html"><span class="num">v3</span><b>Метка</b><span>крайняя перепропорция 836/300: справа список из пяти строк с ползущей меткой и крупный срок активного шага</span></a>
+
+  <h2>v4–v8 — вольная композиция</h2>
+  <p class="hint">Сохранены только обязательные вещи: пять шагов с текстами и сроками, ощущение пути, завязка на скролл, состояния и кнопка на первом шаге.</p>
+  <a class="item" href="v4.html"><span class="num">v4</span><b>Створки</b><span>горизонтальный аккордеон: активная створка разъезжается до 644px, остальные стоят корешками; в финале пять равных панелей с галочками</span></a>
+  <a class="item" href="v5.html"><span class="num">v5</span><b>Строки</b><span>заголовок в левой колонке, справа вертикальный аккордеон из пяти строк; линия пути стоит в зазоре между колонками</span></a>
+  <a class="item" href="v6.html"><span class="num">v6</span><b>Ползун</b><span>пять строк во всю ширину и одно голубое выделение, которое переезжает со строки на строку; высоты не меняются</span></a>
+  <a class="item" href="v7.html"><span class="num">v7</span><b>Чтение</b><span>все пять шагов открыты текстом, скролл ведёт по ним подсветку — активный абзац белый, пройденные с галочкой</span></a>
+  <a class="item" href="v8.html"><span class="num">v8</span><b>Спуск</b><span>ось слева, голубая плашка физически спускается от станции к станции; заливка оси идёт чуть впереди плашки</span></a>
+
+  <p class="note">
+    Тексты шагов, палитра, типографика и радиусы — из сайтовых исходников (<b>site/styles.css</b>, <b>site/app.js</b>). Прошлые серии — <b>active-chip/</b>, <b>big-card/</b>, <b>timeline/</b>, <b>route/</b>, <b>stage/</b>.<br>
+    Файлы самодостаточны: инлайн CSS/JS, шрифты YS Geo в base64, без CDN; открываются и по file://, и по http. Пересобрать все восемь — <b>node _build.mjs</b> в этой папке.
+  </p>
+</div>
+</body>
+</html>

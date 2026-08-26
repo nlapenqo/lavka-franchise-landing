@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · 4 подхода дизайн-скиллов</title>
+  <link rel="stylesheet" href="../_shared/tokens.css"><link rel="stylesheet" href="../_shared/base.css">
+  <style>
+    body { min-width: 1100px; background: #eef5fb; }
+    .review { max-width: 1440px; margin: auto; padding: 42px 42px 72px; }
+    .review-head { display: grid; grid-template-columns: 1fr 610px; align-items: end; gap: 56px; margin-bottom: 28px; }
+    .review-head h1 { max-width: 12ch; font-size: 52px; line-height: .92; font-weight: 900; letter-spacing: -.02em; }
+    .review-head p { max-width: 590px; color: var(--text-dim); font-size: 17px; line-height: 1.42; }
+    .tabs { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 14px; }
+    .tab { min-height: 106px; padding: 17px 18px; border: 0; border-radius: 18px; color: var(--navy); background: #fff; text-align: left; box-shadow: 0 5px 18px rgba(27,58,106,.055); transition: background .3s,color .3s; }
+    .tab.is-active { color: #fff; background: var(--navy); }
+    .tab small { display: block; margin-bottom: 8px; font-size: 12px; line-height: 1.1; color: inherit; opacity: .65; }
+    .tab strong { display: block; margin-bottom: 6px; font-size: 16px; line-height: 1.08; }
+    .tab span { display: block; font-size: 13px; line-height: 1.22; opacity: .75; }
+    .frame-shell { padding: 8px; border-radius: 32px; background: rgba(27,58,106,.07); box-shadow: inset 0 0 0 1px rgba(27,58,106,.05),0 24px 68px rgba(27,58,106,.12); }
+    iframe { display: block; width: 100%; height: 1060px; border: 0; border-radius: 25px; background: #fff; }
+    .review-foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 18px; color: var(--text-dim); font-size: 13px; }
+    .open { color: var(--navy); font-weight: 500; }
+  </style>
+</head>
+<body>
+  <main class="review">
+    <header class="review-head">
+      <h1>4 скилла, один спокойный блок</h1>
+      <p>Все варианты держатся рядом с исходной Figma-композицией. Скиллы меняют не стиль сайта, а способ уложить актуальный текст: через один образ, аккуратную полировку, типографику или сокращение.</p>
+    </header>
+    <nav class="tabs" aria-label="Выбор подхода">
+      <button class="tab is-active" data-src="skill-frontend.html"><small>Anthropic · Frontend Design</small><strong>Один визуальный якорь</strong><span>Курьер связывает весь блок</span></button>
+      <button class="tab" data-src="skill-taste.html"><small>Design Taste</small><strong>Полировка оригинала</strong><span>Preserve mode, без новых метафор</span></button>
+      <button class="tab" data-src="skill-type.html"><small>Web Typography</small><strong>Сначала читаемость</strong><span>Ритм, кегль и длина строки</span></button>
+      <button class="tab" data-src="skill-distill.html"><small>Impeccable · Distill</small><strong>Убрать лишнее</strong><span>Одна поверхность, без вложенных карточек</span></button>
+    </nav>
+    <div class="frame-shell"><iframe id="preview" src="skill-frontend.html?embed=1" title="Предпросмотр подхода"></iframe></div>
+    <footer class="review-foot"><span id="caption">Один выразительный приём внутри знакомой структуры</span><a class="open" id="open" href="skill-frontend.html" target="_blank">Открыть отдельно ↗</a></footer>
+  </main>
+  <script>
+    (() => {
+      const tabs = [...document.querySelectorAll('.tab')];
+      const frame = document.getElementById('preview');
+      const open = document.getElementById('open');
+      const caption = document.getElementById('caption');
+      const notes = [
+        'Один выразительный приём внутри знакомой структуры',
+        'Максимально близко к исходнику, но спокойнее и собраннее',
+        'Актуальный длинный текст становится основой композиции',
+        'Самый лаконичный вариант: смысл считывается за несколько секунд'
+      ];
+      tabs.forEach((tab, index) => tab.addEventListener('click', () => {
+        tabs.forEach(item => item.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        frame.src = tab.dataset.src + '?embed=1';
+        open.href = tab.dataset.src;
+        caption.textContent = notes[index];
+      }));
+    })();
+  </script>
+</body>
+</html>

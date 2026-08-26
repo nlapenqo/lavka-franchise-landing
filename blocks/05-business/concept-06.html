@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Как устроен бизнес? · Три слоя бизнеса</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    .layers-business {
+      min-height: 100vh;
+      background: #fff;
+    }
+
+    .layers-business .business-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 300px;
+      gap: 32px;
+      align-items: end;
+    }
+
+    .layers-business .business-head__subtitle {
+      justify-self: end;
+      margin: 0 0 7px;
+      text-align: right;
+    }
+
+    .layers-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: 72px;
+      align-items: start;
+      margin-top: 80px;
+      padding-top: 34px;
+      border-top: 1px solid var(--business-rule);
+    }
+
+    .layers-intro .intro-title {
+      max-width: 14ch;
+    }
+
+    .layers-intro .intro-copy {
+      max-width: 55ch;
+      font-size: 20px;
+      line-height: 1.42;
+    }
+
+    .layers-surface {
+      margin-top: 72px;
+      padding: 38px 40px 44px;
+      border-radius: var(--r-card);
+      background: var(--sky);
+    }
+
+    .layers-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 22px 48px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(27, 58, 106, .18);
+    }
+
+    .layers-legend .owner-key {
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .layers-legend .owner-key--partner::before {
+      background: var(--mid-blue);
+    }
+
+    .layers-legend .owner-key--yandex::before {
+      background: var(--navy);
+    }
+
+    .layers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 38px;
+    }
+
+    .business-layer {
+      min-width: 0;
+      padding: 0 36px;
+    }
+
+    .business-layer:first-child {
+      padding-left: 0;
+    }
+
+    .business-layer:last-child {
+      padding-right: 0;
+    }
+
+    .business-layer + .business-layer {
+      border-left: 1px solid rgba(27, 58, 106, .18);
+    }
+
+    .business-layer h3 {
+      min-height: 68px;
+      font-family: var(--font-geo);
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -.004em;
+      text-wrap: balance;
+    }
+
+    .layer-items {
+      display: grid;
+      gap: 0;
+      margin-top: 28px;
+    }
+
+    .layer-item {
+      padding-block: 22px 24px;
+      border-top: 1px solid rgba(27, 58, 106, .17);
+    }
+
+    .layer-item__owner {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--mid-blue);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .layer-item__owner--yandex {
+      color: var(--navy);
+    }
+
+    .layer-item p {
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.36;
+      text-wrap: pretty;
+    }
+
+    .layers-action {
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1120px) {
+      .layers-intro {
+        gap: 48px;
+      }
+
+      .layers-surface {
+        padding-inline: 32px;
+      }
+
+      .business-layer {
+        padding-inline: 26px;
+      }
+
+      .business-layer h3 {
+        font-size: 27px;
+      }
+
+      .layer-item p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="business layers-business" aria-labelledby="c06-title">
+    <div class="business__container">
+      <header class="business-head reveal">
+        <h1 id="c06-title">Как устроен бизнес?</h1>
+        <p class="business-head__subtitle">Как работает сервис?</p>
+      </header>
+
+      <section class="layers-intro reveal reveal-d1" aria-labelledby="layers-intro-title">
+        <h2 class="intro-title" id="layers-intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+        <p class="intro-copy">Клиент делает заказ, он собирается в дарксторе — специализированном складе — и доставляется курьером от 15 минут. Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+      </section>
+
+      <section class="layers-surface reveal reveal-d2" aria-label="Три слоя бизнеса и зоны ответственности">
+        <div class="layers-legend" aria-label="Владельцы зон ответственности">
+          <span class="owner-key owner-key--partner">Франчайзи берёт на себя</span>
+          <span class="owner-key owner-key--yandex">Яндекс Лавка берёт на себя</span>
+        </div>
+
+        <div class="layers-grid">
+          <article class="business-layer">
+            <h3>Инфраструктура города</h3>
+            <div class="layer-items">
+              <div class="layer-item">
+                <span class="layer-item__owner">Франчайзи</span>
+                <p>Инвестиции в запуск целого города</p>
+              </div>
+              <div class="layer-item">
+                <span class="layer-item__owner">Франчайзи</span>
+                <p>Поиск помещений и открытие дарксторов</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="business-layer">
+            <h3>Ежедневная работа</h3>
+            <div class="layer-items">
+              <div class="layer-item">
+                <span class="layer-item__owner">Франчайзи</span>
+                <p>Привлечение и управление курьерами, сборщиками и директорами</p>
+              </div>
+              <div class="layer-item">
+                <span class="layer-item__owner">Франчайзи</span>
+                <p>Качество и операционное управление бизнесом</p>
+              </div>
+              <div class="layer-item">
+                <span class="layer-item__owner layer-item__owner--yandex">Яндекс Лавка</span>
+                <p>Приложения, WMS и автозаказ</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="business-layer">
+            <h3>Спрос и снабжение</h3>
+            <div class="layer-items">
+              <div class="layer-item">
+                <span class="layer-item__owner layer-item__owner--yandex">Яндекс Лавка</span>
+                <p>Маркетинговую поддержку и привлечение клиентов</p>
+              </div>
+              <div class="layer-item">
+                <span class="layer-item__owner layer-item__owner--yandex">Яндекс Лавка</span>
+                <p>Поставщиков, ассортимент и логистику средней мили</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <div class="layers-action reveal reveal-d3">
+        <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+      </div>
+    </div>
+  </main>
+  <script src="../_shared/proto.js" defer></script>
+</body>
+</html>

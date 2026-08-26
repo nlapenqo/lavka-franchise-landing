@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Сдержанный вариант 02 · Реестр ответственности</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    .c02-business {
+      background: #fff;
+    }
+
+    .c02-top {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+      align-items: start;
+    }
+
+    .c02-head {
+      grid-column: 1 / span 7;
+    }
+
+    .c02-head h1 {
+      max-width: 650px;
+    }
+
+    .c02-intro {
+      grid-column: 8 / -1;
+      padding-top: 5px;
+    }
+
+    .c02-intro .intro-title {
+      max-width: 470px;
+    }
+
+    .c02-intro .intro-copy {
+      max-width: 470px;
+      margin-top: 24px;
+    }
+
+    .c02-intro .business-cta {
+      margin-top: 32px;
+    }
+
+    .c02-ledger {
+      margin-top: 88px;
+      overflow: hidden;
+      border-radius: var(--r-card);
+      background: var(--bg-card);
+    }
+
+    .c02-row {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 24px;
+      align-items: start;
+      padding: 54px 56px 58px;
+    }
+
+    .c02-row + .c02-row {
+      border-top: 1px solid rgba(27, 58, 106, .16);
+    }
+
+    .c02-row .role-title {
+      grid-column: 1 / span 4;
+      max-width: 290px;
+    }
+
+    .c02-row .responsibility-list {
+      grid-column: 5 / -1;
+      gap: 15px;
+      max-width: 650px;
+      padding-top: 2px;
+    }
+
+    @media (max-width: 1120px) {
+      .c02-top,
+      .c02-row {
+        column-gap: 20px;
+      }
+
+      .c02-ledger {
+        margin-top: 76px;
+      }
+
+      .c02-row {
+        padding-inline: 46px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="business c02-business" aria-labelledby="c02-title">
+      <div class="business__container">
+        <div class="c02-top">
+          <header class="business-head c02-head">
+            <h1 id="c02-title">Как устроен бизнес?</h1>
+            <p class="business-head__subtitle">Как работает сервис?</p>
+          </header>
+
+          <div class="c02-intro">
+            <h2 class="intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+            <p class="intro-copy">Клиент делает заказ, он собирается в дарксторе — специализированном складе — и доставляется курьером от 15 минут. Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+            <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+          </div>
+        </div>
+
+        <div class="c02-ledger" aria-label="Реестр ответственности">
+          <section class="c02-row" aria-labelledby="c02-partner-title">
+            <h3 class="role-title" id="c02-partner-title">Франчайзи берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Инвестиции в запуск целого города</li>
+              <li>Поиск помещений и открытие дарксторов</li>
+              <li>Привлечение и управление курьерами, сборщиками и директорами</li>
+              <li>Качество и операционное управление бизнесом</li>
+            </ul>
+          </section>
+
+          <section class="c02-row" aria-labelledby="c02-yandex-title">
+            <h3 class="role-title" id="c02-yandex-title">Яндекс Лавка берёт на себя</h3>
+            <ul class="responsibility-list">
+              <li>Приложения, WMS и автозаказ</li>
+              <li>Маркетинговую поддержку и привлечение клиентов</li>
+              <li>Поставщиков, ассортимент и логистику средней мили</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../_shared/proto.js"></script>
+</body>
+</html>

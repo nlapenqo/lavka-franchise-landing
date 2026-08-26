@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FAFCFE">
+<title>Франшиза Яндекс Лавки · Атлас — запустите дарксторы в своём городе</title>
+<meta name="description" content="Франшиза быстрой доставки продуктов: технология, снабжение и поддержка Яндекса. Инвестиции от 75 млн ₽. Ответ за 2 рабочих дня.">
+<style>
+/* ===== Шрифты ===== */
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Black.ttf") format("truetype");font-weight:900;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Heavy.ttf") format("truetype");font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url("../references/fonts/YS%20Geo-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:'YS Text';src:url("../references/fonts/YS%20Text-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:'YS Text';src:url("../references/fonts/YS%20Text-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url("../references/fonts/YS%20Text%20Cond-Light.ttf") format("truetype");font-weight:300;font-display:swap}
+
+/* ===== Токены ===== */
+:root{
+  --navy:#1B3A6A; --sky:#00ADFF; --ice:#AAD9FC; --mid:#3E88C5; --blue:#3557CC;
+  --orange:#FF6D2F; --peach:#FF9977; --pink:#FF95CC; --sand:#E2DBD1;
+  --silver:#F2F5F9; --paper:#FAFCFE; --white:#fff;
+  --ink:var(--navy);
+  --ink-60:color-mix(in srgb,#1B3A6A,transparent 42%);
+  --ink-35:color-mix(in srgb,#1B3A6A,transparent 65%);
+  --hair:color-mix(in srgb,#1B3A6A,transparent 92%);
+
+  /* Типошкала — 9 ступеней, других размеров на странице нет */
+  --t-display:clamp(2.75rem,1rem + 5.1vw,5rem);
+  --t-h1:clamp(2.125rem,1.1rem + 4.2vw,4rem);
+  --t-h2:clamp(1.5rem,1.1rem + 1.8vw,2.375rem);
+  --t-h3:clamp(1.1875rem,1.05rem + .7vw,1.5rem);
+  --t-num:clamp(4.5rem,1.6rem + 11vw,9.5rem);
+  --t-sub:clamp(1.0625rem,.98rem + .45vw,1.3125rem);
+  --t-body:1.0625rem; --t-small:.9375rem; --t-micro:.78125rem;
+
+  /* Двойной бортик: внешняя оболочка + ядро с концентрическим радиусом */
+  --r-shell:32px; --r-core:24px; --r-m:16px; --r-pill:999px; --bezel:8px;
+  /* Мягкие рассеянные тени — Soft Structuralism */
+  --sh-float:0 2px 4px color-mix(in srgb,#1B3A6A,transparent 96%),0 12px 32px color-mix(in srgb,#1B3A6A,transparent 92%),0 40px 80px color-mix(in srgb,#1B3A6A,transparent 94%);
+  --sh-lift:0 4px 8px color-mix(in srgb,#1B3A6A,transparent 93%),0 24px 56px color-mix(in srgb,#1B3A6A,transparent 86%),0 60px 120px color-mix(in srgb,#1B3A6A,transparent 90%);
+  --e-out:cubic-bezier(.32,.72,0,1);
+  --e-spring:cubic-bezier(.34,1.4,.42,1);
+  --container:1280px; --gutter:clamp(16px,3vw,40px); --header-h:76px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 24px);color-scheme:light}
+body{font-family:'YS Text',-apple-system,'Segoe UI',sans-serif;font-size:var(--t-body);line-height:1.55;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+/* Убирает 300 мс задержку тапа и синюю вспышку на мобильных */
+a,button,input,select,label,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+ul,ol{list-style:none}
+::selection{background:var(--sky);color:#fff}
+:focus-visible{outline:2.5px solid var(--sky);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:16px;top:-56px;z-index:200;background:var(--navy);color:#fff;padding:12px 22px;border-radius:var(--r-pill);transition:top .3s var(--e-out)}
+.skip:focus{top:14px}
+.container{max-width:var(--container);margin-inline:auto;padding-inline:var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Типоклассы */
+.t-display{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-display);letter-spacing:-.01em;line-height:.9}
+.t-h1{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h1);letter-spacing:-.01em;line-height:.92;text-wrap:balance}
+.t-h2{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h2);letter-spacing:-.005em;line-height:.96;text-wrap:balance}
+.t-h3{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-h3);letter-spacing:-.005em;line-height:1.12}
+.t-sub{font-size:var(--t-sub);line-height:1.45}
+.t-small{font-size:var(--t-small)}
+.t-micro{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:-.02em;opacity:.6;line-height:1.35}
+
+/* Микро-бейдж перед заголовком */
+.eyebrow{display:inline-block;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-micro);text-transform:uppercase;letter-spacing:.2em;color:var(--mid);background:color-mix(in srgb,#AAD9FC,transparent 60%);padding:7px 15px;border-radius:var(--r-pill);margin-bottom:22px}
+.eyebrow--light{color:var(--ice);background:color-mix(in srgb,#fff,transparent 88%)}
+
+/* CTA: кнопка-в-кнопке */
+.btn{display:inline-flex;align-items:center;gap:12px;white-space:nowrap;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-body);padding:14px 14px 14px 30px;border-radius:var(--r-pill);background:var(--sky);color:#fff;text-decoration:none;transition:transform .5s var(--e-out),box-shadow .5s var(--e-out),background .4s var(--e-out)}
+.btn__ic{width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,#fff,transparent 80%);display:grid;place-items:center;flex-shrink:0;transition:transform .5s var(--e-spring),background .4s var(--e-out)}
+.btn__ic svg{width:15px;height:15px}
+.btn:hover{box-shadow:0 12px 32px color-mix(in srgb,#00ADFF,transparent 62%)}
+.btn:hover .btn__ic{transform:translate(3px,-2px) scale(1.06);background:color-mix(in srgb,#fff,transparent 68%)}
+.btn:active{transform:scale(.98)}
+.btn--navy{background:var(--navy)}
+.btn--navy:hover{box-shadow:0 12px 32px color-mix(in srgb,#1B3A6A,transparent 68%)}
+.btn--plain{padding:14px 30px}
+.btn--quiet{background:transparent;color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--hair)}
+.btn--quiet:hover{background:var(--white);box-shadow:inset 0 0 0 1.5px transparent,var(--sh-float)}
+.btn--quiet .btn__ic{background:color-mix(in srgb,#1B3A6A,transparent 93%)}
+.btn--lg{font-size:var(--t-sub);padding:17px 17px 17px 36px}
+.btn--lg .btn__ic{width:42px;height:42px}
+.btn--lg.btn--plain{padding:17px 36px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);padding:8px 17px;border-radius:var(--r-pill);background:color-mix(in srgb,#AAD9FC,transparent 55%);color:var(--navy)}
+.chip--orange{background:var(--orange);color:#fff}
+.chip--sky{background:var(--sky);color:#fff}
+
+/* Двойной бортик */
+.shell{background:color-mix(in srgb,#1B3A6A,transparent 96%);padding:var(--bezel);border-radius:var(--r-shell);box-shadow:inset 0 0 0 1px var(--hair)}
+.core{background:var(--white);border-radius:var(--r-core);box-shadow:inset 0 1px 1px color-mix(in srgb,#fff,transparent 20%),var(--sh-float);height:100%}
+
+.section{padding-block:clamp(88px,7vw + 44px,168px)}
+.head{max-width:820px;margin-bottom:clamp(40px,4.5vw,72px)}
+
+/* ===== 01 Меню: плавающий стеклянный остров ===== */
+.hdr{position:fixed;left:0;right:0;top:0;z-index:100;padding-top:18px;transition:padding-top .5s var(--e-out)}
+.hdr.stuck{padding-top:8px}
+.hdr__in{max-width:calc(var(--container) - 40px);margin-inline:auto;padding-inline:var(--gutter)}
+.island{display:flex;align-items:center;gap:24px;padding:9px 9px 9px 20px;border-radius:var(--r-pill);background:color-mix(in srgb,#fff,transparent 22%);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff,transparent 40%),var(--sh-float);transition:box-shadow .5s var(--e-out)}
+.hdr.stuck .island{box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff,transparent 40%),var(--sh-lift)}
+.logo{display:inline-flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.logo__m{width:30px;height:30px;border-radius:50%;background:var(--sky);display:grid;place-items:center;flex-shrink:0}
+.logo__m svg{width:15px;height:14px}
+.logo__n{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-body);letter-spacing:-.005em;white-space:nowrap}
+.logo__b{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-micro);background:var(--sky);color:#fff;padding:4px 11px;border-radius:var(--r-pill);letter-spacing:.03em}
+.nav{display:flex;gap:2px;margin-inline:auto}
+.nav a{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);text-decoration:none;padding:10px 15px;border-radius:var(--r-pill);white-space:nowrap;transition:background .4s var(--e-out)}
+.nav a:hover{background:color-mix(in srgb,#1B3A6A,transparent 94%)}
+.tg{display:inline-flex;align-items:center;gap:7px;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);text-decoration:none;padding:10px 14px;border-radius:var(--r-pill);white-space:nowrap;transition:background .4s var(--e-out)}
+.tg:hover{background:color-mix(in srgb,#1B3A6A,transparent 94%)}
+.tg svg{width:17px;height:17px;color:var(--sky)}
+.hdr .btn{padding:10px 10px 10px 22px;font-size:var(--t-small)}
+.hdr .btn__ic{width:30px;height:30px}
+.hdr .btn__ic svg{width:13px;height:13px}
+/* Морф-гамбургер */
+.burger{display:none;width:42px;height:42px;border-radius:50%;position:relative;flex-shrink:0;margin-left:auto}
+.burger i{position:absolute;left:12px;width:18px;height:2px;border-radius:2px;background:var(--navy);transition:transform .55s var(--e-out),opacity .3s}
+.burger i:nth-child(1){top:15px}
+.burger i:nth-child(2){top:20px}
+.burger i:nth-child(3){top:25px}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateY(5px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0;transform:scaleX(.3)}
+.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+/* Полноэкранное меню со ступенчатым раскрытием */
+.overlay{position:fixed;inset:0;z-index:99;background:color-mix(in srgb,#FAFCFE,transparent 12%);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);padding:calc(var(--header-h) + 40px) var(--gutter) 40px;display:flex;flex-direction:column;gap:6px;opacity:0;visibility:hidden;transition:opacity .5s var(--e-out),visibility .5s}
+.overlay.open{opacity:1;visibility:visible}
+.overlay a{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h2);letter-spacing:-.01em;text-decoration:none;padding:12px 0;opacity:0;transform:translateY(40px);transition:opacity .6s var(--e-out),transform .7s var(--e-out)}
+.overlay.open a{opacity:1;transform:none}
+.overlay.open a:nth-child(1){transition-delay:.06s}
+.overlay.open a:nth-child(2){transition-delay:.12s}
+.overlay.open a:nth-child(3){transition-delay:.18s}
+.overlay.open a:nth-child(4){transition-delay:.24s}
+.overlay.open a:nth-child(5){transition-delay:.3s}
+.overlay .btn{margin-top:20px;justify-content:space-between;opacity:0;transform:translateY(40px);transition:opacity .6s var(--e-out) .36s,transform .7s var(--e-out) .36s}
+.overlay.open .btn{opacity:1;transform:none}
+
+/* ===== 02 Хиро ===== */
+.hero{padding-top:calc(var(--header-h) + clamp(40px,6vw,96px));padding-bottom:clamp(48px,5vw,88px);position:relative}
+.hero::before{content:"";position:absolute;inset:-10% -20% 40%;background:radial-gradient(60% 60% at 25% 20%,color-mix(in srgb,#AAD9FC,transparent 72%),transparent 70%),radial-gradient(50% 50% at 82% 8%,color-mix(in srgb,#00ADFF,transparent 88%),transparent 70%);pointer-events:none;z-index:-1}
+.hero__grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+.hero h1{max-width:17ch}
+.hero h1 em{font-style:normal;color:var(--sky)}
+.hero__sub{max-width:46ch;margin-top:28px;color:var(--ink-60)}
+.hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:40px}
+/* Маска для SplitText */
+.mask-lines .line{display:block;overflow:hidden}
+/* Мини-карточка «ответ за 2 дня» */
+.hero__aside{display:flex;flex-direction:column;gap:12px;padding-bottom:6px}
+.hero__stat{display:flex;align-items:baseline;gap:10px;font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h2);letter-spacing:-.01em;color:var(--navy)}
+.hero__stat span{font-family:'YS Text',sans-serif;font-weight:400;font-size:var(--t-small);color:var(--ink-35);max-width:12ch;line-height:1.25}
+
+/* Трасса запуска — горизонтальные пилюли */
+.route{margin-top:clamp(48px,5vw,80px)}
+.route__top{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.route__lbl{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);color:var(--ink-35)}
+.route__sum{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h2);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.route__sum small{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);color:var(--mid);margin-left:8px;letter-spacing:0}
+.route__pills{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.rp{background:var(--white);border-radius:var(--r-m);padding:18px 20px 20px;box-shadow:inset 0 0 0 1px var(--hair);position:relative;overflow:hidden;transition:box-shadow .5s var(--e-out)}
+.rp::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--sky),var(--ice));transform:scaleX(0);transform-origin:left;transition:transform .8s var(--e-out)}
+.rp.lit{box-shadow:inset 0 0 0 1px transparent,var(--sh-float)}
+.rp.lit::after{transform:scaleX(1)}
+.rp__n{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-micro);letter-spacing:.1em;color:var(--ink-35);transition:color .5s}
+.rp.lit .rp__n{color:var(--sky)}
+.rp__t{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);margin-top:8px;line-height:1.2}
+.rp__w{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-35);margin-top:6px}
+.route__note{margin-top:16px}
+
+/* ===== 03 Промо-лента ===== */
+.ribbon{padding-block:clamp(12px,1.6vw,24px)}
+.ribbon__in{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:var(--r-shell);padding:20px 20px 20px 30px}
+.ribbon__t{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em;white-space:nowrap}
+.ribbon__m{font-size:var(--t-small);color:color-mix(in srgb,#fff,transparent 42%)}
+.ribbon .btn{margin-left:auto}
+
+/* ===== 04 Атлас (signature) ===== */
+.atlas{background:var(--paper)}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(112px,auto);gap:12px}
+.tile{border-radius:var(--r-core);padding:26px 28px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;background:var(--white);box-shadow:inset 0 0 0 1px var(--hair)}
+.tile--big{grid-column:span 7;grid-row:span 3;background:var(--navy);color:#fff;box-shadow:none;padding:34px 36px}
+.tile--mid{grid-column:span 5;grid-row:span 2;background:color-mix(in srgb,#AAD9FC,transparent 45%);box-shadow:none}
+.tile--hot{grid-column:span 5;grid-row:span 2;background:var(--orange);color:#fff;box-shadow:none}
+.tile--city{grid-column:span 3;grid-row:span 1;justify-content:center}
+.tile--wide{grid-column:span 7;grid-row:span 1;justify-content:center}
+.tile__num{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-num);letter-spacing:-.015em;line-height:.82;font-variant-numeric:tabular-nums}
+.tile--mid .tile__num,.tile--hot .tile__num{font-size:var(--t-h1)}
+.tile__lbl{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em;line-height:1.05;margin-top:16px;max-width:16ch}
+.tile--mid .tile__lbl,.tile--hot .tile__lbl{font-size:var(--t-body);margin-top:10px}
+.tile__txt{font-size:var(--t-small);margin-top:10px;max-width:34ch;opacity:.66}
+.tile--big .tile__txt{color:color-mix(in srgb,#fff,transparent 38%);opacity:1}
+.tile--hot .tile__txt{color:color-mix(in srgb,#fff,transparent 22%);opacity:1}
+.tile__cities{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+.tile__cities span{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);padding:6px 14px;border-radius:var(--r-pill);background:color-mix(in srgb,#fff,transparent 88%);color:#fff}
+.tile__city{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em}
+.tile__meta{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-35);margin-top:5px}
+.tile--wide{flex-direction:row;align-items:center;gap:18px;background:color-mix(in srgb,#E2DBD1,transparent 55%);box-shadow:none}
+.tile--wide p{font-size:var(--t-small);color:var(--ink-60);max-width:52ch}
+
+/* ===== 05 Модель — шаги-аккордеон по горизонтали ===== */
+.model{background:var(--silver)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:26px}
+.tab{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);padding:12px 24px;border-radius:var(--r-pill);background:var(--white);box-shadow:inset 0 0 0 1px var(--hair);color:var(--ink-60);transition:background .45s var(--e-out),color .45s var(--e-out),box-shadow .45s var(--e-out),transform .5s var(--e-spring)}
+.tab[aria-selected="true"]{background:var(--navy);color:#fff;box-shadow:none;transform:translateY(-1px)}
+.panel[hidden]{display:none}
+.panel{display:grid;grid-template-columns:1.05fr .95fr;gap:12px}
+.panel__main{padding:clamp(30px,3.2vw,48px)}
+.panel__main p{color:var(--ink-60);max-width:48ch;margin-top:16px}
+.panel__chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.panel__side{display:grid;gap:12px;align-content:start}
+.mini{padding:22px 26px;display:flex;gap:15px;align-items:flex-start}
+.mini__d{width:9px;height:9px;border-radius:50%;background:var(--sky);flex-shrink:0;margin-top:8px}
+.mini__t{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-body)}
+.mini__x{font-size:var(--t-small);color:var(--ink-60);margin-top:4px}
+.model__cta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:32px}
+.model__cta p{color:var(--ink-60)}
+
+/* ===== 05.1 Даркстор ===== */
+.ds{background:var(--paper)}
+.ds__wrap{position:relative;border-radius:var(--r-shell);overflow:hidden;background:var(--navy)}
+.ds__view{position:relative;overflow:hidden}
+.ds__scene{position:relative;transition:transform 1s var(--e-out);will-change:transform}
+.hot{position:absolute;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;color:var(--navy);font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-small);display:grid;place-items:center;box-shadow:0 6px 18px color-mix(in srgb,#000,transparent 62%);transition:transform .5s var(--e-spring),background .4s,color .4s}
+.hot:hover{transform:translate(-50%,-50%) scale(1.14)}
+.hot[aria-expanded="true"]{background:var(--sky);color:#fff;transform:translate(-50%,-50%) scale(1.18)}
+.hot::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid color-mix(in srgb,#00ADFF,transparent 35%);opacity:0;transition:opacity .4s}
+.hot[aria-expanded="true"]::after{opacity:1}
+.ds__card{position:absolute;left:24px;bottom:24px;z-index:5;width:min(390px,calc(100% - 48px));background:#fff;border-radius:var(--r-core);padding:24px 26px;box-shadow:var(--sh-lift);opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .45s var(--e-out),transform .55s var(--e-out)}
+.ds__card.open{opacity:1;transform:none;pointer-events:auto}
+.ds__card-h{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ds__card-n{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h3);color:var(--sky)}
+.ds__card-t{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em}
+.ds__card-x{font-size:var(--t-small);color:var(--ink-60);margin-top:8px}
+.ds__reset{position:absolute;right:24px;bottom:24px;z-index:5;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);background:#fff;color:var(--navy);padding:12px 24px;border-radius:var(--r-pill);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .4s var(--e-out),transform .4s var(--e-out)}
+.ds__reset.on{opacity:1;pointer-events:auto;transform:none}
+
+/* ===== 06 Форматы ===== */
+.fmt{background:var(--silver)}
+.fmt__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fmt__card{padding:clamp(26px,2.8vw,38px);display:flex;flex-direction:column}
+.fmt__card--hero{background:var(--navy);color:#fff;box-shadow:none}
+.fmt__badges{min-height:34px;margin-bottom:18px}
+.fmt__t{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em;line-height:1.02;min-height:2.1em}
+.fmt__c{font-size:var(--t-small);color:var(--ink-35);margin-top:12px;line-height:1.5;min-height:3em}
+.fmt__card--hero .fmt__c{color:color-mix(in srgb,#fff,transparent 48%)}
+.fmt__row{border-top:1px solid var(--hair);padding:16px 0 14px;min-height:82px}
+.fmt__card--hero .fmt__row{border-top-color:color-mix(in srgb,#fff,transparent 88%)}
+.fmt__row dt{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:.1em;text-transform:uppercase;opacity:.55}
+.fmt__row dd{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);letter-spacing:-.005em;margin-top:6px;display:flex;align-items:baseline;gap:9px}
+.fmt__row dd small{font-family:'YS Text',sans-serif;font-weight:400;font-size:var(--t-small);opacity:.55}
+.info{width:22px;height:22px;border-radius:50%;flex-shrink:0;align-self:center;background:color-mix(in srgb,#AAD9FC,transparent 45%);color:var(--navy);font-family:'YS Text',sans-serif;font-size:var(--t-micro);font-weight:500;display:inline-grid;place-items:center;transition:background .4s var(--e-out),transform .4s var(--e-spring)}
+.info:hover,.info[aria-expanded="true"]{background:var(--sky);color:#fff;transform:scale(1.12)}
+.fmt__card--hero .info{background:color-mix(in srgb,#fff,transparent 82%);color:#fff}
+.note{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--e-out)}
+.note.open{grid-template-rows:1fr}
+.note>div{min-height:0;overflow:hidden}
+.note p{font-size:var(--t-small);color:var(--ink-60);background:color-mix(in srgb,#AAD9FC,transparent 66%);border-radius:12px;padding:12px 15px;margin-top:12px}
+.fmt__card--hero .note p{background:color-mix(in srgb,#fff,transparent 88%);color:color-mix(in srgb,#fff,transparent 22%)}
+.fmt__foot{margin-top:auto;padding-top:20px;font-size:var(--t-small);color:var(--ink-60)}
+.fmt__card--hero .fmt__foot{color:color-mix(in srgb,#fff,transparent 38%)}
+.fmt__cta{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:40px}
+.fmt__cta p{color:var(--ink-60)}
+
+/* ===== 07 Путь — горизонтальный pin-скролл ===== */
+.path{background:var(--navy);color:#fff;overflow:hidden}
+.path .eyebrow{color:var(--ice);background:color-mix(in srgb,#fff,transparent 88%)}
+.path__sub{margin-top:18px;color:color-mix(in srgb,#fff,transparent 36%);max-width:46ch}
+.path__viewport{position:relative}
+.path__rail{display:flex;gap:16px;padding-bottom:8px;scrollbar-width:none}
+.path__rail::-webkit-scrollbar{display:none}
+.stage{flex:0 0 clamp(280px,32vw,420px);background:color-mix(in srgb,#fff,transparent 94%);border-radius:var(--r-core);padding:32px 34px 36px;box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff,transparent 88%);display:flex;flex-direction:column;min-height:340px}
+.stage__h{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.stage__n{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h2);letter-spacing:-.01em;color:var(--sky);line-height:1}
+.stage__w{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;background:color-mix(in srgb,#fff,transparent 86%);color:color-mix(in srgb,#fff,transparent 24%);padding:5px 13px;border-radius:var(--r-pill)}
+.stage__t{font-family:'YS Geo',sans-serif;font-weight:900;font-size:var(--t-h2);letter-spacing:-.01em;line-height:.95}
+.stage__x{margin-top:14px;color:color-mix(in srgb,#fff,transparent 40%);font-size:var(--t-body)}
+.stage__bar{margin-top:auto;height:3px;border-radius:2px;background:color-mix(in srgb,#fff,transparent 88%);overflow:hidden}
+.stage__bar i{display:block;height:100%;background:linear-gradient(90deg,var(--sky),var(--ice));transform:scaleX(0);transform-origin:left;transition:transform .9s var(--e-out)}
+.stage.lit .stage__bar i{transform:scaleX(1)}
+.path__end{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:40px}
+.path__end .t-micro{color:#fff}
+.path__hint{font-family:'YS Text Cond',sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,#fff,transparent 55%);margin-bottom:14px}
+
+/* ===== 08 Отзывы ===== */
+.rev{background:var(--paper)}
+.rev__h{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:36px}
+.rev__nav{display:flex;gap:10px}
+.rbtn{width:52px;height:52px;border-radius:50%;background:var(--white);color:var(--navy);display:grid;place-items:center;box-shadow:inset 0 0 0 1px var(--hair);transition:background .4s var(--e-out),color .4s,transform .5s var(--e-spring),box-shadow .4s}
+.rbtn:hover{background:var(--sky);color:#fff;box-shadow:var(--sh-float);transform:scale(1.06)}
+.rbtn:active{transform:scale(.95)}
+.rbtn svg{width:19px;height:19px}
+.rev__track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 20px;margin:-4px -4px 0;scrollbar-width:none}
+.rev__track::-webkit-scrollbar{display:none}
+.rcard{scroll-snap-align:start;flex:0 0 min(392px,84vw);padding:30px 32px 28px;display:flex;flex-direction:column;gap:24px}
+.rcard__q{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-h3);letter-spacing:-.005em;line-height:1.26;text-wrap:pretty}
+.rcard__w{display:flex;align-items:center;gap:14px;margin-top:auto}
+.rcard__a{width:50px;height:50px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-body);color:var(--navy)}
+.rcard__n{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-body)}
+.rcard__c{font-size:var(--t-small);color:var(--ink-60);margin-top:2px}
+
+/* ===== 09 СМИ ===== */
+.media{padding-block:clamp(56px,5vw,96px)}
+.media__in{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(30px,4vw,72px);align-items:center;padding:clamp(34px,3.6vw,56px)}
+.media__q{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h2);letter-spacing:-.005em;line-height:1.02}
+.media__l{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;justify-items:start;align-items:center}
+.media__l span{font-family:'YS Geo',sans-serif;font-weight:800;font-size:var(--t-h3);color:var(--ink-35);letter-spacing:-.005em;white-space:nowrap}
+.media__l .serif{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-style:italic}
+
+/* ===== 10 FAQ ===== */
+.faq{background:var(--silver)}
+.faq__grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,4vw,72px);align-items:start}
+.faq__side{position:sticky;top:calc(var(--header-h) + 30px)}
+.faq__tg{margin-top:28px;padding:22px 24px;display:flex;align-items:center;gap:16px;text-decoration:none;transition:transform .5s var(--e-out),box-shadow .5s var(--e-out)}
+.faq__tg:hover{transform:translateY(-3px)}
+.faq__tg-i{width:46px;height:46px;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.faq__tg-i svg{width:21px;height:21px}
+.faq__tg-t{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-body)}
+.faq__tg-s{font-size:var(--t-small);color:var(--ink-60);margin-top:2px}
+.acc{display:grid;gap:10px}
+.acc__i{background:var(--white);border-radius:var(--r-core);box-shadow:inset 0 0 0 1px var(--hair);transition:box-shadow .5s var(--e-out)}
+.acc__i.open{box-shadow:inset 0 0 0 1px transparent,var(--sh-float)}
+.acc__b{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left;padding:22px 26px;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-h3);letter-spacing:-.005em;line-height:1.2;border-radius:var(--r-core)}
+.acc__ic{width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,#AAD9FC,transparent 60%);flex-shrink:0;display:grid;place-items:center;transition:transform .55s var(--e-out),background .4s}
+.acc__i.open .acc__ic{transform:rotate(135deg);background:var(--sky);color:#fff}
+.acc__ic svg{width:14px;height:14px}
+.acc__p{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--e-out)}
+.acc__i.open .acc__p{grid-template-rows:1fr}
+.acc__p>div{min-height:0;overflow:hidden}
+.acc__p p{padding:0 26px 24px;color:var(--ink-60);max-width:58ch;opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .5s var(--e-out)}
+.acc__i.open .acc__p p{opacity:1;transform:none;transition-delay:.1s}
+
+/* ===== 11 Форма ===== */
+.apply{background:var(--paper)}
+.apply__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,4.5vw,80px);align-items:start}
+.args{display:grid;margin-top:34px}
+.arg{display:flex;gap:18px;padding:20px 0;border-top:1px solid var(--hair)}
+.arg__i{width:44px;height:44px;border-radius:14px;background:color-mix(in srgb,#AAD9FC,transparent 62%);display:grid;place-items:center;flex-shrink:0;color:var(--mid)}
+.arg__i svg{width:21px;height:21px}
+.arg__t{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-body)}
+.arg__x{font-size:var(--t-small);color:var(--ink-60);margin-top:3px}
+.fcard{padding:clamp(28px,3vw,44px)}
+.f{margin-bottom:18px}
+.f label{display:block;font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);margin-bottom:8px}
+.f .req{color:var(--orange)}
+.f input[type="text"],.f select{width:100%;height:56px;border-radius:14px;border:1.5px solid transparent;background:var(--silver);padding:0 18px;font:inherit;color:var(--ink);transition:border-color .4s var(--e-out),box-shadow .4s var(--e-out),background .4s;appearance:none;-webkit-appearance:none}
+.f select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' fill='none'%3E%3Cpath d='M1 1.5 7 7.5l6-6' stroke='%231B3A6A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;padding-right:44px;cursor:pointer}
+.f input:focus,.f select:focus{outline:none;background:#fff;border-color:var(--sky);box-shadow:0 0 0 4px color-mix(in srgb,#00ADFF,transparent 86%)}
+.f input[aria-invalid="true"]{border-color:var(--orange)}
+.f .err{display:none;font-size:var(--t-small);color:var(--orange);margin-top:7px}
+.f.bad .err{display:block}
+.radios{display:flex;gap:9px}
+.rad{position:relative}
+.rad input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.rad span{display:inline-flex;padding:13px 28px;border-radius:var(--r-pill);background:var(--silver);font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);transition:background .4s var(--e-out),color .4s}
+.rad input:checked + span{background:var(--navy);color:#fff}
+.rad input:focus-visible + span{box-shadow:0 0 0 2.5px var(--sky)}
+.cons{display:flex;gap:12px;align-items:flex-start;margin:22px 0}
+.cons input{width:20px;height:20px;margin-top:2px;accent-color:var(--sky);flex-shrink:0;cursor:pointer}
+.cons label{font-size:var(--t-small);color:var(--ink-60);cursor:pointer}
+.cons a{color:var(--mid)}
+.fcard .btn{width:100%;justify-content:space-between}
+.legal{margin-top:16px;text-align:center}
+.done{text-align:center;padding:clamp(26px,3vw,48px) 0}
+.done__i{width:72px;height:72px;border-radius:50%;background:var(--sky);color:#fff;display:grid;place-items:center;margin:0 auto 22px}
+.done__i svg{width:32px;height:32px}
+.done p{color:var(--ink-60);max-width:34ch;margin:12px auto 0}
+
+/* ===== 12 Футер ===== */
+.ftr{background:var(--navy);color:#fff;padding:clamp(52px,5vw,80px) 0 34px;border-radius:var(--r-shell) var(--r-shell) 0 0;margin-top:clamp(20px,2vw,32px)}
+.ftr__t{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:34px;border-bottom:1px solid color-mix(in srgb,#fff,transparent 88%)}
+.ftr .logo__n{color:#fff}
+.ftr__nav{display:flex;gap:4px;flex-wrap:wrap}
+.ftr__nav a{font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);text-decoration:none;color:color-mix(in srgb,#fff,transparent 34%);padding:9px 14px;border-radius:var(--r-pill);transition:color .4s,background .4s}
+.ftr__nav a:hover{color:#fff;background:color-mix(in srgb,#fff,transparent 90%)}
+.ftr__a{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.ftr .tg{color:#fff}
+.ftr .tg:hover{background:color-mix(in srgb,#fff,transparent 90%)}
+.ftr__b{padding-top:26px;display:grid;gap:14px}
+.ftr__b .t-micro{color:#fff;max-width:78ch}
+.ftr__l{display:flex;gap:22px;flex-wrap:wrap}
+.ftr__l a{font-size:var(--t-small);color:color-mix(in srgb,#fff,transparent 42%);text-decoration:none}
+.ftr__l a:hover{color:#fff;text-decoration:underline}
+.ftr__m{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:var(--t-small);color:color-mix(in srgb,#fff,transparent 48%)}
+
+/* Скролл-ревил (запасной путь, если GSAP не загрузился) */
+.rv{opacity:0;transform:translateY(30px)}
+.rv.in{opacity:1;transform:none;transition:opacity .8s var(--e-out),transform .9s var(--e-out);transition-delay:var(--d,0s)}
+
+/* ===== Адаптив ===== */
+@media (max-width:1080px){
+  .nav,.hdr .tg{display:none}
+  .burger{display:block}
+  .hdr .btn{display:none}
+  .hero__grid{grid-template-columns:1fr}
+  .hero__aside{flex-direction:row;gap:28px;flex-wrap:wrap}
+  .panel{grid-template-columns:1fr}
+  .media__in{grid-template-columns:1fr}
+  .faq__grid{grid-template-columns:1fr}
+  .faq__side{position:static}
+  .apply__grid{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .bento{grid-template-columns:repeat(6,1fr)}
+  .tile--big{grid-column:span 6;grid-row:span 2}
+  .tile--mid,.tile--hot{grid-column:span 3;grid-row:span 2}
+  .tile--city{grid-column:span 3}
+  .tile--wide{grid-column:span 6}
+  .route__pills{grid-template-columns:1fr 1fr}
+  .fmt__grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(-1*var(--gutter));padding:4px var(--gutter) 20px;scrollbar-width:none}
+  .fmt__grid::-webkit-scrollbar{display:none}
+  .fmt__grid>.shell{flex:0 0 84vw;max-width:370px;scroll-snap-align:center}
+  .fmt__t,.fmt__c{min-height:0}
+  .ds__card{position:static;width:100%;margin:14px 0 0;opacity:1;transform:none;pointer-events:auto;display:none}
+  .ds__card.open{display:block}
+  .ds__reset{position:static;margin-top:12px;transform:none;display:block;width:100%}
+  .ribbon .btn{margin-left:0;width:100%;justify-content:space-between}
+}
+@media (max-width:600px){
+  .bento{grid-template-columns:1fr;gap:10px}
+  .tile--big,.tile--mid,.tile--hot,.tile--city,.tile--wide{grid-column:span 1;grid-row:auto}
+  .tile--wide{flex-direction:column;align-items:flex-start;gap:10px}
+  .route__pills{grid-template-columns:1fr}
+  .hero__cta .btn{width:100%;justify-content:space-between}
+  .stage{flex-basis:80vw}
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  .rv{opacity:1;transform:none}
+  .rp::after,.stage__bar i{transform:scaleX(1)}
+  .rp{box-shadow:inset 0 0 0 1px transparent,var(--sh-float)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+
+<!-- 01 Меню -->
+<header class="hdr" id="hdr">
+  <div class="hdr__in">
+    <div class="island">
+      <a class="logo" href="#top" aria-label="Яндекс Лавка — Франшиза, на главную">
+        <span class="logo__m" aria-hidden="true"><svg viewBox="0 0 16 15" fill="none"><path d="M8 14.2C4.8 11.6 1 8.4 1 5.1 1 2.8 2.8 1 5 1c1.2 0 2.3.6 3 1.5C8.7 1.6 9.8 1 11 1c2.2 0 4 1.8 4 4.1 0 3.3-3.8 6.5-7 9.1Z" fill="#fff"/></svg></span>
+        <span class="logo__n">Яндекс&nbsp;Лавка</span>
+        <span class="logo__b">Франшиза</span>
+      </a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#formats">Форматы</a><a href="#model">Как устроен бизнес</a><a href="#path">Как стать партнёром</a><a href="#faq">Вопросы</a>
+      </nav>
+      <a class="tg" href="https://t.me/yandexlavka_franchise" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.9 19c-.2 1-.8 1.2-1.6.8l-4.6-3.4-2.2 2.1c-.2.3-.5.5-.9.5l.3-4.6L18.3 7c.4-.3-.1-.5-.6-.2L7.4 13.3l-4.5-1.4c-1-.3-1-1 .2-1.4l17.5-6.7c.8-.3 1.5.2 1.3.8Z"/></svg>Telegram</a>
+      <button class="burger" aria-expanded="false" aria-controls="ov" aria-label="Открыть меню"><i></i><i></i><i></i></button>
+      <a class="btn" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+    </div>
+  </div>
+</header>
+<nav class="overlay" id="ov" aria-label="Мобильная навигация">
+  <a href="#formats">Форматы</a><a href="#model">Как устроен бизнес</a><a href="#path">Как стать партнёром</a><a href="#faq">Вопросы</a>
+  <a href="https://t.me/yandexlavka_franchise" target="_blank" rel="noopener">Telegram</a>
+  <a class="btn btn--lg" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+</nav>
+
+<main id="main">
+<!-- 02 Хиро -->
+<section class="hero container" id="top">
+  <div class="hero__grid">
+    <div>
+      <span class="eyebrow">Франшиза быстрой доставки</span>
+      <h1 class="t-display mask-lines" id="hero-h1">Запустите Яндекс&nbsp;Лавку по&nbsp;франшизе <em>в&nbsp;своём городе</em></h1>
+      <p class="hero__sub t-sub">Дарксторы с&nbsp;доставкой за&nbsp;10–15&nbsp;минут. Технология, снабжение и&nbsp;поддержка Яндекса&nbsp;— управление сетью за&nbsp;вами</p>
+      <div class="hero__cta">
+        <a class="btn btn--lg" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--lg btn--quiet" href="#model">Как это работает<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
+    </div>
+    <div class="hero__aside">
+      <p class="hero__stat">14<span>городов уже работают</span></p>
+      <p class="hero__stat">2&nbsp;дня<span>на ответ по заявке</span></p>
+    </div>
+  </div>
+
+  <!-- Трасса -->
+  <div class="route" id="route">
+    <div class="route__top">
+      <p class="route__lbl">От&nbsp;заявки до&nbsp;первого заказа</p>
+      <p class="route__sum">≈<span id="route-n">120</span><small>дней</small></p>
+    </div>
+    <ol class="route__pills">
+      <li class="rp"><p class="rp__n">01</p><p class="rp__t">Заявка</p><p class="rp__w">день 1</p></li>
+      <li class="rp"><p class="rp__n">02</p><p class="rp__t">Встреча и&nbsp;скоринг</p><p class="rp__w">неделя 2</p></li>
+      <li class="rp"><p class="rp__n">03</p><p class="rp__t">Договор</p><p class="rp__w">месяц 1</p></li>
+      <li class="rp"><p class="rp__n">04</p><p class="rp__t">Подготовка и&nbsp;обучение</p><p class="rp__w">месяцы 2–3</p></li>
+      <li class="rp"><p class="rp__n">05</p><p class="rp__t">Запуск</p><p class="rp__w">месяц 4</p></li>
+    </ol>
+    <p class="route__note t-micro">Этапы и&nbsp;сроки&nbsp;— иллюстрация</p>
+  </div>
+</section>
+
+<!-- 03 Промо-лента -->
+<section class="ribbon container" aria-label="Анонс мероприятия">
+  <div class="ribbon__in rv">
+    <span class="chip chip--orange">Набор открыт</span>
+    <p class="ribbon__t">День партнёров Яндекс&nbsp;Лавки</p>
+    <p class="ribbon__m">27&nbsp;августа · Москва · предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</p>
+    <a class="btn" href="#apply">Участвовать<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+  </div>
+</section>
+
+<!-- 04 Атлас -->
+<section class="atlas section" aria-label="Франшиза в цифрах">
+  <div class="container">
+    <div class="head rv">
+      <span class="eyebrow">Атлас сети</span>
+      <h2 class="t-h1">Франшиза уже работает</h2>
+    </div>
+    <div class="bento" id="bento">
+      <article class="tile tile--big">
+        <p class="tile__num"><span class="cnt" data-to="14">14</span></p>
+        <p class="tile__lbl">городов запустили Лавку по&nbsp;франшизе</p>
+        <p class="tile__txt">От&nbsp;Казани до&nbsp;Тюмени&nbsp;— первые заказы через четыре месяца после заявки</p>
+        <div class="tile__cities"><span>Казань</span><span>Челябинск</span><span>Тюмень</span><span>Воронеж</span><span>Пермь</span></div>
+      </article>
+      <article class="tile tile--mid">
+        <p class="tile__num"><span class="cnt" data-to="25">25</span></p>
+        <p class="tile__lbl">городов готовим к&nbsp;запуску</p>
+        <p class="tile__txt">Геоаналитика уже посчитала спрос&nbsp;— идёт подбор помещений и&nbsp;команд</p>
+      </article>
+      <article class="tile tile--hot">
+        <p class="tile__num"><span class="cnt" data-to="9">9</span></p>
+        <p class="tile__lbl">партнёров ищем сейчас</p>
+        <p class="tile__txt">Набор открыт&nbsp;— успейте забрать свой город до&nbsp;конца года</p>
+      </article>
+      <article class="tile tile--city"><p class="tile__city">Самара</p><p class="tile__meta">миллионник · свободен</p></article>
+      <article class="tile tile--city"><p class="tile__city">Уфа</p><p class="tile__meta">миллионник · свободен</p></article>
+      <article class="tile tile--wide"><p class="tile__city">Ижевск · Оренбург · Киров</p><p>Крупные города&nbsp;— вход от&nbsp;75&nbsp;млн&nbsp;₽</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Модель -->
+<section class="model section" id="model">
+  <div class="container">
+    <div class="head rv">
+      <span class="eyebrow">Модель</span>
+      <h2 class="t-h1">Как устроен бизнес</h2>
+    </div>
+    <div class="tabs rv" role="tablist" aria-label="Части бизнес-модели">
+      <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">Что такое Лавка</button>
+      <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Зона франчайзи</button>
+      <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Зона Яндекса</button>
+    </div>
+    <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1" tabindex="0">
+      <div class="shell"><div class="core panel__main">
+        <h3 class="t-h2">Бизнес на&nbsp;скорости</h3>
+        <p>Даркстор&nbsp;— склад-магазин без торгового зала: заказы собираются за&nbsp;минуты и&nbsp;приезжают к&nbsp;покупателю за&nbsp;10–15&nbsp;минут. Заказы приходят сразу из&nbsp;пяти сервисов, а&nbsp;трафик даёт вся экосистема Яндекса&nbsp;— спрос не&nbsp;нужно строить с&nbsp;нуля</p>
+        <div class="panel__chips"><span class="chip">Лавка</span><span class="chip">Маркет</span><span class="chip">Еда</span><span class="chip">Go</span><span class="chip">Деливери</span><span class="chip chip--sky">Трафик экосистемы</span></div>
+      </div></div>
+      <div class="panel__side">
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">10–15&nbsp;минут на&nbsp;доставку</p><p class="mini__x">Скорость&nbsp;— главный продукт и&nbsp;причина повторных заказов</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Пять источников заказов</p><p class="mini__x">Один даркстор обслуживает покупателей всех сервисов сразу</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Технологическое партнёрство</p><p class="mini__x">Вы&nbsp;покупаете не&nbsp;вывеску, а&nbsp;доступ к&nbsp;платформе Яндекса</p></div></div></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" tabindex="0" hidden>
+      <div class="shell"><div class="core panel__main">
+        <h3 class="t-h2">Что делаете вы</h3>
+        <p>Партнёр отвечает за&nbsp;физическую сторону бизнеса: локации, людей и&nbsp;ежедневную операционку. Это ваш управленческий опыт, умноженный на&nbsp;инструменты Яндекса</p>
+        <div class="panel__chips"><span class="chip">Помещения и&nbsp;ремонт</span><span class="chip">Найм персонала</span><span class="chip">Курьеры и&nbsp;сборщики</span><span class="chip">Операционка</span></div>
+      </div></div>
+      <div class="panel__side">
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Помещения и&nbsp;ремонт</p><p class="mini__x">Поиск локаций и&nbsp;подготовка дарксторов к&nbsp;открытию</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Команда</p><p class="mini__x">Найм и&nbsp;управление: курьеры, сборщики, управляющие</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Операционное управление</p><p class="mini__x">Ежедневная работа сети по&nbsp;стандартам Лавки</p></div></div></div>
+      </div>
+    </div>
+    <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" tabindex="0" hidden>
+      <div class="shell"><div class="core panel__main">
+        <h3 class="t-h2">Что берёт на&nbsp;себя Яндекс</h3>
+        <p>Всё, что требует масштаба и&nbsp;технологий: цепочку поставок, IT-платформу и&nbsp;маркетинг. Партнёр получает готовую инфраструктуру с&nbsp;первого дня</p>
+        <div class="panel__chips"><span class="chip">WMS</span><span class="chip">Автозаказ</span><span class="chip">WFM</span><span class="chip">Приложения</span><span class="chip">Отчётность</span></div>
+      </div></div>
+      <div class="panel__side">
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Поставщики и&nbsp;ассортимент</p><p class="mini__x">Матрица товаров и&nbsp;контракты с&nbsp;поставщиками</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">Логистика средней мили</p><p class="mini__x">Поставки из&nbsp;распредцентров до&nbsp;дверей даркстора</p></div></div></div>
+        <div class="shell"><div class="core mini"><span class="mini__d"></span><div><p class="mini__t">IT и&nbsp;маркетинг</p><p class="mini__x">WMS, автозаказ, WFM, приложения, отчётность и&nbsp;привлечение покупателей</p></div></div></div>
+      </div>
+    </div>
+    <div class="model__cta rv">
+      <a class="btn" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      <p class="t-small">Разберём модель на&nbsp;вашем городе&nbsp;— ответ за&nbsp;2&nbsp;рабочих дня</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05.1 Даркстор -->
+<section class="ds section" aria-label="Как устроен даркстор">
+  <div class="container">
+    <div class="head rv">
+      <span class="eyebrow">Изнутри</span>
+      <h2 class="t-h1">Как устроен даркстор</h2>
+    </div>
+    <div class="shell rv"><div class="ds__wrap">
+      <div class="ds__view"><div class="ds__scene" id="scene">
+        <img src="clean-assets/darkstore-map.png" alt="Изометрическая схема даркстора: стеллажи хранения, холодильники, кухня, зона сборки и выдачи заказов, курьеры и грузовики средней мили" width="1660" height="1171" loading="lazy" decoding="async">
+        <button class="hot" style="left:24.9%;top:41.8%" data-z="0" aria-expanded="false" aria-label="Зона 1 — Сухое хранение">1</button>
+        <button class="hot" style="left:37%;top:20.1%" data-z="1" aria-expanded="false" aria-label="Зона 2 — Морозильная камера">2</button>
+        <button class="hot" style="left:31.9%;top:63.2%" data-z="2" aria-expanded="false" aria-label="Зона 3 — Холодильники">3</button>
+        <button class="hot" style="left:52.9%;top:31.1%" data-z="3" aria-expanded="false" aria-label="Зона 4 — Кухня">4</button>
+        <button class="hot" style="left:59.9%;top:62%" data-z="4" aria-expanded="false" aria-label="Зона 5 — Сборка заказов">5</button>
+        <button class="hot" style="left:59.9%;top:79.2%" data-z="5" aria-expanded="false" aria-label="Зона 6 — Выдача курьерам">6</button>
+        <button class="hot" style="left:88.1%;top:63.9%" data-z="6" aria-expanded="false" aria-label="Зона 7 — Средняя миля">7</button>
+      </div></div>
+      <div class="ds__card" id="dcard" role="region" aria-live="polite" aria-label="Описание зоны даркстора">
+        <div class="ds__card-h"><span class="ds__card-n" id="dnum">01</span><span class="chip chip--sky" id="dchip">Яндекс</span></div>
+        <p class="ds__card-t" id="dtitle">Сухое хранение</p>
+        <p class="ds__card-x" id="dtext">Основной запас даркстора</p>
+      </div>
+      <button class="ds__reset" id="dreset">Показать весь даркстор</button>
+    </div></div>
+  </div>
+</section>
+
+<!-- 06 Форматы -->
+<section class="fmt section" id="formats">
+  <div class="container">
+    <div class="head rv">
+      <span class="eyebrow">Три формата</span>
+      <h2 class="t-h1">Форматы партнёрства</h2>
+    </div>
+    <div class="fmt__grid">
+      <div class="shell rv"><div class="core fmt__card fmt__card--hero">
+        <div class="fmt__badges"><span class="chip chip--sky">Действующая сеть</span></div>
+        <h3 class="fmt__t">Готовый бизнес</h3>
+        <p class="fmt__c">Казань · Челябинск · Тюмень · Воронеж · Пермь</p>
+        <dl>
+          <div class="fmt__row"><dt>Инвестиции</dt><dd>400–600 <small>млн&nbsp;₽</small></dd></div>
+          <div class="fmt__row"><dt>Окупаемость</dt><dd>от&nbsp;2,5 <small>лет</small></dd></div>
+          <div class="fmt__row"><dt>Паушальный взнос</dt><dd>1 <small>млн&nbsp;₽ за&nbsp;даркстор</small></dd></div>
+          <div class="fmt__row"><dt>Роялти</dt><dd>0–7% <button class="info" aria-expanded="false" aria-controls="n1" aria-label="Пояснение по роялти">?</button></dd>
+            <div class="note" id="n1"><div><p>Ставка зависит от&nbsp;этапа развития города и&nbsp;выручки сети&nbsp;— от&nbsp;0% на&nbsp;старте</p></div></div></div>
+        </dl>
+        <p class="fmt__foot">Передача действующей сети в&nbsp;совместное партнёрство&nbsp;— выручка с&nbsp;первого дня</p>
+      </div></div>
+      <div class="shell rv" style="--d:.08s"><div class="core fmt__card">
+        <div class="fmt__badges"><span class="chip chip--orange">Эксклюзив на&nbsp;город</span></div>
+        <h3 class="fmt__t">Новый город — миллионники</h3>
+        <p class="fmt__c">Самара · Уфа · Саратов</p>
+        <dl>
+          <div class="fmt__row"><dt>Инвестиции</dt><dd>250–450 <small>млн&nbsp;₽</small></dd></div>
+          <div class="fmt__row"><dt>Окупаемость</dt><dd>от&nbsp;3 <small>лет</small></dd></div>
+          <div class="fmt__row"><dt>Паушальный взнос</dt><dd>1 <small>млн&nbsp;₽ за&nbsp;даркстор</small></dd></div>
+          <div class="fmt__row"><dt>Роялти</dt><dd>0–7% <button class="info" aria-expanded="false" aria-controls="n2" aria-label="Пояснение по роялти">?</button></dd>
+            <div class="note" id="n2"><div><p>Ставка зависит от&nbsp;этапа развития города и&nbsp;выручки сети&nbsp;— от&nbsp;0% на&nbsp;старте</p></div></div></div>
+        </dl>
+        <p class="fmt__foot">Запуск сети с&nbsp;нуля в&nbsp;городе-миллионнике&nbsp;— весь рынок ваш</p>
+      </div></div>
+      <div class="shell rv" style="--d:.16s"><div class="core fmt__card">
+        <div class="fmt__badges"></div>
+        <h3 class="fmt__t">Новый город — крупные города</h3>
+        <p class="fmt__c">Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров</p>
+        <dl>
+          <div class="fmt__row"><dt>Инвестиции</dt><dd>75–150 <small>млн&nbsp;₽</small></dd></div>
+          <div class="fmt__row"><dt>Окупаемость</dt><dd>от&nbsp;3 <small>лет</small></dd></div>
+          <div class="fmt__row"><dt>Паушальный взнос</dt><dd>1 <small>млн&nbsp;₽ за&nbsp;даркстор</small></dd></div>
+          <div class="fmt__row"><dt>Роялти</dt><dd>0–7% <button class="info" aria-expanded="false" aria-controls="n3" aria-label="Пояснение по роялти">?</button></dd>
+            <div class="note" id="n3"><div><p>Ставка зависит от&nbsp;этапа развития города и&nbsp;выручки сети&nbsp;— от&nbsp;0% на&nbsp;старте</p></div></div></div>
+        </dl>
+        <p class="fmt__foot">Самый доступный вход&nbsp;— компактная сеть в&nbsp;растущем городе</p>
+      </div></div>
+    </div>
+    <div class="fmt__cta rv">
+      <a class="btn btn--lg" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      <p class="t-small">Поможем выбрать формат под&nbsp;ваш капитал и&nbsp;город</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 Путь -->
+<section class="path section" id="path">
+  <div class="container">
+    <div class="head rv">
+      <span class="eyebrow eyebrow--light">Маршрут</span>
+      <h2 class="t-h1">Как стать партнёром</h2>
+      <p class="path__sub t-sub">Пять этапов&nbsp;— и&nbsp;примерно 120&nbsp;дней от&nbsp;заявки до&nbsp;первого заказа</p>
+    </div>
+  </div>
+  <div class="path__viewport" id="pathvp">
+    <div class="container">
+      <p class="path__hint" id="pathhint">Листайте вбок&nbsp;→</p>
+      <ol class="path__rail" id="rail">
+        <li class="stage"><div class="stage__h"><span class="stage__n">01</span><span class="stage__w">День&nbsp;1</span></div><h3 class="stage__t">Заявка</h3><p class="stage__x">Первое знакомство: расскажите о&nbsp;себе, капитале и&nbsp;городе&nbsp;— ответим за&nbsp;2&nbsp;рабочих дня</p><div class="stage__bar"><i></i></div></li>
+        <li class="stage"><div class="stage__h"><span class="stage__n">02</span><span class="stage__w">Неделя&nbsp;2</span></div><h3 class="stage__t">Встреча и&nbsp;скоринг</h3><p class="stage__x">Сверяем возможности: опыт, команда, финансы&nbsp;— и&nbsp;потенциал города по&nbsp;данным геоаналитики</p><div class="stage__bar"><i></i></div></li>
+        <li class="stage"><div class="stage__h"><span class="stage__n">03</span><span class="stage__w">Месяц&nbsp;1</span></div><h3 class="stage__t">Договор</h3><p class="stage__x">Закрепляем условия: формат, план развития сети и&nbsp;зоны ответственности сторон</p><div class="stage__bar"><i></i></div></li>
+        <li class="stage"><div class="stage__h"><span class="stage__n">04</span><span class="stage__w">Месяцы&nbsp;2–3</span></div><h3 class="stage__t">Подготовка и&nbsp;обучение</h3><p class="stage__x">Строим и&nbsp;учимся: помещения, ремонт, найм команды и&nbsp;обучение по&nbsp;стандартам Лавки</p><div class="stage__bar"><i></i></div></li>
+        <li class="stage"><div class="stage__h"><span class="stage__n">05</span><span class="stage__w">Месяц&nbsp;4</span></div><h3 class="stage__t">Запуск</h3><p class="stage__x">Принимаем заказы: даркстор открыт, трафик экосистемы работает на&nbsp;вас с&nbsp;первого дня</p><div class="stage__bar"><i></i></div></li>
+      </ol>
+    </div>
+  </div>
+  <div class="container">
+    <div class="path__end rv">
+      <a class="btn btn--lg" href="#apply">Начать с&nbsp;заявки<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      <p class="t-micro">Этапы и&nbsp;сроки&nbsp;— иллюстрация</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 Отзывы -->
+<section class="rev section" aria-roledescription="карусель" aria-label="Отзывы франчайзи">
+  <div class="container">
+    <div class="rev__h">
+      <div class="rv"><span class="eyebrow">Опыт партнёров</span><h2 class="t-h1">Партнёры о&nbsp;Лавке</h2></div>
+      <div class="rev__nav">
+        <button class="rbtn" id="rprev" aria-label="Предыдущие отзывы"><svg viewBox="0 0 20 20" fill="none"><path d="M12.5 4 6.5 10l6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="rbtn" id="rnext" aria-label="Следующие отзывы"><svg viewBox="0 0 20 20" fill="none"><path d="M7.5 4l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <div class="rev__track" id="rtrack" tabindex="0" aria-label="Лента отзывов — прокручивается">
+      <div class="shell"><article class="core rcard" aria-roledescription="слайд" aria-label="1 из 5"><p class="rcard__q">«Запустили первый даркстор за&nbsp;три месяца&nbsp;— команда Яндекса вела нас за&nbsp;руку на&nbsp;каждом шаге»</p><div class="rcard__w"><span class="rcard__a" style="background:color-mix(in srgb,#AAD9FC,transparent 40%)" aria-hidden="true">ИС</span><div><p class="rcard__n">Игорь Соколов</p><p class="rcard__c">Казань · 4&nbsp;даркстора</p></div></div></article></div>
+      <div class="shell"><article class="core rcard" aria-roledescription="слайд" aria-label="2 из 5"><p class="rcard__q">«Технологии Яндекса снимают рутину: автозаказ и&nbsp;WMS работают сами&nbsp;— мы&nbsp;занимаемся людьми и&nbsp;ростом»</p><div class="rcard__w"><span class="rcard__a" style="background:color-mix(in srgb,#FF9977,transparent 40%)" aria-hidden="true">АМ</span><div><p class="rcard__n">Анна Морозова</p><p class="rcard__c">Тюмень · 6&nbsp;дарксторов</p></div></div></article></div>
+      <div class="shell"><article class="core rcard" aria-roledescription="слайд" aria-label="3 из 5"><p class="rcard__q">«Геоаналитика помогла выбрать локации&nbsp;— все три даркстора вышли на&nbsp;план по&nbsp;заказам раньше срока»</p><div class="rcard__w"><span class="rcard__a" style="background:color-mix(in srgb,#FF95CC,transparent 40%)" aria-hidden="true">РЛ</span><div><p class="rcard__n">Роман Лебедев</p><p class="rcard__c">Пермь · 3&nbsp;даркстора</p></div></div></article></div>
+      <div class="shell"><article class="core rcard" aria-roledescription="слайд" aria-label="4 из 5"><p class="rcard__q">«Поддержка не&nbsp;заканчивается после открытия: рядом команда запуска, маркетинг и&nbsp;снабжение»</p><div class="rcard__w"><span class="rcard__a" style="background:color-mix(in srgb,#E2DBD1,transparent 20%)" aria-hidden="true">ЕИ</span><div><p class="rcard__n">Елена Ильина</p><p class="rcard__c">Челябинск · 5&nbsp;дарксторов</p></div></div></article></div>
+      <div class="shell"><article class="core rcard" aria-roledescription="слайд" aria-label="5 из 5"><p class="rcard__q">«Сильный бренд сразу даёт спрос&nbsp;— первые заказы пошли в&nbsp;день открытия, без единой рекламной кампании с&nbsp;нашей стороны»</p><div class="rcard__w"><span class="rcard__a" style="background:color-mix(in srgb,#AAD9FC,transparent 40%)" aria-hidden="true">МО</span><div><p class="rcard__n">Максим Орлов</p><p class="rcard__c">Воронеж · 7&nbsp;дарксторов</p></div></div></article></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 СМИ -->
+<section class="media" aria-label="СМИ о Лавке">
+  <div class="container">
+    <div class="shell rv"><div class="core media__in">
+      <p class="media__q">Лавка меняет привычки покупателей&nbsp;— и&nbsp;правила рынка</p>
+      <div class="media__l" role="list" aria-label="Издания, писавшие о Лавке">
+        <span role="listitem">РБК</span><span class="serif" role="listitem">Forbes</span><span role="listitem">vc.ru</span><span class="serif" role="listitem">Коммерсантъ</span>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- 10 FAQ -->
+<section class="faq section" id="faq">
+  <div class="container">
+    <div class="faq__grid">
+      <div class="faq__side rv">
+        <span class="eyebrow">Вопросы</span>
+        <h2 class="t-h1">Частые вопросы</h2>
+        <div class="shell"><a class="core faq__tg" href="https://t.me/yandexlavka_franchise" target="_blank" rel="noopener">
+          <span class="faq__tg-i"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.9 19c-.2 1-.8 1.2-1.6.8l-4.6-3.4-2.2 2.1c-.2.3-.5.5-.9.5l.3-4.6L18.3 7c.4-.3-.1-.5-.6-.2L7.4 13.3l-4.5-1.4c-1-.3-1-1 .2-1.4l17.5-6.7c.8-.3 1.5.2 1.3.8Z"/></svg></span>
+          <span><span class="faq__tg-t">Не&nbsp;нашли ответ?</span><br><span class="faq__tg-s">Напишите нам в&nbsp;Telegram</span></span>
+        </a></div>
+      </div>
+      <div class="acc rv" id="acc">
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a1" id="ab1">Что такое даркстор?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a1" role="region" aria-labelledby="ab1"><div><p>Склад-магазин без торгового зала. Покупатели заказывают в&nbsp;приложении, сборщики собирают корзину за&nbsp;минуты, курьеры привозят за&nbsp;10–15&nbsp;минут. Один даркстор обслуживает район в&nbsp;радиусе пары километров.</p></div></div></div>
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a2" id="ab2">Какая команда нужна для&nbsp;запуска?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a2" role="region" aria-labelledby="ab2"><div><p>Управляющий, сборщики заказов и&nbsp;курьеры. Найм&nbsp;— на&nbsp;стороне партнёра, а&nbsp;обучение и&nbsp;стандарты работы даёт Яндекс: команда выходит на&nbsp;смены уже подготовленной.</p></div></div></div>
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a3" id="ab3">Сколько времени занимает запуск?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a3" role="region" aria-labelledby="ab3"><div><p>Около 3&nbsp;месяцев на&nbsp;первый даркстор и&nbsp;около 4&nbsp;месяцев на&nbsp;запуск сети&nbsp;— от&nbsp;подписания договора до&nbsp;первых заказов, включая ремонт, найм и&nbsp;обучение.</p></div></div></div>
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a4" id="ab4">Каким должно быть помещение?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a4" role="region" aria-labelledby="ab4"><div><p>От&nbsp;350&nbsp;м², первый этаж с&nbsp;удобным подъездом для&nbsp;машин снабжения, зоной разгрузки и&nbsp;велопарковкой для&nbsp;курьеров. Требования к&nbsp;конкретной локации проверяет команда Яндекса.</p></div></div></div>
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a5" id="ab5">Какой размер инвестиций?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a5" role="region" aria-labelledby="ab5"><div><p>От&nbsp;15&nbsp;млн&nbsp;₽ на&nbsp;один даркстор и&nbsp;от&nbsp;75&nbsp;млн&nbsp;₽ на&nbsp;сеть в&nbsp;городе. Итоговая сумма зависит от&nbsp;формата партнёрства и&nbsp;масштаба города&nbsp;— посчитаем вместе на&nbsp;этапе скоринга.</p></div></div></div>
+        <div class="acc__i"><h3><button class="acc__b" aria-expanded="false" aria-controls="a6" id="ab6">Кто выбирает локацию?<span class="acc__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1v13M1 7.5h13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span></button></h3><div class="acc__p" id="a6" role="region" aria-labelledby="ab6"><div><p>Вместе: партнёр ищет варианты помещений в&nbsp;своём городе, а&nbsp;геоаналитика Яндекса оценивает каждую точку&nbsp;— спрос, плотность заказов и&nbsp;зону покрытия.</p></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 Форма -->
+<section class="apply section" id="apply">
+  <div class="container">
+    <div class="apply__grid">
+      <div class="rv">
+        <span class="eyebrow">Заявка</span>
+        <h2 class="t-h1">Ваш город&nbsp;— наша технология</h2>
+        <div class="args">
+          <div class="arg"><span class="arg__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-7-10a7 7 0 1 1 14 0c0 5.4-7 10-7 10Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10.5" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg></span><div><p class="arg__t">Модель под&nbsp;масштаб города</p><p class="arg__x">Форматы от&nbsp;75&nbsp;млн&nbsp;₽&nbsp;— от&nbsp;компактной сети до&nbsp;готового бизнеса</p></div></div>
+          <div class="arg"><span class="arg__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M8 12l3 3 5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span><div><p class="arg__t">Поддержка до&nbsp;и&nbsp;после запуска</p><p class="arg__x">IT-платформа, снабжение, маркетинг и&nbsp;обучение команды</p></div></div>
+          <div class="arg"><span class="arg__i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><div><p class="arg__t">Ответ за&nbsp;2&nbsp;рабочих дня</p><p class="arg__x">Без длинного квиза&nbsp;— шесть полей и&nbsp;живой разговор с&nbsp;командой</p></div></div>
+        </div>
+      </div>
+      <div class="shell rv" style="--d:.1s"><div class="core fcard">
+        <form id="form" novalidate>
+          <div class="f"><label for="fn">Имя <span class="req" aria-hidden="true">*</span></label><input type="text" id="fn" name="name" autocomplete="name" required aria-describedby="fn-e"><p class="err" id="fn-e">Напишите, как к&nbsp;вам обращаться</p></div>
+          <div class="f"><label for="fc">Телефон или&nbsp;почта <span class="req" aria-hidden="true">*</span></label><input type="text" id="fc" name="contact" autocomplete="tel" required aria-describedby="fc-e"><p class="err" id="fc-e">Оставьте телефон или&nbsp;почту&nbsp;— чтобы мы&nbsp;могли ответить</p></div>
+          <div class="f"><label for="fg">Город <span class="req" aria-hidden="true">*</span></label><input type="text" id="fg" name="city" autocomplete="address-level2" required aria-describedby="fg-e"><p class="err" id="fg-e">Укажите город, который хотите развивать</p></div>
+          <div class="f"><label for="fs">Сегмент</label><select id="fs" name="segment"><option value="" selected>Выберите формат</option><option>Готовый бизнес</option><option>Новый город — миллионник</option><option>Новый город — крупный город</option><option>Другой</option></select></div>
+          <fieldset class="f" style="border:0"><legend style="font-family:'YS Geo',sans-serif;font-weight:500;font-size:var(--t-small);margin-bottom:8px;padding:0">Есть действующий бизнес?</legend><div class="radios"><label class="rad"><input type="radio" name="biz" value="Да"><span>Да</span></label><label class="rad"><input type="radio" name="biz" value="Нет"><span>Нет</span></label></div></fieldset>
+          <div class="cons"><input type="checkbox" id="fk" required aria-describedby="fk-e"><label for="fk">Согласен на&nbsp;<a href="#pd">обработку персональных данных</a> <span class="req" aria-hidden="true">*</span></label></div>
+          <p class="err" id="fk-e" style="display:none;font-size:var(--t-small);color:var(--orange);margin:-12px 0 16px">Для&nbsp;отправки нужно согласие на&nbsp;обработку данных</p>
+          <button class="btn btn--lg" type="submit">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <p class="legal t-micro">Прототип&nbsp;— заявка никуда не&nbsp;отправляется. Информация на&nbsp;сайте не&nbsp;является публичной офертой</p>
+        </form>
+        <div class="done" id="done" hidden aria-live="polite">
+          <span class="done__i"><svg viewBox="0 0 32 32" fill="none"><path d="M7 17l6 6L25 9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <h3 class="t-h2">Заявка принята</h3>
+          <p>Следующий шаг&nbsp;— знакомство с&nbsp;командой. Ответим за&nbsp;2&nbsp;рабочих дня</p>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- 12 Футер -->
+<footer class="ftr">
+  <div class="container">
+    <div class="ftr__t">
+      <a class="logo" href="#top" aria-label="Яндекс Лавка — Франшиза, наверх">
+        <span class="logo__m" aria-hidden="true"><svg viewBox="0 0 16 15" fill="none"><path d="M8 14.2C4.8 11.6 1 8.4 1 5.1 1 2.8 2.8 1 5 1c1.2 0 2.3.6 3 1.5C8.7 1.6 9.8 1 11 1c2.2 0 4 1.8 4 4.1 0 3.3-3.8 6.5-7 9.1Z" fill="#fff"/></svg></span>
+        <span class="logo__n">Яндекс&nbsp;Лавка</span><span class="logo__b">Франшиза</span>
+      </a>
+      <nav class="ftr__nav" aria-label="Навигация в футере"><a href="#formats">Форматы</a><a href="#model">Как устроен бизнес</a><a href="#path">Как стать партнёром</a><a href="#faq">Вопросы</a></nav>
+      <div class="ftr__a">
+        <a class="tg" href="https://t.me/yandexlavka_franchise" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.6 18.9 19c-.2 1-.8 1.2-1.6.8l-4.6-3.4-2.2 2.1c-.2.3-.5.5-.9.5l.3-4.6L18.3 7c.4-.3-.1-.5-.6-.2L7.4 13.3l-4.5-1.4c-1-.3-1-1 .2-1.4l17.5-6.7c.8-.3 1.5.2 1.3.8Z"/></svg>Telegram</a>
+        <a class="btn" href="#apply">Стать партнёром<span class="btn__ic" aria-hidden="true"><svg viewBox="0 0 15 15" fill="none"><path d="M3.5 11.5 11.5 3.5M5 3.5h6.5V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
+    </div>
+    <div class="ftr__b">
+      <p class="t-micro">ООО «Яндекс.Лавка» · 123112, Москва, 1-й&nbsp;Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1. Информация на&nbsp;сайте не&nbsp;является публичной офертой. Прототип&nbsp;— все цифры и&nbsp;имена иллюстративные.</p>
+      <div class="ftr__l"><a href="#pd" id="pd">Политика конфиденциальности</a><a href="#pd">Обработка персональных данных</a></div>
+      <div class="ftr__m"><span>©&nbsp;2026 Яндекс&nbsp;Лавка</span><span>18+</span></div>
+    </div>
+  </div>
+</footer>
+
+<script src="lab-assets/vendor/gsap.min.js"></script>
+<script src="lab-assets/vendor/ScrollTrigger.min.js"></script>
+<script src="lab-assets/vendor/SplitText.min.js"></script>
+<script>
+(function(){
+"use strict";
+var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+var hasGSAP = typeof gsap !== "undefined";
+/* Во вкладке-фоне rAF и IntersectionObserver не тикают — там страница статична */
+var isStatic = !hasGSAP || reduced || document.hidden;
+var $  = function(s,c){ return (c||document).querySelector(s); };
+var $$ = function(s,c){ return [].slice.call((c||document).querySelectorAll(s)); };
+
+/* ---------- Меню ---------- */
+var hdr = $("#hdr"), burger = $(".burger"), ov = $("#ov");
+addEventListener("scroll", function(){ hdr.classList.toggle("stuck", scrollY > 10); }, {passive:true});
+burger.addEventListener("click", function(){
+  var open = burger.getAttribute("aria-expanded") === "true";
+  burger.setAttribute("aria-expanded", String(!open));
+  burger.setAttribute("aria-label", open ? "Открыть меню" : "Закрыть меню");
+  ov.classList.toggle("open", !open);
+  document.body.style.overflow = open ? "" : "hidden";
+});
+$$("a", ov).forEach(function(a){ a.addEventListener("click", function(){
+  burger.setAttribute("aria-expanded","false"); ov.classList.remove("open"); document.body.style.overflow="";
+}); });
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && ov.classList.contains("open")){
+    burger.setAttribute("aria-expanded","false"); ov.classList.remove("open");
+    document.body.style.overflow=""; burger.focus();
+  }
+});
+
+/* ---------- Запасной reveal (без GSAP) ---------- */
+if (isStatic){
+  $$(".rv").forEach(function(el){ el.classList.add("in"); });
+} else {
+  var rio = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("in"); rio.unobserve(e.target); } });
+  }, {threshold:.12, rootMargin:"0px 0px -6% 0px"});
+  $$(".rv").forEach(function(el){ rio.observe(el); });
+}
+
+/* ---------- Табы ---------- */
+var tabs = $$('[role="tab"]');
+function selTab(tab, focus){
+  tabs.forEach(function(t){
+    var on = t === tab;
+    t.setAttribute("aria-selected", String(on));
+    t.tabIndex = on ? 0 : -1;
+    $("#" + t.getAttribute("aria-controls")).hidden = !on;
+  });
+  if (hasGSAP && !reduced){
+    var p = $("#" + tab.getAttribute("aria-controls"));
+    gsap.fromTo(p.children, {y:22, opacity:0}, {y:0, opacity:1, duration:.7, ease:"expo.out", stagger:.06, overwrite:true});
+  }
+  if (focus) tab.focus();
+}
+tabs.forEach(function(tab, i){
+  tab.addEventListener("click", function(){ selTab(tab); });
+  tab.addEventListener("keydown", function(e){
+    if (e.key === "Home"){ e.preventDefault(); return selTab(tabs[0], true); }
+    if (e.key === "End"){ e.preventDefault(); return selTab(tabs[tabs.length-1], true); }
+    var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!d) return;
+    e.preventDefault();
+    selTab(tabs[(i + d + tabs.length) % tabs.length], true);
+  });
+});
+
+/* ---------- Даркстор ---------- */
+var zones = [
+  {n:"01", t:"Сухое хранение",     o:"Яндекс · Ассортимент",     c:"sky",   x:"Основной запас даркстора: товарную матрицу и автозаказ считают алгоритмы Яндекса"},
+  {n:"02", t:"Морозильная камера", o:"Партнёр · −18 °C",         c:"ice",   x:"Заморозка и мороженое хранятся при −18 °C — холодовую цепь контролируют датчики"},
+  {n:"03", t:"Холодильники",       o:"Партнёр · +2…+4 °C",       c:"ice",   x:"Молочные продукты, овощи и готовая еда — свежесть под постоянным контролем температуры"},
+  {n:"04", t:"Кухня",              o:"Совместно · Готовая еда",  c:"peach", x:"Кофе и готовая еда собственного производства — растят средний чек даркстора"},
+  {n:"05", t:"Сборка заказов",     o:"Партнёр · WMS-маршрут",    c:"ice",   x:"WMS строит короткий маршрут по полкам — корзина собирается за считанные минуты"},
+  {n:"06", t:"Выдача курьерам",    o:"Партнёр · Последняя миля", c:"ice",   x:"Готовые заказы уходят курьерам — до двери покупателя 10–15 минут"},
+  {n:"07", t:"Средняя миля",       o:"Яндекс · Поставки",        c:"sky",   x:"Связь с распредцентрами: машины Яндекса привозят пополнение точно в срок"}
+];
+var scene = $("#scene"), dcard = $("#dcard"), dreset = $("#dreset"), hots = $$(".hot"), az = -1;
+function dShow(i){
+  var z = zones[i], h = hots[i];
+  az = i;
+  hots.forEach(function(b,j){ b.setAttribute("aria-expanded", String(i===j)); });
+  $("#dnum").textContent = z.n; $("#dtitle").textContent = z.t; $("#dtext").textContent = z.x;
+  var chip = $("#dchip");
+  chip.textContent = z.o;
+  chip.className = "chip" + (z.c === "sky" ? " chip--sky" : "");
+  chip.style.background = z.c === "peach" ? "var(--peach)" : "";
+  chip.style.color = z.c === "peach" ? "#fff" : "";
+  dcard.classList.add("open"); dreset.classList.add("on");
+  scene.style.transformOrigin = h.style.left + " " + h.style.top;
+  scene.style.transform = "scale(" + (matchMedia("(max-width:900px)").matches ? 1.6 : 1.9) + ")";
+}
+function dOff(){
+  az = -1;
+  hots.forEach(function(b){ b.setAttribute("aria-expanded","false"); });
+  dcard.classList.remove("open"); dreset.classList.remove("on");
+  scene.style.transform = "none";
+}
+hots.forEach(function(b){ b.addEventListener("click", function(){
+  var i = +b.dataset.z; if (i === az) dOff(); else dShow(i);
+}); });
+dreset.addEventListener("click", dOff);
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && az !== -1) dOff(); });
+
+/* ---------- Роялти ---------- */
+$$(".info").forEach(function(b){ b.addEventListener("click", function(){
+  var n = $("#" + b.getAttribute("aria-controls"));
+  var open = b.getAttribute("aria-expanded") === "true";
+  b.setAttribute("aria-expanded", String(!open));
+  n.classList.toggle("open", !open);
+}); });
+
+/* ---------- Аккордеон ---------- */
+$$(".acc__b").forEach(function(b){ b.addEventListener("click", function(){
+  var item = b.closest(".acc__i");
+  var open = b.getAttribute("aria-expanded") === "true";
+  $$(".acc__i.open").forEach(function(o){
+    if (o !== item){ o.classList.remove("open"); $(".acc__b", o).setAttribute("aria-expanded","false"); }
+  });
+  b.setAttribute("aria-expanded", String(!open));
+  item.classList.toggle("open", !open);
+}); });
+
+/* ---------- Карусель ---------- */
+var rt = $("#rtrack");
+function step(){ var c = $(".shell", rt); return c ? c.offsetWidth + 12 : 400; }
+$("#rprev").addEventListener("click", function(){ rt.scrollBy({left:-step(), behavior: reduced ? "auto" : "smooth"}); });
+$("#rnext").addEventListener("click", function(){ rt.scrollBy({left: step(), behavior: reduced ? "auto" : "smooth"}); });
+
+/* ---------- Форма ---------- */
+var form = $("#form");
+function bad(el, on){ var f = el.closest(".f"); if (f) f.classList.toggle("bad", on); el.setAttribute("aria-invalid", on ? "true" : "false"); }
+["fn","fc","fg"].forEach(function(id){ var el = $("#"+id); el.addEventListener("input", function(){ bad(el, false); }); });
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+  var first = null;
+  ["fn","fc","fg"].forEach(function(id){
+    var el = $("#"+id), b = !el.value.trim();
+    bad(el, b); if (b && !first) first = el;
+  });
+  var k = $("#fk"), ke = $("#fk-e"), no = !k.checked;
+  ke.style.display = no ? "block" : "none";
+  if (no && !first) first = k;
+  if (first){ first.focus(); return; }
+  form.hidden = true; $("#done").hidden = false;
+});
+$("#fk").addEventListener("change", function(){ if (this.checked) $("#fk-e").style.display = "none"; });
+
+/* ================= Хореография ================= */
+/* Статический режим: всё видно, ничего не движется */
+function staticMode(){
+  $$(".rp").forEach(function(p){ p.classList.add("lit"); });
+  $$(".stage").forEach(function(s){ s.classList.add("lit"); });
+  $$(".cnt").forEach(function(el){ el.textContent = el.dataset.to; });
+  $("#route-n").textContent = "120";
+  var rail = $("#rail");
+  rail.style.overflowX = "auto";
+  rail.style.scrollSnapType = "x mandatory";
+}
+
+if (isStatic){ staticMode(); return; }
+gsap.registerPlugin(ScrollTrigger);
+
+function boot(){
+  /* Заголовок хиро: построчная маска (SplitText) */
+  try {
+    var st = (typeof SplitText !== "undefined" && SplitText.create)
+      ? SplitText.create("#hero-h1", {type:"lines", mask:"lines", linesClass:"line"})
+      : null;
+    if (st && st.lines.length){
+      gsap.from(st.lines, {yPercent:115, duration:1.1, ease:"expo.out", stagger:.09, delay:.1});
+    }
+  } catch(err){ /* без сплита заголовок просто статичен */ }
+
+  /* Остальное в хиро — мягкий подъём */
+  gsap.from(".hero .eyebrow, .hero__sub, .hero__cta, .hero__aside", {
+    y:26, opacity:0, duration:1, ease:"expo.out", stagger:.08, delay:.35
+  });
+
+  /* Трасса: пилюли зажигаются по очереди + счётчик 0→120 */
+  ScrollTrigger.create({
+    trigger:"#route", start:"top 78%", once:true,
+    onEnter:function(){
+      gsap.to({v:0}, {v:120, duration:1.6, ease:"power2.out",
+        onUpdate:function(){ $("#route-n").textContent = Math.round(this.targets()[0].v); }});
+      $$(".rp").forEach(function(p,i){ setTimeout(function(){ p.classList.add("lit"); }, 120 + i*130); });
+    }
+  });
+
+  /* Атлас: плитки раскладываются */
+  gsap.from("#bento .tile", {
+    y:44, opacity:0, duration:1, ease:"expo.out", stagger:{each:.07, from:"start"},
+    scrollTrigger:{trigger:"#bento", start:"top 82%", once:true}
+  });
+
+  /* Счётчики в плитках */
+  $$(".cnt").forEach(function(el){
+    var to = +el.dataset.to;
+    el.textContent = "0";
+    ScrollTrigger.create({trigger:el, start:"top 88%", once:true, onEnter:function(){
+      gsap.to({v:0}, {v:to, duration:1.3, ease:"power2.out",
+        onUpdate:function(){ el.textContent = Math.round(this.targets()[0].v); },
+        onComplete:function(){ el.textContent = to; }});
+    }});
+  });
+
+  /* Путь: горизонтальный pin-скролл на десктопе */
+  var rail = $("#rail"), vp = $("#pathvp");
+  function horiz(){
+    var wide = innerWidth > 900;
+    ScrollTrigger.getAll().forEach(function(t){ if (t.vars.id === "railScroll") t.kill(); });
+    gsap.set(rail, {clearProps:"x"});
+    rail.style.overflowX = wide ? "" : "auto";
+    rail.style.scrollSnapType = wide ? "" : "x mandatory";
+    $("#pathhint").style.display = wide ? "none" : "";
+    if (!wide) return;
+    var dist = rail.scrollWidth - vp.clientWidth + 40;
+    if (dist <= 0) return;
+    gsap.to(rail, {
+      x: -dist, ease:"none",
+      scrollTrigger:{
+        id:"railScroll", trigger:vp, start:"center center",
+        end:"+=" + dist * 1.15, pin:true, scrub:.6, invalidateOnRefresh:true,
+        onUpdate:function(self){
+          var n = Math.round(self.progress * ($$(".stage").length - 1));
+          $$(".stage").forEach(function(s,i){ s.classList.toggle("lit", i <= n); });
+        }
+      }
+    });
+  }
+  horiz();
+  addEventListener("resize", function(){ clearTimeout(window.__rz); window.__rz = setTimeout(function(){ horiz(); ScrollTrigger.refresh(); }, 250); });
+
+  /* Мобильная подсветка этапов, когда pin выключен */
+  ScrollTrigger.create({trigger:"#rail", start:"top 80%", once:true, onEnter:function(){
+    if (innerWidth <= 900) $$(".stage").forEach(function(s,i){ setTimeout(function(){ s.classList.add("lit"); }, i*120); });
+  }});
+}
+
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
+else addEventListener("load", boot);
+})();
+</script>
+</body>
+</html>

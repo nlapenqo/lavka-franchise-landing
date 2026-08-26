@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · 5 гибридных вариантов</title>
+  <link rel="stylesheet" href="../_shared/tokens.css"><link rel="stylesheet" href="../_shared/base.css">
+  <style>
+    body { min-width: 1100px; background: #eef5fb; }
+    .review { max-width: 1440px; margin: auto; padding: 42px 42px 72px; }
+    .review-head { display: grid; grid-template-columns: .85fr 1.15fr; align-items: end; gap: 64px; margin-bottom: 28px; }
+    .review-head h1 { max-width: 12ch; font-size: 52px; line-height: .94; font-weight: 900; letter-spacing: -.02em; text-wrap: balance; }
+    .review-head p { max-width: 650px; color: var(--text-dim); font-size: 17px; line-height: 1.44; }
+    .tabs { display: grid; grid-template-columns: repeat(5,1fr); gap: 9px; margin-bottom: 14px; }
+    .tab { min-height: 100px; padding: 17px; border: 0; border-radius: 18px; color: var(--navy); background: #fff; text-align: left; box-shadow: 0 5px 18px rgba(27,58,106,.055); transition: background .3s,color .3s,transform .3s var(--ease-out); }
+    .tab:hover { transform: translateY(-2px); }
+    .tab:active { transform: translateY(1px); }
+    .tab:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .tab.is-active { color: #fff; background: var(--navy); }
+    .tab small { display: block; margin-bottom: 8px; font-size: 12px; line-height: 1.1; opacity: .62; }
+    .tab strong { display: block; margin-bottom: 6px; font-size: 15px; line-height: 1.1; }
+    .tab span { display: block; font-size: 12px; line-height: 1.2; opacity: .74; }
+    .frame-shell { padding: 8px; border-radius: 32px; background: rgba(27,58,106,.07); box-shadow: inset 0 0 0 1px rgba(27,58,106,.05),0 24px 68px rgba(27,58,106,.12); }
+    iframe { display: block; width: 100%; height: 1080px; border: 0; border-radius: 25px; background: #fff; }
+    .review-foot { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 18px; color: var(--text-dim); font-size: 13px; }
+    .open { color: var(--navy); font-weight: 500; }
+  </style>
+</head>
+<body>
+  <main class="review">
+    <header class="review-head">
+      <h1>5 спокойных гибридов</h1>
+      <p>Во всех вариантах вместе работают четыре принципа: сохранение фирменной композиции, читаемая типографика, удаление лишних слоёв и один выразительный приём с изображением курьера.</p>
+    </header>
+    <nav class="tabs" aria-label="Выбор варианта">
+      <button class="tab is-active" data-src="hybrid-1.html"><small>Ближе всего к Figma</small><strong>Исходник, собраннее</strong><span>Главная карточка и две роли</span></button>
+      <button class="tab" data-src="hybrid-2.html"><small>Одна поверхность</small><strong>Цельный блок</strong><span>Курьер связывает весь смысл</span></button>
+      <button class="tab" data-src="hybrid-3.html"><small>Больше воздуха</small><strong>Открытая полка</strong><span>Роли без лишних карточек</span></button>
+      <button class="tab" data-src="hybrid-4.html"><small>Чуть выразительнее</small><strong>Курьер между ролями</strong><span>Разделение считывается сразу</span></button>
+      <button class="tab" data-src="hybrid-5.html"><small>Компактнее</small><strong>Фото слева</strong><span>Весь блок в одной плоскости</span></button>
+    </nav>
+    <div class="frame-shell"><iframe id="preview" src="hybrid-1.html?embed=1" title="Предпросмотр варианта"></iframe></div>
+    <footer class="review-foot"><span id="caption">Максимально близко к исходному Figma-блоку</span><a class="open" id="open" href="hybrid-1.html" target="_blank">Открыть отдельно ↗</a></footer>
+  </main>
+  <script>
+    (() => {
+      const tabs = [...document.querySelectorAll('.tab')];
+      const frame = document.getElementById('preview');
+      const open = document.getElementById('open');
+      const caption = document.getElementById('caption');
+      const notes = [
+        'Максимально близко к исходному Figma-блоку',
+        'Самая цельная композиция: один фон и один визуальный якорь',
+        'Самый типографический вариант с открытым нижним уровнем',
+        'Разделение ответственности построено вокруг курьера',
+        'Зеркальная компоновка делает блок короче и динамичнее'
+      ];
+      tabs.forEach((tab, index) => tab.addEventListener('click', () => {
+        tabs.forEach(item => item.classList.remove('is-active'));
+        tab.classList.add('is-active');
+        frame.src = tab.dataset.src + '?embed=1';
+        open.href = tab.dataset.src;
+        caption.textContent = notes[index];
+      }));
+    })();
+  </script>
+</body>
+</html>
+

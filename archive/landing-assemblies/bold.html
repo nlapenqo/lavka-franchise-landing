@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лендинг франшизы · Сборка Bold</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%2300ADFF'/%3E%3Cpath d='M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../blocks/_shared/tokens.css">
+<link rel="stylesheet" href="../../blocks/_shared/base.css">
+<style>
+  body { background: var(--bg); overflow-x: clip; }
+  .landing-stack { display: flex; flex-direction: column; }
+  .landing-stack iframe {
+    display: block;
+    width: 100%;
+    height: 100vh; /* стартовая высота до первого замера; JS подгонит */
+    border: 0;
+  }
+  /* Меню (01) и scrollytelling (07) монтируются прямо в документ сборки:
+     меню — backdrop-filter в прозрачном iframe размывает родителя на весь
+     прямоугольник iframe (артефакт Chrome); 07 — sticky-сцена в iframe
+     с автовысотой не пинится, а в сборке скроллителлинг честный */
+  /* Панель состава сборки */
+  .build-tag {
+    position: fixed; right: 16px; bottom: 16px; z-index: 999;
+    max-width: min(86vw, 720px);
+    font-family: var(--font-cond); font-weight: 300; font-size: 12px; letter-spacing: .02em;
+    line-height: 1.4;
+    background: rgba(27,58,106,.85); color: #fff;
+    padding: 8px 14px; border-radius: 16px;
+    backdrop-filter: blur(4px);
+    opacity: .8;
+  }
+  .build-tag b { font-weight: 300; color: var(--sky); }
+  .build-legal {
+    position: fixed; left: 16px; bottom: 16px; z-index: 999;
+    background: rgba(255,255,255,.85); padding: 6px 12px; border-radius: var(--r-pill);
+    backdrop-filter: blur(4px);
+  }
+  @media (max-width: 640px) {
+    .build-legal { display: none; }
+    .build-tag { right: 10px; bottom: 10px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<main class="landing-stack" id="stack" aria-label="Сборка Bold лендинга — смелая версия по скиллам frontend-design и unlumen"></main>
+
+<div class="build-tag" id="buildTag"><b>Сборка Bold</b> · </div>
+<p class="t-legal build-legal">Прототип-сборка · данные&nbsp;— заглушка (рыба) · не&nbsp;является публичной офертой</p>
+
+<script>
+  /* Состав: bold-версии там, где переработано (02 ротация города + карточка
+     трекера, 03 CTA по сетке шапки, 04 цифры +44%, 05.1 центровка плюсов и
+     новый заголовок, 06 subgrid-выравнивание, 11 заголовок без точки);
+     остальное — final. Правило: в заголовках точку не ставим. */
+  const BLOCKS = [
+    ['01-nav', 'final'],
+    ['02-hero', 'bold'],
+    ['03-event', 'bold'],
+    ['04-numbers', 'bold'],
+    ['05-business', 'final'],
+    ['05-1-darkstore', 'bold'],
+    ['06-offers', 'bold'],
+    ['07-steps', 'final'],
+    ['08-reviews', 'final'],
+    ['09-media', 'final'],
+    ['10-faq', 'final'],
+    ['11-form', 'bold'],
+    ['12-footer', 'final'],
+  ];
+
+  /* Якоря из блоков ведут на соответствующие блоки сборки */
+  const ANCHOR_MAP = {
+    '#top': 'TOP',
+    '#form': '11-form', '#lead': '11-form',
+    '#formats': '06-offers',
+    '#business': '05-business', '#how': '05-business',
+    '#steps': '07-steps',
+    '#faq': '10-faq',
+  };
+
+  const frames = {}; /* dir → iframe или инлайн-секция */
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function bindAnchors(doc) {
+    doc.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      e.preventDefault(); /* якорей внутри блока нет — навигируем по сборке */
+      const target = ANCHOR_MAP[a.getAttribute('href')];
+      if (!target) return;
+      const top = target === 'TOP' ? 0 : Math.max(0, (frames[target]?.offsetTop || 0) - 8);
+      scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' });
+    });
+  }
+
+  /* Меню: переносим капсулу и её стили из блока в этот документ,
+     чтобы liquid glass честно размывал контент страницы */
+  const BUST = Date.now(); /* прототип: не даём браузеру склеивать старые версии блоков из кэша */
+
+  async function mountNav() {
+    const html = await (await fetch('../../blocks/01-nav/final.html', { cache: 'reload' })).text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const st = document.createElement('style');
+    st.textContent =
+      doc.querySelector('style').textContent
+        .replaceAll('html.is-embed', 'html.nav-glass') + /* embed-цвета капсулы, не задевая другие блоки */
+      '\nbody { background: var(--bg); }'; /* body-правила блока не должны красить сборку */
+    document.head.append(st);
+    document.documentElement.classList.add('nav-glass');
+    const head = doc.querySelector('.site-head');
+    document.body.prepend(document.adoptNode(head));
+    const upd = () => head.classList.toggle('is-solid', scrollY > 90);
+    addEventListener('scroll', upd, { passive: true }); upd();
+  }
+
+  /* 07: секция переносится в документ сборки — sticky-скроллителлинг
+     работает от родного скролла страницы; клик по ячейке отвязывает
+     этапы от скролла (логика живёт в #steps-logic самого блока) */
+  async function mountSteps(placeholder) {
+    const html = await (await fetch('../../blocks/07-steps/final.html', { cache: 'reload' })).text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const st = document.createElement('style');
+    st.textContent =
+      doc.querySelector('style').textContent +
+      '\nbody { background: var(--bg); color: var(--text); }'; /* фон сборки не красим */
+    document.head.append(st);
+    const section = document.adoptNode(doc.querySelector('.story'));
+    section.querySelector('p.t-legal.legal')?.remove();
+    placeholder.replaceWith(section);
+    frames['07-steps'] = section;
+    new Function(doc.getElementById('steps-logic').textContent)();
+  }
+
+  function cleanDoc(iframe, dir) {
+    try {
+      const d = iframe.contentWindow.document;
+      /* подпись версии и приблочные «Прототип · рыба» есть в общей панели сборки —
+         внутри блоков они шумят и рвут стыки (реквизиты футера не трогаем) */
+      d.querySelectorAll('.proto-tag, .hero__legal, .proto-footer, p.t-legal.legal, p.t-legal.prototype').forEach(el => el.remove());
+      bindAnchors(d);
+    } catch (_) {}
+  }
+
+  /* Автовысота same-origin iframe: замер на load, через ResizeObserver
+     внутри документа блока и на resize окна.
+     Bold-фикс: documentElement.scrollHeight никогда не меньше вьюпорта
+     iframe — из-за этого тонкие блоки (03) держали мёртвую полосу.
+     Меряем и по нижней кромке последнего потокового элемента body,
+     берём меньшее из двух осмысленных значений. */
+  function measure(doc) {
+    const bodyH = Math.ceil(doc.body.scrollHeight);
+    const kids = [...doc.body.children].filter(c => {
+      const cs = doc.defaultView.getComputedStyle(c);
+      return cs.position !== 'fixed' && cs.position !== 'absolute' && cs.display !== 'none';
+    });
+    if (!kids.length) return bodyH;
+    const kidsH = Math.ceil(Math.max(...kids.map(c => c.offsetTop + c.offsetHeight)));
+    return (kidsH >= 40 && kidsH < bodyH) ? kidsH : bodyH;
+  }
+  function autoHeight(iframe) {
+    let grows = 0; /* защита от петли: vh-контент растёт вслед за высотой iframe */
+    const fit = () => {
+      try {
+        const doc = iframe.contentWindow && iframe.contentWindow.document;
+        if (!doc || !doc.body) return;
+        const h = measure(doc);
+        if (h < 40 || Math.abs(h - iframe.offsetHeight) <= 2) return;
+        grows = h > iframe.offsetHeight ? grows + 1 : 0;
+        if (grows > 6) return; /* высота растёт без остановки — замораживаем */
+        iframe.style.height = h + 'px';
+      } catch (_) { /* блок ещё не готов */ }
+    };
+    iframe.addEventListener('load', () => {
+      fit();
+      try {
+        const doc = iframe.contentWindow.document;
+        const ro = new ResizeObserver(fit);
+        ro.observe(doc.documentElement);
+        if (doc.body) ro.observe(doc.body);
+      } catch (_) {}
+      /* страховка: поздняя загрузка шрифтов меняет высоту */
+      setTimeout(fit, 400); setTimeout(fit, 1200);
+    });
+    /* при ресайзе контент блока может устаканиться позже событий RO —
+       перемеряем ещё пару раз с задержкой */
+    addEventListener('resize', () => { fit(); setTimeout(fit, 150); setTimeout(fit, 600); }, { passive: true });
+  }
+
+  const stack = document.getElementById('stack');
+  BLOCKS.forEach(([dir, ver]) => {
+    if (dir === '01-nav') return; /* меню смонтировано в mountNav() */
+    if (dir === '07-steps') {
+      const ph = document.createElement('div');
+      stack.append(ph);
+      mountSteps(ph);
+      return;
+    }
+    const f = document.createElement('iframe');
+    f.src = `../../blocks/${dir}/${ver}.html?embed=1&v=${BUST}`;
+    f.title = `Блок ${dir} · ${ver}`;
+    frames[dir] = f;
+    f.addEventListener('load', () => cleanDoc(f, dir));
+    autoHeight(f);
+    stack.append(f);
+  });
+
+  mountNav();
+  bindAnchors(document);
+
+  document.getElementById('buildTag').append(
+    BLOCKS.map(([dir, ver]) => `${dir.split('-')[0] === '05' && dir.includes('darkstore') ? '05.1' : dir.split('-')[0]}·${ver}`).join(' · ')
+  );
+</script>
+</body>
+</html>

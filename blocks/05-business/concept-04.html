@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Как устроен бизнес? — Операционный стек</title>
+  <link rel="stylesheet" href="concept-shared.css">
+  <style>
+    .business--stack {
+      padding-bottom: 136px;
+    }
+
+    .business--stack .business-head {
+      margin-bottom: 70px;
+    }
+
+    .stack-intro {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .stack-intro .intro-title {
+      max-width: 480px;
+    }
+
+    .stack-intro .intro-copy {
+      max-width: 650px;
+      padding-top: 2px;
+      font-size: 19px;
+      line-height: 1.44;
+    }
+
+    .operation-stack {
+      margin-top: 58px;
+      overflow: hidden;
+      border-radius: var(--r-card);
+      background: var(--bg-light);
+    }
+
+    .stack-layer {
+      padding: 42px 48px 47px;
+    }
+
+    .stack-layer .role-title {
+      margin-bottom: 31px;
+    }
+
+    .stack-points {
+      display: grid;
+      min-width: 0;
+      color: var(--text-dim);
+      font-size: 18px;
+      line-height: 1.36;
+    }
+
+    .stack-points li {
+      position: relative;
+      min-width: 0;
+      padding: 13px 24px 0;
+      border-left: 1px solid var(--business-rule);
+      text-wrap: pretty;
+    }
+
+    .stack-points li::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 24px;
+      width: 34px;
+      height: 4px;
+      border-radius: var(--r-pill);
+      background: var(--blue);
+      transition: width .3s var(--ease-out);
+    }
+
+    .stack-points li:hover::before {
+      width: 48px;
+    }
+
+    .stack-points--partner {
+      grid-template-columns: 1.05fr 1.18fr 1.82fr 1.45fr;
+    }
+
+    .stack-layer--lavka {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .stack-layer--lavka .role-title {
+      max-width: 440px;
+    }
+
+    .stack-points--lavka {
+      grid-template-columns: 1.04fr 1.48fr 1.3fr;
+      color: rgba(255, 255, 255, .78);
+    }
+
+    .stack-points--lavka li {
+      padding-right: 34px;
+      padding-left: 34px;
+      border-left-color: var(--business-rule-dark);
+    }
+
+    .stack-points--lavka li::before {
+      left: 34px;
+      background: var(--sky);
+    }
+
+    .stack-actions {
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1120px) {
+      .business--stack .business-head {
+        margin-bottom: 62px;
+      }
+
+      .stack-intro {
+        gap: 48px;
+      }
+
+      .stack-layer {
+        padding-inline: 38px;
+      }
+
+      .stack-points li {
+        padding-right: 18px;
+        padding-left: 18px;
+      }
+
+      .stack-points li::before {
+        left: 18px;
+      }
+
+      .stack-points--lavka li {
+        padding-right: 26px;
+        padding-left: 26px;
+      }
+
+      .stack-points--lavka li::before {
+        left: 26px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stack-points li::before {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="business business--stack" id="business" aria-labelledby="business-title">
+      <div class="business__container">
+        <header class="business-head reveal">
+          <h1 id="business-title">Как устроен бизнес?</h1>
+          <p class="business-head__subtitle">Как работает сервис?</p>
+        </header>
+
+        <div class="stack-intro reveal reveal-d1">
+          <h2 class="intro-title">Яндекс Лавка — сервис быстрой доставки продуктов</h2>
+          <p class="intro-copy">Клиент делает заказ, он собирается в дарксторе — специализированном складе — и доставляется курьером от 15 минут. Сервис развивается по франшизе, отдавая партнёрам в управление города целиком.</p>
+        </div>
+
+        <div class="operation-stack reveal reveal-d2" aria-label="Распределение ответственности">
+          <section class="stack-layer" aria-labelledby="stack-partner-title">
+            <h3 class="role-title" id="stack-partner-title">Франчайзи берёт на себя</h3>
+            <ul class="stack-points stack-points--partner">
+              <li>Инвестиции в запуск целого города</li>
+              <li>Поиск помещений и открытие дарксторов</li>
+              <li>Привлечение и управление курьерами, сборщиками и директорами</li>
+              <li>Качество и операционное управление бизнесом</li>
+            </ul>
+          </section>
+
+          <section class="stack-layer stack-layer--lavka" aria-labelledby="stack-lavka-title">
+            <h3 class="role-title" id="stack-lavka-title">Яндекс Лавка берёт на себя</h3>
+            <ul class="stack-points stack-points--lavka">
+              <li>Приложения, WMS и автозаказ</li>
+              <li>Маркетинговую поддержку и привлечение клиентов</li>
+              <li>Поставщиков, ассортимент и логистику средней мили</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="stack-actions reveal reveal-d3">
+          <a class="btn btn--blue business-cta" href="#form">Стать партнёром</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../_shared/proto.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+@import url('../_shared/tokens.css');
+@import url('../_shared/base.css');
+
+html { min-width: 1080px; }
+body { overflow-x: hidden; background: #fff; }
+.concept { min-height: 900px; padding: 112px 0 96px; position: relative; overflow: hidden; }
+.concept .container { max-width: 1280px; }
+.concept-head { display: grid; grid-template-columns: 1fr 420px; gap: 64px; align-items: end; margin-bottom: 52px; }
+.concept-head .t-label { display: block; margin-bottom: 14px; }
+.concept-head .t-h1 { font-size: clamp(60px, 6vw, 80px); }
+.concept-head .t-sub { color: var(--text-dim); line-height: 1.15; }
+.concept-kicker { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+.concept-kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 7px rgba(0,173,255,.12); }
+.num { font-variant-numeric: tabular-nums; }
+.clean-list { list-style: none; display: grid; gap: 12px; }
+.clean-list li { position: relative; padding-left: 24px; line-height: 1.34; }
+.clean-list li::before { content: ''; position: absolute; left: 0; top: .58em; width: 10px; height: 3px; border-radius: 99px; background: currentColor; opacity: .48; }
+.actor { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 14px; border-radius: var(--r-pill); font-size: 13px; font-weight: 500; white-space: nowrap; }
+.actor--partner { background: var(--sky); color: var(--navy); }
+.actor--yandex { background: var(--navy); color: #fff; }
+.actor--both { background: var(--blue); color: #fff; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.focus-ring:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+.proto-footer { display: flex; justify-content: center; padding: 18px 0 28px; }
+.proto-footer p { color: var(--text-dim); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

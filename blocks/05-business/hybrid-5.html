@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Как устроен бизнес · Гибрид 5</title>
+  <link rel="stylesheet" href="hybrid-shared.css">
+  <style>
+    .compact { display: grid; grid-template-columns: 430px minmax(0,1fr); gap: 50px; min-height: 635px; padding: 44px; }
+    .compact-visual { min-height: 547px; }
+    .compact-visual img { height: 835px; top: -96px; right: -196px; }
+    .content { display: grid; grid-template-rows: auto auto; gap: 36px; align-content: space-between; padding: 4px 4px 2px 0; }
+    .intro { max-width: 660px; }
+    .intro .hybrid-copy { margin: 22px 0 28px; }
+    .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; padding-top: 34px; border-top: 1px solid #d5e6f4; }
+    .role .hybrid-role-title { min-height: 61px; margin-bottom: 18px; font-size: 27px; }
+    .role .hybrid-list { font-size: 16px; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <main class="hybrid-section">
+    <div class="container">
+      <header class="hybrid-head"><h1>Как устроен бизнес?</h1><p>Как работает сервис?</p></header>
+      <section class="compact hybrid-surface">
+        <div class="hybrid-visual compact-visual" aria-hidden="true"><img src="assets/figma-raw-3.png" alt=""></div>
+        <div class="content">
+          <div class="intro">
+            <h2 class="hybrid-title">Яндекс Лавка. Сервис быстрой доставки продуктов</h2>
+            <p class="hybrid-copy">Клиент делает заказ. Его собирают в&nbsp;дарксторе, специализированном складе, и&nbsp;доставляют курьером от&nbsp;15&nbsp;минут. Сервис развивается по&nbsp;франшизе и&nbsp;передаёт партнёрам в&nbsp;управление города целиком.</p>
+            <a class="btn btn--blue" href="#form">Стать партнёром</a>
+          </div>
+          <div class="roles">
+            <article class="role">
+              <h3 class="hybrid-role-title">Франчайзи берёт на&nbsp;себя</h3>
+              <ul class="hybrid-list"><li>Инвестиции в запуск целого города</li><li>Поиск помещений и открытие дарксторов</li><li>Привлечение и управление курьерами, сборщиками и директорами</li><li>Качество и операционное управление бизнесом</li></ul>
+            </article>
+            <article class="role">
+              <h3 class="hybrid-role-title">Яндекс Лавка берёт на&nbsp;себя</h3>
+              <ul class="hybrid-list"><li>Приложения, WMS и автозаказ</li><li>Маркетинговую поддержку и привлечение клиентов</li><li>Поставщиков, ассортимент и логистику средней мили</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

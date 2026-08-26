@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Мастер-слайды · презентации мероприятия</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/slides.css">
+<style>
+  .deck-note{max-width:960px;margin:48px auto 8px;padding:0 24px;color:#42618c;font-size:15px;line-height:1.5}
+  .frame-label{width:min(1920px,100vw - 48px);margin:0 auto -28px;color:#42618c;font-size:14px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<!-- Градиент свечения. Вставлять один раз сразу после <body> на каждой странице
+     со слайдами; сами свечения — <svg class="glow glow--a" ...> внутри слайда. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<radialGradient id="lavka-glow" cx="50%" cy="50%" r="50%">
+<stop offset="0" stop-color="#00ADFF" stop-opacity=".62"/>
+<stop offset=".22" stop-color="#00ADFF" stop-opacity=".5"/>
+<stop offset=".42" stop-color="#00ADFF" stop-opacity=".33"/>
+<stop offset=".6" stop-color="#00ADFF" stop-opacity=".18"/>
+<stop offset=".76" stop-color="#00ADFF" stop-opacity=".08"/>
+<stop offset=".9" stop-color="#00ADFF" stop-opacity=".02"/>
+<stop offset="1" stop-color="#00ADFF" stop-opacity="0"/>
+</radialGradient></defs></svg>
+<p class="deck-note">Эталонные мастер-слайды (этап 0). Контент — реальные тексты лендинга,
+подставлен для проверки системы. Правила — в <b>DESIGN-SYSTEM.md</b>.</p>
+
+<div class="deck">
+
+  <!-- 01 · Обложка -->
+  <p class="frame-label">01 · Обложка</p>
+  <div class="slide-frame">
+    <section class="slide slide--dark">
+      <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg><svg class="glow glow--b" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+      <header style="display:flex;align-items:center;justify-content:space-between">
+        <span class="lg" style="--lg:1.1">
+          <img class="lg__main" src="../assets/logo/logo-main.svg" alt="Яндекс Лавка">
+          <img class="lg__mark" src="../assets/logo/logo-word-1.svg" alt="">
+          <img class="lg__badge" src="../assets/logo/logo-word-2.svg" alt="Франшиза">
+        </span>
+        <span class="t-caps dim">День партнёров · 27 августа · Москва</span>
+      </header>
+      <h1 class="t-hero" style="margin-top:auto">Как открыть Лавку<br><span class="accent">в своём городе</span></h1>
+      <div style="margin-top:64px;display:flex;align-items:baseline;gap:24px">
+        <span class="t-h4">Никита Лапенко</span>
+        <span class="t-sub dim">Команда франшизы Яндекс Лавки</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 02 · Разделитель -->
+  <p class="frame-label">02 · Разделитель раздела</p>
+  <div class="slide-frame">
+    <section class="slide slide--dark">
+      <svg class="glow glow--c" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+      <span class="t-caps dim">Раздел</span>
+      <div style="margin-top:auto;display:flex;align-items:baseline;gap:56px">
+        <span class="t-mega accent">02</span>
+        <h1 class="t-h1">Как устроен бизнес</h1>
+      </div>
+    </section>
+  </div>
+
+  <!-- 03 · Тезис -->
+  <p class="frame-label">03 · Контент: тезис</p>
+  <div class="slide-frame">
+    <section class="slide">
+      <span class="t-caps dim">Как устроен бизнес</span>
+      <h1 class="t-h1" style="margin-top:auto">Партнёр управляет сервисом<br><span class="accent">в целом городе</span></h1>
+      <p class="t-sub dim" style="margin-top:48px;max-width:1100px">Клиент делает заказ в приложении, сборщики комплектуют его в дарксторе, а курьер доставляет от 15 минут</p>
+      <footer class="slide-foot" style="margin-top:96px"><span class="t-caps">День партнёров Яндекс Лавки</span><span>3</span></footer>
+    </section>
+  </div>
+
+  <!-- 04 · Карточки -->
+  <p class="frame-label">04 · Контент: карточки</p>
+  <div class="slide-frame">
+    <section class="slide slide--light">
+      <h2 class="t-h2" style="max-width:1200px">Роли в партнёрстве</h2>
+      <div class="grid-2" style="margin-top:64px">
+        <div class="card card--white" style="display:flex;flex-direction:column;gap:24px;min-height:520px">
+          <span class="chip chip--sky">Франчайзи</span>
+          <h3 class="t-h3" style="max-width:560px">Инвестиции и операционное управление</h3>
+          <p class="t-body dim" style="max-width:600px">Франчайзи инвестирует в запуск, открывает дарксторы, нанимает команду и отвечает за качество и операционное управление бизнесом</p>
+        </div>
+        <div class="card card--white" style="display:flex;flex-direction:column;gap:24px;min-height:520px">
+          <span class="chip chip--navy">Яндекс Лавка</span>
+          <h3 class="t-h3" style="max-width:560px">Технологии, маркетинг и логистика</h3>
+          <p class="t-body dim" style="max-width:600px">Лавка предоставляет приложения, WMS и систему автозаказа, отвечает за маркетинг, формирует ассортимент и организует логистику</p>
+        </div>
+      </div>
+      <footer class="slide-foot"><span class="t-caps">День партнёров Яндекс Лавки</span><span>4</span></footer>
+    </section>
+  </div>
+
+  <!-- 05 · Цифры -->
+  <p class="frame-label">05 · Цифры</p>
+  <div class="slide-frame">
+    <section class="slide">
+      <h2 class="t-h2">Лавка в цифрах</h2>
+      <div class="grid-3" style="margin-top:64px;flex:1">
+        <div class="card--stat">
+          <span class="stat-num">28</span>
+          <h3 class="t-h3" style="max-width:400px">городов, где работает сервис</h3>
+          <p class="stat-note" style="max-width:420px">Бизнес-модель, технологии и сильный бренд уже работают — не нужно строить с нуля</p>
+        </div>
+        <div class="card--stat">
+          <span class="stat-num">14</span>
+          <h3 class="t-h3" style="max-width:400px">городов запущено по франшизе</h3>
+          <p class="stat-note" style="max-width:420px">Партнёры готовятся к запуску, а мы сопровождаем на каждом этапе</p>
+        </div>
+        <div class="card--stat">
+          <span class="stat-num">15</span>
+          <h3 class="t-h3" style="max-width:400px">партнёров ищем сейчас</h3>
+          <p class="stat-note" style="max-width:420px">Передаём в управление готовый бизнес или запускаем с нуля</p>
+        </div>
+      </div>
+      <footer class="slide-foot" style="margin-top:64px"><span class="t-caps">День партнёров Яндекс Лавки</span><span>5</span></footer>
+    </section>
+  </div>
+
+  <!-- 06 · Цитата -->
+  <p class="frame-label">06 · Цитата</p>
+  <div class="slide-frame">
+    <section class="slide slide--light">
+      <span class="t-caps dim">Опыт партнёров</span>
+      <blockquote style="margin:auto 0;max-width:1520px">
+        <p class="t-h2">«Запустили первый даркстор за три месяца — оборудование и обучение были готовы ещё до открытия»</p>
+        <footer style="margin-top:56px;display:flex;align-items:baseline;gap:20px">
+          <span class="t-h4">Игорь Соколов</span>
+          <span class="t-sub dim">Казань · 4 даркстора</span>
+        </footer>
+      </blockquote>
+      <footer class="slide-foot"><span class="t-caps">День партнёров Яндекс Лавки</span><span>6</span></footer>
+    </section>
+  </div>
+
+  <!-- 07 · Финал -->
+  <p class="frame-label">07 · Финал</p>
+  <div class="slide-frame">
+    <section class="slide slide--dark">
+      <svg class="glow glow--a" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg><svg class="glow glow--c" viewBox="0 0 1000 1400" preserveAspectRatio="none"><ellipse cx="500" cy="700" rx="500" ry="700"/></svg>
+      <span class="lg" style="--lg:1.1">
+        <img class="lg__main" src="../assets/logo/logo-main.svg" alt="Яндекс Лавка">
+        <img class="lg__mark" src="../assets/logo/logo-word-1.svg" alt="">
+        <img class="lg__badge" src="../assets/logo/logo-word-2.svg" alt="Франшиза">
+      </span>
+      <h1 class="t-hero" style="margin-top:auto">Откройте Лавку<br>в своём городе</h1>
+      <div style="margin-top:72px;display:flex;align-items:center;gap:40px">
+        <span class="pill pill--blue">Оставить заявку</span>
+        <span class="t-sub dim">franchise.lavka.yandex.ru</span>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+<script>
+  // ?slide=N — показать один слайд (просмотр по одному, экспорт в PDF)
+  const only = +new URLSearchParams(location.search).get('slide');
+  if (only) {
+    document.querySelectorAll('.slide-frame').forEach((f, i) => { if (i !== only - 1) f.remove(); });
+    document.querySelectorAll('.frame-label').forEach((l, i) => { if (i !== only - 1) l.remove(); });
+    document.querySelector('.deck-note').remove();
+  }
+  const fit = () => document.querySelectorAll('.slide-frame').forEach(f =>
+    f.style.setProperty('--deck-scale', f.clientWidth / 1920));
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

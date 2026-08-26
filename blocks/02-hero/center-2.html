@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 · Hero · center-2&nbsp;— Ротация города: растворение (расфокус)</title>
+<link rel="stylesheet" href="../_shared/tokens.css">
+<link rel="stylesheet" href="../_shared/base.css">
+<style>
+  html, body { overflow-x: clip; }
+
+  /* ============ 02 · center-2 ============
+     Та же вёрстка, что center; отличается только динамика смены
+     города: вместо вертикальной прокрутки — «перевод фокуса».
+     Старое слово теряет резкость и растворяется, новое проявляется
+     из лёгкого расфокуса снизу. Амплитуда по вертикали минимальная
+     (доли em) — движение почти не читается, читается смена фокуса. */
+
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* ---------- Мини-шапка (как в final) ---------- */
+  .top { position: absolute; top: 0; left: 0; right: 0; z-index: 20; padding-block: 22px; }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 800; font-size: 21px; letter-spacing: -.01em; color: var(--navy);
+  }
+  .logo__mark { width: 26px; height: 26px; flex: none; }
+  .logo__chip { margin-left: 4px; }
+  .btn--sm { font-size: 15px; padding: .62em 1.5em; white-space: nowrap; }
+
+  /* ---------- Центральная ось ---------- */
+  .hero__in {
+    flex: 1; width: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding-top: 132px; padding-bottom: 108px;
+  }
+
+  .hero__h1 {
+    font-weight: 900;
+    font-size: var(--fs-hero);
+    line-height: .9; letter-spacing: -.01em;
+    color: var(--navy);
+  }
+  .hero__h1 .l { display: block; }
+
+  /* пословный reveal: слова приподняты и проявляются каскадом */
+  .w { display: inline-block; opacity: 0; transform: translateY(.55em); }
+  .is-live .w {
+    opacity: 1; transform: none;
+    transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+    transition-delay: calc(var(--i) * 90ms);
+  }
+
+  /* ---------- Ротация города: растворение ----------
+     Слова заякорены по центру (left:50% + translateX(-50%)) — при смене
+     ширины строка не сносится вбок. Выход быстрее входа: старое слово
+     успевает уйти, пока новое ещё собирается в фокус. */
+  .rot {
+    --ease-city: cubic-bezier(.19, 1, .22, 1);
+    position: relative; display: inline-flex; vertical-align: bottom;
+    color: var(--blue);
+    height: 1em;
+    /* маска только по вертикали: отрицательные бока clip-path не режут
+       слово, пока ширина контейнера догоняет новую строку; запас .2em
+       снизу — под выносные элементы (р, у, ф) */
+    clip-path: inset(0 -100vw 0);
+    padding-bottom: .2em; margin-bottom: -.2em; box-sizing: content-box;
+    transition: width .7s var(--ease-city);
+    white-space: nowrap;
+  }
+  .rot__word {
+    position: absolute; left: 50%; top: 0;
+    line-height: 1; display: inline-block; white-space: nowrap;
+    transform: translate(-50%, .34em); opacity: 0; filter: blur(12px);
+    transition: transform .5s var(--ease-out), opacity .4s var(--ease-out), filter .5s var(--ease-out);
+    will-change: transform, filter, opacity;
+  }
+  .rot__word.is-cur {
+    transform: translate(-50%, 0); opacity: 1; filter: blur(0);
+    transition: transform .9s var(--ease-city), opacity .6s var(--ease-out) 90ms, filter .7s var(--ease-out) 90ms;
+  }
+  .rot__word.is-out {
+    transform: translate(-50%, -.28em); opacity: 0; filter: blur(10px);
+    transition: transform .45s var(--ease-out), opacity .4s var(--ease-out), filter .45s var(--ease-out);
+  }
+
+  .hero__sub {
+    max-width: 620px; margin: 30px auto 0;
+    color: var(--text-dim);
+  }
+
+  .hero__cta {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+    gap: 18px 28px; margin-top: 42px;
+  }
+  .btn--lg { font-size: clamp(17px, 1.5vw, 21px); padding: 1.1em 2.4em; }
+  .link-how {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-weight: 500; font-size: clamp(15px, 1.25vw, 18px);
+    color: var(--navy); opacity: .8;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .link-how:hover { opacity: 1; }
+  .link-how svg { transition: transform var(--dur-fast) var(--ease-out); }
+  .link-how:hover svg { transform: translateY(3px); }
+
+  .hero__legal {
+    position: absolute; z-index: 15; left: 50%; bottom: 20px;
+    transform: translateX(-50%);
+    color: var(--navy); white-space: nowrap;
+  }
+
+  /* ---------- Embed в сборке: без vh-высот, шапку даёт блок 01 ---------- */
+  html.is-embed .hero { min-height: 0; }
+  html.is-embed .top { display: none; }
+  html.is-embed .hero__in { padding-top: clamp(150px, 14vw, 190px); padding-bottom: clamp(80px, 9vw, 120px); }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 760px) {
+    .top { padding-block: 16px; }
+    .top__in { gap: 10px; }
+    .logo { font-size: 15px; gap: 6px; }
+    .logo__mark { width: 20px; height: 20px; }
+    .logo .chip { font-size: 10px; padding: .4em .7em; }
+    .logo__chip { margin-left: 2px; }
+    .btn--sm { font-size: 12px; padding: .5em .9em; }
+
+    .hero__in { padding-top: 104px; padding-bottom: 88px; }
+    html.is-embed .hero__in { padding-top: 124px; }
+    .hero__sub { margin-top: 20px; }
+    .hero__cta { margin-top: 30px; gap: 14px 20px; }
+    .hero__legal { bottom: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .w { opacity: 1; transform: none; }
+    .rot, .rot__word { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="top">
+  <header class="top">
+    <div class="container top__in">
+      <a class="logo" href="#top" aria-label="Яндекс&nbsp;Лавка · Франшиза">
+        <span>Яндекс</span>
+        <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="var(--blue)"/>
+          <path d="M16 23.6c-1.9-1.5-7-5-7-9.2 0-2.8 2-4.6 4.3-4.6 1.1 0 2.1.5 2.7 1.4.6-.9 1.6-1.4 2.7-1.4 2.3 0 4.3 1.8 4.3 4.6 0 4.2-5.1 7.7-7 9.2Z" fill="#fff"/>
+        </svg>
+        <span>Лавка</span>
+        <span class="chip chip--active logo__chip">Франшиза</span>
+      </a>
+      <a class="btn btn--navy btn--sm" href="#form">Стать партнёром</a>
+    </div>
+  </header>
+
+  <div class="container hero__in">
+    <h1 class="hero__h1" id="h1" aria-label="Запустите Яндекс Лавку в своём городе">
+      <span aria-hidden="true">
+        <span class="l"><span class="w" style="--i:0">Запустите</span></span>
+        <span class="l"><span class="w" style="--i:1">Яндекс</span> <span class="w" style="--i:2">Лавку</span></span>
+        <span class="l"><span class="w" style="--i:3"><span class="rot" id="rot"></span></span></span>
+      </span>
+    </h1>
+
+    <p class="hero__sub t-sub reveal reveal-d2">Франшиза быстрой доставки продуктов&nbsp;— с&nbsp;технологией, снабжением и&nbsp;поддержкой Яндекса</p>
+
+    <div class="hero__cta reveal reveal-d3">
+      <a class="btn btn--blue btn--lg" href="#form">Стать партнёром</a>
+      <a class="link-how" href="#how">
+        Как это работает
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__legal t-legal">Прототип · данные и&nbsp;визуалы&nbsp;— заглушки</div>
+</section>
+
+<div class="proto-tag">02 · Hero · center-2&nbsp;— смена города растворением</div>
+
+<script src="../_shared/proto.js" defer></script>
+<script>
+  (function () {
+    var EMBED = window.top !== window.self || /[?&]embed=1/.test(location.search);
+    if (EMBED) document.documentElement.classList.add('is-embed');
+    var REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------- Пословный вход заголовка ---------- */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () { document.getElementById('h1').classList.add('is-live'); });
+    });
+
+    /* ---------- Ротация города ----------
+       Зацикленный перебор: «в своём городе» держится заметно дольше
+       остальных — смысловая пауза, потом круг начинается заново. */
+    var CITIES = ['в Казани', 'в Самаре', 'в Уфе', 'в Тюмени', 'в Ижевске', 'в своём городе'];
+    var HOME = CITIES.length - 1;  /* «в своём городе» */
+    var HOLD = 1700;               /* сколько держится обычный город */
+    var HOLD_HOME = 3200;          /* свой город — вдвое дольше */
+    var START = 1200;              /* пауза перед первой сменой: заголовок успевает войти */
+
+    var rot = document.getElementById('rot');
+    var words = CITIES.map(function (t) {
+      var s = document.createElement('span');
+      s.className = 'rot__word';
+      s.textContent = t;
+      rot.appendChild(s); return s;
+    });
+
+    var cur = REDUCED ? HOME : 0;
+    function setW(i) { rot.style.width = words[i].offsetWidth + 'px'; }
+    words[cur].classList.add('is-cur');
+    setW(cur);
+    /* ширина меряется до подгрузки YS Geo — пересчитываем по готовности шрифтов */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setW(cur); });
+    addEventListener('resize', function () { setW(cur); });
+
+    function next() {
+      var prev = cur;
+      cur = (cur + 1) % CITIES.length;
+
+      words[prev].classList.remove('is-cur');
+      words[prev].classList.add('is-out');
+      var w = words[cur];
+      w.classList.remove('is-out');
+      void w.offsetWidth;            /* сброс transition: слово стартует из расфокуса */
+      w.classList.add('is-cur');
+      setW(cur);
+      setTimeout(function () { words[prev].classList.remove('is-out'); }, 550);
+
+      setTimeout(next, cur === HOME ? HOLD_HOME : HOLD);
+    }
+    if (!REDUCED) setTimeout(next, START);
+  })();
+</script>
+<script src="../_shared/preview-shell.js" defer></script>
+</body>
+</html>

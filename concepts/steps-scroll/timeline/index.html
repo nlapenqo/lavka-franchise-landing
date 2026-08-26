@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Таймлайн — 4 подачи блока</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 44px;line-height:1.45}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.45}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.6}
+.note b{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Таймлайн</h1>
+  <p class="sub">4 подачи блока «Как стать партнёром?» целиком. Во всех вариантах пропорции смещены в пользу левой карточки, правая колонка компактнее. Механика прежняя: секция пинится, скролл ведёт по шагам, клик по шагу скроллит к нему, в финале все пять с галочками. Desktop, смотреть от 1200px.</p>
+  <a class="item" href="v1.html"><span class="num">v1</span><b>Пропорции</b><span>без новых элементов: карточка 640×310 вместо 380×430, рейка внизу справа — 5 узких плашек по 160px с номером и сроком</span></a>
+  <a class="item" href="v2.html"><span class="num">v2</span><b>Линия пути</b><span>прогресс-бар стал треком с пятью узлами: линия заполняется по скроллу, пройденный узел с галочкой, активный — кольцо; подписи под линией без плашек</span></a>
+  <a class="item" href="v3.html"><span class="num">v3</span><b>Ступени</b><span>только ритм высот: плашки растут от 01 к 05, активная поднимается выше всех; в финале ступени выравниваются в чистую лесенку</span></a>
+  <a class="item" href="v4.html"><span class="num">v4</span><b>Вертикальный путь</b><span>рейка развёрнута в вертикальный таймлайн: линия сверху вниз, пять узлов с названием и сроком, активный крупнее; карточка 750px</span></a>
+  <p class="note">
+    Тексты шагов, цвета и шрифт YS Geo — из сайтовых исходников (<b>site/</b>). Сетка контейнера 1164 сходится во всех вариантах: 640+28+496, 560+28+576, 560+28+576, 750+28+386.<br>
+    Ширина карточки упирается в подписи справа: полные названия шагов помещаются в рейку, пока на неё остаётся не меньше ~570px. В v1 (496px) названия у непройденных шагов пришлось убрать — остались номер и срок.<br>
+    Файлы самодостаточны: инлайн CSS/JS, шрифты в base64, без CDN; открываются и по file://, и по http.
+  </p>
+</div>
+</body>
+</html>

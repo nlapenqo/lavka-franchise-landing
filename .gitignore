@@ -25,3 +25,8 @@ references/*.docx
 references/*.html
 references/*.txt
 references/doc-media/
+
+# Машинные артефакты уборки 14.08 — скриншоты QA и логи автоматизации.
+# Лежат на диске, в репо не нужны: их можно снять заново.
+archive/2026-08-14-cleanup/output/
+archive/2026-08-14-cleanup/tool-artifacts/

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Большая карточка — 4 подачи</title>
+<style>
+:root{--navy:#1b3a6a;--blue:#00adff;--light:#f2f7fc;--dim:#5a749b}
+*{box-sizing:border-box}
+body{margin:0;font-family:'YS Geo',Arial,sans-serif;background:var(--light);color:var(--navy);-webkit-font-smoothing:antialiased}
+.wrap{max-width:820px;margin:0 auto;padding:72px 24px}
+h1{font-size:52px;font-weight:900;line-height:.96;letter-spacing:-.01em;margin:0 0 12px}
+.sub{color:var(--dim);font-size:18px;margin:0 0 44px;line-height:1.4}
+a.item{display:flex;align-items:baseline;gap:18px;padding:22px 26px;margin-bottom:14px;border-radius:20px;background:#fff;box-shadow:0 8px 24px rgba(27,58,106,.08);text-decoration:none;color:var(--navy);transition:transform .2s,box-shadow .2s}
+a.item:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(27,58,106,.14)}
+a.item b{font-size:20px;font-weight:800;white-space:nowrap}
+a.item span{color:var(--dim);font-size:16px;line-height:1.4}
+.num{color:var(--blue);font-weight:800;font-size:20px}
+.note{margin-top:40px;color:var(--dim);font-size:14px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Большая карточка</h1>
+  <p class="sub">4 подачи активного шага в большой голубой карточке блока «Как стать партнёром?». Рейка справа, прогресс-бар, скролл-механика, клики и галочки — ровно как на сайте. Desktop, смотреть от 1200px.</p>
+  <a class="item" href="v1.html"><span class="num">v1</span><b>Крупная цифра</b><span>номер шага 80px Black отдельной строкой над заголовком; заголовок 32px и описание 17px без изменений</span></a>
+  <a class="item" href="v2.html"><span class="num">v2</span><b>Цифра в строку</b><span>номер тем же кеглем, что заголовок (32px Heavy), отдельной строкой над ним, приглушённый до 62%</span></a>
+  <a class="item" href="v3.html"><span class="num">v3</span><b>Иконка шага</b><span>линейная иконка 56px сверху (анкета / диалог / здание / люди / ракета), штрих 1.75; номера нет</span></a>
+  <a class="item" href="v4.html"><span class="num">v4</span><b>Крупный заголовок</b><span>без цифры и иконки: заголовок 50px Heavy, описание ужато до 16px — карточка держится на типографике</span></a>
+  <p class="note">Тексты шагов, цвета и шрифт YS Geo — из сайтовых исходников (site/). Карточка 380×430, сетка контейнера 1164 = 380 + 28 + 756. Файлы самодостаточны: инлайн CSS/JS, шрифты в base64, без CDN; открываются и по file://, и по http.</p>
+</div>
+</body>
+</html>
