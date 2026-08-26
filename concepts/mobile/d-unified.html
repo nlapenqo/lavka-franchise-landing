@@ -569,7 +569,7 @@ body.dock-on .dock-fade{opacity:1}
   /* ---------- рендер блоков ---------- */
   MB.cities('#city', D.cities, reduced);
 
-  const [day, month] = D.event.when.split(' · ')[0].split(' ');
+  const [day, month] = D.event.when.split(/\s/); /* в дате может стоять неразрывный пробел */
   $('#evtD').textContent = day;
   $('#evtM').textContent = month.slice(0, 3);
   $('#evtMeta').textContent = `${D.event.when} · ${D.event.status.toLowerCase()}`;
