@@ -423,7 +423,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
   $('#numsList').innerHTML = D.numbers.map((n,i) =>
     `<article class="ncard rv" style="--d:${i*.07}s"><b data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p></article>`).join('');
   $('#bizTrack').innerHTML = D.business.map(b =>
-    `<article class="bslide"><div class="bslide__pic ${b.img?'':'bslide__pic--glow'}">${b.img?`<img src="${A}business/${b.img}.png" alt="" loading="lazy">`:''}</div>
+    `<article class="bslide"><div class="bslide__pic ${b.img?'':'bslide__pic--glow'}">${b.img?`<img src="${A}business/${b.img}" alt="" loading="lazy">`:''}</div>
       <div class="bslide__c"><h3>${b.h}</h3><p>${b.p}</p></div></article>`).join('');
   MB.dots('#bizTrack', '#bizDots');
   $('#fmtList').innerHTML = D.formats.map((f,i) =>

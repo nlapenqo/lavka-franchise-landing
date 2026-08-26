@@ -13,6 +13,7 @@ const output = join(root, 'lavka-franchise-offline.html');
 const mime = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.webp': 'image/webp',
   '.ttf': 'font/ttf'
 };
 
@@ -20,7 +21,7 @@ const mime = {
 // список не ведём руками, поэтому он не устаревает при правках сборки.
 const collectAssetPaths = sources => {
   const paths = new Set();
-  const reference = /\.\/((?:fonts|assets)\/[^"'()]+?\.(?:svg|png|ttf))/g;
+  const reference = /\.\/((?:fonts|assets)\/[^"'()]+?\.(?:svg|png|webp|ttf))/g;
   for (const source of sources) {
     for (const match of source.matchAll(reference)) paths.add(match[1]);
   }
@@ -56,8 +57,8 @@ let mobile = readFileSync(join(root, 'concepts/mobile/e-figma.html'), 'utf8')
 /* Мобильный скрипт собирает часть путей в рантайме (медиа-логотипы, карточки
    бизнеса) — такие файлы зашиваем картой data-URI и подменяем после рендера. */
 const dynamicPaths = new Set(['assets/figma/business/orbit.svg']);
-for (const match of contentJs.matchAll(/src: '([^']+?\.(?:svg|png))'/g)) dynamicPaths.add(`assets/figma/${match[1]}`);
-for (const match of contentJs.matchAll(/img: '([\w-]+)'/g)) dynamicPaths.add(`assets/figma/business/${match[1]}.png`);
+for (const match of contentJs.matchAll(/src: '([^']+?\.(?:svg|png|webp))'/g)) dynamicPaths.add(`assets/figma/${match[1]}`);
+for (const match of contentJs.matchAll(/img: '([\w.-]+)'/g)) dynamicPaths.add(`assets/figma/business/${match[1]}`);
 const dynamicMap = Object.fromEntries([...dynamicPaths].map(relative => [relative, toDataUri(relative)]));
 mobile = mobile.replace('</body>', () => `<script>
 /* Офлайн-файл: подставляем зашитые data-URI вместо путей, собранных в рантайме */

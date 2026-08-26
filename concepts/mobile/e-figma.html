@@ -554,7 +554,7 @@ body.locked{overflow:hidden}
   $('#bizTrack').innerHTML = D.business.map(b =>
     `<article class="bcard">
       ${b.img
-        ? `<div class="bcard__v"><img src="${A}business/${b.img}.png" alt=""></div>`
+        ? `<div class="bcard__v"><img src="${A}business/${b.img}" alt=""></div>`
         : `<div class="bcard__v bcard__v--glow" aria-hidden="true"><img src="${A}business/orbit.svg" alt=""></div>`}
       <h3>${b.h}</h3><p>${b.p}</p>
       <div class="bcard__f"><a class="btn btn--blue" href="#form">Стать партнёром</a>

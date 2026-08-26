@@ -413,7 +413,7 @@ body.is-locked .top__burger i::after{transform:translateY(-6px) rotate(-45deg)}
   $('#nums').innerHTML = D.numbers.map(n =>
     `<article class="ncard"><b data-count="${n.v}">0</b><h3>${n.t}</h3><p>${n.d}</p></article>`).join('');
   $('#bizRail').innerHTML = D.business.map(b =>
-    `<article class="bcard"><div class="bcard__pic ${b.img?'':'bcard__pic--glow'}">${b.img?`<img src="${A}business/${b.img}.png" alt="" loading="lazy">`:''}</div>
+    `<article class="bcard"><div class="bcard__pic ${b.img?'':'bcard__pic--glow'}">${b.img?`<img src="${A}business/${b.img}" alt="" loading="lazy">`:''}</div>
       <div class="bcard__c"><h3>${b.h}</h3><p>${b.p}</p></div></article>`).join('');
   $('#fmtList').innerHTML = D.formats.map(f =>
     `<article class="fcard ${f.featured?'fcard--top':''}">

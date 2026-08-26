@@ -582,7 +582,7 @@ body.dock-on .dock-fade{opacity:1}
 
   $('#bizRail').innerHTML = D.business.map(b =>
     `<article class="rail__card bcard">
-       <div class="bcard__pic ${b.img ? '' : 'bcard__pic--mark'}">${b.img ? `<img src="${A}business/${b.img}.png" width="498" height="480" alt="" loading="lazy" decoding="async">` : ''}</div>
+       <div class="bcard__pic ${b.img ? '' : 'bcard__pic--mark'}">${b.img ? `<img src="${A}business/${b.img}" width="498" height="480" alt="" loading="lazy" decoding="async">` : ''}</div>
        <h3 class="h3">${b.h}</h3><p>${b.p}</p>
      </article>`).join('');
 

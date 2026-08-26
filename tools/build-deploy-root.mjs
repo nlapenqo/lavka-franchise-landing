@@ -87,7 +87,7 @@ const usedFiles = (dir, ext, sources) => {
 const pageSources = [read('site/index.html'), read('site/styles.css'), read('site/app.js'),
                      read('concepts/mobile/e-figma.html'), read('concepts/mobile/_shared/base.css'),
                      read('concepts/mobile/_shared/content.js'), read('concepts/mobile/_shared/blocks.js')];
-for (const name of usedFiles('site/assets/figma', ['.png', '.svg'], pageSources)) {
+for (const name of usedFiles('site/assets/figma', ['.png', '.svg', '.webp'], pageSources)) {
   copy(`site/assets/figma/${name}`, `assets/figma/${name}`);
 }
 copy('site/assets/figma/business', 'assets/figma/business');   // пути строятся в рантайме
