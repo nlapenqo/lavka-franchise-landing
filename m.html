@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1b3a6a">
 <title>Франшиза Яндекс Лавки</title>
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="../mobile/_shared/base.css">
+<link rel="stylesheet" href="./mobile/_shared/base.css">
 <script>
 /* Широкое окно — показываем концепт в макете айфона: сам по себе он там теряется.
    Не трогаем страницу внутри iframe (витрина, хаб) и явный запрос ?full=1. */
@@ -378,7 +378,7 @@ body.locked{overflow:hidden}
 
 <header class="hdr" id="hdr">
   <a class="mark" href="#top" aria-label="Яндекс Лавка — Франшиза, в начало">
-    <img src="../assets/figma/logo-word-1.svg" alt="" width="36" height="36">
+    <img src="./assets/figma/logo-word-1.svg" alt="" width="36" height="36">
   </a>
   <a class="hdr__cta" href="#form">Стать партнёром</a>
   <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false"><i></i></button>
@@ -387,7 +387,7 @@ body.locked{overflow:hidden}
 <nav class="menu" id="menu" aria-hidden="true">
   <div id="menuLinks"></div>
   <div class="menu__foot">
-    <a class="btn btn--blue btn--wide menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../assets/figma/telegram-plane.svg" alt="">Telegram-канал</a>
+    <a class="btn btn--blue btn--wide menu__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="./assets/figma/telegram-plane.svg" alt="">Telegram-канал</a>
   </div>
 </nav>
 
@@ -423,7 +423,7 @@ body.locked{overflow:hidden}
     <div class="stage rv">
       <div class="map" id="map">
         <div class="map__world" id="mapWorld">
-          <img src="../assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора: зоны хранения, кухня, холодильные камеры, зона выдачи и погрузки">
+          <img src="./assets/figma/darkstore-map.png" alt="Изометрическая схема даркстора: зоны хранения, кухня, холодильные камеры, зона выдачи и погрузки">
         </div>
       </div>
       <div class="stage__count"><em id="zoneNum">01</em>&nbsp;/ 07</div>
@@ -510,23 +510,23 @@ body.locked{overflow:hidden}
 <footer class="ftr">
   <div class="ftr__in">
     <a class="lg" href="#top" aria-label="Яндекс Лавка — франшиза, в начало">
-      <img class="lg__main" src="../assets/figma/logo-footer.svg" alt="">
-      <img class="lg__mark" src="../assets/figma/logo-footer-word-1.svg" alt="">
-      <img class="lg__badge" src="../assets/figma/logo-footer-word-2.svg" alt="">
+      <img class="lg__main" src="./assets/figma/logo-footer.svg" alt="">
+      <img class="lg__mark" src="./assets/figma/logo-footer-word-1.svg" alt="">
+      <img class="lg__badge" src="./assets/figma/logo-footer-word-2.svg" alt="">
     </a>
     <nav id="ftrNav" aria-label="Разделы страницы"></nav>
-    <a class="btn btn--blue btn--wide ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../assets/figma/telegram-plane.svg" alt="">Telegram</a>
+    <a class="btn btn--blue btn--wide ftr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="./assets/figma/telegram-plane.svg" alt="">Telegram</a>
     <div class="ftr__legal" id="ftrLegal"></div>
   </div>
 </footer>
 
-<script src="../mobile/_shared/content.js"></script>
-<script src="../mobile/_shared/blocks.js"></script>
+<script src="./mobile/_shared/content.js"></script>
+<script src="./mobile/_shared/blocks.js"></script>
 <script>
 (() => {
   const D = window.LAVKA, $ = s => document.querySelector(s);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const A = '../assets/figma/';
+  const A = './assets/figma/';
   const NB = ' ';
 
   /* В iframe витрины env(safe-area-*) не работает — подставляем вырезы iPhone вручную */

@@ -6,6 +6,17 @@
   <title>Франшиза Яндекс Лавки</title>
   <meta name="description" content="Запустите Яндекс Лавку в своём городе">
   <link rel="icon" href="data:,">
+  <script>
+/* <768px — мобильная сборка (m.html); она делает обратный редирект при расширении */
+(() => {
+  if (window.top !== window.self) return;
+  const narrow = matchMedia('(max-width: 767px)');
+  const jump = () => { if (narrow.matches) location.replace('./m.html' + location.hash); };
+  jump();
+  narrow.addEventListener ? narrow.addEventListener('change', jump) : narrow.addListener(jump);
+  addEventListener('resize', jump);
+})();
+</script>
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -61,10 +72,10 @@
     <a class="event" href="#form" aria-label="День партнёров Яндекс Лавки — участвовать">
       <div class="event__track">
         <div class="event__group">
-          <span class="event__item event__name">День партнёров Яндекс Лавки</span><span class="event__item">27 августа · Москва</span><span class="event__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="event__item event__live"><i></i>Набор открыт</span>
+          <span class="event__item event__name">День партнёров Яндекс Лавки</span><span class="event__item">27&nbsp;августа, Москва</span><span class="event__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="event__item event__live"><i></i>Набор открыт</span>
         </div>
         <div class="event__group" aria-hidden="true">
-          <span class="event__item event__name">День партнёров Яндекс Лавки</span><span class="event__item">27 августа · Москва</span><span class="event__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="event__item event__live"><i></i>Набор открыт</span>
+          <span class="event__item event__name">День партнёров Яндекс Лавки</span><span class="event__item">27&nbsp;августа, Москва</span><span class="event__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="event__item event__live"><i></i>Набор открыт</span>
         </div>
       </div>
       <span class="event__cta"><span class="button button--navy button--small">Участвовать</span></span>
@@ -168,20 +179,20 @@
         <div class="format-grid">
           <article class="format-card reveal" data-format-card>
             <div class="chips"><span class="chip chip--navy">Готовый бизнес</span></div>
-            <p class="cities">Казань · Челябинск · Тюмень · Воронеж · Пермь</p>
+            <p class="cities">Казань, Челябинск, Тюмень, Воронеж, Пермь</p>
             <dl><div><dt>Инвестиции</dt><dd><b>400–600</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее о паушальном взносе">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
             <p class="format-note">Передача в&nbsp;совместное управление действующей сети дарксторов</p>
           </article>
           <article class="format-card format-card--featured reveal" style="--delay:.08s" data-format-card>
             <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Миллионники</span></div>
-            <p class="cities">Уфа · Саратов</p>
+            <p class="cities">Уфа, Саратов</p>
             <dl><div><dt>Инвестиции</dt><dd><b>250–450</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее о паушальном взносе">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
             <p class="format-note">Запуск сервиса с&nbsp;нуля в&nbsp;городе-миллионнике</p>
           </article>
           <article class="format-card reveal" style="--delay:.16s" data-format-card>
             <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Крупные города</span></div>
-            <p class="cities">Ижевск · Оренбург · Ульяновск · Тольятти · Пенза · Киров</p>
-            <dl><div><dt>Инвестиции</dt><dd><b>75–150</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>750&nbsp;тыс&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее о паушальном взносе">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
+            <p class="cities">Ижевск, Оренбург, Ульяновск, Тольятти, Пенза, Киров</p>
+            <dl><div><dt>Инвестиции</dt><dd><b>75–150</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее о паушальном взносе">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее о роялти">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
             <p class="format-note">Запуск сервиса с&nbsp;нуля в&nbsp;крупном городе</p>
           </article>
         </div>
@@ -217,9 +228,9 @@
       <div class="container">
         <div class="section-heading-row"><h2 class="section-title" id="reviews-title">Отзывы франчайзи</h2><div class="carousel-controls"><button type="button" data-reviews-prev aria-label="Предыдущий отзыв"><img src="./assets/figma/arrow-left.svg" alt=""></button><button type="button" data-reviews-next aria-label="Следующий отзыв"><img src="./assets/figma/arrow-right.svg" alt=""></button></div></div>
         <div class="review-track" data-review-track tabindex="0">
-          <article class="review-card"><div class="avatar">ИС</div><h3>Игорь Соколов</h3><small>Казань · 4&nbsp;даркстора</small><p>«Запустили первый даркстор за&nbsp;три месяца&nbsp;— оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия»</p></article>
-          <article class="review-card"><div class="avatar">АМ</div><h3>Анна Морозова</h3><small>Тюмень · 6&nbsp;дарксторов</small><p>«Технологии Яндекса снимают с&nbsp;нас рутину. Команда фокусируется на&nbsp;сервисе и&nbsp;операционке»</p></article>
-          <article class="review-card"><div class="avatar">РЛ</div><h3>Роман Лебедев</h3><small>Пермь · 3&nbsp;даркстора</small><p>«Геоаналитика помогла выбрать локации без&nbsp;догадок. Каждое решение опирается на&nbsp;данные»</p></article>
+          <article class="review-card"><div class="avatar">ИС</div><h3>Игорь Соколов</h3><small>Казань, 4&nbsp;даркстора</small><p>«Запустили первый даркстор за&nbsp;три месяца&nbsp;— оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия»</p></article>
+          <article class="review-card"><div class="avatar">АМ</div><h3>Анна Морозова</h3><small>Тюмень, 6&nbsp;дарксторов</small><p>«Технологии Яндекса снимают с&nbsp;нас рутину. Команда фокусируется на&nbsp;сервисе и&nbsp;операционке»</p></article>
+          <article class="review-card"><div class="avatar">РЛ</div><h3>Роман Лебедев</h3><small>Пермь, 3&nbsp;даркстора</small><p>«Геоаналитика помогла выбрать локации без&nbsp;догадок. Каждое решение опирается на&nbsp;данные»</p></article>
         </div>
       </div>
     </section>
@@ -278,7 +289,7 @@
   <footer class="footer section-dark">
     <div class="container">
       <div class="footer__top"><a class="footer-logo" href="#top" aria-label="Яндекс Лавка — Франшиза"><img class="footer-logo__main" src="./assets/figma/logo-footer.svg" alt=""><img class="footer-logo__mark" src="./assets/figma/logo-footer-word-1.svg" alt=""><img class="footer-logo__badge" src="./assets/figma/logo-footer-word-2.svg" alt=""></a><nav><a href="#formats">Форматы франшизы</a><a href="#business">Как устроен бизнес</a><a href="#steps">Как стать партнёром</a><a href="#faq">Вопросы и&nbsp;ответы</a></nav><a class="telegram-button" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="./assets/figma/telegram.svg" alt="">Telegram</a></div>
-      <div class="footer__legal"><div><p>ООО «Яндекс.Лавка» · 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p><p>Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p></div><div><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div></div>
+      <div class="footer__legal"><div><p>ООО «Яндекс.Лавка», 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p><p>Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p></div><div><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div></div>
     </div>
   </footer>
   <script src="./app.js"></script>
