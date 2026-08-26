@@ -19,6 +19,10 @@ h1{margin:0 0 10px;font-size:52px;line-height:.94;font-weight:900;letter-spacing
 .item{flex:1 1 380px;max-width:440px;background:#fff;border-radius:28px;padding:26px;box-shadow:0 10px 34px rgba(27,58,106,.08)}
 .item h2{margin:0 0 4px;font-size:28px;font-weight:900;line-height:1}
 .item h2 b{color:var(--blue)}
+/* финальный вариант виден сразу: рамка карточки + плашка у заголовка */
+.item.is-final{box-shadow:0 0 0 2px var(--blue),0 10px 34px rgba(27,58,106,.12)}
+.tag-final{display:inline-block;vertical-align:middle;margin-left:10px;padding:5px 11px;border-radius:999px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.note-final{margin:0 0 18px;font-size:14px;line-height:1.4;color:var(--blue);font-weight:600}
 .item>p{margin:0 0 18px;font-size:15px;line-height:1.4;color:var(--dim)}
 .frame{position:relative;width:100%;aspect-ratio:390/720;border-radius:24px;overflow:hidden;background:var(--navy);box-shadow:inset 0 0 0 1px rgba(27,58,106,.12)}
 .frame iframe{position:absolute;left:0;top:0;width:390px;height:720px;border:0;transform-origin:0 0}
@@ -93,9 +97,10 @@ E и F — две пересборки фигма-сборки «Landing — Mob
     <a class="open" href="./d-unified.html">Открыть вариант D</a>
   </article>
 
-  <article class="item">
-    <h2><b>E.</b> Одна сущность</h2>
+  <article class="item is-final">
+    <h2><b>E.</b> Одна сущность<span class="tag-final">финал</span></h2>
     <p>Светлая, как веб-версия. Пересборка фигма-макета в единую систему: те же токены и приёмы, что на десктопе.</p>
+    <p class="note-final">Выбран как мобильная версия сайта: идёт в прод (<code>/m.html</code>) и в офлайн-файл <code>lavka-franchise-offline.html</code>. Остальные варианты — история выбора.</p>
     <div class="frame"><iframe src="./e-figma.html" title="Вариант E" loading="lazy"></iframe></div>
     <dl>
       <dt>Главное действие</dt><dd>Большая белая кнопка в центре хиро (как в фигме). После её ухода с экрана в шапке появляется компактная синяя — логотип сжимается до короткого локапа.</dd>
