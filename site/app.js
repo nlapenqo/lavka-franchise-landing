@@ -369,7 +369,7 @@
   const stepsSection = document.querySelector('[data-pst]');
   if (stepsSection) {
     const STEPS = [
-      { n: '01', t: 'Заявка на\u00A0сайте', d: 'Заполните анкету\u00A0— мы свяжемся с\u00A0вами, обсудим формат сотрудничества и\u00A0ответим на\u00A0первые вопросы', e: '1\u00A0неделя', cta: 'Оставить заявку' },
+      { n: '01', t: 'Заявка на\u00A0сайте', d: 'Заполните анкету\u00A0— мы свяжемся с\u00A0вами, обсудим формат сотрудничества и\u00A0ответим на\u00A0первые вопросы', e: '', cta: 'Оставить заявку' },
       { n: '02', t: 'Собеседование и\u00A0отбор', d: 'Обсуждаем ваш опыт, мотивацию и\u00A0возможности. В\u00A0каждом городе выбираем одного партнёра для\u00A0открытия сети дарксторов', e: '2–3\u00A0недели' },
       { n: '03', t: 'Подготовка помещений', d: 'Подбираете помещение по\u00A0стандартам сети, мы готовим планировку и\u00A0помогаем с\u00A0поставщиками оборудования. Ремонт и\u00A0стройку ведёте вы, мы сопровождаем каждый этап', e: '2–4\u00A0месяца' },
       { n: '04', t: 'Подбор персонала', d: 'Параллельно набираете команду: кладовщиков, курьеров и\u00A0директоров дарксторов. Помогаем привлекать персонал с\u00A0помощью операционного маркетинга', e: '1–2\u00A0месяца' },
@@ -384,14 +384,14 @@
     STEPS.forEach((step, i) => {
       rail.insertAdjacentHTML('beforeend',
         `<div class="pst-mini${i ? '' : ' is-active'}">
-           <button class="pst-hit" type="button" aria-label="Шаг ${step.n}: ${step.t}, ${step.e}"></button>
+           <button class="pst-hit" type="button" aria-label="Шаг ${step.n}: ${step.t}${step.e ? `, ${step.e}` : ''}"></button>
            <span class="pst-strip"><span class="pst-num">${step.n}</span><span class="pst-vert">${step.t}</span><span class="pst-node">${tickIcon}</span></span>
            <div class="pst-full"><h3>${step.t}</h3><p>${step.d}</p>
-             <div class="pst-foot"><span class="pst-term">${clockIcon}${step.e}</span>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
+             <div class="pst-foot">${step.e ? `<span class="pst-term">${clockIcon}${step.e}</span>` : ''}${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</div>
            </div>
            <span class="pst-big" aria-hidden="true">${step.n}</span>
            <span class="pst-tickcorner" aria-hidden="true">${tickIcon}</span>
-           <span class="pst-fold"><span class="pst-num">${step.n}</span><b>${step.t}</b><span class="pst-note">${step.d}</span><i class="pst-when">${step.e}</i>${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</span>
+           <span class="pst-fold"><span class="pst-num">${step.n}</span><b>${step.t}</b><span class="pst-note">${step.d}</span>${step.e ? `<i class="pst-when">${step.e}</i>` : ''}${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</span>
          </div>`);
     });
     const miniNodes = [...rail.children];

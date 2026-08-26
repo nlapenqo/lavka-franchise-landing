@@ -140,8 +140,10 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .menu__foot{margin-top:auto;padding-top:24px}
 .menu__tg img{width:18px;height:18px}
 
-/* ---------- 01 · хиро: во весь экран телефона, по центру ---------- */
-.hero{position:relative;min-height:calc(100vh - 108px);min-height:calc(100svh - 108px);display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(96px + var(--safe-t)) var(--gut) 116px;background:var(--navy);color:#fff;overflow:hidden}
+/* ---------- 01 · хиро: ровно первый экран, карточка мероприятия — за сгибом ----------
+   Высота = экран + 37px нахлёста .evt, чтобы карточка не выглядывала до скролла;
+   нижний паддинг 133px (96 + 37) возвращает контент в оптический центр экрана. */
+.hero{position:relative;min-height:calc(100vh + 37px);min-height:calc(100svh + 37px);display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(96px + var(--safe-t)) var(--gut) 133px;background:var(--navy);color:#fff;overflow:hidden}
 .hero__in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}
 .hero .h1{margin-bottom:22px}
 .hero .h1 .city,.hero .h1 .blue{color:var(--blue)}
@@ -201,11 +203,13 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .dark .h2{margin-bottom:12px}
 .dark__lead{margin-bottom:24px}
 .stage{position:relative;margin:0 12px;border-radius:var(--r-big);overflow:hidden;background:var(--navy)}
-.map{position:relative;height:600px;overflow:hidden;--z:1}
-.map__world{position:relative;transform-origin:0 0;transition:transform .65s cubic-bezier(.22,.61,.36,1);will-change:transform}
+.map{position:relative;height:600px;overflow:hidden}
+/* Мир раскладывается в натуральную ширину (width из JS) и только сдвигается translate-ом:
+   transform:scale растрировал карту по ширине экрана, и на телефоне (DPR 3) она шла пикселями */
+.map__world{position:relative;transition:transform .65s cubic-bezier(.22,.61,.36,1);will-change:transform}
 .map__world img{width:100%;height:auto;display:block}
-.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transform:scale(calc(1 / var(--z)));transition:transform .55s var(--ease-spring),background .25s,color .25s,opacity .25s}
-.map__pin.on{background:#fff;color:var(--blue);transform:scale(calc(1.22 / var(--z)))}
+.map__pin{position:absolute;left:var(--x);top:var(--y);width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--blue);color:#fff;font-size:var(--fs-micro);font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 4px 12px rgba(8,40,80,.35);transition:transform .55s var(--ease-spring),background .25s,color .25s,opacity .25s}
+.map__pin.on{background:#fff;color:var(--blue);transform:scale(1.22)}
 .map__pin:not(.on){opacity:.5}   /* под скримом неактивные пины не шумят */
 .map__pin::after{content:'';position:absolute;inset:-10px;border-radius:50%}
 /* подпись зоны: градиент от прозрачного к navy, текст поверх карты */
@@ -572,7 +576,7 @@ body.locked{overflow:hidden}
 
   /* ---------- шаги: первый — витрина, остальные — таймлайн ---------- */
   const [s1, ...rest] = D.steps;
-  $('#sfeat').innerHTML = `<b>${s1.n}</b><h3>${s1.t}</h3><p>${s1.d}</p><em>${s1.e}</em>
+  $('#sfeat').innerHTML = `<b>${s1.n}</b><h3>${s1.t}</h3><p>${s1.d}</p>${s1.e ? `<em>${s1.e}</em>` : ''}
     <a class="btn btn--white btn--wide" href="#form">${s1.cta}</a>`;
   $('#tl').insertAdjacentHTML('beforeend', rest.map(s =>
     `<article class="tstep"><b>${s.n}</b><h3>${s.t}</h3><p>${s.d}</p><em>${s.e}</em></article>`).join(''));
@@ -630,11 +634,13 @@ body.locked{overflow:hidden}
     let s0 = Math.max(1, vh / h0);
     if (s0 < 1.02) s0 = 1;
     const S = Math.max(2, s0 * 1.12);
+    /* масштаб — шириной мира, а не scale: см. комментарий у .map__world */
+    const W = vw * S, H = h0 * S;
+    world.style.width = `${W}px`;
     const [, , , x, y] = D.zones[zi];
-    const tx = clamp(vw / 2 - x / 100 * vw * S, vw - vw * S, 0);
-    const ty = clamp(vh * .38 - y / 100 * h0 * S, vh - h0 * S, 0);
-    world.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
-    map.style.setProperty('--z', S);
+    const tx = clamp(vw / 2 - x / 100 * W, vw - W, 0);
+    const ty = clamp(vh * .38 - y / 100 * H, vh - H, 0);
+    world.style.transform = `translate(${tx}px, ${ty}px)`;
   };
   const zgo = i => {
     zi = (i + D.zones.length) % D.zones.length;
