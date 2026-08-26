@@ -339,6 +339,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .consent input:checked{background:var(--blue);box-shadow:none}
 .consent input:checked::after{opacity:1;transform:none}
 .consent span{font-size:var(--fs-legal)!important;line-height:1.4;text-transform:none!important;letter-spacing:0!important;color:var(--dim)!important}
+.consent a{text-decoration:underline;text-underline-offset:2px}
 /* ---------- попап анкеты: открывается с любой кнопки страницы ---------- */
 .sheet{position:fixed;z-index:90;inset:0;display:flex;flex-direction:column;background:rgba(11,28,52,.55);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
 .sheet.on{opacity:1;pointer-events:auto}
@@ -496,7 +497,7 @@ body.locked{overflow:hidden}
       <label><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
       <label><span>Город</span><input name="city" autocomplete="address-level2" placeholder="Где хотите развивать Лавку" required></label>
       <label><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
-      <label class="consent"><input type="checkbox" required><span>Согласен на обработку персональных данных и принимаю политику конфиденциальности</span></label>
+      <label class="consent"><input type="checkbox" required><span>Даю согласие на обработку персональных данных на условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политики конфиденциальности</a></span></label>
       <div class="form__submit">
         <button class="btn btn--blue" type="submit">Стать партнёром</button>
         <p>Свяжемся в течение 2 рабочих дней</p>
@@ -566,8 +567,7 @@ body.locked{overflow:hidden}
   $('#menuLinks').innerHTML = D.nav.map(([h, t], i) => `<a href="${h}"><em>0${i + 1}</em>${t}</a>`).join('');
   $('#ftrLegal').innerHTML =
     `<p>${D.legal.org}</p><p>${D.legal.offer}</p>
-     <p><a href="#">Политика конфиденциальности</a></p>
-     <p><a href="#">Обработка персональных данных</a></p>
+     <p><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политика конфиденциальности</a></p>
      <p>${D.legal.copy}</p>`;
 
   /* ---------- шаги: первый — витрина, остальные — таймлайн ---------- */
