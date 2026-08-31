@@ -90,8 +90,10 @@ const pageSources = [read('site/index.html'), read('site/styles.css'), read('sit
 for (const name of usedFiles('site/assets/figma', ['.png', '.svg', '.webp'], pageSources)) {
   copy(`site/assets/figma/${name}`, `assets/figma/${name}`);
 }
-copy('site/assets/figma/business', 'assets/figma/business');   // пути строятся в рантайме
-for (const name of usedFiles('site/fonts', ['.ttf'], pageSources)) {
+for (const name of usedFiles('site/assets/figma/business', ['.png', '.svg', '.webp'], pageSources)) {
+  copy(`site/assets/figma/business/${name}`, `assets/figma/business/${name}`);
+}
+for (const name of usedFiles('site/fonts', ['.ttf', '.woff2'], pageSources)) {
   copy(`site/fonts/${name}`, `fonts/${name}`);
 }
 write('.nojekyll', '');

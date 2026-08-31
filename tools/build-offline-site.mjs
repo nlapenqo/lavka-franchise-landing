@@ -14,14 +14,15 @@ const mime = {
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
   '.webp': 'image/webp',
-  '.ttf': 'font/ttf'
+  '.ttf': 'font/ttf',
+  '.woff2': 'font/woff2'
 };
 
 // Пути вида ./fonts/… и ./assets/… собираются из самих исходников:
 // список не ведём руками, поэтому он не устаревает при правках сборки.
 const collectAssetPaths = sources => {
   const paths = new Set();
-  const reference = /\.\/((?:fonts|assets)\/[^"'()]+?\.(?:svg|png|webp|ttf))/g;
+  const reference = /\.\/((?:fonts|assets)\/[^"'()]+?\.(?:svg|png|webp|ttf|woff2))/g;
   for (const source of sources) {
     for (const match of source.matchAll(reference)) paths.add(match[1]);
   }

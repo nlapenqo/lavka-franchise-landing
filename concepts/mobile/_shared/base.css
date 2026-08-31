@@ -1,10 +1,10 @@
 /* Общая база трёх мобильных концептов: шрифты, палитра, сброс.
    Всё остальное — типошкала, ритм, компоненты — своё в каждом варианте. */
-@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
-@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
-@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Heavy.ttf') format('truetype');font-weight:800;font-display:swap}
-@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Black.ttf') format('truetype');font-weight:900;font-display:swap}
-@font-face{font-family:'YS Text Cond';src:url('../../../site/fonts/YS Text Cond-Light.ttf') format('truetype');font-weight:300;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Heavy.woff2') format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../../../site/fonts/YS Geo-Black.woff2') format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:'YS Text Cond';src:url('../../../site/fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300;font-display:swap}
 
 :root{
   --navy:#1b3a6a;--navy-deep:#152e56;--blue:#00adff;--sky:#aad9fc;--light:#f2f7fc;--card:#eaf3fc;
