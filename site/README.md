@@ -10,7 +10,7 @@
 - **`fonts/YS Geo-{Regular,Medium,Heavy,Black}.ttf`, `YS Text Cond-Light.ttf`** — шрифты, которые реально подключены в `styles.css` (`@font-face`)
 - **`assets/figma/*.svg`, `*.png`** — все картинки, инлайнятся в сборку
 
-Из этих файлов вместе с мобильной сборкой E (`../concepts/mobile/e-figma.html` + `_shared/`) командой `node ../tools/build-offline-site.mjs` собирается **`../lavka-franchise-offline.html`** — единственный финальный файл: веб и мобилка в одном самодостаточном документе (шрифты и картинки зашиты как base64). Файл ~7 МБ — не читать целиком, только grep/фрагменты.
+Из этих файлов вместе с мобильной сборкой E (`../concepts/mobile/e-figma.html` + `_shared/`) командой `node ../tools/build-offline-site.mjs` собирается **`../lavka-franchise-offline.html`** — единственный финальный файл: веб и мобилка в одном самодостаточном документе (шрифты и картинки зашиты как base64). Файл ~3 МБ — не читать целиком, только grep/фрагменты.
 
 Если меняешь `index.html`/`styles.css`/`app.js` или мобильные исходники в `../concepts/mobile/` — пересобери офлайн-версию после правок.
 
