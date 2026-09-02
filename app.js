@@ -62,11 +62,13 @@
       return word;
     });
     let current = reduced ? home : 0;
-    const setWidth = index => { cityRot.style.width = `${words[index].offsetWidth}px`; };
+    /* Ширина барабана — по самому длинному городу и без анимации: слово стоит в центре строки,
+       а плавно меняющаяся ширина контейнера двигала его слой субпиксельно — отсюда дрожь в конце смены */
+    const setWidth = () => { cityRot.style.width = `${Math.max(...words.map(word => word.offsetWidth))}px`; };
     words[current].classList.add('is-cur');
-    setWidth(current);
-    document.fonts?.ready?.then(() => setWidth(current));
-    addEventListener('resize', () => setWidth(current), { passive: true });
+    setWidth();
+    document.fonts?.ready?.then(setWidth);
+    addEventListener('resize', setWidth, { passive: true });
 
     const nextCity = () => {
       const previous = current;
@@ -77,7 +79,6 @@
       word.classList.remove('is-out');
       void word.offsetWidth;
       word.classList.add('is-cur');
-      setWidth(current);
       setTimeout(() => words[previous].classList.remove('is-out'), 1250);
       setTimeout(nextCity, current === home ? holdHome : hold);
     };
