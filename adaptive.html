@@ -549,7 +549,7 @@ ul{padding:0;list-style:none}
   .stage__count em{font-style:normal;color:var(--blue)}
 
   /* ---------- 06 · форматы: табы + одна панель ---------- */
-  .formats{padding:var(--sec) 0}
+  .formats{position:relative;z-index:1;padding:var(--sec) 0;background:var(--light)}   /* светлая подложка — карточка и табы на ней читаются */
   .formats .section-title{margin-bottom:10px}
   .fmt-sub{display:block;margin:0 0 18px;font-size:15px;line-height:1.4;color:var(--dim)}
   .fmt-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding-bottom:16px}
