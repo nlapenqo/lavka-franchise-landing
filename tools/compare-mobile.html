@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Сравнение: мобильный эталон ↔ адаптив</title>
+<!-- QA-инструмент: два фрейма по 375px — слева concepts/mobile/e-figma.html (эталон), справа adaptive/index.html.
+     ?block=<имя>&h=<высота>&tip=1 — оба фрейма прокручиваются к одному блоку; tip=1 раскрывает сноску «i».
+     Открывать с корня репо: http://127.0.0.1:<port>/tools/compare-mobile.html?block=formats -->
+<style>
+  body{margin:0;background:#dfe7f1;font-family:system-ui,sans-serif}
+  .row{display:flex;gap:24px;padding:20px}
+  .col{display:flex;flex-direction:column;gap:6px}
+  .col span{font-size:13px;color:#1b3a6a;font-weight:600}
+  iframe{width:375px;border:0;background:#fff;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+<div class="row">
+  <div class="col"><span>Эталон (m.html)</span><iframe id="ref" src="../concepts/mobile/e-figma.html"></iframe></div>
+  <div class="col"><span>Адаптив (одна разметка)</span><iframe id="new" src="../adaptive/index.html"></iframe></div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const block = q.get('block') || 'hero', h = +(q.get('h') || 812), tip = q.get('tip') === '1';
+  const sel = {
+    hero: ['.hero', '.hero'], evt: ['.evt', '.evt'], numbers: ['.nums', '.numbers'], business: ['.biz', '.business'],
+    darkstore: ['.dark', '.darkstore'], formats: ['.fmt', '.formats'], steps: ['.steps', '.steps'],
+    reviews: ['.rev', '.reviews'], media: ['.med', '.media'], faq: ['.faq', '.faq'], form: ['.form', '.lead-form'], footer: ['.ftr', '.footer']
+  }[block];
+  const offset = block === 'evt' ? 60 : (block === 'hero' ? 0 : 40);
+  document.querySelectorAll('iframe').forEach(f => f.style.height = h + 'px');
+
+/* ждём шрифты и картинки фрейма, затем прокручиваем к блоку — и повторяем, пока раскладка оседает */
+const settle = (f, sel, offset, extra) => new Promise(resolve => {
+  const run = async () => {
+    const d = f.contentDocument, w = f.contentWindow;
+    /* в headless виртуальном времени fonts.ready может не дождаться — просто прокручиваем несколько раз, пока раскладка оседает */
+    const apply = () => {
+      d.querySelectorAll('.rv').forEach(n => n.classList.add('on'));
+      d.querySelectorAll('.reveal').forEach(n => n.classList.add('is-visible'));
+      const el = sel && d.querySelector(sel);
+      if (el) w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - offset);
+      if (extra) extra(d);
+    };
+    apply(); [300, 800, 1500, 2500, 3500].forEach(t => setTimeout(apply, t)); setTimeout(resolve, 3600);
+  };
+  /* сразу после создания фрейма contentDocument — пустой about:blank со статусом complete; ждём настоящий load */
+  f.addEventListener('load', run);
+});
+  const tipOn = d => { if (tip) { const i = d.querySelector('.tabs button.on') ? d.querySelector('.fpanel .info') : d.querySelector('.format-card.is-tab-active .info'); if (i) i.classList.add('on', 'is-on'); } };
+  Promise.all([settle(document.getElementById('ref'), sel[0], offset, tipOn), settle(document.getElementById('new'), sel[1], offset, tipOn)]).then(() => document.body.dataset.ready = '1');
+</script>
+</body>
+</html>

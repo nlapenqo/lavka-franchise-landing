@@ -149,7 +149,7 @@ body.is-locked .burger i::after{transform:translateY(-6px) rotate(-45deg)}
 .hero .h1 .city,.hero .h1 .blue{color:var(--blue)}
 .hero__lead{font-size:var(--fs-lead);line-height:1.32;font-weight:500;color:var(--ink-soft);max-width:330px;margin-bottom:32px}
 /* барабан городов 1-в-1 с site/: перспектива, поворот по X, та же кривая и тайминги */
-.city{position:relative;display:inline-flex;vertical-align:bottom;height:1em;padding-bottom:.2em;margin-bottom:-.2em;box-sizing:content-box;white-space:nowrap;perspective:640px;clip-path:inset(0 -100vw 0);transition:width 1.05s var(--ease-city)}
+.city{position:relative;display:inline-flex;vertical-align:bottom;height:1em;padding-bottom:.2em;margin-bottom:-.2em;box-sizing:content-box;white-space:nowrap;perspective:640px;clip-path:inset(0 -100vw 0)}
 .city span{position:absolute;left:50%;top:0;display:inline-block;line-height:1;white-space:nowrap;transform-origin:50% 50%;backface-visibility:hidden;transform:translate(-50%,78%) rotateX(-72deg);opacity:0;transition:transform 1.15s var(--ease-city),opacity .52s var(--ease);will-change:transform}
 .city span.cur{transform:translate(-50%,0) rotateX(0deg);opacity:1;transition:transform 1.15s var(--ease-city),opacity .48s var(--ease) 90ms}
 .city span.out{transform:translate(-50%,-78%) rotateX(72deg);opacity:0}

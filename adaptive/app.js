@@ -65,11 +65,13 @@
       return word;
     });
     let current = reduced ? home : 0;
-    const setWidth = index => { cityRot.style.width = `${words[index].offsetWidth}px`; };
+    /* Ширина барабана — по самому длинному городу и без анимации: слово стоит в центре строки,
+       а плавно меняющаяся ширина контейнера двигала его слой субпиксельно — отсюда дрожь в конце смены */
+    const setWidth = () => { cityRot.style.width = `${Math.max(...words.map(word => word.offsetWidth))}px`; };
     words[current].classList.add('is-cur');
-    setWidth(current);
-    document.fonts?.ready?.then(() => setWidth(current));
-    addEventListener('resize', () => setWidth(current), { passive: true });
+    setWidth();
+    document.fonts?.ready?.then(setWidth);
+    addEventListener('resize', setWidth, { passive: true });
 
     const nextCity = () => {
       const previous = current;
@@ -80,7 +82,6 @@
       word.classList.remove('is-out');
       void word.offsetWidth;
       word.classList.add('is-cur');
-      setWidth(current);
       setTimeout(() => words[previous].classList.remove('is-out'), 1250);
       setTimeout(nextCity, current === home ? holdHome : hold);
     };
@@ -588,20 +589,42 @@
 
   const form = document.querySelector('[data-form]');
   const leadSection = document.querySelector('.lead-form');
-  if (form && leadSection) {
+  const sheetBackdrop = document.querySelector('[data-sheet-backdrop]');
+  if (form && leadSection && sheetBackdrop) {
+    const layout = leadSection.querySelector('.lead-form__layout');
     let sheetFocus = null;
     const openSheet = () => {
       sheetFocus = document.activeElement;
-      leadSection.classList.add('is-sheet');
+      form.classList.add('is-open');
+      sheetBackdrop.classList.add('is-open');
       document.body.classList.add('is-locked');
       setTimeout(() => form.querySelector('input')?.focus({ preventScroll: true }), 340);
     };
     const closeSheet = () => {
-      if (!leadSection.classList.contains('is-sheet')) return;
-      leadSection.classList.remove('is-sheet');
+      if (!form.classList.contains('is-open')) return;
+      form.classList.remove('is-open');
+      sheetBackdrop.classList.remove('is-open');
       document.body.classList.remove('is-locked');
       sheetFocus?.focus?.({ preventScroll: true });
     };
+    /* На мобилке анкета живёт прямо в <body>: fixed-лист внутри секции с overflow/анимацией
+       iOS Safari позиционирует относительно секции. На десктопе возвращаем в сетку формы. */
+    const placeSheet = () => {
+      if (isMobile()) {
+        if (form.parentElement === document.body) return;
+        form.classList.remove('reveal', 'is-visible');
+        form.classList.add('sheet-card');
+        document.body.append(sheetBackdrop, form);
+      } else if (form.parentElement === document.body) {
+        closeSheet();
+        form.classList.remove('sheet-card');
+        form.classList.add('reveal', 'is-visible');
+        layout.append(form);
+        layout.after(sheetBackdrop);
+      }
+    };
+    placeSheet();
+    mobileMq.addEventListener('change', placeSheet);
     document.addEventListener('click', event => {
       const link = event.target.closest('a[href="#form"]');
       if (!link || !isMobile()) return;
@@ -610,9 +633,8 @@
       openSheet();
     });
     document.querySelector('[data-sheet-close]')?.addEventListener('click', closeSheet);
-    document.querySelector('[data-sheet-backdrop]')?.addEventListener('click', closeSheet);
+    sheetBackdrop.addEventListener('click', closeSheet);
     addEventListener('keydown', event => { if (event.key === 'Escape') closeSheet(); });
-    mobileMq.addEventListener('change', () => { if (!isMobile()) closeSheet(); });
   }
   form?.addEventListener('submit', async event => {
     event.preventDefault();

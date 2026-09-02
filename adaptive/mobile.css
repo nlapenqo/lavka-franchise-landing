@@ -117,6 +117,7 @@
   .darkstore{padding:var(--sec) 0}
   .darkstore .container{width:100%}
   .darkstore__head{margin-bottom:24px;gap:12px;padding-inline:var(--gut)}
+  .darkstore__title{margin-bottom:0}
   .darkstore__lead{width:auto;font-size:15px;line-height:1.4;font-weight:400;color:var(--dim)}
   .map-stage{aspect-ratio:auto;height:600px;margin:0 12px;padding:0;border-radius:var(--r-big);overflow:hidden;cursor:default!important}
   .map-glow{display:none}
@@ -164,12 +165,10 @@
   .format-card dl>div:first-child dd{font-size:16px;font-weight:500;color:var(--dim)}
   .format-card dd b{font-size:56px;line-height:.86;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
   .format-card dd small{font-size:14px;font-weight:500;color:var(--dim);letter-spacing:0;white-space:nowrap}
-  .info{align-self:center;width:20px;height:20px;margin-left:0;font-size:12px;transition:background .2s,color .2s}
-  .info span{left:auto;right:-4px;width:214px;border-radius:var(--r-ctl);transform:translateY(6px)}
-  .info span::after{content:'';position:absolute;right:9px;top:100%;border:6px solid transparent;border-top-color:var(--navy)}
-  .info:hover span{opacity:0;transform:translateY(6px)}
-  .info.is-on{background:var(--navy);border-color:var(--navy);color:#fff}
-  .info.is-on span{opacity:1;transform:none}
+  .info{align-self:center;width:20px;height:20px;margin-left:0;font-size:12px}
+  .info span{top:6px;max-width:calc(100% - 84px)}
+  /* на телефоне ховера нет — подсказка живёт только по тапу (.is-on), «залипший» hover не показываем */
+  .info:hover:not(.is-on) span{opacity:0;transform:translateY(4px)}
   .format-note{margin-top:16px;padding:14px 16px;border-radius:var(--r-card);line-height:1.35}
   .section-cta{margin-top:22px}
   .section-cta .button{width:100%;min-height:52px;font-size:16px;padding:0 26px}
@@ -245,11 +244,13 @@
   .lead-copy li strong{font-size:16px;line-height:1.2}
   .lead-copy li span{max-width:none;font-size:14px;line-height:1.35;color:var(--dim-sky)}
   .lead-copy__cta{display:flex;justify-content:center;width:100%;margin-top:26px}
+  /* анкета-попап: на мобилке JS переносит карточку и подложку в <body> — вне секций с overflow/transform,
+     иначе iOS Safari позиционирует fixed-лист относительно секции и он не показывается */
+  .lead-form .form-card{display:none}
   .sheet-backdrop{display:block;position:fixed;z-index:89;inset:0;background:rgba(11,28,52,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
-  /* .reveal.is-visible веба сильнее одиночного класса — поэтому селекторы с секцией */
-  .lead-form .form-card.reveal,.lead-form .form-card{position:fixed;z-index:90;left:0;right:0;bottom:0;width:auto;max-width:none;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:26px var(--gut) calc(30px + var(--safe-b));border-radius:var(--r-big) var(--r-big) 0 0;box-shadow:none;gap:14px;opacity:0;pointer-events:none;transform:translateY(100%);transition:transform .34s var(--ease-spring),opacity .28s}
-  .lead-form.is-sheet .sheet-backdrop{opacity:1;pointer-events:auto}
-  .lead-form.is-sheet .form-card.reveal,.lead-form.is-sheet .form-card{opacity:1;pointer-events:auto;transform:none}
+  .sheet-backdrop.is-open{opacity:1;pointer-events:auto}
+  .form-card.sheet-card{display:flex;position:fixed;z-index:90;left:0;right:0;bottom:0;width:auto;max-width:none;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:26px var(--gut) calc(30px + var(--safe-b));border-radius:var(--r-big) var(--r-big) 0 0;box-shadow:none;gap:14px;opacity:0;pointer-events:none;transform:translateY(100%);transition:transform .34s var(--ease-spring),opacity .28s}
+  .form-card.sheet-card.is-open{opacity:1;pointer-events:auto;transform:none}
   .form-card__close{display:grid;place-items:center;position:sticky;top:0;z-index:2;align-self:flex-end;width:34px;height:34px;margin:-6px -4px -34px 0;border-radius:50%;background:var(--light);color:var(--navy);font-size:18px;line-height:1}
   .form-card h3{padding-right:40px;font-size:28px;line-height:1;font-weight:900}
   .form-card label{gap:6px}

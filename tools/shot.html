@@ -1,0 +1,28 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>shot</title>
+<!-- QA: ?src=adaptive/index.html&w=900&h=1000&block=.business&off=30 — кадр страницы на заданной ширине, прокрученный к блоку -->
+<style>body{margin:0;background:#dfe7f1}iframe{display:block;margin:20px;border:0;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.12)}</style></head>
+<body><iframe id="f"></iframe><script>
+const q = new URLSearchParams(location.search);
+const f = document.getElementById('f');
+f.width = q.get('w') || 900; f.height = q.get('h') || 1000;
+f.src = '../' + (q.get('src') || 'adaptive/index.html');
+
+/* ждём шрифты и картинки фрейма, затем прокручиваем к блоку — и повторяем, пока раскладка оседает */
+const settle = (f, sel, offset, extra) => new Promise(resolve => {
+  const run = async () => {
+    const d = f.contentDocument, w = f.contentWindow;
+    /* в headless виртуальном времени fonts.ready может не дождаться — просто прокручиваем несколько раз, пока раскладка оседает */
+    const apply = () => {
+      d.querySelectorAll('.rv').forEach(n => n.classList.add('on'));
+      d.querySelectorAll('.reveal').forEach(n => n.classList.add('is-visible'));
+      const el = sel && d.querySelector(sel);
+      if (el) w.scrollTo(0, el.getBoundingClientRect().top + w.scrollY - offset);
+      if (extra) extra(d);
+    };
+    apply(); [300, 800, 1500, 2500, 3500].forEach(t => setTimeout(apply, t)); setTimeout(resolve, 3600);
+  };
+  /* сразу после создания фрейма contentDocument — пустой about:blank со статусом complete; ждём настоящий load */
+  f.addEventListener('load', run);
+});
+settle(f, q.get('block'), +(q.get('off') || 30));
+</script></body></html>

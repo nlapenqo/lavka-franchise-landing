@@ -19,16 +19,16 @@ window.MB = (() => {
     const home = list.length - 1;
     const words = list.map(t => { const s = document.createElement('span'); s.textContent = t; box.append(s); return s; });
     let cur = off ? home : 0;
-    const setW = i => { box.style.width = words[i].offsetWidth + 'px'; };
-    words[cur].classList.add('cur'); setW(cur);
-    document.fonts?.ready?.then(() => setW(cur));
-    addEventListener('resize', () => setW(cur), { passive: true });
+    /* ширина — по самому длинному городу и без анимации: плавная смена ширины дрожала слоем слова */
+    const setW = () => { box.style.width = Math.max(...words.map(w => w.offsetWidth)) + 'px'; };
+    words[cur].classList.add('cur'); setW();
+    document.fonts?.ready?.then(setW);
+    addEventListener('resize', setW, { passive: true });
     if (off) return;
     const next = () => {
       const prev = cur; cur = (cur + 1) % list.length;
       words[prev].classList.replace('cur', 'out');
       words[cur].classList.remove('out'); void words[cur].offsetWidth; words[cur].classList.add('cur');
-      setW(cur);
       setTimeout(() => words[prev].classList.remove('out'), 1250);
       setTimeout(next, cur === home ? 4400 : 2400);
     };
