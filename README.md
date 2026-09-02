@@ -22,6 +22,7 @@ https://nlapenqo.github.io/lavka-franchise-landing/** Это точка исти
 - `lavka-franchise-offline.html` — единственный финальный файл: веб + мобилка в одном офлайн-билде (последняя версия от 26.08.2026)
 - `site/` — исходники веб-версии: `index.html` (сборка), `blocks/<NN>/final.html` (блоки), `blocks/_shared/` (токены, база, скрипты), `fonts/`, `assets/figma/`
 - `concepts/` — `mobile/` (мобильные концепты; финал — `e-figma.html`, сборка E), `steps-scroll/` (серии блока «Как стать партнёром»), `adaptive/` (вариант «плавного» адаптива)
+- `adaptive/` — **адаптивная версия-кандидат (со 2.09.2026)**: одна разметка на все экраны. Копия `site/` + `mobile.css` (слой <768px, перестраивает блоки в мобильную сборку E) + ветки в `app.js`. Десктоп совпадает с `site/` попиксельно, планшет 768–820 — правила веба. `node tools/build-adaptive.mjs` → `export/lavka-adaptive.html` (всё зашито) и `export/lavka-adaptive-lpc.html` (шрифты с yastatic — для конструктора LPC, который вырезает зашитые). Тест на проде: `/adaptive.html`. Пока НЕ финал: финал по-прежнему прод (веб + `m.html`); станет финалом после приёмки на телефоне.
 - `tools/` — `build-offline-site.mjs` (финальный офлайн-файл: веб + мобилка), `build-deploy-root.mjs` (корень gh-pages), `figma-export/`
 - `blocks/` — песочница концептов: все версии всех блоков, галерея [`blocks/index.html`](./blocks/index.html)
 - `docs/` — ТЗ, брифы, дизайн-система, аудиты (не публикуется, в `.gitignore`)
