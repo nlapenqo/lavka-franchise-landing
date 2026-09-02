@@ -166,7 +166,7 @@ ul{padding:0;list-style:none}
   .about p{max-width:1100px;margin-inline:auto;font-size:52px;font-weight:800;line-height:1.14;letter-spacing:-.01em;text-wrap:balance}
   .about p em{font-style:normal;color:var(--blue)}
   .about p.rv{opacity:1;transform:none}
-  .about p .aw{opacity:0;transition:opacity .55s var(--ease) calc(var(--i) * .04s)}
+  .about p .aw{opacity:0;transition:opacity .4s var(--ease) calc(var(--i) * .025s)} /* шаг и длительность продублированы в JS (startWords) */
   .about p.is-in .aw{opacity:1}
 
   /* --- цифры: тёмная панель --- */
@@ -465,7 +465,8 @@ ul{padding:0;list-style:none}
       if (aboutP.classList.contains('is-in')) return;
       aboutP.classList.add('is-in');
       const n = aboutP.querySelectorAll('.aw').length;
-      setTimeout(() => { wordsDone = true; revealNums(); }, (n - 1) * 40 + 700);
+      /* шаг 25 мс × слова + 60% проявления последнего слова: панель подхватывает без паузы */
+      setTimeout(() => { wordsDone = true; revealNums(); }, (n - 1) * 25 + 240);
     }
     const io = new IntersectionObserver((entries) => {
       entries.forEach(en => {
