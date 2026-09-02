@@ -212,6 +212,39 @@ ul{padding:0;list-style:none}
   .cell--h2{grid-row:span 2}
   .badge{position:absolute;left:14px;top:14px;z-index:2}
 
+  /* --- амбиент-свечения: перенесены с главного (styles.css + app.js) --- */
+/* Figma ambient background: #1B3A6A fill + exported blurred ellipses. */
+.ambient-field{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;user-select:none}
+.ambient-glow{position:absolute;display:flex;align-items:center;justify-content:center;animation-duration:var(--drift-duration,11s);animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;animation-play-state:paused;will-change:transform}
+.is-ambient-active .ambient-glow{animation-play-state:running}
+.ambient-glow__axis{flex:none;transform:rotate(-32.9deg)}
+.ambient-glow__core{position:relative;width:var(--core-w);height:var(--core-h)}
+.ambient-glow__core::before{content:'';position:absolute;left:var(--asset-offset);top:var(--asset-offset);width:var(--asset-w);height:var(--asset-h);background:radial-gradient(ellipse closest-side at center,rgba(0,173,255,.78) 0%,rgba(0,173,255,.67) 18%,rgba(0,173,255,.43) 40%,rgba(0,173,255,.2) 62%,rgba(0,173,255,.075) 78%,rgba(0,173,255,.018) 90%,transparent 100%)}
+.ambient-glow--large{--core-w:533.363px;--core-h:916.118px;--asset-offset:-600px;--asset-w:1733.36px;--asset-h:2116.12px;width:945.444px;height:1058.899px;animation-name:ambient-drift-a}
+.ambient-glow--medium{--core-w:364.487px;--core-h:626.052px;--asset-offset:-400px;--asset-w:1164.49px;--asset-h:1426.05px;width:646.093px;height:723.625px;animation-name:ambient-drift-a}
+.ambient-glow--small{--core-w:316.897px;--core-h:544.31px;--asset-offset:-600px;--asset-w:1516.9px;--asset-h:1744.31px;width:561.735px;height:629.144px;animation-name:ambient-drift-b}
+.ambient-glow--hero-left{left:calc(50% - 1513px);top:209px;--drift-duration:8.2s;animation-name:ambient-drift-hero-a}
+.ambient-glow--hero-low{left:calc(50% + 94px);top:521px;--drift-duration:6.7s;animation-name:ambient-drift-hero-b;animation-delay:-2.6s}
+.ambient-glow--hero-high{left:calc(50% + 296px);top:-282px;--drift-duration:9.6s;animation-name:ambient-drift-hero-c;animation-delay:-5.4s}
+.ambient-glow--steps-left{left:calc(50% - 763px);top:-360.89px;--drift-duration:11s}
+.ambient-glow--steps-low{left:calc(50% + 66px);top:490.24px;--drift-duration:9s;animation-delay:-2.6s}
+.ambient-glow--steps-high{left:calc(50% + 362px);top:-227.76px;--drift-duration:13s;animation-name:ambient-drift-c;animation-delay:-5.4s}
+.ambient-glow--form-left{left:calc(50% - 1252px);top:230px;--drift-duration:11s}
+.ambient-glow--form-low{left:calc(50% + 114px);top:441px;--drift-duration:9s;animation-delay:-2.6s}
+.ambient-glow--form-high{left:calc(50% + 296px);top:-282px;--drift-duration:13s;animation-name:ambient-drift-c;animation-delay:-5.4s}
+@keyframes ambient-drift-a{0%{transform:translate3d(calc(var(--ambient-ix,0px) - 20px),calc(var(--ambient-iy,0px) + 80px),0) scale(.92) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(-4deg)}52%{transform:translate3d(calc(var(--ambient-ix,0px) + 156px),calc(var(--ambient-iy,0px) - 104px),0) scale(1.08) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(3deg)}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 48px),calc(var(--ambient-iy,0px) + 44px),0) scale(.98) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(-1deg)}}
+@keyframes ambient-drift-b{0%{transform:translate3d(calc(var(--ambient-ix,0px) + 68px),calc(var(--ambient-iy,0px) - 56px),0) scale(.95) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}58%{transform:translate3d(calc(var(--ambient-ix,0px) - 172px),calc(var(--ambient-iy,0px) + 144px),0) scale(1.1) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 36px),calc(var(--ambient-iy,0px) + 40px),0) scale(1) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}}
+@keyframes ambient-drift-c{0%{transform:translate3d(calc(var(--ambient-ix,0px) + 84px),calc(var(--ambient-iy,0px) + 96px),0) scale(1.04) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}46%{transform:translate3d(calc(var(--ambient-ix,0px) - 144px),calc(var(--ambient-iy,0px) - 124px),0) scale(.91) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 12px),calc(var(--ambient-iy,0px) - 40px),0) scale(1.08) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}}
+@keyframes ambient-drift-hero-a{0%{transform:translate3d(calc(var(--ambient-ix,0px) - 40px),calc(var(--ambient-iy,0px) + 160px),0) scale(.92) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(-4deg)}52%{transform:translate3d(calc(var(--ambient-ix,0px) + 312px),calc(var(--ambient-iy,0px) - 208px),0) scale(1.08) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(3deg)}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 96px),calc(var(--ambient-iy,0px) + 88px),0) scale(.98) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1)) rotate(-1deg)}}
+@keyframes ambient-drift-hero-b{0%{transform:translate3d(calc(var(--ambient-ix,0px) + 136px),calc(var(--ambient-iy,0px) - 112px),0) scale(.95) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}58%{transform:translate3d(calc(var(--ambient-ix,0px) - 344px),calc(var(--ambient-iy,0px) + 288px),0) scale(1.1) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 72px),calc(var(--ambient-iy,0px) + 80px),0) scale(1) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}}
+@keyframes ambient-drift-hero-c{0%{transform:translate3d(calc(var(--ambient-ix,0px) + 168px),calc(var(--ambient-iy,0px) + 192px),0) scale(1.04) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}46%{transform:translate3d(calc(var(--ambient-ix,0px) - 288px),calc(var(--ambient-iy,0px) - 248px),0) scale(.91) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}100%{transform:translate3d(calc(var(--ambient-ix,0px) + 24px),calc(var(--ambient-iy,0px) - 80px),0) scale(1.08) scaleX(var(--ambient-sx,1)) scaleY(var(--ambient-sy,1))}}
+  /* позиции для панели цифр (низкая плашка) */
+  .ambient-glow--nums-left{left:calc(50% - 980px);top:-470px;--drift-duration:11s}
+  .ambient-glow--nums-high{left:calc(50% + 120px);top:-560px;--drift-duration:13s;animation-name:ambient-drift-c;animation-delay:-4s}
+  .nums-panel .ambient-field{z-index:0}
+  .hero-stage .ambient-field,.cities-stage .ambient-field{z-index:0}
+  .cities-stage .ambient-field{transform:translateZ(0)}
+
   /* --- анимации: появление по скроллу (как .reveal главного) --- */
   .rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease) var(--d,0s),transform .7s var(--ease) var(--d,0s)}
   .rv--scale{transform:translateY(24px) scale(.985)}
@@ -258,6 +291,7 @@ ul{padding:0;list-style:none}
     .cities-stage{position:static;height:auto;padding:128px 0}
     .drum-wrap{height:auto;mask-image:none;-webkit-mask-image:none}
     .rv{opacity:1;transform:none;transition:none}
+    .ambient-glow{animation:none!important;transform:none!important}
     .about p .aw{opacity:1;transition:none}
     .hero-content .years,.hero-content .hero-lead,.hero-content .button,.hero-title .w,.hero-photo .ph{opacity:1;animation:none}
   }
@@ -275,8 +309,8 @@ ul{padding:0;list-style:none}
 
 <!-- 01 · хиро: фото наезжает по скроллу -->
 <section class="hero-pin" id="heroPin">
-  <div class="hero-stage section-dark">
-    <span class="glow glow--a"></span><span class="glow glow--b"></span><span class="glow glow--c"></span>
+  <div class="hero-stage section-dark" data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true"><div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div><div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div><div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div></div>
     <div class="hero-content" id="heroContent">
       <div class="years">
         <span class="year year--active">2025</span>
@@ -301,8 +335,8 @@ ul{padding:0;list-style:none}
 <!-- 03 · цифры -->
 <section class="nums">
   <div class="container">
-    <div class="nums-panel rv">
-      <span class="glow glow--b"></span>
+    <div class="nums-panel rv" data-ambient>
+      <div class="ambient-field" aria-hidden="true"><div class="ambient-glow ambient-glow--nums-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div><div class="ambient-glow ambient-glow--nums-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div></div>
       <div class="num rv" style="--d:0s"><b data-count="33">33</b><span>участника со&nbsp;всей России</span></div>
       <div class="num rv" style="--d:.1s"><b data-count="10" data-suffix="+">10+</b><span>городов открыто за&nbsp;2025&nbsp;год</span></div>
       <div class="num rv" style="--d:.2s"><b data-count="2">2</b><span>дня деловой программы и&nbsp;тимбилдинга</span></div>
@@ -342,8 +376,8 @@ ul{padding:0;list-style:none}
 
 <!-- 05 · состав городов: барабан -->
 <section class="cities-pin" id="citiesPin">
-  <div class="cities-stage section-dark">
-    <span class="glow glow--a"></span><span class="glow glow--c"></span>
+  <div class="cities-stage section-dark" data-ambient data-ambient-gain=".5">
+    <div class="ambient-field" aria-hidden="true"><div class="ambient-glow ambient-glow--steps-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div><div class="ambient-glow ambient-glow--steps-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div><div class="ambient-glow ambient-glow--steps-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div></div>
     <div class="container cities-grid">
       <div class="cities-left">
         <h2 class="section-title rv">22 города<br>уже с&nbsp;Лавкой</h2>
@@ -413,6 +447,40 @@ ul{padding:0;list-style:none}
 <script>
 (function(){
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* амбиент-свечения: как на главном — дрейф идёт только в видимых секциях,
+     скорость скролла подмешивается импульсом и лёгким растяжением */
+  const ambientSections = document.querySelectorAll('[data-ambient]');
+  if (reduced) {
+    ambientSections.forEach(sec => sec.classList.add('is-ambient-active'));
+  } else {
+    const ambientObserver = new IntersectionObserver(entries => {
+      entries.forEach(en => en.target.classList.toggle('is-ambient-active', en.isIntersecting));
+    }, { rootMargin: '20% 0px' });
+    ambientSections.forEach(sec => ambientObserver.observe(sec));
+    let aLastY = scrollY, aLastT = performance.now(), aVel = 0;
+    const impulse = [[-80, 90], [72, -110], [96, 72]];
+    const updateAmbient = now => {
+      const elapsed = Math.max(16, now - aLastT);
+      const raw = Math.max(-1, Math.min(1, (scrollY - aLastY) / elapsed / 1.15));
+      aVel += (raw - aVel) * (Math.abs(raw) > Math.abs(aVel) ? .22 : .08);
+      aLastY = scrollY; aLastT = now;
+      const stretch = Math.abs(aVel);
+      ambientSections.forEach(sec => {
+        if (!sec.classList.contains('is-ambient-active')) return;
+        const gain = parseFloat(sec.dataset.ambientGain || '1');
+        sec.querySelectorAll('.ambient-glow').forEach((glow, i) => {
+          const v = impulse[i] || impulse[0];
+          glow.style.setProperty('--ambient-ix', (aVel * v[0] * gain) + 'px');
+          glow.style.setProperty('--ambient-iy', (aVel * v[1] * gain) + 'px');
+          glow.style.setProperty('--ambient-sx', String(1 + stretch * .13 * gain));
+          glow.style.setProperty('--ambient-sy', String(1 - stretch * .07 * gain));
+        });
+      });
+      requestAnimationFrame(updateAmbient);
+    };
+    requestAnimationFrame(updateAmbient);
+  }
 
   /* «О съезде»: каждое слово проявляется отдельно */
   (function(){
