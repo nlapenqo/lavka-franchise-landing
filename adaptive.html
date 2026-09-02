@@ -411,7 +411,7 @@ ul{padding:0;list-style:none}
    ============================================================ */
 
 /* элементы, нужные только мобилке, на широких экранах не существуют */
-.hdr-cta,.evt,.numbers__dots,.stage__count,.stage__nav,.fmt-tabs,.steps-mobile,
+.hdr-cta,.evt,.numbers__dots,.stage__count,.stage__nav,.fmt-tabs,.fmt-sub,.steps-mobile,
 .lead-copy__cta,.form-card__close,.sheet-backdrop{display:none}
 
 @keyframes zf{from{opacity:0;transform:translateY(8px)}}
@@ -551,6 +551,7 @@ ul{padding:0;list-style:none}
   /* ---------- 06 · форматы: табы + одна панель ---------- */
   .formats{padding:var(--sec) 0}
   .formats .section-title{margin-bottom:10px}
+  .fmt-sub{display:block;margin:0 0 18px;font-size:15px;line-height:1.4;color:var(--dim)}
   .fmt-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding-bottom:16px}
   .fmt-tabs button{min-height:42px;padding:6px 4px;border-radius:999px;background:#fff;color:var(--navy);font-size:12px;letter-spacing:-.01em;line-height:1.15;font-weight:500;text-align:center;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(27,58,106,.06);transition:background .25s,color .25s}
   .fmt-tabs button.is-on{background:var(--navy);color:#fff}
@@ -849,6 +850,7 @@ ul{padding:0;list-style:none}
     <section class="formats page-section" id="formats">
       <div class="container">
         <h2 class="section-title reveal">Форматы партнёрства</h2>
+        <p class="fmt-sub reveal">Три сценария входа&nbsp;— выберите свой</p>
         <div class="fmt-tabs" data-format-tabs></div>
         <div class="format-grid">
           <article class="format-card reveal" data-format-card data-tab="Готовый бизнес">
