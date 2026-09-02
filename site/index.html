@@ -147,7 +147,7 @@
           <div class="map-glow map-glow--b" aria-hidden="true"><div class="map-glow__axis"><img src="./assets/figma/darkstore-glow-b.svg" alt="" loading="lazy" decoding="async"></div></div>
           <div class="map-world" data-map-world>
             <div class="map-picture"><img src="./assets/figma/darkstore-map.webp" alt="Схема даркстора с интерактивными зонами"></div>
-            <button class="hotspot is-active" style="--x:49.23%;--y:37.76%" data-zone="kitchen" aria-label="Кухня"><i>+</i></button>
+            <button class="hotspot" style="--x:49.23%;--y:37.76%" data-zone="kitchen" aria-label="Кухня"><i>+</i></button>
             <button class="hotspot" style="--x:25%;--y:42.02%" data-zone="storage" aria-label="Склад с продуктами"><i>+</i></button>
             <button class="hotspot" style="--x:58.68%;--y:72.84%" data-zone="dispatch" aria-label="Зона выдачи заказа"><i>+</i></button>
             <button class="hotspot" style="--x:87.97%;--y:63.95%" data-zone="loading" aria-label="Зона погрузки"><i>+</i></button>
@@ -155,13 +155,14 @@
             <button class="hotspot" style="--x:51.98%;--y:75.76%" data-zone="waiting" aria-label="Зона ожидания заказа"><i>+</i></button>
             <button class="hotspot" style="--x:37.71%;--y:23.63%" data-zone="freezer" aria-label="Морозильная камера"><i>+</i></button>
           </div>
-          <article class="zone-card" data-zone-card aria-live="polite">
+          <article class="zone-card is-hidden" data-zone-card aria-live="polite">
             <div class="zone-card__top"><strong data-zone-number>01</strong><button type="button" data-zone-close aria-label="Закрыть описание">×</button></div>
             <div class="zone-card__text">
               <h3 data-zone-title>Кухня</h3>
               <p data-zone-text>Здесь повара готовят горячую еду из&nbsp;полуфабрикатов&nbsp;— на&nbsp;одно блюдо уходит около 7&nbsp;минут. Готовую еду повара передают кладовщикам, которые собирают весь заказ</p>
             </div>
           </article>
+          <p class="map-hint" data-map-hint>Нажмите на&nbsp;зону, чтобы узнать, как она устроена</p>
         </div>
       </div>
     </section>

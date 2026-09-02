@@ -274,8 +274,9 @@
   const mapWorld = document.querySelector('[data-map-world]');
   const zoneCard = document.querySelector('[data-zone-card]');
   const hotspots = [...document.querySelectorAll('[data-zone]')];
+  hotspots.forEach((item, i) => item.style.setProperty('--i', i));
   const ZOOM = 2.2;
-  let activeZone = 'kitchen';
+  let activeZone = '';   /* на старте ничего не открыто: все точки «+», карточки нет */
   let swapTimer = 0;
   const zoneCount = document.querySelector('[data-zone-count]');
   const fillZone = data => {
@@ -407,6 +408,7 @@
       zoneCard.classList.remove('is-hidden', 'is-swapping');
     }
     activeZone = button.dataset.zone;
+    mapStage?.classList.add('is-open');
     zoomTo(button);
   };
   hotspots.forEach(button => button.addEventListener('click', () => {
@@ -419,6 +421,8 @@
     zoneCard?.classList.add('is-hidden');
     zoneCard?.classList.remove('is-swapping');
     hotspots.forEach(item => item.classList.remove('is-active'));
+    mapStage?.classList.remove('is-open');
+    activeZone = '';
     resetZoom();
   };
   document.querySelector('[data-zone-close]')?.addEventListener('click', closeZone);
@@ -432,11 +436,12 @@
     document.querySelector('[data-zone-prev]')?.addEventListener('click', () => stepZone(-1));
     document.querySelector('[data-zone-next]')?.addEventListener('click', () => stepZone(1));
     const mapImg = mapWorld.querySelector('img');
-    const mobileInit = () => { if (isMobile()) mobileZoneView(activeHotspot()); };
+    const mobileInit = () => { if (isMobile()) showZone(activeHotspot()); };   /* мобилка: зона 01 открыта всегда */
     mapImg.complete ? mobileInit() : mapImg.addEventListener('load', mobileInit, { once: true });
     mobileMq.addEventListener('change', () => {
-      if (isMobile()) { mobileZoneView(activeHotspot()); return; }
+      if (isMobile()) { showZone(activeHotspot()); return; }
       mapWorld.style.width = '';
+      closeZone();
       mapWorld.style.transform = '';
       mapStage.classList.remove('has-zoom');
     });
