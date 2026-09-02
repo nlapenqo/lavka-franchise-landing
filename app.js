@@ -233,8 +233,9 @@
   const mapWorld = document.querySelector('[data-map-world]');
   const zoneCard = document.querySelector('[data-zone-card]');
   const hotspots = [...document.querySelectorAll('[data-zone]')];
+  hotspots.forEach((item, i) => item.style.setProperty('--i', i));
   const ZOOM = 2.2;
-  let activeZone = 'kitchen';
+  let activeZone = '';   /* на старте ничего не открыто: все точки «+», карточки нет */
   let swapTimer = 0;
   const fillZone = data => {
     zoneCard.querySelector('[data-zone-number]').textContent = data[0];
@@ -343,6 +344,7 @@
       zoneCard.classList.remove('is-hidden', 'is-swapping');
     }
     activeZone = button.dataset.zone;
+    mapStage?.classList.add('is-open');
     zoomTo(button);
   };
   hotspots.forEach(button => button.addEventListener('click', () => {
@@ -354,6 +356,8 @@
     zoneCard?.classList.add('is-hidden');
     zoneCard?.classList.remove('is-swapping');
     hotspots.forEach(item => item.classList.remove('is-active'));
+    mapStage?.classList.remove('is-open');
+    activeZone = '';
     resetZoom();
   };
   document.querySelector('[data-zone-close]')?.addEventListener('click', closeZone);
