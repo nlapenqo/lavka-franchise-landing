@@ -168,9 +168,9 @@
   .format-card dd b{font-size:56px;line-height:.86;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
   .format-card dd small{font-size:14px;font-weight:500;color:var(--dim);letter-spacing:0;white-space:nowrap}
   .info{align-self:center;width:20px;height:20px;margin-left:0;font-size:12px}
-  .info span{top:6px;max-width:calc(100% - 84px)}
+  .info span{max-width:min(200px,68vw)}
   /* на телефоне ховера нет — подсказка живёт только по тапу (.is-on), «залипший» hover не показываем */
-  .info:hover:not(.is-on) span{opacity:0;transform:translateY(4px)}
+  .info:hover:not(.is-on) span{opacity:0;transform:translate(-50%,5px) scale(.94)}
   .format-note{margin-top:16px;padding:14px 16px;border-radius:var(--r-card);line-height:1.35}
   .section-cta{margin-top:22px}
   .section-cta .button{width:100%;min-height:52px;font-size:16px;padding:0 26px}
