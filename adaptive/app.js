@@ -52,7 +52,7 @@
 
   const cityRot = document.querySelector('[data-city-rot]');
   if (cityRot) {
-    const cities = ['в\u00A0Казани', 'в\u00A0Самаре', 'в\u00A0Уфе', 'в\u00A0Тюмени', 'в\u00A0Ижевске', 'в\u00A0своём городе'];
+    const cities = ['в\u00A0Казани', 'в\u00A0Пензе', 'в\u00A0Уфе', 'в\u00A0Тюмени', 'в\u00A0Ижевске', 'в\u00A0своём городе'];
     const home = cities.length - 1;
     const hold = 2400;
     const holdHome = 4400;
