@@ -35,3 +35,13 @@
 - Концепт-прототипы отдельных блоков (все версии v1…v7, num-1…num-14, bold, wf) — `blocks/` (галерея: `blocks/index.html`)
 - Бейдж мероприятия — `badge/`
 - Исходники, ТЗ, шрифты — `references/`, `docs/`
+
+## 2026-09-03-pre-adaptive/ — всё, что было до адаптива
+3 сентября 2026 адаптивная версия (бывшая `adaptive/`) стала финальным сайтом и переехала в `site/`. Сюда убрано всё, что относилось к прежнему проду «веб + отдельная мобилка»:
+- `site/` — старые исходники веб-версии (`index.html`, `styles.css`, `app.js`, `blocks/<NN>/final.html`)
+- `concepts/` — мобильные концепты (`mobile/`, финал был `e-figma.html`), серии `steps-scroll/`, `adaptive/fluid.css`, `figma-cover/`
+- `blocks/` — песочница концептов всех блоков с галереей
+- `lavka-franchise-offline.html` — последний офлайн-билд старого прода (веб + мобилка в iframe)
+- `tools/` — `build-offline-site.mjs`, `build-deploy-root.mjs`, `compare-mobile.html`
+- `unused-assets/` — картинки и ttf-шрифты, на которые новый сайт не ссылается
+Прод до этого дня зафиксирован тегами `final-2026-08-26` / `prod-2026-08-26`.

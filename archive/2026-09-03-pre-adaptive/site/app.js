@@ -1,8 +1,5 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* ниже 768px блоки живут по мобильному макету: часть логики ветвится по этому флагу */
-  const mobileMq = matchMedia('(max-width: 767px)');
-  const isMobile = () => mobileMq.matches;
   const header = document.querySelector('[data-header]');
   const menu = document.querySelector('[data-mobile-menu]');
   const menuToggle = document.querySelector('[data-menu-toggle]');
@@ -52,7 +49,7 @@
 
   const cityRot = document.querySelector('[data-city-rot]');
   if (cityRot) {
-    const cities = ['в\u00A0Казани', 'в\u00A0Пензе', 'в\u00A0Уфе', 'в\u00A0Тюмени', 'в\u00A0Ижевске', 'в\u00A0своём городе'];
+    const cities = ['в\u00A0Казани', 'в\u00A0Самаре', 'в\u00A0Уфе', 'в\u00A0Тюмени', 'в\u00A0Ижевске', 'в\u00A0своём городе'];
     const home = cities.length - 1;
     const hold = 2400;
     const holdHome = 4400;
@@ -162,25 +159,6 @@
   }, { threshold: .6 });
   counters.forEach(node => counterObserver.observe(node));
 
-  // Мобилка: точки-индикатор под лентой цифр (шаг = расстояние между карточками)
-  const numbersTrack = document.querySelector('.numbers__grid');
-  const numbersDots = document.querySelector('.numbers__dots');
-  if (numbersTrack && numbersDots) {
-    const n = numbersTrack.children.length;
-    numbersDots.innerHTML = Array.from({ length: n }, (_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('');
-    const marks = [...numbersDots.children];
-    const step = () => (numbersTrack.children[1] ? numbersTrack.children[1].offsetLeft - numbersTrack.children[0].offsetLeft : numbersTrack.clientWidth) || 1;
-    let dotsFrame = 0;
-    numbersTrack.addEventListener('scroll', () => {
-      if (dotsFrame) return;
-      dotsFrame = requestAnimationFrame(() => {
-        dotsFrame = 0;
-        const i = Math.max(0, Math.min(n - 1, Math.round(numbersTrack.scrollLeft / step())));
-        marks.forEach((m, j) => m.classList.toggle('on', j === i));
-      });
-    }, { passive: true });
-  }
-
   // Свечение карточек цифр: тянется к курсору с ленивым догоном
   if (!reduced && matchMedia('(hover:hover)').matches) {
     document.querySelectorAll('.number-card').forEach(card => {
@@ -214,7 +192,6 @@
     const setBusinessSlide = index => {
       businessCurrent = Math.max(0, Math.min(businessSlides.length - 1, index));
       businessCarousel.style.setProperty('--business-slide', businessCurrent);
-      if (isMobile()) return;
       businessSlides.forEach((slide, slideIndex) => {
         const hidden = slideIndex !== businessCurrent;
         slide.setAttribute('aria-hidden', String(hidden));
@@ -223,26 +200,9 @@
       businessPrev.disabled = businessCurrent === 0;
       businessNext.disabled = businessCurrent === businessSlides.length - 1;
     };
-    const businessViewport = businessCarousel.querySelector('.business-carousel__viewport');
-    const mobileStep = () => (businessSlides[1] ? businessSlides[1].offsetLeft - businessSlides[0].offsetLeft : businessViewport.clientWidth) || 1;
-    const mobileArrows = () => {
-      if (!isMobile()) return;
-      const max = businessViewport.scrollWidth - businessViewport.clientWidth;
-      businessPrev.disabled = businessViewport.scrollLeft < 8;
-      businessNext.disabled = businessViewport.scrollLeft > max - 8;
-    };
-    const mobileGo = dir => { businessViewport.scrollBy({ left: dir * mobileStep(), behavior: reduced ? 'auto' : 'smooth' }); setTimeout(mobileArrows, 480); };
-    businessViewport.addEventListener('scroll', mobileArrows, { passive: true });
-    const syncBusinessMode = () => {
-      if (isMobile()) {
-        businessSlides.forEach(slide => { slide.removeAttribute('aria-hidden'); slide.inert = false; });
-        mobileArrows();
-      } else setBusinessSlide(businessCurrent);
-    };
-    mobileMq.addEventListener('change', syncBusinessMode);
 
-    businessPrev.addEventListener('click', () => isMobile() ? mobileGo(-1) : setBusinessSlide(businessCurrent - 1));
-    businessNext.addEventListener('click', () => isMobile() ? mobileGo(1) : setBusinessSlide(businessCurrent + 1));
+    businessPrev.addEventListener('click', () => setBusinessSlide(businessCurrent - 1));
+    businessNext.addEventListener('click', () => setBusinessSlide(businessCurrent + 1));
     businessCarousel.addEventListener('keydown', event => {
       if (event.key === 'ArrowLeft') { event.preventDefault(); setBusinessSlide(businessCurrent - 1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); setBusinessSlide(businessCurrent + 1); }
@@ -251,14 +211,13 @@
     });
     businessCarousel.addEventListener('pointerdown', event => { businessPointerStart = event.clientX; }, { passive: true });
     businessCarousel.addEventListener('pointerup', event => {
-      if (businessPointerStart === null || isMobile()) { businessPointerStart = null; return; }
+      if (businessPointerStart === null) return;
       const delta = event.clientX - businessPointerStart;
       businessPointerStart = null;
       if (Math.abs(delta) > 55) setBusinessSlide(businessCurrent + (delta < 0 ? 1 : -1));
     }, { passive: true });
     businessCarousel.addEventListener('pointercancel', () => { businessPointerStart = null; }, { passive: true });
     setBusinessSlide(0);
-    syncBusinessMode();
   }
 
   const zones = {
@@ -278,12 +237,9 @@
   const ZOOM = 2.2;
   let activeZone = '';   /* на старте ничего не открыто: все точки «+», карточки нет */
   let swapTimer = 0;
-  const zoneCount = document.querySelector('[data-zone-count]');
   const fillZone = data => {
     zoneCard.querySelector('[data-zone-number]').textContent = data[0];
     zoneCard.querySelector('[data-zone-title]').textContent = data[1];
-    zoneCard.querySelector('[data-zone-title]').dataset.n = data[0];
-    if (zoneCount) zoneCount.textContent = data[0];
     zoneCard.querySelector('[data-zone-text]').textContent = data[2];
   };
   const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), hi);
@@ -302,28 +258,8 @@
   const applyView = () => {
     mapWorld.style.transform = `translate(${view.x}px, ${view.y}px) scale(${ZOOM})`;
   };
-  /* Мобилка: кадр всегда заполнен картой (масштаб не меньше cover-а сцены), фокус на 38% высоты —
-     нижняя треть под подписью. Масштаб — шириной мира, не scale: iOS растрирует слой по ширине экрана. */
-  const mobileZoneView = button => {
-    const img = mapWorld.querySelector('img');
-    const vw = mapStage.clientWidth, vh = mapStage.clientHeight;
-    if (!vw || !img.naturalWidth) return;
-    const h0 = vw * img.naturalHeight / img.naturalWidth;
-    let s0 = Math.max(1, vh / h0);
-    if (s0 < 1.02) s0 = 1;
-    const S = Math.max(2, s0 * 1.12);
-    const W = vw * S, H = h0 * S;
-    mapWorld.style.width = `${W}px`;
-    const x = parseFloat(button.style.getPropertyValue('--x')), y = parseFloat(button.style.getPropertyValue('--y'));
-    const tx = clamp(vw / 2 - x / 100 * W, vw - W, 0);
-    const ty = clamp(vh * .38 - y / 100 * H, vh - H, 0);
-    mapWorld.style.transform = `translate(${tx}px, ${ty}px)`;
-    mapStage.style.setProperty('--z', 1);
-  };
-  const activeHotspot = () => hotspots.find(item => item.classList.contains('is-active')) || hotspots[0];
   const zoomTo = button => {
     if (!mapWorld || !mapStage) return;
-    if (isMobile()) { mobileZoneView(button); return; }
     if (reduced || innerWidth <= 820) { mapWorld.style.transform = ''; mapStage.style.setProperty('--z', 1); return; }
     const w = mapStage.clientWidth;
     const h = mapStage.clientHeight;
@@ -344,7 +280,7 @@
     mapStage.classList.add('has-zoom');
   };
   const resetZoom = () => {
-    if (!mapWorld || !mapStage || isMobile()) return;
+    if (!mapWorld || !mapStage) return;
     view.x = 0;
     view.y = 0;
     mapWorld.style.transform = '';
@@ -399,7 +335,7 @@
     hotspots.forEach(item => item.classList.toggle('is-active', item === button));
     const cardVisible = !zoneCard.classList.contains('is-hidden');
     clearTimeout(swapTimer);
-    if (cardVisible && button.dataset.zone !== activeZone && !reduced && !isMobile()) {
+    if (cardVisible && button.dataset.zone !== activeZone && !reduced) {
       // Кроссфейд: старая карточка уходит в прозрачность, новая появляется
       zoneCard.classList.add('is-swapping');
       swapTimer = setTimeout(() => { fillZone(data); zoneCard.classList.remove('is-swapping'); }, 260);
@@ -416,7 +352,6 @@
     button.classList.contains('is-active') ? closeZone() : showZone(button);
   }));
   const closeZone = () => {
-    if (isMobile()) return;
     clearTimeout(swapTimer);
     zoneCard?.classList.add('is-hidden');
     zoneCard?.classList.remove('is-swapping');
@@ -427,50 +362,13 @@
   };
   document.querySelector('[data-zone-close]')?.addEventListener('click', closeZone);
   addEventListener('keydown', event => { if (event.key === 'Escape' && mapStage?.classList.contains('has-zoom')) closeZone(); });
-  addEventListener('resize', () => {
-    if (isMobile()) { mobileZoneView(activeHotspot()); return; }
-    if (mapStage?.classList.contains('has-zoom')) { const active = hotspots.find(item => item.classList.contains('is-active')); active ? zoomTo(active) : resetZoom(); }
-  }, { passive: true });
-  if (mapStage) {
-    const stepZone = dir => { const i = hotspots.indexOf(activeHotspot()); showZone(hotspots[(i + dir + hotspots.length) % hotspots.length]); };
-    document.querySelector('[data-zone-prev]')?.addEventListener('click', () => stepZone(-1));
-    document.querySelector('[data-zone-next]')?.addEventListener('click', () => stepZone(1));
-    const mapImg = mapWorld.querySelector('img');
-    const mobileInit = () => { if (isMobile()) showZone(activeHotspot()); };   /* мобилка: зона 01 открыта всегда */
-    mapImg.complete ? mobileInit() : mapImg.addEventListener('load', mobileInit, { once: true });
-    mobileMq.addEventListener('change', () => {
-      if (isMobile()) { showZone(activeHotspot()); return; }
-      mapWorld.style.width = '';
-      closeZone();
-      mapWorld.style.transform = '';
-      mapStage.classList.remove('has-zoom');
-    });
-  }
+  addEventListener('resize', () => { if (mapStage?.classList.contains('has-zoom')) { const active = hotspots.find(item => item.classList.contains('is-active')); active ? zoomTo(active) : resetZoom(); } }, { passive: true });
 
   const formatCards = [...document.querySelectorAll('[data-format-card]')];
   formatCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
       formatCards.forEach(item => item.classList.toggle('format-card--featured', item === card));
     });
-  });
-
-  // Мобилка: табы переключают одну панель (порядок — как в мобильном макете)
-  const formatTabs = document.querySelector('[data-format-tabs]');
-  if (formatTabs && formatCards.length) {
-    const order = [...formatCards.keys()].reverse();
-    formatTabs.innerHTML = order.map(i => `<button type="button" data-card="${i}">${formatCards[i].dataset.tab}</button>`).join('');
-    const activateTab = i => {
-      formatCards.forEach((card, j) => card.classList.toggle('is-tab-active', j === i));
-      [...formatTabs.children].forEach(b => b.classList.toggle('is-on', +b.dataset.card === i));
-    };
-    formatTabs.addEventListener('click', event => { const b = event.target.closest('button'); if (b) activateTab(+b.dataset.card); });
-    activateTab(order[0]);
-  }
-  // сноски «i» на телефоне открываются тапом: ховера там нет
-  document.addEventListener('click', event => {
-    const btn = event.target.closest('.info');
-    document.querySelectorAll('.info.is-on').forEach(n => { if (n !== btn) n.classList.remove('is-on'); });
-    if (btn && isMobile()) { event.preventDefault(); btn.classList.toggle('is-on'); }
   });
 
   const stepsSection = document.querySelector('[data-pst]');
@@ -501,28 +399,6 @@
            <span class="pst-fold"><span class="pst-num">${step.n}</span><b>${step.t}</b><span class="pst-note">${step.d}</span>${step.e ? `<i class="pst-when">${step.e}</i>` : ''}${step.cta ? `<a class="pst-cta" href="#form">${step.cta}</a>` : ''}</span>
          </div>`);
     });
-    const stepsMobile = stepsSection.querySelector('[data-steps-mobile]');
-    if (stepsMobile) {
-      const [first, ...rest] = STEPS;
-      stepsMobile.innerHTML =
-        `<article class="sfeat"><b>${first.n}</b><h3>${first.t}</h3><p>${first.d}</p>${first.e ? `<em>${first.e}</em>` : ''}${first.cta ? `<a class="sfeat__btn" href="#form">${first.cta}</a>` : ''}</article>
-         <div class="tl"><div class="tl__fill" data-tl-fill></div>${rest.map(step =>
-           `<article class="tstep"><b>${step.n}</b><h3>${step.t}</h3><p>${step.d}</p>${step.e ? `<em>${step.e}</em>` : ''}</article>`).join('')}</div>`;
-      const tl = stepsMobile.querySelector('.tl');
-      const tlFill = stepsMobile.querySelector('[data-tl-fill]');
-      const tlSteps = [...stepsMobile.querySelectorAll('.tstep')];
-      let tlFrame = 0;
-      // полоса заполняется по мере прохождения экрана: линия на 55% высоты окна
-      const tlUpdate = () => {
-        tlFrame = 0;
-        if (!isMobile()) return;
-        const box = tl.getBoundingClientRect(), line = innerHeight * .55;
-        tlFill.style.setProperty('--fh', `${Math.max(0, Math.min(box.height - 40, line - box.top))}px`);
-        tlSteps.forEach(step => step.classList.toggle('on', step.getBoundingClientRect().top < line));
-      };
-      addEventListener('scroll', () => { if (!tlFrame) tlFrame = requestAnimationFrame(tlUpdate); }, { passive: true });
-      tlUpdate();
-    }
     const miniNodes = [...rail.children];
     let stepState = '';
     const stepOnScroll = () => {
@@ -593,54 +469,6 @@
   });
 
   const form = document.querySelector('[data-form]');
-  const leadSection = document.querySelector('.lead-form');
-  const sheetBackdrop = document.querySelector('[data-sheet-backdrop]');
-  if (form && leadSection && sheetBackdrop) {
-    const layout = leadSection.querySelector('.lead-form__layout');
-    let sheetFocus = null;
-    const openSheet = () => {
-      sheetFocus = document.activeElement;
-      form.classList.add('is-open');
-      sheetBackdrop.classList.add('is-open');
-      document.body.classList.add('is-locked');
-      setTimeout(() => form.querySelector('input')?.focus({ preventScroll: true }), 340);
-    };
-    const closeSheet = () => {
-      if (!form.classList.contains('is-open')) return;
-      form.classList.remove('is-open');
-      sheetBackdrop.classList.remove('is-open');
-      document.body.classList.remove('is-locked');
-      sheetFocus?.focus?.({ preventScroll: true });
-    };
-    /* На мобилке анкета живёт прямо в <body>: fixed-лист внутри секции с overflow/анимацией
-       iOS Safari позиционирует относительно секции. На десктопе возвращаем в сетку формы. */
-    const placeSheet = () => {
-      if (isMobile()) {
-        if (form.parentElement === document.body) return;
-        form.classList.remove('reveal', 'is-visible');
-        form.classList.add('sheet-card');
-        document.body.append(sheetBackdrop, form);
-      } else if (form.parentElement === document.body) {
-        closeSheet();
-        form.classList.remove('sheet-card');
-        form.classList.add('reveal', 'is-visible');
-        layout.append(form);
-        layout.after(sheetBackdrop);
-      }
-    };
-    placeSheet();
-    mobileMq.addEventListener('change', placeSheet);
-    document.addEventListener('click', event => {
-      const link = event.target.closest('a[href="#form"]');
-      if (!link || !isMobile()) return;
-      event.preventDefault();
-      closeMenu();
-      openSheet();
-    });
-    document.querySelector('[data-sheet-close]')?.addEventListener('click', closeSheet);
-    sheetBackdrop.addEventListener('click', closeSheet);
-    addEventListener('keydown', event => { if (event.key === 'Escape') closeSheet(); });
-  }
   form?.addEventListener('submit', async event => {
     event.preventDefault();
     const status = form.querySelector('[data-form-status]');

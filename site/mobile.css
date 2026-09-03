@@ -65,6 +65,8 @@
 
   /* ---------- 02 · мероприятие: карточка на стыке вместо бегущей строки ---------- */
   .event{display:none}
+  .no-event .evt{display:none}
+  .no-event .hero{min-height:100vh;min-height:100svh;padding-bottom:96px}
   .evt{position:relative;z-index:3;display:grid;grid-template-columns:54px 1fr 32px;gap:12px;align-items:center;margin:-37px 0 0;padding:15px 16px;border-radius:var(--r-big);background:var(--sky);color:var(--navy);box-shadow:0 16px 38px rgba(14,34,65,.18);transition:background .2s}
   .evt:active{background:var(--sky-press)}
   .evt__d{width:54px;height:54px;border-radius:var(--r-ctl);overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(14,34,65,.14)}

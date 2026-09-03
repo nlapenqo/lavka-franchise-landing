@@ -1,23 +1,22 @@
-// Собирает адаптивную версию (adaptive/) в один самодостаточный HTML — две сборки:
-//   export/lavka-adaptive.html      — шрифты и картинки зашиты base64 (любой хостинг, показ, пересылка)
-//   export/lavka-adaptive-lpc.html  — для конструктора LPC: он вырезает зашитые шрифты,
+// Собирает сайт (site/) в один самодостаточный HTML — две сборки:
+//   export/lavka-franchise.html      — шрифты и картинки зашиты base64 (любой хостинг, показ, пересылка)
+//   export/lavka-franchise-lpc.html  — для конструктора LPC: он вырезает зашитые шрифты,
 //                                     поэтому YS Geo подключён ссылками на yastatic.net
 //                                     и стоит защита от переопределения платформенными стилями
-// Использование: node tools/build-adaptive.mjs
+// Использование: node tools/build-site.mjs
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const src = join(root, 'adaptive');
-const site = join(root, 'site');           // ассеты и шрифты общие с веб-версией
+const src = join(root, 'site');
 const outDir = join(root, 'export');
 mkdirSync(outDir, { recursive: true });
 
 const mime = { '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.ttf': 'font/ttf', '.woff2': 'font/woff2' };
 const toDataUri = relative => {
   const extension = relative.slice(relative.lastIndexOf('.'));
-  return `data:${mime[extension]};base64,${readFileSync(join(site, relative)).toString('base64')}`;
+  return `data:${mime[extension]};base64,${readFileSync(join(src, relative)).toString('base64')}`;
 };
 const collectAssetPaths = sources => {
   const paths = new Set();
@@ -50,7 +49,7 @@ const assemble = (styles, note) => {
 /* 1 · всё зашито */
 const full = assemble(replaceAssets(css + '\n' + mobileCss),
   'Adaptive standalone build: one document for every screen, all styles, scripts, fonts and media are embedded.');
-writeFileSync(join(outDir, 'lavka-adaptive.html'), full);
+writeFileSync(join(outDir, 'lavka-franchise.html'), full);
 
 /* 2 · LPC: шрифты со своего CDN Яндекса (веса 400/500/900; 800 → black), каскад защищён */
 const YS = 'https://yastatic.net/s3/home/fonts/ys/4/';
@@ -65,9 +64,9 @@ body, body :where(*):not(.footer__legal){font-family:'YS Geo','YS Text',Arial,sa
 .footer__legal{font-family:'YS Text','YS Geo',Arial,sans-serif !important}\n`;
 const lpc = assemble(replaceAssets(lpcCss),
   'Adaptive build for LPC: fonts are linked from yastatic.net (the platform strips embedded fonts), images embedded.');
-writeFileSync(join(outDir, 'lavka-adaptive-lpc.html'), lpc);
+writeFileSync(join(outDir, 'lavka-franchise-lpc.html'), lpc);
 
 const mb = s => (Buffer.byteLength(s) / 1048576).toFixed(1);
 console.log(`Inlined ${inlined.size} assets`);
-console.log(`export/lavka-adaptive.html      ${mb(full)} МБ`);
-console.log(`export/lavka-adaptive-lpc.html  ${mb(lpc)} МБ`);
+console.log(`export/lavka-franchise.html      ${mb(full)} МБ`);
+console.log(`export/lavka-franchise-lpc.html  ${mb(lpc)} МБ`);
