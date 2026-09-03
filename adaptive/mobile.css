@@ -106,6 +106,7 @@
   .business-slide__copy{height:auto;flex:1;gap:0;align-items:stretch}
   .business-slide__copy h3{width:auto;margin-bottom:14px;font-size:28px;line-height:1.02}
   .business-slide__copy p{width:auto;margin-bottom:24px;font-size:15px;line-height:1.48}
+  .business-slide__copy p br{display:none}
   .business-slide__copy .button{align-self:flex-start;margin-top:auto;padding-inline:26px;box-shadow:var(--shadow-cta)}
   /* стрелки — в подвале карточки, справа от кнопки */
   .business-carousel__controls{right:calc(var(--gut) + 24px);bottom:24px;gap:8px}
@@ -273,4 +274,9 @@
   .footer__legal{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--line-dark);font-family:'YS Geo',Arial,sans-serif;font-size:12px;line-height:1.5;color:rgba(167,190,224,.85)}
   .footer__legal>div,.footer__legal>div:last-child{gap:12px}
   .footer__legal a{display:inline-block;padding-block:8px;margin-block:-8px;text-decoration:underline;text-underline-offset:3px}
+}
+
+/* Узкие телефоны (iPhone SE): лого-локап футера не влезает в 280px */
+@media (max-width:340px){
+  .footer-logo{transform:scale(.85);transform-origin:left center}
 }
