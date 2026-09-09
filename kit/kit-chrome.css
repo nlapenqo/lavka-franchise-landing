@@ -1,0 +1,131 @@
+/* ============================================================
+   Оформление самой страницы кита (обложка, оглавление, подписи блоков, основы).
+   В лендинги НЕ копируется — только kit.css.
+   ============================================================ */
+.kit-cover{padding:140px 0 96px}
+.kit-cover__tag{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dim-dark);margin-bottom:36px}
+.kit-cover__tag i{width:9px;height:9px;border-radius:50%;background:var(--blue)}
+.kit-cover h1{font-size:104px;font-weight:900;line-height:.9;letter-spacing:-.01em;max-width:1000px}
+.kit-cover h1 em{color:var(--blue)}
+.kit-cover__lead{margin-top:32px;max-width:720px;font-size:22px;font-weight:500;line-height:1.2;color:var(--muted-dark)}
+.kit-toc{margin-top:72px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:48px}
+.kit-toc h2{font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--dim-dark);margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(170,217,252,.22)}
+.kit-toc ul{display:grid;gap:2px}
+.kit-toc__blocks ul{grid-template-columns:1fr 1fr;column-gap:32px}
+.kit-toc a{display:flex;align-items:baseline;gap:12px;padding:9px 0;font-size:18px;font-weight:500;line-height:1.15;border-bottom:1px solid rgba(170,217,252,.12);transition:color .18s}
+.kit-toc a b{flex:none;width:28px;font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--blue)}
+.kit-toc a small{margin-left:auto;font-size:12px;color:var(--dim-dark);white-space:nowrap}
+.kit-toc a:hover{color:var(--blue)}
+
+/* подпись к блоку */
+.kit-block{position:relative;scroll-margin-top:0}
+.kit-label{display:flex;align-items:center;gap:20px;padding:20px var(--gutter);background:#fff;border-top:1px dashed var(--sky);border-bottom:1px solid var(--line)}
+.kit-label__num{flex:none;display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:var(--r-pill);background:var(--navy);color:#fff;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.kit-label__name{font-size:22px;font-weight:800;line-height:1;margin:0;white-space:nowrap}
+.kit-label__src{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);padding:5px 10px;border:1px solid var(--line);border-radius:var(--r-pill);white-space:nowrap}
+.kit-label__use{margin:0 0 0 auto;max-width:560px;font-size:14px;line-height:1.35;color:var(--dim);text-align:right}
+.kit-label__copy{flex:none;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:var(--r-pill);border:1px solid var(--line);font-size:12px;font-weight:500;color:var(--navy);transition:background .2s,border-color .2s}
+.kit-label__copy:hover{background:var(--card);border-color:var(--sky)}
+.kit-label__copy.is-done{background:var(--blue);border-color:var(--blue);color:#fff}
+.kit-sub{display:flex;align-items:center;gap:12px;padding:14px var(--gutter);background:var(--light);border-bottom:1px solid var(--line);font-size:13px;color:var(--dim)}
+.kit-sub b{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:var(--r-pill);background:var(--sky);color:var(--navy);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+/* демо-сцены для шапки */
+.kit-stage{position:relative;overflow:hidden;padding:36px 0;background:var(--navy);color:#fff}
+.kit-stage--light{background:var(--light);color:var(--navy)}
+.kit-stage--photo{background:url('../events/assets/g4.webp') center/cover;min-height:180px;display:flex;align-items:flex-start}
+.kit-stage--m{display:flex;justify-content:center;gap:24px;padding:36px var(--gutter)}
+.kit-stage__note{position:absolute;right:var(--gutter);bottom:12px;font-size:12px;color:var(--dim-dark);letter-spacing:.04em}
+.kit-stage--light .kit-stage__note{color:var(--dim)}
+
+/* основы */
+.kit-fnd{padding:96px 0;border-top:1px dashed var(--sky)}
+.kit-fnd__head{display:flex;align-items:baseline;gap:20px;margin-bottom:40px}
+.kit-fnd__head .kit-label__num{background:var(--blue)}
+.kit-fnd__head h2{font-size:48px;font-weight:900;line-height:.95;letter-spacing:-.01em}
+.kit-fnd__head p{margin-left:auto;max-width:520px;font-size:15px;line-height:1.4;color:var(--dim);text-align:right}
+.kit-swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.kit-swatch{border-radius:var(--r-m);overflow:hidden;border:1px solid var(--line)}
+.kit-swatch i{display:block;height:120px;background:var(--c)}
+.kit-swatch div{padding:12px 14px 14px;font-size:13px;line-height:1.35;color:var(--dim)}
+.kit-swatch b{display:block;font-size:14px;font-weight:800;color:var(--navy)}
+.kit-swatch code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--mid)}
+.kit-type{display:grid;gap:0}
+.kit-type__row{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:baseline;padding:26px 0;border-top:1px solid var(--line)}
+.kit-type__row:last-child{border-bottom:1px solid var(--line)}
+.kit-type__row .spec{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;color:var(--dim)}
+.kit-type__row .spec b{display:block;font-family:'YS Geo',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.kit-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.kit-row+.kit-row{margin-top:24px}
+.kit-row--dark{padding:28px 32px;border-radius:var(--r-m);background:var(--navy)}
+.kit-row--light{padding:28px 32px;border-radius:var(--r-m);background:var(--light)}
+.kit-row__t{width:100%;font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:-6px}
+.kit-row--dark .kit-row__t{color:var(--dim-dark)}
+.kit-grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.kit-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.kit-spec{padding:24px;border-radius:var(--r-m);border:1px solid var(--line)}
+.kit-spec h4{font-size:14px;font-weight:800;margin-bottom:12px}
+.kit-spec dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px;line-height:1.4}
+.kit-spec dt{color:var(--dim)}
+.kit-spec dd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--navy)}
+.kit-radii{display:flex;gap:16px;align-items:flex-end}
+.kit-radii div{display:grid;place-items:end;padding:10px;width:120px;height:90px;background:var(--card);font-size:12px;color:var(--dim)}
+.kit-shadows{display:flex;gap:24px}
+.kit-shadows div{width:150px;height:100px;border-radius:var(--r-m);background:#fff;display:grid;place-items:end;padding:10px;font-size:12px;color:var(--dim)}
+.kit-glow-demo{position:relative;height:280px;border-radius:var(--r-xl);background:var(--navy);overflow:hidden;isolation:isolate;color:#fff;display:grid;place-items:center;font-size:14px;color:var(--dim-dark)}
+.kit-motion{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kit-motion div{padding:20px;border-radius:var(--r-m);background:var(--light);font-size:13px;line-height:1.45;color:var(--dim)}
+.kit-motion b{display:block;font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.kit-motion code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--mid)}
+.kit-form-demo{max-width:560px}
+
+/* правила сборки */
+.kit-rules{padding:96px 0;border-top:1px dashed var(--sky);background:var(--light)}
+.kit-rules ol{margin:40px 0 0;padding:0;list-style:none;counter-reset:r;display:grid;grid-template-columns:1fr 1fr;gap:20px 40px}
+.kit-rules li{counter-increment:r;display:grid;grid-template-columns:44px 1fr;gap:16px;font-size:16px;line-height:1.45;color:var(--dim)}
+.kit-rules li::before{content:counter(r,decimal-leading-zero);font-size:32px;font-weight:900;line-height:.9;color:var(--blue)}
+.kit-rules li b{display:block;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.kit-recipes{margin-top:48px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.kit-recipe{background:#fff;border-radius:var(--r-m);padding:24px;border:1px solid var(--line)}
+.kit-recipe h4{font-size:18px;font-weight:800;margin-bottom:12px}
+.kit-recipe ol{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.kit-recipe li{font-size:12px;font-weight:500;padding:5px 10px;border-radius:var(--r-pill);background:var(--card);color:var(--dim);white-space:nowrap}
+.kit-recipe li.d{background:var(--navy);color:#fff}
+
+/* плавающая навигация */
+.kit-nav{position:fixed;z-index:60;right:24px;bottom:24px;display:flex;gap:8px}
+.kit-nav a{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:var(--r-pill);background:rgba(27,58,106,.92);color:#fff;font-size:14px;font-weight:500;box-shadow:0 12px 36px rgba(14,34,65,.28);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);transition:transform .2s var(--ease),background .2s}
+.kit-nav a:hover{transform:translateY(-2px);background:var(--navy)}
+
+@media (max-width:1100px){
+  .kit-cover h1{font-size:72px}
+  .kit-label{flex-wrap:wrap;gap:12px 16px}
+  .kit-label__copy{margin-left:auto}
+  .kit-label__use{order:5;width:100%;max-width:100%;margin-left:0;text-align:left}
+  .kit-swatches{grid-template-columns:repeat(3,1fr)}
+  .kit-motion{grid-template-columns:1fr 1fr}
+  .kit-grid3{grid-template-columns:1fr}
+}
+@media (max-width:767px){
+  .kit-cover{padding:96px 0 64px}
+  .kit-cover h1{font-size:44px}
+  .kit-cover__lead{font-size:17px;margin-top:20px}
+  .kit-toc{grid-template-columns:1fr;gap:32px;margin-top:48px}
+  .kit-toc__blocks ul{grid-template-columns:1fr}
+  .kit-label{flex-wrap:wrap;gap:10px;padding:16px 20px}
+  .kit-label__name{font-size:18px}
+  .kit-label__use{max-width:100%;text-align:left;margin-left:0;width:100%}
+  .kit-sub{padding:12px 20px;flex-wrap:wrap}
+  .kit-stage--m{flex-direction:column;align-items:stretch;padding:24px 20px}
+  .kit-fnd{padding:64px 0}
+  .kit-fnd__head{flex-direction:column;gap:12px}
+  .kit-fnd__head h2{font-size:34px}
+  .kit-fnd__head p{margin-left:0;text-align:left}
+  .kit-swatches{grid-template-columns:1fr 1fr;gap:10px}
+  .kit-type__row{grid-template-columns:1fr;gap:12px}
+  .kit-grid2,.kit-motion{grid-template-columns:1fr}
+  .kit-radii,.kit-shadows{flex-wrap:wrap}
+  .kit-rules{padding:64px 0}
+  .kit-rules ol{grid-template-columns:1fr}
+  .kit-recipes{grid-template-columns:1fr}
+  .kit-nav{right:12px;bottom:12px}
+}

@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дизайн-система лендингов Лавки</title>
+<meta name="description" content="Супер-шаблон: 15 типовых блоков, каркас и основы в языке франшизы Яндекс Лавки">
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="./kit.css">
+<link rel="stylesheet" href="./kit-chrome.css">
+</head>
+<body>
+<nav class="kit-nav" aria-label="Навигация по киту"><a href="#toc">Оглавление ↑</a></nav>
+
+<!-- ======================== ОБЛОЖКА + ОГЛАВЛЕНИЕ ======================== -->
+<header class="kit-cover section--dark" id="toc" data-ambient data-ambient-gain="1.35">
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
+  <div class="container">
+    <p class="kit-cover__tag"><i></i>Дизайн-система лендингов · v1 · сентябрь 2026</p>
+    <h1>Супер-шаблон<br>для <em>лендингов</em></h1>
+    <p class="kit-cover__lead">15 типовых блоков, каркас и основы в одном языке&nbsp;— главного лендинга франшизы и&nbsp;страницы мероприятий. Скопируйте блок, замените контент, соберите страницу.</p>
+    <div class="kit-toc">
+      <div>
+        <h2>Основы</h2>
+        <ul>
+          <li><a href="#f1"><b>F1</b>Цвета</a></li>
+          <li><a href="#f2"><b>F2</b>Типографика</a></li>
+          <li><a href="#f3"><b>F3</b>Сетка и ритм</a></li>
+          <li><a href="#f4"><b>F4</b>Кнопки</a></li>
+          <li><a href="#f5"><b>F5</b>Плашки и контролы</a></li>
+          <li><a href="#f6"><b>F6</b>Поля формы</a></li>
+          <li><a href="#f7"><b>F7</b>Свечение</a></li>
+          <li><a href="#f8"><b>F8</b>Движение</a></li>
+        </ul>
+      </div>
+      <div class="kit-toc__blocks">
+        <h2>Блоки</h2>
+        <ul>
+          <li><a href="#b00"><b>00</b>Шапка<small>каркас</small></a></li>
+          <li><a href="#b01"><b>01</b>Хиро<small>3 варианта</small></a></li>
+          <li><a href="#b02"><b>02</b>Бегущая строка<small>2 варианта</small></a></li>
+          <li><a href="#b03"><b>03</b>Цифры<small>2 варианта</small></a></li>
+          <li><a href="#b04"><b>04</b>Текст + медиа<small>карусель</small></a></li>
+          <li><a href="#b05"><b>05</b>Заявление</a></li>
+          <li><a href="#b06"><b>06</b>Карточки преимуществ<small>2 варианта</small></a></li>
+          <li><a href="#b07"><b>07</b>Форматы и тарифы</a></li>
+          <li><a href="#b08"><b>08</b>Шаги</a></li>
+          <li><a href="#b09"><b>09</b>Люди<small>2 варианта</small></a></li>
+          <li><a href="#b10"><b>10</b>Отзывы</a></li>
+          <li><a href="#b11"><b>11</b>Логотипы</a></li>
+          <li><a href="#b12"><b>12</b>Галерея</a></li>
+          <li><a href="#b13"><b>13</b>Вопросы и ответы</a></li>
+          <li><a href="#b14"><b>14</b>CTA-полоса<small>2 варианта</small></a></li>
+          <li><a href="#b15"><b>15</b>Форма заявки</a></li>
+          <li><a href="#b16"><b>16</b>Футер<small>каркас</small></a></li>
+          <li><a href="#rules"><b>→</b>Как собирать<small>правила и рецепты</small></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================== ОСНОВЫ ======================== -->
+<section class="kit-fnd" id="f1">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F1</span><h2>Цвета</h2><p>Только синяя гамма брендбука. Оранжевый&nbsp;— единственный тёплый акцент, и только для статусов («набор открыт»). Новых цветов не добавляем.</p></div>
+    <div class="kit-swatches">
+      <div class="kit-swatch"><i style="--c:#1b3a6a"></i><div><b>Navy</b><code>#1B3A6A · --navy</code><br>Основной: текст, тёмные секции</div></div>
+      <div class="kit-swatch"><i style="--c:#00adff"></i><div><b>Blue</b><code>#00ADFF · --blue</code><br>CTA, акцентные цифры, свечение</div></div>
+      <div class="kit-swatch"><i style="--c:#aad9fc"></i><div><b>Sky</b><code>#AAD9FC · --sky</code><br>Плашки, полосы, линии</div></div>
+      <div class="kit-swatch"><i style="--c:#eaf3fc"></i><div><b>Card</b><code>#EAF3FC · --card</code><br>Карточки и чипсы на белом</div></div>
+      <div class="kit-swatch"><i style="--c:#f2f7fc"></i><div><b>Light</b><code>#F2F7FC · --light</code><br>Светлые секции, поля</div></div>
+      <div class="kit-swatch"><i style="--c:#3e88c5"></i><div><b>Mid</b><code>#3E88C5 · --mid</code><br>Обводки сносок</div></div>
+      <div class="kit-swatch"><i style="--c:#5a749b"></i><div><b>Dim</b><code>#5A749B · --dim</code><br>Второстепенный текст на светлом</div></div>
+      <div class="kit-swatch"><i style="--c:#a7bee0"></i><div><b>Dim dark</b><code>#A7BEE0 · --dim-dark</code><br>Второстепенный текст на тёмном</div></div>
+      <div class="kit-swatch"><i style="--c:#152e56"></i><div><b>Navy deep</b><code>#152E56 · --navy-deep</code><br>Подложки на тёмном</div></div>
+      <div class="kit-swatch"><i style="--c:#ff6d2f"></i><div><b>Live</b><code>#FF6D2F · --live</code><br>Точка статуса, «горячее»</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f2">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F2</span><h2>Типографика</h2><p>YS Geo на всё, кроме юридического текста (YS Text Cond Light). Заголовки&nbsp;— Black, кернинг −1%, интерлиньяж 90%: «коротко и громко». Точек в заголовках нет.</p></div>
+    <div class="kit-type">
+      <div class="kit-type__row"><div class="t-display">Запустите Лавку</div><div class="spec"><b>Display · хиро</b>YS Geo Black 900<br>110px / 90% / −1%<br>≤1100: 80px · &lt;768: 40–50px</div></div>
+      <div class="kit-type__row"><div class="t-h1">Как устроен бизнес?</div><div class="spec"><b>H1 · заголовок секции</b>YS Geo Black 900<br>80px / 92% / −1%<br>≤1100: 64px · &lt;768: 38px</div></div>
+      <div class="kit-type__row"><div class="t-h2">Сервис быстрой доставки продуктов</div><div class="spec"><b>H2 · заголовок в карточке</b>YS Geo Heavy 800<br>48px / 95% / −0.5%</div></div>
+      <div class="kit-type__row"><div class="t-h3">Что такое даркстор?</div><div class="spec"><b>H3 · вопрос, подзаголовок</b>YS Geo Heavy 800<br>31px / 105%</div></div>
+      <div class="kit-type__row"><div class="t-h4">Стратегия Яндекс Лавки</div><div class="spec"><b>H4 · заголовок малой карточки</b>YS Geo Heavy 800<br>24px / 105%</div></div>
+      <div class="kit-type__row"><div class="t-lead">Франшиза быстрой доставки продуктов с&nbsp;технологиями, снабжением и&nbsp;поддержкой Яндекса</div><div class="spec"><b>Lead · подзаголовок</b>YS Geo Medium 500<br>22px / 115%</div></div>
+      <div class="kit-type__row"><div class="t-body" style="color:var(--dim);max-width:640px">Клиент делает заказ в&nbsp;приложении, сборщики комплектуют его в&nbsp;дарксторе, а&nbsp;курьер доставляет от&nbsp;15&nbsp;минут. По&nbsp;франшизе партнёр управляет сервисом в&nbsp;целом городе</div><div class="spec"><b>Body · текст</b>YS Geo Regular 400<br>18px / 130–145% · цвет --dim на светлом</div></div>
+      <div class="kit-type__row"><div class="t-small" style="color:var(--dim)">Бизнес-модель, технологии и&nbsp;сильный бренд уже работают&nbsp;— не&nbsp;нужно строить с&nbsp;нуля</div><div class="spec"><b>Small · пояснение</b>YS Geo Regular 400<br>14px / 135%</div></div>
+      <div class="kit-type__row"><div class="t-caption" style="color:var(--dim)">Инвестиции · Окупаемость · Паушальный взнос</div><div class="spec"><b>Caption · подпись, лейбл</b>YS Geo Medium 500<br>12–14px / uppercase / +5…+10%</div></div>
+      <div class="kit-type__row"><div class="t-legal" style="color:var(--dim)">Информация на сайте не является публичной офертой. Условия партнёрства и финансовые результаты индивидуальны</div><div class="spec"><b>Legal · дисклеймер</b>YS Text Cond Light 300<br>12px / 145%</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f3">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F3</span><h2>Сетка и ритм</h2><p>Один контейнер на всё, секции по 128px, карточки с крупным скруглением. Тёмные и светлые секции чередуются.</p></div>
+    <div class="kit-grid3">
+      <div class="kit-spec"><h4>Контейнер</h4><dl><dt>Ширина</dt><dd>1164px · .container</dd><dt>Широкий</dt><dd>1440px · .container--wide</dd><dt>Поля</dt><dd>48px (моб. 40px)</dd><dt>Брейкпоинты</dt><dd>1199 · 1100 · 1023 · 767</dd></dl></div>
+      <div class="kit-spec"><h4>Вертикальный ритм</h4><dl><dt>Секция</dt><dd>128px · ≤1100: 88 · &lt;768: 64</dd><dt>После заголовка</dt><dd>56px</dd><dt>Сетки карточек</dt><dd>22–31px</dd><dt>Секция → CTA</dt><dd>56px</dd></dl></div>
+      <div class="kit-spec"><h4>Скругления</h4><div class="kit-radii"><div style="border-radius:32px">32 карточки</div><div style="border-radius:24px">24 медиа</div><div style="border-radius:20px">20 полосы</div><div style="border-radius:12px">12 тултип</div></div></div>
+    </div>
+    <div class="kit-row kit-row--light" style="margin-top:24px"><span class="kit-row__t">Тени</span>
+      <div class="kit-shadows">
+        <div style="box-shadow:var(--sh-card)">card</div>
+        <div style="box-shadow:var(--sh-card-hover)">card:hover</div>
+        <div style="box-shadow:var(--sh-float)">float</div>
+        <div style="box-shadow:var(--sh-cta);background:var(--blue);color:#fff">cta</div>
+        <div style="box-shadow:var(--sh-deep)">deep</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f4">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F4</span><h2>Кнопки</h2><p>Голубая&nbsp;— только главное действие, одна на экран. Вторичное&nbsp;— navy, контур или текст-ссылка со стрелкой. Hover: подъём на 2px.</p></div>
+    <div class="kit-row kit-row--light"><span class="kit-row__t">На светлом</span>
+      <a class="button button--blue" href="#">Стать партнёром</a>
+      <a class="button button--navy" href="#">Перейти в Telegram</a>
+      <a class="button button--outline-navy" href="#">Подробнее</a>
+      <a class="text-link" href="#">Как это работает&nbsp;&nbsp;→</a>
+    </div>
+    <div class="kit-row kit-row--dark"><span class="kit-row__t">На тёмном</span>
+      <a class="button button--blue" href="#">Стать партнёром</a>
+      <a class="button button--white" href="#">Оставить заявку</a>
+      <a class="button button--outline" href="#">Стать партнёром</a>
+      <a class="text-link" href="#" style="color:#fff">Как это работает&nbsp;&nbsp;→</a>
+    </div>
+    <div class="kit-row kit-row--light"><span class="kit-row__t">Размеры и состояния</span>
+      <a class="button button--blue button--small" href="#">Small 40</a>
+      <a class="button button--blue" href="#">Default 52</a>
+      <a class="button button--blue button--large" href="#">Large 66</a>
+      <button class="button button--blue is-loading" type="button">Отправка</button>
+      <a class="telegram-button" href="#"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f5">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F5</span><h2>Плашки и контролы</h2><p>Чипсы-пилюли для категорий, плашки-годы для мероприятий, круглые стрелки для каруселей, иконки на плашках&nbsp;— по брендбуку: аутлайн тёмно-синим.</p></div>
+    <div class="kit-row kit-row--light"><span class="kit-row__t">Чипсы и плашки</span>
+      <span class="chip">Миллионники</span><span class="chip chip--navy">Новый город</span><span class="chip chip--blue">Готовый бизнес</span><span class="chip chip--white">Уфа</span><span class="chip chip--live"><i></i>Набор открыт</span>
+      <span class="years"><span class="year year--active">2025</span><span class="year year--soon">2026<small>скоро</small></span></span>
+    </div>
+    <div class="kit-row kit-row--dark on-dark"><span class="kit-row__t">На тёмном</span>
+      <span class="chip chip--white">Уфа</span><span class="chip chip--blue">Готовый бизнес</span>
+      <span class="years"><span class="year year--active">2025</span><span class="year year--soon">2026<small>скоро</small></span></span>
+    </div>
+    <div class="kit-row kit-row--light"><span class="kit-row__t">Аватары · стрелки · иконки на плашках · сноска</span>
+      <span class="avatar avatar--sm">ИС</span><span class="avatar">АМ</span><span class="avatar avatar--lg"><img src="../events/assets/sp2.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span>
+      <span class="ctrls"><button class="ctrl" type="button" aria-label="Назад"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button><button class="ctrl" type="button" aria-label="Вперёд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button><button class="ctrl ctrl--white" type="button" aria-label="Вперёд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button><button class="ctrl ctrl--close" type="button" aria-label="Закрыть">×</button></span>
+      <span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+      <span class="icon-plate icon-plate--white" style="box-shadow:var(--sh-card)"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span>
+      <span class="icon-plate icon-plate--blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+      <span style="font-size:26px;font-weight:800">0–7% <button class="info" type="button" aria-label="Подробнее">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></span>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f6">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F6</span><h2>Поля формы</h2><p>Подпись капсом над полем, поле 56px на светлой подложке, фокус&nbsp;— голубая обводка и кольцо. Согласие&nbsp;— круглый чекбокс.</p></div>
+    <div class="kit-form-demo form-card" style="box-shadow:none;border:1px solid var(--line)">
+      <label class="field"><span>Имя</span><input placeholder="Ваше имя"></label>
+      <label class="field"><span>Телефон</span><input type="tel" value="+7 (900) 000-00-00"></label>
+      <label class="field is-error"><span>Электронная почта</span><input type="email" value="почта@" aria-invalid="true"><span class="hint">Проверьте адрес почты</span></label>
+      <label class="field"><span>Дополнительные вопросы</span><textarea rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+      <label class="consent"><input type="checkbox" checked><span>Даю согласие на&nbsp;обработку персональных данных на&nbsp;условиях <a href="#">Политики конфиденциальности</a></span></label>
+      <div class="form-submit"><button class="button button--blue" type="button">Стать партнёром</button><span>Свяжемся в&nbsp;течение<br>2&nbsp;рабочих дней</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f7">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F7</span><h2>Свечение</h2><p>Тёмная секция&nbsp;= navy + два-три размытых эллипса #00ADFF, повёрнутых на −32.9°. В секциях они дрейфуют и реагируют на скорость скролла; в карточках&nbsp;— статичны и тянутся за курсором.</p></div>
+    <div class="kit-grid2">
+      <div class="kit-glow-demo" data-ambient>
+        <div class="ambient-field" aria-hidden="true">
+          <div class="ambient-glow ambient-glow--sec-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+          <div class="ambient-glow ambient-glow--sec-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+        </div>
+        <span style="position:relative;z-index:1">.ambient-field · дрейф 8–13 с, раскладки hero / sec / form / panel</span>
+      </div>
+      <div class="kit-glow-demo glow-card"><span>.glow-card · два пятна сверху, blur 150 → 100 на hover, --glow-x/--glow-y за курсором</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="kit-fnd" id="f8">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num">F8</span><h2>Движение</h2><p>Мягко и быстро: всё появляется снизу, ничего не пружинит. Один изинг на весь сайт, отдельные&nbsp;— для барабанов и слайдов. При prefers-reduced-motion всё гаснет.</p></div>
+    <div class="kit-motion">
+      <div><b>Появление</b>.reveal: снизу 28px, .6s, стаггер через <code>--delay: .08s</code> на соседях<br><code>--ease: cubic-bezier(.22,.61,.36,1)</code></div>
+      <div><b>Слова хиро</b>.hero-word: снизу .55em, .7s, задержка 90&nbsp;мс × индекс; лид +.28s, кнопки +.38s</div>
+      <div><b>Счётчики</b>[data-count]: 0 → значение за 2s, ease-out quart; старт, когда цифра на 60% в кадре</div>
+      <div><b>Hover карточек</b>.lift: подъём −4px, тень card → card-hover, .2s; кнопки −2px</div>
+      <div><b>Слайды</b>.split: сдвиг трека .72s, соседний слайд 40% и scale .975<br><code>--ease-slide: cubic-bezier(.5,0,.2,1)</code></div>
+      <div><b>Барабан</b>.rot, одометр шагов: rotateX ±72°, 1.15s<br><code>--ease-city: cubic-bezier(.19,1,.22,1)</code> · <code>--ease-drum</code></div>
+      <div><b>Аккордеон</b>grid-template-rows 0fr → 1fr, .24s; плюс поворачивается на 45°</div>
+      <div><b>Бегущая строка</b>translateX −50% за 64s linear, две копии группы; hover&nbsp;— кнопка scale 1.08</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== БЛОКИ ======================== -->
+
+<!-- 00 · Шапка -->
+<div class="kit-block" id="b00">
+  <div class="kit-label"><span class="kit-label__num">Блок 00</span><h2 class="kit-label__name">Шапка-пилюля</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Фиксирована, прозрачная на хиро, стеклянная после 90px скролла. Лого-локап с бейджем, Telegram, одна CTA-кнопка.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> прозрачная — на тёмном хиро</div>
+  <div class="kit-stage">
+    <header class="hdr hdr--demo" data-html>
+      <a class="brand" href="#" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+      <nav class="hdr__nav" aria-label="Основная навигация"><a class="hdr__tg" href="#"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a><a class="button button--outline" href="#">Стать партнёром</a></nav>
+      <a class="hdr__cta-m" href="#">Стать партнёром</a>
+      <button class="hdr__burger" type="button" aria-label="Открыть меню"><span></span><span></span></button>
+    </header>
+    <span class="kit-stage__note">.hdr · position: fixed · 68px</span>
+  </div>
+  <div class="kit-sub"><b>B</b> стеклянная — поверх контента после скролла (.is-solid: blur 20px, лого ×0.75, кнопка голубая)</div>
+  <div class="kit-stage kit-stage--photo">
+    <header class="hdr hdr--demo is-solid">
+      <a class="brand" href="#" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+      <nav class="hdr__nav" aria-label="Основная навигация"><a class="hdr__tg" href="#"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a><a class="button button--outline" href="#">Стать партнёром</a></nav>
+      <a class="hdr__cta-m" href="#">Стать партнёром</a>
+      <button class="hdr__burger" type="button" aria-label="Открыть меню"><span></span><span></span></button>
+    </header>
+  </div>
+  <div class="kit-sub"><b>C</b> телефон — знак, CTA после первого экрана, бургер</div>
+  <div class="kit-stage kit-stage--m">
+    <header class="hdr hdr--demo hdr--demo-m">
+      <a class="brand" href="#" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+      <button class="hdr__burger" type="button" aria-label="Открыть меню"><span></span><span></span></button>
+    </header>
+    <header class="hdr hdr--demo hdr--demo-m is-solid">
+      <a class="brand" href="#" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+      <a class="hdr__cta-m" href="#">Стать партнёром</a>
+      <button class="hdr__burger" type="button" aria-label="Открыть меню"><span></span><span></span></button>
+    </header>
+  </div>
+</div>
+
+<!-- 01 · Хиро -->
+<div class="kit-block" id="b01">
+  <div class="kit-label"><span class="kit-label__num">Блок 01</span><h2 class="kit-label__name">Хиро</h2><span class="kit-label__src">сайт · съезд</span><p class="kit-label__use">Первый экран: одна мысль до пяти слов, лид до двух строк, одна голубая кнопка. Слова появляются по очереди.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> заявление — центр, тёмный фон, свечение, вращающееся слово (главный лендинг)</div>
+  <section class="hero section--dark" data-hero data-ambient data-ambient-gain="1.35" data-html>
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__title" aria-label="Запустите Яндекс Лавку в своём городе">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Запустите</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">Яндекс</span> <span class="hero-word" style="--i:2">Лавку</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:3">в&nbsp;<span class="rot" data-rot="Уфе|Саратове|Пензе|Кирове|Ижевске" aria-live="polite"></span></span></span>
+      </h1>
+      <p class="hero__lead">Франшиза быстрой доставки продуктов с&nbsp;технологиями, <br>снабжением и&nbsp;поддержкой Яндекса</p>
+      <div class="hero__actions"><a class="button button--blue" href="#b15">Стать партнёром</a><a class="text-link" href="#b04">Как это работает&nbsp;&nbsp;→</a></div>
+    </div>
+  </section>
+  <div class="kit-sub"><b>B</b> с фото — плашки годов, заголовок, кадр во всю ширину (мероприятие; в проде фото наезжает по скроллу)</div>
+  <section class="hero hero--photo section--dark" data-hero data-ambient data-ambient-gain="1.35" data-html>
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="hero__content">
+      <div class="years"><span class="year year--active">2025</span><span class="year year--soon">2026<small>скоро</small></span></div>
+      <h1 class="hero__title"><span class="hero-word" style="--i:0">Съезд</span> <span class="hero-word" style="--i:1">партнёров</span> <span class="hero-word" style="--i:2">Яндекс&nbsp;Лавки&nbsp;<em>’25</em></span></h1>
+      <p class="hero__lead">Москва, 26–27&nbsp;сентября 2025</p>
+    </div>
+    <div class="hero__frame"><img src="../events/assets/hero-main.webp" alt="Общая фотография съезда"></div>
+  </section>
+  <div class="kit-sub"><b>C</b> сплит на светлом — текст слева, кадр справа (спецпроект, продукт, HR-страница)</div>
+  <section class="hero hero--split" data-hero data-html>
+    <div class="container">
+      <div class="hero__copy">
+        <div class="chips"><span class="chip chip--navy">Франшиза</span><span class="chip">Готовый бизнес</span></div>
+        <h1 class="hero__title"><span class="hero-word" style="--i:0">Готовая</span> <span class="hero-word" style="--i:1">сеть</span> <span class="hero-word" style="--i:2">дарксторов</span> <span class="hero-word" style="--i:3">в&nbsp;управление</span></h1>
+        <p class="hero__lead">Передаём действующий бизнес в&nbsp;Казани, Челябинске и&nbsp;Тюмени&nbsp;— с&nbsp;командой, оборудованием и&nbsp;клиентами</p>
+        <div class="hero__actions"><a class="button button--blue" href="#b15">Обсудить условия</a><a class="text-link" href="#b07">Смотреть форматы&nbsp;&nbsp;→</a></div>
+      </div>
+      <div class="media"><img src="../site/assets/figma/business/lavka.webp" alt="Вход в даркстор Яндекс Лавки"></div>
+    </div>
+  </section>
+</div>
+
+<!-- 02 · Бегущая строка -->
+<div class="kit-block" id="b02">
+  <div class="kit-label"><span class="kit-label__num">Блок 02</span><h2 class="kit-label__name">Бегущая строка</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Анонс события или статус набора на стыке хиро и контента. Вся полоса&nbsp;— ссылка; кнопка справа на градиенте.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> голубая — под тёмным хиро</div>
+  <a class="ticker" href="#" aria-label="День партнёров Яндекс Лавки — участвовать" data-html>
+    <div class="ticker__track">
+      <div class="ticker__group"><span class="ticker__item ticker__name">День партнёров Яндекс Лавки</span><span class="ticker__item">27&nbsp;августа, Москва</span><span class="ticker__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="ticker__item ticker__live"><i></i>Набор открыт</span></div>
+      <div class="ticker__group" aria-hidden="true"><span class="ticker__item ticker__name">День партнёров Яндекс Лавки</span><span class="ticker__item">27&nbsp;августа, Москва</span><span class="ticker__item">Предпринимателям&nbsp;— о&nbsp;развитии бизнеса по&nbsp;франшизе</span><span class="ticker__item ticker__live"><i></i>Набор открыт</span></div>
+    </div>
+    <span class="ticker__cta"><span class="button button--navy button--small">Участвовать</span></span>
+  </a>
+  <div class="kit-sub"><b>B</b> тёмная — между светлыми секциями</div>
+  <a class="ticker ticker--navy" href="#" aria-label="Ищем партнёров в 15 городах — оставить заявку" data-html>
+    <div class="ticker__track">
+      <div class="ticker__group"><span class="ticker__item ticker__name">Ищем партнёров в&nbsp;15 городах</span><span class="ticker__item">Уфа</span><span class="ticker__item">Саратов</span><span class="ticker__item">Пенза</span><span class="ticker__item">Киров</span><span class="ticker__item">Ижевск</span><span class="ticker__item ticker__live"><i></i>Набор открыт</span></div>
+      <div class="ticker__group" aria-hidden="true"><span class="ticker__item ticker__name">Ищем партнёров в&nbsp;15 городах</span><span class="ticker__item">Уфа</span><span class="ticker__item">Саратов</span><span class="ticker__item">Пенза</span><span class="ticker__item">Киров</span><span class="ticker__item">Ижевск</span><span class="ticker__item ticker__live"><i></i>Набор открыт</span></div>
+    </div>
+    <span class="ticker__cta"><span class="button button--small">Оставить заявку</span></span>
+  </a>
+</div>
+
+<!-- 03 · Цифры -->
+<div class="kit-block" id="b03">
+  <div class="kit-label"><span class="kit-label__num">Блок 03</span><h2 class="kit-label__name">Цифры</h2><span class="kit-label__src">сайт · съезд</span><p class="kit-label__use">Три числа&nbsp;— не больше. Счётчик стартует, когда цифра в кадре. Подпись&nbsp;— что это, пояснение&nbsp;— почему важно.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> три карточки со свечением — на белом, после хиро</div>
+  <section class="stats" aria-label="Лавка в цифрах" data-html>
+    <div class="stats__grid">
+      <article class="stat-card glow-card reveal"><strong class="counter" data-count="28">28</strong><h3>городов, где работает сервис</h3><p>Бизнес-модель, технологии и&nbsp;сильный бренд уже работают&nbsp;— не&nbsp;нужно строить с&nbsp;нуля</p></article>
+      <article class="stat-card glow-card reveal" style="--delay:.08s"><strong class="counter" data-count="14">14</strong><h3>городов запущено по&nbsp;франшизе</h3><p>Партнёры готовятся к&nbsp;запуску, а&nbsp;мы сопровождаем на&nbsp;каждом этапе</p></article>
+      <article class="stat-card glow-card reveal" style="--delay:.16s"><strong class="counter" data-count="15">15</strong><h3>партнёров<br>ищем сейчас</h3><p>Передаём в&nbsp;управление готовый бизнес или&nbsp;запускаем с&nbsp;нуля</p></article>
+    </div>
+  </section>
+  <div class="kit-sub"><b>B</b> тёмная панель — голубые цифры в одной плашке (мероприятие, итоги года)</div>
+  <section class="section" style="padding-top:56px" data-html>
+    <div class="container">
+      <div class="stats-panel reveal" data-ambient>
+        <div class="ambient-field" aria-hidden="true">
+          <div class="ambient-glow ambient-glow--panel-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+          <div class="ambient-glow ambient-glow--panel-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+        </div>
+        <div class="stat"><b data-count="33">33</b><span>участника съезда со&nbsp;всей России</span></div>
+        <div class="stat"><b data-count="10">10</b><span>городов открыто за&nbsp;2025&nbsp;год</span></div>
+        <div class="stat"><b data-count="2">2</b><span>дня программы и&nbsp;тимбилдинга</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 04 · Текст + медиа -->
+<div class="kit-block" id="b04">
+  <div class="kit-label"><span class="kit-label__num">Блок 04</span><h2 class="kit-label__name">Текст + медиа</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Объяснить, как что-то устроено: заголовок, абзац, кнопка слева и кадр справа. Три слайда&nbsp;— карусель, один&nbsp;— добавьте .split--single.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section" id="how" data-html>
+    <div class="container">
+      <h2 class="section-title reveal" style="margin-bottom:46px">Как устроен бизнес?</h2>
+      <article class="split reveal" data-split tabindex="0" aria-roledescription="карусель" aria-label="Как устроен бизнес Яндекс Лавки">
+        <div class="split__viewport">
+          <div class="split__track">
+            <section class="slide" data-slide aria-label="1 из 3">
+              <div class="slide__copy"><h3>Сервис быстрой доставки продуктов</h3><p>Клиент делает заказ в&nbsp;приложении, сборщики комплектуют его в&nbsp;дарксторе, а&nbsp;курьер доставляет от&nbsp;15&nbsp;минут. По&nbsp;франшизе партнёр управляет сервисом в&nbsp;целом городе</p><a class="button button--blue" href="#b15">Стать партнёром</a></div>
+              <div class="media"><img src="../site/assets/figma/business/service.webp" alt="Курьер Яндекс Лавки с фирменной сумкой"></div>
+            </section>
+            <section class="slide" data-slide aria-label="2 из 3">
+              <div class="slide__copy"><h3>Ваша роль<br>в&nbsp;партнёрстве</h3><p>Франчайзи инвестирует в&nbsp;запуск, открывает дарксторы, нанимает команду и&nbsp;отвечает за&nbsp;качество и&nbsp;операционное управление бизнесом</p><a class="button button--blue" href="#b15">Стать партнёром</a></div>
+              <div class="media"><img src="../site/assets/figma/business/role.webp" alt="Документы франчайзи и стакан Яндекс Лавки"></div>
+            </section>
+            <section class="slide" data-slide aria-label="3 из 3">
+              <div class="slide__copy"><h3>Роль Яндекс<br>Лавки</h3><p>Лавка предоставляет технологии и&nbsp;IT-инфраструктуру: приложения, WMS и&nbsp;систему автозаказа. Отвечает за&nbsp;маркетинг, формирует ассортимент, управляет поставщиками и&nbsp;организует логистику</p><a class="button button--blue" href="#b15">Стать партнёром</a></div>
+              <div class="media"><img src="../site/assets/figma/business/lavka.webp" alt="Вход в даркстор Яндекс Лавки"></div>
+            </section>
+          </div>
+        </div>
+        <div class="split__ctrls">
+          <button class="ctrl ctrl--white" type="button" data-prev aria-label="Предыдущий слайд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button>
+          <button class="ctrl ctrl--white" type="button" data-next aria-label="Следующий слайд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<!-- 05 · Заявление -->
+<div class="kit-block" id="b05">
+  <div class="kit-label"><span class="kit-label__num">Блок 05</span><h2 class="kit-label__name">Заявление</h2><span class="kit-label__src">съезд</span><p class="kit-label__use">Эдиториал: одна мысль крупно, два-три акцента голубым. Слова проявляются по очереди. Между тяжёлыми блоками&nbsp;— как пауза.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section statement" data-html>
+    <div class="container">
+      <p class="label reveal">О съезде</p>
+      <p data-statement>За&nbsp;2025 год мы открыли Лавки более чем в&nbsp;<em>10&nbsp;городах</em>. Встретились, чтобы поговорить о&nbsp;стратегии на&nbsp;следующий год, новых форматах сервиса и&nbsp;подготовке к&nbsp;высокому сезону. А&nbsp;ещё&nbsp;— провести тимбилдинг и&nbsp;стать <em>сильнее как команда</em></p>
+    </div>
+  </section>
+</div>
+
+<!-- 06 · Карточки преимуществ -->
+<div class="kit-block" id="b06">
+  <div class="kit-label"><span class="kit-label__num">Блок 06</span><h2 class="kit-label__name">Карточки преимуществ</h2><span class="kit-label__src">новый · иконки брендбука</span><p class="kit-label__use">Три или шесть тезисов: иконка на плашке, заголовок до двух строк, короткое пояснение. На светлом фоне&nbsp;— белые карточки.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> с иконками</div>
+  <section class="section section--light" data-html>
+    <div class="container">
+      <div class="section-head section-head--col reveal"><h2 class="section-title">Что даёт Яндекс</h2><p class="section-lead" style="color:var(--dim)">Партнёр управляет городом, Лавка&nbsp;— отвечает за&nbsp;всё, что тяжело построить с&nbsp;нуля</p></div>
+      <div class="features__grid">
+        <article class="fcard lift reveal"><span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><h3>Технологии и&nbsp;приложение</h3><p>Приложение, WMS, автозаказ и&nbsp;аналитика&nbsp;— готовая IT-инфраструктура с&nbsp;первого дня</p></article>
+        <article class="fcard lift reveal" style="--delay:.06s"><span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></span><h3>Снабжение и&nbsp;ассортимент</h3><p>Поставщики, логистика и&nbsp;матрица товаров под&nbsp;город&nbsp;— на&nbsp;стороне Лавки</p></article>
+        <article class="fcard lift reveal" style="--delay:.12s"><span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span><h3>Геоаналитика локаций</h3><p>Спрос и&nbsp;зоны доставки считают аналитики Яндекса&nbsp;— помещение выбираем по&nbsp;данным</p></article>
+        <article class="fcard lift reveal" style="--delay:.18s"><span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5z"/><path d="m9 12 2 2 4-4"/></svg></span><h3>Стандарты качества</h3><p>Обучение команды, регламенты и&nbsp;контроль сервиса&nbsp;— как во&nbsp;всей сети</p></article>
+        <article class="fcard lift reveal" style="--delay:.24s"><span class="icon-plate"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-5-6.3"/></svg></span><h3>Маркетинг и&nbsp;бренд</h3><p>Федеральные кампании, промо и&nbsp;программа лояльности работают на&nbsp;ваш город</p></article>
+        <article class="fcard lift reveal" style="--delay:.3s"><span class="icon-plate"><svg viewBox="0 0 24 24"><path d="M3 20h18M6 16l4-5 4 3 5-7"/></svg></span><h3>Поддержка до&nbsp;и&nbsp;после запуска</h3><p>Куратор, финмодель и&nbsp;сопровождение на&nbsp;каждом этапе&nbsp;— от&nbsp;заявки до&nbsp;выхода на&nbsp;план</p></article>
+      </div>
+    </div>
+  </section>
+  <div class="kit-sub"><b>B</b> с номерами — когда важна последовательность или ранг</div>
+  <section class="section section--light" style="padding-top:56px" data-html>
+    <div class="container">
+      <div class="features__grid">
+        <article class="fcard lift reveal"><span class="fcard__num">01</span><h3>Эксклюзив на&nbsp;город</h3><p>Один партнёр&nbsp;— один город: без конкуренции внутри сети</p></article>
+        <article class="fcard lift reveal" style="--delay:.06s"><span class="fcard__num">02</span><h3>Окупаемость от&nbsp;2&nbsp;лет</h3><p>Финансовая модель считается под&nbsp;конкретный город и&nbsp;формат</p></article>
+        <article class="fcard lift reveal" style="--delay:.12s"><span class="fcard__num">03</span><h3>Запуск за&nbsp;4&nbsp;месяца</h3><p>Один даркстор готовится около трёх месяцев, сеть в&nbsp;городе&nbsp;— около четырёх</p></article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 07 · Форматы и тарифы -->
+<div class="kit-block" id="b07">
+  <div class="kit-label"><span class="kit-label__num">Блок 07</span><h2 class="kit-label__name">Форматы и тарифы</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Сравнить два-три сценария: чипсы категорий, список характеристик, сноски «i». Голубая обводка&nbsp;— рекомендуемый вариант, следует за наведением.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section" data-html>
+    <div class="container">
+      <div class="section-head section-head--col reveal" style="margin-bottom:36px"><h2 class="section-title">Форматы партнёрства</h2><p class="section-lead" style="color:var(--dim)">Три сценария входа&nbsp;— выберите свой</p></div>
+      <div class="offers__grid" data-offers>
+        <article class="ocard reveal">
+          <div class="chips"><span class="chip chip--navy">Готовый бизнес</span></div>
+          <p class="ocard__cities">Казань, Челябинск, Тюмень, Воронеж, Пермь</p>
+          <dl><div><dt>Инвестиции</dt><dd><b>400–600</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
+          <p class="ocard__note">Передача в&nbsp;совместное управление действующей сети дарксторов</p>
+        </article>
+        <article class="ocard ocard--featured reveal" style="--delay:.08s">
+          <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Миллионники</span></div>
+          <p class="ocard__cities">Уфа, Саратов</p>
+          <dl><div><dt>Инвестиции</dt><dd><b>250–450</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
+          <p class="ocard__note">Запуск сервиса с&nbsp;нуля в&nbsp;городе-миллионнике</p>
+        </article>
+        <article class="ocard reveal" style="--delay:.16s">
+          <div class="chips"><span class="chip chip--navy">Новый город</span><span class="chip">Крупные города</span></div>
+          <p class="ocard__cities">Ижевск, Оренбург, Ульяновск, Пенза, Киров</p>
+          <dl><div><dt>Инвестиции</dt><dd><b>75–150</b> млн&nbsp;₽</dd></div><div><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ <small>/ даркстор</small> <button class="info" type="button" aria-label="Подробнее">i<span>Без&nbsp;НДС</span></button></dd></div><div><dt>Роялти</dt><dd>0–7% <button class="info" type="button" aria-label="Подробнее">i<span>Зависит от&nbsp;оборота и&nbsp;условий конкретного города</span></button></dd></div></dl>
+          <p class="ocard__note">Запуск сервиса с&nbsp;нуля в&nbsp;крупном городе</p>
+        </article>
+      </div>
+      <div class="section-cta"><a class="button button--blue button--large" href="#b15">Стать партнёром</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- 08 · Шаги -->
+<div class="kit-block" id="b08">
+  <div class="kit-label"><span class="kit-label__num">Блок 08</span><h2 class="kit-label__name">Шаги</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Процесс из 4–6 шагов: счётчик, прогресс и створки. На десктопе раскрываются по клику (в проде&nbsp;— по скроллу в закреплённой секции), ниже 1200px&nbsp;— список.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section section--dark" data-ambient data-ambient-gain=".5" data-html>
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--sec-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--sec-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--sec-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="container" data-steps>
+      <div class="steps__head"><h2 class="section-title">Как стать<br>партнёром?</h2><p class="steps__count" aria-live="polite"><b data-steps-cur>01</b><span>из&nbsp;05</span></p></div>
+      <div class="steps__bar" role="progressbar" aria-label="Прогресс шагов" data-steps-bar><i></i></div>
+      <div class="steps__rail">
+        <article class="step">
+          <button class="step__hit" type="button" aria-label="Шаг 1: Заявка и знакомство"></button>
+          <div class="step__strip"><span class="step__num">01</span><span class="step__vert">Заявка и&nbsp;знакомство</span><span class="step__node"><svg viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="step__full"><h3>Заявка и&nbsp;знакомство</h3><p>Оставляете заявку&nbsp;— менеджер связывается в&nbsp;течение двух рабочих дней, рассказывает про форматы и&nbsp;отвечает на&nbsp;первые вопросы</p><div class="step__foot"><span class="step__term"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1–2 дня</span><a class="button button--white button--small" href="#b15">Оставить заявку</a></div></div>
+          <span class="step__big">01</span>
+          <div class="step__fold"><span class="step__num">01</span><b>Заявка и&nbsp;знакомство</b><p>Менеджер связывается в&nbsp;течение двух рабочих дней</p><span class="step__when">1–2 дня</span></div>
+        </article>
+        <article class="step">
+          <button class="step__hit" type="button" aria-label="Шаг 2: Финансовая модель"></button>
+          <div class="step__strip"><span class="step__num">02</span><span class="step__vert">Финансовая модель</span><span class="step__node"><svg viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="step__full"><h3>Финансовая модель</h3><p>Считаем модель под&nbsp;ваш город: инвестиции, сроки, окупаемость. Обсуждаем формат&nbsp;— готовый бизнес или запуск с&nbsp;нуля</p><div class="step__foot"><span class="step__term"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>1–2 недели</span></div></div>
+          <span class="step__big">02</span>
+          <div class="step__fold"><span class="step__num">02</span><b>Финансовая модель</b><p>Инвестиции, сроки и&nbsp;окупаемость под&nbsp;ваш город</p><span class="step__when">1–2 недели</span></div>
+        </article>
+        <article class="step">
+          <button class="step__hit" type="button" aria-label="Шаг 3: Договор"></button>
+          <div class="step__strip"><span class="step__num">03</span><span class="step__vert">Договор</span><span class="step__node"><svg viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="step__full"><h3>Договор</h3><p>Согласовываем условия, подписываем договор коммерческой концессии и&nbsp;фиксируем план запуска</p><div class="step__foot"><span class="step__term"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2–3 недели</span></div></div>
+          <span class="step__big">03</span>
+          <div class="step__fold"><span class="step__num">03</span><b>Договор</b><p>Условия, договор концессии, план запуска</p><span class="step__when">2–3 недели</span></div>
+        </article>
+        <article class="step">
+          <button class="step__hit" type="button" aria-label="Шаг 4: Помещения и команда"></button>
+          <div class="step__strip"><span class="step__num">04</span><span class="step__vert">Помещения и&nbsp;команда</span><span class="step__node"><svg viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="step__full"><h3>Помещения и&nbsp;команда</h3><p>Геоаналитики подбирают локации, вы&nbsp;находите помещения и&nbsp;нанимаете команду. Мы обучаем директора и&nbsp;кладовщиков</p><div class="step__foot"><span class="step__term"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>2–3 месяца</span></div></div>
+          <span class="step__big">04</span>
+          <div class="step__fold"><span class="step__num">04</span><b>Помещения и&nbsp;команда</b><p>Локации по&nbsp;данным, найм и&nbsp;обучение</p><span class="step__when">2–3 месяца</span></div>
+        </article>
+        <article class="step">
+          <button class="step__hit" type="button" aria-label="Шаг 5: Запуск"></button>
+          <div class="step__strip"><span class="step__num">05</span><span class="step__vert">Запуск</span><span class="step__node"><svg viewBox="0 0 12 12"><path d="M2 6.2 4.8 9 10 3.4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+          <div class="step__full"><h3>Запуск</h3><p>Открываем первый даркстор, включаем город в&nbsp;приложении, запускаем маркетинг. Дальше&nbsp;— сопровождение и&nbsp;масштабирование сети</p><div class="step__foot"><span class="step__term"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>~4 месяца от&nbsp;старта</span><a class="button button--white button--small" href="#b15">Стать партнёром</a></div></div>
+          <span class="step__big">05</span>
+          <div class="step__fold"><span class="step__num">05</span><b>Запуск</b><p>Первый даркстор, город в&nbsp;приложении, маркетинг</p><span class="step__when">~4 месяца от&nbsp;старта</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 09 · Люди -->
+<div class="kit-block" id="b09">
+  <div class="kit-label"><span class="kit-label__num">Блок 09</span><h2 class="kit-label__name">Люди</h2><span class="kit-label__src">съезд</span><p class="kit-label__use">Спикеры с темой доклада или команда. Портреты в кругах, фото увеличено на 30% с фокусом на лице.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> спикеры с темой — программа мероприятия</div>
+  <section class="section section--light" data-html>
+    <div class="container">
+      <div class="section-head reveal"><h2 class="section-title">Деловая программа</h2></div>
+      <div class="people__grid">
+        <article class="pcard lift reveal reveal--scale"><div class="pcard__photo"><span class="avatar avatar--lg"><img src="../events/assets/sp2.webp" alt=""></span></div><h3>Стратегия Яндекс&nbsp;Лавки</h3><div class="pcard__who"><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></article>
+        <article class="pcard lift reveal reveal--scale" style="--delay:.07s"><div class="pcard__photo"><span class="avatar avatar--lg"><img src="../events/assets/sp4.webp" alt=""></span></div><h3>Качество определяет прибыльность</h3><div class="pcard__who"><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></article>
+        <article class="pcard lift reveal reveal--scale" style="--delay:.14s"><div class="pcard__photo pcard__photo--duo"><span class="avatar avatar--lg"><img src="../events/assets/sp1.webp" alt=""></span><span class="avatar avatar--lg"><img src="../events/assets/sp8.webp" alt=""></span></div><h3>Что мы знаем о&nbsp;пользователях Лавки</h3><div class="pcard__who"><b>Анастасия Алонцева, Олеся Старостина</b><small>Руководитель группы исследований, Marketing Researcher</small></div></article>
+      </div>
+    </div>
+  </section>
+  <div class="kit-sub"><b>B</b> команда — портрет, имя, роль</div>
+  <section class="section section--light" style="padding-top:56px" data-html>
+    <div class="container">
+      <div class="team__grid">
+        <article class="tcard lift reveal"><span class="avatar avatar--xl"><img src="../events/assets/sp5.webp" alt=""></span><div><b>Мария Швиндт</b><small>Руководитель сектора развития франшизы</small></div></article>
+        <article class="tcard lift reveal" style="--delay:.06s"><span class="avatar avatar--xl"><img src="../events/assets/sp10.webp" alt=""></span><div><b>Николай Бурдин</b><small>Руководитель модулей «Есть Горячее»</small></div></article>
+        <article class="tcard lift reveal" style="--delay:.12s"><span class="avatar avatar--xl"><img src="../events/assets/sp14.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C, Head of Product Design</small></div></article>
+        <article class="tcard lift reveal" style="--delay:.18s"><span class="avatar avatar--xl"><img src="../events/assets/sp7.webp" alt=""></span><div><b>Ваш куратор</b><small>Сопровождает партнёра от&nbsp;заявки до&nbsp;запуска</small></div></article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 10 · Отзывы -->
+<div class="kit-block" id="b10">
+  <div class="kit-label"><span class="kit-label__num">Блок 10</span><h2 class="kit-label__name">Отзывы</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Лента карточек со скролл-снапом: инициалы или фото, имя, город и масштаб, одна цитата в «ёлочках». Стрелки в заголовке.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section" data-html>
+    <div class="container" data-reviews>
+      <div class="section-head reveal"><h2 class="section-title">Отзывы франчайзи</h2><div class="ctrls"><button class="ctrl" type="button" data-prev aria-label="Предыдущий отзыв"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button><button class="ctrl" type="button" data-next aria-label="Следующий отзыв"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button></div></div>
+      <div class="reviews__track" data-track tabindex="0">
+        <article class="rcard"><div class="avatar">ИС</div><h3>Игорь Соколов</h3><small>Казань, 4&nbsp;даркстора</small><p>«Запустили первый даркстор за&nbsp;три месяца&nbsp;— оборудование и&nbsp;обучение были готовы ещё до&nbsp;открытия»</p></article>
+        <article class="rcard"><div class="avatar">АМ</div><h3>Анна Морозова</h3><small>Тюмень, 6&nbsp;дарксторов</small><p>«Технологии Яндекса снимают с&nbsp;нас рутину. Команда фокусируется на&nbsp;сервисе и&nbsp;операционке»</p></article>
+        <article class="rcard"><div class="avatar">РЛ</div><h3>Роман Лебедев</h3><small>Пермь, 3&nbsp;даркстора</small><p>«Геоаналитика помогла выбрать локации без&nbsp;догадок. Каждое решение опирается на&nbsp;данные»</p></article>
+        <article class="rcard"><div class="avatar"><img src="../events/assets/sp12.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></div><h3>Дмитрий Орлов</h3><small>Челябинск, 5&nbsp;дарксторов</small><p>«Взяли готовую сеть в&nbsp;управление&nbsp;— команда и&nbsp;клиенты уже были. Через полгода вышли на&nbsp;план»</p></article>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 11 · Логотипы -->
+<div class="kit-block" id="b11">
+  <div class="kit-label"><span class="kit-label__num">Блок 11</span><h2 class="kit-label__name">Логотипы</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Пресса или партнёры: четыре в ряд, тонкие линии, серые до наведения. Каждая ячейка&nbsp;— ссылка на публикацию.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section section--light" data-html>
+    <div class="container">
+      <h2 class="section-title reveal" style="margin-bottom:56px">О&nbsp;нас говорят</h2>
+      <div class="logos__grid">
+        <a class="logo reveal" href="#" aria-label="Коммерсантъ"><img src="../site/assets/figma/media-kommersant.svg" alt="Коммерсантъ"></a>
+        <a class="logo logo--text reveal" style="--delay:.06s" href="#" aria-label="Газета.ru">газета.ru</a>
+        <a class="logo reveal" style="--delay:.12s" href="#" aria-label="РИА Новости"><img src="../site/assets/figma/media-ria.svg" alt="РИА Новости"></a>
+        <a class="logo reveal" style="--delay:.18s" href="#" aria-label="РБК"><img src="../site/assets/figma/media-rbk.svg" alt="РБК"></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 12 · Галерея -->
+<div class="kit-block" id="b12">
+  <div class="kit-label"><span class="kit-label__num">Блок 12</span><h2 class="kit-label__name">Галерея</h2><span class="kit-label__src">съезд</span><p class="kit-label__use">Фотоотчёт: широкий кадр 3:2 на две колонки, узкие 3:4 парами. Широкий контейнер 1440. Наведение&nbsp;— лёгкий зум.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section" data-html>
+    <div class="container container--wide">
+      <div class="section-head reveal"><h2 class="section-title">Как это было?</h2><a class="text-link" href="#">Все фото&nbsp;&nbsp;→</a></div>
+      <div class="gallery">
+        <div class="gcell gcell--wide reveal reveal--scale"><img src="../events/assets/g2.webp" alt=""></div>
+        <div class="gcell gcell--tall reveal reveal--scale"><img src="../events/assets/v7.webp" alt=""></div>
+        <div class="gcell gcell--tall reveal reveal--scale" style="--delay:.08s"><img src="../events/assets/v1.webp" alt=""></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 13 · FAQ -->
+<div class="kit-block" id="b13">
+  <div class="kit-label"><span class="kit-label__num">Блок 13</span><h2 class="kit-label__name">Вопросы и ответы</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Аккордеон на 5–7 вопросов, открыт один. Вопрос&nbsp;— H3, ответ&nbsp;— 2–3 предложения. Ниже&nbsp;— CTA-полоса, если есть куда вести.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section faq" data-html>
+    <div class="container">
+      <h2 class="section-title reveal" style="margin-bottom:56px">Вопросы и&nbsp;ответы</h2>
+      <div class="accordion" data-accordion>
+        <article><button type="button" aria-expanded="false"><span>Что такое даркстор?</span><i>+</i></button><div><p>Даркстор&nbsp;— склад без&nbsp;торгового зала, где команда собирает онлайн-заказы для&nbsp;быстрой доставки.</p></div></article>
+        <article><button type="button" aria-expanded="false"><span>Какая команда нужна для&nbsp;запуска?</span><i>+</i></button><div><p>Директор, его заместители, кладовщики, сборщики и&nbsp;курьеры. Яндекс помогает с&nbsp;операционным маркетингом и&nbsp;стандартами найма.</p></div></article>
+        <article><button type="button" aria-expanded="false"><span>Сколько времени занимает запуск?</span><i>+</i></button><div><p>Подготовка одного даркстора занимает около трёх месяцев, запуск сети в&nbsp;городе&nbsp;— около четырёх месяцев.</p></div></article>
+        <article><button type="button" aria-expanded="false"><span>Каким должно быть помещение?</span><i>+</i></button><div><p>Площадь от&nbsp;350&nbsp;м², удобный подъезд и&nbsp;разгрузка, место для&nbsp;велопарковки. Планировку готовит команда Яндекса.</p></div></article>
+        <article><button type="button" aria-expanded="false"><span>Какой размер инвестиций?</span><i>+</i></button><div><p>Зависит от&nbsp;формата: ориентир по&nbsp;инвестициям в&nbsp;город&nbsp;— от&nbsp;75 до&nbsp;600&nbsp;млн&nbsp;₽.</p></div></article>
+      </div>
+      <div class="cta-strip"><span>Не&nbsp;нашли ответ? Разбираем бизнес-модель в&nbsp;Telegram-канале</span><a class="button button--navy button--small" href="#">Перейти в&nbsp;Telegram</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- 14 · CTA-полоса -->
+<div class="kit-block" id="b14">
+  <div class="kit-label"><span class="kit-label__num">Блок 14</span><h2 class="kit-label__name">CTA-полоса</h2><span class="kit-label__src">сайт · съезд</span><p class="kit-label__use">Промежуточный призыв между секциями. Полоса&nbsp;— для второстепенного действия (канал, документ), панель&nbsp;— для главного, когда формы на странице нет.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <div class="kit-sub"><b>A</b> голубая полоса — фраза и кнопка</div>
+  <section class="section" style="padding:64px 0" data-html>
+    <div class="container">
+      <div class="cta-strip reveal"><span>Разбираем бизнес-модель и&nbsp;отвечаем на&nbsp;вопросы в&nbsp;Telegram-канале</span><a class="button button--navy button--small" href="#">Перейти в&nbsp;Telegram</a></div>
+    </div>
+  </section>
+  <div class="kit-sub"><b>B</b> тёмная панель — заголовок, лид, главная кнопка</div>
+  <section class="section" style="padding-top:56px" data-html>
+    <div class="container">
+      <div class="cta-panel reveal" data-ambient>
+        <div class="ambient-field" aria-hidden="true">
+          <div class="ambient-glow ambient-glow--panel-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+          <div class="ambient-glow ambient-glow--panel-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+        </div>
+        <h2>Увидимся на&nbsp;съезде&nbsp;’26</h2>
+        <p>Регистрация откроется весной&nbsp;— оставьте контакт, и&nbsp;мы напишем первыми</p>
+        <a class="button button--blue button--large" href="#b15">Оставить контакт</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 15 · Форма заявки -->
+<div class="kit-block" id="b15">
+  <div class="kit-label"><span class="kit-label__num">Блок 15</span><h2 class="kit-label__name">Форма заявки</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Финал страницы: слева заголовок, лид и три аргумента, справа белая карточка формы. Одно согласие, срок ответа рядом с кнопкой. Отправку подключают разработчики.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <section class="section section--dark" id="form" data-ambient data-html>
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--form-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--form-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--form-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="container lead__layout">
+      <div class="lead__copy reveal">
+        <h2>Станьте<br>франчайзи<br>Яндекс&nbsp;Лавки</h2>
+        <p>Оставьте заявку&nbsp;— обсудим план запуска <br>и&nbsp;отправим финансовую модель</p>
+        <ul><li><strong>Эксклюзивное партнёрство<br>в&nbsp;масштабе города</strong><span>Инвестиции от&nbsp;75&nbsp;млн&nbsp;₽</span></li><li><strong>Поддержка до&nbsp;и&nbsp;после запуска</strong><span>Технологии, снабжение, маркетинг, обучение</span></li><li><strong>Работающая бизнес-модель</strong><span>Сервис уже работает в&nbsp;28&nbsp;городах, больше чем в&nbsp;половине&nbsp;— по&nbsp;франшизе</span></li></ul>
+      </div>
+      <form class="form-card reveal" data-form novalidate>
+        <h3>Расскажите о&nbsp;себе</h3>
+        <label class="field"><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+        <label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+        <label class="field"><span>Город</span><input name="city" autocomplete="address-level2" placeholder="Где хотите развивать Лавку" required></label>
+        <label class="field"><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+        <label class="consent"><input type="checkbox" required><span>Даю согласие на&nbsp;обработку персональных данных на&nbsp;условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политики конфиденциальности</a></span></label>
+        <div class="form-submit"><button class="button button--blue" type="submit">Стать партнёром</button><span>Свяжемся в&nbsp;течение<br>2&nbsp;рабочих дней</span></div>
+        <p class="form-status" data-status aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- 16 · Футер -->
+<div class="kit-block" id="b16">
+  <div class="kit-label"><span class="kit-label__num">Блок 16</span><h2 class="kit-label__name">Футер</h2><span class="kit-label__src">сайт</span><p class="kit-label__use">Лого-локап, якоря по секциям, Telegram; ниже&nbsp;— реквизиты и дисклеймер в YS Text Cond. Всегда на тёмном.</p><button class="kit-label__copy" type="button" data-copy>Копировать HTML</button></div>
+  <footer class="footer section--dark" data-html>
+    <div class="container">
+      <div class="footer__top"><a class="brand brand--footer" href="#" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../site/assets/figma/logo-footer.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-footer-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-footer-word-2.svg" alt=""></a><nav><a href="#b07">Форматы франшизы</a><a href="#b04">Как устроен бизнес</a><a href="#b08">Как стать партнёром</a><a href="#b13">Вопросы и&nbsp;ответы</a></nav><a class="telegram-button" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a></div>
+      <div class="footer__legal"><div><p>ООО «Яндекс.Лавка», 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p><p>Информация на&nbsp;сайте не&nbsp;является публичной офертой. Условия партнёрства и&nbsp;финансовые результаты индивидуальны</p></div><div><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======================== КАК СОБИРАТЬ ======================== -->
+<section class="kit-rules" id="rules">
+  <div class="container">
+    <div class="kit-fnd__head"><span class="kit-label__num" style="background:var(--blue)">→</span><h2>Как собирать</h2><p>Десять правил, чтобы страница из шаблона выглядела как наша, а не как конструктор.</p></div>
+    <ol>
+      <li><b>Один экран&nbsp;— одна мысль</b>Заголовок до пяти слов, лид до двух строк, одна кнопка. Если хочется добавить второй тезис&nbsp;— это следующий блок.</li>
+      <li><b>Чередуйте тёмное и светлое</b>Тёмные секции (хиро, шаги, форма) со свечением, между ними белые и светлые. Два тёмных подряд&nbsp;— только через бегущую строку или панель.</li>
+      <li><b>Ритм 128</b>Между секциями 128px, после заголовка 56, между карточками 22–31. Не сжимайте ради «компактности».</li>
+      <li><b>Голубая кнопка&nbsp;— одна на экран</b>Только главное действие. Второстепенное&nbsp;— navy, контур или текст-ссылка со стрелкой.</li>
+      <li><b>Цифры крупно и честно</b>Три числа, YS Geo Black, голубым на тёмном. Счётчик до значения при появлении. Нет цифр&nbsp;— нет блока.</li>
+      <li><b>Скругления по роли</b>32 у карточек и панелей, 24 у медиа, 20 у полос и полей, пилюли у кнопок и чипсов.</li>
+      <li><b>Фото в языке бренда</b>Даркстор-стиль или сдержанный lifestyle с синей доминантой, всегда в скруглённом кадре. Нет кадра&nbsp;— заглушка .ph, не сток.</li>
+      <li><b>Движение мягкое</b>Появление снизу на 28px за 0.6s, стаггер 80–90 мс, hover-подъём 4px. Ничего не пружинит, всё гаснет при reduced-motion.</li>
+      <li><b>Финал&nbsp;— форма или CTA-панель</b>Страница заканчивается действием, потом футер. FAQ и отзывы&nbsp;— перед финалом, не после.</li>
+      <li><b>Не расширять систему</b>Новых цветов, шрифтов и скруглений нет. Оранжевый&nbsp;— только точка статуса. Нужен новый блок&nbsp;— сначала в кит, потом на страницу.</li>
+    </ol>
+    <div class="kit-recipes">
+      <div class="kit-recipe"><h4>Главный лендинг</h4><ol><li class="d">00 Шапка</li><li class="d">01A Хиро</li><li>02 Строка</li><li>03A Цифры</li><li>04 Текст+медиа</li><li>07 Форматы</li><li class="d">08 Шаги</li><li>10 Отзывы</li><li>11 Логотипы</li><li>13 FAQ</li><li class="d">15 Форма</li><li class="d">16 Футер</li></ol></div>
+      <div class="kit-recipe"><h4>Мероприятие</h4><ol><li class="d">00 Шапка</li><li class="d">01B Хиро с фото</li><li>05 Заявление</li><li>03B Цифры-панель</li><li>09A Спикеры</li><li>12 Галерея</li><li class="d">14B CTA-панель</li><li class="d">16 Футер</li></ol></div>
+      <div class="kit-recipe"><h4>Спецпроект / продукт</h4><ol><li class="d">00 Шапка</li><li>01C Хиро-сплит</li><li>06 Карточки</li><li>04 Текст+медиа</li><li>09B Команда</li><li>13 FAQ</li><li>14A CTA-полоса</li><li class="d">15 Форма</li><li class="d">16 Футер</li></ol></div>
+    </div>
+  </div>
+</section>
+
+<script src="./kit.js"></script>
+</body>
+</html>
