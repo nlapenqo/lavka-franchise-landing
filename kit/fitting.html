@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Примерка — дизайн-система лендингов Лавки</title>
+<meta name="description" content="Медиа-слоты шаблона, чек-лист блоков и HTML сборки страницы">
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="./kit.css">
+<link rel="stylesheet" href="./kit-chrome.css">
+</head>
+<body data-fitting>
+<nav class="kit-nav" aria-label="Навигация"><a href="./index.html">← Кит</a></nav>
+
+<header class="kit-cover section--dark" data-ambient data-ambient-gain="1.35" style="padding:120px 0 72px">
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
+  <div class="container">
+    <p class="kit-cover__tag"><i></i>Примерка для маркетинга · супер-шаблон лендингов</p>
+    <h1>Примерка<br><em>шаблона</em></h1>
+    <p class="kit-cover__lead">Какие картинки готовить, каких блоков не&nbsp;будет и&nbsp;как выглядит HTML собранной страницы. Код слота&nbsp;— это имя файла, размер зашит в&nbsp;имя.</p>
+  </div>
+</header>
+
+<section class="kit-fitting kit-fitting--light" id="fitting">
+  <div class="container">
+    <div class="kit-fitting__hint"><i></i>👇 Лишние блоки, которых не будет в итоговом макете,&nbsp;— снимите галочку. У&nbsp;каждого блока&nbsp;— паспорт: вариант, тема, необязательные части, число карточек.</div>
+    <h3 class="kit-fitting__t">Медиа-слоты шаблона</h3>
+    <div class="kit-slots" data-slots></div>
+    <div class="kit-builder" data-builder>
+      <div class="kit-builder__head"><h3>Блоки страницы</h3><div class="kit-seg"><button type="button" data-recipe="main" class="is-on">Главный лендинг</button><button type="button" data-recipe="event">Мероприятие</button><button type="button" data-recipe="product">Спецпроект</button><button type="button" data-recipe="all">Все</button><button type="button" data-recipe="none">Ничего</button></div><span class="kit-builder__count" data-builder-count></span></div>
+      <p class="kit-fitting__error" data-fitting-error hidden style="padding:20px 24px;color:var(--error);font-size:14px">Не удалось загрузить блоки из index.html. Откройте страницу через локальный сервер: <code>python3 -m http.server 8821</code> в корне репозитория → <code>http://127.0.0.1:8821/kit/fitting.html</code>.</p>
+      <div class="kit-brows" data-builder-list></div>
+      <div class="kit-builder__foot"><p>Сборка берёт блоки в состоянии из паспортов выше. Порядок&nbsp;— как в ките: шапка, хиро … форма, футер. Пути к картинкам&nbsp;— относительно <code>kit/</code>.</p><button class="kit-btn kit-btn--blue" type="button" data-builder-copy>Скопировать HTML страницы</button></div>
+    </div>
+  </div>
+</section>
+
+<div data-blocks-host hidden></div>
+<script>
+(async () => {
+  const host = document.querySelector('[data-blocks-host]');
+  try {
+    const html = await (await fetch('./index.html')).text();
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    doc.querySelectorAll('.kit-block[data-block]').forEach(b => host.appendChild(document.adoptNode(b)));
+  } catch { document.querySelector('[data-fitting-error]').hidden = false; }
+  for (const src of ['./kit-chrome.js', './kit.js']) await new Promise(r => { const s = document.createElement('script'); s.src = src; s.onload = r; document.body.appendChild(s); });
+})();
+</script>
+</body>
+</html>

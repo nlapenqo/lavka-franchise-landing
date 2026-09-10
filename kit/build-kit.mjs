@@ -28,7 +28,9 @@ let page = readFileSync(join(root, srcName), 'utf8');
 for (const css of ['kit.css', 'kit-chrome.css']) {
   page = page.replace(`<link rel="stylesheet" href="./${css}">`, () => `<style data-kit="${css}">\n${inlineRefs(readFileSync(join(root, css), 'utf8'))}\n</style>`);
 }
-page = page.replace('<script src="./kit.js"></script>', () => `<script>\n${readFileSync(join(root, 'kit.js'), 'utf8')}\n</script>`);
+for (const js of ['kit-chrome.js', 'kit.js']) {
+  page = page.replace(`<script src="./${js}"></script>`, () => `<script data-kit="${js}">\n${readFileSync(join(root, js), 'utf8')}\n</script>`);
+}
 page = inlineRefs(page);
 
 if (artifact) {

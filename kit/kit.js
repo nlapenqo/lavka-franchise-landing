@@ -138,13 +138,14 @@
 
   /* --- текст + медиа: карусель --- */
   $$('[data-split]').forEach(split => {
-    const slides = $$('[data-slide]', split), prev = $('[data-prev]', split), next = $('[data-next]', split);
+    const slides = () => $$('[data-slide]', split).filter(s => !s.hidden), prev = $('[data-prev]', split), next = $('[data-next]', split);
     let i = 0;
     const go = n => {
-      i = Math.max(0, Math.min(slides.length - 1, n));
+      const list = slides();
+      i = Math.max(0, Math.min(list.length - 1, n));
       split.style.setProperty('--slide', i);
-      slides.forEach((s, k) => s.setAttribute('aria-hidden', String(k !== i)));
-      if (prev) prev.disabled = i === 0; if (next) next.disabled = i === slides.length - 1;
+      list.forEach((s, k) => s.setAttribute('aria-hidden', String(k !== i)));
+      if (prev) prev.disabled = i === 0; if (next) next.disabled = i === list.length - 1;
     };
     prev?.addEventListener('click', () => go(i - 1)); next?.addEventListener('click', () => go(i + 1));
     split.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') go(i - 1); if (e.key === 'ArrowRight') go(i + 1); });
@@ -175,13 +176,15 @@
 
   /* --- шаги: клик по створке раскрывает её, пройденные — с галочкой --- */
   $$('[data-steps]').forEach(box => {
-    const steps = $$('.step', box), odo = $('[data-steps-cur]', box), bar = $('[data-steps-bar]', box);
+    const steps = () => $$('.step', box).filter(s => !s.hidden), odo = $('[data-steps-cur]', box), total = $('[data-steps-total]', box), bar = $('[data-steps-bar]', box);
     const set = n => {
-      steps.forEach((s, k) => { s.classList.toggle('is-active', k === n); s.classList.toggle('is-done', k < n || (k === n && n === steps.length - 1)); });
+      const list = steps();
+      list.forEach((s, k) => { s.classList.toggle('is-active', k === n); s.classList.toggle('is-done', k < n || (k === n && n === list.length - 1)); });
       if (odo) odo.textContent = String(n + 1).padStart(2, '0');
-      bar?.style.setProperty('--p', (n + 1) / steps.length);
+      if (total) total.textContent = 'из ' + String(list.length).padStart(2, '0');
+      bar?.style.setProperty('--p', (n + 1) / list.length);
     };
-    steps.forEach((s, k) => $('.step__hit', s)?.addEventListener('click', () => set(k)));
+    $$('.step', box).forEach(s => $('.step__hit', s)?.addEventListener('click', () => set(steps().indexOf(s))));
     set(0);
   });
 
@@ -212,9 +215,5 @@
     setTimeout(() => { btn.classList.remove('is-loading'); btn.disabled = false; if (status) { status.textContent = 'Спасибо! Свяжемся в течение двух рабочих дней'; status.classList.add('is-ok'); } form.reset(); }, 900);
   }));
 
-  /* --- кит: «скопировать HTML блока» --- */
-  $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
-    const block = btn.closest('.kit-block'), html = $$('[data-html]', block).map(n => n.outerHTML).join('\n\n');
-    try { await navigator.clipboard.writeText(html); btn.classList.add('is-done'); btn.textContent = 'Скопировано'; setTimeout(() => { btn.classList.remove('is-done'); btn.textContent = 'Копировать HTML'; }, 1600); } catch { btn.textContent = 'Не удалось'; }
-  }));
+  /* «скопировать HTML» и остальная механика страницы кита живут в kit-chrome.js — в лендинг не копируются */
 })();
