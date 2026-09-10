@@ -13,6 +13,44 @@
     apply();
   }
 
+  /* хиро: слова заголовка появляются по очереди, потом лид и кнопки (как на главной) */
+  $$('.hero').forEach(hero => {
+    let i = 0;
+    const wrap = node => [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.nodeValue.split(/(\s+)/).forEach(tok => {
+          if (!tok) return;
+          if (/^\s+$/.test(tok)) { frag.appendChild(document.createTextNode(tok)); return; }
+          const w = document.createElement('i'); w.className = 'hero__word'; w.style.setProperty('--i', i++); w.textContent = tok; frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) wrap(n);
+    });
+    $$('.hero__title', hero).forEach(wrap);
+    const live = () => requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-live')));
+    if (reduced || !('IntersectionObserver' in window)) live();
+    else { const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { live(); io.disconnect(); } }), { threshold: .25 }); io.observe(hero); }
+  });
+
+  /* авто-появление: карточки, плашки, заголовки — снизу на 28px, соседи со стаггером 70 мс */
+  const AUTO = 'h2.t-h1,.section__head,.statement__text,.number,.feature,.card,.tile,.quote,.checklist li,.timeline__item,.step,.gallery__cell,.logos,.faq__item,.plate,.form-strip,.lead__copy,.form-card';
+  $$(AUTO).forEach(el => { const outer = el.parentElement?.closest('.reveal'); if (outer) return; el.classList.add('reveal'); });
+  $$('.reveal').forEach(el => {
+    if (el.style.getPropertyValue('--delay')) return;
+    const sibs = [...el.parentElement.children].filter(s => s.classList.contains('reveal'));
+    if (sibs.length > 1) el.style.setProperty('--delay', (sibs.indexOf(el) * 70) + 'ms');
+  });
+
+  /* цифры: свечение тянется за курсором */
+  if (!reduced) $$('.number').forEach(card => {
+    let gx = 0, gy = 0, tx = 0, ty = 0, raf = 0;
+    const step = () => { gx += (tx - gx) * .12; gy += (ty - gy) * .12; card.style.setProperty('--glow-x', gx.toFixed(1)); card.style.setProperty('--glow-y', gy.toFixed(1)); raf = (Math.abs(tx - gx) > .08 || Math.abs(ty - gy) > .08) ? requestAnimationFrame(step) : 0; };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(step); };
+    card.addEventListener('mousemove', e => { const r = card.getBoundingClientRect(); tx = (e.clientX - r.left - r.width / 2) * .22; ty = (e.clientY - r.top - r.height / 2) * .22; wake(); });
+    card.addEventListener('mouseleave', () => { tx = 0; ty = 0; wake(); });
+  });
+
   /* появление по скроллу + счётчики */
   const countUp = el => {
     if (el.dataset.done) return; el.dataset.done = '1';

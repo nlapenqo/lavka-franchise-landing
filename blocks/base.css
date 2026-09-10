@@ -54,6 +54,10 @@ img,svg{display:block;max-width:100%}
 .glow::before,.section--dark::before{right:-260px;top:-300px}
 .glow::after,.section--dark::after{left:-420px;bottom:-320px;opacity:.4}
 .glow{position:relative;isolation:isolate;overflow:hidden}
+.section--dark::before,.glow::before{animation:glow-drift 11s cubic-bezier(.45,.05,.55,.95) infinite alternate}
+.section--dark::after,.glow::after{animation:glow-drift 9s cubic-bezier(.45,.05,.55,.95) infinite alternate-reverse}
+@keyframes glow-drift{from{transform:rotate(-32.9deg) translate3d(0,0,0) scale(.96)}to{transform:rotate(-32.9deg) translate3d(70px,-50px,0) scale(1.06)}}
+@keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 
 /* кнопки: одна голубая на экран; голубая заливка — только кнопка или таб */
 .button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-1);min-height:52px;padding:0 var(--space-5);border-radius:var(--radius-pill);font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1;white-space:nowrap;transition:transform var(--dur-hover) var(--ease),background var(--dur-hover),box-shadow var(--dur-hover),border-color var(--dur-hover)}
@@ -96,7 +100,7 @@ img,svg{display:block;max-width:100%}
 .media{position:relative;overflow:hidden;border-radius:var(--radius-l);background:var(--navy-deep)}
 .media img{width:100%;height:100%;object-fit:cover}
 /* заглушка кадра: не серый прямоугольник, а тёмная плашка системы с меткой */
-.placeholder{position:relative;overflow:hidden;border-radius:var(--radius-l);background:linear-gradient(155deg,#35619c 0%,var(--navy) 62%,var(--navy-deep) 100%);min-height:200px}
+.placeholder{position:relative;overflow:hidden;border-radius:var(--radius-l);background:linear-gradient(155deg,var(--mid) 0%,var(--navy) 62%,var(--navy-deep) 100%);min-height:200px}
 .placeholder::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:var(--space-3);font-size:var(--fs-small);font-weight:var(--fw-medium);color:var(--muted-dark)}
 
 /* поля формы */
@@ -122,6 +126,7 @@ img,svg{display:block;max-width:100%}
 /* появление */
 .reveal{opacity:0;transform:translateY(var(--reveal-offset));transition:opacity var(--dur-reveal) var(--ease) var(--delay,0s),transform var(--dur-reveal) var(--ease) var(--delay,0s)}
 .reveal.is-visible{opacity:1;transform:none}
+.reveal--stagger{--delay:calc(var(--i,0) * 70ms)}
 .lift{transition:transform var(--dur-hover) var(--ease),box-shadow var(--dur-hover)}
 .lift:hover{transform:translateY(calc(-1 * var(--hover-lift)));box-shadow:var(--shadow-card-hover)}
 @media (prefers-reduced-motion:reduce){
