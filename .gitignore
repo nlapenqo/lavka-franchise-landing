@@ -30,3 +30,4 @@ references/doc-media/
 # Лежат на диске, в репо не нужны: их можно снять заново.
 archive/2026-08-14-cleanup/output/
 archive/2026-08-14-cleanup/tool-artifacts/
+blocks/preview.html

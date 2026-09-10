@@ -1,0 +1,209 @@
+/* ============================================================
+   10 УНИВЕРСАЛЬНЫХ БЛОКОВ · blocks/blocks.css
+   Имена: блок__элемент--модификатор. Значения — из tokens.css. Десктоп; телефон — базовое схлопывание в конце.
+   01 hero · 02 numbers · 03 feature · 04 cards · 05 feed · 06 agenda · 07 steps · 08 faq · 09 plate · 10 lead
+   Каркас: header, footer
+   ============================================================ */
+
+/* КАРКАС · шапка-пилюля: прозрачная на хиро, стеклянная после 90px */
+.header{position:fixed;z-index:50;inset:18px clamp(24px,4vw,64px) auto;height:68px;padding:10px 12px 10px 40px;border-radius:var(--radius-pill);display:flex;align-items:center;justify-content:space-between;color:var(--white);transition:background var(--dur-hover),box-shadow var(--dur-hover),transform var(--dur-hover) var(--ease)}
+.header.is-solid{background:rgba(27,58,106,.72);-webkit-backdrop-filter:blur(20px) saturate(1.55);backdrop-filter:blur(20px) saturate(1.55);box-shadow:var(--shadow-header);transform:translateY(-6px)}
+.header.is-solid .brand{--brand-scale:.75}
+.header__nav{display:flex;gap:28px;align-items:center;font-size:var(--fs-body-s);font-weight:var(--fw-medium)}
+.header.is-solid .button--outline{border-color:var(--blue);background:var(--blue);box-shadow:var(--shadow-cta)}
+
+/* КАРКАС · футер */
+.footer{padding:var(--space-7) 0 var(--space-6);border-top:1px solid var(--border-on-dark)}
+.footer__top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-5);padding-bottom:var(--space-6)}
+.footer__nav{display:flex;gap:var(--space-4);font-size:var(--fs-body-s);font-weight:var(--fw-medium);color:var(--text-secondary-on-dark)}
+.footer__nav a:hover{color:var(--white)}
+.footer__legal{border-top:1px solid var(--border-on-dark);padding-top:var(--space-4);display:grid;grid-template-columns:1fr 320px;gap:var(--space-7);color:var(--text-secondary-on-dark)}
+.footer__legal>div{display:flex;flex-direction:column;gap:6px}
+
+/* 01 · ХИРО: заголовок, лид, кнопка + кнопка с пояснением, ряд плашек */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-5);padding:120px 0 var(--space-8);text-align:center}
+.hero__title{width:min(1100px,calc(100% - var(--gutter)))}
+.hero__title span{display:block}
+.hero__lead{width:min(760px,calc(100% - var(--gutter)));color:var(--text-on-dark)}
+.hero .actions{justify-content:center;max-width:640px}
+.hero .actions__note{flex:0 0 100%;text-align:center}
+.hero__benefits{width:min(var(--container),calc(100% - var(--gutter)));display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:var(--space-3);margin-top:var(--space-5)}
+.benefit{display:flex;align-items:center;gap:var(--space-3);padding:20px var(--space-4);border-radius:var(--radius-m);background:var(--surface-on-dark);box-shadow:inset 0 0 0 1px var(--border-on-dark);font-size:var(--fs-small);font-weight:var(--fw-medium);line-height:1.2;text-align:left}
+.benefit b{flex:none;font-size:var(--fs-num);font-weight:var(--fw-black);line-height:.85;letter-spacing:var(--ls-display);color:var(--text-accent)}
+.hero--photo{min-height:0;padding-bottom:0}
+.hero__frame{width:min(var(--container),calc(100% - var(--gutter)));height:560px;margin-top:var(--space-5);border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;background:var(--navy-deep)}
+.hero__frame img{width:100%;height:100%;object-fit:cover;object-position:center 36%}
+.years{display:inline-flex;gap:var(--space-1)}
+.year{display:inline-flex;align-items:center;padding:10px 22px;border-radius:var(--radius-pill);font-size:var(--fs-body-s);font-weight:var(--fw-heavy);line-height:1;border:1.5px solid var(--white-35)}
+.year--active{background:var(--white);color:var(--navy);border-color:var(--white)}
+
+/* 02 · ЦИФРЫ: три плашки со свечением; вариант — одна тёмная панель */
+.numbers{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:var(--space-4)}
+.number{position:relative;isolation:isolate;overflow:hidden;min-height:399px;padding:63px 38px 51px;border-radius:var(--radius-xl);background:var(--navy);color:var(--white);text-align:center;display:flex;flex-direction:column;align-items:center;transition:transform .42s var(--ease)}
+.number:hover{transform:translateY(calc(-1 * var(--hover-lift)))}
+.number::before,.number::after{content:'';position:absolute;z-index:-1;left:0;width:100%;border-radius:50%;background:var(--blue);filter:blur(150px);transition:filter .38s var(--ease)}
+.number::before{top:-250px;height:345px}
+.number::after{top:-112px;height:141px}
+.number:hover::before,.number:hover::after{filter:blur(100px)}
+.number__value{font-size:var(--fs-num-xl);font-weight:var(--fw-black);line-height:var(--lh-tight);letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
+.number__label{margin-top:var(--space-4);font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.number__note{margin-top:auto;padding-top:var(--space-3);max-width:266px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-muted-on-dark)}
+.numbers--panel{grid-template-columns:1fr}
+.numbers__panel{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--radius-xl);background:var(--navy);color:var(--white);padding:var(--space-8) 72px;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:var(--space-5)}
+.numbers__panel .number__value{font-size:var(--fs-num-l);color:var(--text-accent);text-align:left}
+.numbers__panel .number__label{margin-top:20px;font-size:var(--fs-body);font-weight:var(--fw-medium);color:var(--text-secondary-on-dark);max-width:230px;line-height:1.25}
+
+/* 03 · ТЕКСТ + КАДР: плашка-карусель, как «Как устроен бизнес» на главной */
+.feature{--gap:40px;position:relative;width:1140px;max-width:100%;height:587px;margin-inline:auto;padding:53px 56px;overflow:hidden;border-radius:var(--radius-xl);background:var(--surface-tint)}
+.feature__viewport{height:481px;clip-path:inset(0 calc(-1 * (var(--gap) - 6px)) -60px calc(-1 * (var(--gap) - 6px)))}
+.feature__track{height:100%;display:flex;gap:var(--gap);transform:translate3d(calc(var(--slide,0) * (-100% - var(--gap))),0,0);transition:transform var(--dur-slide) var(--ease-slide)}
+.feature__slide{min-width:100%;height:481px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5);align-items:start;transition:opacity .5s var(--ease-slide),transform var(--dur-slide) var(--ease-slide)}
+.feature__slide[aria-hidden=true]{opacity:.4;transform:scale(.975)}
+.feature__copy{height:481px;display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-4)}
+.feature__copy .t-h2{width:473px;max-width:100%;margin-bottom:auto}
+.feature__copy p{width:432px;max-width:100%;color:var(--text-secondary)}
+.feature .media{height:480px}
+.feature__controls{position:absolute;z-index:4;right:76px;bottom:73px;display:flex;gap:14px}
+.feature--single .feature__controls{display:none}
+.section--dark .feature{background:var(--surface-on-dark);box-shadow:inset 0 0 0 1px var(--border-on-dark)}
+.section--dark .feature__copy p{color:var(--text-muted-on-dark)}
+
+/* 04 · КАРТОЧКИ ×2–4: медиа / иконка / число / человек */
+.cards{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:var(--space-4)}
+.card{display:flex;flex-direction:column;gap:var(--space-3);min-height:280px;padding:var(--space-5);border-radius:var(--radius-xl);background:var(--surface-card);box-shadow:var(--shadow-card)}
+.section--dark .card{background:var(--surface-on-dark);box-shadow:inset 0 0 0 1px var(--border-on-dark);color:var(--white)}
+.card__media{aspect-ratio:16/10;border-radius:var(--radius-l);overflow:hidden;background:var(--navy-deep);margin-bottom:var(--space-1)}
+.card__media img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.card:hover .card__media img{transform:scale(1.03)}
+.card__number{font-size:var(--fs-num);font-weight:var(--fw-black);line-height:.8;letter-spacing:var(--ls-display);color:var(--text-accent)}
+.card__tag{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary)}
+.card .t-h4{margin-top:auto}
+.card__media~.t-h4,.card__number~.t-h4,.card__tag~.t-h4{margin-top:0}
+.card p{font-size:var(--fs-body-s);line-height:var(--lh-body);color:var(--text-secondary)}
+.section--dark .card p,.section--dark .card__tag{color:var(--text-secondary-on-dark)}
+.card__person{margin-top:auto;padding-top:var(--space-2)}
+.card__person b{display:block;font-size:var(--fs-body-s);font-weight:var(--fw-medium)}
+.card__person small{display:block;margin-top:3px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
+.card__avatars{display:flex;gap:var(--space-2)}
+.card__foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);padding-top:4px}
+.card--person .t-h4{margin-top:var(--space-1);min-height:76px}
+
+/* 05 · ЛЕНТА С ПРОКРУТКОЙ: любые карточки, стрелки в заголовке; здесь — отзывы с фото и без */
+.feed{display:flex;gap:var(--space-4);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:6px 0 10px;margin:-6px 0 -10px}
+.feed::-webkit-scrollbar{display:none}
+.feed>*{flex:0 0 calc((100% - 2 * var(--space-4))/3);scroll-snap-align:start}
+.review{min-height:315px;padding:var(--space-6);border-radius:var(--radius-xl);background:var(--surface-tint)}
+.review .avatar{margin-bottom:var(--space-3)}
+.review__name{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.review__meta{display:block;margin-top:4px;font-size:var(--fs-small);color:var(--text-secondary)}
+.review__text{margin-top:var(--space-3);font-size:var(--fs-body);line-height:var(--lh-body)}
+.section--dark .review{background:var(--surface-on-dark);box-shadow:inset 0 0 0 1px var(--border-on-dark)}
+.section--dark .review__meta{color:var(--text-secondary-on-dark)}
+
+/* 06 · ПРОГРАММА: дни колонками, время голубым текстом, спикер строкой */
+.agenda{display:grid;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:var(--space-6) var(--space-8)}
+.agenda__date{margin-bottom:var(--space-3);font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.agenda__date small{display:block;margin-top:4px;font-size:var(--fs-small);font-weight:var(--fw-regular);color:var(--text-secondary)}
+.agenda__slot{display:grid;grid-template-columns:88px minmax(0,1fr);gap:var(--space-4);padding:20px 0;border-top:1px solid var(--border)}
+.agenda__day .agenda__slot:last-child{border-bottom:1px solid var(--border)}
+.agenda__time{font-size:var(--fs-body-s);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums;padding-top:2px}
+.agenda__topic{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.1}
+.agenda__slot--break .agenda__topic{font-weight:var(--fw-medium);color:var(--text-secondary)}
+.agenda__note{margin-top:6px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
+.agenda__who{display:flex;align-items:center;gap:10px;margin-top:var(--space-2);font-size:var(--fs-small);font-weight:var(--fw-medium)}
+.agenda__who .avatar{width:32px;height:32px;font-size:11px}
+.agenda__who small{font-weight:var(--fw-regular);color:var(--text-secondary)}
+.section--dark .agenda__slot{border-color:var(--border-on-dark)}
+.section--dark .agenda__note,.section--dark .agenda__date small,.section--dark .agenda__who small,.section--dark .agenda__slot--break .agenda__topic{color:var(--text-secondary-on-dark)}
+
+/* 07 · ШАГИ: номер, заголовок, текст; последний — с кнопкой */
+.steps{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:var(--space-3)}
+.step{display:flex;flex-direction:column;gap:var(--space-2);min-height:236px;padding:28px 26px 30px;border-radius:var(--radius-l);background:var(--surface-tint)}
+.step__number{font-size:var(--fs-num);font-weight:var(--fw-black);line-height:.8;letter-spacing:var(--ls-display);color:var(--text-accent)}
+.step .t-h4{margin-top:4px}
+.step p{font-size:var(--fs-body-s);line-height:var(--lh-body);color:var(--text-secondary)}
+.step .button{margin-top:auto;align-self:flex-start}
+.step--cta{background:var(--navy);color:var(--white)}
+.step--cta p{color:var(--text-secondary-on-dark)}
+.section--dark .step{background:var(--surface-on-dark);box-shadow:inset 0 0 0 1px var(--border-on-dark);color:var(--white)}
+.section--dark .step p{color:var(--text-secondary-on-dark)}
+.section--dark .step--cta{background:var(--blue)}
+.section--dark .step--cta .step__number,.section--dark .step--cta p{color:var(--white)}
+
+/* 08 · ВОПРОСЫ И ОТВЕТЫ: аккордеон, открыт один */
+.faq__item{border-bottom:1px solid var(--sky)}
+.faq__question{width:100%;padding:var(--space-5) 0;display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);text-align:left;font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.faq__question i{width:52px;height:52px;flex:none;border-radius:var(--radius-circle);display:grid;place-items:center;background:var(--surface-tint);font-style:normal;font-size:28px;font-weight:var(--fw-medium);transition:transform .24s}
+.faq__item.is-open .faq__question i{transform:rotate(45deg)}
+.faq__answer{display:grid;grid-template-rows:0fr;transition:grid-template-rows .24s var(--ease)}
+.faq__answer>p{overflow:hidden;color:var(--text-secondary);line-height:var(--lh-body-loose);max-width:820px}
+.faq__item.is-open .faq__answer{grid-template-rows:1fr}
+.faq__item.is-open .faq__answer>p{padding-bottom:28px}
+.section--dark .faq__item{border-color:var(--border-on-dark)}
+.section--dark .faq__question i{background:var(--white-10)}
+.section--dark .faq__answer>p{color:var(--text-secondary-on-dark)}
+
+/* 09 · ПЛАШКИ: одна длинная с кнопкой, две рядом, тёмная панель-призыв */
+.plates{display:grid;grid-template-columns:repeat(var(--n,2),1fr);gap:var(--space-4)}
+.plates+.plates,.plates+.plate,.plate+.plates,.plate+.plate{margin-top:var(--space-4)}
+.plate{display:flex;flex-direction:column;gap:var(--space-2);padding:36px var(--space-6);border-radius:var(--radius-xl);background:var(--surface-tint)}
+.plate p{color:var(--text-secondary);max-width:640px}
+.plate .button{margin-top:var(--space-2);align-self:flex-start}
+.plate .icon-plate,.plate .card__number{margin-bottom:6px}
+.plate--white{background:var(--surface-card);box-shadow:var(--shadow-card)}
+.plate--row{flex-direction:row;align-items:center;justify-content:space-between;gap:var(--space-7);padding:44px 48px}
+.plate--row .button{margin:0;flex:none}
+.plate--dark{background:var(--navy);color:var(--white)}
+.plate--dark p{color:var(--text-muted-on-dark)}
+.plate--center{align-items:center;text-align:center;padding:96px 72px}
+.plate--center p{max-width:560px}
+.plate--center .button{align-self:center}
+
+/* 10 · ФОРМА: аргументы слева, белая карточка справа */
+.lead{display:grid;grid-template-columns:minmax(0,1fr) 560px;gap:80px;align-items:center}
+.lead__copy .t-lead{margin-top:var(--space-4)}
+.lead__list{margin-top:var(--space-7);display:flex;flex-direction:column;gap:var(--space-4)}
+.lead__list li{display:flex;flex-direction:column;gap:4px}
+.lead__list strong{font-size:var(--fs-lead);font-weight:var(--fw-heavy);line-height:1.1}
+.lead__list span{font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary-on-dark);max-width:390px}
+.form-card{padding:54px;border-radius:var(--radius-xl);background:var(--surface-card);color:var(--navy);box-shadow:var(--shadow-float);display:flex;flex-direction:column;gap:var(--space-4)}
+.form-card__submit{display:flex;align-items:center;gap:var(--space-3)}
+.form-card__submit>span{font-size:var(--fs-small);line-height:1.2;color:var(--text-secondary)}
+.form-card__status{min-height:16px;font-size:var(--fs-caption);color:var(--ok)}
+.form-card__status:empty{display:none}
+
+/* ТЕЛЕФОН — базовое схлопывание; пиксельная мобилка отдельным этапом */
+@media (max-width:1100px){
+  .feature{--gap:32px;height:540px;padding:40px}
+  .feature__viewport,.feature__slide,.feature__copy,.feature .media{height:460px}
+  .feature__controls{right:58px;bottom:58px}
+  .lead{grid-template-columns:minmax(0,1fr) 480px;gap:48px}
+  .form-card{padding:40px}
+  .number{min-height:0;padding:44px 22px 36px}
+  .numbers__panel{padding:48px 40px}
+}
+@media (max-width:767px){
+  .header{inset:12px 12px auto;height:64px;padding:0 12px 0 20px}
+  .header__nav{display:none}
+  .header .brand{--brand-scale:.62}
+  .hero{padding:96px 0 var(--space-8);gap:var(--space-4)}
+  .hero__benefits,.numbers,.numbers__panel,.cards,.agenda,.steps,.plates,.lead{grid-template-columns:1fr;gap:var(--space-3)}
+  .feature{height:auto;padding:20px;border-radius:var(--radius-l)}
+  .feature__viewport{height:auto;clip-path:inset(0 -14px -60px -14px)}
+  .feature__slide{height:auto;grid-template-columns:1fr;gap:var(--space-3)}
+  .feature__copy{height:auto;order:2}
+  .feature .media{height:220px;order:1;border-radius:var(--radius-s)}
+  .feature__controls{position:static;margin-top:var(--space-3);justify-content:flex-end}
+  .feed>*{flex-basis:calc(100% - 24px)}
+  .card,.step,.review,.plate,.form-card,.number{min-height:0;padding:var(--space-4);border-radius:var(--radius-l)}
+  .plate--row{flex-direction:column;align-items:flex-start;gap:var(--space-3)}
+  .plate--center{padding:48px 24px}
+  .agenda__slot{grid-template-columns:64px 1fr;gap:var(--space-2);padding:var(--space-3) 0}
+  .faq__question{font-size:var(--fs-h4);padding:20px 0}
+  .faq__question i{width:40px;height:40px;font-size:22px}
+  .form-card__submit{flex-direction:column;align-items:stretch;text-align:center}
+  .footer__top{flex-direction:column;align-items:flex-start;gap:var(--space-4)}
+  .footer__nav{flex-direction:column;gap:var(--space-2)}
+  .footer__legal{grid-template-columns:1fr;gap:var(--space-4)}
+  .footer .brand{--brand-scale:.8}
+}
