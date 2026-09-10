@@ -152,8 +152,8 @@
     go(0);
   });
 
-  /* --- отзывы: лента со стрелками --- */
-  $$('[data-reviews]').forEach(box => {
+  /* --- лента с прокруткой (отзывы, спикеры, любые карточки): стрелки в заголовке --- */
+  $('[data-reviews], [data-feed]').forEach(box => {
     const track = $('[data-track]', box), prev = $('[data-prev]', box), next = $('[data-next]', box);
     const amount = () => (track.firstElementChild?.getBoundingClientRect().width || 300) + 20;
     const update = () => { prev.disabled = track.scrollLeft < 4; next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 4; };

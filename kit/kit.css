@@ -550,6 +550,106 @@ body.menu-open{overflow:hidden}
 .footer__legal a:hover{color:#fff}
 
 /* ============================================================
+   8b · РАСКЛАДКИ СУПЕР-ШАБЛОНА (L01–L09): каркасы со слотами, контент любой
+   ============================================================ */
+/* L01 · ряд преимуществ под баннером */
+.hero__benefits{width:min(var(--container),100%);display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:16px;margin-top:24px}
+.benefit{display:flex;align-items:center;gap:16px;padding:20px 24px;border-radius:var(--r-m);background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22);color:#fff;font-size:15px;font-weight:500;line-height:1.2;text-align:left}
+.benefit b{flex:none;font-size:36px;font-weight:900;line-height:.85;letter-spacing:-.01em;color:var(--blue);font-variant-numeric:tabular-nums}
+.benefit .icon-plate{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);color:#fff}
+.hero.section--light .benefit{background:#fff;box-shadow:var(--sh-card);color:var(--navy)}
+/* L02 · карточки ×1–4: слоты медиа / иконка / номер / заголовок / текст / ссылка */
+.cards{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:22px}
+.card{position:relative;display:flex;flex-direction:column;gap:18px;min-height:280px;padding:28px;border-radius:var(--r-xl);background:#fff;box-shadow:0 6px 24px rgba(27,58,106,.07);transition:transform .2s var(--ease),box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:var(--sh-card-hover)}
+.section--dark .card{background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22);color:#fff}
+.card__media{aspect-ratio:16/10;border-radius:var(--r-l);overflow:hidden;background:var(--navy)}
+.card__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s var(--ease)}
+.card:hover .card__media img{transform:scale(1.03)}
+.card__num{font-size:44px;font-weight:900;line-height:.8;letter-spacing:-.01em;color:var(--blue)}
+.card__tag{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.card h3{font-size:24px;line-height:1.05;font-weight:800}
+.card h3+p{margin-top:-6px}
+.card p{font-size:16px;line-height:1.4;color:var(--dim)}
+.section--dark .card p,.section--dark .card__tag{color:var(--dim-dark)}
+.card__who{display:flex;align-items:center;gap:14px}
+.card__who b{display:block;font-size:18px;font-weight:800;line-height:1.1}
+.card__who small{display:block;margin-top:3px;font-size:13px;line-height:1.3;color:var(--dim)}
+.section--dark .card__who small{color:var(--dim-dark)}
+.card__foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:4px}
+.card--wide{flex-direction:row;align-items:center;gap:48px;padding:40px}
+.card--wide .card__media{flex:0 0 46%;aspect-ratio:3/2}
+.card--wide .card__body{display:flex;flex-direction:column;gap:18px;flex:1;min-width:0}
+/* L03 · лента с прокруткой: любые карточки, стрелки — .ctrls в .section-head */
+.feed{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;outline:none;padding:6px 0 10px;margin:-6px 0 -10px}
+.feed::-webkit-scrollbar{display:none}
+.feed>*{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start}
+.feed--2>*{flex-basis:calc((100% - 20px)/2)}
+.feed--4>*{flex-basis:calc((100% - 60px)/4)}
+.feed .card{min-height:0}
+/* L04 · сплит без карусели: текст + медиа, зигзагом */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px;align-items:center}
+.duo+.duo{margin-top:96px}
+.duo--flip .duo__media{order:-1}
+.duo__copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px}
+.duo__copy h3{font-size:48px;line-height:.95;letter-spacing:-.005em;font-weight:800;text-wrap:balance}
+.duo__copy p{font-size:18px;line-height:1.35;color:var(--dim);max-width:480px}
+.section--dark .duo__copy p{color:var(--muted-dark)}
+.duo__media{aspect-ratio:542/480;border-radius:var(--r-l);overflow:hidden;background:var(--navy)}
+.duo__media img{width:100%;height:100%;object-fit:cover;display:block}
+.duo__media.ph{aspect-ratio:542/480}
+.duo__list{display:flex;flex-direction:column;gap:10px;font-size:17px;font-weight:500;line-height:1.3}
+.duo__list li{display:flex;gap:12px;align-items:flex-start}
+.duo__list li::before{content:'';flex:none;width:8px;height:8px;margin-top:7px;border-radius:50%;background:var(--blue)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;width:100%}
+.facts dt{font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.facts dd{margin-top:6px;font-size:20px;font-weight:800;line-height:1.15}
+/* L06 · список: время слева, содержание справа; колонки — дни */
+.agenda{display:grid;grid-template-columns:repeat(var(--n,2),minmax(0,1fr));gap:40px 64px}
+.agenda__day{display:flex;flex-direction:column}
+.agenda__day>.year{align-self:flex-start;margin-bottom:18px}
+.slot{display:grid;grid-template-columns:88px minmax(0,1fr);gap:20px;padding:20px 0;border-top:1px solid var(--line)}
+.agenda__day .slot:last-child{border-bottom:1px solid var(--line)}
+.slot time{font-size:16px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;padding-top:2px}
+.slot h4{font-size:20px;font-weight:800;line-height:1.15}
+.slot p{margin-top:6px;font-size:14px;line-height:1.35;color:var(--dim)}
+.slot__who{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px;font-weight:500}
+.slot__who .avatar{width:32px;height:32px;font-size:11px}
+.slot__who .avatar img{transform:scale(1.3);transform-origin:50% 24%}
+.slot__who small{color:var(--dim);font-weight:400}
+.slot--break h4{color:var(--dim);font-weight:500}
+.section--dark .slot{border-color:rgba(170,217,252,.22)}
+.section--dark .slot p,.section--dark .slot--break h4,.section--dark .slot__who small{color:var(--dim-dark)}
+/* L07 · шаги горизонтально: номер, заголовок, текст; последний — CTA */
+.steps-row{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:16px}
+.step-card{display:flex;flex-direction:column;gap:14px;min-height:236px;padding:28px 26px 30px;border-radius:var(--r-l);background:var(--card)}
+.step-card b{font-size:44px;font-weight:900;line-height:.8;letter-spacing:-.01em;color:var(--blue)}
+.step-card h4{font-size:22px;font-weight:800;line-height:1.1}
+.step-card p{font-size:15px;line-height:1.4;color:var(--dim)}
+.step-card .button{margin-top:auto;align-self:flex-start}
+.step-card--cta{background:var(--navy);color:#fff}
+.step-card--cta p{color:var(--dim-dark)}
+.section--dark .step-card{background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(167,190,224,.22);color:#fff}
+.section--dark .step-card p{color:var(--dim-dark)}
+.section--dark .step-card--cta{background:var(--blue)}
+.section--dark .step-card--cta p,.section--dark .step-card--cta b{color:#fff}
+/* L09 · таблица сравнения: 2–4 колонки, одна выделена .is-on */
+.compare{width:100%;border-collapse:separate;border-spacing:0;font-size:17px;font-variant-numeric:tabular-nums}
+.compare th,.compare td{padding:18px 22px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.compare th{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.compare thead th:not(:first-child){font-size:26px;font-weight:800;letter-spacing:-.01em;text-transform:none;color:var(--navy);vertical-align:bottom;padding-top:26px}
+.compare thead small{display:block;margin-top:6px;font-size:14px;font-weight:500;letter-spacing:0;color:var(--dim)}
+.compare thead .chips{margin-bottom:12px}
+.compare td:first-child{color:var(--dim);width:32%}
+.compare td b{font-size:22px;font-weight:800}
+.compare .is-on{background:var(--card)}
+.compare thead .is-on{border-radius:var(--r-m) var(--r-m) 0 0}
+.compare tfoot .is-on{border-radius:0 0 var(--r-m) var(--r-m)}
+.compare tfoot td{border-bottom:0;padding:22px}
+.compare .yes{color:var(--blue);font-weight:800}
+.compare .no{color:var(--sky)}
+
+/* ============================================================
    9 · АДАПТИВ
    ============================================================ */
 @media (max-width:1199px){
@@ -595,6 +695,9 @@ body.menu-open{overflow:hidden}
   .footer .brand--footer{width:280px;transform:scale(.84);transform-origin:left center}
 }
 @media (min-width:768px) and (max-width:1023px){
+  .cards,.steps-row,.hero__benefits{grid-template-columns:repeat(2,1fr)}
+  .agenda{grid-template-columns:1fr}
+  .duo{gap:32px}
   .hero--split .container{grid-template-columns:1fr}
   .hero--split .media{height:420px}
   .features__grid,.people__grid,.offers__grid{grid-template-columns:repeat(2,1fr)}
@@ -665,6 +768,12 @@ body.menu-open{overflow:hidden}
   .statement .label{margin-bottom:20px}
   .statement p{font-size:26px;line-height:1.2}
   .features__grid,.people__grid,.offers__grid,.team__grid{grid-template-columns:1fr;gap:14px}
+  .cards,.steps-row,.hero__benefits,.agenda,.duo,.facts{grid-template-columns:1fr;gap:14px}
+  .duo+.duo{margin-top:48px}.duo--flip .duo__media{order:0}.duo__copy h3{font-size:30px}
+  .feed>*{flex-basis:calc(100% - 24px)}
+  .card,.step-card{min-height:0;padding:22px;border-radius:24px}
+  .slot{grid-template-columns:64px 1fr;gap:12px;padding:16px 0}
+  .compare{display:block;overflow-x:auto;font-size:15px}.compare th,.compare td{padding:12px 14px;white-space:nowrap}
   .fcard{min-height:0;padding:24px;border-radius:24px;gap:16px}
   .fcard h3{font-size:20px}
   .ocard{min-height:0;padding:24px;border-radius:24px}

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Съезд партнёров Яндекс Лавки ’26</title>
+<meta name="description" content="Демо-лендинг мероприятия из раскладок супер-шаблона: рыбный текст, только веб">
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="./kit.css">
+<!--
+  ДЕМО супер-шаблона: лендинг мероприятия на рыбе, собран из раскладок L01–L10 (kit/wireframes.html).
+  Каждая секция помечена комментарием с кодом раскладки и пресетом. Только веб; мобилка — следующим этапом.
+-->
+</head>
+<body>
+
+<!-- L00 · Шапка -->
+<header class="hdr" data-hdr>
+  <a class="brand" href="#top" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+  <nav class="hdr__nav" aria-label="Основная навигация"><a class="hdr__tg" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a><a class="button button--outline" href="#form">Зарегистрироваться</a></nav>
+  <a class="hdr__cta-m" href="#form">Регистрация</a>
+  <button class="hdr__burger" type="button" aria-label="Открыть меню" aria-expanded="false" data-burger><span></span><span></span></button>
+</header>
+<nav class="menu" data-menu aria-label="Меню">
+  <a href="#program">Программа</a>
+  <a href="#speakers">Спикеры</a>
+  <a href="#formats">Форматы участия</a>
+  <a href="#venue">Место и время</a>
+  <a class="button button--blue" href="#form">Зарегистрироваться</a>
+</nav>
+
+<main id="top">
+
+<!-- L01 · Баннер: по центру + плашки годов + ряд преимуществ -->
+<section class="hero section--dark" data-hero data-ambient data-ambient-gain="1.35">
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
+  <div class="hero__content">
+    <div class="years"><span class="year year--soon">2025</span><span class="year year--active">2026</span></div>
+    <h1 class="hero__title" aria-label="Съезд партнёров Яндекс Лавки 2026">
+      <span class="hero-row"><span class="hero-word" style="--i:0">Съезд</span> <span class="hero-word" style="--i:1">партнёров</span></span>
+      <span class="hero-row"><span class="hero-word" style="--i:2">Яндекс</span> <span class="hero-word" style="--i:3">Лавки&nbsp;<em>’26</em></span></span>
+    </h1>
+    <p class="hero__lead">Москва, 24–25&nbsp;сентября 2026 · кластер «Ломоносов». <br>Два дня о&nbsp;стратегии, операциях и&nbsp;росте сети</p>
+    <div class="hero__actions"><a class="button button--blue" href="#form">Зарегистрироваться</a><a class="text-link" href="#program">Смотреть программу&nbsp;&nbsp;→</a></div>
+    <div class="hero__benefits" style="--n:4">
+      <div class="benefit"><b>2</b>дня деловой программы и&nbsp;тимбилдинга</div>
+      <div class="benefit"><b>30</b>спикеров из&nbsp;Лавки и&nbsp;партнёрских сетей</div>
+      <div class="benefit"><b>12</b>воркшопов по&nbsp;операциям и&nbsp;маркетингу</div>
+      <div class="benefit"><b>300</b>партнёров из&nbsp;28&nbsp;городов</div>
+    </div>
+  </div>
+</section>
+
+<!-- L00 · Анонс-полоса -->
+<a class="ticker" href="#form" aria-label="Регистрация открыта — зарегистрироваться">
+  <div class="ticker__track">
+    <div class="ticker__group"><span class="ticker__item ticker__name">Регистрация открыта до&nbsp;10&nbsp;сентября</span><span class="ticker__item">24–25&nbsp;сентября, Москва</span><span class="ticker__item">Для действующих и&nbsp;будущих партнёров</span><span class="ticker__item ticker__live"><i></i>Осталось 120&nbsp;мест</span></div>
+    <div class="ticker__group" aria-hidden="true"><span class="ticker__item ticker__name">Регистрация открыта до&nbsp;10&nbsp;сентября</span><span class="ticker__item">24–25&nbsp;сентября, Москва</span><span class="ticker__item">Для действующих и&nbsp;будущих партнёров</span><span class="ticker__item ticker__live"><i></i>Осталось 120&nbsp;мест</span></div>
+  </div>
+  <span class="ticker__cta"><span class="button button--navy button--small">Участвовать</span></span>
+</a>
+
+<!-- L02 · Карточки ×3 · пресет «Цифры»: плашки со свечением с главного сайта -->
+<section class="stats" aria-label="Итоги года в цифрах">
+  <div class="stats__grid" style="--n:3">
+    <article class="stat-card glow-card reveal"><strong class="counter" data-count="28">28</strong><h3>городов, где работает Лавка</h3><p>Половина из&nbsp;них&nbsp;— по&nbsp;франшизе. На&nbsp;съезде соберутся команды всех городов</p></article>
+    <article class="stat-card glow-card reveal" style="--delay:.08s"><strong class="counter" data-count="10">10</strong><h3>городов открыто за&nbsp;2025&nbsp;год</h3><p>Рекорд сети: от&nbsp;Калининграда до&nbsp;Иркутска. Разберём, что сработало</p></article>
+    <article class="stat-card glow-card reveal" style="--delay:.16s"><strong class="counter" data-count="120" data-suffix="+">120+</strong><h3>дарксторов<br>у&nbsp;партнёров</h3><p>Операционные практики лучших&nbsp;— в&nbsp;воркшопах второго дня</p></article>
+  </div>
+</section>
+
+<!-- L05 · Панель во весь экран · пресет «Крупный текст» -->
+<section class="section statement">
+  <div class="container">
+    <p class="label reveal">О съезде</p>
+    <p data-statement>Раз в&nbsp;год мы собираем всех партнёров в&nbsp;одном месте, чтобы <em>сверить стратегию</em>, показать новые форматы сервиса и&nbsp;честно разобрать, что получилось, а&nbsp;что&nbsp;— нет. А&nbsp;ещё&nbsp;— провести два дня вместе и&nbsp;стать <em>сильнее как команда</em></p>
+  </div>
+</section>
+
+<!-- L02 · Карточки ×3 с медиа сверху · пресет «Треки» -->
+<section class="section section--light" id="tracks">
+  <div class="container">
+    <div class="section-head section-head--col reveal"><h2 class="section-title">Три трека съезда</h2><p class="section-lead">Выбирайте свой на&nbsp;второй день&nbsp;— или ходите между залами</p></div>
+    <div class="cards" style="--n:3">
+      <article class="card reveal"><div class="card__media"><img src="../events/assets/g5.webp" alt=""></div><span class="card__tag">Трек 01</span><h3>Стратегия и&nbsp;новые форматы</h3><p>Куда идёт сервис в&nbsp;2027: даркстор-кафе, «Есть Горячее», доставка за&nbsp;10&nbsp;минут в&nbsp;малых городах</p><div class="card__foot"><a class="text-link" href="#program">В&nbsp;программе&nbsp;&nbsp;→</a></div></article>
+      <article class="card reveal" style="--delay:.07s"><div class="card__media"><img src="../events/assets/g7.webp" alt=""></div><span class="card__tag">Трек 02</span><h3>Операции<br>и&nbsp;качество</h3><p>Сборка за&nbsp;90&nbsp;секунд, потери меньше процента, найм и&nbsp;удержание курьеров&nbsp;— на&nbsp;цифрах лучших дарксторов</p><div class="card__foot"><a class="text-link" href="#program">В&nbsp;программе&nbsp;&nbsp;→</a></div></article>
+      <article class="card reveal" style="--delay:.14s"><div class="card__media"><img src="../events/assets/g9.webp" alt=""></div><span class="card__tag">Трек 03</span><h3>Маркетинг<br>и&nbsp;рост города</h3><p>Как федеральные кампании работают локально, что делать партнёру самому и&nbsp;сколько это стоит</p><div class="card__foot"><a class="text-link" href="#program">В&nbsp;программе&nbsp;&nbsp;→</a></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- L06 · Список в две колонки по дням · пресет «Программа» -->
+<section class="section" id="program">
+  <div class="container">
+    <div class="section-head reveal"><h2 class="section-title">Программа</h2><a class="text-link" href="#">Скачать PDF&nbsp;&nbsp;→</a></div>
+    <div class="agenda" style="--n:2">
+      <div class="agenda__day reveal">
+        <span class="year year--active">24 сентября · четверг</span>
+        <div class="slot"><time>09:00</time><div><h4>Регистрация и&nbsp;кофе</h4><p>Бейджи, программа, знакомство с&nbsp;командами других городов</p></div></div>
+        <div class="slot"><time>10:00</time><div><h4>Стратегия Яндекс Лавки: что дальше</h4><p>Итоги года, новые форматы, планы на&nbsp;2027 и&nbsp;роль партнёров в&nbsp;них</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp2.webp" alt=""></span>Вадим Петров <small>· CEO Яндекс Лавки</small></div></div></div>
+        <div class="slot"><time>11:30</time><div><h4>Качество определяет прибыльность</h4><p>Где партнёры теряют деньги и&nbsp;как это видно в&nbsp;данных</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp4.webp" alt=""></span>Александр Катанов <small>· CFO</small></div></div></div>
+        <div class="slot slot--break"><time>13:00</time><div><h4>Обед</h4></div></div>
+        <div class="slot"><time>14:00</time><div><h4>Что мы знаем о&nbsp;пользователях</h4><p>Исследования 2026: кто заказывает, зачем и&nbsp;что мешает заказывать чаще</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp1.webp" alt=""></span>Анастасия Алонцева <small>· исследования</small></div></div></div>
+        <div class="slot"><time>16:00</time><div><h4>Панель партнёров: год спустя</h4><p>Пять городов, открытых в&nbsp;2025, рассказывают без&nbsp;прикрас</p></div></div>
+        <div class="slot slot--break"><time>19:00</time><div><h4>Ужин и&nbsp;неформальная часть</h4></div></div>
+      </div>
+      <div class="agenda__day reveal" style="--delay:.08s">
+        <span class="year year--active">25 сентября · пятница</span>
+        <div class="slot"><time>10:00</time><div><h4>Воркшопы по&nbsp;трекам</h4><p>Три зала параллельно: стратегия, операции, маркетинг. Переходить можно</p></div></div>
+        <div class="slot"><time>11:30</time><div><h4>Операционная модель даркстора</h4><p>Разбор смены по&nbsp;минутам: где узкие места и&nbsp;что дают новые стандарты</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp5.webp" alt=""></span>Мария Швиндт <small>· развитие франшизы</small></div></div></div>
+        <div class="slot slot--break"><time>13:00</time><div><h4>Обед</h4></div></div>
+        <div class="slot"><time>14:00</time><div><h4>Маркетинг города: чек-лист партнёра</h4><p>Что запускает Лавка, что&nbsp;— партнёр, и&nbsp;как считать эффект</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp10.webp" alt=""></span>Николай Бурдин <small>· маркетинг</small></div></div></div>
+        <div class="slot"><time>15:30</time><div><h4>Продукт и&nbsp;приложение: дорожная карта</h4><p>Что появится у&nbsp;клиентов и&nbsp;в&nbsp;WMS в&nbsp;ближайшие полгода</p><div class="slot__who"><span class="avatar"><img src="../events/assets/sp14.webp" alt=""></span>Никита Толстой <small>· CPO B2C</small></div></div></div>
+        <div class="slot"><time>17:00</time><div><h4>Тимбилдинг и&nbsp;закрытие</h4><p>Командная игра на&nbsp;свежем воздухе и&nbsp;общее фото</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- L03 · Лента с прокруткой · пресет «Спикеры» -->
+<section class="section section--light" id="speakers">
+  <div class="container" data-feed>
+    <div class="section-head reveal"><h2 class="section-title">Спикеры</h2><div class="ctrls"><button class="ctrl" type="button" data-prev aria-label="Назад"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button><button class="ctrl" type="button" data-next aria-label="Вперёд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button></div></div>
+    <div class="feed" data-track tabindex="0">
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp2.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div><h3>Стратегия Яндекс&nbsp;Лавки: что дальше</h3><p>24&nbsp;сентября, 10:00 · главный зал</p></article>
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp4.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div><h3>Качество определяет прибыльность</h3><p>24&nbsp;сентября, 11:30 · главный зал</p></article>
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp1.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Анастасия Алонцева</b><small>Руководитель группы исследований</small></div></div><h3>Что мы знаем о&nbsp;пользователях Лавки</h3><p>24&nbsp;сентября, 14:00 · главный зал</p></article>
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp5.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Мария Швиндт</b><small>Руководитель сектора развития франшизы</small></div></div><h3>Операционная модель даркстора</h3><p>25&nbsp;сентября, 11:30 · трек «Операции»</p></article>
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp10.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Николай Бурдин</b><small>Руководитель модулей «Есть Горячее»</small></div></div><h3>Маркетинг города: чек-лист партнёра</h3><p>25&nbsp;сентября, 14:00 · трек «Маркетинг»</p></article>
+      <article class="card"><div class="card__who"><span class="avatar avatar--lg"><img src="../events/assets/sp14.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></span><div><b>Никита Толстой</b><small>CPO B2C, Head of Product Design</small></div></div><h3>Продукт и&nbsp;приложение: дорожная карта</h3><p>25&nbsp;сентября, 15:30 · трек «Стратегия»</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- L04 · Сплит зигзагом ×2 · пресет «Что вас ждёт» -->
+<section class="section">
+  <div class="container">
+    <div class="section-head section-head--col reveal" style="margin-bottom:64px"><h2 class="section-title">Что вас ждёт</h2></div>
+    <div class="duo reveal">
+      <div class="duo__copy"><span class="label">Второй день</span><h3>Воркшопы, а&nbsp;не&nbsp;доклады</h3><p>Каждый трек&nbsp;— три часа работы в&nbsp;группах с&nbsp;экспертами Лавки. Уезжаете с&nbsp;планом для своего города, а&nbsp;не&nbsp;с&nbsp;презентацией.</p><ul class="duo__list"><li>Группы до&nbsp;12&nbsp;человек</li><li>Разбор ваших цифр, а&nbsp;не&nbsp;среднего по&nbsp;сети</li><li>Материалы и&nbsp;шаблоны остаются у&nbsp;вас</li></ul></div>
+      <div class="duo__media"><img src="../events/assets/g3.webp" alt=""></div>
+    </div>
+    <div class="duo duo--flip reveal">
+      <div class="duo__copy"><span class="label">Вечер первого дня</span><h3>Тимбилдинг и&nbsp;люди из&nbsp;28&nbsp;городов</h3><p>Главная ценность съезда&nbsp;— партнёры, которые уже прошли то, что вам предстоит. Ужин, командная игра и&nbsp;общее фото&nbsp;— обязательная часть программы.</p><a class="button button--navy" href="#form">Хочу участвовать</a></div>
+      <div class="duo__media"><img src="../events/assets/g11.webp" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- L07 · Шаги горизонтально ×4 + CTA · пресет «Как попасть» -->
+<section class="section section--dark" data-ambient data-ambient-gain=".5">
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--sec-left ambient-glow--medium"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--sec-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
+  <div class="container">
+    <div class="section-head section-head--col reveal"><h2 class="section-title">Как попасть на&nbsp;съезд</h2><p class="section-lead">Четыре шага, два из&nbsp;них&nbsp;— наши</p></div>
+    <div class="steps-row" style="--n:4">
+      <div class="step-card reveal"><b>01</b><h4>Заявка</h4><p>Форма внизу страницы: имя, компания, город. Две минуты</p></div>
+      <div class="step-card reveal" style="--delay:.06s"><b>02</b><h4>Подтверждение</h4><p>В&nbsp;течение двух рабочих дней пришлём письмо с&nbsp;деталями и&nbsp;программой</p></div>
+      <div class="step-card reveal" style="--delay:.12s"><b>03</b><h4>Билет и&nbsp;отель</h4><p>Бронируем отель рядом с&nbsp;площадкой по&nbsp;партнёрской цене, если нужно</p></div>
+      <div class="step-card step-card--cta reveal" style="--delay:.18s"><b>04</b><h4>Встречаемся 24&nbsp;сентября</h4><p>Регистрация с&nbsp;09:00, кофе уже готов</p><a class="button button--white button--small" href="#form">Оставить заявку</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- L09 · Таблица сравнения · пресет «Форматы участия» -->
+<section class="section" id="formats">
+  <div class="container">
+    <div class="section-head section-head--col reveal"><h2 class="section-title">Форматы участия</h2><p class="section-lead">Для партнёров сети участие бесплатное. Для тех, кто только выбирает франшизу,&nbsp;— три варианта</p></div>
+    <table class="compare reveal">
+      <thead><tr><th></th><th>Онлайн<small>трансляция первого дня</small></th><th class="is-on"><div class="chips"><span class="chip chip--blue">Рекомендуем</span></div>Офлайн<small>оба дня на&nbsp;площадке</small></th><th>Офлайн + воркшопы<small>оба дня и&nbsp;группа по&nbsp;треку</small></th></tr></thead>
+      <tbody>
+        <tr><td>Стоимость</td><td><b>0&nbsp;₽</b></td><td class="is-on"><b>15&nbsp;000&nbsp;₽</b></td><td><b>35&nbsp;000&nbsp;₽</b></td></tr>
+        <tr><td>Деловая программа</td><td>только 24&nbsp;сентября</td><td class="is-on">оба дня</td><td>оба дня</td></tr>
+        <tr><td>Записи докладов</td><td><span class="yes">✓</span></td><td class="is-on"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Ужин и&nbsp;тимбилдинг</td><td><span class="no">—</span></td><td class="is-on"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+        <tr><td>Воркшоп по&nbsp;треку</td><td><span class="no">—</span></td><td class="is-on"><span class="no">—</span></td><td><span class="yes">✓</span> группа до&nbsp;12</td></tr>
+        <tr><td>Встреча с&nbsp;куратором франшизы</td><td><span class="no">—</span></td><td class="is-on">30&nbsp;минут</td><td>60&nbsp;минут</td></tr>
+      </tbody>
+      <tfoot><tr><td></td><td><a class="button button--outline-navy" href="#form">Смотреть онлайн</a></td><td class="is-on"><a class="button button--blue" href="#form">Зарегистрироваться</a></td><td><a class="button button--outline-navy" href="#form">Выбрать</a></td></tr></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- L04 · Сплит с картой · пресет «Место и время» -->
+<section class="section section--light" id="venue">
+  <div class="container">
+    <div class="duo reveal">
+      <div class="duo__copy"><span class="label">Место и&nbsp;время</span><h3>Кластер «Ломоносов», Москва</h3><p>Раменский бульвар, 1. Десять минут от&nbsp;метро «Ломоносовский проспект», парковка на&nbsp;территории.</p>
+        <dl class="facts"><div><dt>Даты</dt><dd>24–25 сентября 2026</dd></div><div><dt>Начало</dt><dd>09:00, регистрация</dd></div><div><dt>Отель</dt><dd>«Университетский», 5&nbsp;минут пешком</dd></div><div><dt>Трансфер</dt><dd>от&nbsp;аэропортов по&nbsp;запросу</dd></div></dl>
+        <a class="text-link" href="#">Как добраться&nbsp;&nbsp;→</a></div>
+      <div class="duo__media ph ph--light" data-label="Карта: кластер «Ломоносов», Раменский бульвар, 1"></div>
+    </div>
+  </div>
+</section>
+
+<!-- L02 · Галерея (мозаика) · пресет «Как было» -->
+<section class="section">
+  <div class="container container--wide">
+    <div class="section-head reveal"><h2 class="section-title">Как было в&nbsp;’25</h2><a class="text-link" href="#">Все фото&nbsp;&nbsp;→</a></div>
+    <div class="gallery">
+      <div class="gcell gcell--wide reveal reveal--scale"><img src="../events/assets/g2.webp" alt=""></div>
+      <div class="gcell gcell--tall reveal reveal--scale"><img src="../events/assets/v7.webp" alt=""></div>
+      <div class="gcell gcell--tall reveal reveal--scale" style="--delay:.08s"><img src="../events/assets/v1.webp" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- L03 · Лента · пресет «Отзывы» -->
+<section class="section section--light">
+  <div class="container" data-feed>
+    <div class="section-head reveal"><h2 class="section-title">Партнёры о&nbsp;съезде</h2><div class="ctrls"><button class="ctrl" type="button" data-prev aria-label="Назад"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l-6 6 6 6"/></svg></button><button class="ctrl" type="button" data-next aria-label="Вперёд"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4l6 6-6 6"/></svg></button></div></div>
+    <div class="feed" data-track tabindex="0">
+      <article class="rcard"><div class="avatar">ИС</div><h3>Игорь Соколов</h3><small>Казань, 4&nbsp;даркстора</small><p>«В&nbsp;прошлом году уехал с&nbsp;двумя решениями по&nbsp;найму&nbsp;— оба сработали. Приеду за&nbsp;следующими»</p></article>
+      <article class="rcard"><div class="avatar">АМ</div><h3>Анна Морозова</h3><small>Тюмень, 6&nbsp;дарксторов</small><p>«Самое ценное&nbsp;— поговорить с&nbsp;теми, кто открывался на&nbsp;год раньше. Такого не&nbsp;найти ни&nbsp;в&nbsp;одном чате»</p></article>
+      <article class="rcard"><div class="avatar"><img src="../events/assets/sp12.webp" alt="" style="transform:scale(1.3);transform-origin:50% 24%"></div><h3>Дмитрий Орлов</h3><small>Челябинск, 5&nbsp;дарксторов</small><p>«Воркшоп по&nbsp;операциям окупился за&nbsp;месяц: пересобрали смену и&nbsp;сняли час простоя»</p></article>
+      <article class="rcard"><div class="avatar">РЛ</div><h3>Роман Лебедев</h3><small>Пермь, 3&nbsp;даркстора</small><p>«Честный разговор про цифры без&nbsp;презентаций&nbsp;— так должен выглядеть каждый съезд»</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- L08 · Аккордеон · пресет «Вопросы» -->
+<section class="section faq" id="faq">
+  <div class="container">
+    <h2 class="section-title reveal" style="margin-bottom:56px">Вопросы и&nbsp;ответы</h2>
+    <div class="accordion" data-accordion>
+      <article><button type="button" aria-expanded="false"><span>Кто может участвовать?</span><i>+</i></button><div><p>Действующие партнёры сети&nbsp;— бесплатно, до&nbsp;трёх человек от&nbsp;города. Предприниматели, которые рассматривают франшизу,&nbsp;— в&nbsp;одном из&nbsp;платных форматов.</p></div></article>
+      <article><button type="button" aria-expanded="false"><span>Будет ли трансляция?</span><i>+</i></button><div><p>Да, первый день транслируем целиком. Записи докладов пришлём всем зарегистрированным в&nbsp;течение недели.</p></div></article>
+      <article><button type="button" aria-expanded="false"><span>Как выбрать трек воркшопов?</span><i>+</i></button><div><p>При регистрации укажите приоритетный трек. Переходить между залами можно, но&nbsp;место в&nbsp;группе гарантируем только по&nbsp;выбранному.</p></div></article>
+      <article><button type="button" aria-expanded="false"><span>Помогаете с&nbsp;проживанием?</span><i>+</i></button><div><p>Бронируем отель «Университетский» по&nbsp;партнёрской цене&nbsp;— отметьте это в&nbsp;заявке, куратор пришлёт ссылку.</p></div></article>
+      <article><button type="button" aria-expanded="false"><span>Можно ли отменить участие?</span><i>+</i></button><div><p>До&nbsp;10&nbsp;сентября&nbsp;— полный возврат, позже&nbsp;— передача места коллеге из&nbsp;вашей компании.</p></div></article>
+    </div>
+    <div class="cta-strip"><span>Не&nbsp;нашли ответ? Спросите куратора в&nbsp;Telegram-канале партнёров</span><a class="button button--navy button--small" href="#">Перейти в&nbsp;Telegram</a></div>
+  </div>
+</section>
+
+<!-- L10 · Форма длинная · пресет «Регистрация» -->
+<section class="section section--dark" id="form" data-ambient>
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--form-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--form-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--form-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
+  <div class="container lead__layout">
+    <div class="lead__copy reveal">
+      <h2>Увидимся<br>на&nbsp;съезде&nbsp;’26</h2>
+      <p>Оставьте заявку&nbsp;— подтвердим участие <br>и&nbsp;пришлём программу с&nbsp;деталями</p>
+      <ul><li><strong>24–25 сентября, Москва</strong><span>Кластер «Ломоносов», регистрация с&nbsp;09:00</span></li><li><strong>Для партнёров сети&nbsp;— бесплатно</strong><span>До&nbsp;трёх человек от&nbsp;города</span></li><li><strong>Осталось 120&nbsp;мест</strong><span>Регистрация закрывается 10&nbsp;сентября</span></li></ul>
+    </div>
+    <form class="form-card reveal" data-form novalidate>
+      <h3>Заявка на&nbsp;участие</h3>
+      <label class="field"><span>Имя и&nbsp;фамилия</span><input name="name" autocomplete="name" placeholder="Как к вам обращаться" required></label>
+      <label class="field"><span>Компания и&nbsp;город</span><input name="company" autocomplete="organization" placeholder="ООО «Ромашка», Казань" required></label>
+      <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+      <label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+      <label class="consent"><input type="checkbox" required><span>Даю согласие на&nbsp;обработку персональных данных на&nbsp;условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политики конфиденциальности</a></span></label>
+      <div class="form-submit"><button class="button button--blue" type="submit">Зарегистрироваться</button><span>Подтвердим в&nbsp;течение<br>2&nbsp;рабочих дней</span></div>
+      <p class="form-status" data-status aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- L11 · Футер -->
+<footer class="footer section--dark">
+  <div class="container">
+    <div class="footer__top"><a class="brand brand--footer" href="#top" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../site/assets/figma/logo-footer.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-footer-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-footer-word-2.svg" alt=""></a><nav><a href="#program">Программа</a><a href="#speakers">Спикеры</a><a href="#formats">Форматы участия</a><a href="#faq">Вопросы и&nbsp;ответы</a></nav><a class="telegram-button" href="https://t.me/yandex_lavka_franchise" target="_blank" rel="noreferrer"><img src="../site/assets/figma/telegram-plane.svg" alt="">Telegram</a></div>
+    <div class="footer__legal"><div><p>ООО «Яндекс.Лавка», 123112, Москва, 1-й Красногвардейский проезд, д.&nbsp;22, стр.&nbsp;1</p><p>Программа может меняться. Информация на&nbsp;сайте не&nbsp;является публичной офертой</p></div><div><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div></div>
+  </div>
+</footer>
+
+<script src="./kit.js"></script>
+</body>
+</html>
