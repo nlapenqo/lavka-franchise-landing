@@ -1941,11 +1941,11 @@ body[data-fitting] .kit-prop--right,body[data-fitting] .kit-props__code{display:
   };
   const kitScript = () => {
     const ext = $$('script[src]').find(s => /kit\.js(\?|$)/.test(s.getAttribute('src')));
-    if (ext) return `<script src="${new URL(ext.getAttribute('src'), location.href)}"></script>`;
+    if (ext) return `<script src="${new URL(ext.getAttribute('src'), location.href)}"><\/script>`;
     const inl = $('script[data-kit="kit.js"]');
     return inl ? inl.outerHTML : '';
   };
-  const previewDoc = block => `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href.split('#')[0]}">${headAssets()}<style>html,body{overflow-x:hidden}</style></head><body class="is-solo"><div class="kit-block kit-block--solo is-target${block._kit.scheme ? ' is-scheme' : ''}" data-block="${block.dataset.block}"><div class="kit-body">${exportHTML(block, 'preview')}</div></div>${kitScript()}<script>(()=>{const send=()=>parent.postMessage({kit:'h',id:${JSON.stringify(block.dataset.block)},h:document.documentElement.scrollHeight},'*');new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,700);})();</script></body></html>`;
+  const previewDoc = block => `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href.split('#')[0]}">${headAssets()}<style>html,body{overflow-x:hidden}</style></head><body class="is-solo"><div class="kit-block kit-block--solo is-target${block._kit.scheme ? ' is-scheme' : ''}" data-block="${block.dataset.block}"><div class="kit-body">${exportHTML(block, 'preview')}</div></div>${kitScript()}<script>(()=>{const send=()=>parent.postMessage({kit:'h',id:${JSON.stringify(block.dataset.block)},h:document.documentElement.scrollHeight},'*');new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,700);})();<\/script></body></html>`;
 
   const previewTimers = new WeakMap();
   const buildPreview = block => {
@@ -1980,7 +1980,115 @@ body[data-fitting] .kit-prop--right,body[data-fitting] .kit-props__code{display:
     if (hdr) parts.push(hdr);
     parts.push('<main id="top">', main.join('\n\n'), '</main>');
     if (footer) parts.push(footer);
-    parts.push('<script data-kit="kit.js">
+    parts.push('<script src="./kit.js"><\/script>', '</body>', '</html>');
+    return parts.join('\n');
+  };
+
+  const renderBuilderRows = () => {
+    if (!builder) return;
+    const list = $('[data-builder-list]', builder);
+    if (!list.children.length) {
+      blocks.forEach(block => {
+        const row = document.createElement('label'); row.className = 'kit-brow'; row.dataset.code = block.dataset.block;
+        row.innerHTML = `<input type="checkbox" checked><b>${block.dataset.block}</b><span class="kit-brow__name">${$('.kit-label__name', block)?.textContent || ''}</span><span class="kit-brow__sum" data-sum></span><a class="kit-brow__go" href="#${block.id}">к блоку ↑</a>`;
+        $('input', row).addEventListener('change', renderBuilderRows);
+        list.appendChild(row);
+      });
+    }
+    let n = 0;
+    $$('.kit-brow', list).forEach(row => {
+      const block = byCode.get(row.dataset.code), on = $('input', row).checked;
+      row.classList.toggle('is-off', !on); if (on) n++;
+      $('[data-sum]', row).textContent = summary(block);
+    });
+    const count = $('[data-builder-count]', builder); if (count) count.textContent = `${n} из ${blocks.length}`;
+  };
+  if (builder) {
+    renderBuilderRows();
+    $$('[data-recipe]', builder).forEach(btn => btn.addEventListener('click', () => {
+      const r = RECIPES[btn.dataset.recipe];
+      const want = new Map();
+      if (r) r.blocks.forEach(s => { const [code, v] = s.split(':'); want.set(code, v); });
+      $$('.kit-brow', builder).forEach(row => {
+        const code = row.dataset.code, on = btn.dataset.recipe === 'all' ? true : btn.dataset.recipe === 'none' ? false : want.has(code);
+        $('input', row).checked = on;
+        if (on && want.get(code)) { const b = byCode.get(code); if (b._kit.variant !== want.get(code)) { b._kit.variant = want.get(code); update(b); } }
+      });
+      $$('[data-recipe]', builder).forEach(b => b.classList.toggle('is-on', b === btn));
+      renderBuilderRows();
+    }));
+    $$('[data-builder-copy]', builder).forEach(btn => btn.addEventListener('click', async () => {
+      const selected = $$('.kit-brow', builder).filter(r => $('input', r).checked).map(r => byCode.get(r.dataset.code));
+      try { await navigator.clipboard.writeText(pageHTML(selected)); flash(btn, `Скопировано · ${selected.length} бл.`); } catch { flash(btn, 'Не удалось'); }
+    }));
+  }
+
+  /* «Примерка»: карточки медиа-слотов */
+  $$('[data-slots]').forEach(box => {
+    box.innerHTML = SLOTS.map((s, i) => {
+      const ratio = s.w / s.h, wide = ratio > 1.4, square = Math.abs(ratio - 1) < .05;
+      return `<article class="kit-slot${square ? ' kit-slot--sq' : ''}">
+        <div class="kit-slot__ph" style="aspect-ratio:${s.w}/${s.h}${wide ? '' : ';max-width:' + Math.round(220 * ratio) + 'px'}"><b>${s.code.split('_')[0]}</b><span>${s.w} × ${s.h}</span></div>
+        <h4><i>${i + 1}.</i> ${s.code}</h4>
+        <p class="kit-slot__where">${s.where}${s.m ? ` · телефон ${s.m}` : ''} · выгружать в&nbsp;2x</p>
+        <p class="kit-slot__note">${s.note}</p>
+      </article>`;
+    }).join('');
+  });
+
+  /* ============================================================
+     4 · Инициализация блоков: паспорт, копирование, превью
+     ============================================================ */
+  const solo = new URLSearchParams(location.search);
+  const soloCode = solo.get('block');
+
+  blocks.forEach(block => {
+    const label = $('.kit-label', block);
+    const panel = document.createElement('div'); panel.className = 'kit-props'; block._panel = panel;
+    label.after(panel);
+    /* превью 390 */
+    const body = $(':scope > .kit-body', block);
+    const pv = document.createElement('div'); pv.className = 'kit-preview';
+    pv.innerHTML = '<div class="kit-preview__device"><iframe title="Превью блока на телефоне 390" loading="lazy"></iframe></div><span class="kit-preview__note">Телефон · 390 · тот же блок в том же состоянии</span>';
+    block._iframe = $('iframe', pv);
+    body.after(pv);
+    /* копировать HTML текущего состояния */
+    $$('[data-copy]', block).forEach(btn => btn.addEventListener('click', async () => {
+      const html = exportHTML(block);
+      try { await navigator.clipboard.writeText(html); flash(btn, 'Скопировано'); } catch { flash(btn, 'Не удалось'); }
+    }));
+    update(block);
+  });
+
+  if ('IntersectionObserver' in window && !soloCode) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const b = e.target.closest('.kit-block'); b._previewNear = true; buildPreview(b); io.unobserve(e.target); } }), { rootMargin: '600px 0px' });
+    blocks.forEach(b => io.observe($('.kit-preview', b)));
+  }
+
+  /* режим одного блока без хрома: index.html?block=LB06&variant=B&theme=dark&cards=4&off=lead,head&scheme=1 */
+  if (soloCode && byCode.has(soloCode)) {
+    const block = byCode.get(soloCode), st = block._kit;
+    if (solo.get('variant')) st.variant = solo.get('variant');
+    if (solo.get('theme')) st.theme = solo.get('theme');
+    if (solo.get('cards')) st.cards = Number(solo.get('cards'));
+    if (solo.get('off')) st.off = new Set(solo.get('off').split(',').filter(Boolean));
+    st.scheme = solo.get('scheme') === '1'; st.phone = false;
+    document.body.classList.add('is-solo'); block.classList.add('is-target');
+    update(block);
+  }
+
+
+  /* примерка: паспорта прямо в списке блоков */
+  if ('fitting' in document.body.dataset && builder) {
+    $$('.kit-brow', builder).forEach(row => { const b = byCode.get(row.dataset.code); if (b?._panel) row.after(b._panel); });
+  }
+  $('[data-recipe].is-on', builder || document)?.click();
+
+  window.KIT = { blocks, exportHTML, pageHTML, SLOTS, RECIPES, update };
+})();
+
+</script>
+<script data-kit="kit.js">
 /* ============================================================
    ДИЗАЙН-СИСТЕМА ЛЕНДИНГОВ ЯНДЕКС ЛАВКИ · kit.js
    Вся интерактивность блоков. Каждый модуль включается по data-атрибуту,
@@ -2201,114 +2309,6 @@ body[data-fitting] .kit-prop--right,body[data-fitting] .kit-props__code{display:
   /* «скопировать HTML» и остальная механика страницы кита живут в kit-chrome.js — в лендинг не копируются */
 })();
 
-</script>', '</body>', '</html>');
-    return parts.join('\n');
-  };
-
-  const renderBuilderRows = () => {
-    if (!builder) return;
-    const list = $('[data-builder-list]', builder);
-    if (!list.children.length) {
-      blocks.forEach(block => {
-        const row = document.createElement('label'); row.className = 'kit-brow'; row.dataset.code = block.dataset.block;
-        row.innerHTML = `<input type="checkbox" checked><b>${block.dataset.block}</b><span class="kit-brow__name">${$('.kit-label__name', block)?.textContent || ''}</span><span class="kit-brow__sum" data-sum></span><a class="kit-brow__go" href="#${block.id}">к блоку ↑</a>`;
-        $('input', row).addEventListener('change', renderBuilderRows);
-        list.appendChild(row);
-      });
-    }
-    let n = 0;
-    $$('.kit-brow', list).forEach(row => {
-      const block = byCode.get(row.dataset.code), on = $('input', row).checked;
-      row.classList.toggle('is-off', !on); if (on) n++;
-      $('[data-sum]', row).textContent = summary(block);
-    });
-    const count = $('[data-builder-count]', builder); if (count) count.textContent = `${n} из ${blocks.length}`;
-  };
-  if (builder) {
-    renderBuilderRows();
-    $$('[data-recipe]', builder).forEach(btn => btn.addEventListener('click', () => {
-      const r = RECIPES[btn.dataset.recipe];
-      const want = new Map();
-      if (r) r.blocks.forEach(s => { const [code, v] = s.split(':'); want.set(code, v); });
-      $$('.kit-brow', builder).forEach(row => {
-        const code = row.dataset.code, on = btn.dataset.recipe === 'all' ? true : btn.dataset.recipe === 'none' ? false : want.has(code);
-        $('input', row).checked = on;
-        if (on && want.get(code)) { const b = byCode.get(code); if (b._kit.variant !== want.get(code)) { b._kit.variant = want.get(code); update(b); } }
-      });
-      $$('[data-recipe]', builder).forEach(b => b.classList.toggle('is-on', b === btn));
-      renderBuilderRows();
-    }));
-    $$('[data-builder-copy]', builder).forEach(btn => btn.addEventListener('click', async () => {
-      const selected = $$('.kit-brow', builder).filter(r => $('input', r).checked).map(r => byCode.get(r.dataset.code));
-      try { await navigator.clipboard.writeText(pageHTML(selected)); flash(btn, `Скопировано · ${selected.length} бл.`); } catch { flash(btn, 'Не удалось'); }
-    }));
-  }
-
-  /* «Примерка»: карточки медиа-слотов */
-  $$('[data-slots]').forEach(box => {
-    box.innerHTML = SLOTS.map((s, i) => {
-      const ratio = s.w / s.h, wide = ratio > 1.4, square = Math.abs(ratio - 1) < .05;
-      return `<article class="kit-slot${square ? ' kit-slot--sq' : ''}">
-        <div class="kit-slot__ph" style="aspect-ratio:${s.w}/${s.h}${wide ? '' : ';max-width:' + Math.round(220 * ratio) + 'px'}"><b>${s.code.split('_')[0]}</b><span>${s.w} × ${s.h}</span></div>
-        <h4><i>${i + 1}.</i> ${s.code}</h4>
-        <p class="kit-slot__where">${s.where}${s.m ? ` · телефон ${s.m}` : ''} · выгружать в&nbsp;2x</p>
-        <p class="kit-slot__note">${s.note}</p>
-      </article>`;
-    }).join('');
-  });
-
-  /* ============================================================
-     4 · Инициализация блоков: паспорт, копирование, превью
-     ============================================================ */
-  const solo = new URLSearchParams(location.search);
-  const soloCode = solo.get('block');
-
-  blocks.forEach(block => {
-    const label = $('.kit-label', block);
-    const panel = document.createElement('div'); panel.className = 'kit-props'; block._panel = panel;
-    label.after(panel);
-    /* превью 390 */
-    const body = $(':scope > .kit-body', block);
-    const pv = document.createElement('div'); pv.className = 'kit-preview';
-    pv.innerHTML = '<div class="kit-preview__device"><iframe title="Превью блока на телефоне 390" loading="lazy"></iframe></div><span class="kit-preview__note">Телефон · 390 · тот же блок в том же состоянии</span>';
-    block._iframe = $('iframe', pv);
-    body.after(pv);
-    /* копировать HTML текущего состояния */
-    $$('[data-copy]', block).forEach(btn => btn.addEventListener('click', async () => {
-      const html = exportHTML(block);
-      try { await navigator.clipboard.writeText(html); flash(btn, 'Скопировано'); } catch { flash(btn, 'Не удалось'); }
-    }));
-    update(block);
-  });
-
-  if ('IntersectionObserver' in window && !soloCode) {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const b = e.target.closest('.kit-block'); b._previewNear = true; buildPreview(b); io.unobserve(e.target); } }), { rootMargin: '600px 0px' });
-    blocks.forEach(b => io.observe($('.kit-preview', b)));
-  }
-
-  /* режим одного блока без хрома: index.html?block=LB06&variant=B&theme=dark&cards=4&off=lead,head&scheme=1 */
-  if (soloCode && byCode.has(soloCode)) {
-    const block = byCode.get(soloCode), st = block._kit;
-    if (solo.get('variant')) st.variant = solo.get('variant');
-    if (solo.get('theme')) st.theme = solo.get('theme');
-    if (solo.get('cards')) st.cards = Number(solo.get('cards'));
-    if (solo.get('off')) st.off = new Set(solo.get('off').split(',').filter(Boolean));
-    st.scheme = solo.get('scheme') === '1'; st.phone = false;
-    document.body.classList.add('is-solo'); block.classList.add('is-target');
-    update(block);
-  }
-
-
-  /* примерка: паспорта прямо в списке блоков */
-  if ('fitting' in document.body.dataset && builder) {
-    $$('.kit-brow', builder).forEach(row => { const b = byCode.get(row.dataset.code); if (b?._panel) row.after(b._panel); });
-  }
-  $('[data-recipe].is-on', builder || document)?.click();
-
-  window.KIT = { blocks, exportHTML, pageHTML, SLOTS, RECIPES, update };
-})();
-
 </script>
-<script src="./kit.js"></script>
 </body>
 </html>

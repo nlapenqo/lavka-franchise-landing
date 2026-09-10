@@ -234,11 +234,11 @@
   };
   const kitScript = () => {
     const ext = $$('script[src]').find(s => /kit\.js(\?|$)/.test(s.getAttribute('src')));
-    if (ext) return `<script src="${new URL(ext.getAttribute('src'), location.href)}"></script>`;
+    if (ext) return `<script src="${new URL(ext.getAttribute('src'), location.href)}"><\/script>`;
     const inl = $('script[data-kit="kit.js"]');
     return inl ? inl.outerHTML : '';
   };
-  const previewDoc = block => `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href.split('#')[0]}">${headAssets()}<style>html,body{overflow-x:hidden}</style></head><body class="is-solo"><div class="kit-block kit-block--solo is-target${block._kit.scheme ? ' is-scheme' : ''}" data-block="${block.dataset.block}"><div class="kit-body">${exportHTML(block, 'preview')}</div></div>${kitScript()}<script>(()=>{const send=()=>parent.postMessage({kit:'h',id:${JSON.stringify(block.dataset.block)},h:document.documentElement.scrollHeight},'*');new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,700);})();</script></body></html>`;
+  const previewDoc = block => `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><base href="${location.href.split('#')[0]}">${headAssets()}<style>html,body{overflow-x:hidden}</style></head><body class="is-solo"><div class="kit-block kit-block--solo is-target${block._kit.scheme ? ' is-scheme' : ''}" data-block="${block.dataset.block}"><div class="kit-body">${exportHTML(block, 'preview')}</div></div>${kitScript()}<script>(()=>{const send=()=>parent.postMessage({kit:'h',id:${JSON.stringify(block.dataset.block)},h:document.documentElement.scrollHeight},'*');new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,700);})();<\/script></body></html>`;
 
   const previewTimers = new WeakMap();
   const buildPreview = block => {
@@ -273,7 +273,7 @@
     if (hdr) parts.push(hdr);
     parts.push('<main id="top">', main.join('\n\n'), '</main>');
     if (footer) parts.push(footer);
-    parts.push('<script src="./kit.js"></script>', '</body>', '</html>');
+    parts.push('<script src="./kit.js"><\/script>', '</body>', '</html>');
     return parts.join('\n');
   };
 
