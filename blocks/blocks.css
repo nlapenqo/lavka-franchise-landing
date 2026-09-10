@@ -309,6 +309,18 @@
 .form-strip .field input{height:52px}
 .form-strip__note{grid-column:2 / -1;font-size:var(--fs-caption);color:var(--text-secondary)}
 
+/* 08 · ПЛАШКИ-СЛОТЫ (как PureCard у Альфы): заголовок в одну строку, текст, кнопка опционально; сама плашка — место под кадр или картинку */
+.tile{display:flex;flex-direction:column;gap:var(--space-1);min-height:280px;padding:var(--space-5);border-radius:var(--radius-xl);background:var(--surface-tint);background-image:repeating-linear-gradient(-45deg,transparent 0 12px,var(--blue-12) 12px 14px)}
+.tile .t-h4{margin:0}
+.tile p{max-width:420px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
+.tile .button{margin-top:auto;align-self:flex-start}
+.tile--s{min-height:192px}
+.tile--wide{grid-column:1 / -1;min-height:256px}
+.tiles+.tiles,.tiles+.tile,.tile+.tiles{margin-top:var(--space-7)}
+.tiles__title{margin-bottom:var(--space-4)}
+.feed--bleed{width:calc(100% + (100vw - 100%) / 2 - 8px)}
+.feed--bleed>*{flex:0 0 372px}
+
 /* ТЕЛЕФОН — базовое схлопывание; пиксельная мобилка отдельным этапом */
 @media (max-width:1100px){
   .feature{--gap:32px;height:540px;padding:40px}
@@ -338,7 +350,7 @@
   .feature__copy{height:auto;order:2}
   .feature .media{height:220px;order:1;border-radius:var(--radius-s)}
   .feature__controls{position:static;margin-top:var(--space-3);justify-content:flex-end}
-  .feed>*{flex-basis:calc(100% - 24px)}
+  .feed>*{flex-basis:calc(100% - 24px)}.feed--bleed{width:100%}.feed--bleed>*{flex-basis:calc(100% - 24px)}.tile--wide{grid-column:auto}
   .card,.step,.review,.plate,.form-card,.number{min-height:0;padding:var(--space-4);border-radius:var(--radius-l)}
   .plate--row{flex-direction:column;align-items:flex-start;gap:var(--space-3)}
   .plate--center{padding:48px 24px}
