@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Каркасы супер-шаблона</title>
+<meta name="description" content="Раскладки со слотами и контентные пресеты для кита лендингов Лавки — эскизы для обсуждения">
+<style>
+@font-face{font-family:'YS Geo';src:url('../site/fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../site/fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'YS Geo';src:url('../site/fonts/YS Geo-Black.woff2') format('woff2');font-weight:900;font-display:swap}
+:root{--navy:#1b3a6a;--blue:#00adff;--sky:#aad9fc;--card:#eaf3fc;--light:#f2f7fc;--line:#d7e6f5;--dim:#5a749b;--mid:#3e88c5;--live:#ff6d2f;--ink:#c9d8ea;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--light);color:var(--navy);font:16px/1.4 'YS Geo',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+.wrap{width:min(1164px,calc(100% - 48px));margin:0 auto}
+.cover{background:var(--navy);color:#fff;padding:88px 0 64px}
+.tag{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#a7bee0;margin-bottom:28px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.cover h1{font-size:84px;font-weight:900;line-height:.9;letter-spacing:-.01em;max-width:900px;text-wrap:balance}
+.cover h1 em{font-style:normal;color:var(--blue)}
+.cover p{margin-top:28px;max-width:720px;font-size:21px;font-weight:500;line-height:1.2;color:#c0d2ec}
+.formula{margin-top:48px;display:flex;align-items:stretch;gap:14px;flex-wrap:wrap}
+.formula>div{flex:1;min-width:220px;padding:22px 24px;border-radius:20px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(167,190,224,.25)}
+.formula b{display:block;font-size:20px;font-weight:900;margin-bottom:8px}
+.formula span{font-size:14px;color:#c0d2ec;line-height:1.4}
+.formula .op{flex:none;min-width:0;display:grid;place-items:center;padding:0 4px;background:none;box-shadow:none;font-size:32px;font-weight:900;color:var(--blue)}
+section{padding:72px 0}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:36px}
+.sec-head .n{flex:none;display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:var(--blue);color:#fff;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.sec-head h2{font-size:44px;font-weight:900;line-height:.95;letter-spacing:-.01em}
+.sec-head p{margin-left:auto;max-width:480px;font-size:15px;color:var(--dim);text-align:right}
+/* карточка раскладки */
+.lay{display:grid;grid-template-columns:300px minmax(0,1fr);gap:32px;padding:28px 0 32px;border-top:1px solid var(--line)}
+.lay:last-child{border-bottom:1px solid var(--line)}
+.lay__code{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--mid)}
+.lay h3{font-size:26px;font-weight:900;line-height:1;margin:6px 0 10px}
+.lay__what{font-size:15px;line-height:1.4;color:var(--dim)}
+.lay dl{margin:16px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;line-height:1.35}
+.lay dt{color:var(--dim)}
+.lay dd{margin:0}
+.st{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:500;border:1px solid var(--line);background:#fff}
+.st i{width:7px;height:7px;border-radius:50%}
+.st--ok i{background:var(--blue)}
+.st--part i{background:var(--sky)}
+.st--new i{background:var(--live)}
+.lay__alfa{margin-top:10px;font-size:12px;color:var(--mid)}
+/* эскизы */
+.sk{display:flex;gap:16px;align-items:flex-start}
+.sk>div{position:relative}
+.sk .cap{position:absolute;left:0;top:-18px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dim)}
+.wf{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:9px}
+.wf--d{flex:1;min-width:0}
+.wf--m{width:150px;flex:none;padding:10px;gap:7px}
+.wf--dark{background:var(--navy);border-color:var(--navy)}
+.l{height:5px;border-radius:3px;background:var(--ink);width:100%}
+.l.h{height:9px;background:var(--navy)}
+.l.h2{height:7px;background:var(--navy)}
+.l.blue{background:var(--blue)}
+.wf--dark .l{background:rgba(255,255,255,.3)}
+.wf--dark .l.h,.wf--dark .l.h2{background:#fff}
+.w20{width:20%}.w30{width:30%}.w40{width:40%}.w50{width:50%}.w60{width:60%}.w70{width:70%}.w80{width:80%}
+.ph{background:repeating-linear-gradient(-45deg,var(--card) 0 6px,var(--sky) 6px 8px);border-radius:7px;flex:none}
+.wf--dark .ph{background:repeating-linear-gradient(-45deg,rgba(255,255,255,.06) 0 6px,rgba(255,255,255,.18) 6px 8px)}
+.btn{height:14px;width:48px;border-radius:999px;background:var(--blue);flex:none}
+.btn.ghost{background:none;border:1.5px solid var(--sky)}
+.wf--dark .btn.ghost{border-color:rgba(255,255,255,.5)}
+.row{display:flex;gap:8px;align-items:flex-start}
+.row.c{align-items:center}
+.row.sb{justify-content:space-between}
+.col{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0}
+.cell{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:9px;display:flex;flex-direction:column;gap:6px;background:#fff}
+.cell.dark{background:var(--navy);border-color:var(--navy)}
+.cell.dark .l{background:rgba(255,255,255,.3)}.cell.dark .l.h{background:#fff}
+.cell.dark .num{color:var(--blue)}
+.cell.blue{background:var(--blue);border-color:var(--blue)}
+.cell.blue .l{background:rgba(255,255,255,.5)}.cell.blue .l.h{background:#fff}
+.num{font-size:20px;font-weight:900;line-height:.9;color:var(--navy);letter-spacing:-.01em}
+.num.s{font-size:14px}
+.av{width:22px;height:22px;border-radius:50%;background:var(--sky);flex:none}
+.ic{width:16px;height:16px;border-radius:5px;background:var(--sky);flex:none}
+.arrows{display:flex;gap:4px;margin-left:auto}
+.arrows i{width:12px;height:12px;border-radius:50%;background:var(--card)}
+.dots{display:flex;gap:3px;justify-content:center}
+.dots i{width:4px;height:4px;border-radius:50%;background:var(--sky)}
+.dots i:first-child{background:var(--blue)}
+.tl{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start}
+.tl .t{font-family:var(--mono);font-size:8px;color:var(--mid);padding-top:1px}
+.hr{height:1px;background:var(--line)}
+.plus{width:10px;height:10px;border-radius:50%;background:var(--card);flex:none}
+.step{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;padding:8px;border-radius:8px;background:var(--card)}
+.step.on{background:var(--blue)}.step.on .l{background:rgba(255,255,255,.55)}.step.on .num{color:#fff}
+.tbl{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.tbl>i{background:#fff;padding:6px;display:flex;align-items:center;min-height:18px}
+.tbl>i.h{background:var(--card)}
+.tbl>i.on{background:#eaf7ff}
+.tbl .l{width:60%}
+.fld{height:14px;border-radius:5px;background:var(--light);border:1px solid var(--line)}
+.wf--dark .fld{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25)}
+.strip{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:7px;background:var(--sky)}
+.strip .l{background:rgba(27,58,106,.35)}
+.pill{height:10px;width:26px;border-radius:999px;background:var(--card);flex:none}
+.pill.on{background:var(--navy)}
+.hdrs{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:999px;border:1px solid var(--line)}
+.wf--dark .hdrs{border-color:rgba(255,255,255,.35)}
+.vline{width:2px;background:var(--line);align-self:stretch}
+.day{font-size:8px;font-weight:900;padding:2px 6px;border-radius:999px;background:var(--navy);color:#fff}
+/* матрица */
+.mx{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:#fff}
+.mx table{border-collapse:collapse;width:100%;min-width:900px;font-size:13px}
+.mx th,.mx td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+.mx th{font-weight:500;color:var(--dim);font-size:11px;letter-spacing:.04em;text-transform:uppercase;background:var(--light)}
+.mx th:first-child,.mx td:first-child{text-align:left;padding-left:18px;font-weight:500;color:var(--navy);width:230px;white-space:normal}
+.mx td small{display:block;font-weight:400;color:var(--dim);font-size:11px;margin-top:2px}
+.mx tr:last-child td{border-bottom:0}
+.d{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--blue)}
+.d.o{background:none;border:1.5px solid var(--sky)}
+.legend{display:flex;gap:22px;margin-top:14px;font-size:13px;color:var(--dim);align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+/* план и вопросы */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.box{padding:28px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+.box h3{font-size:22px;font-weight:900;margin-bottom:14px}
+.box ol,.box ul{margin:0;padding-left:20px;font-size:15px;line-height:1.5;color:var(--dim)}
+.box li+li{margin-top:8px}
+.box li b{color:var(--navy);font-weight:500}
+.box--dark{background:var(--navy);border-color:var(--navy);color:#fff}
+.box--dark h3{color:#fff}.box--dark li{color:#c0d2ec}.box--dark li b{color:#fff}
+.foot{padding:32px 0 56px;font-size:13px;color:var(--dim)}
+@media (max-width:900px){
+  .cover h1{font-size:52px}
+  .lay{grid-template-columns:1fr;gap:20px}
+  .sk{flex-direction:column}.wf--m{width:150px}
+  .sec-head{flex-direction:column;gap:10px}.sec-head p{margin-left:0;text-align:left}
+  .two{grid-template-columns:1fr}
+  .formula .op{width:100%;padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="wrap">
+    <p class="tag"><i></i>Супер-шаблон лендингов · эскизы для обсуждения · 10.09.2026</p>
+    <h1>Каркасы <em>и пресеты</em></h1>
+    <p>Как в ките Альфы: страница собирается из небольшого числа раскладок со слотами, а контент в слоты подставляется любой. Ниже — 10 раскладок с эскизами десктопа и телефона и матрица «какой контент в какую раскладку».</p>
+    <div class="formula">
+      <div><b>Раскладка</b><span>Каркас со слотами: сетка карточек ×3, лента, сплит, панель, список. Определяет геометрию и адаптив.</span></div>
+      <div class="op">+</div>
+      <div><b>Пресет контента</b><span>Что лежит в слотах: спикер, число, вопрос, шаг, тариф. Определяет типографику и мелкие элементы.</span></div>
+      <div class="op">=</div>
+      <div><b>Блок на странице</b><span>«Спикеры ×3», «Цифры в панели», «Расписание в две колонки» — то, что коллега ищет по названию.</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head"><span class="n">1</span><h2>Раскладки</h2><p>Статус: есть в ките сейчас, частично (нужно довести до слотов), новое. В скобках — аналог в ките Альфы.</p></div>
+
+    <!-- L01 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L01</div><h3>Баннер</h3>
+        <p class="lay__what">Первый экран. Заголовок до пяти слов, лид, одна главная кнопка. Медиа — фон, кадр рядом или ничего.</p>
+        <dl><dt>Варианты</dt><dd>по центру · сплит с кадром · с видео-фоном · с рядом преимуществ под заголовком · с плашками годов (мероприятие)</dd><dt>Слоты</dt><dd>надзаголовок, заголовок, лид, кнопки (1–2), медиа, ряд преимуществ</dd></dl>
+        <span class="st st--ok"><i></i>Есть, 3 варианта</span>
+        <p class="lay__alfa">Альфа: PageBanner (Kind, Preset, VideoBG, BenefitsSlot, TopSlot)</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d wf--dark"><span class="cap">D · по центру + ряд преимуществ</span>
+          <div class="hdrs"><span class="l w20"></span><span class="btn ghost" style="margin-left:auto"></span></div>
+          <div style="height:10px"></div>
+          <div class="l h w50" style="margin:0 auto"></div><div class="l h w40" style="margin:0 auto"></div>
+          <div class="l w60" style="margin:4px auto 0"></div>
+          <div class="row c" style="justify-content:center;margin-top:6px"><span class="btn"></span><span class="l w20"></span></div>
+          <div style="height:8px"></div>
+          <div class="row"><div class="cell"><span class="ic"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l"></span></div></div>
+        </div>
+        <div class="wf wf--m wf--dark"><span class="cap">M</span>
+          <div class="hdrs"><span class="ic" style="border-radius:50%"></span><span class="ic" style="margin-left:auto;background:none;border:1px solid rgba(255,255,255,.5)"></span></div>
+          <div style="height:12px"></div>
+          <div class="l h"></div><div class="l h w80"></div><div class="l h w60"></div>
+          <div class="l" style="margin-top:4px"></div><div class="l w70"></div>
+          <div class="btn" style="width:100%;margin-top:4px"></div>
+          <div class="col" style="margin-top:6px;gap:4px"><div class="row c"><span class="ic"></span><span class="l w70"></span></div><div class="row c"><span class="ic"></span><span class="l w60"></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L02 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L02</div><h3>Карточки ×1 / ×2 / ×3 / ×4</h3>
+        <p class="lay__what">Сетка одинаковых карточек. Высота тянется от контента, но не меньше минимума. Главная рабочая лошадка кита.</p>
+        <dl><dt>Варианты</dt><dd>×1 (широкая) · ×2 · ×3 · ×4 · ×3 в два ряда · белые на светлом / прозрачные на тёмном</dd><dt>Слоты</dt><dd>медиа сверху, иконка или число, заголовок (до 2 строк), текст, кнопка или ссылка, подпись</dd></dl>
+        <span class="st st--part"><i></i>Частично: преимущества, форматы, люди</span>
+        <p class="lay__alfa">Альфа: PureCard Block ×1/2/3/4 (мин. высота 280, заголовок в две строки)</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · ×3, медиа сверху</span>
+          <div class="l h w40"></div><div class="l w50"></div>
+          <div class="row" style="margin-top:6px">
+            <div class="cell"><div class="ph" style="height:44px"></div><span class="l h2 w70"></span><span class="l"></span><span class="l w80"></span><span class="l blue w30" style="margin-top:4px"></span></div>
+            <div class="cell"><div class="ph" style="height:44px"></div><span class="l h2 w60"></span><span class="l"></span><span class="l w70"></span><span class="l blue w30" style="margin-top:4px"></span></div>
+            <div class="cell"><div class="ph" style="height:44px"></div><span class="l h2 w80"></span><span class="l"></span><span class="l w60"></span><span class="l blue w30" style="margin-top:4px"></span></div>
+          </div>
+          <div class="row" style="margin-top:4px"><div class="cell"><span class="ic"></span><span class="l h2 w60"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l h2 w70"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l h2 w50"></span><span class="l"></span></div><div class="cell"><span class="ic"></span><span class="l h2 w60"></span><span class="l"></span></div></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · в колонку</span>
+          <div class="l h w80"></div><div class="l w60"></div>
+          <div class="cell" style="margin-top:4px"><div class="ph" style="height:34px"></div><span class="l h2 w70"></span><span class="l"></span></div>
+          <div class="cell"><div class="ph" style="height:34px"></div><span class="l h2 w60"></span><span class="l"></span></div>
+          <div class="cell"><span class="ic"></span><span class="l h2 w60"></span><span class="l"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L03 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L03</div><h3>Лента с прокруткой</h3>
+        <p class="lay__what">Те же карточки, но уезжают вбок: в кадре 3, остальные по стрелкам или свайпом. Когда элементов больше, чем места, а сетка в два ряда тяжёлая.</p>
+        <dl><dt>Варианты</dt><dd>карточки одной ширины · широкие «панели» по одной · со стрелками в заголовке / под лентой · с точками</dd><dt>Слоты</dt><dd>заголовок секции, ссылка «все», карточка (любой пресет), стрелки, точки</dd></dl>
+        <span class="st st--part"><i></i>Частично: только отзывы</span>
+        <p class="lay__alfa">Альфа: «Лента рекомендаций» (Scroll Position), CarouselPanel (Arrows, DownArrows, NavigationPoints)</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · 3 в кадре + выглядывает четвёртая</span>
+          <div class="row c"><span class="l h w40"></span><span class="arrows"><i></i><i></i></span></div>
+          <div style="overflow:hidden;margin-top:6px"><div class="row" style="width:130%">
+            <div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w50"></span></div><span class="l"></span><span class="l w80"></span><span class="l w60"></span></div>
+            <div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w60"></span></div><span class="l"></span><span class="l w70"></span><span class="l w60"></span></div>
+            <div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w40"></span></div><span class="l"></span><span class="l w80"></span><span class="l w50"></span></div>
+            <div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w50"></span></div><span class="l"></span><span class="l w70"></span></div>
+          </div>
+          </div><div class="dots" style="margin-top:4px"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · свайп, выглядывает край</span>
+          <div class="l h w80"></div>
+          <div style="overflow:hidden;margin-top:4px"><div class="row" style="width:125%"><div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w60"></span></div><span class="l"></span><span class="l w80"></span></div><div class="cell"><div class="row c"><span class="av"></span><span class="l h2 w60"></span></div><span class="l"></span><span class="l w70"></span></div></div>
+          </div><div class="dots"><i></i><i></i><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L04 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L04</div><h3>Сплит: текст + медиа</h3>
+        <p class="lay__what">Две колонки: копи слева, кадр справа. Несколько подряд — зигзагом. С тремя слайдами — карусель внутри плашки.</p>
+        <dl><dt>Варианты</dt><dd>кадр справа · кадр слева · зигзаг ×2–3 · карусель в плашке · на белом / в плашке --card</dd><dt>Слоты</dt><dd>надзаголовок, заголовок, текст, список тезисов, кнопка, медиа (KV02), стрелки</dd></dl>
+        <span class="st st--ok"><i></i>Есть: карусель и одиночный</span>
+        <p class="lay__alfa">Альфа: CarouselPanel (Text Slot, SlotContent, Button)</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · зигзаг ×2</span>
+          <div class="row"><div class="col" style="justify-content:center;gap:6px"><span class="l h w80"></span><span class="l h w50"></span><span class="l" style="margin-top:4px"></span><span class="l w80"></span><span class="btn" style="margin-top:4px"></span></div><div class="ph" style="flex:1;height:70px"></div></div>
+          <div class="row" style="margin-top:6px"><div class="ph" style="flex:1;height:70px"></div><div class="col" style="justify-content:center;gap:6px"><span class="l h w70"></span><span class="l h w40"></span><span class="l" style="margin-top:4px"></span><span class="l w70"></span><span class="l blue w30" style="margin-top:4px"></span></div></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · кадр всегда сверху</span>
+          <div class="ph" style="height:56px"></div><div class="l h w80"></div><div class="l h w50"></div><div class="l"></div><div class="l w70"></div><div class="btn" style="width:100%"></div>
+          <div class="ph" style="height:56px;margin-top:6px"></div><div class="l h w70"></div><div class="l"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L05 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L05</div><h3>Панель</h3>
+        <p class="lay__what">Одна большая плашка во всю ширину контейнера: тёмная со свечением или светлая. Внутри — что угодно крупно: числа, цитата, призыв, приложение.</p>
+        <dl><dt>Варианты</dt><dd>тёмная со свечением · светлая --card · с кадром справа · во весь экран (заявление)</dd><dt>Слоты</dt><dd>надзаголовок, заголовок, текст, 2–4 числа, кнопки, медиа / экран телефона</dd></dl>
+        <span class="st st--part"><i></i>Частично: цифры-панель, CTA-панель, заявление</span>
+        <p class="lay__alfa">Альфа: «На всех устройствах», BenefitsSlot</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · числа · CTA с кадром</span>
+          <div class="cell dark"><div class="row" style="gap:16px"><div class="col"><span class="num" style="color:var(--blue)">33</span><span class="l w80"></span></div><div class="col"><span class="num" style="color:var(--blue)">10</span><span class="l w70"></span></div><div class="col"><span class="num" style="color:var(--blue)">2</span><span class="l w60"></span></div></div></div>
+          <div class="cell dark" style="margin-top:4px"><div class="row"><div class="col" style="justify-content:center"><span class="l h w70"></span><span class="l h w40"></span><span class="l w80" style="margin-top:4px"></span><span class="btn" style="margin-top:4px"></span></div><div class="ph" style="width:38%;height:62px"></div></div></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M</span>
+          <div class="cell dark"><span class="num" style="color:var(--blue)">33</span><span class="l w80"></span><span class="num" style="color:var(--blue);margin-top:6px">10</span><span class="l w70"></span></div>
+          <div class="cell dark"><span class="l h"></span><span class="l h w60"></span><span class="l w80"></span><span class="btn" style="width:100%;margin-top:4px"></span><div class="ph" style="height:40px;margin-top:4px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L06 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L06</div><h3>Список</h3>
+        <p class="lay__what">Вертикальный ряд строк: слева время, номер или дата, справа содержание. Для расписания, программы, документов, новостей.</p>
+        <dl><dt>Варианты</dt><dd>одна колонка · две колонки (если &gt;8 строк) · по дням с плашками-датами · с портретом спикера в строке · с раскрытием строки</dd><dt>Слоты</dt><dd>заголовок дня / группы, время, заголовок строки, подпись, аватар, тег, ссылка</dd></dl>
+        <span class="st st--new"><i></i>Новое</span>
+        <p class="lay__alfa">Альфа: нет прямого аналога; ближе всего Good to know</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · две колонки по дням</span>
+          <div class="l h w40"></div>
+          <div class="row" style="gap:20px;margin-top:6px">
+            <div class="col"><span class="day" style="align-self:flex-start">26 сен</span>
+              <div class="tl"><span class="t">10:00</span><div class="col"><span class="l h2 w80"></span><div class="row c"><span class="av" style="width:12px;height:12px"></span><span class="l w50"></span></div></div></div><div class="hr"></div>
+              <div class="tl"><span class="t">11:30</span><div class="col"><span class="l h2 w60"></span><span class="l w40"></span></div></div><div class="hr"></div>
+              <div class="tl"><span class="t">13:00</span><div class="col"><span class="l h2 w70"></span><span class="l w50"></span></div></div>
+            </div>
+            <div class="col"><span class="day" style="align-self:flex-start">27 сен</span>
+              <div class="tl"><span class="t">10:00</span><div class="col"><span class="l h2 w70"></span><span class="l w40"></span></div></div><div class="hr"></div>
+              <div class="tl"><span class="t">12:00</span><div class="col"><span class="l h2 w80"></span><div class="row c"><span class="av" style="width:12px;height:12px"></span><span class="l w50"></span></div></div></div><div class="hr"></div>
+              <div class="tl"><span class="t">15:00</span><div class="col"><span class="l h2 w50"></span><span class="l w60"></span></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · одна колонка, дни табами</span>
+          <div class="row"><span class="pill on"></span><span class="pill"></span></div>
+          <div class="tl" style="margin-top:4px"><span class="t">10:00</span><div class="col"><span class="l h2"></span><span class="l w60"></span></div></div><div class="hr"></div>
+          <div class="tl"><span class="t">11:30</span><div class="col"><span class="l h2 w80"></span><span class="l w50"></span></div></div><div class="hr"></div>
+          <div class="tl"><span class="t">13:00</span><div class="col"><span class="l h2 w70"></span><span class="l w60"></span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L07 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L07</div><h3>Шаги</h3>
+        <p class="lay__what">Процесс из 3–6 шагов с номерами. Горизонтально — когда шаги короткие, вертикально — когда у каждого абзац. В конце — кнопка.</p>
+        <dl><dt>Варианты</dt><dd>горизонтально ×3–4 с номерами · вертикально с линией · створки (текущий блок сайта) · с CTA в последнем шаге</dd><dt>Слоты</dt><dd>номер, заголовок шага, текст, срок, иконка, кнопка</dd></dl>
+        <span class="st st--part"><i></i>Частично: только створки</span>
+        <p class="lay__alfa">Альфа: «Шаги + CTA», «Анкета с шагами»</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · горизонтально ×4 + CTA</span>
+          <div class="l h w50"></div>
+          <div class="row" style="margin-top:6px"><div class="step on"><span class="num s">01</span><span class="l h2 w70"></span><span class="l"></span></div><div class="step"><span class="num s">02</span><span class="l h2 w60"></span><span class="l"></span></div><div class="step"><span class="num s">03</span><span class="l h2 w80"></span><span class="l"></span></div><div class="step"><span class="num s">04</span><span class="l h2 w50"></span><span class="l"></span></div></div>
+          <div class="row c" style="justify-content:center;margin-top:4px"><span class="btn"></span></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · вертикально с линией</span>
+          <div class="l h w80"></div>
+          <div class="row" style="margin-top:4px"><div class="col" style="flex:none;width:18px;align-items:center;gap:0"><span class="num s" style="color:var(--blue)">01</span><span class="vline" style="height:22px;margin-top:3px"></span></div><div class="col"><span class="l h2 w80"></span><span class="l"></span><span class="l w60"></span></div></div>
+          <div class="row"><div class="col" style="flex:none;width:18px;align-items:center;gap:0"><span class="num s">02</span><span class="vline" style="height:22px;margin-top:3px"></span></div><div class="col"><span class="l h2 w70"></span><span class="l"></span><span class="l w50"></span></div></div>
+          <div class="row"><div class="col" style="flex:none;width:18px;align-items:center;gap:0"><span class="num s">03</span></div><div class="col"><span class="l h2 w60"></span><span class="l"></span></div></div>
+          <div class="btn" style="width:100%;margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L08 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L08</div><h3>Аккордеон</h3>
+        <p class="lay__what">Строки, раскрывающиеся по клику, открыта одна. FAQ, «полезно знать», условия, требования к помещению.</p>
+        <dl><dt>Варианты</dt><dd>одна колонка · заголовок слева, вопросы справа · с CTA-полосой внизу · на тёмном</dd><dt>Слоты</dt><dd>заголовок секции, вопрос, ответ (текст, список, ссылка), полоса «не нашли ответ»</dd></dl>
+        <span class="st st--ok"><i></i>Есть</span>
+        <p class="lay__alfa">Альфа: Good to know</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · заголовок слева</span>
+          <div class="row" style="gap:20px"><div class="col" style="flex:0 0 32%"><span class="l h"></span><span class="l h w60"></span><span class="l w80" style="margin-top:4px"></span></div>
+            <div class="col" style="gap:0"><div class="row c sb" style="padding:5px 0"><span class="l h2 w70"></span><span class="plus"></span></div><div class="l w80" style="margin:2px 0 6px"></div><div class="l w60" style="margin-bottom:6px"></div><div class="hr"></div><div class="row c sb" style="padding:7px 0"><span class="l h2 w60"></span><span class="plus"></span></div><div class="hr"></div><div class="row c sb" style="padding:7px 0"><span class="l h2 w80"></span><span class="plus"></span></div><div class="hr"></div><div class="row c sb" style="padding:7px 0"><span class="l h2 w50"></span><span class="plus"></span></div></div></div>
+          <div class="strip" style="margin-top:6px"><span class="l w60"></span><span class="pill on" style="margin-left:auto"></span></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M</span>
+          <div class="l h w80"></div>
+          <div class="row c sb" style="padding:4px 0"><span class="l h2 w70"></span><span class="plus"></span></div><div class="l w80"></div><div class="l w60"></div><div class="hr"></div>
+          <div class="row c sb" style="padding:4px 0"><span class="l h2 w60"></span><span class="plus"></span></div><div class="hr"></div>
+          <div class="row c sb" style="padding:4px 0"><span class="l h2 w80"></span><span class="plus"></span></div><div class="hr"></div>
+          <div class="strip"><span class="l w60"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L09 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L09</div><h3>Таблица сравнения</h3>
+        <p class="lay__what">Когда карточек-тарифов не хватает: 3–6 характеристик против 2–4 колонок. Одна колонка выделена как рекомендуемая.</p>
+        <dl><dt>Варианты</dt><dd>2 · 3 · 4 колонки · с галочками/крестиками · с кнопками в шапке колонок</dd><dt>Слоты</dt><dd>название колонки, чипс, цена/число, строка характеристики, сноска «i», кнопка</dd></dl>
+        <span class="st st--new"><i></i>Новое</span>
+        <p class="lay__alfa">Альфа: FormInvest (частично)</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D · 3 колонки, средняя выделена</span>
+          <div class="l h w40"></div>
+          <div class="tbl" style="margin-top:6px">
+            <i class="h"></i><i class="h"><span class="l h2"></span></i><i class="h on"><span class="l h2"></span></i><i class="h"><span class="l h2"></span></i>
+            <i><span class="l"></span></i><i><span class="num s">75</span></i><i class="on"><span class="num s">250</span></i><i><span class="num s">400</span></i>
+            <i><span class="l"></span></i><i><span class="l w40"></span></i><i class="on"><span class="l w40"></span></i><i><span class="l w40"></span></i>
+            <i><span class="l"></span></i><i><span class="l w40"></span></i><i class="on"><span class="l w40"></span></i><i><span class="l w40"></span></i>
+            <i><span class="l"></span></i><i><span class="l w40"></span></i><i class="on"><span class="l w40"></span></i><i><span class="l w40"></span></i>
+            <i></i><i><span class="btn ghost" style="width:36px;height:12px"></span></i><i class="on"><span class="btn" style="width:36px;height:12px"></span></i><i><span class="btn ghost" style="width:36px;height:12px"></span></i>
+          </div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M · колонки → карточки с табами</span>
+          <div class="row"><span class="pill"></span><span class="pill on"></span><span class="pill"></span></div>
+          <div class="cell" style="margin-top:4px"><span class="num s">250</span><div class="row c sb"><span class="l w50"></span><span class="l w20"></span></div><div class="hr"></div><div class="row c sb"><span class="l w40"></span><span class="l w20"></span></div><div class="hr"></div><div class="row c sb"><span class="l w60"></span><span class="l w20"></span></div><span class="btn" style="width:100%;margin-top:4px"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L10 -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L10</div><h3>Форма</h3>
+        <p class="lay__what">Финал страницы. Короткая — три поля в полосе; длинная — карточка с аргументами слева; в шагах — когда полей больше шести.</p>
+        <dl><dt>Варианты</dt><dd>короткая в полосе (имя, телефон, кнопка) · длинная с копи слева · анкета в 2–3 шага с прогрессом · регистрация на событие (с датой и местом)</dd><dt>Слоты</dt><dd>заголовок, лид, аргументы, поля, согласие, кнопка, срок ответа, шаги</dd></dl>
+        <span class="st st--part"><i></i>Частично: только длинная</span>
+        <p class="lay__alfa">Альфа: «Анкета с шагами», FormInvest</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d wf--dark"><span class="cap">D · длинная · короткая в полосе</span>
+          <div class="row" style="gap:16px"><div class="col" style="justify-content:center"><span class="l h w80"></span><span class="l h w50"></span><span class="l w70" style="margin-top:4px"></span><div class="row c" style="margin-top:4px"><span class="ic" style="background:var(--blue);width:8px;height:8px;border-radius:50%"></span><span class="l w60"></span></div><div class="row c"><span class="ic" style="background:var(--blue);width:8px;height:8px;border-radius:50%"></span><span class="l w50"></span></div></div>
+            <div class="cell" style="flex:0 0 46%"><span class="l h2 w60"></span><span class="fld"></span><span class="fld"></span><span class="fld"></span><div class="row c" style="margin-top:2px"><span class="btn"></span><span class="l w40"></span></div></div></div>
+          <div class="cell" style="margin-top:4px;flex-direction:row;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2)"><span class="l h2 w30" style="background:#fff"></span><span class="fld" style="flex:1"></span><span class="fld" style="flex:1"></span><span class="btn"></span></div>
+        </div>
+        <div class="wf wf--m wf--dark"><span class="cap">M · в шагах</span>
+          <div class="row"><span class="l h2 blue" style="width:33%"></span><span class="l" style="width:33%"></span><span class="l" style="width:33%"></span></div>
+          <div class="l h w80"></div>
+          <div class="cell" style="margin-top:2px"><span class="fld"></span><span class="fld"></span><span class="fld"></span><span class="btn" style="width:100%"></span></div>
+          <div class="l w60"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- служебные -->
+    <div class="lay">
+      <div>
+        <div class="lay__code">L00 · L11</div><h3>Каркас страницы</h3>
+        <p class="lay__what">Не блоки, а рамка: шапка, анонс-полоса, CTA-полоса между секциями, футер. Одинаковые на всех страницах.</p>
+        <dl><dt>Есть</dt><dd>шапка-пилюля (3 состояния), бегущая строка, CTA-полоса, футер</dd><dt>Добавить</dt><dd>плашка куки / дисклеймер · плавающая кнопка на телефоне · якорное меню секций (для длинных страниц)</dd></dl>
+        <span class="st st--ok"><i></i>Есть, дополнить</span>
+        <p class="lay__alfa">Альфа: Footer, MainHeaderV3</p>
+      </div>
+      <div class="sk">
+        <div class="wf wf--d"><span class="cap">D</span>
+          <div class="hdrs"><span class="l w20" style="background:var(--navy)"></span><span class="l w10" style="width:8%;margin-left:auto"></span><span class="btn ghost"></span></div>
+          <div class="strip"><span class="l h2 w30" style="background:var(--navy)"></span><span class="l w20"></span><span class="l w30"></span><span class="pill on" style="margin-left:auto"></span></div>
+          <div class="row" style="margin-top:2px"><span class="pill"></span><span class="pill"></span><span class="pill"></span><span class="pill"></span></div>
+          <div class="cell dark" style="margin-top:2px"><div class="row c sb"><span class="l h2 w30"></span><span class="l w40"></span><span class="pill" style="background:var(--blue)"></span></div><div class="hr" style="background:rgba(255,255,255,.2)"></div><div class="row sb"><span class="l w50"></span><span class="l w20"></span></div></div>
+        </div>
+        <div class="wf wf--m"><span class="cap">M</span>
+          <div class="hdrs"><span class="ic" style="border-radius:50%;background:var(--navy)"></span><span class="pill" style="margin-left:auto;background:var(--blue)"></span><span class="ic" style="background:none;border:1px solid var(--line)"></span></div>
+          <div class="strip"><span class="l h2 w60" style="background:var(--navy)"></span></div>
+          <div class="cell dark"><span class="l h2 w40"></span><span class="l w60"></span><span class="l w50"></span><span class="pill" style="background:var(--blue)"></span><div class="hr" style="background:rgba(255,255,255,.2)"></div><span class="l w80"></span></div>
+          <div class="btn" style="width:100%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="n">2</span><h2>Что во что кладётся</h2><p>Пресет контента × раскладка. Синяя точка — основная раскладка для этого контента, контур — тоже подходит. Названия в строках — то, что коллега ищет в ките.</p></div>
+    <div class="mx">
+      <table>
+        <thead><tr><th>Пресет контента</th><th>L01<br>Баннер</th><th>L02<br>Карточки</th><th>L03<br>Лента</th><th>L04<br>Сплит</th><th>L05<br>Панель</th><th>L06<br>Список</th><th>L07<br>Шаги</th><th>L08<br>Аккордеон</th><th>L09<br>Таблица</th><th>L10<br>Форма</th></tr></thead>
+        <tbody>
+          <tr><td>Цифры<small>три плашки · панель 2–4 · одно крупное число</small></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Крупный текст<small>заявление · цитата с автором · тезис + пояснение</small></td><td><i class="d o"></i></td><td></td><td></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Спикеры и команда<small>с темой · портрет + роль · один крупно</small></td><td></td><td><i class="d"></i></td><td><i class="d"></i></td><td><i class="d o"></i></td><td></td><td><i class="d o"></i></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Расписание и программа<small>по времени · по дням · с спикером в строке</small></td><td></td><td><i class="d o"></i></td><td></td><td></td><td></td><td><i class="d"></i></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td></td><td></td></tr>
+          <tr><td>Преимущества и тезисы<small>иконки · номера · галочки в две колонки</small></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Форматы и тарифы<small>2–3 карточки с характеристиками · таблица</small></td><td></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td><i class="d"></i></td><td></td></tr>
+          <tr><td>Как это работает<small>процесс · этапы запуска · дорожная карта</small></td><td></td><td><i class="d o"></i></td><td></td><td><i class="d o"></i></td><td></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td></td><td></td></tr>
+          <tr><td>Отзывы и цитаты<small>лента карточек · одна цитата крупно</small></td><td></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Логотипы<small>пресса · партнёры · города</small></td><td></td><td><i class="d"></i></td><td><i class="d o"></i></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Галерея и видео<small>мозаика · лента фото · один кадр во всю ширину</small></td><td></td><td><i class="d"></i></td><td><i class="d"></i></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Новости, статьи, документы<small>карточки с датой · список со скачиванием</small></td><td></td><td><i class="d"></i></td><td><i class="d o"></i></td><td></td><td></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Место и время<small>адрес + карта · города · как добраться</small></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td></td><td><i class="d"></i></td><td><i class="d o"></i></td><td><i class="d o"></i></td><td></td><td><i class="d o"></i></td><td></td><td></td></tr>
+          <tr><td>Вопросы и условия<small>FAQ · требования · «полезно знать»</small></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><i class="d"></i></td><td></td><td></td></tr>
+          <tr><td>Приложение<small>экран телефона + сторы</small></td><td><i class="d o"></i></td><td></td><td></td><td><i class="d o"></i></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>Заявка и регистрация<small>короткая · длинная · в шагах</small></td><td><i class="d o"></i></td><td></td><td></td><td></td><td><i class="d o"></i></td><td></td><td></td><td></td><td></td><td><i class="d"></i></td></tr>
+          <tr><td>Призыв к действию<small>полоса · панель</small></td><td></td><td></td><td></td><td></td><td><i class="d"></i></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend"><span><i class="d"></i>основная раскладка</span><span><i class="d o"></i>тоже подходит</span></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><span class="n">3</span><h2>Что делать первым</h2><p>Если идём двухуровневым путём. Порядок — от того, чего нет, к тому, что нужно только довести.</p></div>
+    <div class="two">
+      <div class="box box--dark">
+        <h3>Новые раскладки</h3>
+        <ol>
+          <li><b>L03 Лента с прокруткой</b> — сделать универсальной: любая карточка, стрелки в заголовке, точки, свайп на телефоне</li>
+          <li><b>L06 Список</b> — одна и две колонки, по дням, со спикером в строке. Закрывает расписание, программу, документы</li>
+          <li><b>L02 Карточки ×1–4</b> — довести до слотов: медиа сверху, иконка/число, кнопка; тёмный вариант</li>
+          <li><b>L09 Таблица сравнения</b> и <b>L07 Шаги горизонтально</b></li>
+          <li><b>L10 Форма</b> — короткая в полосе, анкета в шагах</li>
+        </ol>
+      </div>
+      <div class="box">
+        <h3>Открытые вопросы</h3>
+        <ul>
+          <li><b>Двухуровневая модель или плоский список?</b> В Figma двухуровневая = компонент раскладки + вложенные компоненты контента; в HTML — класс раскладки + класс пресета. Плоский список проще искать, но блоков выйдет 35–40</li>
+          <li><b>Сколько пресетов показывать на странице кита?</b> Все комбинации (~40 экранов) или по одному примеру на раскладку и матрицу как справочник</li>
+          <li><b>Десктоп и телефон рядом</b>, как у Альфы — или телефон по кнопке, как сейчас</li>
+          <li><b>Тёмная версия у каждой раскладки</b> или только там, где она реально нужна (баннер, панель, шаги, форма)</li>
+        </ul>
+      </div>
+    </div>
+    <p class="foot">Эскизы условные: пропорции и слоты, не финальная вёрстка. Размеры кадров и правила — в «Примерке» кита.</p>
+  </div>
+</section>
+
+</body>
+</html>
