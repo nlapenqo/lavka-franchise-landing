@@ -15,6 +15,7 @@
 | `kit-preview.html`, `template-preview.html` | Собранные самодостаточные версии. Не править руками. |
 | `wireframes.html` | Каркасы раскладок L01–L10 (эскизы десктоп + телефон), матрица «пресет контента × раскладка», план. Артефакт: https://claude.ai/code/artifact/d4c23c11-704f-4b70-a036-53c40ca2db50 |
 | `demo-event.html` | **Демо-лендинг мероприятия** на рыбе из раскладок L01–L10 (только веб). Собранный: `demo-event-preview.html`. |
+| `variants.html` | Варианты на выбор: 5 раскладок программы (две колонки, табы + широкие строки, таймлайн, сетка по залам, карточки-сессии), 4 блока локации, простые плашки ×1/×2. |
 | `TZ-super-template.md` | ТЗ этапа 2. |
 
 Ассеты не дублируются: шрифты из `../site/fonts/`, логотипы и иконки из `../site/assets/figma/`, фото из `../site/assets/figma/business/` и `../events/assets/`.
@@ -42,8 +43,11 @@
 - **Копировать HTML** — чистая разметка варианта с применённым состоянием: выключенные части и лишние карточки удалены, `hdr--demo` → `data-hdr`, служебные атрибуты сняты.
 - **Один блок без хрома**: `index.html?block=LB06&variant=B&theme=dark&cards=4&off=lead&scheme=1`.
 
+## Шкала кеглей (kit.css, токены `--fs-*`)
+Один размер — одна роль: display 110 (хиро) · h1 80 (секция) · h2 48 (плашка, слайд, заявление) · h3 31 (FAQ, подпись цифры, форма) · h4 24 (карточка, строка программы, шаг) · lead 22 · body 18 · body-s 16 (в карточках) · small 14 (роли, подписи) · caption 12 (капс). Цифры: 154 / 112 / 44. Голубые плашки — только кнопки и табы.
+
 ## Раскладки супер-шаблона (kit.css, раздел 8b)
-Каркасы со слотами, контент любой: `.hero__benefits` + `.benefit` (ряд преимуществ под баннером), `.cards` + `.card` (×1–4 через `--n`, слоты `card__media`/`card__num`/`card__tag`/`card__who`/`card__foot`, `card--wide`), `.feed` + `[data-feed]` (лента с прокруткой, стрелки в `.section-head .ctrls`), `.duo` (сплит без карусели, `duo--flip` для зигзага, `duo__list`, `.facts`), `.agenda` + `.slot` (список-программа по дням), `.steps-row` + `.step-card` (шаги в ряд, `step-card--cta`), `.compare` (таблица сравнения, выделенная колонка `.is-on`). Все работают на тёмном через `.section--dark`.
+Каркасы со слотами, контент любой: `.hero__benefits` + `.benefit` (ряд преимуществ под баннером), `.cards` + `.card` (×1–4 через `--n`, слоты `card__media`/`card__num`/`card__tag`/`card__who`/`card__foot`, `card--wide`), `.feed` + `[data-feed]` (лента с прокруткой, стрелки в `.section-head .ctrls`), `.duo` (сплит без карусели, `duo--flip` для зигзага, `duo__list`, `.facts`), `.agenda` + `.slot` (список-программа по дням), `.steps-row` + `.step-card` (шаги в ряд, `step-card--cta`), `.compare` (таблица сравнения, `.is-on`), `.plate` (простые плашки: `plate--row`, `plate--dark`, `plate--white`), `.tabs`/`[data-tabs]` + `.agenda--wide`, `.timeline`/`.tl-item`, `.halls` (сетка по залам), `.map`/`.map__card`/`.map__pin`, `.route`, `.venue-panel`, `.hero__note`. Все работают на тёмном через `.section--dark`.
 
 ## Блоки
 | Код | Блок | Варианты | Тема | Карточек | Части |
