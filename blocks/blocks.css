@@ -46,8 +46,8 @@
 .number::after{top:-112px;height:141px}
 .number:hover::before,.number:hover::after{filter:blur(100px)}
 .number__value{font-size:var(--fs-num-xl);font-weight:var(--fw-black);line-height:var(--lh-tight);letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
-.number__label{margin-top:var(--space-4);font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
-.number__note{margin-top:auto;padding-top:var(--space-3);max-width:266px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-muted-on-dark)}
+.number__label{margin:22px 0 14px;font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.number__note{margin-top:auto;max-width:266px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-muted-on-dark)}
 .numbers--panel{grid-template-columns:1fr}
 .numbers__panel{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--radius-xl);background:var(--navy);color:var(--white);padding:var(--space-8) 72px;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:var(--space-5)}
 .numbers__panel .number__value{font-size:var(--fs-num-l);color:var(--text-accent);text-align:left}
@@ -216,12 +216,11 @@
 .quote--dark .quote__author small{color:var(--text-secondary-on-dark)}
 
 /* 16 · СПИСОК С ГАЛОЧКАМИ: преимущества в две колонки */
-.checklist{display:grid;grid-template-columns:repeat(var(--n,2),1fr);gap:var(--space-4) var(--space-8)}
-.checklist li{display:grid;grid-template-columns:28px 1fr;gap:var(--space-3);padding:var(--space-4) 0;border-top:1px solid var(--border)}
+.checklist{display:grid;grid-template-columns:repeat(var(--n,2),1fr);gap:var(--space-5) var(--space-8)}
+.checklist li{display:grid;grid-template-columns:28px 1fr;gap:var(--space-3)}
 .checklist li::before{content:'';width:28px;height:28px;border-radius:50%;background:var(--blue) center/12px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2 6.2 4.8 9 10 3.4' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 .checklist b{display:block;font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:var(--lh-heading);margin-bottom:6px}
 .checklist p{font-size:var(--fs-body-s);color:var(--text-secondary)}
-.section--dark .checklist li{border-color:var(--border-on-dark)}
 .section--dark .checklist p{color:var(--text-secondary-on-dark)}
 
 /* 17 · ТАРИФЫ КАРТОЧКАМИ: чипсы, характеристики, сноска; рекомендуемый — с голубой обводкой (приём с главной) */
@@ -250,7 +249,7 @@
 
 /* 19 · ТАЙМЛАЙН: линия с точками, год или дата крупно, текст */
 .timeline{position:relative;display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:var(--space-4)}
-.timeline::before{content:'';position:absolute;left:0;right:0;top:11px;height:2px;background:var(--sky)}
+.timeline::before{content:'';position:absolute;left:12px;right:calc(100% / var(--n,4) - 42px);top:11px;height:2px;background:var(--sky)}
 .timeline__item{position:relative;padding-top:var(--space-5)}
 .timeline__item::before{content:'';position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px var(--bg-page)}
 .section--light .timeline__item::before{box-shadow:0 0 0 6px var(--bg-section-light)}
