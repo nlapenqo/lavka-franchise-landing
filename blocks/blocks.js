@@ -60,6 +60,14 @@
     update();
   });
 
+  /* табы: [data-tabs] > [data-tab=id] и [data-tab-panel=id] */
+  $$('[data-tabs]').forEach(box => {
+    const tabs = $$('[data-tab]', box), panels = $$('[data-tab-panel]', box);
+    const show = id => { tabs.forEach(t => t.classList.toggle('is-on', t.dataset.tab === id)); panels.forEach(p => { p.hidden = p.dataset.tabPanel !== id; }); };
+    tabs.forEach(t => t.addEventListener('click', () => show(t.dataset.tab)));
+    show((tabs.find(t => t.classList.contains('is-on')) || tabs[0])?.dataset.tab);
+  });
+
   /* вопросы и ответы: открыт один */
   $$('[data-faq]').forEach(faq => $$('.faq__item', faq).forEach(item => {
     const btn = $('button', item);
