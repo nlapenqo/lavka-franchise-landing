@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бизнес-завтрак «Франшиза Яндекс Лавки» — Уфа, 28 октября</title>
+<meta name="description" content="Офлайн-встреча для предпринимателей, готовых развивать глобальный бизнес. Расскажем, как устроена ультрабыстрая доставка продуктов, покажем экономику проекта и условия для партнёров. Зарегистрируйтесь на бизнес-завтрак">
+<meta property="og:title" content="Бизнес-завтрак «Франшиза Яндекс Лавки»">
+<meta property="og:description" content="Офлайн-встреча для предпринимателей, готовых развивать глобальный бизнес. Уфа, 28 октября">
+<meta property="og:image" content="./assets/og-source.webp">
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="../blocks/tokens.css">
+<link rel="stylesheet" href="../blocks/base.css">
+<link rel="stylesheet" href="../blocks/blocks.css">
+<style>
+/* Правки уровня страницы — кандидаты в blocks.css, если повторятся на других лендингах */
+/* кадр с прозрачным PNG телефона: не кроп, а вписывание с выездом снизу (как на исходной странице) */
+.media--phone{background:linear-gradient(155deg,var(--mid) 0%,var(--navy) 62%,var(--navy-deep) 100%)}
+.media--phone img{object-fit:contain;object-position:center top;padding:40px 40px 0;transform:translateY(20px)}
+/* тарифы 2×2: четыре города, карточки шире, число одной строкой */
+.offer__row dd b{white-space:nowrap}
+@media (max-width:767px){.media--phone img{padding:24px 24px 0}}
+</style>
+</head>
+<body>
+
+<header class="header" data-header>
+  <a class="brand" href="#top" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
+  <nav class="header__nav" aria-label="Навигация"><a href="#agenda">Что обсудим</a><a href="#cities">Города</a><a href="#place">Где и когда</a><a class="button button--outline" href="#form">Регистрация</a></nav>
+</header>
+
+<!-- 01 · Хиро: заголовок, лид, кнопка с пояснением, ряд плашек -->
+<section class="hero section--dark" id="top">
+  <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span>«Франшиза <em class="accent" style="font-style:normal">Яндекс Лавки</em>»</span></h1>
+  <p class="hero__lead t-lead">Как запустить франшизу действующего бизнеса по доставке продуктов в городе-миллионнике и зарабатывать на растущем рынке</p>
+  <div class="actions">
+    <a class="button button--primary" href="#form">Зарегистрироваться</a>
+    <p class="actions__note">Уфа, 28 октября · офлайн-встреча для предпринимателей · место проведения — скоро</p>
+  </div>
+  <div class="hero__benefits" style="--n:4">
+    <div class="benefit"><b>4</b>города, где можно запустить сервис</div>
+    <div class="benefit"><b>17</b>дарксторов — сеть в Уфе и Челябинске</div>
+    <div class="benefit"><b>2</b>года — минимальный срок окупаемости</div>
+    <div class="benefit"><b>0–7<span style="font-size:.6em">%</span></b>роялти во всех форматах</div>
+  </div>
+</section>
+
+<!-- 03 · Анонс-полоса -->
+<a class="strip" href="#form">
+  <div class="strip__track">
+    <div class="strip__group"><span class="strip__item strip__item--name">Бизнес-завтрак «Франшиза Яндекс Лавки»</span><span class="strip__item">Уфа, 28 октября</span><span class="strip__item">Экономика проекта, условия для партнёров, стратегия развития</span><span class="strip__item strip__item--live"><i></i>Регистрация открыта</span></div>
+    <div class="strip__group" aria-hidden="true"><span class="strip__item strip__item--name">Бизнес-завтрак «Франшиза Яндекс Лавки»</span><span class="strip__item">Уфа, 28 октября</span><span class="strip__item">Экономика проекта, условия для партнёров, стратегия развития</span><span class="strip__item strip__item--live"><i></i>Регистрация открыта</span></div>
+  </div>
+  <span class="strip__cta"><span class="button button--secondary button--small">Зарегистрироваться</span></span>
+</a>
+
+<!-- 05 · Заявление -->
+<section class="section statement">
+  <div class="container">
+    <p class="t-caption reveal">Бизнес-завтрак Яндекс Лавки</p>
+    <p class="statement__text reveal">Офлайн-встреча для предпринимателей, <span class="accent">готовых развивать</span> глобальный бизнес: покажем, как устроена ультрабыстрая доставка продуктов, и <span class="accent">что получает партнёр</span> в своём городе</p>
+  </div>
+</section>
+
+<!-- 14 · Шаги: о чём поговорим -->
+<section class="section section--light" id="agenda">
+  <div class="container">
+    <div class="section__head section__head--stack reveal"><h2 class="t-h1">О чём поговорим на бизнес-завтраке</h2><p class="t-lead">Четыре части встречи — от устройства бизнеса до стратегии для вашего города</p></div>
+    <div class="steps" style="--n:4">
+      <div class="step reveal"><span class="step__number">01</span><h3 class="t-h4">Как устроен бизнес</h3><p>Расскажем, как работает ультрабыстрая доставка продуктов: даркстор, сборка, курьеры, приложение</p></div>
+      <div class="step reveal" style="--delay:.06s"><span class="step__number">02</span><h3 class="t-h4">Преимущества Лавки</h3><p>Продемонстрируем преимущества и уникальность Яндекс Лавки на рынке доставки</p></div>
+      <div class="step reveal" style="--delay:.12s"><span class="step__number">03</span><h3 class="t-h4">Экономика проекта</h3><p>Объясним экономику, перспективы и условия для партнёров: инвестиции, окупаемость, взносы</p></div>
+      <div class="step step--cta reveal" style="--delay:.18s"><span class="step__number">04</span><h3 class="t-h4">Стратегия развития</h3><p>Поможем разработать стратегию развития сети в вашем городе</p><a class="button button--white button--small" href="#form">Зарегистрироваться</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · Текст + кадр (один слайд) -->
+<section class="section">
+  <div class="container">
+    <article class="feature feature--single reveal" data-feature tabindex="0">
+      <div class="feature__viewport"><div class="feature__track">
+        <section class="feature__slide" data-slide>
+          <div class="feature__copy"><h3 class="t-h2">Франшиза доставки продуктов</h3><p>Станьте ключевым партнёром Яндекс Лавки уже в 2026 году. Действующий бизнес, отработанные процессы и технологии Яндекса — вы управляете сетью дарксторов и операционной командой в своём городе</p><a class="button button--primary" href="#cities">Смотреть условия по городам</a></div>
+          <div class="media media--phone"><img src="./assets/kv-phone.webp" alt="Приложение Яндекс Лавки: заказ завтрака" width="769" height="989"></div>
+        </section>
+      </div></div>
+    </article>
+  </div>
+</section>
+
+<!-- 12 · Тарифы карточками: города -->
+<section class="section section--light" id="cities">
+  <div class="container">
+    <div class="section__head section__head--stack reveal"><h2 class="t-h1">Где можно запустить сервис</h2><p class="t-lead">Четыре города, два формата: запуск новой сети или передача в управление действующей</p></div>
+    <div class="cards" style="--n:2">
+      <article class="card offer offer--featured reveal"><div class="chips"><span class="chip chip--navy">Уфа</span><span class="chip">Новая сеть</span><span class="chip">Город завтрака</span></div><p class="offer__note">Запуск сети из 17 дарксторов и управление операционной командой от 500 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 250</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Условия обсудим на бизнес-завтраке 28 октября</p></article>
+      <article class="card offer reveal" style="--delay:.08s"><div class="chips"><span class="chip chip--navy">Челябинск</span><span class="chip">Действующая сеть</span></div><p class="offer__note">Передача в управление партнёрам действующей сети из 17 дарксторов</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 25</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 2 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">От 25 млн ₽ при передаче нескольких дарксторов, от 400 млн ₽ при эксклюзивном партнёрстве в городе</p></article>
+      <article class="card offer reveal" style="--delay:.16s"><div class="chips"><span class="chip chip--navy">Магнитогорск</span><span class="chip">Новая сеть</span></div><p class="offer__note">Запуск сети из 5 дарксторов и управление операционной командой от 100 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 75</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Условия индивидуальны и зависят от направления</p></article>
+      <article class="card offer reveal" style="--delay:.24s"><div class="chips"><span class="chip chip--navy">Стерлитамак</span><span class="chip">Новая сеть</span></div><p class="offer__note">Запуск сети из 3 дарксторов и управление операционной командой от 50 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 45</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Условия индивидуальны и зависят от направления</p></article>
+    </div>
+    <div class="section__cta actions" style="justify-content:center"><a class="button button--primary button--large" href="#form">Обсудить условия на завтраке</a><a class="button button--outline" href="https://lavka.yandex.ru/about/franchise" target="_blank" rel="noopener">Подробнее о франшизе</a></div>
+  </div>
+</section>
+
+<!-- 08 · Плашки ×2: где и когда -->
+<section class="section" id="place">
+  <div class="container">
+    <h2 class="t-h1 tiles__title reveal">Где и когда встречаемся</h2>
+    <div class="cards tiles" style="--n:2">
+      <article class="tile reveal"><h3 class="t-h4">Уфа, 28 октября</h3><p>Офлайн-встреча для предпринимателей. Время начала и программу пришлём зарегистрированным участникам</p></article>
+      <article class="tile reveal"><h3 class="t-h4">Место проведения — скоро</h3><p>Адрес и схему проезда добавим сюда, как только площадка будет подтверждена</p><a class="button button--primary button--small" href="#form">Зарегистрироваться</a></article>
+    </div>
+  </div>
+</section>
+
+<!-- 20 · Форма -->
+<section class="section section--dark" id="form">
+  <div class="container lead">
+    <div class="lead__copy reveal">
+      <h2 class="t-h1">Приходите на бизнес-завтрак</h2>
+      <p class="t-lead">Зарегистрируйтесь, чтобы участвовать в офлайн-встрече 28 октября в Уфе</p>
+      <ul class="lead__list"><li><strong>Живой разговор с командой франшизы</strong><span>Вопросы про экономику, сроки и условия — напрямую, без переписки</span></li><li><strong>Цифры по вашему городу</strong><span>Инвестиции, окупаемость, взносы и роялти для Уфы, Челябинска, Магнитогорска и Стерлитамака</span></li><li><strong>Стратегия развития</strong><span>Поможем разработать план запуска или передачи сети в управление</span></li></ul>
+    </div>
+    <form class="form-card reveal" data-form novalidate>
+      <h3 class="t-h3">Регистрация</h3>
+      <label class="field"><span>Имя и фамилия</span><input name="name" placeholder="Как к вам обращаться" autocomplete="name" required></label>
+      <label class="field"><span>Телефон</span><input name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" required></label>
+      <label class="field"><span>Почта</span><input name="email" type="email" placeholder="name@company.ru" autocomplete="email" required></label>
+      <label class="field"><span>Город, который вас интересует</span><input name="city" placeholder="Уфа, Челябинск, Магнитогорск или Стерлитамак"></label>
+      <label class="consent"><input type="checkbox" required><span>Согласие на обработку персональных данных на условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">политики конфиденциальности</a></span></label>
+      <div class="form-card__submit"><button class="button button--primary" type="submit">Зарегистрироваться</button><span>Подтверждение<br>придёт на почту</span></div>
+      <p class="form-card__status" data-status aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<footer class="footer section--dark">
+  <div class="container">
+    <div class="footer__top"><a class="brand" href="#top" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-footer.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-footer-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-footer-word-2.svg" alt=""></a><nav class="footer__nav"><a href="#agenda">Что обсудим</a><a href="#cities">Города</a><a href="#place">Где и когда</a><a href="https://lavka.yandex.ru/about/franchise" target="_blank" rel="noopener">Франшиза</a></nav><a class="button button--primary button--small" href="#form">Регистрация</a></div>
+    <div class="footer__legal t-legal"><div><p>Яндекс Лавка — раздел информационного сервиса Яндекс Еда, подробнее: <a href="https://clck.ru/QgJpy" target="_blank" rel="noopener">clck.ru/QgJpy</a></p><p>Условия индивидуальны и зависят от направления. Результаты могут отличаться от указанных. Чтобы узнать подробности, отправьте заявку через форму</p></div><div><a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политика конфиденциальности</a><span>© 2026 ООО «Яндекс.Лавка»</span></div></div>
+  </div>
+</footer>
+
+<script src="../blocks/blocks.js"></script>
+</body>
+</html>
