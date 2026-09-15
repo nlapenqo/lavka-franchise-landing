@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><title>Авокадо — бегущая полоса</title>
 <style>
-/* Performance-баннер 960×720 «Авокадо Хасс» с бегущей полосой (Figma 1372:20729). Координаты — из макета. */
+/* Performance-баннер 960×720 «Авокадо Хасс» с бегущей полосой (Figma 1381:21536). Координаты — из макета. */
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
@@ -34,18 +34,18 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .sh3{left:108.77px;top:395.04px;width:366.9px;height:185.79px;filter:blur(11px)}
 .sh4{left:214.8px;top:424.13px;width:366.9px;height:185.79px;filter:blur(11px)}
 
-/* Бегущая полоса: повёрнута на 4.28° (матрица из макета), ряд из 4 периодов по 534 px.
-   Трек едет вправо на один период за 15 с (≈36 px/с) и зацикливается: узор в начале и в конце совпадает. */
-.strip{position:absolute;left:0;top:0;width:2136px;height:74px;transform-origin:0 0;transform:matrix(.997211,-.074631,.074631,.997211,-514,543.411)}
-.track{position:absolute;left:0;top:0;width:2136px;height:74px;display:flex;background:#FF6D2F;will-change:transform;animation:run 15s linear infinite}
-@keyframes run{from{transform:translateX(-534px)}to{transform:translateX(0)}}
+/* Бегущая полоса (исправленный макет 1381:21536): повёрнута на 4.28°, ряд из 4 периодов по 548 px (340 + 208).
+   Трек едет вправо на один период за 20.5 с (≈26.7 px/с) и зацикливается: узор в начале и в конце совпадает. */
+.strip{position:absolute;left:0;top:0;width:2192px;height:74px;transform-origin:0 0;transform:matrix(.997211,-.074631,.074631,.997211,-559,559.59)}
+.track{position:absolute;left:0;top:0;width:2192px;height:74px;display:flex;background:#FF6D2F;will-change:transform;animation:run 20.5s linear infinite}
+@keyframes run{from{transform:translateX(-548px)}to{transform:translateX(0)}}
 .seg{position:relative;flex:none;height:74px}
-.seg--a{width:320px}
-.seg--b{width:214px}
+.seg--a{width:340px}
+.seg--b{width:208px}
 .seg__t{position:absolute;font-weight:600}
-.seg--a .seg__t{left:30.49px;top:23.29px;font-size:33.21px}
-.seg--b .seg__t{left:45.22px;top:24.5px;font-size:32px}
-.spark{top:-6.6px;width:87.47px;height:87.47px}
+.seg--a .seg__t{left:40.05px;top:22.49px;font-size:33.21px}
+.seg--b .seg__t{left:42.01px;top:24.1px;font-size:32px}
+.spark{top:-6.67px;width:87.47px;height:87.47px}
 
 /* ── появление сцены (тайминги как в баннере «Классическая бирка») ── */
 :root{--oexpo:cubic-bezier(.16,1,.3,1);--back:cubic-bezier(.34,1.45,.64,1);--soft:cubic-bezier(.4,0,.2,1)}
@@ -70,7 +70,7 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 @keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
 @keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes product{from{opacity:0;translate:70px 24px}to{opacity:1;translate:0 0}}
-@keyframes ribbon{from{opacity:1;clip-path:inset(-24px 1636px -24px 0)}to{opacity:1;clip-path:inset(-24px 0 -24px 0)}}
+@keyframes ribbon{from{opacity:1;clip-path:inset(-24px 1632px -24px 0)}to{opacity:1;clip-path:inset(-24px 0 -24px 0)}}
 </style></head><body>
 <div class="banner pre">
   <div class="bg"></div>
@@ -85,7 +85,7 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 ООО «Яндекс.Лавка» (123112, г. Москва,
 пр. 1-й Красногвардейский, д. 22, стр. 1,
 эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
-  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <img class="noise" src="assets/noise-under.svg" alt="">
   <div class="strip a">
     <div class="track">
       <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
@@ -96,17 +96,18 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
       <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
       <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
       <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
-      <img class="spark" style="left:-43.74px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:276.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:490.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:810.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1024.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1344.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1558.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1878.26px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:2092.26px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:-43.85px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:296.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:504.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:844.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:1052.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:1392.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:1600.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:1940.15px" src="assets/sparkle.png" alt="">
+      <img class="spark" style="left:2148.15px" src="assets/sparkle.png" alt="">
     </div>
   </div>
+  <img class="noise" src="assets/noise-over.svg" alt="">
   <div class="pill cap a">–25%</div>
   <div class="avo a">
     <div class="sh sh1"></div><div class="sh sh2"></div><div class="sh sh3"></div><div class="sh sh4"></div>
