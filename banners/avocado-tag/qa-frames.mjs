@@ -6,6 +6,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 const [url, outdir, timesArg] = process.argv.slice(2);
 const times = timesArg.split(',').map(Number);
+const pi = process.argv.indexOf('--probe'); const probe = pi > -1 ? process.argv[pi + 1].split(',') : []; // --probe .a,.b — вывести opacity элементов на каждом кадре
 const ri = process.argv.indexOf('--rect'); const rectSel = ri > -1 ? process.argv[ri + 1] : ''; // --rect .sel — сохранять getBoundingClientRect элемента на каждом кадре
 mkdirSync(outdir, { recursive: true });
 const bin = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
@@ -32,6 +33,7 @@ try {
     await sleep(120);
     const shot = await send('Page.captureScreenshot', { format: 'png' });
     writeFileSync(`${outdir}/t${t.toFixed(2)}.png`, Buffer.from(shot.data, 'base64'));
+    if (probe.length) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(${JSON.stringify(probe)}.map(s => [s, +getComputedStyle(document.querySelector(s)).opacity]))`, returnByValue: true }); console.log(`t=${t.toFixed(2)} ` + JSON.parse(r.result.value).map(([s, o]) => `${s}=${o.toFixed(2)}`).join(' ')); }
     if (rectSel) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(document.querySelector(${JSON.stringify(rectSel)}).getBoundingClientRect())`, returnByValue: true }); writeFileSync(`${outdir}/t${t.toFixed(2)}.json`, r.result.value); }
   }
   console.log('ok', outdir, times.join(','));

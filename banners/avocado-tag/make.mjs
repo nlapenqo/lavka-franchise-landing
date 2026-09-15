@@ -3,7 +3,7 @@
 // скрипт переводит их в проценты @keyframes (одна анимация на элемент, easing на каждом отрезке)
 // и пишет v1.html … v6.html + index.html (галерея). Запуск: node make.mjs
 import { writeFileSync } from 'node:fs';
-const VER = '20260915h'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
+const VER = '20260915i'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
 
 const OUT   = 'cubic-bezier(.22,.61,.36,1)';   // мягкий выход
 const OEXPO = 'cubic-bezier(.16,1,.3,1)';      // резкий старт, длинное торможение
@@ -181,7 +181,7 @@ const variants = [];
     ]),
     reveal('.tag__knot', 'v3knot', 1.34, 0.18, 'transform:scale(0)', 'transform:scale(1)', BACK),
     '.avo{transform-origin:133px 68px}',
-    reveal('.avo', 'v3avo', 0.75, 0.55, 'transform:scale(.96)', 'transform:scale(1)'), // на долю раньше контента (логотип с 0.85)
+    reveal('.avo', 'v3avo', 0.82, 0.45, 'transform:scale(.96)', 'transform:scale(1)'), // та же кривая и длительность, что у текста, старт на 0.03 с раньше логотипа
     // контент выходит лесенкой, пока бирка летит (полёт 0.8–1.4 с)
     ...[['logo', 0.85], ['pill', 0.92], ['price', 1.06], ['rub', 1.13], ['old', 1.2], ['name', 1.27], ['age', 1.34], ['legal', 1.4]]
       .map(([el, t0]) => reveal(`.${el}`, `v3${el}`, t0, 0.45, tf(el, 'translateY(18px)'), tf(el, 'translateY(0)'))),
