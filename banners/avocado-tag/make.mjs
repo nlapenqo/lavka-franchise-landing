@@ -3,6 +3,7 @@
 // скрипт переводит их в проценты @keyframes (одна анимация на элемент, easing на каждом отрезке)
 // и пишет v1.html … v6.html + index.html (галерея). Запуск: node make.mjs
 import { writeFileSync } from 'node:fs';
+const VER = '20260915b'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
 
 const OUT   = 'cubic-bezier(.22,.61,.36,1)';   // мягкий выход
 const OEXPO = 'cubic-bezier(.16,1,.3,1)';      // резкий старт, длинное торможение
@@ -66,7 +67,7 @@ const script = `<script>
 
 const page = (n, title, css) => `<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><title>${n} — ${title}</title>
-<link rel="stylesheet" href="banner.css">
+<link rel="stylesheet" href="banner.css?v=${VER}">
 <style>
 .pre .a{opacity:0}
 ${css}
@@ -173,10 +174,10 @@ const variants = [];
     '.tag__string path{stroke-dasharray:1}',
     anim('.tag__string path', 'v3string', [
       { t: 0,    css: 'stroke-dashoffset:-1' },
-      { t: 1.6,  css: 'stroke-dashoffset:-1', ease: OEXPO },
-      { t: 1.85, css: 'stroke-dashoffset:0' },
+      { t: 1.35, css: 'stroke-dashoffset:-1', ease: SOFT },
+      { t: 1.7,  css: 'stroke-dashoffset:0' },
     ]),
-    reveal('.tag__knot', 'v3knot', 1.78, 0.22, 'transform:scale(0)', 'transform:scale(1)', BACK),
+    reveal('.tag__knot', 'v3knot', 1.64, 0.2, 'transform:scale(0)', 'transform:scale(1)', BACK),
     '.avo{transform-origin:133px 68px}',
     reveal('.avo', 'v3avo', 0.95, 0.6, 'transform:scale(.96)', 'transform:scale(1)'),
     ...[['logo', 1.95], ['pill', 2.04], ['price', 2.22], ['rub', 2.31], ['old', 2.4], ['name', 2.49], ['age', 2.62], ['legal', 2.7]]
@@ -188,7 +189,7 @@ const variants = [];
       { t: 2.85, css: 'clip-path:inset(0 0 0 0)' },
     ]),
   ].join('\n');
-  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок. Бирка появляется крупно без верёвочки, качнувшись, летит к авокадо; на подлёте верёвочка дорисовывается к черенку и ставится узелок — бирка повисает, затухающе покачиваясь. Контент выходит лесенкой.', css });
+  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок. Бирка появляется крупно без верёвочки, качнувшись, летит к авокадо; во время полёта из колечка вырастает верёвочка, на посадке ставится узелок — бирка повисает, затухающе покачиваясь. Контент выходит лесенкой.', css });
 }
 
 /* ───── 4. Заголовок: сначала только текст «большие скидки», под него выезжает оранжевая бирка ───── */
