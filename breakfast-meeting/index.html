@@ -139,6 +139,20 @@ img,svg{display:block;max-width:100%}
 .choices label:hover span{border-color:var(--navy)}
 .choices input:checked+span{background:var(--navy);border-color:var(--navy);color:var(--white)}
 .choices input:focus-visible+span{box-shadow:var(--shadow-focus-ring)}
+/* дропдаун: своя кнопка и список поверх нативного select (он остаётся в DOM скрытым — ради required и отправки формы);
+   в отличие от нативного, длинные варианты переносятся и в закрытом, и в открытом состоянии. Включается data-dropdown, строит blocks.js */
+.dropdown{position:relative}
+.dropdown select{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.dropdown__button{position:relative;width:100%;min-height:56px;padding:14px 52px 14px var(--space-3);border:1.5px solid var(--sky);border-radius:var(--radius-m);background:var(--light);text-align:left;font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1.25;color:var(--navy);cursor:pointer;transition:border-color var(--dur-hover),box-shadow var(--dur-hover),background var(--dur-hover)}
+.dropdown__button.is-empty{color:var(--dim)}
+.dropdown__button::after{content:'';position:absolute;right:18px;top:50%;width:20px;height:20px;margin-top:-10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 8l5 5 5-5' stroke='%231B3A6A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/20px no-repeat;transition:transform .2s var(--ease)}
+.dropdown.is-open .dropdown__button,.dropdown__button:focus-visible{border-color:var(--blue);background:var(--white);box-shadow:var(--shadow-focus-ring);outline:none}
+.dropdown.is-open .dropdown__button::after{transform:rotate(180deg)}
+.dropdown__list{position:absolute;z-index:5;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;border-radius:var(--radius-m);background:var(--white);box-shadow:var(--shadow-float);max-height:320px;overflow:auto}
+.dropdown__list[hidden]{display:none}
+.dropdown__list li{padding:11px 14px;border-radius:var(--radius-s);font-size:var(--fs-body-s);font-weight:var(--fw-medium);line-height:1.3;color:var(--navy);cursor:pointer}
+.dropdown__list li:hover,.dropdown__list li.is-active{background:var(--surface-tint)}
+.dropdown__list li[aria-selected=true]{background:var(--navy);color:var(--white)}
 /* вертикальный список: длинные варианты в одну колонку, текст переносится */
 .choices--stack{flex-direction:column;gap:6px}
 .choices--stack span{white-space:normal;line-height:1.25;padding:9px 18px;border-radius:22px}
@@ -729,11 +743,11 @@ img,svg{display:block;max-width:100%}
       <div class="form-card__group"><span>Есть ли&nbsp;у&nbsp;вас действующий бизнес?</span><div class="choices"><label><input type="radio" name="business" value="Да" required><span>Да</span></label><label><input type="radio" name="business" value="Нет"><span>Нет</span></label></div></div>
       <label class="field"><span>Есть ли&nbsp;у&nbsp;вас опыт ведения бизнеса по&nbsp;франшизе? Если да, то&nbsp;с&nbsp;какой франшизой?</span><input name="franchise" required></label>
       <label class="field"><span>Готовы ли&nbsp;вы обучаться и&nbsp;следовать стандартам франшизы?</span><input name="standards" required></label>
-      <div class="form-card__group"><span>Какую роль вы отводите себе в&nbsp;проекте?</span><div class="choices choices--stack"><label><input type="radio" name="role" value="Планирую сам управлять бизнесом" required><span>Планирую сам управлять бизнесом</span></label><label><input type="radio" name="role" value="На&nbsp;первом этапе самостоятельно погружусь во&nbsp;все операционные процессы и&nbsp;потом найму управляющего"><span>На&nbsp;первом этапе самостоятельно погружусь во&nbsp;все операционные процессы и&nbsp;потом найму управляющего</span></label><label><input type="radio" name="role" value="Сразу планирую назначить управляющего, который будет выстраивать процессы"><span>Сразу планирую назначить управляющего, который будет выстраивать процессы</span></label><label><input type="radio" name="role" value="Планирую только инвестировать, без&nbsp;активного участия в&nbsp;управлении"><span>Планирую только инвестировать, без&nbsp;активного участия в&nbsp;управлении</span></label></div></div>
+      <div class="field"><span>Какую роль вы отводите себе в&nbsp;проекте?</span><div class="dropdown" data-dropdown><select name="role" required aria-label="role"><option value="" selected disabled>Не&nbsp;выбрано</option><option>Планирую сам управлять бизнесом</option><option>На&nbsp;первом этапе самостоятельно погружусь во&nbsp;все операционные процессы и&nbsp;потом найму управляющего</option><option>Сразу планирую назначить управляющего, который будет выстраивать процессы</option><option>Планирую только инвестировать, без&nbsp;активного участия в&nbsp;управлении</option></select></div></div>
       <label class="field"><span>Какой у&nbsp;вас бюджет на&nbsp;запуск и&nbsp;ведение бизнеса?</span><input name="budget" required></label>
-      <label class="field"><span>Планируете ли&nbsp;вы привлекать дополнительное финансирование?</span><select name="financing" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Планирую привлечь инвестора</option><option>Планирую привлечь кредитные средства</option><option>Не&nbsp;планирую привлекать дополнительные инвестиции</option></select></label>
+      <div class="field"><span>Планируете ли&nbsp;вы привлекать дополнительное финансирование?</span><div class="dropdown" data-dropdown><select name="financing" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Планирую привлечь инвестора</option><option>Планирую привлечь кредитные средства</option><option>Не&nbsp;планирую привлекать дополнительные инвестиции</option></select></div></div>
       <label class="field"><span>Какую сумму дополнительных средств в&nbsp;случае расширения бизнеса вы готовы вложить?</span><input name="extra" required></label>
-      <div class="form-card__group"><span>Оцените свою готовность развивать и&nbsp;управлять сетью дарксторов Яндекс Лавки</span><span class="field__hint">Инвестиции в&nbsp;один даркстор&nbsp;— около 20&nbsp;млн&nbsp;₽</span><div class="choices choices--stack"><label><input type="radio" name="readiness" value="Готов развивать сеть от&nbsp;8&nbsp;дарксторов с&nbsp;персоналом более 200&nbsp;человек" required><span>Готов развивать сеть от&nbsp;8&nbsp;дарксторов с&nbsp;персоналом более 200&nbsp;человек</span></label><label><input type="radio" name="readiness" value="Готов развивать сеть от&nbsp;15&nbsp;дарксторов с&nbsp;персоналом более 350&nbsp;человек"><span>Готов развивать сеть от&nbsp;15&nbsp;дарксторов с&nbsp;персоналом более 350&nbsp;человек</span></label><label><input type="radio" name="readiness" value="Готов развивать сеть от&nbsp;20&nbsp;дарксторов с&nbsp;персоналом более 500&nbsp;человек"><span>Готов развивать сеть от&nbsp;20&nbsp;дарксторов с&nbsp;персоналом более 500&nbsp;человек</span></label><label><input type="radio" name="readiness" value="Рассматриваю другой вариант развития"><span>Рассматриваю другой вариант развития</span></label></div></div>
+      <div class="field"><span>Оцените свою готовность развивать и&nbsp;управлять сетью дарксторов Яндекс Лавки</span><span class="field__hint">Инвестиции в&nbsp;один даркстор&nbsp;— около 20&nbsp;млн&nbsp;₽</span><div class="dropdown" data-dropdown><select name="readiness" required aria-label="readiness"><option value="" selected disabled>Не&nbsp;выбрано</option><option>Готов развивать сеть от&nbsp;8&nbsp;дарксторов с&nbsp;персоналом более 200&nbsp;человек</option><option>Готов развивать сеть от&nbsp;15&nbsp;дарксторов с&nbsp;персоналом более 350&nbsp;человек</option><option>Готов развивать сеть от&nbsp;20&nbsp;дарксторов с&nbsp;персоналом более 500&nbsp;человек</option><option>Рассматриваю другой вариант развития</option></select></div></div>
       <label class="field"><span>Расскажите о&nbsp;вашей цели посещения бизнес-завтрака</span><textarea name="goal" rows="3" required></textarea></label>
       <label class="consent"><input type="checkbox" name="marketing"><span>Даю согласие на&nbsp;получение индивидуальных предложений от&nbsp;ООО «Яндекс Лавка» через смс-сообщения, сообщения в&nbsp;Telegram на&nbsp;указанный номер телефона и&nbsp;писем на&nbsp;указанный e-mail на&nbsp;условиях и&nbsp;в&nbsp;целях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
       <label class="consent"><input type="checkbox" required><span>С&nbsp;целью проведения переговоров о&nbsp;возможном деловом сотрудничестве даю согласие на&nbsp;обработку персональных данных ООО «Яндекс Лавка» на&nbsp;условиях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
@@ -868,6 +882,24 @@ img,svg{display:block;max-width:100%}
       if (open) { item.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true'); }
     });
   }));
+
+  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение */
+  $$('[data-dropdown]').forEach(box => {
+    const sel = $('select', box); if (!sel) return;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dropdown__button'; btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
+    const list = document.createElement('ul'); list.className = 'dropdown__list'; list.setAttribute('role', 'listbox'); list.hidden = true;
+    const opts = [...sel.options].filter(o => o.value !== '');
+    const placeholder = (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
+    const render = () => { const o = sel.selectedOptions[0]; const empty = !o || o.value === ''; btn.textContent = empty ? placeholder : o.textContent; btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === sel.value && !empty))); };
+    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); close(); btn.focus(); }); list.appendChild(li); });
+    const open = () => { box.classList.add('is-open'); list.hidden = false; btn.setAttribute('aria-expanded', 'true'); };
+    const close = () => { box.classList.remove('is-open'); list.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+    btn.addEventListener('click', () => list.hidden ? open() : close());
+    box.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
+    document.addEventListener('click', e => { if (!box.contains(e.target)) close(); });
+    sel.addEventListener('change', render);
+    box.append(btn, list); render();
+  });
 
   /* подсказки ⓘ: на тач-экранах открываются тапом, закрываются тапом мимо */
   $$('.info').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const on = !b.classList.contains('is-on'); $$('.info.is-on').forEach(o => o.classList.remove('is-on')); if (on) b.classList.add('is-on'); }));
