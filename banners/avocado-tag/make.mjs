@@ -49,7 +49,7 @@ const markup = `<div class="banner pre">
     <img class="tag__body" src="assets/tag-body.svg" alt="">
     <img class="tag__ring" src="assets/tag-ring.svg" alt="">
     <p class="tag__text">большие<br>скидки</p>
-    <img class="tag__string" src="assets/string.svg" alt="">
+    <svg class="tag__string" viewBox="0 0 55.0003 33.0003" fill="none" aria-hidden="true"><path pathLength="1" d="M53.5003 1.50001C29.5003 2.16668 12.1669 12.1667 1.50028 31.5" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
     <img class="tag__knot" src="assets/knot.svg" alt="">
   </div>
 </div>`;
@@ -169,6 +169,14 @@ const variants = [];
       { t: 2.25, css: `opacity:1;${T(0, 0, -7, 1)}`, ease: IO },
       { t: 2.45, css: `opacity:1;${T(0, 0, -6, 1)}` },
     ]),
+    // верёвочка с узелком появляются в момент приклейки: штрих дорисовывается от бирки к черенку, узелок ставится в конце
+    '.tag__string path{stroke-dasharray:1}',
+    anim('.tag__string path', 'v3string', [
+      { t: 0,    css: 'stroke-dashoffset:-1' },
+      { t: 1.6,  css: 'stroke-dashoffset:-1', ease: OEXPO },
+      { t: 1.85, css: 'stroke-dashoffset:0' },
+    ]),
+    reveal('.tag__knot', 'v3knot', 1.78, 0.22, 'transform:scale(0)', 'transform:scale(1)', BACK),
     '.avo{transform-origin:133px 68px}',
     reveal('.avo', 'v3avo', 0.95, 0.6, 'transform:scale(.96)', 'transform:scale(1)'),
     ...[['logo', 1.95], ['pill', 2.04], ['price', 2.22], ['rub', 2.31], ['old', 2.4], ['name', 2.49], ['age', 2.62], ['legal', 2.7]]
@@ -180,7 +188,7 @@ const variants = [];
       { t: 2.85, css: 'clip-path:inset(0 0 0 0)' },
     ]),
   ].join('\n');
-  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок верёвочки. Бирка появляется крупно, качнувшись, летит к авокадо и повисает на черенке, затухающе покачиваясь. Контент выходит лесенкой.', css });
+  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок. Бирка появляется крупно без верёвочки, качнувшись, летит к авокадо; на подлёте верёвочка дорисовывается к черенку и ставится узелок — бирка повисает, затухающе покачиваясь. Контент выходит лесенкой.', css });
 }
 
 /* ───── 4. Заголовок: сначала только текст «большие скидки», под него выезжает оранжевая бирка ───── */

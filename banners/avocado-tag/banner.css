@@ -10,7 +10,7 @@ html,body{margin:0;height:100%}
 body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
 .banner *{box-sizing:border-box}
-.banner img{display:block;position:absolute;max-width:none}
+.banner img,.banner svg{display:block;position:absolute;max-width:none}
 .banner p{margin:0}
 .cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
 
