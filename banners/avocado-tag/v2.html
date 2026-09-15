@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>v2 — Штамп</title>
+<link rel="stylesheet" href="banner.css">
+<style>
+.pre .a{opacity:0}
+@keyframes v2tag{
+  0%{opacity:0;transform:translate(30px,184px) rotate(-3deg) scale(2.8);filter:drop-shadow(0 48px 36px rgba(0,50,110,0));animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  26.471%{opacity:1;transform:translate(30px,184px) rotate(-3deg) scale(2.6);filter:drop-shadow(0 44px 32px rgba(0,50,110,0.35))}
+  61.765%{opacity:1;transform:translate(30px,184px) rotate(-3deg) scale(2.6);filter:drop-shadow(0 44px 32px rgba(0,50,110,0.35));animation-timing-function:cubic-bezier(.55,0,1,.45)}
+  81.176%{opacity:1;transform:translate(0px,0px) rotate(-6deg) scale(1);filter:drop-shadow(0 0px 0px rgba(0,50,110,0));animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  85.882%{opacity:1;transform:translate(0px,0px) rotate(-6deg) scale(0.965);filter:drop-shadow(0 0px 0px rgba(0,50,110,0));animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  100%{opacity:1;transform:translate(0px,0px) rotate(-6deg) scale(1);filter:drop-shadow(0 0px 0px rgba(0,50,110,0))}
+}
+.play .tag{animation:v2tag 1.7s linear both}
+.avo{transform-origin:50% 100%}
+@keyframes v2avo{
+  0%{opacity:0;transform:translateY(70px) scale(1,1)}
+  38.462%{opacity:0;transform:translateY(70px) scale(1,1);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  65.934%{opacity:1;transform:translateY(0) scale(1,1)}
+  75.824%{opacity:1;transform:translateY(0) scale(1,1);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  80.769%{opacity:1;transform:translateY(0) scale(1.025,.965);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  90.11%{opacity:1;transform:translateY(0) scale(.995,1.01);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  100%{opacity:1;transform:translateY(0) scale(1,1)}
+}
+.play .avo{animation:v2avo 1.82s linear both}
+@keyframes v2logo{
+  0%{opacity:0;transform:scale(.88)}
+  78.125%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .logo{animation:v2logo 1.92s linear both}
+@keyframes v2pill{
+  0%{opacity:0;transform:scale(.88)}
+  79%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .pill{animation:v2pill 2s linear both}
+@keyframes v2price{
+  0%{opacity:0;transform:scale(.88)}
+  79.808%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .price{animation:v2price 2.08s linear both}
+@keyframes v2rub{
+  0%{opacity:0;transform:scale(.88)}
+  80.556%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .rub{animation:v2rub 2.16s linear both}
+@keyframes v2old{
+  0%{opacity:0;transform:scale(.88)}
+  81.081%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .old{animation:v2old 2.22s linear both}
+@keyframes v2name{
+  0%{opacity:0;transform:scale(.88)}
+  81.897%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .name{animation:v2name 2.32s linear both}
+@keyframes v2age{
+  0%{opacity:0;transform:scale(.88)}
+  82.996%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .age{animation:v2age 2.4699999999999998s linear both}
+@keyframes v2legal{
+  0%{opacity:0;transform:scale(.88)}
+  83.333%{opacity:0;transform:scale(.88);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .legal{animation:v2legal 2.52s linear both}
+@keyframes v2star{
+  0%{opacity:0;transform:scale(0) rotate(-135deg)}
+  80.851%{opacity:0;transform:scale(0) rotate(-135deg);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1) rotate(-135deg)}
+}
+.play .star{animation:v2star 2.35s linear both}
+@keyframes v2strike{
+  0%{clip-path:inset(0 100% 0 0)}
+  88%{clip-path:inset(0 100% 0 0);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{clip-path:inset(0 0 0 0)}
+}
+.play .strike{animation:v2strike 2.25s linear both}
+</style></head><body>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="avo a">
+    <div class="sh sh1"></div><div class="sh sh2"></div><div class="sh sh3"></div><div class="sh sh4"></div>
+    <img class="avo__img" src="assets/avocado.png" alt="">
+  </div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <div class="pill cap a">–25%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <p class="price cap a">179</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">239</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Авокадо Хасс, <span>2 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <div class="tag a">
+    <img class="tag__body" src="assets/tag-body.svg" alt="">
+    <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+    <p class="tag__text">большие<br>скидки</p>
+    <img class="tag__string" src="assets/string.svg" alt="">
+    <img class="tag__knot" src="assets/knot.svg" alt="">
+  </div>
+</div>
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+</body></html>

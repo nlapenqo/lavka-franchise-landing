@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>v1 — Планер</title>
+<link rel="stylesheet" href="banner.css">
+<style>
+.pre .a{opacity:0}
+@keyframes v1tag{
+  0%{opacity:0;transform:translate(30px,196px) rotate(2deg) scale(2.2);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  25.641%{opacity:1;transform:translate(30px,184px) rotate(0deg) scale(2.4)}
+  56.41%{opacity:1;transform:translate(30px,184px) rotate(0deg) scale(2.4);animation-timing-function:cubic-bezier(.55,0,.15,1)}
+  88.205%{opacity:1;transform:translate(0px,0px) rotate(-9deg) scale(1);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  100%{opacity:1;transform:translate(0px,0px) rotate(-6deg) scale(1)}
+}
+.play .tag{animation:v1tag 1.95s linear both}
+.avo{transform-origin:133px 68px}
+@keyframes v1avo{
+  0%{opacity:0;transform:translateX(160px) scale(1)}
+  38.095%{opacity:0;transform:translateX(160px) scale(1);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  71.429%{opacity:1;transform:translateX(0) scale(1)}
+  82.857%{opacity:1;transform:translateX(0) scale(1);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  87.619%{opacity:1;transform:translateX(0) scale(.985);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  100%{opacity:1;transform:translateX(0) scale(1)}
+}
+.play .avo{animation:v1avo 2.1s linear both}
+@keyframes v1logo{
+  0%{opacity:0;transform:translateY(-12px)}
+  79.592%{opacity:0;transform:translateY(-12px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .logo{animation:v1logo 2.45s linear both}
+@keyframes v1pill{
+  0%{opacity:0;transform:scale(.85)}
+  82%{opacity:0;transform:scale(.85);animation-timing-function:cubic-bezier(.34,1.45,.64,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .pill{animation:v1pill 2.5s linear both}
+@keyframes v1star{
+  0%{opacity:0;transform:scale(0) rotate(-40deg) rotate(-135deg)}
+  82.143%{opacity:0;transform:scale(0) rotate(-40deg) rotate(-135deg);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:scale(1) rotate(0deg) rotate(-135deg)}
+}
+.play .star{animation:v1star 2.8s linear both}
+@keyframes v1price{
+  0%{opacity:0;transform:translateY(24px)}
+  78.182%{opacity:0;transform:translateY(24px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .price{animation:v1price 2.75s linear both}
+@keyframes v1rub{
+  0%{opacity:0;transform:translateY(24px)}
+  80.357%{opacity:0;transform:translateY(24px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .rub{animation:v1rub 2.8s linear both}
+@keyframes v1old{
+  0%{opacity:0;transform:translateY(12px)}
+  82.143%{opacity:0;transform:translateY(12px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .old{animation:v1old 2.8s linear both}
+@keyframes v1strike{
+  0%{clip-path:inset(0 100% 0 0)}
+  89.474%{clip-path:inset(0 100% 0 0);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{clip-path:inset(0 0 0 0)}
+}
+.play .strike{animation:v1strike 2.85s linear both}
+@keyframes v1name{
+  0%{opacity:0;transform:translateY(16px)}
+  81.356%{opacity:0;transform:translateY(16px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .name{animation:v1name 2.95s linear both}
+@keyframes v1age{
+  0%{opacity:0;transform:none}
+  83.871%{opacity:0;transform:none;animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:none}
+}
+.play .age{animation:v1age 3.1s linear both}
+@keyframes v1legal{
+  0%{opacity:0;transform:none}
+  84.127%{opacity:0;transform:none;animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:none}
+}
+.play .legal{animation:v1legal 3.15s linear both}
+</style></head><body>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="avo a">
+    <div class="sh sh1"></div><div class="sh sh2"></div><div class="sh sh3"></div><div class="sh sh4"></div>
+    <img class="avo__img" src="assets/avocado.png" alt="">
+  </div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <div class="pill cap a">–25%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <p class="price cap a">179</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">239</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Авокадо Хасс, <span>2 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <div class="tag a">
+    <img class="tag__body" src="assets/tag-body.svg" alt="">
+    <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+    <p class="tag__text">большие<br>скидки</p>
+    <img class="tag__string" src="assets/string.svg" alt="">
+    <img class="tag__knot" src="assets/knot.svg" alt="">
+  </div>
+</div>
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+</body></html>

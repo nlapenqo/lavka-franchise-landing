@@ -1,0 +1,49 @@
+/* Статичная вёрстка performance-баннера 960×720 «Авокадо Хасс» (по макету Figma 1353:18879).
+   Все координаты — из макета; анимация задаётся в каждом vN.html отдельно. */
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
+@font-face{font-family:'YS Text';src:url('fonts/YS Text-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Text Cond';src:url('fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300}
+
+html,body{margin:0;height:100%}
+body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
+.banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
+.banner *{box-sizing:border-box}
+.banner img{display:block;position:absolute;max-width:none}
+.banner p{margin:0}
+.cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+
+/* фон */
+.bg{position:absolute;inset:0;background:linear-gradient(95.8deg,#00ADFF 24.67%,#fff 99.97%)}
+.noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
+
+/* авокадо с тенями (группа 669×669, картинка зеркальная) */
+.avo{position:absolute;left:436.72px;top:69.24px;width:669.05px;height:669.05px}
+.avo__img{left:0;top:0;width:669.05px;height:669.05px;transform:scaleX(-1)}
+.sh{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(18,16,16,.6),rgba(18,16,16,0))}
+.sh1{left:56.22px;top:376.28px;width:492.63px;height:252.42px;filter:blur(23px)}
+.sh2{left:131.29px;top:400.67px;width:344.38px;height:174.53px;filter:blur(11px)}
+.sh3{left:108.77px;top:395.04px;width:366.9px;height:185.79px;filter:blur(11px)}
+.sh4{left:214.8px;top:424.13px;width:366.9px;height:185.79px;filter:blur(11px)}
+
+/* левая колонка */
+.logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
+.pill{position:absolute;left:46.47px;top:213.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
+.star{left:168.27px;top:253.35px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.price{position:absolute;left:45.3px;top:321.35px;font-weight:500;font-size:196.86px}
+.rub{position:absolute;left:351.6px;top:391.72px;font-weight:500;font-size:100.35px}
+.old{position:absolute;left:355.13px;top:322.43px;font-weight:500;font-size:60.02px}
+.strike{left:351.6px;top:340.15px;width:107.21px;height:8.29px}
+.name{position:absolute;left:46.47px;top:482.74px;font-weight:400;font-size:34.99px}
+.name span{color:#99DEFF}
+.age{position:absolute;left:47.01px;top:611.35px;font-family:'YS Text',Arial,sans-serif;font-size:50.28px;line-height:1.13;text-box:trim-both cap alphabetic;opacity:.7;font-feature-settings:"case","lnum","pnum"}
+.legal{position:absolute;left:128.8px;top:617.22px;width:370.21px;font-family:'YS Text Cond','Arial Narrow',sans-serif;font-weight:300;font-size:19.96px;line-height:.96;letter-spacing:-.03em;text-transform:uppercase;opacity:.7;text-box:trim-both cap alphabetic;white-space:pre-line;font-feature-settings:"calt" 0}
+
+/* бирка «большие скидки»: в покое центр (434.65,175.9), поворот −6°; узелок — на черенке авокадо (569,137) */
+.tag{position:absolute;left:318.65px;top:134.9px;width:232px;height:82px;transform:rotate(-6deg)}
+.tag__body{left:0;top:0;width:228.55px;height:82px}
+.tag__ring{left:190.5px;top:32.5px;width:17px;height:17px}
+.tag__text{position:absolute;left:26.08px;top:15.42px;width:140px;font-weight:600;font-size:33px;line-height:.74;white-space:nowrap}
+.tag__string{left:200.64px;top:9.66px;width:55px;height:33px;transform-origin:1.5px 1.5px;transform:rotate(6deg)}
+.tag__knot{left:249.85px;top:12.6px;width:8px;height:8px}
