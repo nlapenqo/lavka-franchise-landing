@@ -3,7 +3,7 @@
 // скрипт переводит их в проценты @keyframes (одна анимация на элемент, easing на каждом отрезке)
 // и пишет v1.html … v6.html + index.html (галерея). Запуск: node make.mjs
 import { writeFileSync } from 'node:fs';
-const VER = '20260915e'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
+const VER = '20260915f'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
 
 const OUT   = 'cubic-bezier(.22,.61,.36,1)';   // мягкий выход
 const OEXPO = 'cubic-bezier(.16,1,.3,1)';      // резкий старт, длинное торможение
@@ -158,40 +158,40 @@ const variants = [];
 
 /* ───── 3. Маятник: бирка качается на узелке, затухая, и повисает на черенке ───── */
 {
-  // ось вращения — узелок (в покое он на черенке авокадо: 569.2, 137.2)
+  // ось вращения — узелок (в покое он на черенке авокадо: 569.2, 137.2). Фазы наложены друг на друга:
+  // авокадо проявляется во время качания, верёвочка растёт в полёте, контент выходит, пока бирка ещё докачивается
   const css = [
     '.tag{left:315.35px;top:120.6px;transform-origin:253.85px 16.6px}',
     anim('.tag', 'v3tag', [
       { t: 0,    css: `opacity:0;${T(200, 100, 6, 2.3)}`, ease: OUT },
-      { t: 0.5,  css: `opacity:1;${T(200, 100, -13, 2.3)}`, ease: IO },
-      { t: 1.0,  css: `opacity:1;${T(200, 100, 1, 2.3)}`, ease: FLY },
-      { t: 1.7,  css: `opacity:1;${T(0, 0, -11, 1)}`, ease: IO },
-      { t: 2.0,  css: `opacity:1;${T(0, 0, -3.5, 1)}`, ease: IO },
-      { t: 2.25, css: `opacity:1;${T(0, 0, -7, 1)}`, ease: IO },
-      { t: 2.45, css: `opacity:1;${T(0, 0, -6, 1)}` },
+      { t: 0.4,  css: `opacity:1;${T(200, 100, -13, 2.3)}`, ease: IO },
+      { t: 0.8,  css: `opacity:1;${T(200, 100, 1, 2.3)}`, ease: FLY },
+      { t: 1.4,  css: `opacity:1;${T(0, 0, -11, 1)}`, ease: IO },
+      { t: 1.65, css: `opacity:1;${T(0, 0, -3.5, 1)}`, ease: IO },
+      { t: 1.85, css: `opacity:1;${T(0, 0, -7, 1)}`, ease: IO },
+      { t: 2.0,  css: `opacity:1;${T(0, 0, -6, 1)}` },
     ]),
-    // верёвочка с узелком появляются в момент приклейки: штрих дорисовывается от бирки к черенку, узелок ставится в конце
+    // верёвочка растёт из колечка в полёте; до старта путь скрыт целиком (иначе круглый кончик штриха виден в колечке как точка)
     '.tag__string path{stroke-dasharray:1}',
-    // до старта роста путь скрыт целиком: иначе круглый кончик штриха виден в колечке как точка
     anim('.tag__string path', 'v3string', [
       { t: 0,    css: 'stroke-dashoffset:-1;opacity:0' },
-      { t: 1.34, css: 'stroke-dashoffset:-1;opacity:0' },
-      { t: 1.35, css: 'stroke-dashoffset:-1;opacity:1', ease: SOFT },
-      { t: 1.7,  css: 'stroke-dashoffset:0;opacity:1' },
+      { t: 1.04, css: 'stroke-dashoffset:-1;opacity:0' },
+      { t: 1.05, css: 'stroke-dashoffset:-1;opacity:1', ease: SOFT },
+      { t: 1.4,  css: 'stroke-dashoffset:0;opacity:1' },
     ]),
-    reveal('.tag__knot', 'v3knot', 1.64, 0.2, 'transform:scale(0)', 'transform:scale(1)', BACK),
+    reveal('.tag__knot', 'v3knot', 1.34, 0.18, 'transform:scale(0)', 'transform:scale(1)', BACK),
     '.avo{transform-origin:133px 68px}',
-    reveal('.avo', 'v3avo', 0.95, 0.6, 'transform:scale(.96)', 'transform:scale(1)'),
-    ...[['logo', 1.95], ['pill', 2.04], ['price', 2.22], ['rub', 2.31], ['old', 2.4], ['name', 2.49], ['age', 2.62], ['legal', 2.7]]
-      .map(([el, t0]) => reveal(`.${el}`, `v3${el}`, t0, 0.5, tf(el, 'translateY(18px)'), tf(el, 'translateY(0)'))),
-    reveal('.star', 'v3star', 2.13, 0.5, tf('star', 'scale(0)'), tf('star', 'scale(1)')),
+    reveal('.avo', 'v3avo', 0.55, 0.55, 'transform:scale(.96)', 'transform:scale(1)'),
+    ...[['logo', 1.3], ['pill', 1.37], ['price', 1.51], ['rub', 1.58], ['old', 1.65], ['name', 1.72], ['age', 1.8], ['legal', 1.86]]
+      .map(([el, t0]) => reveal(`.${el}`, `v3${el}`, t0, 0.45, tf(el, 'translateY(18px)'), tf(el, 'translateY(0)'))),
+    reveal('.star', 'v3star', 1.44, 0.45, tf('star', 'scale(0)'), tf('star', 'scale(1)')),
     anim('.strike', 'v3strike', [
       { t: 0,    css: 'clip-path:inset(0 100% 0 0)' },
-      { t: 2.55, css: 'clip-path:inset(0 100% 0 0)', ease: SOFT },
-      { t: 2.85, css: 'clip-path:inset(0 0 0 0)' },
+      { t: 1.78, css: 'clip-path:inset(0 100% 0 0)', ease: SOFT },
+      { t: 2.03, css: 'clip-path:inset(0 0 0 0)' },
     ]),
   ].join('\n');
-  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок. Бирка появляется крупно с колечком, но без верёвочки, качнувшись, летит к авокадо; во время полёта из точки в колечке вырастает верёвочка, на посадке ставится узелок — бирка повисает, затухающе покачиваясь. Контент выходит лесенкой.', css });
+  variants.push({ n: 3, title: 'Маятник', desc: 'Ось вращения — узелок. Бирка появляется крупно с колечком, качнувшись, летит к авокадо; авокадо проявляется ещё во время качания, в полёте из точки в колечке вырастает верёвочка, на посадке ставится узелок, и контент выходит лесенкой, пока бирка ещё докачивается.', css });
 }
 
 /* ───── 4. Заголовок: сначала только текст «большие скидки», под него выезжает оранжевая бирка ───── */

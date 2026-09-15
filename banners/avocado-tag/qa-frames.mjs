@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 // QA-раскадровка анимации: открывает vN.html в headless Chrome, ставит все CSS-анимации на паузу
-// и снимает кадры на заданных секундах. node qa-frames.mjs <url> <outdir> <t1,t2,...> [--scale .5]
+// и снимает кадры на заданных секундах. node qa-frames.mjs <url> <outdir> <t1,t2,...> [--rect .selector]
 import { spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 const [url, outdir, timesArg] = process.argv.slice(2);
 const times = timesArg.split(',').map(Number);
+const ri = process.argv.indexOf('--rect'); const rectSel = ri > -1 ? process.argv[ri + 1] : ''; // --rect .sel — сохранять getBoundingClientRect элемента на каждом кадре
 mkdirSync(outdir, { recursive: true });
 const bin = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
 const port = 9300 + Math.floor(Math.random() * 500);
@@ -31,6 +32,7 @@ try {
     await sleep(120);
     const shot = await send('Page.captureScreenshot', { format: 'png' });
     writeFileSync(`${outdir}/t${t.toFixed(2)}.png`, Buffer.from(shot.data, 'base64'));
+    if (rectSel) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(document.querySelector(${JSON.stringify(rectSel)}).getBoundingClientRect())`, returnByValue: true }); writeFileSync(`${outdir}/t${t.toFixed(2)}.json`, r.result.value); }
   }
   console.log('ok', outdir, times.join(','));
 } catch (e) { console.error('frames failed:', e.message); process.exitCode = 1; }
