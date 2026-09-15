@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>v3 — Маятник</title>
+<link rel="stylesheet" href="banner.css">
+<style>
+.pre .a{opacity:0}
+.tag{left:315.35px;top:120.6px;transform-origin:253.85px 16.6px}
+@keyframes v3tag{
+  0%{opacity:0;transform:translate(200px,100px) rotate(6deg) scale(2.3);animation-timing-function:cubic-bezier(.22,.61,.36,1)}
+  20.408%{opacity:1;transform:translate(200px,100px) rotate(-13deg) scale(2.3);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  40.816%{opacity:1;transform:translate(200px,100px) rotate(1deg) scale(2.3);animation-timing-function:cubic-bezier(.55,0,.15,1)}
+  69.388%{opacity:1;transform:translate(0px,0px) rotate(-11deg) scale(1);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  81.633%{opacity:1;transform:translate(0px,0px) rotate(-3.5deg) scale(1);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  91.837%{opacity:1;transform:translate(0px,0px) rotate(-7deg) scale(1);animation-timing-function:cubic-bezier(.65,0,.35,1)}
+  100%{opacity:1;transform:translate(0px,0px) rotate(-6deg) scale(1)}
+}
+.play .tag{animation:v3tag 2.45s linear both}
+.avo{transform-origin:133px 68px}
+@keyframes v3avo{
+  0%{opacity:0;transform:scale(.96)}
+  61.29%{opacity:0;transform:scale(.96);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:scale(1)}
+}
+.play .avo{animation:v3avo 1.5499999999999998s linear both}
+@keyframes v3logo{
+  0%{opacity:0;transform:translateY(18px)}
+  79.592%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .logo{animation:v3logo 2.45s linear both}
+@keyframes v3pill{
+  0%{opacity:0;transform:translateY(18px)}
+  80.315%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .pill{animation:v3pill 2.54s linear both}
+@keyframes v3price{
+  0%{opacity:0;transform:translateY(18px)}
+  81.618%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .price{animation:v3price 2.72s linear both}
+@keyframes v3rub{
+  0%{opacity:0;transform:translateY(18px)}
+  82.206%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .rub{animation:v3rub 2.81s linear both}
+@keyframes v3old{
+  0%{opacity:0;transform:translateY(18px)}
+  82.759%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .old{animation:v3old 2.9s linear both}
+@keyframes v3name{
+  0%{opacity:0;transform:translateY(18px)}
+  83.278%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .name{animation:v3name 2.99s linear both}
+@keyframes v3age{
+  0%{opacity:0;transform:translateY(18px)}
+  83.974%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .age{animation:v3age 3.12s linear both}
+@keyframes v3legal{
+  0%{opacity:0;transform:translateY(18px)}
+  84.375%{opacity:0;transform:translateY(18px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:translateY(0)}
+}
+.play .legal{animation:v3legal 3.2s linear both}
+@keyframes v3star{
+  0%{opacity:0;transform:scale(0) rotate(-135deg)}
+  80.989%{opacity:0;transform:scale(0) rotate(-135deg);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  100%{opacity:1;transform:scale(1) rotate(-135deg)}
+}
+.play .star{animation:v3star 2.63s linear both}
+@keyframes v3strike{
+  0%{clip-path:inset(0 100% 0 0)}
+  89.474%{clip-path:inset(0 100% 0 0);animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{clip-path:inset(0 0 0 0)}
+}
+.play .strike{animation:v3strike 2.85s linear both}
+</style></head><body>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="avo a">
+    <div class="sh sh1"></div><div class="sh sh2"></div><div class="sh sh3"></div><div class="sh sh4"></div>
+    <img class="avo__img" src="assets/avocado.png" alt="">
+  </div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <div class="pill cap a">–25%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <p class="price cap a">179</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">239</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Авокадо Хасс, <span>2 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <div class="tag a">
+    <img class="tag__body" src="assets/tag-body.svg" alt="">
+    <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+    <p class="tag__text">большие<br>скидки</p>
+    <img class="tag__string" src="assets/string.svg" alt="">
+    <img class="tag__knot" src="assets/knot.svg" alt="">
+  </div>
+</div>
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+</body></html>

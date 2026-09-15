@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Бирка «большие скидки» — 6 вариантов анимации</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
+body{margin:0;padding:40px;background:#f2f7fc;color:#1b3a6a;font:16px/1.4 'YS Geo',Arial,sans-serif}
+h1{font-size:28px;font-weight:500;margin:0 0 6px}
+p.lead{margin:0 0 28px;color:#5a749b}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:36px 32px}
+figure{margin:0}
+.frame{width:480px;height:360px;overflow:hidden;border-radius:12px;box-shadow:0 8px 30px rgba(27,58,106,.12)}
+iframe{width:960px;height:720px;border:0;transform:scale(.5);transform-origin:0 0;display:block}
+figcaption{display:grid;gap:6px;margin-top:12px;max-width:480px}
+figcaption b{font-weight:500;font-size:18px}
+figcaption span{color:#5a749b;font-size:14px}
+.row{display:flex;gap:14px;align-items:center;margin-top:4px}
+a{color:#00adff}
+button{font:inherit;font-size:14px;padding:6px 14px;border-radius:999px;border:0;background:#00adff;color:#fff;cursor:pointer}
+button:hover{background:#0095db}
+</style></head><body>
+<h1>Бирка «большие скидки» — 6 вариантов анимации</h1>
+<p class="lead">960×720, без библиотек: CSS-кейфреймы. Клик по баннеру — повтор. Тайминги в <code>make.mjs</code>.</p>
+<div class="grid">
+  <figure>
+    <div class="frame"><iframe src="v1.html" title="v1 — Планер" loading="eager"></iframe></div>
+    <figcaption><b>v1 · Планер</b><span>Бирка появляется крупно, планирует к авокадо и садится с лёгким довесом поворота. Авокадо чуть «принимает» её. Контент выходит лесенкой сверху вниз.</span><span class="row"><a href="v1.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><iframe src="v2.html" title="v2 — Штамп" loading="eager"></iframe></div>
+    <figcaption><b>v2 · Штамп</b><span>Бирка висит крупно над сценой с мягкой тенью, разгоняется и припечатывается к авокадо. Авокадо пружинит от удара, контент выскакивает с лёгким перелётом.</span><span class="row"><a href="v2.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><iframe src="v3.html" title="v3 — Маятник" loading="eager"></iframe></div>
+    <figcaption><b>v3 · Маятник</b><span>Ось вращения — узелок верёвочки. Бирка появляется крупно, качнувшись, летит к авокадо и повисает на черенке, затухающе покачиваясь. Контент выходит лесенкой.</span><span class="row"><a href="v3.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><iframe src="v4.html" title="v4 — Заголовок" loading="eager"></iframe></div>
+    <figcaption><b>v4 · Заголовок</b><span>Открывается типографикой: на пустом фоне только белые слова «большие скидки». Под них слева выезжает оранжевая бирка с верёвочкой, и уже бирка летит на авокадо. Дальше — контент.</span><span class="row"><a href="v4.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><iframe src="v5.html" title="v5 — Волна" loading="eager"></iframe></div>
+    <figcaption><b>v5 · Волна</b><span>Бирка садится, и от точки посадки расходится волна: авокадо растёт из-под узелка, остальные элементы появляются по расстоянию от неё, чуть сдвигаясь наружу.</span><span class="row"><a href="v5.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+  <figure>
+    <div class="frame"><iframe src="v6.html" title="v6 — Фокус" loading="eager"></iframe></div>
+    <figcaption><b>v6 · Фокус</b><span>Бирка возникает слишком близко к камере — крупно и не в фокусе, — наводится на резкость, уходит в глубину сцены и садится на авокадо, которое одновременно выходит из размытия. Контент проявляется из лёгкого расфокуса.</span><span class="row"><a href="v6.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
+  </figure>
+</div>
+<script>
+document.querySelectorAll('figure button').forEach(b => b.addEventListener('click', () => { const f = b.closest('figure').querySelector('iframe'); f.contentWindow.location.reload(); }));
+</script>
+</body></html>
