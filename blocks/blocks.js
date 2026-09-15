@@ -116,6 +116,9 @@
     });
   }));
 
+  /* тарифы: голубая обводка переходит на карточку под курсором (как форматы на главной) */
+  $$('[data-offers]').forEach(box => { const cards = $$('.offer', box); cards.forEach(c => c.addEventListener('mouseenter', () => cards.forEach(o => o.classList.toggle('offer--featured', o === c)))); });
+
   /* карта: [data-ymap="lat,lng"] — Яндекс Карта 2.1 с фирменной меткой; ключ — data-apikey (без ключа API работает с ограничениями) */
   $$('[data-ymap]').forEach(el => {
     const [lat, lng] = el.dataset.ymap.split(',').map(Number), zoom = Number(el.dataset.zoom || 15);

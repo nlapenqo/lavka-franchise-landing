@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бизнес-завтрак&nbsp;— варианты: дата в&nbsp;хиро, описания городов</title>
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="../blocks/tokens.css">
+<link rel="stylesheet" href="../blocks/base.css">
+<link rel="stylesheet" href="../blocks/blocks.css">
+<style>
+/* оболочка страницы вариантов — только веб, в лендинг не копируется */
+.v-head{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:14px var(--gutter);background:var(--white);border-top:1px dashed var(--sky);border-bottom:1px solid var(--line);font-size:14px}
+.v-head b{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:var(--navy);color:var(--white);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.v-head strong{font-size:18px;font-weight:800}
+.v-head span{margin-left:auto;color:var(--dim);text-align:right;max-width:720px}
+.intro{padding:96px 0 64px}
+.hero{min-height:0;padding:96px 0}
+.hero .reveal,.section .reveal{opacity:1;transform:none}
+.section{padding:72px 0}
+/* В1: капс над заголовком */
+.hero__kicker{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-accent)}
+/* В2: строка фактов под кнопкой */
+.hero__facts{display:flex;gap:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--border-on-dark);width:100%;max-width:560px}
+.hero__facts dt{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary-on-dark)}
+.hero__facts dd{margin-top:6px;font-size:var(--fs-lead);font-weight:var(--fw-heavy);line-height:1.15}
+/* В3: третья строка заголовка */
+.hero__title .sub{font-size:var(--fs-h2);font-weight:var(--fw-heavy);letter-spacing:var(--ls-h2);color:var(--text-muted-on-dark);margin-top:10px}
+/* В4: число крупно */
+.hero__date{display:flex;align-items:center;gap:var(--space-3)}
+.hero__date b{font-size:var(--fs-num-l);font-weight:var(--fw-black);line-height:.85;letter-spacing:var(--ls-display);color:var(--text-accent)}
+.hero__date span{font-size:var(--fs-lead);font-weight:var(--fw-heavy);line-height:1.15;max-width:160px}
+/* Города · В1: кикер над городом, факты строками */
+.offer__kicker{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-accent);margin-bottom:8px}
+/* Города · В2: подсказка ⓘ (как у взносов на главной) */
+.info{position:relative;display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;vertical-align:middle;border:1px solid var(--mid);border-radius:50%;font-size:12px;font-weight:var(--fw-regular);color:var(--mid);cursor:help;transition:background .2s,color .2s,border-color .2s}
+.info:hover,.info:focus-visible{background:var(--navy);border-color:var(--navy);color:#fff}
+.info span{position:absolute;left:50%;bottom:calc(100% + 11px);z-index:3;width:max-content;max-width:min(240px,60vw);padding:8px 12px;border-radius:12px;background:var(--navy);color:#fff;font-size:12px;line-height:1.35;font-weight:400;letter-spacing:0;text-transform:none;text-align:left;white-space:normal;box-shadow:var(--shadow-float);opacity:0;pointer-events:none;transform:translate(-50%,5px) scale(.94);transform-origin:50% 100%;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.info span::after{content:"";position:absolute;left:50%;top:100%;width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--navy);border-radius:2px;transform:rotate(45deg)}
+.info:hover span,.info:focus-visible span{opacity:1;transform:translate(-50%,0) scale(1)}
+/* Города · В4: короткий подзаголовок */
+.offer__sub{font-size:var(--fs-body-s);font-weight:var(--fw-medium);color:var(--text-secondary);margin:6px 0 14px}
+</style>
+</head>
+<body>
+
+<header class="section--dark intro">
+  <div class="container">
+    <p class="t-caption" style="margin-bottom:24px">Бизнес-завтрак · варианты на&nbsp;выбор · только веб · 15.09.2026</p>
+    <h1 class="t-h1">Два вопроса, <span class="accent">восемь вариантов</span></h1>
+    <p class="t-lead" style="margin-top:28px;max-width:720px;color:var(--muted-dark)">Сверху&nbsp;— четыре подачи «Уфа, 28&nbsp;октября» в&nbsp;хиро без&nbsp;пилюли. Ниже&nbsp;— четыре способа спрятать описание города в&nbsp;карточке. Тексты только исходные. Скажи номера&nbsp;— поставлю на&nbsp;страницу.</p>
+  </div>
+</header>
+
+<div class="v-head"><b>Дата · 1</b><strong>Капс над&nbsp;заголовком</strong><span>Как&nbsp;надзаголовок в&nbsp;блоке «Заявление»: тонкий голубой капс, ничего лишнего. Самый тихий вариант.</span></div>
+<section class="hero hero--split section--dark">
+  <div class="hero__split">
+    <div>
+      <span class="hero__kicker">Уфа · 28&nbsp;октября</span>
+      <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span class="accent">«Франшиза Яндекс&nbsp;Лавки»</span></h1>
+      <p class="hero__lead t-lead">Как&nbsp;запустить франшизу действующего бизнеса по&nbsp;доставке продуктов в&nbsp;городе-миллионнике и&nbsp;зарабатывать на&nbsp;растущем рынке</p>
+      <div class="actions"><a class="button button--primary" href="#">Регистрация</a></div>
+    </div>
+    <div class="slot hero__slot" data-label="Кадр 1:1"></div>
+  </div>
+</section>
+
+<div class="v-head"><b>Дата · 2</b><strong>Строка фактов под&nbsp;кнопкой</strong><span>Город и&nbsp;дата как&nbsp;две подписи с&nbsp;капс-метками, отделены тонкой линией. Тот же&nbsp;язык, что&nbsp;в&nbsp;блоке «Место и&nbsp;время».</span></div>
+<section class="hero hero--split section--dark">
+  <div class="hero__split">
+    <div>
+      <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span class="accent">«Франшиза Яндекс&nbsp;Лавки»</span></h1>
+      <p class="hero__lead t-lead">Как&nbsp;запустить франшизу действующего бизнеса по&nbsp;доставке продуктов в&nbsp;городе-миллионнике и&nbsp;зарабатывать на&nbsp;растущем рынке</p>
+      <div class="actions"><a class="button button--primary" href="#">Регистрация</a></div>
+      <dl class="hero__facts"><div><dt>Город</dt><dd>Уфа</dd></div><div><dt>Дата</dt><dd>28&nbsp;октября</dd></div></dl>
+    </div>
+    <div class="slot hero__slot" data-label="Кадр 1:1"></div>
+  </div>
+</section>
+
+<div class="v-head"><b>Дата · 3</b><strong>Третьей строкой заголовка</strong><span>«Уфа, 28&nbsp;октября» продолжает заголовок кеглем h2&nbsp;приглушённым цветом&nbsp;— дата читается как&nbsp;часть названия события.</span></div>
+<section class="hero hero--split section--dark">
+  <div class="hero__split">
+    <div>
+      <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span class="accent">«Франшиза Яндекс&nbsp;Лавки»</span><span class="sub">Уфа, 28&nbsp;октября</span></h1>
+      <p class="hero__lead t-lead">Как&nbsp;запустить франшизу действующего бизнеса по&nbsp;доставке продуктов в&nbsp;городе-миллионнике и&nbsp;зарабатывать на&nbsp;растущем рынке</p>
+      <div class="actions"><a class="button button--primary" href="#">Регистрация</a></div>
+    </div>
+    <div class="slot hero__slot" data-label="Кадр 1:1"></div>
+  </div>
+</section>
+
+<div class="v-head"><b>Дата · 4</b><strong>Число крупно</strong><span>«28» голубым кеглем цифр, рядом «октября, Уфа». Приём из&nbsp;блока «Цифры» на&nbsp;главной&nbsp;— дата становится главным фактом экрана.</span></div>
+<section class="hero hero--split section--dark">
+  <div class="hero__split">
+    <div>
+      <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span class="accent">«Франшиза Яндекс&nbsp;Лавки»</span></h1>
+      <p class="hero__lead t-lead">Как&nbsp;запустить франшизу действующего бизнеса по&nbsp;доставке продуктов в&nbsp;городе-миллионнике и&nbsp;зарабатывать на&nbsp;растущем рынке</p>
+      <div class="hero__date"><b>28</b><span>октября,<br>Уфа</span></div>
+      <div class="actions"><a class="button button--primary" href="#">Регистрация</a></div>
+    </div>
+    <div class="slot hero__slot" data-label="Кадр 1:1"></div>
+  </div>
+</section>
+
+<div class="v-head"><b>Города · 1</b><strong>Кикер над&nbsp;городом, факты строками</strong><span>Описание разобрано на&nbsp;части: формат&nbsp;— капсом над&nbsp;названием, дарксторы и&nbsp;команда&nbsp;— ещё&nbsp;две строки в&nbsp;списке условий. Ничего не&nbsp;спрятано, всё сканируется.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><p class="offer__kicker">Запуск сети</p><h3 class="offer__city">Уфа</h3><dl><div class="offer__row"><dt>Дарксторов</dt><dd><b>17</b></dd></div><div class="offer__row"><dt>Команда</dt><dd>от&nbsp;500&nbsp;человек</dd></div><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><p class="offer__kicker">Передача в&nbsp;управление</p><h3 class="offer__city">Челябинск</h3><dl><div class="offer__row"><dt>Дарксторов</dt><dd><b>17</b></dd></div><div class="offer__row"><dt>Сеть</dt><dd>действующая</dd></div><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">От&nbsp;25&nbsp;млн&nbsp;₽ при&nbsp;передаче нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽ при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</p></article>
+      <article class="card offer offer--compact lift"><p class="offer__kicker">Запуск сети</p><h3 class="offer__city">Магнитогорск</h3><dl><div class="offer__row"><dt>Дарксторов</dt><dd><b>5</b></dd></div><div class="offer__row"><dt>Команда</dt><dd>от&nbsp;100&nbsp;человек</dd></div><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><p class="offer__kicker">Запуск сети</p><h3 class="offer__city">Стерлитамак</h3><dl><div class="offer__row"><dt>Дарксторов</dt><dd><b>3</b></dd></div><div class="offer__row"><dt>Команда</dt><dd>от&nbsp;50&nbsp;человек</dd></div><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Города · 2</b><strong>Подсказка ⓘ у&nbsp;названия</strong><span>Описание целиком спрятано в&nbsp;подсказку рядом с&nbsp;городом&nbsp;— как&nbsp;пояснения к&nbsp;взносу и&nbsp;роялти на&nbsp;главной. Карточка становится короче, текст доступен по&nbsp;наведению.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа<button class="info" type="button" aria-label="Подробнее">i<span>Запуск сети из&nbsp;17&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;500&nbsp;человек</span></button></h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск<button class="info" type="button" aria-label="Подробнее">i<span>Передача в&nbsp;управление партнёрам действующей сети из&nbsp;17&nbsp;дарксторов</span></button></h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">От&nbsp;25&nbsp;млн&nbsp;₽ при&nbsp;передаче нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽ при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск<button class="info" type="button" aria-label="Подробнее">i<span>Запуск сети из&nbsp;5&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;100&nbsp;человек</span></button></h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак<button class="info" type="button" aria-label="Подробнее">i<span>Запуск сети из&nbsp;3&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;50&nbsp;человек</span></button></h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Города · 3</b><strong>Описание вниз, в&nbsp;светлую сноску</strong><span>Название сразу к&nbsp;цифрам, описание уходит в&nbsp;подложку внизу карточки&nbsp;— там, где у&nbsp;Челябинска сейчас уточнение про&nbsp;25&nbsp;и&nbsp;400&nbsp;млн. Взгляд идёт город&nbsp;→ цифры&nbsp;→ детали.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Запуск сети из&nbsp;17&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;500&nbsp;человек</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Передача в&nbsp;управление партнёрам действующей сети из&nbsp;17&nbsp;дарксторов. От&nbsp;25&nbsp;млн&nbsp;₽ при&nbsp;передаче нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽ при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Запуск сети из&nbsp;5&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;100&nbsp;человек</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><dl style="margin-top:18px"><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Запуск сети из&nbsp;3&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;50&nbsp;человек</p></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Города · 4</b><strong>Короткий подзаголовок</strong><span>Описание сжато до&nbsp;одной строки медиумом под&nbsp;городом: формат, дарксторы, команда. Те же&nbsp;слова, без&nbsp;«управление операционной командой».</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><p class="offer__sub">Запуск сети: 17&nbsp;дарксторов, команда от&nbsp;500</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><p class="offer__sub">Действующая сеть: 17&nbsp;дарксторов в&nbsp;управление</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">От&nbsp;25&nbsp;млн&nbsp;₽ при&nbsp;передаче нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽ при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><p class="offer__sub">Запуск сети: 5&nbsp;дарксторов, команда от&nbsp;100</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><p class="offer__sub">Запуск сети: 3&nbsp;даркстора, команда от&nbsp;50</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<script src="../blocks/blocks.js"></script>
+</body>
+</html>
