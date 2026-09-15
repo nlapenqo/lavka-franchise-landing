@@ -3,7 +3,7 @@
 <style>
 /* Performance-баннер 960×720 «Классическая бирка» (Figma 1372:20848). Координаты — из макета.
    Анимация: всё появляется наложенной лесенкой, бирка прилетает качнувшись на узелке
-   и дальше периодически «дёргается» до конца ролика. Клик по баннеру — повтор. */
+   и дальше раз в 3 с спокойно покачивается; звёздочка на цене помигивает каждые 1.5 с. Клик по баннеру — повтор. */
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
@@ -61,7 +61,6 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .play .rub    {animation:rise .55s var(--oexpo) .34s both}
 .play .old    {animation:rise-12 .5s var(--oexpo) .38s both}
 .play .strike {animation:wipe .3s var(--soft) .62s both}
-.play .star   {animation:spark .5s var(--oexpo) .58s both}
 .play .name   {animation:rise .55s var(--oexpo) .44s both}
 .play .age    {animation:fade .5s ease-out .54s both}
 .play .legal  {animation:fade .5s ease-out .58s both}
@@ -85,16 +84,24 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
   86%  {opacity:1;rotate:-.7deg;animation-timing-function:var(--io)}
   100% {opacity:1;rotate:0deg}
 }
-/* и дальше каждые 1.8 с «дёргается»: резкий рывок и затухающие качания, потом пауза */
-.play .pivot--twitch{animation:twitch 1.8s linear 2.1s infinite both}
-@keyframes twitch{
-  0%   {rotate:0deg;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
-  6%   {rotate:-7deg;animation-timing-function:var(--io)}
-  22%  {rotate:4.5deg;animation-timing-function:var(--io)}
-  36%  {rotate:-2.5deg;animation-timing-function:var(--io)}
-  48%  {rotate:1deg;animation-timing-function:var(--io)}
-  58%  {rotate:0deg}
+/* и дальше раз в 3 с спокойно покачивается: мягкий разгон, небольшая амплитуда, долгое затухание, пауза */
+.play .pivot--twitch{animation:sway 3s linear 2s infinite both}
+@keyframes sway{
+  0%   {rotate:0deg;animation-timing-function:var(--io)}
+  18%  {rotate:-3.5deg;animation-timing-function:var(--io)}
+  38%  {rotate:2.2deg;animation-timing-function:var(--io)}
+  56%  {rotate:-1deg;animation-timing-function:var(--io)}
+  70%  {rotate:.4deg;animation-timing-function:var(--io)}
+  82%  {rotate:0deg}
   100% {rotate:0deg}
+}
+/* звёздочка на цене помигивает: каждые 1.5 с гаснет с уменьшением и возвращается */
+.play .star{animation:spark .5s var(--oexpo) .58s both,blink 1.5s linear 1.6s infinite}
+@keyframes blink{
+  0%   {opacity:1;scale:1;animation-timing-function:cubic-bezier(.5,0,.75,0)}
+  17%  {opacity:0;scale:.35;animation-timing-function:cubic-bezier(.25,1,.5,1)}
+  42%  {opacity:1;scale:1}
+  100% {opacity:1;scale:1}
 }
 </style></head><body>
 <div class="banner pre">

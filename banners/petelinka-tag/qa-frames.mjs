@@ -33,7 +33,7 @@ try {
     await sleep(120);
     const shot = await send('Page.captureScreenshot', { format: 'png' });
     writeFileSync(`${outdir}/t${t.toFixed(2)}.png`, Buffer.from(shot.data, 'base64'));
-    if (probe.length) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(${JSON.stringify(probe)}.map(s => [s, +getComputedStyle(document.querySelector(s)).opacity]))`, returnByValue: true }); console.log(`t=${t.toFixed(2)} ` + JSON.parse(r.result.value).map(([s, o]) => `${s}=${o.toFixed(2)}`).join(' ')); }
+    if (probe.length) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(${JSON.stringify(probe)}.map(s => { const cs = getComputedStyle(document.querySelector(s)); const m = new DOMMatrix(cs.transform === 'none' ? undefined : cs.transform); return [s, +cs.opacity, m.m41, cs.scale]; }))`, returnByValue: true }); console.log(`t=${t.toFixed(2)} ` + JSON.parse(r.result.value).map(([s, o, tx, sc]) => `${s}=${o.toFixed(2)}${tx ? ` tx=${tx.toFixed(1)}` : ''}${sc && sc !== 'none' ? ` scale=${(+sc.split(' ')[0]).toFixed(2)}` : ''}`).join(' ')); }
     if (rectSel) { const r = await send('Runtime.evaluate', { expression: `JSON.stringify(document.querySelector(${JSON.stringify(rectSel)}).getBoundingClientRect())`, returnByValue: true }); writeFileSync(`${outdir}/t${t.toFixed(2)}.json`, r.result.value); }
   }
   console.log('ok', outdir, times.join(','));
