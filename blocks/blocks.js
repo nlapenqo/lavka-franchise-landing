@@ -116,6 +116,24 @@
     });
   }));
 
+  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение */
+  $$('[data-dropdown]').forEach(box => {
+    const sel = $('select', box); if (!sel) return;
+    const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dropdown__button'; btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
+    const list = document.createElement('ul'); list.className = 'dropdown__list'; list.setAttribute('role', 'listbox'); list.hidden = true;
+    const opts = [...sel.options].filter(o => o.value !== '');
+    const placeholder = (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
+    const render = () => { const o = sel.selectedOptions[0]; const empty = !o || o.value === ''; btn.textContent = empty ? placeholder : o.textContent; btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === sel.value && !empty))); };
+    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); close(); btn.focus(); }); list.appendChild(li); });
+    const open = () => { box.classList.add('is-open'); list.hidden = false; btn.setAttribute('aria-expanded', 'true'); };
+    const close = () => { box.classList.remove('is-open'); list.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+    btn.addEventListener('click', () => list.hidden ? open() : close());
+    box.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
+    document.addEventListener('click', e => { if (!box.contains(e.target)) close(); });
+    sel.addEventListener('change', render);
+    box.append(btn, list); render();
+  });
+
   /* подсказки ⓘ: на тач-экранах открываются тапом, закрываются тапом мимо */
   $$('.info').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const on = !b.classList.contains('is-on'); $$('.info.is-on').forEach(o => o.classList.remove('is-on')); if (on) b.classList.add('is-on'); }));
   document.addEventListener('click', e => { if (!e.target.closest('.info')) $$('.info.is-on').forEach(o => o.classList.remove('is-on')); });
