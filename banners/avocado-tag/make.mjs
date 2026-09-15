@@ -3,7 +3,7 @@
 // скрипт переводит их в проценты @keyframes (одна анимация на элемент, easing на каждом отрезке)
 // и пишет v1.html … v6.html + index.html (галерея). Запуск: node make.mjs
 import { writeFileSync } from 'node:fs';
-const VER = '20260915d'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
+const VER = '20260915e'; // версия banner.css в ссылке: Pages кэширует CSS на 10 минут, при правке стилей поднимать
 
 const OUT   = 'cubic-bezier(.22,.61,.36,1)';   // мягкий выход
 const OEXPO = 'cubic-bezier(.16,1,.3,1)';      // резкий старт, длинное торможение
@@ -172,10 +172,12 @@ const variants = [];
     ]),
     // верёвочка с узелком появляются в момент приклейки: штрих дорисовывается от бирки к черенку, узелок ставится в конце
     '.tag__string path{stroke-dasharray:1}',
+    // до старта роста путь скрыт целиком: иначе круглый кончик штриха виден в колечке как точка
     anim('.tag__string path', 'v3string', [
-      { t: 0,    css: 'stroke-dashoffset:-1' },
-      { t: 1.35, css: 'stroke-dashoffset:-1', ease: SOFT },
-      { t: 1.7,  css: 'stroke-dashoffset:0' },
+      { t: 0,    css: 'stroke-dashoffset:-1;opacity:0' },
+      { t: 1.34, css: 'stroke-dashoffset:-1;opacity:0' },
+      { t: 1.35, css: 'stroke-dashoffset:-1;opacity:1', ease: SOFT },
+      { t: 1.7,  css: 'stroke-dashoffset:0;opacity:1' },
     ]),
     reveal('.tag__knot', 'v3knot', 1.64, 0.2, 'transform:scale(0)', 'transform:scale(1)', BACK),
     '.avo{transform-origin:133px 68px}',

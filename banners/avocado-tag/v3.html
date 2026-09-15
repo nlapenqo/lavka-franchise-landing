@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><title>v3 — Маятник</title>
-<link rel="stylesheet" href="banner.css?v=20260915d">
+<link rel="stylesheet" href="banner.css?v=20260915e">
 <style>
 .pre .a{opacity:0}
 .tag{left:315.35px;top:120.6px;transform-origin:253.85px 16.6px}
@@ -16,9 +16,10 @@
 .play .tag{animation:v3tag 2.45s linear both}
 .tag__string path{stroke-dasharray:1}
 @keyframes v3string{
-  0%{stroke-dashoffset:-1}
-  79.412%{stroke-dashoffset:-1;animation-timing-function:cubic-bezier(.4,0,.2,1)}
-  100%{stroke-dashoffset:0}
+  0%{stroke-dashoffset:-1;opacity:0}
+  78.824%{stroke-dashoffset:-1;opacity:0}
+  79.412%{stroke-dashoffset:-1;opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+  100%{stroke-dashoffset:0;opacity:1}
 }
 .play .tag__string path{animation:v3string 1.7s linear both}
 @keyframes v3knot{
