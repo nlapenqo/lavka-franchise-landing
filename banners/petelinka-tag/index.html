@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>Петелинка — бирка «большие скидки»</title>
+<style>
+/* Performance-баннер 960×720 «Классическая бирка» (Figma 1372:20848). Координаты — из макета.
+   Анимация: всё появляется наложенной лесенкой, бирка прилетает качнувшись на узелке
+   и дальше периодически «дёргается» до конца ролика. Клик по баннеру — повтор. */
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
+@font-face{font-family:'YS Text';src:url('fonts/YS Text-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Text Cond';src:url('fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300}
+:root{
+  --oexpo:cubic-bezier(.16,1,.3,1);   /* резкий старт, длинное торможение */
+  --back:cubic-bezier(.34,1.45,.64,1);/* лёгкий перелёт */
+  --io:cubic-bezier(.45,0,.55,1);     /* маятник: разгон и торможение */
+  --soft:cubic-bezier(.4,0,.2,1);
+}
+html,body{margin:0;height:100%}
+body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
+.banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
+.banner *{box-sizing:border-box}
+.banner img{display:block;position:absolute;max-width:none}
+.banner p{margin:0}
+.cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+
+.bg{position:absolute;inset:0;background:linear-gradient(95.8deg,#00ADFF 24.67%,#fff 99.97%)}
+.noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
+.logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
+.pill{position:absolute;left:46.47px;top:233.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
+.star{left:176.33px;top:273.33px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.price{position:absolute;left:45.3px;top:341.35px;font-weight:500;font-size:196.86px}
+.rub{position:absolute;left:351.6px;top:411.72px;font-weight:500;font-size:100.35px}
+.old{position:absolute;left:355.13px;top:342.43px;font-weight:500;font-size:60.02px}
+.strike{left:351.6px;top:360.15px;width:107.21px;height:8.29px}
+.name{position:absolute;left:46.47px;top:502.74px;font-weight:400;font-size:34.99px}
+.name span{color:#99DEFF}
+.age{position:absolute;left:47.01px;top:611.35px;font-family:'YS Text',Arial,sans-serif;font-size:50.28px;line-height:1.13;text-box:trim-both cap alphabetic;opacity:.7;font-feature-settings:"case","lnum","pnum"}
+.legal{position:absolute;left:128.8px;top:617.22px;width:370.21px;font-family:'YS Text Cond','Arial Narrow',sans-serif;font-weight:300;font-size:19.96px;line-height:.96;letter-spacing:-.03em;text-transform:uppercase;opacity:.7;text-box:trim-both cap alphabetic;white-space:pre-line;font-feature-settings:"calt" 0}
+
+/* товар: прямоугольник 500.42×662.80, поворот 10.48° (матрица из макета), картинка cover */
+.product{position:absolute;left:0;top:0;width:500.42px;height:662.8px;transform-origin:0 0;transform:matrix(.983318,-.181893,.181893,.983318,508.07,181.986)}
+.product img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* бирка: кадр 230×96, поворот 17.4° (матрица из макета). Ось качания — узелок на упаковке (555.38, 203.33) */
+.pivot{position:absolute;left:0;top:0;width:960px;height:720px;transform-origin:555.38px 203.33px;pointer-events:none}
+.tag{position:absolute;left:0;top:0;width:230px;height:96px;transform-origin:0 0;transform:matrix(.954239,.299046,-.299046,.954239,301.819,115.54)}
+.tag__body{left:29.08px;top:9.58px;width:200.92px;height:76.83px}
+.tag__ring{left:203.29px;top:19.95px;width:17px;height:17px}
+.tag__text{position:absolute;left:51.39px;top:22.21px;font-weight:600;font-size:33px;line-height:.74;white-space:nowrap}
+.tag__string,.tag__knot{position:absolute;transform-origin:0 0;transform:rotate(10deg)}
+.tag__string{left:217px;top:-1.09px;width:52px;height:30px}
+.tag__string img{left:-1.5px;top:-1.5px;width:55px;height:33px}
+.tag__knot{left:264.96px;top:3.3px;width:8px;height:8px}
+.tag__knot img{left:0;top:0;width:8px;height:8px}
+
+/* ── анимация ── */
+.pre .a{opacity:0}
+.play .logo   {animation:rise-12 .5s var(--oexpo) .10s both}
+.play .pill   {animation:pop .45s var(--back) .18s both}
+.play .price  {animation:rise .6s var(--oexpo) .26s both}
+.play .rub    {animation:rise .55s var(--oexpo) .34s both}
+.play .old    {animation:rise-12 .5s var(--oexpo) .38s both}
+.play .strike {animation:wipe .3s var(--soft) .62s both}
+.play .star   {animation:spark .5s var(--oexpo) .58s both}
+.play .name   {animation:rise .55s var(--oexpo) .44s both}
+.play .age    {animation:fade .5s ease-out .54s both}
+.play .legal  {animation:fade .5s ease-out .58s both}
+.play .product{animation:product .7s var(--oexpo) 0s both}
+@keyframes rise{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
+@keyframes rise-12{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
+@keyframes pop{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
+.age,.legal{--o:.7}
+@keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes spark{from{opacity:0;scale:0}to{opacity:1;scale:1}}
+@keyframes product{from{opacity:0;translate:70px 24px}to{opacity:1;translate:0 0}}
+
+/* бирка появляется, качнувшись на узелке, и затухает к покою */
+.play .pivot--intro{animation:tag-in 1.1s linear .42s both}
+@keyframes tag-in{
+  0%   {opacity:0;rotate:-26deg;animation-timing-function:var(--oexpo)}
+  22%  {opacity:1;rotate:9deg;animation-timing-function:var(--io)}
+  45%  {opacity:1;rotate:-4.5deg;animation-timing-function:var(--io)}
+  68%  {opacity:1;rotate:2deg;animation-timing-function:var(--io)}
+  86%  {opacity:1;rotate:-.7deg;animation-timing-function:var(--io)}
+  100% {opacity:1;rotate:0deg}
+}
+/* и дальше каждые 1.8 с «дёргается»: резкий рывок и затухающие качания, потом пауза */
+.play .pivot--twitch{animation:twitch 1.8s linear 2.1s infinite both}
+@keyframes twitch{
+  0%   {rotate:0deg;animation-timing-function:cubic-bezier(.2,.7,.3,1)}
+  6%   {rotate:-7deg;animation-timing-function:var(--io)}
+  22%  {rotate:4.5deg;animation-timing-function:var(--io)}
+  36%  {rotate:-2.5deg;animation-timing-function:var(--io)}
+  48%  {rotate:1deg;animation-timing-function:var(--io)}
+  58%  {rotate:0deg}
+  100% {rotate:0deg}
+}
+</style></head><body>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <p class="price cap a">179</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">239</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Авокадо Хасс, <span>2 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="pill cap a">–25%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <div class="product a"><img src="assets/product.png" alt="Котлеты «Петелинка»"></div>
+  <div class="pivot pivot--intro a">
+    <div class="pivot pivot--twitch">
+      <div class="tag">
+        <img class="tag__body" src="assets/tag-body.svg" alt="">
+        <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+        <p class="tag__text">большие<br>скидки</p>
+        <div class="tag__string"><img src="assets/string.svg" alt=""></div>
+        <div class="tag__knot"><img src="assets/knot.svg" alt=""></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+</body></html>
