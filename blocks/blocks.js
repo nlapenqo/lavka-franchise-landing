@@ -116,6 +116,10 @@
     });
   }));
 
+  /* подсказки ⓘ: на тач-экранах открываются тапом, закрываются тапом мимо */
+  $$('.info').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const on = !b.classList.contains('is-on'); $$('.info.is-on').forEach(o => o.classList.remove('is-on')); if (on) b.classList.add('is-on'); }));
+  document.addEventListener('click', e => { if (!e.target.closest('.info')) $$('.info.is-on').forEach(o => o.classList.remove('is-on')); });
+
   /* тарифы: голубая обводка переходит на карточку под курсором (как форматы на главной) */
   $$('[data-offers]').forEach(box => { const cards = $$('.offer', box); cards.forEach(c => c.addEventListener('mouseenter', () => cards.forEach(o => o.classList.toggle('offer--featured', o === c)))); });
 

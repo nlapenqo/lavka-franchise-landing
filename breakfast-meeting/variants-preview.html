@@ -131,6 +131,13 @@ img,svg{display:block;max-width:100%}
 .consent input:checked{background:var(--blue);box-shadow:none}
 .consent a{text-decoration:underline;text-underline-offset:2px}
 
+/* подсказка ⓘ: кнопка с всплывающим пояснением, как у взносов на главной; data-info — в blocks.js тап на телефоне */
+.info{position:relative;display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;vertical-align:middle;border:1px solid var(--mid);border-radius:var(--radius-circle);font-size:12px;font-weight:var(--fw-regular);font-style:normal;letter-spacing:0;color:var(--mid);cursor:help;transition:background var(--dur-hover),color var(--dur-hover),border-color var(--dur-hover)}
+.info:hover,.info:focus-visible,.info.is-on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.info span{position:absolute;left:50%;bottom:calc(100% + 11px);z-index:3;width:max-content;max-width:min(260px,60vw);padding:8px 12px;border-radius:var(--radius-s);background:var(--navy);color:var(--white);font-size:var(--fs-caption);line-height:1.35;font-weight:var(--fw-regular);letter-spacing:0;text-transform:none;text-align:left;white-space:normal;box-shadow:var(--shadow-float);opacity:0;pointer-events:none;transform:translate(-50%,5px) scale(.94);transform-origin:50% 100%;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.info span::after{content:"";position:absolute;left:50%;top:100%;width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--navy);border-radius:2px;transform:rotate(45deg)}
+.info:hover span,.info:focus-visible span,.info.is-on span{opacity:1;transform:translate(-50%,0) scale(1)}
+
 /* лого-локап «Яндекс ♥ Лавка · Франшиза» */
 .brand{--brand-scale:1;position:relative;width:416px;height:40px;overflow:hidden;display:block;flex:none;transform:scale(var(--brand-scale));transform-origin:left center;transition:transform var(--dur-hover) var(--ease)}
 .brand img{position:absolute;max-width:none}
@@ -202,7 +209,13 @@ img,svg{display:block;max-width:100%}
 .hero--split .hero__lead{width:auto;max-width:560px}
 .hero--split .actions{justify-content:flex-start;max-width:none}
 .hero--split .actions__note{text-align:left}
+.hero__facts{display:flex;gap:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--border-on-dark);width:100%;max-width:560px;opacity:0}
+.hero__facts dt{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary-on-dark)}
+.hero__facts dd{margin-top:6px;font-size:var(--fs-lead);font-weight:var(--fw-heavy);line-height:1.15}
+.hero.is-live .hero__facts{animation:fade-up var(--dur-reveal) .46s var(--ease) both}
 .hero__slot{aspect-ratio:1;opacity:0}
+.hero__slot--wide{aspect-ratio:5/4}
+.hero__split--wide{width:min(var(--container-wide),calc(100% - var(--gutter)));grid-template-columns:minmax(0,1fr) 600px;gap:var(--space-8)}
 .hero.is-live .hero__slot{animation:fade-up var(--dur-reveal) .5s var(--ease) both}
 .hero__frame{width:min(var(--container),calc(100% - var(--gutter)));height:560px;margin-top:var(--space-5);border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;background:var(--navy-deep)}
 .hero__frame img{width:100%;height:100%;object-fit:cover;object-position:center 36%}
@@ -409,8 +422,10 @@ img,svg{display:block;max-width:100%}
 .offer__row dd b{white-space:nowrap}
 /* компактный — четыре в ряд: название не шире карточки, число кеглем h3 */
 .offer--compact{container-type:inline-size;min-height:0;padding:28px}
-.offer--compact .offer__city{font-size:min(var(--fs-h2),13cqi)}
+.offer--compact .offer__city{font-size:min(var(--fs-h2),11.5cqi);white-space:nowrap}
 .offer--compact .offer__note{min-height:0;margin:14px 0}
+.offer .info{margin-top:-4px}
+.offer__city .info{margin-left:10px}
 .offer--compact .offer__row{padding:12px 0}
 .offer--compact .offer__row dd{font-size:var(--fs-body)}
 .offer--compact .offer__row dd b{font-size:var(--fs-h3)}
@@ -530,6 +545,7 @@ img,svg{display:block;max-width:100%}
 
 /* ТЕЛЕФОН — базовое схлопывание; пиксельная мобилка отдельным этапом */
 @media (max-width:1100px){
+  .hero__split--wide{grid-template-columns:minmax(0,1fr) 400px;gap:var(--space-6)}
   .cards{grid-template-columns:repeat(var(--n-t,var(--n,3)),minmax(0,1fr))}
   .feature{--gap:32px;height:540px;padding:40px}
   .feature__viewport,.feature__slide,.feature__copy,.feature .media{height:460px}
@@ -547,7 +563,8 @@ img,svg{display:block;max-width:100%}
   .hero__benefits{grid-template-columns:1fr 1fr;gap:var(--space-2);margin-top:var(--space-4)}
   .benefit{flex-direction:column;align-items:flex-start;gap:var(--space-2);padding:var(--space-3)}
   .hero--photo{padding-bottom:0}
-  .hero__split{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+  .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+  .hero__facts{gap:var(--space-5)}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
   .map--wide{min-height:0;display:flex;flex-direction:column}
@@ -848,6 +865,10 @@ img,svg{display:block;max-width:100%}
       if (open) { item.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true'); }
     });
   }));
+
+  /* подсказки ⓘ: на тач-экранах открываются тапом, закрываются тапом мимо */
+  $$('.info').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const on = !b.classList.contains('is-on'); $$('.info.is-on').forEach(o => o.classList.remove('is-on')); if (on) b.classList.add('is-on'); }));
+  document.addEventListener('click', e => { if (!e.target.closest('.info')) $$('.info.is-on').forEach(o => o.classList.remove('is-on')); });
 
   /* тарифы: голубая обводка переходит на карточку под курсором (как форматы на главной) */
   $$('[data-offers]').forEach(box => { const cards = $$('.offer', box); cards.forEach(c => c.addEventListener('mouseenter', () => cards.forEach(o => o.classList.toggle('offer--featured', o === c)))); });

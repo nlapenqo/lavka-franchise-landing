@@ -116,6 +116,13 @@ img,svg{display:block;max-width:100%}
 .consent input:checked{background:var(--blue);box-shadow:none}
 .consent a{text-decoration:underline;text-underline-offset:2px}
 
+/* подсказка ⓘ: кнопка с всплывающим пояснением, как у взносов на главной; data-info — в blocks.js тап на телефоне */
+.info{position:relative;display:inline-grid;place-items:center;width:18px;height:18px;margin-left:6px;vertical-align:middle;border:1px solid var(--mid);border-radius:var(--radius-circle);font-size:12px;font-weight:var(--fw-regular);font-style:normal;letter-spacing:0;color:var(--mid);cursor:help;transition:background var(--dur-hover),color var(--dur-hover),border-color var(--dur-hover)}
+.info:hover,.info:focus-visible,.info.is-on{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.info span{position:absolute;left:50%;bottom:calc(100% + 11px);z-index:3;width:max-content;max-width:min(260px,60vw);padding:8px 12px;border-radius:var(--radius-s);background:var(--navy);color:var(--white);font-size:var(--fs-caption);line-height:1.35;font-weight:var(--fw-regular);letter-spacing:0;text-transform:none;text-align:left;white-space:normal;box-shadow:var(--shadow-float);opacity:0;pointer-events:none;transform:translate(-50%,5px) scale(.94);transform-origin:50% 100%;transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.info span::after{content:"";position:absolute;left:50%;top:100%;width:8px;height:8px;margin:-4px 0 0 -4px;background:var(--navy);border-radius:2px;transform:rotate(45deg)}
+.info:hover span,.info:focus-visible span,.info.is-on span{opacity:1;transform:translate(-50%,0) scale(1)}
+
 /* лого-локап «Яндекс ♥ Лавка · Франшиза» */
 .brand{--brand-scale:1;position:relative;width:416px;height:40px;overflow:hidden;display:block;flex:none;transform:scale(var(--brand-scale));transform-origin:left center;transition:transform var(--dur-hover) var(--ease)}
 .brand img{position:absolute;max-width:none}
