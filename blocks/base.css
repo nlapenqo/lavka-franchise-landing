@@ -120,6 +120,9 @@ img,svg{display:block;max-width:100%}
 .choices label:hover span{border-color:var(--navy)}
 .choices input:checked+span{background:var(--navy);border-color:var(--navy);color:var(--white)}
 .choices input:focus-visible+span{box-shadow:var(--shadow-focus-ring)}
+/* вертикальный список: длинные варианты в одну колонку, текст переносится */
+.choices--stack{flex-direction:column;gap:6px}
+.choices--stack span{white-space:normal;line-height:1.25;padding:9px 18px;border-radius:22px}
 .field__hint{font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
 .field input:focus,.field textarea:focus{border-color:var(--blue);background:var(--white);box-shadow:var(--shadow-focus-ring)}
 .field input::placeholder,.field textarea::placeholder{color:var(--dim);opacity:.7}
