@@ -319,6 +319,17 @@
 .map{position:relative;overflow:hidden;border-radius:var(--radius-xl);background:var(--navy-deep);min-height:480px}
 .map__pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--white);font-size:var(--fs-small);font-weight:var(--fw-medium)}
 .map__pin i{width:18px;height:18px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 8px var(--blue-12)}
+.map__pin--live{position:static;transform:translate(-50%,-9px);color:var(--navy);white-space:nowrap;text-shadow:0 0 6px var(--white),0 0 2px var(--white)}
+.map__pin--live i{box-shadow:0 0 0 8px var(--blue-35),0 0 0 2px var(--white) inset}
+/* вариант: карта во всю ширину, белая карточка с адресом и кнопкой поверх; [data-ymap] — живая Яндекс Карта (blocks.js) */
+.map--wide{min-height:560px}
+.map__canvas{position:absolute;inset:0}
+.map__card{position:absolute;z-index:2;left:40px;top:40px;width:400px;padding:32px;border-radius:var(--radius-l);background:var(--surface-card);color:var(--navy);box-shadow:var(--shadow-float);display:flex;flex-direction:column;gap:12px}
+.map__card .t-caption{color:var(--text-secondary)}
+.map__card h3{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
+.map__card p{font-size:var(--fs-body-s);line-height:var(--lh-body-loose);color:var(--text-secondary)}
+.map__card .button{align-self:flex-start;margin-top:8px}
+.map__canvas [class*="-gototech"],.map__canvas [class*="-gotoymaps"]{display:none}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:20px var(--space-5);width:100%}
 .facts dt{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary)}
 .facts dd{margin-top:6px;font-size:var(--fs-lead);font-weight:var(--fw-heavy);line-height:1.15}
@@ -385,6 +396,9 @@
   .hero__split{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
+  .map--wide{min-height:0;display:flex;flex-direction:column}
+  .map--wide .map__canvas{position:relative;height:320px;order:2}
+  .map__card{position:static;width:auto;margin:0;border-radius:0;box-shadow:none;padding:var(--space-4)}
   .offer--compact{padding:var(--space-4)}
   .hero__frame{height:auto;aspect-ratio:4 / 5;margin-top:var(--space-4);border-radius:var(--radius-l) var(--radius-l) 0 0}
   .section__head{flex-direction:column;align-items:flex-start;gap:var(--space-3);margin-bottom:var(--space-5)}

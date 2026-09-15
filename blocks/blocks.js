@@ -116,6 +116,22 @@
     });
   }));
 
+  /* карта: [data-ymap="lat,lng"] — Яндекс Карта 2.1 с фирменной меткой; ключ — data-apikey (без ключа API работает с ограничениями) */
+  $$('[data-ymap]').forEach(el => {
+    const [lat, lng] = el.dataset.ymap.split(',').map(Number), zoom = Number(el.dataset.zoom || 15);
+    const init = () => ymaps.ready(() => {
+      const map = new ymaps.Map(el, { center: [lat, lng], zoom, controls: [] }, { suppressMapOpenBlock: true, yandexMapDisablePoiInteractivity: true });
+      map.controls.add('zoomControl', { position: { right: 16, top: 16 }, size: 'small' });
+      map.behaviors.disable('scrollZoom');
+      const pin = ymaps.templateLayoutFactory.createClass('<div class="map__pin map__pin--live"><i></i>' + (el.dataset.label || '') + '</div>');
+      map.geoObjects.add(new ymaps.Placemark([lat, lng], {}, { iconLayout: pin, iconOffset: [0, 0], iconShape: { type: 'Circle', coordinates: [0, 0], radius: 20 } }));
+    });
+    if (window.ymaps) return init();
+    const s = document.createElement('script');
+    s.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU' + (el.dataset.apikey ? '&apikey=' + el.dataset.apikey : '');
+    s.onload = init; document.head.appendChild(s);
+  });
+
   /* форма: демо-отправка; обработчик подключают разработчики */
   $$('[data-form]').forEach(form => form.addEventListener('submit', e => {
     e.preventDefault();
