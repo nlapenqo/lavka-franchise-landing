@@ -13,23 +13,13 @@
 <link rel="stylesheet" href="../blocks/base.css">
 <link rel="stylesheet" href="../blocks/blocks.css">
 <style>
-/* Правки уровня страницы — кандидаты в blocks.css, если повторятся на других лендингах */
-/* хиро с кадром: прозрачный PNG телефона выезжает снизу, не кропается */
-.hero__frame--phone{background:none;display:flex;justify-content:center;border-radius:0}
-.hero__frame--phone img{width:auto;height:auto;max-width:min(520px,100%);object-fit:contain;align-self:flex-start}
-/* тарифы: город — крупный заголовок вместо чипсов */
-/* кегль h1, но не шире карточки: «Магнитогорск» влезает на любой ширине */
-.offer{container-type:inline-size}
-#cities .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
-.offer__city{font-size:min(var(--fs-h1),14cqi);font-weight:var(--fw-black);line-height:var(--lh-h1);letter-spacing:var(--ls-display)}
-.offer__row dd b{white-space:nowrap}
-/* видео: постер с кнопкой, плеер подгружается по клику */
+/* Правки уровня страницы. Блока «Видео» в ките нет — постер с кнопкой, плеер подгружается по клику */
 .video{position:relative;aspect-ratio:1270/639;border-radius:var(--radius-xl);overflow:hidden;background:var(--navy-deep)}
 .video img,.video iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
 .video__play{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:var(--radius-circle);background:var(--white);color:var(--navy);display:grid;place-items:center;box-shadow:var(--shadow-float);transition:transform var(--dur-hover) var(--ease)}
 .video__play:hover{transform:scale(1.06)}
 .video__play svg{width:34px;height:34px;margin-left:6px;fill:currentColor}
-@media (max-width:767px){#cities .cards{grid-template-columns:minmax(0,1fr)}.hero__frame--phone{aspect-ratio:auto;height:320px}.hero__frame--phone img{max-width:78%}.video{border-radius:var(--radius-l)}.video__play{width:72px;height:72px;margin:-36px 0 0 -36px}.video__play svg{width:24px;height:24px}}
+@media (max-width:767px){.video{border-radius:var(--radius-l)}.video__play{width:72px;height:72px;margin:-36px 0 0 -36px}.video__play svg{width:24px;height:24px}}
 </style>
 </head>
 <body>
@@ -39,15 +29,17 @@
   <nav class="header__nav" aria-label="Навигация"><a href="#agenda">Что обсудим</a><a href="#place">Адреса</a><a class="button button--outline" href="#form">Регистрация</a></nav>
 </header>
 
-<!-- 02 · Хиро с кадром -->
-<section class="hero hero--photo section--dark" id="top">
-  <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span>«Франшиза <em class="accent" style="font-style:normal">Яндекс Лавки</em>»</span></h1>
-  <p class="hero__lead t-lead">Как запустить франшизу действующего бизнеса по доставке продуктов в городе-миллионнике и зарабатывать на растущем рынке</p>
-  <div class="actions">
-    <a class="button button--primary" href="#form">Регистрация</a>
-    <p class="actions__note">Уфа</p>
+<!-- 01b · Хиро-сплит: всё по левому краю, справа слот под кадр -->
+<section class="hero hero--split section--dark" id="top">
+  <div class="hero__split">
+    <div>
+      <span class="hero__tag">Уфа, 28 октября</span>
+      <h1 class="hero__title t-display"><span>Бизнес-завтрак</span><span class="accent">«Франшиза Яндекс&nbsp;Лавки»</span></h1>
+      <p class="hero__lead t-lead">Как запустить франшизу действующего бизнеса по доставке продуктов в городе-миллионнике и зарабатывать на растущем рынке</p>
+      <div class="actions"><a class="button button--primary" href="#form">Регистрация</a></div>
+    </div>
+    <div class="slot hero__slot" data-label="Кадр 1:1"></div>
   </div>
-  <div class="hero__frame hero__frame--phone"><img src="./assets/kv-phone.webp" alt="Приложение Яндекс Лавки" width="769" height="989"></div>
 </section>
 
 <!-- 05 · Заявление -->
@@ -63,10 +55,10 @@
   <div class="container">
     <h2 class="t-h1 reveal" style="margin-bottom:56px">О чём поговорим на бизнес-завтраке</h2>
     <div class="steps" style="--n:4">
-      <div class="step reveal"><span class="step__number">01</span><h3 class="t-h4">Расскажем, как устроен бизнес по ультрабыстрой доставке продуктов</h3></div>
-      <div class="step reveal"><span class="step__number">02</span><h3 class="t-h4">Продемонстрируем преимущества и уникальность Яндекс Лавки</h3></div>
-      <div class="step reveal"><span class="step__number">03</span><h3 class="t-h4">Объясним экономику проекта, перспективы и условия для партнёров</h3></div>
-      <div class="step reveal"><span class="step__number">04</span><h3 class="t-h4">Поможем разработать стратегию развития</h3></div>
+      <div class="step step--plain reveal"><span class="step__number">01</span><p>Расскажем, как устроен бизнес по ультрабыстрой доставке продуктов</p></div>
+      <div class="step step--plain reveal"><span class="step__number">02</span><p>Продемонстрируем преимущества и уникальность Яндекс Лавки</p></div>
+      <div class="step step--plain reveal"><span class="step__number">03</span><p>Объясним экономику проекта, перспективы и условия для партнёров</p></div>
+      <div class="step step--plain reveal"><span class="step__number">04</span><p>Поможем разработать стратегию развития</p></div>
     </div>
   </div>
 </section>
@@ -86,27 +78,29 @@
 <section class="section section--light" id="cities">
   <div class="container">
     <h2 class="t-h1 reveal" style="margin-bottom:56px">Где можно запустить сервис</h2>
-    <div class="cards" style="--n:2">
-      <article class="card offer reveal"><h3 class="offer__city">Уфа</h3><p class="offer__note">Запуск сети из 17 дарксторов и управление операционной командой от 500 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 250</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
-      <article class="card offer reveal" style="--delay:.08s"><h3 class="offer__city">Челябинск</h3><p class="offer__note">Передача в управление партнёрам действующей сети из 17 дарксторов</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 25</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 2 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Инвестиции от 25 млн ₽ — при передаче партнёру нескольких дарксторов, от 400 млн ₽ — при эксклюзивном партнёрстве в городе</p></article>
-      <article class="card offer reveal" style="--delay:.16s"><h3 class="offer__city">Магнитогорск</h3><p class="offer__note">Запуск сети из 5 дарксторов и управление операционной командой от 100 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 75</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
-      <article class="card offer reveal" style="--delay:.24s"><h3 class="offer__city">Стерлитамак</h3><p class="offer__note">Запуск сети из 3 дарксторов и управление операционной командой от 50 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 45</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    <div class="cards" style="--n:4;--n-t:2">
+      <article class="card offer offer--compact reveal"><h3 class="offer__city">Уфа</h3><p class="offer__note">Запуск сети из 17 дарксторов и управление операционной командой от 500 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 250</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact reveal" style="--delay:.08s"><h3 class="offer__city">Челябинск</h3><p class="offer__note">Передача в управление партнёрам действующей сети из 17 дарксторов</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 25</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 2 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1 млн ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">Инвестиции от 25 млн ₽ — при передаче партнёру нескольких дарксторов, от 400 млн ₽ — при эксклюзивном партнёрстве в городе</p></article>
+      <article class="card offer offer--compact reveal" style="--delay:.16s"><h3 class="offer__city">Магнитогорск</h3><p class="offer__note">Запуск сети из 5 дарксторов и управление операционной командой от 100 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 75</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact reveal" style="--delay:.24s"><h3 class="offer__city">Стерлитамак</h3><p class="offer__note">Запуск сети из 3 дарксторов и управление операционной командой от 50 человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от 45</b> млн ₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от 3 лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750 тыс. ₽ за даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
     </div>
   </div>
 </section>
 
-<!-- 09 · Плашки ×2 -->
+<!-- 23 · Место и время: факты + карта с меткой (вариант «Локация · 1» из кита, на выбор) -->
 <section class="section" id="place">
   <div class="container">
-    <h2 class="t-h1 reveal" style="margin-bottom:56px">Где и когда встречаемся</h2>
-    <div class="plates" style="--n:2">
-      <article class="plate reveal"><h3 class="t-h2">Уфа, 28 октября</h3></article>
-      <article class="plate reveal"><h3 class="t-h2">Место проведения&nbsp;— скоро</h3></article>
+    <div class="split reveal">
+      <div class="split__copy">
+        <h2 class="t-h1">Где и когда встречаемся</h2>
+        <dl class="facts"><div><dt>Город</dt><dd>Уфа</dd></div><div><dt>Дата</dt><dd>28 октября</dd></div><div><dt>Место проведения</dt><dd>Скоро</dd></div></dl>
+      </div>
+      <div class="split__media map"><div class="map__pin"><i></i>Уфа</div></div>
     </div>
   </div>
 </section>
 
-<!-- 20 · Форма -->
+<!-- 20 · Форма — стандартная, как на основном сайте франшизы -->
 <section class="section section--dark" id="form">
   <div class="container lead">
     <div class="lead__copy reveal">
@@ -114,11 +108,15 @@
       <p class="t-lead">Заполните форму, чтобы участвовать в офлайн-встрече</p>
     </div>
     <form class="form-card reveal" data-form novalidate>
-      <label class="field"><span>Имя</span><input name="name" autocomplete="name" required></label>
-      <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" required></label>
-      <label class="field"><span>Почта</span><input name="email" type="email" autocomplete="email" required></label>
-      <label class="consent"><input type="checkbox" required><span>Согласие на обработку персональных данных на условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">политики конфиденциальности</a></span></label>
-      <div class="form-card__submit"><button class="button button--primary" type="submit">Отправить</button></div>
+      <h3 class="t-h3">Расскажите о&nbsp;себе</h3>
+      <label class="field"><span>Имя</span><input name="firstName" autocomplete="given-name" placeholder="Ваше имя" required></label>
+      <label class="field"><span>Телефон</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label>
+      <label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" placeholder="Почта" required></label>
+      <label class="field"><span>Город</span><input name="city" autocomplete="address-level2" placeholder="Где хотите развивать Лавку" required></label>
+      <label class="field"><span>Дополнительные вопросы</span><textarea name="comment" rows="3" placeholder="Ответим на них на звонке"></textarea></label>
+      <label class="consent"><input type="checkbox" required><span>Даю согласие на&nbsp;обработку персональных данных на&nbsp;условиях <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политики конфиденциальности</a></span></label>
+      <div class="form-card__submit"><button class="button button--primary" type="submit">Зарегистрироваться</button><span>Свяжемся в&nbsp;течение<br>2&nbsp;рабочих дней</span></div>
+      <p class="form-card__status" data-status aria-live="polite"></p>
     </form>
   </div>
 </section>
