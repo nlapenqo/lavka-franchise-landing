@@ -123,13 +123,14 @@
   /* тарифы: голубая обводка переходит на карточку под курсором (как форматы на главной) */
   $$('[data-offers]').forEach(box => { const cards = $$('.offer', box); cards.forEach(c => c.addEventListener('mouseenter', () => cards.forEach(o => o.classList.toggle('offer--featured', o === c)))); });
 
-  /* карта: [data-ymap="lat,lng"] — Яндекс Карта 2.1 с фирменной меткой; ключ — data-apikey (без ключа API работает с ограничениями) */
+  /* карта: [data-ymap="lat,lng"] — Яндекс Карта 2.1; data-pin — фирменная метка с подписью data-label; ключ — data-apikey (без ключа API работает с ограничениями) */
   $$('[data-ymap]').forEach(el => {
     const [lat, lng] = el.dataset.ymap.split(',').map(Number), zoom = Number(el.dataset.zoom || 15);
     const init = () => ymaps.ready(() => {
       const map = new ymaps.Map(el, { center: [lat, lng], zoom, controls: [] }, { suppressMapOpenBlock: true, yandexMapDisablePoiInteractivity: true });
       map.controls.add('zoomControl', { position: { right: 16, top: 16 }, size: 'small' });
       map.behaviors.disable('scrollZoom');
+      if (el.dataset.pin === undefined) return; /* фирменная метка — только с data-pin */
       const pin = ymaps.templateLayoutFactory.createClass('<div class="map__pin map__pin--live"><i></i>' + (el.dataset.label || '') + '</div>');
       map.geoObjects.add(new ymaps.Placemark([lat, lng], {}, { iconLayout: pin, iconOffset: [0, 0], iconShape: { type: 'Circle', coordinates: [0, 0], radius: 20 } }));
     });
