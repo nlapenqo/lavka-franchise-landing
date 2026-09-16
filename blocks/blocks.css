@@ -57,7 +57,10 @@
 .hero.is-live .hero__facts{animation:fade-up var(--dur-reveal) .46s var(--ease) both}
 .hero__slot{aspect-ratio:1;opacity:0}
 .hero__slot--wide{aspect-ratio:5/4}
-.hero__split--wide{width:min(var(--container-wide),calc(100% - var(--gutter)));grid-template-columns:minmax(0,1fr) 680px;gap:var(--space-7)}
+/* по направляющим шапки: текст — от левого края логотипа, кадр — до правого края кнопки в шапке
+   (отступ пилюли clamp(24px,4vw,64px) + её внутренние отступы 40 слева и 12 справа).
+   Колонка текста не уже самого длинного слова заголовка, кадр забирает остаток до 680 — наезда нет ни на какой ширине */
+.hero__split--wide{align-self:stretch;width:auto;max-width:none;margin-inline:calc(clamp(24px,4vw,64px) + 40px) calc(clamp(24px,4vw,64px) + 12px);grid-template-columns:minmax(min-content,1fr) minmax(0,680px);gap:var(--space-7)}
 .hero.is-live .hero__slot{animation:fade-up var(--dur-reveal) .5s var(--ease) both}
 .hero__frame{width:min(var(--container),calc(100% - var(--gutter)));height:560px;margin-top:var(--space-5);border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;background:var(--navy-deep)}
 .hero__frame img{width:100%;height:100%;object-fit:cover;object-position:center 36%}
@@ -417,7 +420,7 @@
 @media (max-width:1100px){
   .header .brand{--brand-scale:.8}
   .duo{grid-template-columns:minmax(0,1fr) 360px;gap:var(--space-6)}
-  .hero__split--wide{grid-template-columns:minmax(0,1fr) 400px;gap:var(--space-6)}
+  .hero__split--wide{grid-template-columns:minmax(min-content,1fr) minmax(0,400px);gap:var(--space-6)}
   .cards{grid-template-columns:repeat(var(--n-t,var(--n,3)),minmax(0,1fr))}
   .feature{--gap:32px;height:540px;padding:40px}
   .feature__viewport,.feature__slide,.feature__copy,.feature .media{height:460px}
@@ -438,7 +441,9 @@
   .benefit{flex-direction:column;align-items:flex-start;gap:var(--space-2);padding:var(--space-3)}
   .hero--photo{padding-bottom:0}
   .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+  .hero__split--wide{margin-inline:auto;width:calc(100% - var(--gutter))}
   .hero__facts{gap:var(--space-5)}
+  .actions .hero__facts{padding-left:0}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
   .duo{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}

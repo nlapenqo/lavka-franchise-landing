@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Варианты блока программы</title>
+<meta name="description" content="Пятнадцать раскладок блока программы на токенах конструктора Лавки — по итогам разбора 67 сайтов мероприятий Яндекса">
+<link rel="icon" type="image/svg+xml" href="../site/assets/figma/favicon.svg">
+<link rel="stylesheet" href="./tokens.css">
+<link rel="stylesheet" href="./base.css">
+<link rel="stylesheet" href="./blocks.css">
+<style>
+/* ---------- оболочка витрины — в лендинг не копируется ---------- */
+body{background:var(--white)}
+.intro{padding:112px 0 80px}
+.intro__lead{margin-top:28px;max-width:760px;color:var(--muted-dark)}
+.intro__nav{margin-top:56px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 var(--space-6)}
+.intro__nav a{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:baseline;padding:14px 0;border-top:1px solid var(--border-on-dark);font-size:var(--fs-body-s);font-weight:500;color:var(--white);transition:opacity var(--dur-hover)}
+.intro__nav a:hover{opacity:.7}
+.intro__nav a b{font-size:var(--fs-body-s);font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums}
+.intro__nav a small{display:block;margin-top:2px;font-size:var(--fs-small);font-weight:400;color:var(--dim-dark)}
+.note{position:relative;z-index:2;display:flex;align-items:center;gap:16px;padding:18px var(--gutter);background:var(--white);border-top:1px dashed var(--sky);border-bottom:1px solid var(--line);font-size:14px;scroll-margin-top:0}
+.note b{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:var(--navy);color:var(--white);font-size:11px;font-weight:500;letter-spacing:.08em}
+.note strong{font-size:18px;font-weight:800;white-space:nowrap}
+.note span{margin-left:auto;color:var(--dim);text-align:right;max-width:780px}
+.note em{font-style:normal;color:var(--navy);font-weight:500}
+.refs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-5) var(--space-4)}
+.refs figure{margin:0}
+.refs img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:var(--radius-m);background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.refs figcaption{margin-top:12px;font-size:var(--fs-small);line-height:1.35;color:var(--text-secondary)}
+.refs figcaption b{display:block;font-size:var(--fs-body-s);font-weight:800;color:var(--navy)}
+.patterns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 var(--space-6);margin-bottom:var(--space-8)}
+.patterns li{padding:18px 0;border-top:1px solid var(--border)}
+.patterns b{display:block;font-size:var(--fs-body);font-weight:800}
+.patterns span{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.4;color:var(--text-secondary)}
+@media (max-width:1100px){.intro__nav,.patterns{grid-template-columns:repeat(2,minmax(0,1fr))}.refs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:767px){.intro{padding:72px 0 56px}.intro__nav,.patterns{grid-template-columns:1fr}.refs{grid-template-columns:1fr 1fr}.note{flex-wrap:wrap}.note span{margin-left:0;text-align:left}.note strong{white-space:normal}}
+
+/* ---------- общее для вариантов ---------- */
+.person{display:flex;align-items:center;gap:14px;min-width:0}
+.person .avatar{width:56px;height:56px}
+.person b{display:block;font-size:var(--fs-body);font-weight:var(--fw-heavy);line-height:1.15}
+.person small{display:block;margin-top:4px;font-size:var(--fs-small);line-height:1.3;color:var(--text-secondary)}
+.person--s{gap:10px}
+.person--s .avatar{width:40px;height:40px}
+.person--s b{font-size:var(--fs-body-s);font-weight:var(--fw-medium)}
+.persons{display:flex;flex-wrap:wrap;gap:14px 32px}
+.persons--stack{flex-direction:column;gap:16px}
+.section--dark .person small{color:var(--text-secondary-on-dark)}
+.faces{display:flex;gap:12px}
+
+/* 01 · строки с крупным временем */
+.schedule-lines{border-bottom:1px solid var(--border)}
+.schedule-lines__row{display:grid;grid-template-columns:200px minmax(0,1fr) 380px;gap:var(--space-6);align-items:start;padding:32px 0;border-top:1px solid var(--border)}
+.schedule-lines__time{font-size:var(--fs-num);font-weight:var(--fw-black);line-height:.85;letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
+.schedule-lines__time small{display:block;margin-top:10px;font-size:var(--fs-small);font-weight:var(--fw-medium);letter-spacing:0;color:var(--text-secondary)}
+.schedule-lines__topic{font-size:var(--fs-h4);font-weight:var(--fw-medium);line-height:1.2;text-wrap:balance}
+.schedule-lines__row--break{padding-block:24px}
+.schedule-lines__row--break .schedule-lines__time,.schedule-lines__row--break .schedule-lines__topic{color:var(--text-secondary)}
+
+/* 02 · лоток с белыми карточками */
+.schedule-tray{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:var(--radius-xl);background:var(--light);color:var(--navy)}
+.schedule-tray__row{display:grid;grid-template-columns:170px minmax(0,1fr);gap:var(--space-5);padding:32px 40px;border-radius:var(--radius-l);background:var(--white)}
+.schedule-tray__row--break{background:none;padding-block:20px}
+.schedule-tray__time,.schedule-tray__topic{font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:1.05}
+.schedule-tray__time{color:var(--text-secondary);font-variant-numeric:tabular-nums}
+.schedule-tray__topic{text-wrap:balance}
+.schedule-tray .persons{margin-top:24px}
+.section--dark .schedule-tray .person small{color:var(--text-secondary)}
+
+/* 03 · карточки на светлом фоне */
+.schedule-cards{display:flex;flex-direction:column;gap:12px}
+.schedule-cards__item{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:var(--space-5);align-items:start;padding:28px 32px;border-radius:var(--radius-l);background:var(--white);box-shadow:var(--shadow-card);transition:transform var(--dur-hover) var(--ease),box-shadow var(--dur-hover)}
+.schedule-cards__item:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+.schedule-cards__time{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.05;color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-cards__time small{display:block;margin-top:6px;font-size:var(--fs-small);font-weight:var(--fw-medium);color:var(--text-secondary)}
+.schedule-cards .persons{margin-top:18px}
+.schedule-cards__item--break{padding-block:14px;background:none;box-shadow:none}
+.schedule-cards__item--break:hover{transform:none;box-shadow:none}
+.schedule-cards__item--break .schedule-cards__time{font-size:var(--fs-body);color:var(--text-secondary)}
+.schedule-cards__item--break h3{font-size:var(--fs-body);font-weight:var(--fw-medium);color:var(--text-secondary)}
+
+/* 04 · аккордеон */
+.schedule-accordion{border-bottom:1px solid var(--border)}
+.schedule-accordion__item{border-top:1px solid var(--border)}
+.schedule-accordion__item summary{list-style:none;display:grid;grid-template-columns:140px minmax(0,1fr) 44px;gap:var(--space-5);align-items:center;padding:24px 0;cursor:pointer}
+.schedule-accordion__item summary::-webkit-details-marker{display:none}
+.schedule-accordion__item summary:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:12px}
+.schedule-accordion__time{font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-accordion__topic{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.1}
+.schedule-accordion__who{margin-top:8px;font-size:var(--fs-small);color:var(--text-secondary)}
+.schedule-accordion__toggle{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--sky);display:grid;place-items:center;transition:transform var(--dur-hover) var(--ease),border-color var(--dur-hover)}
+.schedule-accordion__toggle::before{content:'';width:9px;height:9px;border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);transform:translateY(-2px) rotate(45deg)}
+.schedule-accordion__item summary:hover .schedule-accordion__toggle{border-color:var(--navy)}
+.schedule-accordion__item[open] .schedule-accordion__toggle{transform:rotate(180deg)}
+.schedule-accordion__item[open] .schedule-accordion__who{display:none}
+.schedule-accordion__body{padding:0 calc(44px + var(--space-5)) 32px calc(140px + var(--space-5))}
+.schedule-accordion__body p{max-width:680px;color:var(--text-secondary)}
+.schedule-accordion__body .persons{margin-top:20px}
+.schedule-accordion__break{display:grid;grid-template-columns:140px minmax(0,1fr);gap:var(--space-5);padding:18px 0;border-top:1px solid var(--border);color:var(--text-secondary);font-weight:var(--fw-medium)}
+.schedule-accordion__break .schedule-accordion__time{color:var(--text-secondary)}
+
+/* 05 · табы по дням */
+.schedule-days .tabs{margin-bottom:var(--space-4)}
+.schedule-days__panel{padding:8px 40px;border-radius:var(--radius-xl);background:var(--white)}
+.schedule-days__row{display:grid;grid-template-columns:130px minmax(0,1fr) 300px;gap:var(--space-5);align-items:center;padding:22px 0;border-top:1px solid var(--border)}
+.schedule-days__row:first-child{border-top:0}
+.schedule-days__time{font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-days__topic{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.1}
+.schedule-days__row--break .schedule-days__time,.schedule-days__row--break .schedule-days__topic{color:var(--text-secondary);font-weight:var(--fw-medium)}
+.schedule-days__row--break .schedule-days__topic{font-size:var(--fs-body)}
+
+/* 06 · треки колонками */
+.schedule-tracks{display:grid;grid-template-columns:88px repeat(3,minmax(0,1fr));gap:12px}
+.schedule-tracks__tabs{display:none}
+.schedule-tracks__head{padding:0 4px 8px}
+.schedule-tracks__head b{display:block;font-size:var(--fs-body);font-weight:var(--fw-heavy)}
+.schedule-tracks__head small{display:block;margin-top:2px;font-size:var(--fs-small);color:var(--text-secondary)}
+.schedule-tracks__time{padding-top:22px;font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-tracks__cell{padding:20px 24px 22px;border-radius:var(--radius-m);background:var(--card)}
+.schedule-tracks__cell h4{font-size:var(--fs-body);font-weight:var(--fw-heavy);line-height:1.2}
+.schedule-tracks__cell p{margin-top:8px;font-size:var(--fs-small);color:var(--text-secondary)}
+.schedule-tracks__cell--empty{display:grid;place-items:center;background:none;box-shadow:inset 0 0 0 1.5px var(--line)}
+.schedule-tracks__cell--empty p{margin:0}
+.schedule-tracks__shared{grid-column:span 3;display:flex;align-items:center;gap:var(--space-3);padding:20px 24px;border-radius:var(--radius-m);box-shadow:inset 0 0 0 1.5px var(--line);font-size:var(--fs-body);font-weight:var(--fw-medium)}
+.schedule-tracks__shared small{font-size:var(--fs-small);font-weight:400;color:var(--text-secondary)}
+.schedule-tracks__time--shared{color:var(--text-secondary)}
+
+/* 07 · развилка на линии */
+.schedule-fork{position:relative;padding-left:48px}
+.schedule-fork::before{content:'';position:absolute;left:11px;top:28px;bottom:28px;width:2px;background:var(--sky)}
+.schedule-fork__step{position:relative;display:grid;grid-template-columns:150px minmax(0,1fr);gap:var(--space-5);padding:18px 0}
+.schedule-fork__step::before{content:'';position:absolute;left:-48px;top:20px;width:24px;height:24px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px var(--white)}
+.schedule-fork__step--break::before{background:var(--white);box-shadow:inset 0 0 0 2px var(--sky),0 0 0 6px var(--white)}
+.schedule-fork__time{padding-top:1px;font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.05;font-variant-numeric:tabular-nums}
+.schedule-fork__step--break .schedule-fork__time,.schedule-fork__step--break h3{color:var(--text-secondary)}
+.schedule-fork__step--break h3{font-weight:var(--fw-medium)}
+.schedule-fork .persons{margin-top:14px}
+.schedule-fork__branches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.schedule-fork__branch{display:flex;flex-direction:column;gap:12px;padding:24px 28px;border-radius:var(--radius-l);background:var(--card)}
+.schedule-fork__branch .chip{align-self:flex-start;background:var(--white)}
+.schedule-fork__branch .persons{margin-top:auto;padding-top:6px}
+
+/* 08 · табло на тёмном */
+.schedule-board__meta{display:flex;gap:var(--space-6);margin-bottom:var(--space-4)}
+.schedule-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--space-8)}
+.schedule-board__column{border-bottom:1px solid var(--border-on-dark)}
+.schedule-board__column .t-caption{padding-bottom:14px}
+.schedule-board__row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:var(--space-4);padding:20px 0;border-top:1px solid var(--border-on-dark)}
+.schedule-board__time{padding-top:3px;font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--blue);font-variant-numeric:tabular-nums}
+.schedule-board__topic{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.1;color:var(--white)}
+.schedule-board__who{margin-top:6px;font-size:var(--fs-small);color:var(--text-secondary-on-dark)}
+.schedule-board__row--break .schedule-board__time{color:var(--dim-dark)}
+.schedule-board__row--break .schedule-board__topic{font-size:var(--fs-body);font-weight:var(--fw-medium);color:var(--dim-dark)}
+
+/* 09 · горизонтальная лента */
+.schedule-ribbon{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--space-4)}
+.schedule-ribbon::before{content:'';position:absolute;left:12px;right:0;top:11px;height:2px;background:var(--sky)}
+.schedule-ribbon__item{position:relative;padding-top:52px}
+.schedule-ribbon__item::before{content:'';position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px var(--bg-section-light)}
+.schedule-ribbon__time{font-size:var(--fs-num);font-weight:var(--fw-black);line-height:.85;letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
+.schedule-ribbon__item .t-caption{margin-top:18px;color:var(--text-accent)}
+.schedule-ribbon__item h3{margin-top:6px}
+.schedule-ribbon__item p{margin-top:8px;font-size:var(--fs-body-s);color:var(--text-secondary)}
+
+/* 10 · бенто частей дня */
+.schedule-bento{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-4)}
+.schedule-bento__tile{display:flex;flex-direction:column;gap:14px;min-height:260px;padding:32px;border-radius:var(--radius-xl);background:var(--card)}
+.schedule-bento__tile--wide{grid-column:span 2}
+.schedule-bento__tile--dark{background:var(--navy);color:var(--white)}
+.schedule-bento__time{font-size:var(--fs-h2);font-weight:var(--fw-black);line-height:.95;letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
+.schedule-bento__tile h3{margin-top:auto}
+.schedule-bento__tile p{font-size:var(--fs-body-s);color:var(--text-secondary)}
+.schedule-bento__tile--dark p{color:var(--text-muted-on-dark)}
+.schedule-bento__list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px;margin-top:8px}
+.schedule-bento__list li{font-size:var(--fs-body-s);font-weight:var(--fw-medium);line-height:1.25}
+.schedule-bento__list small{display:block;margin-top:3px;font-size:var(--fs-small);font-weight:400;color:var(--text-secondary)}
+
+/* 11 · спикеры крупно */
+.schedule-speakers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+.schedule-speakers__card{display:flex;flex-direction:column;padding:32px;border-radius:var(--radius-xl);background:var(--white);box-shadow:var(--shadow-card);transition:transform var(--dur-hover) var(--ease),box-shadow var(--dur-hover)}
+.schedule-speakers__card:hover{transform:translateY(-4px);box-shadow:var(--shadow-card-hover)}
+.schedule-speakers__top{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3);margin-bottom:28px}
+.schedule-speakers__time{text-align:right;font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.05;color:var(--text-accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.schedule-speakers__time small{display:block;margin-top:6px;font-size:var(--fs-small);font-weight:var(--fw-medium);color:var(--text-secondary)}
+.schedule-speakers__card h3{margin-bottom:28px;text-wrap:balance}
+.schedule-speakers__names{margin-top:auto;display:flex;flex-wrap:wrap;gap:12px 32px}
+.schedule-speakers__names b{display:block;font-size:var(--fs-body);font-weight:var(--fw-medium)}
+.schedule-speakers__names small{display:block;margin-top:3px;font-size:var(--fs-small);color:var(--text-secondary)}
+.schedule-speakers__break{grid-column:1/-1;display:flex;align-items:baseline;gap:var(--space-4);padding:14px 32px;font-weight:var(--fw-medium);color:var(--text-secondary)}
+.schedule-speakers__break b{font-weight:var(--fw-heavy);font-variant-numeric:tabular-nums}
+
+/* 12 · части дня */
+.schedule-parts{display:flex;flex-direction:column;gap:var(--space-8)}
+.schedule-parts__part{display:grid;grid-template-columns:320px minmax(0,1fr);gap:var(--space-8);align-items:start}
+.schedule-parts__aside{position:sticky;top:32px}
+.schedule-parts__aside .t-h2{margin-top:10px}
+.schedule-parts__range{margin-top:14px;font-size:var(--fs-h4);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-parts__aside p{margin-top:10px;font-size:var(--fs-body-s);color:var(--text-secondary)}
+.schedule-parts__list{border-bottom:1px solid var(--border)}
+.schedule-parts__row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:var(--space-4);padding:22px 0;border-top:1px solid var(--border)}
+.schedule-parts__time{padding-top:2px;font-size:var(--fs-body);font-weight:var(--fw-heavy);font-variant-numeric:tabular-nums}
+.schedule-parts .persons{margin-top:12px}
+.schedule-parts__row--break .schedule-parts__time,.schedule-parts__row--break h3{color:var(--text-secondary)}
+.schedule-parts__row--break h3{font-size:var(--fs-body);font-weight:var(--fw-medium)}
+
+/* 13 · сейчас идёт */
+.schedule-live__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-4)}
+.schedule-live__bar .tabs{margin:0}
+.schedule-live__clock{display:flex;align-items:center;gap:var(--space-2)}
+.schedule-live__clock b{font-size:var(--fs-h4);font-weight:var(--fw-heavy);font-variant-numeric:tabular-nums}
+.schedule-live__list{display:flex;flex-direction:column;gap:8px}
+.schedule-live__row{display:grid;grid-template-columns:150px minmax(0,1fr) 190px;gap:var(--space-5);align-items:center;padding:18px 32px;border-radius:var(--radius-l);transition:opacity .3s var(--ease),background .3s,box-shadow .3s}
+.schedule-live__row.is-past{opacity:.42}
+.schedule-live__row.is-now{padding-block:28px;background:var(--white);box-shadow:var(--shadow-float)}
+.schedule-live__time{font-size:var(--fs-body);font-weight:var(--fw-heavy);font-variant-numeric:tabular-nums}
+.schedule-live__row.is-now .schedule-live__time{color:var(--text-accent)}
+.schedule-live__topic{font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1.25}
+.schedule-live__row.is-now .schedule-live__topic{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:1.1}
+.schedule-live__topic small{display:block;margin-top:4px;font-size:var(--fs-small);font-weight:400;color:var(--text-secondary)}
+.schedule-live__state{justify-self:end;display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-small);font-weight:var(--fw-medium);color:var(--text-secondary);text-align:right}
+.schedule-live__row.is-now .schedule-live__state{color:var(--navy)}
+.schedule-live__row.is-now .schedule-live__state::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--live);animation:live-pulse 1.6s ease-in-out infinite}
+.schedule-live__row.is-next .schedule-live__state{color:var(--text-accent)}
+.schedule-live__progress{grid-column:1/-1;display:none;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.schedule-live__progress i{display:block;height:100%;width:var(--p,0%);border-radius:2px;background:var(--blue);transition:width .4s var(--ease)}
+.schedule-live__row.is-now .schedule-live__progress{display:block}
+@keyframes live-pulse{50%{opacity:.35}}
+
+/* 14 · коротко рядом с датой */
+.schedule-compact{display:grid;grid-template-columns:5fr 7fr;gap:var(--space-4)}
+.schedule-compact__plate{display:flex;flex-direction:column;gap:var(--space-2);padding:40px;border-radius:var(--radius-xl);background:var(--navy);color:var(--white)}
+.schedule-compact__plate .t-caption{color:var(--dim-dark)}
+.schedule-compact__plate p{color:var(--text-muted-on-dark)}
+.schedule-compact__plate .button{margin-top:auto;align-self:flex-start}
+.schedule-compact__list{padding:12px 40px;border-radius:var(--radius-xl);background:var(--card)}
+.schedule-compact__row{display:grid;grid-template-columns:96px minmax(0,1fr);gap:var(--space-4);padding:18px 0;border-top:1px solid var(--line)}
+.schedule-compact__row:first-child{border-top:0}
+.schedule-compact__time{font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-compact__text{font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1.3}
+.schedule-compact__row small{display:block;margin-top:3px;font-size:var(--fs-small);font-weight:400;color:var(--text-secondary)}
+
+/* 15 · фильтр и «показать всю» */
+.schedule-more__filters{margin-bottom:var(--space-3)}
+.schedule-more__list{position:relative;border-bottom:1px solid var(--border)}
+.schedule-more__row{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:var(--space-5);align-items:start;padding:24px 0;border-top:1px solid var(--border)}
+.schedule-more__time{padding-top:3px;font-size:var(--fs-body);font-weight:var(--fw-heavy);color:var(--text-accent);font-variant-numeric:tabular-nums}
+.schedule-more .persons{margin-top:12px}
+.schedule-more__row .chips{justify-content:flex-end}
+.schedule-more__fade{position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,255,255,0),var(--white));pointer-events:none}
+.schedule-more__action{display:flex;justify-content:center;margin-top:var(--space-4)}
+
+/* ---------- планшет и телефон ---------- */
+@media (max-width:1100px){
+  .schedule-lines__row{grid-template-columns:170px minmax(0,1fr) 300px}
+  .schedule-tracks{grid-template-columns:72px repeat(3,minmax(0,1fr))}
+  .schedule-ribbon{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:var(--space-6)}
+  .schedule-ribbon::before{display:none}
+  .schedule-parts__part{grid-template-columns:240px minmax(0,1fr);gap:var(--space-6)}
+  .schedule-compact{grid-template-columns:1fr}
+}
+@media (max-width:767px){
+  .schedule-lines__row{grid-template-columns:1fr;gap:14px;padding:24px 0}
+  .schedule-lines__time{font-size:34px}
+  .schedule-lines__time small{display:inline;margin:0 0 0 8px}
+  .schedule-lines__topic{font-size:20px}
+
+  .schedule-tray{padding:6px;border-radius:var(--radius-l)}
+  .schedule-tray__row{grid-template-columns:1fr;gap:8px;padding:20px;border-radius:20px}
+  .schedule-tray__row--break{padding-block:14px}
+  .schedule-tray__time,.schedule-tray__topic{font-size:22px}
+  .schedule-tray .persons{margin-top:16px;flex-direction:column}
+
+  .schedule-cards__item{grid-template-columns:1fr;gap:10px;padding:22px 20px}
+  .schedule-cards__item .chip{justify-self:start}
+  .schedule-cards__time small{display:inline;margin-left:8px}
+
+  .schedule-accordion__item summary{grid-template-columns:minmax(0,1fr) 44px;gap:8px 16px;padding:20px 0}
+  .schedule-accordion__time{grid-column:1}
+  .schedule-accordion__item summary>div{grid-column:1}
+  .schedule-accordion__toggle{grid-column:2;grid-row:1/3}
+  .schedule-accordion__body{padding:0 0 24px}
+  .schedule-accordion__break{grid-template-columns:1fr;gap:4px}
+
+  .schedule-days .tabs{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(var(--gutter) / -2);padding-inline:calc(var(--gutter) / 2);scrollbar-width:none}
+  .schedule-days .tab{flex:none}
+  .schedule-days__panel{padding:4px 20px;border-radius:var(--radius-l)}
+  .schedule-days__row{grid-template-columns:1fr;gap:10px;padding:20px 0}
+
+  .schedule-tracks{grid-template-columns:64px minmax(0,1fr);gap:10px}
+  .schedule-tracks__tabs{display:flex;grid-column:1/-1;flex-wrap:nowrap;overflow-x:auto;margin:0 calc(var(--gutter) / -2) 8px;padding-inline:calc(var(--gutter) / 2);scrollbar-width:none}
+  .schedule-tracks__tabs .tab{flex:none}
+  .schedule-tracks__head,.schedule-tracks__corner{display:none}
+  .schedule-tracks__shared{grid-column:auto;flex-direction:column;align-items:flex-start;gap:2px;padding:16px 18px}
+  .schedule-tracks[data-active="t1"] [data-track]:not([data-track="t1"]),
+  .schedule-tracks[data-active="t2"] [data-track]:not([data-track="t2"]),
+  .schedule-tracks[data-active="t3"] [data-track]:not([data-track="t3"]){display:none}
+
+  .schedule-fork{padding-left:36px}
+  .schedule-fork::before{left:8px}
+  .schedule-fork__step{grid-template-columns:1fr;gap:8px}
+  .schedule-fork__step::before{left:-36px;top:20px;width:18px;height:18px}
+  .schedule-fork__branches{grid-template-columns:1fr}
+  .schedule-fork__branch{padding:20px}
+
+  .schedule-board__meta{flex-direction:column;gap:4px}
+  .schedule-board{grid-template-columns:1fr;gap:var(--space-5)}
+  .schedule-board__row{grid-template-columns:1fr;gap:6px}
+
+  .schedule-ribbon{grid-template-columns:1fr;gap:0;padding-left:44px}
+  .schedule-ribbon::before{display:block;left:11px;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+  .schedule-ribbon__item{padding:0 0 32px}
+  .schedule-ribbon__item::before{left:-44px;top:2px}
+  .schedule-ribbon__time{font-size:34px}
+
+  .schedule-bento{grid-template-columns:1fr}
+  .schedule-bento__tile{min-height:0;padding:24px}
+  .schedule-bento__tile--wide{grid-column:auto}
+  .schedule-bento__list{grid-template-columns:1fr}
+
+  .schedule-speakers{grid-template-columns:1fr}
+  .schedule-speakers__card{padding:24px}
+  .schedule-speakers .avatar--lg{width:64px;height:64px}
+  .schedule-speakers__break{padding:10px 8px}
+
+  .schedule-parts__part{grid-template-columns:1fr;gap:var(--space-3)}
+  .schedule-parts__aside{position:static}
+  .schedule-parts__row{grid-template-columns:72px minmax(0,1fr);gap:var(--space-3)}
+
+  .schedule-live__row{grid-template-columns:1fr;gap:6px;padding:14px 18px}
+  .schedule-live__row.is-now{padding-block:20px}
+  .schedule-live__state{justify-self:start;text-align:left}
+
+  .schedule-compact__plate{padding:28px 24px}
+  .schedule-compact__list{padding:6px 20px}
+  .schedule-compact__row{grid-template-columns:64px minmax(0,1fr);gap:var(--space-3)}
+
+  .schedule-more__row{grid-template-columns:1fr;gap:10px}
+  .schedule-more__row .chips{justify-content:flex-start;order:3}
+}
+@media (prefers-reduced-motion:reduce){.schedule-live__row.is-now .schedule-live__state::before{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="section--dark intro">
+  <div class="container">
+    <p class="t-caption" style="margin-bottom:24px">Дизайн-система лендингов · блок «Программа» · 16.09.2026</p>
+    <h1 class="t-h1">Программа мероприятия: <span class="accent">15&nbsp;вариантов</span></h1>
+    <p class="t-lead intro__lead">Разобрали 67 сайтов с&nbsp;events.yandex.ru и&nbsp;собрали раскладки на&nbsp;токенах конструктора: голубая заливка&nbsp;— только кнопки, время и&nbsp;акценты&nbsp;— голубым текстом, кегли из&nbsp;общей шкалы. Темы и&nbsp;спикеры&nbsp;— со&nbsp;съезда партнёров 2025, время и&nbsp;треки&nbsp;— рыба.</p>
+    <nav class="intro__nav" aria-label="Варианты">
+      <a href="#v01"><b>01</b><span>Строки с&nbsp;крупным временем<small>ai-trainers</small></span></a>
+      <a href="#v02"><b>02</b><span>Лоток с&nbsp;белыми карточками<small>ПромоСреда</small></span></a>
+      <a href="#v03"><b>03</b><span>Карточки на&nbsp;светлом<small>Tech Writing Jam, Security Party</small></span></a>
+      <a href="#v04"><b>04</b><span>Аккордеон с&nbsp;описанием<small>Analytics Party, C++ Zero Cost</small></span></a>
+      <a href="#v05"><b>05</b><span>Табы по&nbsp;дням<small>Чинители прекрасного, Лайнап Y&amp;&amp;Y</small></span></a>
+      <a href="#v06"><b>06</b><span>Треки колонками<small>infra.conf, F[Scala]</small></span></a>
+      <a href="#v07"><b>07</b><span>Развилка на&nbsp;линии<small>Foodtech Tour, Data Driven</small></span></a>
+      <a href="#v08"><b>08</b><span>Табло на&nbsp;тёмном<small>День партнёров, Frontend Night</small></span></a>
+      <a href="#v09"><b>09</b><span>Горизонтальная лента<small>Ночь опенсорс-библиотек</small></span></a>
+      <a href="#v10"><b>10</b><span>Бенто частей дня<small>Толковый нетворк</small></span></a>
+      <a href="#v11"><b>11</b><span>Спикеры крупно<small>Deep Tech Night, Я.Железо, съезд</small></span></a>
+      <a href="#v12"><b>12</b><span>Части дня с&nbsp;закреплённым заголовком<small>Mobile Runtime</small></span></a>
+      <a href="#v13"><b>13</b><span>Сейчас идёт<small>для дня мероприятия и&nbsp;трансляции</small></span></a>
+      <a href="#v14"><b>14</b><span>Коротко рядом с&nbsp;датой<small>Pytup, бизнес-завтрак</small></span></a>
+      <a href="#v15"><b>15</b><span>Фильтр и&nbsp;«Показать всю»<small>C++ Zero Cost, big tech night</small></span></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ======================= 01 ======================= -->
+<div class="note" id="v01"><b>01</b><strong>Строки с&nbsp;крупным временем</strong><span>Один зал, до&nbsp;12 сессий. Начало крупно цифрами, конец&nbsp;— подписью, спикер справа, тонкие линии без подложек. <em>В&nbsp;письмо: да</em></span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">О&nbsp;чём поговорим</h2></div>
+    <div class="schedule-lines">
+      <div class="schedule-lines__row schedule-lines__row--break"><div class="schedule-lines__time">09:30<small>до 10:00</small></div><div class="schedule-lines__topic">Регистрация и&nbsp;кофе</div></div>
+      <div class="schedule-lines__row"><div class="schedule-lines__time">10:00<small>до 10:40</small></div><div class="schedule-lines__topic">Стратегия Яндекс Лавки</div><div class="person"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div>
+      <div class="schedule-lines__row"><div class="schedule-lines__time">10:40<small>до 11:20</small></div><div class="schedule-lines__topic">Качество определяет прибыльность</div><div class="person"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div>
+      <div class="schedule-lines__row schedule-lines__row--break"><div class="schedule-lines__time">11:20<small>до 11:40</small></div><div class="schedule-lines__topic">Кофе-брейк</div></div>
+      <div class="schedule-lines__row"><div class="schedule-lines__time">11:40<small>до 12:20</small></div><div class="schedule-lines__topic">Продукт Лавки как часть экосистемы Яндекса</div><div class="person"><span class="avatar"><img src="../events/assets/spk-tolstoy.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C &amp; Head of&nbsp;Product Design</small></div></div></div>
+      <div class="schedule-lines__row"><div class="schedule-lines__time">12:20<small>до 13:00</small></div><div class="schedule-lines__topic">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</div><div class="persons persons--stack"><div class="person"><span class="avatar"><img src="../events/assets/spk-alontseva.webp" alt=""></span><div><b>Анастасия Алонцева</b><small>Руководитель группы исследований Лавки</small></div></div><div class="person"><span class="avatar"><img src="../events/assets/spk-starostina.webp" alt=""></span><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 02 ======================= -->
+<div class="note" id="v02"><b>02</b><strong>Лоток с&nbsp;белыми карточками</strong><span>Светлый лоток на&nbsp;тёмной секции со&nbsp;свечением. Время и&nbsp;тема одним кеглем, различаются цветом. Перерывы&nbsp;— без карточки. <em>В&nbsp;письмо: да</em></span></div>
+<section class="section section--dark">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа</h2><p class="t-lead">26 сентября, деловая часть</p></div>
+    <div class="schedule-tray">
+      <div class="schedule-tray__row schedule-tray__row--break"><div class="schedule-tray__time">09:30</div><div class="schedule-tray__topic">Регистрация и&nbsp;кофе</div></div>
+      <div class="schedule-tray__row"><div class="schedule-tray__time">10:00</div><div><div class="schedule-tray__topic">Стратегия Яндекс Лавки</div><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div></div>
+      <div class="schedule-tray__row"><div class="schedule-tray__time">10:40</div><div><div class="schedule-tray__topic">Качество определяет прибыльность</div><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div></div></div>
+      <div class="schedule-tray__row"><div class="schedule-tray__time">12:20</div><div><div class="schedule-tray__topic">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</div><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-alontseva.webp" alt=""></span><div><b>Анастасия Алонцева</b><small>Руководитель группы исследований Лавки</small></div></div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-starostina.webp" alt=""></span><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></div></div></div>
+      <div class="schedule-tray__row schedule-tray__row--break"><div class="schedule-tray__time">13:00</div><div class="schedule-tray__topic">Обед</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 03 ======================= -->
+<div class="note" id="v03"><b>03</b><strong>Карточки на&nbsp;светлом</strong><span>Каждая сессия&nbsp;— белая карточка с&nbsp;подъёмом на&nbsp;наведении, время голубым, длительность чипсом. Перерывы&nbsp;— тонкой строкой между карточками. <em>В&nbsp;письмо: да</em></span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="schedule-cards">
+      <div class="schedule-cards__item schedule-cards__item--break"><div class="schedule-cards__time">09:30</div><h3>Регистрация и&nbsp;кофе</h3></div>
+      <article class="schedule-cards__item"><div class="schedule-cards__time">10:00<small>до 10:40</small></div><div><h3 class="t-h4">Стратегия Яндекс Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div><span class="chip">40 минут</span></article>
+      <article class="schedule-cards__item"><div class="schedule-cards__time">10:40<small>до 11:20</small></div><div><h3 class="t-h4">Качество определяет прибыльность</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div></div><span class="chip">40 минут</span></article>
+      <div class="schedule-cards__item schedule-cards__item--break"><div class="schedule-cards__time">11:20</div><h3>Кофе-брейк</h3></div>
+      <article class="schedule-cards__item"><div class="schedule-cards__time">11:40<small>до 12:20</small></div><div><h3 class="t-h4">Продукт Лавки как часть экосистемы Яндекса</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-tolstoy.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C &amp; Head of&nbsp;Product Design</small></div></div></div></div><span class="chip">40 минут</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 04 ======================= -->
+<div class="note" id="v04"><b>04</b><strong>Аккордеон с&nbsp;описанием</strong><span>Свёрнуто: время, тема, имена. Раскрыто: описание и&nbsp;спикеры с&nbsp;фото. Нативный <em>details</em>, без скрипта. Описания&nbsp;— рыба из&nbsp;kit/variants</span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="schedule-accordion">
+      <div class="schedule-accordion__break"><span class="schedule-accordion__time">09:30</span><span>Регистрация и&nbsp;кофе</span></div>
+      <details class="schedule-accordion__item" open><summary><span class="schedule-accordion__time">10:00</span><div><div class="schedule-accordion__topic">Стратегия Яндекс Лавки</div><div class="schedule-accordion__who">Вадим Петров</div></div><span class="schedule-accordion__toggle" aria-hidden="true"></span></summary>
+        <div class="schedule-accordion__body"><p>Итоги года, новые форматы, планы на&nbsp;2027 и&nbsp;роль партнёров в&nbsp;них. Вопросы из&nbsp;зала&nbsp;— 20&nbsp;минут</p><div class="persons"><div class="person"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div></details>
+      <details class="schedule-accordion__item"><summary><span class="schedule-accordion__time">10:40</span><div><div class="schedule-accordion__topic">Качество определяет прибыльность</div><div class="schedule-accordion__who">Александр Катанов</div></div><span class="schedule-accordion__toggle" aria-hidden="true"></span></summary>
+        <div class="schedule-accordion__body"><p>Где партнёры теряют деньги и&nbsp;как это видно в&nbsp;данных: пять метрик, за&nbsp;которыми стоит следить каждую неделю</p><div class="persons"><div class="person"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div></div></details>
+      <details class="schedule-accordion__item"><summary><span class="schedule-accordion__time">12:20</span><div><div class="schedule-accordion__topic">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</div><div class="schedule-accordion__who">Анастасия Алонцева, Олеся Старостина</div></div><span class="schedule-accordion__toggle" aria-hidden="true"></span></summary>
+        <div class="schedule-accordion__body"><p>Исследования 2026: кто заказывает, зачем и&nbsp;что мешает заказывать чаще</p><div class="persons"><div class="person"><span class="avatar"><img src="../events/assets/spk-alontseva.webp" alt=""></span><div><b>Анастасия Алонцева</b><small>Руководитель группы исследований Лавки</small></div></div><div class="person"><span class="avatar"><img src="../events/assets/spk-starostina.webp" alt=""></span><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></div></div></details>
+      <div class="schedule-accordion__break"><span class="schedule-accordion__time">13:00</span><span>Обед</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 05 ======================= -->
+<div class="note" id="v05"><b>05</b><strong>Табы по&nbsp;дням</strong><span>Два-три дня, один на&nbsp;экране. Табы&nbsp;— из&nbsp;кита (<em>data-tabs</em>), на&nbsp;телефоне листаются вбок. Строки плотные, спикер справа. Второй день&nbsp;— рыба</span></div>
+<section class="section section--light">
+  <div class="container schedule-days" data-tabs>
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="tabs" role="tablist"><button class="tab is-on" type="button" data-tab="day1">26 сентября, пятница</button><button class="tab" type="button" data-tab="day2">27 сентября, суббота</button></div>
+    <div class="schedule-days__panel" data-tab-panel="day1">
+      <div class="schedule-days__row schedule-days__row--break"><div class="schedule-days__time">09:30</div><div class="schedule-days__topic">Регистрация и&nbsp;кофе</div></div>
+      <div class="schedule-days__row"><div class="schedule-days__time">10:00</div><div class="schedule-days__topic">Стратегия Яндекс Лавки</div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div>
+      <div class="schedule-days__row"><div class="schedule-days__time">10:40</div><div class="schedule-days__topic">Качество определяет прибыльность</div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div>
+      <div class="schedule-days__row"><div class="schedule-days__time">14:00</div><div class="schedule-days__topic">Модули «Есть Горячее»: зачем ритейлер строит сеть дарк китченов</div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-burdin.webp" alt=""></span><div><b>Николай Бурдин</b><small>Руководитель управления модулями «Есть Горячее» и&nbsp;кофе</small></div></div></div>
+      <div class="schedule-days__row"><div class="schedule-days__time">16:00</div><div class="schedule-days__topic">Турнир</div><div></div></div>
+    </div>
+    <div class="schedule-days__panel" data-tab-panel="day2" hidden>
+      <div class="schedule-days__row"><div class="schedule-days__time">10:00</div><div class="schedule-days__topic">Успехи 2025 года и&nbsp;планы развития на&nbsp;2026 год</div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-shvindt.webp" alt=""></span><div><b>Мария Швиндт</b><small>Руководитель сектора службы развития франшизы</small></div></div></div>
+      <div class="schedule-days__row schedule-days__row--break"><div class="schedule-days__time">12:00</div><div class="schedule-days__topic">Обед</div></div>
+      <div class="schedule-days__row"><div class="schedule-days__time">13:00</div><div class="schedule-days__topic">Награждение</div><div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 06 ======================= -->
+<div class="note" id="v06"><b>06</b><strong>Треки колонками</strong><span>Параллельные залы: время слева, по&nbsp;колонке на&nbsp;трек, общие пункты на&nbsp;всю ширину. На&nbsp;телефоне колонки превращаются в&nbsp;табы по&nbsp;трекам. Темы&nbsp;— рыба из&nbsp;kit/variants</span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Воркшопы</h2><p class="t-lead">27 сентября, три зала параллельно</p></div>
+    <div class="schedule-tracks" data-active="t1" data-schedule-tracks>
+      <div class="tabs schedule-tracks__tabs"><button class="tab is-on" type="button" data-track-tab="t1">Стратегия</button><button class="tab" type="button" data-track-tab="t2">Операции</button><button class="tab" type="button" data-track-tab="t3">Маркетинг</button></div>
+      <div class="schedule-tracks__corner"></div>
+      <div class="schedule-tracks__head"><b>Стратегия</b><small>Главный зал</small></div>
+      <div class="schedule-tracks__head"><b>Операции</b><small>Зал 2</small></div>
+      <div class="schedule-tracks__head"><b>Маркетинг</b><small>Зал 3</small></div>
+
+      <div class="schedule-tracks__time schedule-tracks__time--shared">09:30</div>
+      <div class="schedule-tracks__shared">Регистрация и&nbsp;кофе<small>фойе, 1&nbsp;этаж</small></div>
+
+      <div class="schedule-tracks__time">10:00</div>
+      <div class="schedule-tracks__cell" data-track="t1"><h4>Форматы 2027 для вашего города</h4><p>Никита Толстой</p></div>
+      <div class="schedule-tracks__cell" data-track="t2"><h4>Операционная модель даркстора</h4><p>Мария Швиндт</p></div>
+      <div class="schedule-tracks__cell" data-track="t3"><h4>Чек-лист маркетинга партнёра</h4><p>Николай Бурдин</p></div>
+
+      <div class="schedule-tracks__time">11:30</div>
+      <div class="schedule-tracks__cell" data-track="t1"><h4>Финмодель: пересчитываем вместе</h4><p>Александр Катанов</p></div>
+      <div class="schedule-tracks__cell" data-track="t2"><h4>Найм и&nbsp;удержание курьеров</h4><p>HR-команда Лавки</p></div>
+      <div class="schedule-tracks__cell schedule-tracks__cell--empty" data-track="t3"><p>Без сессии</p></div>
+
+      <div class="schedule-tracks__time schedule-tracks__time--shared">13:00</div>
+      <div class="schedule-tracks__shared">Обед<small>ресторан кластера</small></div>
+
+      <div class="schedule-tracks__time">14:00</div>
+      <div class="schedule-tracks__cell" data-track="t1"><h4>Открытие новых городов: план на&nbsp;год</h4><p>Мария Швиндт</p></div>
+      <div class="schedule-tracks__cell" data-track="t2"><h4>WMS и&nbsp;автозаказ: что нового</h4><p>Продуктовая команда</p></div>
+      <div class="schedule-tracks__cell" data-track="t3"><h4>Что мы&nbsp;знаем о&nbsp;пользователях Лавки</h4><p>Анастасия Алонцева, Олеся Старостина</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 07 ======================= -->
+<div class="note" id="v07"><b>07</b><strong>Развилка на&nbsp;линии</strong><span>Основной поток&nbsp;— вертикальная линия с&nbsp;точками, как <em>.timeline</em> кита. Где сессии идут параллельно, строка делится на&nbsp;две карточки с&nbsp;залом. Деление по&nbsp;залам&nbsp;— рыба</span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="schedule-fork">
+      <div class="schedule-fork__step schedule-fork__step--break"><div class="schedule-fork__time">09:30</div><h3 class="t-h4">Регистрация и&nbsp;кофе</h3></div>
+      <div class="schedule-fork__step"><div class="schedule-fork__time">10:00</div><div><h3 class="t-h4">Стратегия Яндекс Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div></div>
+      <div class="schedule-fork__step"><div class="schedule-fork__time">11:40</div>
+        <div class="schedule-fork__branches">
+          <div class="schedule-fork__branch"><span class="chip">Главный зал</span><h3 class="t-h4">Продукт Лавки как часть экосистемы Яндекса</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-tolstoy.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C</small></div></div></div></div>
+          <div class="schedule-fork__branch"><span class="chip">Зал 2</span><h3 class="t-h4">Модули «Есть Горячее»: зачем ритейлер строит сеть дарк китченов</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-burdin.webp" alt=""></span><div><b>Николай Бурдин</b><small>«Есть Горячее» и&nbsp;кофе</small></div></div></div></div>
+        </div>
+      </div>
+      <div class="schedule-fork__step schedule-fork__step--break"><div class="schedule-fork__time">13:00</div><h3 class="t-h4">Обед</h3></div>
+      <div class="schedule-fork__step"><div class="schedule-fork__time">14:40</div><div><h3 class="t-h4">Успехи 2025 года и&nbsp;планы развития на&nbsp;2026 год</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-shvindt.webp" alt=""></span><div><b>Мария Швиндт</b><small>Развитие франшизы Яндекс Лавки</small></div></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 08 ======================= -->
+<div class="note" id="v08"><b>08</b><strong>Табло на&nbsp;тёмном</strong><span>Развитие «Табло» Дня партнёров: две колонки строк на&nbsp;тёмной секции, без плашек&nbsp;— только линии. Всё расписание дня на&nbsp;одном экране. <em>В&nbsp;письмо: да</em></span></div>
+<section class="section section--dark">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Деловая программа</h2><p class="t-lead">26 сентября, главный зал</p></div>
+    <div class="schedule-board">
+      <div class="schedule-board__column">
+        <p class="t-caption">До обеда</p>
+        <div class="schedule-board__row schedule-board__row--break"><div class="schedule-board__time">09:30</div><div class="schedule-board__topic">Регистрация и&nbsp;кофе</div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">10:00</div><div><div class="schedule-board__topic">Стратегия Яндекс Лавки</div><div class="schedule-board__who">Вадим Петров, CEO</div></div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">10:40</div><div><div class="schedule-board__topic">Качество определяет прибыльность</div><div class="schedule-board__who">Александр Катанов, CFO</div></div></div>
+        <div class="schedule-board__row schedule-board__row--break"><div class="schedule-board__time">11:20</div><div class="schedule-board__topic">Кофе-брейк</div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">11:40</div><div><div class="schedule-board__topic">Продукт Лавки как часть экосистемы Яндекса</div><div class="schedule-board__who">Никита Толстой, CPO B2C</div></div></div>
+      </div>
+      <div class="schedule-board__column">
+        <p class="t-caption">После обеда</p>
+        <div class="schedule-board__row"><div class="schedule-board__time">12:20</div><div><div class="schedule-board__topic">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</div><div class="schedule-board__who">Анастасия Алонцева, Олеся Старостина</div></div></div>
+        <div class="schedule-board__row schedule-board__row--break"><div class="schedule-board__time">13:00</div><div class="schedule-board__topic">Обед</div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">14:00</div><div><div class="schedule-board__topic">Модули «Есть Горячее»: сеть дарк китченов</div><div class="schedule-board__who">Николай Бурдин</div></div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">14:40</div><div><div class="schedule-board__topic">Успехи 2025 и&nbsp;планы на&nbsp;2026</div><div class="schedule-board__who">Мария Швиндт</div></div></div>
+        <div class="schedule-board__row"><div class="schedule-board__time">16:00</div><div><div class="schedule-board__topic">Турнир</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 09 ======================= -->
+<div class="note" id="v09"><b>09</b><strong>Горизонтальная лента</strong><span>Для обзора дня или короткого вечера в&nbsp;3–5 пунктов: крупное время, голубая точка на&nbsp;линии, подпись капсом. Линия и&nbsp;точка&nbsp;— из&nbsp;<em>.timeline</em> кита. На&nbsp;телефоне лента встаёт вертикально</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Как пройдёт день</h2></div>
+    <div class="schedule-ribbon">
+      <div class="schedule-ribbon__item"><div class="schedule-ribbon__time">09:30</div><p class="t-caption">Начало</p><h3 class="t-h4">Регистрация</h3><p>Бейджи и&nbsp;кофе</p></div>
+      <div class="schedule-ribbon__item"><div class="schedule-ribbon__time">10:00</div><p class="t-caption">Деловая программа</p><h3 class="t-h4">Шесть докладов</h3><p>Стратегия, финансы, продукт, пользователи, «Есть Горячее», франшиза</p></div>
+      <div class="schedule-ribbon__item"><div class="schedule-ribbon__time">13:00</div><p class="t-caption">Перерыв</p><h3 class="t-h4">Обед</h3></div>
+      <div class="schedule-ribbon__item"><div class="schedule-ribbon__time">16:00</div><p class="t-caption">Команды</p><h3 class="t-h4">Турнир</h3></div>
+      <div class="schedule-ribbon__item"><div class="schedule-ribbon__time">19:00</div><p class="t-caption">Финал</p><h3 class="t-h4">Награждение</h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10 ======================= -->
+<div class="note" id="v10"><b>10</b><strong>Бенто частей дня</strong><span>Не по&nbsp;сессиям, а&nbsp;по&nbsp;частям: крупные диапазоны времени в&nbsp;плашках разной ширины, одна тёмная&nbsp;— финал. Хорошо для анонса, когда точного тайминга ещё нет</span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа съезда</h2></div>
+    <div class="schedule-bento">
+      <div class="schedule-bento__tile schedule-bento__tile--wide"><div class="schedule-bento__time">10:00–13:00</div><h3 class="t-h4">Деловая программа, часть&nbsp;1</h3>
+        <ul class="schedule-bento__list"><li>Стратегия Яндекс Лавки<small>Вадим Петров</small></li><li>Качество определяет прибыльность<small>Александр Катанов</small></li><li>Продукт Лавки как часть экосистемы<small>Никита Толстой</small></li><li>Что мы&nbsp;знаем о&nbsp;пользователях<small>Анастасия Алонцева, Олеся Старостина</small></li></ul></div>
+      <div class="schedule-bento__tile"><div class="schedule-bento__time">13:00</div><h3 class="t-h4">Обед</h3><p>Час на&nbsp;знакомство с&nbsp;командами других городов</p></div>
+      <div class="schedule-bento__tile"><div class="schedule-bento__time">14:00–15:20</div><h3 class="t-h4">Часть&nbsp;2</h3><p>«Есть Горячее» и&nbsp;планы франшизы на&nbsp;2026</p></div>
+      <div class="schedule-bento__tile"><div class="schedule-bento__time">16:00</div><h3 class="t-h4">Турнир</h3><p>Командные игры</p></div>
+      <div class="schedule-bento__tile schedule-bento__tile--dark"><div class="schedule-bento__time">19:00</div><h3 class="t-h4">Награждение</h3><p>Итоги года и&nbsp;ужин</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 11 ======================= -->
+<div class="note" id="v11"><b>11</b><strong>Спикеры крупно</strong><span>Когда люди важнее расписания: портреты 88&nbsp;px, как на&nbsp;странице съезда, время справа голубым, тема&nbsp;— H3. Перерывы&nbsp;— строкой на&nbsp;всю ширину</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Спикеры и&nbsp;доклады</h2></div>
+    <div class="schedule-speakers">
+      <article class="schedule-speakers__card"><div class="schedule-speakers__top"><div class="faces"><span class="avatar avatar--lg"><img src="../events/assets/spk-petrov.webp" alt=""></span></div><div class="schedule-speakers__time">10:00<small>26 сентября</small></div></div><h3 class="t-h3">Стратегия Яндекс Лавки</h3><div class="schedule-speakers__names"><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></article>
+      <article class="schedule-speakers__card"><div class="schedule-speakers__top"><div class="faces"><span class="avatar avatar--lg"><img src="../events/assets/spk-katanov.webp" alt=""></span></div><div class="schedule-speakers__time">10:40<small>26 сентября</small></div></div><h3 class="t-h3">Качество определяет прибыльность</h3><div class="schedule-speakers__names"><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></article>
+      <div class="schedule-speakers__break"><b>11:20</b><span>Кофе-брейк</span></div>
+      <article class="schedule-speakers__card"><div class="schedule-speakers__top"><div class="faces"><span class="avatar avatar--lg"><img src="../events/assets/spk-tolstoy.webp" alt=""></span></div><div class="schedule-speakers__time">11:40<small>26 сентября</small></div></div><h3 class="t-h3">Продукт Лавки как часть экосистемы Яндекса</h3><div class="schedule-speakers__names"><div><b>Никита Толстой</b><small>CPO B2C &amp; Head of&nbsp;Product Design</small></div></div></article>
+      <article class="schedule-speakers__card"><div class="schedule-speakers__top"><div class="faces"><span class="avatar avatar--lg"><img src="../events/assets/spk-alontseva.webp" alt=""></span><span class="avatar avatar--lg"><img src="../events/assets/spk-starostina.webp" alt=""></span></div><div class="schedule-speakers__time">12:20<small>26 сентября</small></div></div><h3 class="t-h3">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</h3><div class="schedule-speakers__names"><div><b>Анастасия Алонцева</b><small>Руководитель группы исследований</small></div><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 12 ======================= -->
+<div class="note" id="v12"><b>12</b><strong>Части дня с&nbsp;закреплённым заголовком</strong><span>Длинный день делится на&nbsp;части. Название части и&nbsp;её&nbsp;диапазон держатся слева, пока листается список. На&nbsp;телефоне заголовок просто стоит над списком</span></div>
+<section class="section">
+  <div class="container">
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="schedule-parts">
+      <div class="schedule-parts__part">
+        <div class="schedule-parts__aside"><p class="t-caption">Часть 1</p><h3 class="t-h2">Утро</h3><div class="schedule-parts__range">09:30–13:00</div><p>Деловая программа в&nbsp;главном зале</p></div>
+        <div class="schedule-parts__list">
+          <div class="schedule-parts__row schedule-parts__row--break"><div class="schedule-parts__time">09:30</div><h3>Регистрация и&nbsp;кофе</h3></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">10:00</div><div><h3 class="t-h4">Стратегия Яндекс Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">10:40</div><div><h3 class="t-h4">Качество определяет прибыльность</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div></div></div>
+          <div class="schedule-parts__row schedule-parts__row--break"><div class="schedule-parts__time">11:20</div><h3>Кофе-брейк</h3></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">11:40</div><div><h3 class="t-h4">Продукт Лавки как часть экосистемы Яндекса</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-tolstoy.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C &amp; Head of&nbsp;Product Design</small></div></div></div></div></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">12:20</div><div><h3 class="t-h4">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-alontseva.webp" alt=""></span><div><b>Анастасия Алонцева</b><small>Исследования Лавки</small></div></div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-starostina.webp" alt=""></span><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></div></div></div>
+        </div>
+      </div>
+      <div class="schedule-parts__part">
+        <div class="schedule-parts__aside"><p class="t-caption">Часть 2</p><h3 class="t-h2">День</h3><div class="schedule-parts__range">14:00–19:00</div><p>Доклады и&nbsp;турнир</p></div>
+        <div class="schedule-parts__list">
+          <div class="schedule-parts__row"><div class="schedule-parts__time">14:00</div><div><h3 class="t-h4">Модули «Есть Горячее»: зачем ритейлер строит сеть дарк китченов с&nbsp;доставкой от&nbsp;15&nbsp;минут</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-burdin.webp" alt=""></span><div><b>Николай Бурдин</b><small>«Есть Горячее» и&nbsp;кофе</small></div></div></div></div></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">14:40</div><div><h3 class="t-h4">Успехи 2025 года и&nbsp;планы развития на&nbsp;2026 год</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-shvindt.webp" alt=""></span><div><b>Мария Швиндт</b><small>Развитие франшизы Яндекс Лавки</small></div></div></div></div></div>
+          <div class="schedule-parts__row"><div class="schedule-parts__time">16:00</div><div><h3 class="t-h4">Турнир</h3></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 13 ======================= -->
+<div class="note" id="v13"><b>13</b><strong>Сейчас идёт</strong><span>Для страницы в&nbsp;день мероприятия и&nbsp;трансляции: прошедшее приглушено, текущий доклад поднят с&nbsp;полосой прогресса и&nbsp;живой точкой, следующий подписан. В&nbsp;бою статус считается по&nbsp;часам зрителя, здесь&nbsp;— переключатель для примера</span></div>
+<section class="section section--light">
+  <div class="container" data-schedule-live>
+    <div class="section__head"><h2 class="t-h1">Сейчас в&nbsp;главном зале</h2></div>
+    <div class="schedule-live__bar">
+      <div class="schedule-live__clock"><span class="chip chip--live"><i></i>Идёт сейчас</span><b data-live-clock>10:25</b></div>
+      <div class="tabs" aria-label="Пример времени"><button class="tab is-on" type="button" data-live-now="10:25">Как в&nbsp;10:25</button><button class="tab" type="button" data-live-now="12:48">В&nbsp;12:48</button><button class="tab" type="button" data-live-now="14:12">В&nbsp;14:12</button></div>
+    </div>
+    <div class="schedule-live__list">
+      <div class="schedule-live__row" data-start="09:30" data-end="10:00"><div class="schedule-live__time">09:30–10:00</div><div class="schedule-live__topic">Регистрация и&nbsp;кофе</div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="10:00" data-end="10:40"><div class="schedule-live__time">10:00–10:40</div><div class="schedule-live__topic">Стратегия Яндекс Лавки<small>Вадим Петров</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="10:40" data-end="11:20"><div class="schedule-live__time">10:40–11:20</div><div class="schedule-live__topic">Качество определяет прибыльность<small>Александр Катанов</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="11:40" data-end="12:20"><div class="schedule-live__time">11:40–12:20</div><div class="schedule-live__topic">Продукт Лавки как часть экосистемы Яндекса<small>Никита Толстой</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="12:20" data-end="13:00"><div class="schedule-live__time">12:20–13:00</div><div class="schedule-live__topic">Что мы&nbsp;знаем о&nbsp;пользователях Лавки<small>Анастасия Алонцева, Олеся Старостина</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="13:00" data-end="14:00"><div class="schedule-live__time">13:00–14:00</div><div class="schedule-live__topic">Обед</div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="14:00" data-end="14:40"><div class="schedule-live__time">14:00–14:40</div><div class="schedule-live__topic">Модули «Есть Горячее»<small>Николай Бурдин</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+      <div class="schedule-live__row" data-start="14:40" data-end="15:20"><div class="schedule-live__time">14:40–15:20</div><div class="schedule-live__topic">Успехи 2025 года и&nbsp;планы на&nbsp;2026<small>Мария Швиндт</small></div><div class="schedule-live__state"></div><div class="schedule-live__progress"><i></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 14 ======================= -->
+<div class="note" id="v14"><b>14</b><strong>Коротко рядом с&nbsp;датой</strong><span>Для небольших встреч вроде бизнес-завтрака: тёмная плашка «Где и&nbsp;когда» и&nbsp;рядом тайминг в&nbsp;4–6 строк. Продолжение блока <em>.duo</em>. <em>В&nbsp;письмо: да</em></span></div>
+<section class="section">
+  <div class="container">
+    <div class="schedule-compact">
+      <div class="schedule-compact__plate"><p class="t-caption">Где и&nbsp;когда</p><h2 class="t-h2">Москва, 26&nbsp;сентября</h2><p class="t-body">Деловая программа, турнир и&nbsp;награждение</p><a class="button button--primary" href="#v14">Принять участие</a></div>
+      <div class="schedule-compact__list">
+        <div class="schedule-compact__row"><div class="schedule-compact__time">09:30</div><div class="schedule-compact__text">Регистрация и&nbsp;кофе</div></div>
+        <div class="schedule-compact__row"><div class="schedule-compact__time">10:00</div><div class="schedule-compact__text">Деловая программа<small>Шесть докладов команды Яндекс Лавки</small></div></div>
+        <div class="schedule-compact__row"><div class="schedule-compact__time">13:00</div><div class="schedule-compact__text">Обед</div></div>
+        <div class="schedule-compact__row"><div class="schedule-compact__time">16:00</div><div class="schedule-compact__text">Турнир</div></div>
+        <div class="schedule-compact__row"><div class="schedule-compact__time">19:00</div><div class="schedule-compact__text">Награждение</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 15 ======================= -->
+<div class="note" id="v15"><b>15</b><strong>Фильтр и&nbsp;«Показать всю»</strong><span>Большая программа: фильтр по&nbsp;теме сверху, видны первые четыре доклада, остальные&nbsp;— по&nbsp;кнопке. Теги у&nbsp;докладов&nbsp;— рыба</span></div>
+<section class="section">
+  <div class="container schedule-more is-collapsed" data-schedule-more>
+    <div class="section__head"><h2 class="t-h1">Программа</h2></div>
+    <div class="tabs schedule-more__filters"><button class="tab is-on" type="button" data-filter="all">Все</button><button class="tab" type="button" data-filter="strategy">Стратегия</button><button class="tab" type="button" data-filter="product">Продукт</button><button class="tab" type="button" data-filter="operations">Операции</button></div>
+    <div class="schedule-more__list">
+      <div class="schedule-more__row" data-topic="strategy"><div class="schedule-more__time">10:00</div><div><h3 class="t-h4">Стратегия Яндекс Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-petrov.webp" alt=""></span><div><b>Вадим Петров</b><small>CEO Яндекс Лавки</small></div></div></div></div><div class="chips"><span class="chip">Стратегия</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__row" data-topic="operations"><div class="schedule-more__time">10:40</div><div><h3 class="t-h4">Качество определяет прибыльность</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-katanov.webp" alt=""></span><div><b>Александр Катанов</b><small>CFO Яндекс Лавки</small></div></div></div></div><div class="chips"><span class="chip">Операции</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__row" data-topic="product"><div class="schedule-more__time">11:40</div><div><h3 class="t-h4">Продукт Лавки как часть экосистемы Яндекса</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-tolstoy.webp" alt=""></span><div><b>Никита Толстой</b><small>CPO B2C &amp; Head of&nbsp;Product Design</small></div></div></div></div><div class="chips"><span class="chip">Продукт</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__row" data-topic="product"><div class="schedule-more__time">12:20</div><div><h3 class="t-h4">Что мы&nbsp;знаем о&nbsp;пользователях Лавки</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-alontseva.webp" alt=""></span><div><b>Анастасия Алонцева</b><small>Исследования Лавки</small></div></div><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-starostina.webp" alt=""></span><div><b>Олеся Старостина</b><small>Marketing Researcher</small></div></div></div></div><div class="chips"><span class="chip">Продукт</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__row" data-topic="operations"><div class="schedule-more__time">14:00</div><div><h3 class="t-h4">Модули «Есть Горячее»: зачем ритейлер строит сеть дарк китченов с&nbsp;доставкой от&nbsp;15&nbsp;минут</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-burdin.webp" alt=""></span><div><b>Николай Бурдин</b><small>«Есть Горячее» и&nbsp;кофе</small></div></div></div></div><div class="chips"><span class="chip">Операции</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__row" data-topic="strategy"><div class="schedule-more__time">14:40</div><div><h3 class="t-h4">Успехи 2025 года и&nbsp;планы развития на&nbsp;2026 год</h3><div class="persons"><div class="person person--s"><span class="avatar"><img src="../events/assets/spk-shvindt.webp" alt=""></span><div><b>Мария Швиндт</b><small>Развитие франшизы Яндекс Лавки</small></div></div></div></div><div class="chips"><span class="chip">Стратегия</span><span class="chip">40 минут</span></div></div>
+      <div class="schedule-more__fade" data-more-fade></div>
+    </div>
+    <div class="schedule-more__action"><button class="button button--outline" type="button" data-more-toggle>Показать всю программу</button></div>
+  </div>
+</section>
+
+<!-- ======================= рефы ======================= -->
+<div class="note" id="refs"><b>Разбор</b><strong>Что подсмотрели</strong><span>67 сайтов с&nbsp;events.yandex.ru, 47 с&nbsp;программой. Заметки, кадры и&nbsp;код блоков&nbsp;— в&nbsp;<em>references/yandex-events/</em></span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="section__head section__head--stack"><h2 class="t-h1">Что встречается чаще всего</h2></div>
+    <ul class="patterns">
+      <li><b>Список строк на&nbsp;линиях</b><span>Самый частый приём: время слева, тема, спикер. Карточки-подложки&nbsp;— примерно в&nbsp;половине случаев</span></li>
+      <li><b>Аккордеон</b><span>Описание доклада свёрнуто. В&nbsp;конструкторе events.yandex.ru это переключатель у&nbsp;того&nbsp;же блока</span></li>
+      <li><b>Табы: дни, треки, города</b><span>Три и&nbsp;больше вкладок на&nbsp;телефоне превращаются в&nbsp;выпадающий список</span></li>
+      <li><b>Треки колонками</b><span>Общая колонка времени, на&nbsp;телефоне&nbsp;— табы по&nbsp;трекам</span></li>
+      <li><b>Время акцентом</b><span>Цветом бренда или крупным сжатым шрифтом. Тема&nbsp;— тем&nbsp;же кеглем, что время, или на&nbsp;ступень меньше</span></li>
+      <li><b>Живые детали</b><span>Метки «Открытие», формат и&nbsp;язык, «Показать всю программу», ссылки на&nbsp;запись прямо в&nbsp;строке</span></li>
+    </ul>
+    <div class="refs">
+      <figure><img src="../references/yandex-events/thumbs/aitrainers.webp" alt="Программа конференции «ИИ нужен человек»" loading="lazy"><figcaption><b>ИИ нужен человек</b>крупное время, линии · 01</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/promosreda.webp" alt="Программа ПромоСреды" loading="lazy"><figcaption><b>ПромоСреда</b>лоток и&nbsp;белые карточки · 02</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/techwriting.webp" alt="Программа Tech Writing Winter Jam" loading="lazy"><figcaption><b>Tech Writing Winter Jam</b>карточки на&nbsp;светлом · 03</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/securityparty.webp" alt="Программа Security Party" loading="lazy"><figcaption><b>Security Party</b>карточки-аккордеон · 03, 04</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/cppzerocost.webp" alt="Программа C++ Zero Cost Conf" loading="lazy"><figcaption><b>C++ Zero Cost Conf</b>города табами, метки, «Показать всю» · 04, 15</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/repaircafe.webp" alt="Программа «Чинители прекрасного»" loading="lazy"><figcaption><b>Чинители прекрасного</b>табы по&nbsp;дням · 05</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/infraconf.webp" alt="Программа infra.conf" loading="lazy"><figcaption><b>infra.conf</b>три трека колонками · 06</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/fscala25.webp" alt="Программа F[Scala]" loading="lazy"><figcaption><b>F[Scala]</b>два зала сеткой · 06</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/foodtechtour.webp" alt="Программа Foodtech Tour" loading="lazy"><figcaption><b>Foodtech Tour</b>параллельные сессии · 07</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/frontendnight25.webp" alt="Программа Yet Another Frontend Night" loading="lazy"><figcaption><b>Frontend Night</b>строки на&nbsp;тёмном · 08</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/opensourcenight.webp" alt="Программа Ночи опенсорс-библиотек" loading="lazy"><figcaption><b>Ночь опенсорс-библиотек</b>программа колонками · 09</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/talknetwork.webp" alt="Таймлайн Толкового нетворка" loading="lazy"><figcaption><b>Толковый нетворк</b>бенто диапазонов · 10</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/deeptechnight.webp" alt="Программа deep tech night" loading="lazy"><figcaption><b>deep tech night</b>треки карточками с&nbsp;фото · 11</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/yazhelezo.webp" alt="Программа Я.Железо" loading="lazy"><figcaption><b>Я.Железо</b>табы треков в&nbsp;тёмной плашке · 11</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/mobileruntime26.webp" alt="Программа Yandex Mobile Runtime" loading="lazy"><figcaption><b>Yandex Mobile Runtime</b>группы по&nbsp;залам · 12</figcaption></figure>
+      <figure><img src="../references/yandex-events/thumbs/pytup.webp" alt="Программа Pytup" loading="lazy"><figcaption><b>Pytup</b>дата рядом с&nbsp;таймингом · 14</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<script src="./blocks.js"></script>
+<script>
+/* 06 · табы треков на телефоне */
+document.querySelectorAll('[data-schedule-tracks]').forEach(grid => {
+  const tabs = grid.querySelectorAll('[data-track-tab]');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    grid.dataset.active = tab.dataset.trackTab;
+    tabs.forEach(t => t.classList.toggle('is-on', t === tab));
+  }));
+});
+
+/* 13 · сейчас идёт: статус строк по времени */
+document.querySelectorAll('[data-schedule-live]').forEach(box => {
+  const toMin = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+  const rows = [...box.querySelectorAll('[data-start]')];
+  const clock = box.querySelector('[data-live-clock]');
+  const render = now => {
+    const t = toMin(now);
+    let nextFound = false;
+    clock.textContent = now;
+    rows.forEach(row => {
+      const start = toMin(row.dataset.start), end = toMin(row.dataset.end);
+      const state = row.querySelector('.schedule-live__state');
+      row.classList.remove('is-past', 'is-now', 'is-next');
+      if (t >= end) { row.classList.add('is-past'); state.textContent = 'Прошло'; }
+      else if (t >= start) { row.classList.add('is-now'); state.textContent = `Ещё ${end - t} мин`; row.style.setProperty('--p', `${Math.round((t - start) / (end - start) * 100)}%`); }
+      else if (!nextFound) { nextFound = true; row.classList.add('is-next'); state.textContent = `Далее, через ${start - t} мин`; }
+      else state.textContent = '';
+    });
+  };
+  const buttons = box.querySelectorAll('[data-live-now]');
+  buttons.forEach(b => b.addEventListener('click', () => { buttons.forEach(x => x.classList.toggle('is-on', x === b)); render(b.dataset.liveNow); }));
+  render(box.querySelector('[data-live-now].is-on').dataset.liveNow);
+});
+
+/* 15 · фильтр по теме и «Показать всю программу» */
+document.querySelectorAll('[data-schedule-more]').forEach(box => {
+  const LIMIT = 4;
+  const rows = [...box.querySelectorAll('[data-topic]')];
+  const toggle = box.querySelector('[data-more-toggle]');
+  const fade = box.querySelector('[data-more-fade]');
+  let filter = 'all', expanded = false;
+  const render = () => {
+    const matching = rows.filter(r => filter === 'all' || r.dataset.topic === filter);
+    rows.forEach(r => { r.hidden = !matching.includes(r) || (!expanded && matching.indexOf(r) >= LIMIT); });
+    const rest = matching.length - LIMIT;
+    toggle.parentElement.hidden = rest <= 0;
+    fade.hidden = expanded || rest <= 0;
+    toggle.textContent = expanded ? 'Свернуть' : `Показать всю программу · ещё ${rest}`;
+  };
+  box.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
+    filter = b.dataset.filter; expanded = false;
+    box.querySelectorAll('[data-filter]').forEach(x => x.classList.toggle('is-on', x === b));
+    render();
+  }));
+  toggle.addEventListener('click', () => { expanded = !expanded; render(); });
+  render();
+});
+</script>
+</body>
+</html>
