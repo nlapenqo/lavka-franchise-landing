@@ -63,6 +63,8 @@ img,svg{display:block;max-width:100%}
 .button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-1);min-height:52px;padding:0 var(--space-5);border-radius:var(--radius-pill);font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1;white-space:nowrap;transition:transform var(--dur-hover) var(--ease),background var(--dur-hover),box-shadow var(--dur-hover),border-color var(--dur-hover)}
 .button:hover{transform:translateY(-2px)}
 .button:active{transform:translateY(0) scale(.98)}
+/* неактивная кнопка: действие появится позже (нет адреса, ссылки) — видна, но не нажимается */
+.button:disabled,.button[aria-disabled=true]{opacity:.38;cursor:not-allowed;pointer-events:none;box-shadow:none;transform:none}
 .button--primary{background:var(--action-primary);color:var(--white);box-shadow:var(--shadow-cta)}
 .button--primary:hover{background:var(--action-primary-hover)}
 .button--secondary{background:var(--action-secondary);color:var(--white)}

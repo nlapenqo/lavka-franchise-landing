@@ -82,6 +82,8 @@ img,svg{display:block;max-width:100%}
 .button{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-1);min-height:52px;padding:0 var(--space-5);border-radius:var(--radius-pill);font-size:var(--fs-body);font-weight:var(--fw-medium);line-height:1;white-space:nowrap;transition:transform var(--dur-hover) var(--ease),background var(--dur-hover),box-shadow var(--dur-hover),border-color var(--dur-hover)}
 .button:hover{transform:translateY(-2px)}
 .button:active{transform:translateY(0) scale(.98)}
+/* неактивная кнопка: действие появится позже (нет адреса, ссылки) — видна, но не нажимается */
+.button:disabled,.button[aria-disabled=true]{opacity:.38;cursor:not-allowed;pointer-events:none;box-shadow:none;transform:none}
 .button--primary{background:var(--action-primary);color:var(--white);box-shadow:var(--shadow-cta)}
 .button--primary:hover{background:var(--action-primary-hover)}
 .button--secondary{background:var(--action-secondary);color:var(--white)}
@@ -565,9 +567,7 @@ img,svg{display:block;max-width:100%}
 .duo .plate{padding:40px;gap:12px}
 .duo .plate .t-caption{color:var(--text-secondary)}
 .duo .plate h3{font-size:var(--fs-h3);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
-.duo .plate{min-height:256px}
-.duo .plate .button,.duo .plate__foot{margin-top:auto}
-.duo .plate__foot{padding-top:var(--space-3)}
+.duo .plate .button{margin-top:var(--space-3)}
 /* вариант: карта во всю ширину, белая карточка с адресом и кнопкой поверх; [data-ymap] — живая Яндекс Карта (blocks.js) */
 .map--wide{min-height:560px}
 .map__canvas{position:absolute;inset:0}
@@ -650,7 +650,7 @@ img,svg{display:block;max-width:100%}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
   .duo{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
-  .duo .plate{padding:var(--space-4);min-height:220px}
+  .duo .plate{padding:var(--space-4)}
   .map--wide{min-height:0;display:flex;flex-direction:column}
   .map--wide .map__canvas{position:relative;height:320px;order:2}
   .map__card{position:static;width:auto;margin:0;border-radius:0;box-shadow:none;padding:var(--space-4)}
@@ -760,7 +760,7 @@ img,svg{display:block;max-width:100%}
 <section class="section" id="place">
   <div class="container duo">
     <h2 class="duo__title reveal">Офлайн-встреча для&nbsp;предпринимателей, готовых развивать глобальный бизнес</h2>
-    <article class="plate reveal"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p class="plate__foot">Место проведения&nbsp;— скоро</p></article>
+    <article class="plate reveal"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><button class="button button--secondary" type="button" disabled title="Появится, когда определится площадка">Как добраться</button></article>
   </div>
 </section>
 
