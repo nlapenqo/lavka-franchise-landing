@@ -23,7 +23,7 @@ const reveal = `
 .play .price  {animation:rise ${t(1.2)}s var(--calm) ${t(.55)}s both}
 .play .rub    {animation:rise ${t(1.2)}s var(--calm) ${t(.68)}s both}
 .play .old    {animation:rise-8 ${t(1.1)}s var(--calm) ${t(.76)}s both}
-.play .strike {animation:wipe ${t(.7)}s var(--sine) ${t(1.35)}s both}
+.play .strike {animation:wipe-hold ${(t(1.35)+t(.7)).toFixed(2)}s linear 0s both}
 .play .name   {animation:rise ${t(1.2)}s var(--calm) ${t(.86)}s both}
 .play .age    {animation:fade ${t(1.1)}s var(--sine) ${t(1.0)}s both}
 .play .legal  {animation:fade ${t(1.1)}s var(--sine) ${t(1.06)}s both}
@@ -33,7 +33,8 @@ const reveal = `
 @keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
 @keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
 @keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
-@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+/* зачёркивание без задержки: скрытое удержание внутри кейфреймов — анимация clip-path с задержкой в Chrome 152 не прячет элемент до старта */
+@keyframes wipe-hold{0%{opacity:0;clip-path:inset(0 100% 0 0)}${(t(1.35)/(t(1.35)+t(.7))*100).toFixed(1)}%{opacity:0;clip-path:inset(0 100% 0 0)}${(t(1.35)/(t(1.35)+t(.7))*100+.1).toFixed(1)}%{opacity:1;clip-path:inset(0 100% 0 0);animation-timing-function:var(--sine)}100%{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
 @keyframes spark{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
 @keyframes blink{
