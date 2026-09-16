@@ -47,30 +47,30 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .seg--b .seg__t{left:42.01px;top:24.1px;font-size:32px}
 .spark{top:-6.67px;width:87.47px;height:87.47px}
 
-/* ── появление сцены (16.09: тайминги как в «Классической бирке», ещё на четверть медленнее) ── */
+/* ── появление сцены (16.09: как в «Классической бирке», затем ускорено на 30%) ── */
 :root{--calm:cubic-bezier(.33,0,.15,1);--sine:cubic-bezier(.37,0,.63,1)}
 .banner{cursor:pointer}
 .pre .a{opacity:0}
-.play .avo    {animation:product 1.75s var(--calm) 0s both}
-.play .logo   {animation:rise-8 1.38s var(--calm) .38s both}
-.play .pill   {animation:pop 1.38s var(--calm) .56s both}
-.play .price  {animation:rise 1.5s var(--calm) .69s both}
-.play .rub    {animation:rise 1.5s var(--calm) .85s both}
-.play .old    {animation:rise-8 1.38s var(--calm) .95s both}
-.play .strike {animation:wipe-hold 2.57s linear 0s both}
-.play .name   {animation:rise 1.5s var(--calm) 1.08s both}
-.play .age    {animation:fade 1.38s var(--sine) 1.25s both}
-.play .legal  {animation:fade 1.38s var(--sine) 1.33s both}
-/* лента выезжает последней, когда авокадо уже непрозрачное. Раскрывается растущей по ширине маской: анимация clip-path с задержкой
+.play .avo    {animation:product 1.22s var(--calm) 0.00s both}
+.play .logo   {animation:rise-8 0.97s var(--calm) 0.27s both}
+.play .pill   {animation:pop 0.97s var(--calm) 0.39s both}
+.play .price  {animation:rise 1.05s var(--calm) 0.48s both}
+.play .rub    {animation:rise 1.05s var(--calm) 0.59s both}
+.play .old    {animation:rise-8 0.97s var(--calm) 0.66s both}
+.play .strike {animation:wipe-hold 1.80s linear 0s both}
+.play .name   {animation:rise 1.05s var(--calm) 0.76s both}
+.play .age    {animation:fade 0.97s var(--sine) 0.88s both}
+.play .legal  {animation:fade 0.97s var(--sine) 0.93s both}
+/* лента выезжает сразу, как авокадо стало непрозрачным (≈1.05 с). Раскрывается растущей по ширине маской: анимация clip-path с задержкой
    в Chrome 152 считается на видеокарте и до старта не прячет ленту — она просвечивала сквозь полупрозрачное авокадо */
 .strip-mask{position:absolute;left:0;top:0;width:0;height:720px;overflow:hidden}
-.play .strip-mask{animation:ribbon-w 1.5s var(--calm) 2.6s both}
+.play .strip-mask{animation:ribbon-w 1.05s var(--calm) 1.05s both}
 .age,.legal{--o:.7}
 @keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
 @keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
 @keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
 @keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
-@keyframes wipe-hold{0%{opacity:0;clip-path:inset(0 100% 0 0)}65.7%{opacity:0;clip-path:inset(0 100% 0 0)}65.8%{opacity:1;clip-path:inset(0 100% 0 0);animation-timing-function:var(--sine)}100%{opacity:1;clip-path:inset(0 0 0 0)}}
+@keyframes wipe-hold{0%{opacity:0;clip-path:inset(0 100% 0 0)}65.8%{opacity:0;clip-path:inset(0 100% 0 0)}65.9%{opacity:1;clip-path:inset(0 100% 0 0);animation-timing-function:var(--sine)}100%{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
 @keyframes ribbon-w{from{width:0}to{width:960px}}
 </style></head><body>
