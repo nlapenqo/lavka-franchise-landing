@@ -131,7 +131,7 @@
     btn.addEventListener('click', () => list.hidden ? open() : close());
     box.addEventListener('keydown', e => { if (e.key === 'Escape') { close(); btn.focus(); } });
     document.addEventListener('click', e => { if (!box.contains(e.target)) close(); });
-    sel.addEventListener('change', render);
+    sel.addEventListener('change', () => { box.classList.remove('is-invalid'); render(); });
     box.append(btn, list); render();
   });
 
@@ -159,10 +159,31 @@
     s.onload = init; document.head.appendChild(s);
   });
 
+  /* проверка формы: первое незаполненное поле вне inert-части; для дропдауна — красная рамка и фокус на кнопку */
+  const firstInvalid = scope => $$('input, select, textarea', scope).find(el => !el.disabled && !el.closest('[inert]') && !el.checkValidity());
+  const flag = el => {
+    const dd = el.closest('.dropdown');
+    if (!dd) { el.reportValidity(); return; }
+    dd.classList.add('is-invalid');
+    const b = $('.dropdown__button', dd); b.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' }); b.focus({ preventScroll: true });
+  };
+
+  /* форма в два этапа: [data-form-more] скрыт и inert, кнопка в [data-form-next] проверяет видимую часть и раскрывает остальное */
+  $$('[data-form-more]').forEach(more => {
+    const form = more.closest('form'), next = $('[data-form-next]', form);
+    if (!next) return;
+    more.inert = true;
+    $('button', next).addEventListener('click', () => {
+      const bad = firstInvalid(form); if (bad) { flag(bad); return; }
+      more.inert = false; next.hidden = true; form.classList.add('is-expanded');
+      setTimeout(() => { form.classList.add('is-settled'); $('input, textarea, button', more)?.focus({ preventScroll: true }); }, reduced ? 0 : 560);
+    });
+  });
+
   /* форма: демо-отправка; обработчик подключают разработчики */
   $$('[data-form]').forEach(form => form.addEventListener('submit', e => {
     e.preventDefault();
-    if (!form.reportValidity()) return;
+    const bad = firstInvalid(form); if (bad) { flag(bad); return; }
     const status = $('[data-status]', form);
     if (status) status.textContent = 'Спасибо! Свяжемся в течение двух рабочих дней';
     form.reset();
