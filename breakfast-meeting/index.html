@@ -265,7 +265,10 @@ img,svg{display:block;max-width:100%}
 .hero.is-live .hero__facts{animation:fade-up var(--dur-reveal) .46s var(--ease) both}
 .hero__slot{aspect-ratio:1;opacity:0}
 .hero__slot--wide{aspect-ratio:5/4}
-.hero__split--wide{width:min(var(--container-wide),calc(100% - var(--gutter)));grid-template-columns:minmax(0,1fr) 680px;gap:var(--space-7)}
+/* по направляющим шапки: текст — от левого края логотипа, кадр — до правого края кнопки в шапке
+   (отступ пилюли clamp(24px,4vw,64px) + её внутренние отступы 40 слева и 12 справа).
+   Колонка текста не уже самого длинного слова заголовка, кадр забирает остаток до 680 — наезда нет ни на какой ширине */
+.hero__split--wide{align-self:stretch;width:auto;max-width:none;margin-inline:calc(clamp(24px,4vw,64px) + 40px) calc(clamp(24px,4vw,64px) + 12px);grid-template-columns:minmax(min-content,1fr) minmax(0,680px);gap:var(--space-7)}
 .hero.is-live .hero__slot{animation:fade-up var(--dur-reveal) .5s var(--ease) both}
 .hero__frame{width:min(var(--container),calc(100% - var(--gutter)));height:560px;margin-top:var(--space-5);border-radius:var(--radius-xl) var(--radius-xl) 0 0;overflow:hidden;background:var(--navy-deep)}
 .hero__frame img{width:100%;height:100%;object-fit:cover;object-position:center 36%}
@@ -625,7 +628,7 @@ img,svg{display:block;max-width:100%}
 @media (max-width:1100px){
   .header .brand{--brand-scale:.8}
   .duo{grid-template-columns:minmax(0,1fr) 360px;gap:var(--space-6)}
-  .hero__split--wide{grid-template-columns:minmax(0,1fr) 400px;gap:var(--space-6)}
+  .hero__split--wide{grid-template-columns:minmax(min-content,1fr) minmax(0,400px);gap:var(--space-6)}
   .cards{grid-template-columns:repeat(var(--n-t,var(--n,3)),minmax(0,1fr))}
   .feature{--gap:32px;height:540px;padding:40px}
   .feature__viewport,.feature__slide,.feature__copy,.feature .media{height:460px}
@@ -646,7 +649,9 @@ img,svg{display:block;max-width:100%}
   .benefit{flex-direction:column;align-items:flex-start;gap:var(--space-2);padding:var(--space-3)}
   .hero--photo{padding-bottom:0}
   .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
+  .hero__split--wide{margin-inline:auto;width:calc(100% - var(--gutter))}
   .hero__facts{gap:var(--space-5)}
+  .actions .hero__facts{padding-left:0}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
   .duo{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
@@ -756,11 +761,13 @@ img,svg{display:block;max-width:100%}
   </div>
 </section>
 
-<!-- Место и время: заявление слева, плашка с датой и кнопкой справа (карта снята по решению заказчика) -->
+<!-- 23 · Место и время: карта во всю ширину + белая карточка (вариант «Локация · 3» из кита). Центр пока Москва-Сити, кнопка неактивна до появления адреса -->
 <section class="section" id="place">
-  <div class="container duo">
-    <h2 class="duo__title reveal">Офлайн-встреча для&nbsp;предпринимателей, готовых развивать глобальный бизнес</h2>
-    <article class="plate reveal"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><button class="button button--secondary" type="button" disabled title="Появится, когда определится площадка">Как добраться</button></article>
+  <div class="container container--wide">
+    <div class="map map--wide reveal">
+      <div class="map__card"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><button class="button button--secondary" type="button" disabled title="Появится, когда определится площадка">Как&nbsp;добраться</button></div>
+      <div class="map__canvas" data-ymap="55.7494,37.5377" data-zoom="15" data-apikey=""></div>
+    </div>
   </div>
 </section>
 
@@ -770,7 +777,7 @@ img,svg{display:block;max-width:100%}
     <div class="lead__copy reveal">
       <h2 class="t-h1">Регистрация на&nbsp;бизнес-завтрак</h2>
       <p class="t-lead">Заполните форму, чтобы участвовать в&nbsp;офлайн-встрече</p>
-      <ul class="lead__list"><li><strong>Эксклюзивное партнёрство<br>в&nbsp;масштабе города</strong><span>Инвестиции от&nbsp;75&nbsp;млн&nbsp;₽</span></li><li><strong>Поддержка до&nbsp;и&nbsp;после запуска</strong><span>Технологии, снабжение, маркетинг, обучение</span></li><li><strong>Работающая бизнес-модель</strong><span>Сервис уже&nbsp;работает в&nbsp;28&nbsp;городах, больше чем в&nbsp;половине&nbsp;— по&nbsp;франшизе</span></li></ul>
+      <ul class="lead__list"><li><strong>Запуск сервиса с&nbsp;нуля или&nbsp;передача в&nbsp;управление готового бизнеса</strong><span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— в&nbsp;зависимости от&nbsp;количества дарксторов</span></li><li><strong>Поддержка до&nbsp;и&nbsp;после запуска</strong><span>Технологии, снабжение, маркетинг, обучение</span></li><li><strong>Работающая бизнес-модель</strong><span>Сервис уже&nbsp;работает в&nbsp;28&nbsp;городах, больше чем в&nbsp;половине&nbsp;— по&nbsp;франшизе</span></li></ul>
     </div>
     <form class="form-card form-card--quiet reveal" data-form novalidate>
       <h3 class="t-h3">Расскажите о&nbsp;себе</h3>
