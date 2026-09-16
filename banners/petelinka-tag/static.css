@@ -25,7 +25,7 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
 .logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
 .pill{position:absolute;left:46.47px;top:233.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
-.star{left:176.33px;top:273.33px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.star{left:171.96px;top:242.72px;width:220px;height:220px}
 .price{position:absolute;left:45.3px;top:341.35px;font-weight:500;font-size:196.86px}
 .rub{position:absolute;left:380.6px;top:411.72px;font-weight:500;font-size:100.35px}
 .old{position:absolute;left:384.13px;top:342.43px;font-weight:500;font-size:60.02px}
