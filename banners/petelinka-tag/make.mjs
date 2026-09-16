@@ -62,8 +62,8 @@ const TAU = 2 * Math.PI;
 const VARIANTS = [
   {
     n: 1, title: 'Маятник',
-    desc: 'Бирку отпускают, и она качается как настоящий маятник: период 2.6 с, размах быстро гаснет с 9° до 0.9° и дальше держится еле заметным. Самое «физичное» поведение.',
-    P: 2.6, A0: 9, A1: .9, tau: 2.6,
+    desc: 'Бирку отпускают, и она качается как настоящий маятник: период 2.6 с, размах гаснет с 5° до 0.9° и дальше держится еле заметным. Самое «физичное» поведение.',
+    P: 2.6, A0: 5, A1: .9, tau: 2.6,
     shape: u => Math.sin(TAU * u / 2.6),
   },
   {
@@ -136,13 +136,20 @@ ${MARKUP}
 `;
 };
 
+const CHOSEN = 1;                       // выбран «Маятник» (16.09)
+const withVariants = process.argv.includes('--variants');
+writeFileSync('index.html', page(VARIANTS.find(v => v.n === CHOSEN)));
+if (!withVariants) {
+  console.log(`written: index.html (v${CHOSEN} · ${VARIANTS.find(v => v.n === CHOSEN).title}); варианты и галерея — node make.mjs --variants`);
+  process.exit(0);
+}
 for (const v of VARIANTS) writeFileSync(`v${v.n}.html`, page(v));
 
 const cards = VARIANTS.map(v => `  <figure>
     <div class="frame"><iframe src="v${v.n}.html" title="v${v.n} — ${v.title}" loading="eager"></iframe></div>
     <figcaption><b>v${v.n} · ${v.title}</b><span>${v.desc}</span><span class="row"><a href="v${v.n}.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
   </figure>`).join('\n');
-writeFileSync('index.html', `<!doctype html>
+writeFileSync('variants.html', `<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><title>Бирка — варианты покачивания</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
@@ -173,4 +180,4 @@ document.querySelectorAll('figure button').forEach(b => b.addEventListener('clic
 </script>
 </body></html>
 `);
-console.log('written: ' + VARIANTS.map(v => `v${v.n}.html`).join(', ') + ', index.html');
+console.log('written: index.html, ' + VARIANTS.map(v => `v${v.n}.html`).join(', ') + ', variants.html');
