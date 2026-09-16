@@ -199,9 +199,8 @@
 
 /* 10 · ФОРМА: аргументы слева, белая карточка справа */
 .lead{display:grid;grid-template-columns:minmax(0,1fr) 560px;gap:80px;align-items:center}
-/* длинная форма: текст слева прилипает, пока прокручивается карточка */
+/* длинная форма: текст слева стоит у верха карточки и не прилипает (прилипание путало при прокрутке) */
 .lead--long{align-items:start}
-.lead--long .lead__copy{position:sticky;top:120px}
 .form-card__group{display:flex;flex-direction:column;gap:10px}
 .form-card__group>span:first-child{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary)}
 .lead__copy .t-lead{margin-top:var(--space-4)}
@@ -428,7 +427,6 @@
   .feature__viewport,.feature__slide,.feature__copy,.feature .media{height:460px}
   .feature__controls{right:58px;bottom:58px}
   .lead{grid-template-columns:minmax(0,1fr) 480px;gap:48px}
-  .lead--long .lead__copy{position:static}
   .form-card__row{grid-template-columns:minmax(0,1fr);gap:20px}
   .form-card{padding:40px}
   .number{min-height:0;padding:44px 22px 36px}
