@@ -88,10 +88,11 @@ img,svg{display:block;max-width:100%}
 .button--primary:hover{background:var(--action-primary-hover)}
 .button--secondary{background:var(--action-secondary);color:var(--white)}
 .button--white{background:var(--white);color:var(--navy)}
-.button--outline{min-height:44px;padding:0 var(--space-4);border:1.5px solid var(--white-35);color:var(--white);font-size:var(--fs-body-s)}
-.button--outline:hover{border-color:var(--white);background:var(--white-10)}
+/* обводка как у «Стать партнёром» на главной: белый 75%, наведение — подложка 14% */
+.button--outline{min-height:44px;padding:0 25px;border:1.5px solid rgba(255,255,255,.75);color:var(--white);font-size:var(--fs-body-s)}
+.button--outline:hover{border-color:var(--white);background:rgba(255,255,255,.14)}
 .section:not(.section--dark) .button--outline{border-color:var(--sky);color:var(--navy)}
-.plate--dark .button--outline,.app .button--outline,.quote--dark .button--outline,.step--cta .button--outline{border-color:var(--white-35);color:var(--white)}
+.plate--dark .button--outline,.app .button--outline,.quote--dark .button--outline,.step--cta .button--outline{border-color:rgba(255,255,255,.75);color:var(--white)}
 .button--small{min-height:40px;padding:0 var(--space-4);font-size:var(--fs-body-s)}
 .button--large{min-height:66px;padding:0 44px;font-size:var(--fs-lead)}
 .text-link{font-size:var(--fs-body);font-weight:var(--fw-medium);transition:opacity var(--dur-hover)}
