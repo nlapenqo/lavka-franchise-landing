@@ -153,6 +153,9 @@ img,svg{display:block;max-width:100%}
 .dropdown__list li{padding:11px 14px;border-radius:var(--radius-s);font-size:var(--fs-body-s);font-weight:var(--fw-medium);line-height:1.3;color:var(--navy);cursor:pointer}
 .dropdown__list li:hover,.dropdown__list li.is-active{background:var(--surface-tint)}
 .dropdown__list li[aria-selected=true]{background:var(--navy);color:var(--white)}
+.dropdown__list[aria-multiselectable] li{padding-left:40px;position:relative}
+.dropdown__list[aria-multiselectable] li::before{content:'';position:absolute;left:14px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--sky)}
+.dropdown__list[aria-multiselectable] li[aria-selected=true]::before{background:var(--blue) center/9px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2 6.2 4.8 9 10 3.4' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");box-shadow:none}
 /* вертикальный список: длинные варианты в одну колонку, текст переносится */
 .choices--stack{flex-direction:column;gap:6px}
 .choices--stack span{white-space:normal;line-height:1.25;padding:9px 18px;border-radius:22px}
@@ -738,9 +741,9 @@ img,svg{display:block;max-width:100%}
       <label class="field"><span>Ник в&nbsp;Telegram</span><input name="telegram" placeholder="@" required></label>
       <label class="field"><span>Какими мессенджерами предпочитаете пользоваться для&nbsp;общения</span><input name="messengers"></label>
       <label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" required></label>
-      <div class="form-card__group"><span>Город, в&nbsp;котором вы планируете запустить сервис</span><span class="field__hint">Выберите один или&nbsp;несколько</span><div class="choices"><label><input type="checkbox" name="city" value="Уфа"><span>Уфа</span></label><label><input type="checkbox" name="city" value="Челябинск"><span>Челябинск</span></label><label><input type="checkbox" name="city" value="Стерлитамак"><span>Стерлитамак</span></label><label><input type="checkbox" name="city" value="Магнитогорск"><span>Магнитогорск</span></label></div></div>
+      <div class="field"><span>Город, в&nbsp;котором вы планируете запустить сервис</span><span class="field__hint">Выберите один или&nbsp;несколько</span><div class="dropdown" data-dropdown><select name="city" multiple required data-placeholder="Не выбрано"><option>Уфа</option><option>Челябинск</option><option>Стерлитамак</option><option>Магнитогорск</option></select></div></div>
       <label class="field"><span>Перечислите отрасли, в&nbsp;которых вы работали последние 5&nbsp;лет</span><input name="industries" required></label>
-      <div class="form-card__group"><span>Есть ли&nbsp;у&nbsp;вас действующий бизнес?</span><div class="choices"><label><input type="radio" name="business" value="Да" required><span>Да</span></label><label><input type="radio" name="business" value="Нет"><span>Нет</span></label></div></div>
+      <div class="field"><span>Есть ли&nbsp;у&nbsp;вас действующий бизнес?</span><div class="dropdown" data-dropdown><select name="business" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Да</option><option>Нет</option></select></div></div>
       <label class="field"><span>Есть ли&nbsp;у&nbsp;вас опыт ведения бизнеса по&nbsp;франшизе? Если да, то&nbsp;с&nbsp;какой франшизой?</span><input name="franchise" required></label>
       <label class="field"><span>Готовы ли&nbsp;вы обучаться и&nbsp;следовать стандартам франшизы?</span><input name="standards" required></label>
       <div class="field"><span>Какую роль вы отводите себе в&nbsp;проекте?</span><div class="dropdown" data-dropdown><select name="role" required aria-label="role"><option value="" selected disabled>Не&nbsp;выбрано</option><option>Планирую сам управлять бизнесом</option><option>На&nbsp;первом этапе самостоятельно погружусь во&nbsp;все операционные процессы и&nbsp;потом найму управляющего</option><option>Сразу планирую назначить управляющего, который будет выстраивать процессы</option><option>Планирую только инвестировать, без&nbsp;активного участия в&nbsp;управлении</option></select></div></div>
@@ -883,15 +886,16 @@ img,svg{display:block;max-width:100%}
     });
   }));
 
-  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение */
+  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение; select[multiple] — несколько ответов, список не закрывается, галочки в aria-selected */
   $$('[data-dropdown]').forEach(box => {
     const sel = $('select', box); if (!sel) return;
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dropdown__button'; btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
     const list = document.createElement('ul'); list.className = 'dropdown__list'; list.setAttribute('role', 'listbox'); list.hidden = true;
+    const multi = sel.multiple; if (multi) list.setAttribute('aria-multiselectable', 'true');
     const opts = [...sel.options].filter(o => o.value !== '');
-    const placeholder = (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
-    const render = () => { const o = sel.selectedOptions[0]; const empty = !o || o.value === ''; btn.textContent = empty ? placeholder : o.textContent; btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === sel.value && !empty))); };
-    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); close(); btn.focus(); }); list.appendChild(li); });
+    const placeholder = sel.dataset.placeholder || (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
+    const render = () => { const chosen = [...sel.selectedOptions].filter(o => o.value !== ''); const empty = !chosen.length; btn.textContent = empty ? placeholder : chosen.map(o => o.textContent).join(', '); btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(chosen.some(o => o.value === li.dataset.value)))); };
+    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { if (multi) o.selected = !o.selected; else sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); if (!multi) { close(); btn.focus(); } }); list.appendChild(li); });
     const open = () => { box.classList.add('is-open'); list.hidden = false; btn.setAttribute('aria-expanded', 'true'); };
     const close = () => { box.classList.remove('is-open'); list.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
     btn.addEventListener('click', () => list.hidden ? open() : close());
