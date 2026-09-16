@@ -57,20 +57,22 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .play .price  {animation:rise 1.5s var(--calm) .69s both}
 .play .rub    {animation:rise 1.5s var(--calm) .85s both}
 .play .old    {animation:rise-8 1.38s var(--calm) .95s both}
-.play .strike {animation:wipe .88s var(--sine) 1.69s both}
+.play .strike {animation:wipe-hold 2.57s linear 0s both}
 .play .name   {animation:rise 1.5s var(--calm) 1.08s both}
 .play .age    {animation:fade 1.38s var(--sine) 1.25s both}
 .play .legal  {animation:fade 1.38s var(--sine) 1.33s both}
-/* лента выезжает последней, когда авокадо уже полностью непрозрачное — иначе она просвечивает сквозь него; трек при этом уже едет */
-.play .strip  {animation:ribbon 1.5s var(--calm) 2.6s both}
+/* лента выезжает последней, когда авокадо уже непрозрачное. Раскрывается растущей по ширине маской: анимация clip-path с задержкой
+   в Chrome 152 считается на видеокарте и до старта не прячет ленту — она просвечивала сквозь полупрозрачное авокадо */
+.strip-mask{position:absolute;left:0;top:0;width:0;height:720px;overflow:hidden}
+.play .strip-mask{animation:ribbon-w 1.5s var(--calm) 2.6s both}
 .age,.legal{--o:.7}
 @keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
 @keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
 @keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
 @keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
-@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes wipe-hold{0%{opacity:0;clip-path:inset(0 100% 0 0)}65.7%{opacity:0;clip-path:inset(0 100% 0 0)}65.8%{opacity:1;clip-path:inset(0 100% 0 0);animation-timing-function:var(--sine)}100%{opacity:1;clip-path:inset(0 0 0 0)}}
 @keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
-@keyframes ribbon{from{opacity:1;clip-path:inset(-24px 1650px -24px 0)}to{opacity:1;clip-path:inset(-24px 0 -24px 0)}}
+@keyframes ribbon-w{from{width:0}to{width:960px}}
 </style></head><body>
 <div class="banner pre">
   <div class="bg"></div>
@@ -86,25 +88,27 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 пр. 1-й Красногвардейский, д. 22, стр. 1,
 эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
   <img class="noise" src="assets/noise-under.svg" alt="">
-  <div class="strip a">
-    <div class="track">
-      <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
-      <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
-      <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
-      <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
-      <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
-      <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
-      <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
-      <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
-      <img class="spark" style="left:-43.85px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:296.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:504.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:844.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1052.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1392.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1600.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:1940.15px" src="assets/sparkle.png" alt="">
-      <img class="spark" style="left:2148.15px" src="assets/sparkle.png" alt="">
+  <div class="strip-mask">
+    <div class="strip">
+      <div class="track">
+        <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
+        <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
+        <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
+        <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
+        <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
+        <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
+        <div class="seg seg--a"><p class="cap seg__t">большие скидки</p></div>
+        <div class="seg seg--b"><p class="cap seg__t">09–22.11</p></div>
+        <img class="spark" style="left:-43.85px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:296.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:504.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:844.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:1052.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:1392.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:1600.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:1940.15px" src="assets/sparkle.png" alt="">
+        <img class="spark" style="left:2148.15px" src="assets/sparkle.png" alt="">
+      </div>
     </div>
   </div>
   <img class="noise" src="assets/noise-over.svg" alt="">
