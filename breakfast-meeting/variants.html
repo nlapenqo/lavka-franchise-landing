@@ -40,6 +40,20 @@
 .info:hover span,.info:focus-visible span{opacity:1;transform:translate(-50%,0) scale(1)}
 /* Города · В4: короткий подзаголовок */
 .offer__sub{font-size:var(--fs-body-s);font-weight:var(--fw-medium);color:var(--text-secondary);margin:6px 0 14px}
+/* Сноска · 1–5: подача описания формата в карточке города */
+.offer__desc{margin-top:auto;padding-top:14px;border-top:1px solid var(--border);font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
+.offer__lead{margin:10px 0 16px;font-size:var(--fs-small);line-height:var(--lh-body);color:var(--text-secondary)}
+.offer__stat{margin-top:auto;padding:16px 18px;border-radius:var(--radius-m);background:var(--surface-tint);display:flex;flex-direction:column;gap:4px}
+.offer__stat .t-caption{color:var(--text-secondary);margin-bottom:4px}
+.offer__stat b{font-size:var(--fs-h3);font-weight:var(--fw-black);line-height:1;letter-spacing:var(--ls-display);color:var(--navy)}
+.offer__stat b small{font-size:var(--fs-body-s);font-weight:var(--fw-heavy);letter-spacing:0}
+.offer__stat>span:last-child{font-size:var(--fs-small);color:var(--text-secondary)}
+.offer__stat--dark{background:var(--navy);color:var(--white)}
+.offer__stat--dark .t-caption,.offer__stat--dark>span:last-child{color:var(--text-secondary-on-dark)}
+.offer__stat--dark b{color:var(--text-accent)}
+.offer__stat--dark b small{color:var(--white)}
+.offer__chips{margin:12px 0 14px}
+.offer__chips .chip{padding:5px 12px;font-size:var(--fs-caption)}
 </style>
 </head>
 <body>
@@ -47,8 +61,8 @@
 <header class="section--dark intro">
   <div class="container">
     <p class="t-caption" style="margin-bottom:24px">Бизнес-завтрак · варианты на&nbsp;выбор · только веб · 15.09.2026</p>
-    <h1 class="t-h1">Два вопроса, <span class="accent">восемь вариантов</span></h1>
-    <p class="t-lead" style="margin-top:28px;max-width:720px;color:var(--muted-dark)">Сверху&nbsp;— четыре подачи «Уфа, 28&nbsp;октября» в&nbsp;хиро без&nbsp;пилюли. Ниже&nbsp;— четыре способа спрятать описание города в&nbsp;карточке. Тексты только исходные. Скажи номера&nbsp;— поставлю на&nbsp;страницу.</p>
+    <h1 class="t-h1">Три вопроса, <span class="accent">тринадцать вариантов</span></h1>
+    <p class="t-lead" style="margin-top:28px;max-width:720px;color:var(--muted-dark)">Сверху&nbsp;— четыре подачи «Уфа, 28&nbsp;октября» в&nbsp;хиро без&nbsp;пилюли. Ниже&nbsp;— четыре способа спрятать описание города в&nbsp;карточке, ещё&nbsp;ниже (16.09, <a href="#foot" style="text-decoration:underline">#foot</a>)&nbsp;— пять подач сноски с&nbsp;описанием. Тексты только исходные. Скажи номера&nbsp;— поставлю на&nbsp;страницу.</p>
   </div>
 </header>
 
@@ -147,6 +161,67 @@
       <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><p class="offer__sub">Действующая сеть: 17&nbsp;дарксторов в&nbsp;управление</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__foot">От&nbsp;25&nbsp;млн&nbsp;₽ при&nbsp;передаче нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽ при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</p></article>
       <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><p class="offer__sub">Запуск сети: 5&nbsp;дарксторов, команда от&nbsp;100</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
       <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><p class="offer__sub">Запуск сети: 3&nbsp;даркстора, команда от&nbsp;50</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<div id="foot"></div>
+<div class="v-head"><b>Сноска · 1</b><strong>Строкой после условий, без&nbsp;плашки</strong><span>Описание&nbsp;— ещё&nbsp;одна строка списка: тонкая линия сверху, обычный текст на&nbsp;всю ширину карточки. Меньше сущностей, строки ровнее.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__desc">Запуск сети из&nbsp;17&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;500&nbsp;человек</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><dl><div class="offer__row"><dt>Инвестиции<button class="info" type="button" aria-label="Подробнее">i<span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;передаче партнёру нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</span></button></dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__desc">Передача в&nbsp;управление партнёрам действующей сети из&nbsp;17&nbsp;дарксторов</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__desc">Запуск сети из&nbsp;5&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;100&nbsp;человек</p></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><p class="offer__desc">Запуск сети из&nbsp;3&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;50&nbsp;человек</p></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Сноска · 2</b><strong>Под&nbsp;названием, до&nbsp;условий</strong><span>Описание сразу под&nbsp;городом, как&nbsp;подзаголовок: читается первым, условия ниже. Плашки нет, низ карточки свободен.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><p class="offer__lead">Запуск сети из&nbsp;17&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;500&nbsp;человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><p class="offer__lead">Передача в&nbsp;управление партнёрам действующей сети из&nbsp;17&nbsp;дарксторов</p><dl><div class="offer__row"><dt>Инвестиции<button class="info" type="button" aria-label="Подробнее">i<span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;передаче партнёру нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</span></button></dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><p class="offer__lead">Запуск сети из&nbsp;5&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;100&nbsp;человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><p class="offer__lead">Запуск сети из&nbsp;3&nbsp;дарксторов и&nbsp;управление операционной командой от&nbsp;50&nbsp;человек</p><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Сноска · 3</b><strong>Плашка с&nbsp;крупной цифрой</strong><span>Та же&nbsp;светлая плашка, но&nbsp;текст разобран: капс «Запуск сети», крупно «17&nbsp;дарксторов», строкой «команда от&nbsp;500&nbsp;человек». Цифра работает, рваных строк нет.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat"><span class="t-caption">Запуск сети</span><b>17 <small>дарксторов</small></b><span>команда от&nbsp;500&nbsp;человек</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><dl><div class="offer__row"><dt>Инвестиции<button class="info" type="button" aria-label="Подробнее">i<span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;передаче партнёру нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</span></button></dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat"><span class="t-caption">Передача в&nbsp;управление</span><b>17 <small>дарксторов</small></b><span>действующая сеть</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat"><span class="t-caption">Запуск сети</span><b>5 <small>дарксторов</small></b><span>команда от&nbsp;100&nbsp;человек</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat"><span class="t-caption">Запуск сети</span><b>3 <small>даркстора</small></b><span>команда от&nbsp;50&nbsp;человек</span></div></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Сноска · 4</b><strong>Чипсы под&nbsp;названием</strong><span>Описание разложено на&nbsp;три чипса: формат, дарксторы, команда. Приём с&nbsp;главной (чипсы у&nbsp;форматов), низ карточки свободен.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><div class="chips offer__chips"><span class="chip">Запуск сети</span><span class="chip">17&nbsp;дарксторов</span><span class="chip">команда от&nbsp;500&nbsp;человек</span></div><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><div class="chips offer__chips"><span class="chip">Передача в&nbsp;управление</span><span class="chip">17&nbsp;дарксторов</span><span class="chip">действующая сеть</span></div><dl><div class="offer__row"><dt>Инвестиции<button class="info" type="button" aria-label="Подробнее">i<span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;передаче партнёру нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</span></button></dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><div class="chips offer__chips"><span class="chip">Запуск сети</span><span class="chip">5&nbsp;дарксторов</span><span class="chip">команда от&nbsp;100&nbsp;человек</span></div><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><div class="chips offer__chips"><span class="chip">Запуск сети</span><span class="chip">3&nbsp;даркстора</span><span class="chip">команда от&nbsp;50&nbsp;человек</span></div><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
+<div class="v-head"><b>Сноска · 5</b><strong>Тёмная плашка с&nbsp;голубым акцентом</strong><span>Плашка navy внизу карточки, число дарксторов голубым текстом. Тяжелее, зато карточка заканчивается уверенно и&nbsp;рифмуется с&nbsp;тёмными шагами.</span></div>
+<section class="section section--light">
+  <div class="container">
+    <div class="cards" style="--n:4">
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Уфа</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;250</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat offer__stat--dark"><span class="t-caption">Запуск сети</span><b>17 <small>дарксторов</small></b><span>команда от&nbsp;500&nbsp;человек</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Челябинск</h3><dl><div class="offer__row"><dt>Инвестиции<button class="info" type="button" aria-label="Подробнее">i<span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;передаче партнёру нескольких дарксторов, от&nbsp;400&nbsp;млн&nbsp;₽&nbsp;— при&nbsp;эксклюзивном партнёрстве в&nbsp;городе</span></button></dt><dd><b>от&nbsp;25</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;2&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>1&nbsp;млн&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat offer__stat--dark"><span class="t-caption">Передача в&nbsp;управление</span><b>17 <small>дарксторов</small></b><span>действующая сеть</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Магнитогорск</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;75</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat offer__stat--dark"><span class="t-caption">Запуск сети</span><b>5 <small>дарксторов</small></b><span>команда от&nbsp;100&nbsp;человек</span></div></article>
+      <article class="card offer offer--compact lift"><h3 class="offer__city">Стерлитамак</h3><dl><div class="offer__row"><dt>Инвестиции</dt><dd><b>от&nbsp;45</b> млн&nbsp;₽</dd></div><div class="offer__row"><dt>Окупаемость</dt><dd>от&nbsp;3&nbsp;лет</dd></div><div class="offer__row"><dt>Паушальный взнос</dt><dd>750&nbsp;тыс.&nbsp;₽ за&nbsp;даркстор</dd></div><div class="offer__row"><dt>Роялти</dt><dd>0–7%</dd></div></dl><div class="offer__stat offer__stat--dark"><span class="t-caption">Запуск сети</span><b>3 <small>даркстора</small></b><span>команда от&nbsp;50&nbsp;человек</span></div></article>
     </div>
   </div>
 </section>
