@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><title>v5 — Маятник с порывами</title>
+<style>
+
+/* Performance-баннер 960×720 «Классическая бирка» (Figma 1372:20848). Координаты — из макета.
+   Анимация: всё появляется наложенной лесенкой, бирка прилетает качнувшись на узелке
+   и дальше медленно дышит маятником ±2°; звёздочка на цене раз в 3.2 с плавно гаснет и возвращается. Клик по баннеру — повтор. */
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
+@font-face{font-family:'YS Text';src:url('fonts/YS Text-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Text Cond';src:url('fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300}
+:root{
+  --oexpo:cubic-bezier(.16,1,.3,1);   /* резкий старт, длинное торможение */
+  --back:cubic-bezier(.34,1.45,.64,1);/* лёгкий перелёт */
+  --io:cubic-bezier(.45,0,.55,1);     /* маятник: разгон и торможение */
+  --soft:cubic-bezier(.4,0,.2,1);
+}
+html,body{margin:0;height:100%}
+body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
+.banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
+.banner *{box-sizing:border-box}
+.banner img{display:block;position:absolute;max-width:none}
+.banner p{margin:0}
+.cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+
+.bg{position:absolute;inset:0;background:linear-gradient(95.8deg,#00ADFF 24.67%,#fff 99.97%)}
+.noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
+.logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
+.pill{position:absolute;left:46.47px;top:233.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
+.star{left:176.33px;top:273.33px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.price{position:absolute;left:45.3px;top:341.35px;font-weight:500;font-size:196.86px}
+.rub{position:absolute;left:351.6px;top:411.72px;font-weight:500;font-size:100.35px}
+.old{position:absolute;left:355.13px;top:342.43px;font-weight:500;font-size:60.02px}
+.strike{left:351.6px;top:360.15px;width:107.21px;height:8.29px}
+.name{position:absolute;left:46.47px;top:502.74px;font-weight:400;font-size:34.99px}
+.name span{color:#99DEFF}
+.age{position:absolute;left:47.01px;top:611.35px;font-family:'YS Text',Arial,sans-serif;font-size:50.28px;line-height:1.13;text-box:trim-both cap alphabetic;opacity:.7;font-feature-settings:"case","lnum","pnum"}
+.legal{position:absolute;left:128.8px;top:617.22px;width:370.21px;font-family:'YS Text Cond','Arial Narrow',sans-serif;font-weight:300;font-size:19.96px;line-height:.96;letter-spacing:-.03em;text-transform:uppercase;opacity:.7;text-box:trim-both cap alphabetic;white-space:pre-line;font-feature-settings:"calt" 0}
+
+/* товар: прямоугольник 500.42×662.80, поворот 10.48° (матрица из макета), картинка cover */
+.product{position:absolute;left:0;top:0;width:500.42px;height:662.8px;transform-origin:0 0;transform:matrix(.983318,-.181893,.181893,.983318,508.07,181.986)}
+.product img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* бирка: кадр 230×96, поворот 17.4° (матрица из макета). Ось качания — узелок на упаковке (555.38, 203.33) */
+.pivot{position:absolute;left:0;top:0;width:960px;height:720px;transform-origin:555.38px 203.33px;pointer-events:none}
+.tag{position:absolute;left:0;top:0;width:230px;height:96px;transform-origin:0 0;transform:matrix(.954239,.299046,-.299046,.954239,301.819,115.54)}
+.tag__body{left:29.08px;top:9.58px;width:200.92px;height:76.83px}
+.tag__ring{left:203.29px;top:19.95px;width:17px;height:17px}
+.tag__text{position:absolute;left:51.39px;top:22.21px;font-weight:600;font-size:33px;line-height:.74;white-space:nowrap}
+.tag__string,.tag__knot{position:absolute;transform-origin:0 0;transform:rotate(10deg)}
+.tag__string{left:217px;top:-1.09px;width:52px;height:30px}
+.tag__string img{left:-1.5px;top:-1.5px;width:55px;height:33px}
+.tag__knot{left:264.96px;top:3.3px;width:8px;height:8px}
+.tag__knot img{left:0;top:0;width:8px;height:8px}
+
+
+:root{
+  --calm:cubic-bezier(.33,0,.15,1);  /* мягкий разгон, длинное плавное торможение */
+  --sine:cubic-bezier(.37,0,.63,1);  /* синусоида */
+}
+.pre .a{opacity:0}
+.play .product{animation:product 1.75s var(--calm) 0s both}
+.play .logo   {animation:rise-8 1.38s var(--calm) 0.38s both}
+.play .pill   {animation:pop 1.38s var(--calm) 0.56s both}
+.play .price  {animation:rise 1.5s var(--calm) 0.69s both}
+.play .rub    {animation:rise 1.5s var(--calm) 0.85s both}
+.play .old    {animation:rise-8 1.38s var(--calm) 0.95s both}
+.play .strike {animation:wipe 0.88s var(--sine) 1.69s both}
+.play .name   {animation:rise 1.5s var(--calm) 1.07s both}
+.play .age    {animation:fade 1.38s var(--sine) 1.25s both}
+.play .legal  {animation:fade 1.38s var(--sine) 1.33s both}
+.play .star   {animation:spark 1.38s var(--calm) 1.25s both,blink 3.2s linear 3s infinite}
+.age,.legal{--o:.7}
+@keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
+@keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
+@keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
+@keyframes spark{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
+@keyframes blink{
+  0%   {opacity:1;scale:1;animation-timing-function:var(--sine)}
+  25%  {opacity:0;scale:.5;animation-timing-function:var(--sine)}
+  55%  {opacity:1;scale:1}
+  100% {opacity:1;scale:1}
+}
+
+/* бирка: медленно проявляется и качается по формуле маятника — «Маятник с порывами» */
+.play .pivot--intro{animation:tag-in 18.00s linear 1s both}
+@keyframes tag-in{
+  0.000%{rotate:1.184deg;opacity:0.000}
+  0.278%{rotate:1.465deg;opacity:0.040}
+  0.556%{rotate:1.784deg;opacity:0.080}
+  0.833%{rotate:2.174deg;opacity:0.120}
+  1.111%{rotate:2.646deg;opacity:0.160}
+  1.389%{rotate:3.189deg;opacity:0.200}
+  1.667%{rotate:3.779deg;opacity:0.240}
+  1.944%{rotate:4.377deg;opacity:0.280}
+  2.222%{rotate:4.939deg;opacity:0.320}
+  2.500%{rotate:5.419deg;opacity:0.360}
+  2.778%{rotate:5.771deg;opacity:0.400}
+  3.056%{rotate:5.957deg;opacity:0.440}
+  3.333%{rotate:5.948deg;opacity:0.480}
+  3.611%{rotate:5.798deg;opacity:0.520}
+  3.889%{rotate:5.579deg;opacity:0.560}
+  4.167%{rotate:5.295deg;opacity:0.600}
+  4.444%{rotate:4.955deg;opacity:0.640}
+  4.722%{rotate:4.565deg;opacity:0.680}
+  5.000%{rotate:4.132deg;opacity:0.720}
+  5.278%{rotate:3.665deg;opacity:0.760}
+  5.556%{rotate:3.170deg;opacity:0.800}
+  5.833%{rotate:2.656deg;opacity:0.840}
+  6.111%{rotate:2.130deg;opacity:0.880}
+  6.389%{rotate:1.599deg;opacity:0.920}
+  6.667%{rotate:1.070deg;opacity:0.960}
+  6.944%{rotate:0.549deg;opacity:1.000}
+  7.222%{rotate:0.044deg;opacity:1}
+  7.500%{rotate:-0.441deg;opacity:1}
+  7.778%{rotate:-0.901deg;opacity:1}
+  8.056%{rotate:-1.330deg;opacity:1}
+  8.333%{rotate:-1.725deg;opacity:1}
+  8.611%{rotate:-2.083deg;opacity:1}
+  8.889%{rotate:-2.401deg;opacity:1}
+  9.167%{rotate:-2.675deg;opacity:1}
+  9.444%{rotate:-2.907deg;opacity:1}
+  9.722%{rotate:-3.093deg;opacity:1}
+  10.000%{rotate:-3.234deg;opacity:1}
+  10.278%{rotate:-3.330deg;opacity:1}
+  10.556%{rotate:-3.382deg;opacity:1}
+  10.833%{rotate:-3.391deg;opacity:1}
+  11.111%{rotate:-3.358deg;opacity:1}
+  11.389%{rotate:-3.287deg;opacity:1}
+  11.667%{rotate:-3.178deg;opacity:1}
+  11.944%{rotate:-3.036deg;opacity:1}
+  12.222%{rotate:-2.863deg;opacity:1}
+  12.500%{rotate:-2.662deg;opacity:1}
+  12.778%{rotate:-2.438deg;opacity:1}
+  13.056%{rotate:-2.192deg;opacity:1}
+  13.333%{rotate:-1.930deg;opacity:1}
+  13.611%{rotate:-1.654deg;opacity:1}
+  13.889%{rotate:-1.369deg;opacity:1}
+  14.167%{rotate:-1.078deg;opacity:1}
+  14.444%{rotate:-0.784deg;opacity:1}
+  14.722%{rotate:-0.492deg;opacity:1}
+  15.000%{rotate:-0.204deg;opacity:1}
+  15.278%{rotate:0.077deg;opacity:1}
+  15.556%{rotate:0.347deg;opacity:1}
+  15.833%{rotate:0.605deg;opacity:1}
+  16.111%{rotate:0.847deg;opacity:1}
+  16.389%{rotate:1.072deg;opacity:1}
+  16.667%{rotate:1.277deg;opacity:1}
+  16.944%{rotate:1.462deg;opacity:1}
+  17.222%{rotate:1.624deg;opacity:1}
+  17.500%{rotate:1.763deg;opacity:1}
+  17.778%{rotate:1.878deg;opacity:1}
+  18.056%{rotate:1.969deg;opacity:1}
+  18.333%{rotate:2.035deg;opacity:1}
+  18.611%{rotate:2.077deg;opacity:1}
+  18.889%{rotate:2.094deg;opacity:1}
+  19.167%{rotate:2.088deg;opacity:1}
+  19.444%{rotate:2.060deg;opacity:1}
+  19.722%{rotate:2.009deg;opacity:1}
+  20.000%{rotate:1.938deg;opacity:1}
+  20.278%{rotate:1.848deg;opacity:1}
+  20.556%{rotate:1.741deg;opacity:1}
+  20.833%{rotate:1.617deg;opacity:1}
+  21.111%{rotate:1.480deg;opacity:1}
+  21.389%{rotate:1.330deg;opacity:1}
+  21.667%{rotate:1.169deg;opacity:1}
+  21.944%{rotate:1.000deg;opacity:1}
+  22.222%{rotate:0.825deg;opacity:1}
+  22.500%{rotate:0.645deg;opacity:1}
+  22.778%{rotate:0.463deg;opacity:1}
+  23.056%{rotate:0.280deg;opacity:1}
+  23.333%{rotate:0.099deg;opacity:1}
+  23.611%{rotate:-0.080deg;opacity:1}
+  23.889%{rotate:-0.253deg;opacity:1}
+  24.167%{rotate:-0.420deg;opacity:1}
+  24.444%{rotate:-0.579deg;opacity:1}
+  24.722%{rotate:-0.728deg;opacity:1}
+  25.000%{rotate:-0.866deg;opacity:1}
+  25.278%{rotate:-0.992deg;opacity:1}
+  25.556%{rotate:-1.105deg;opacity:1}
+  25.833%{rotate:-1.205deg;opacity:1}
+  26.111%{rotate:-1.290deg;opacity:1}
+  26.389%{rotate:-1.359deg;opacity:1}
+  26.667%{rotate:-1.413deg;opacity:1}
+  26.944%{rotate:-1.452deg;opacity:1}
+  27.222%{rotate:-1.474deg;opacity:1}
+  27.500%{rotate:-1.481deg;opacity:1}
+  27.778%{rotate:-1.473deg;opacity:1}
+  28.056%{rotate:-1.449deg;opacity:1}
+  28.333%{rotate:-1.410deg;opacity:1}
+  28.611%{rotate:-1.358deg;opacity:1}
+  28.889%{rotate:-1.292deg;opacity:1}
+  29.167%{rotate:-1.214deg;opacity:1}
+  29.444%{rotate:-1.125deg;opacity:1}
+  29.722%{rotate:-1.025deg;opacity:1}
+  30.000%{rotate:-0.916deg;opacity:1}
+  30.278%{rotate:-0.800deg;opacity:1}
+  30.556%{rotate:-0.677deg;opacity:1}
+  30.833%{rotate:-0.548deg;opacity:1}
+  31.111%{rotate:-0.416deg;opacity:1}
+  31.389%{rotate:-0.281deg;opacity:1}
+  31.667%{rotate:-0.145deg;opacity:1}
+  31.944%{rotate:-0.009deg;opacity:1}
+  32.222%{rotate:0.125deg;opacity:1}
+  32.500%{rotate:0.256deg;opacity:1}
+  32.778%{rotate:0.383deg;opacity:1}
+  33.056%{rotate:0.504deg;opacity:1}
+  33.333%{rotate:0.619deg;opacity:1}
+  33.611%{rotate:0.726deg;opacity:1}
+  33.889%{rotate:0.825deg;opacity:1}
+  34.167%{rotate:0.914deg;opacity:1}
+  34.444%{rotate:0.992deg;opacity:1}
+  34.722%{rotate:1.059deg;opacity:1}
+  35.000%{rotate:1.115deg;opacity:1}
+  35.278%{rotate:1.159deg;opacity:1}
+  35.556%{rotate:1.190deg;opacity:1}
+  35.833%{rotate:1.208deg;opacity:1}
+  36.111%{rotate:1.214deg;opacity:1}
+  36.389%{rotate:1.207deg;opacity:1}
+  36.667%{rotate:1.187deg;opacity:1}
+  36.944%{rotate:1.156deg;opacity:1}
+  37.222%{rotate:1.112deg;opacity:1}
+  37.500%{rotate:1.057deg;opacity:1}
+  37.778%{rotate:0.992deg;opacity:1}
+  38.056%{rotate:0.917deg;opacity:1}
+  38.333%{rotate:0.832deg;opacity:1}
+  38.611%{rotate:0.740deg;opacity:1}
+  38.889%{rotate:0.641deg;opacity:1}
+  39.167%{rotate:0.535deg;opacity:1}
+  39.444%{rotate:0.425deg;opacity:1}
+  39.722%{rotate:0.310deg;opacity:1}
+  40.000%{rotate:0.194deg;opacity:1}
+  40.278%{rotate:0.076deg;opacity:1}
+  40.556%{rotate:-0.042deg;opacity:1}
+  40.833%{rotate:-0.159deg;opacity:1}
+  41.111%{rotate:-0.274deg;opacity:1}
+  41.389%{rotate:-0.385deg;opacity:1}
+  41.667%{rotate:-0.492deg;opacity:1}
+  41.944%{rotate:-0.592deg;opacity:1}
+  42.222%{rotate:-0.686deg;opacity:1}
+  42.500%{rotate:-0.773deg;opacity:1}
+  42.778%{rotate:-0.850deg;opacity:1}
+  43.056%{rotate:-0.918deg;opacity:1}
+  43.333%{rotate:-0.977deg;opacity:1}
+  43.611%{rotate:-1.024deg;opacity:1}
+  43.889%{rotate:-1.061deg;opacity:1}
+  44.167%{rotate:-1.086deg;opacity:1}
+  44.444%{rotate:-1.099deg;opacity:1}
+  44.722%{rotate:-1.101deg;opacity:1}
+  45.000%{rotate:-1.091deg;opacity:1}
+  45.278%{rotate:-1.070deg;opacity:1}
+  45.556%{rotate:-1.037deg;opacity:1}
+  45.833%{rotate:-0.993deg;opacity:1}
+  46.111%{rotate:-0.939deg;opacity:1}
+  46.389%{rotate:-0.874deg;opacity:1}
+  46.667%{rotate:-0.801deg;opacity:1}
+  46.944%{rotate:-0.720deg;opacity:1}
+  47.222%{rotate:-0.631deg;opacity:1}
+  47.500%{rotate:-0.535deg;opacity:1}
+  47.778%{rotate:-0.435deg;opacity:1}
+  48.056%{rotate:-0.329deg;opacity:1}
+  48.333%{rotate:-0.221deg;opacity:1}
+  48.611%{rotate:-0.110deg;opacity:1}
+  48.889%{rotate:0.001deg;opacity:1}
+  49.167%{rotate:0.112deg;opacity:1}
+  49.444%{rotate:0.222deg;opacity:1}
+  49.722%{rotate:0.329deg;opacity:1}
+  50.000%{rotate:0.432deg;opacity:1}
+  50.278%{rotate:0.530deg;opacity:1}
+  50.556%{rotate:0.622deg;opacity:1}
+  50.833%{rotate:0.707deg;opacity:1}
+  51.111%{rotate:0.785deg;opacity:1}
+  51.389%{rotate:0.854deg;opacity:1}
+  51.667%{rotate:0.913deg;opacity:1}
+  51.944%{rotate:0.963deg;opacity:1}
+  52.222%{rotate:1.002deg;opacity:1}
+  52.500%{rotate:1.030deg;opacity:1}
+  52.778%{rotate:1.047deg;opacity:1}
+  53.056%{rotate:1.053deg;opacity:1}
+  53.333%{rotate:1.047deg;opacity:1}
+  53.611%{rotate:1.030deg;opacity:1}
+  53.889%{rotate:1.002deg;opacity:1}
+  54.167%{rotate:0.963deg;opacity:1}
+  54.444%{rotate:0.913deg;opacity:1}
+  54.722%{rotate:0.854deg;opacity:1}
+  55.000%{rotate:0.786deg;opacity:1}
+  55.278%{rotate:0.709deg;opacity:1}
+  55.556%{rotate:0.625deg;opacity:1}
+  55.833%{rotate:0.534deg;opacity:1}
+  56.111%{rotate:0.437deg;opacity:1}
+  56.389%{rotate:0.336deg;opacity:1}
+  56.667%{rotate:0.231deg;opacity:1}
+  56.944%{rotate:0.124deg;opacity:1}
+  57.222%{rotate:0.016deg;opacity:1}
+  57.500%{rotate:-0.092deg;opacity:1}
+  57.778%{rotate:-0.199deg;opacity:1}
+  58.056%{rotate:-0.304deg;opacity:1}
+  58.333%{rotate:-0.405deg;opacity:1}
+  58.611%{rotate:-0.502deg;opacity:1}
+  58.889%{rotate:-0.593deg;opacity:1}
+  59.167%{rotate:-0.678deg;opacity:1}
+  59.444%{rotate:-0.755deg;opacity:1}
+  59.722%{rotate:-0.824deg;opacity:1}
+  60.000%{rotate:-0.884deg;opacity:1}
+  60.278%{rotate:-0.934deg;opacity:1}
+  60.556%{rotate:-0.974deg;opacity:1}
+  60.833%{rotate:-1.003deg;opacity:1}
+  61.111%{rotate:-1.021deg;opacity:1}
+  61.389%{rotate:-1.028deg;opacity:1}
+  61.667%{rotate:-1.024deg;opacity:1}
+  61.944%{rotate:-1.009deg;opacity:1}
+  62.222%{rotate:-0.982deg;opacity:1}
+  62.500%{rotate:-0.945deg;opacity:1}
+  62.778%{rotate:-0.898deg;opacity:1}
+  63.056%{rotate:-0.841deg;opacity:1}
+  63.333%{rotate:-0.775deg;opacity:1}
+  63.611%{rotate:-0.700deg;opacity:1}
+  63.889%{rotate:-0.618deg;opacity:1}
+  64.167%{rotate:-0.529deg;opacity:1}
+  64.444%{rotate:-0.435deg;opacity:1}
+  64.722%{rotate:-0.336deg;opacity:1}
+  65.000%{rotate:-0.233deg;opacity:1}
+  65.278%{rotate:-0.128deg;opacity:1}
+  65.556%{rotate:-0.021deg;opacity:1}
+  65.833%{rotate:0.085deg;opacity:1}
+  66.111%{rotate:0.191deg;opacity:1}
+  66.389%{rotate:0.294deg;opacity:1}
+  66.667%{rotate:0.395deg;opacity:1}
+  66.944%{rotate:0.490deg;opacity:1}
+  67.222%{rotate:0.581deg;opacity:1}
+  67.500%{rotate:0.665deg;opacity:1}
+  67.778%{rotate:0.741deg;opacity:1}
+  68.056%{rotate:0.810deg;opacity:1}
+  68.333%{rotate:0.869deg;opacity:1}
+  68.611%{rotate:0.919deg;opacity:1}
+  68.889%{rotate:0.959deg;opacity:1}
+  69.167%{rotate:0.988deg;opacity:1}
+  69.444%{rotate:1.007deg;opacity:1}
+  69.722%{rotate:1.014deg;opacity:1}
+  70.000%{rotate:1.011deg;opacity:1}
+  70.278%{rotate:0.996deg;opacity:1}
+  70.556%{rotate:0.970deg;opacity:1}
+  70.833%{rotate:0.934deg;opacity:1}
+  71.111%{rotate:0.888deg;opacity:1}
+  71.389%{rotate:0.832deg;opacity:1}
+  71.667%{rotate:0.766deg;opacity:1}
+  71.944%{rotate:0.693deg;opacity:1}
+  72.222%{rotate:0.612deg;opacity:1}
+  72.500%{rotate:0.524deg;opacity:1}
+  72.778%{rotate:0.431deg;opacity:1}
+  73.056%{rotate:0.333deg;opacity:1}
+  73.333%{rotate:0.231deg;opacity:1}
+  73.611%{rotate:0.127deg;opacity:1}
+  73.889%{rotate:0.022deg;opacity:1}
+  74.167%{rotate:-0.084deg;opacity:1}
+  74.444%{rotate:-0.189deg;opacity:1}
+  74.722%{rotate:-0.291deg;opacity:1}
+  75.000%{rotate:-0.390deg;opacity:1}
+  75.278%{rotate:-0.485deg;opacity:1}
+  75.556%{rotate:-0.575deg;opacity:1}
+  75.833%{rotate:-0.658deg;opacity:1}
+  76.111%{rotate:-0.734deg;opacity:1}
+  76.389%{rotate:-0.802deg;opacity:1}
+  76.667%{rotate:-0.861deg;opacity:1}
+  76.944%{rotate:-0.911deg;opacity:1}
+  77.222%{rotate:-0.950deg;opacity:1}
+  77.500%{rotate:-0.979deg;opacity:1}
+  77.778%{rotate:-0.998deg;opacity:1}
+  78.056%{rotate:-1.005deg;opacity:1}
+  78.333%{rotate:-1.002deg;opacity:1}
+  78.611%{rotate:-0.987deg;opacity:1}
+  78.889%{rotate:-0.962deg;opacity:1}
+  79.167%{rotate:-0.926deg;opacity:1}
+  79.444%{rotate:-0.880deg;opacity:1}
+  79.722%{rotate:-0.824deg;opacity:1}
+  80.000%{rotate:-0.760deg;opacity:1}
+  80.278%{rotate:-0.687deg;opacity:1}
+  80.556%{rotate:-0.607deg;opacity:1}
+  80.833%{rotate:-0.520deg;opacity:1}
+  81.111%{rotate:-0.427deg;opacity:1}
+  81.389%{rotate:-0.330deg;opacity:1}
+  81.667%{rotate:-0.229deg;opacity:1}
+  81.944%{rotate:-0.125deg;opacity:1}
+  82.222%{rotate:-0.021deg;opacity:1}
+  82.500%{rotate:0.084deg;opacity:1}
+  82.778%{rotate:0.188deg;opacity:1}
+  83.056%{rotate:0.290deg;opacity:1}
+  83.333%{rotate:0.388deg;opacity:1}
+  83.611%{rotate:0.483deg;opacity:1}
+  83.889%{rotate:0.572deg;opacity:1}
+  84.167%{rotate:0.654deg;opacity:1}
+  84.444%{rotate:0.730deg;opacity:1}
+  84.722%{rotate:0.797deg;opacity:1}
+  85.000%{rotate:0.856deg;opacity:1}
+  85.278%{rotate:0.905deg;opacity:1}
+  85.556%{rotate:0.944deg;opacity:1}
+  85.833%{rotate:0.973deg;opacity:1}
+  86.111%{rotate:0.992deg;opacity:1}
+  86.389%{rotate:0.999deg;opacity:1}
+  86.667%{rotate:0.996deg;opacity:1}
+  86.944%{rotate:0.981deg;opacity:1}
+  87.222%{rotate:0.956deg;opacity:1}
+  87.500%{rotate:0.920deg;opacity:1}
+  87.778%{rotate:0.875deg;opacity:1}
+  88.056%{rotate:0.819deg;opacity:1}
+  88.333%{rotate:0.755deg;opacity:1}
+  88.611%{rotate:0.683deg;opacity:1}
+  88.889%{rotate:0.603deg;opacity:1}
+  89.167%{rotate:0.516deg;opacity:1}
+  89.444%{rotate:0.424deg;opacity:1}
+  89.722%{rotate:0.327deg;opacity:1}
+  90.000%{rotate:0.227deg;opacity:1}
+  90.278%{rotate:0.124deg;opacity:1}
+  90.556%{rotate:0.020deg;opacity:1}
+  90.833%{rotate:-0.085deg;opacity:1}
+  91.111%{rotate:-0.188deg;opacity:1}
+  91.389%{rotate:-0.289deg;opacity:1}
+  91.667%{rotate:-0.387deg;opacity:1}
+  91.944%{rotate:-0.481deg;opacity:1}
+  92.222%{rotate:-0.570deg;opacity:1}
+  92.500%{rotate:-0.652deg;opacity:1}
+  92.778%{rotate:-0.727deg;opacity:1}
+  93.056%{rotate:-0.794deg;opacity:1}
+  93.333%{rotate:-0.852deg;opacity:1}
+  93.611%{rotate:-0.902deg;opacity:1}
+  93.889%{rotate:-0.941deg;opacity:1}
+  94.167%{rotate:-0.969deg;opacity:1}
+  94.444%{rotate:-0.988deg;opacity:1}
+  94.722%{rotate:-0.995deg;opacity:1}
+  95.000%{rotate:-0.992deg;opacity:1}
+  95.278%{rotate:-0.977deg;opacity:1}
+  95.556%{rotate:-0.952deg;opacity:1}
+  95.833%{rotate:-0.917deg;opacity:1}
+  96.111%{rotate:-0.871deg;opacity:1}
+  96.389%{rotate:-0.816deg;opacity:1}
+  96.667%{rotate:-0.752deg;opacity:1}
+  96.944%{rotate:-0.680deg;opacity:1}
+  97.222%{rotate:-0.600deg;opacity:1}
+  97.500%{rotate:-0.514deg;opacity:1}
+  97.778%{rotate:-0.422deg;opacity:1}
+  98.056%{rotate:-0.325deg;opacity:1}
+  98.333%{rotate:-0.225deg;opacity:1}
+  98.611%{rotate:-0.123deg;opacity:1}
+  98.889%{rotate:-0.019deg;opacity:1}
+  99.167%{rotate:0.085deg;opacity:1}
+  99.444%{rotate:0.188deg;opacity:1}
+  99.722%{rotate:0.289deg;opacity:1}
+  100.000%{rotate:0.387deg;opacity:1}
+}
+.play .pivot--twitch{animation:sway 6.00s linear 19.00s infinite both}
+@keyframes sway{
+  0.000%{rotate:0.000deg}
+  1.333%{rotate:0.161deg}
+  2.667%{rotate:0.377deg}
+  4.000%{rotate:0.670deg}
+  5.333%{rotate:1.017deg}
+  6.667%{rotate:1.368deg}
+  8.000%{rotate:1.654deg}
+  9.333%{rotate:1.808deg}
+  10.667%{rotate:1.794deg}
+  12.000%{rotate:1.693deg}
+  13.333%{rotate:1.528deg}
+  14.667%{rotate:1.306deg}
+  16.000%{rotate:1.038deg}
+  17.333%{rotate:0.734deg}
+  18.667%{rotate:0.405deg}
+  20.000%{rotate:0.062deg}
+  21.333%{rotate:-0.281deg}
+  22.667%{rotate:-0.616deg}
+  24.000%{rotate:-0.930deg}
+  25.333%{rotate:-1.217deg}
+  26.667%{rotate:-1.467deg}
+  28.000%{rotate:-1.674deg}
+  29.333%{rotate:-1.835deg}
+  30.667%{rotate:-1.945deg}
+  32.000%{rotate:-2.003deg}
+  33.333%{rotate:-2.010deg}
+  34.667%{rotate:-1.967deg}
+  36.000%{rotate:-1.879deg}
+  37.333%{rotate:-1.748deg}
+  38.667%{rotate:-1.580deg}
+  40.000%{rotate:-1.383deg}
+  41.333%{rotate:-1.162deg}
+  42.667%{rotate:-0.926deg}
+  44.000%{rotate:-0.680deg}
+  45.333%{rotate:-0.434deg}
+  46.667%{rotate:-0.194deg}
+  48.000%{rotate:0.034deg}
+  49.333%{rotate:0.243deg}
+  50.667%{rotate:0.429deg}
+  52.000%{rotate:0.585deg}
+  53.333%{rotate:0.711deg}
+  54.667%{rotate:0.801deg}
+  56.000%{rotate:0.856deg}
+  57.333%{rotate:0.875deg}
+  58.667%{rotate:0.859deg}
+  60.000%{rotate:0.808deg}
+  61.333%{rotate:0.725deg}
+  62.667%{rotate:0.614deg}
+  64.000%{rotate:0.478deg}
+  65.333%{rotate:0.321deg}
+  66.667%{rotate:0.148deg}
+  68.000%{rotate:-0.035deg}
+  69.333%{rotate:-0.224deg}
+  70.667%{rotate:-0.414deg}
+  72.000%{rotate:-0.600deg}
+  73.333%{rotate:-0.776deg}
+  74.667%{rotate:-0.938deg}
+  76.000%{rotate:-1.083deg}
+  77.333%{rotate:-1.207deg}
+  78.667%{rotate:-1.307deg}
+  80.000%{rotate:-1.381deg}
+  81.333%{rotate:-1.427deg}
+  82.667%{rotate:-1.444deg}
+  84.000%{rotate:-1.433deg}
+  85.333%{rotate:-1.395deg}
+  86.667%{rotate:-1.330deg}
+  88.000%{rotate:-1.241deg}
+  89.333%{rotate:-1.130deg}
+  90.667%{rotate:-1.000deg}
+  92.000%{rotate:-0.855deg}
+  93.333%{rotate:-0.700deg}
+  94.667%{rotate:-0.537deg}
+  96.000%{rotate:-0.371deg}
+  97.333%{rotate:-0.207deg}
+  98.667%{rotate:-0.049deg}
+  100.000%{rotate:0.099deg}
+}
+</style></head><body>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <p class="price cap a">179</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">239</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Авокадо Хасс, <span>2 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="pill cap a">–25%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <div class="product a"><img src="assets/product.png" alt="Котлеты «Петелинка»"></div>
+  <div class="pivot pivot--intro a">
+    <div class="pivot pivot--twitch">
+      <div class="tag">
+        <img class="tag__body" src="assets/tag-body.svg" alt="">
+        <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+        <p class="tag__text">большие<br>скидки</p>
+        <div class="tag__string"><img src="assets/string.svg" alt=""></div>
+        <div class="tag__knot"><img src="assets/knot.svg" alt=""></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+</body></html>
