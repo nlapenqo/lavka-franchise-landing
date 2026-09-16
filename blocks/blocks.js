@@ -116,15 +116,16 @@
     });
   }));
 
-  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение */
+  /* дропдаун: [data-dropdown] > select — кнопка со значением и список вариантов, select скрыт и хранит значение; select[multiple] — несколько ответов, список не закрывается, галочки в aria-selected */
   $$('[data-dropdown]').forEach(box => {
     const sel = $('select', box); if (!sel) return;
     const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'dropdown__button'; btn.setAttribute('aria-haspopup', 'listbox'); btn.setAttribute('aria-expanded', 'false');
     const list = document.createElement('ul'); list.className = 'dropdown__list'; list.setAttribute('role', 'listbox'); list.hidden = true;
+    const multi = sel.multiple; if (multi) list.setAttribute('aria-multiselectable', 'true');
     const opts = [...sel.options].filter(o => o.value !== '');
-    const placeholder = (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
-    const render = () => { const o = sel.selectedOptions[0]; const empty = !o || o.value === ''; btn.textContent = empty ? placeholder : o.textContent; btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === sel.value && !empty))); };
-    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); close(); btn.focus(); }); list.appendChild(li); });
+    const placeholder = sel.dataset.placeholder || (sel.querySelector('option[value=""]') || {}).textContent || 'Не выбрано';
+    const render = () => { const chosen = [...sel.selectedOptions].filter(o => o.value !== ''); const empty = !chosen.length; btn.textContent = empty ? placeholder : chosen.map(o => o.textContent).join(', '); btn.classList.toggle('is-empty', empty); $$('li', list).forEach(li => li.setAttribute('aria-selected', String(chosen.some(o => o.value === li.dataset.value)))); };
+    opts.forEach(o => { const li = document.createElement('li'); li.setAttribute('role', 'option'); li.dataset.value = o.value; li.textContent = o.textContent; li.addEventListener('click', () => { if (multi) o.selected = !o.selected; else sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); if (!multi) { close(); btn.focus(); } }); list.appendChild(li); });
     const open = () => { box.classList.add('is-open'); list.hidden = false; btn.setAttribute('aria-expanded', 'true'); };
     const close = () => { box.classList.remove('is-open'); list.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
     btn.addEventListener('click', () => list.hidden ? open() : close());
