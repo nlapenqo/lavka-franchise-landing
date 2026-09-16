@@ -1,49 +1,439 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><title>Бирка — варианты покачивания</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ru"><head><meta charset="utf-8"><title>v1 — Маятник</title>
 <style>
+
+/* Performance-баннер 960×720 «Классическая бирка» (Figma 1372:20848). Координаты — из макета.
+   Анимация: всё появляется наложенной лесенкой, бирка прилетает качнувшись на узелке
+   и дальше медленно дышит маятником ±2°; звёздочка на цене раз в 3.2 с плавно гаснет и возвращается. Клик по баннеру — повтор. */
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
 @font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
-body{margin:0;padding:40px;background:#f2f7fc;color:#1b3a6a;font:16px/1.45 'YS Geo',Arial,sans-serif}
-h1{font-size:28px;font-weight:500;margin:0 0 6px}
-p.lead{margin:0 0 28px;color:#5a749b;max-width:760px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(480px,1fr));gap:36px 32px}
-figure{margin:0}
-.frame{width:480px;height:360px;overflow:hidden;border-radius:12px;box-shadow:0 8px 30px rgba(27,58,106,.12)}
-iframe{width:960px;height:720px;border:0;transform:scale(.5);transform-origin:0 0;display:block}
-figcaption{display:grid;gap:6px;margin-top:12px;max-width:480px}
-figcaption b{font-weight:500;font-size:18px}
-figcaption span{color:#5a749b;font-size:14px}
-.row{display:flex;gap:14px;align-items:center;margin-top:4px}
-a{color:#00adff}
-button{font:inherit;font-size:14px;padding:6px 14px;border-radius:999px;border:0;background:#00adff;color:#fff;cursor:pointer}
-button:hover{background:#0095db}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
+@font-face{font-family:'YS Text';src:url('fonts/YS Text-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Text Cond';src:url('fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300}
+:root{
+  --oexpo:cubic-bezier(.16,1,.3,1);   /* резкий старт, длинное торможение */
+  --back:cubic-bezier(.34,1.45,.64,1);/* лёгкий перелёт */
+  --io:cubic-bezier(.45,0,.55,1);     /* маятник: разгон и торможение */
+  --soft:cubic-bezier(.4,0,.2,1);
+}
+html,body{margin:0;height:100%}
+body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
+.banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
+.banner *{box-sizing:border-box}
+.banner img{display:block;position:absolute;max-width:none}
+.banner p{margin:0}
+.cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+
+.bg{position:absolute;inset:0;background:linear-gradient(95.8deg,#00ADFF 24.67%,#fff 99.97%)}
+.noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
+.logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
+.pill{position:absolute;left:46.47px;top:233.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
+.star{left:176.33px;top:273.33px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.price{position:absolute;left:45.3px;top:341.35px;font-weight:500;font-size:196.86px}
+.rub{position:absolute;left:380.6px;top:411.72px;font-weight:500;font-size:100.35px}
+.old{position:absolute;left:384.13px;top:342.43px;font-weight:500;font-size:60.02px}
+.strike{left:380.6px;top:360.15px;width:107.21px;height:8.29px}
+.name{position:absolute;left:46.47px;top:502.74px;font-weight:400;font-size:34.99px}
+.name span{color:#99DEFF}
+.age{position:absolute;left:47.01px;top:611.35px;font-family:'YS Text',Arial,sans-serif;font-size:50.28px;line-height:1.13;text-box:trim-both cap alphabetic;opacity:.7;font-feature-settings:"case","lnum","pnum"}
+.legal{position:absolute;left:128.8px;top:617.22px;width:370.21px;font-family:'YS Text Cond','Arial Narrow',sans-serif;font-weight:300;font-size:19.96px;line-height:.96;letter-spacing:-.03em;text-transform:uppercase;opacity:.7;text-box:trim-both cap alphabetic;white-space:pre-line;font-feature-settings:"calt" 0}
+
+/* товар: прямоугольник 500.42×662.80, поворот 10.48° (матрица из макета), картинка cover */
+.product{position:absolute;left:0;top:0;width:500.42px;height:662.8px;transform-origin:0 0;transform:matrix(.983318,-.181893,.181893,.983318,508.07,181.986)}
+.product img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* бирка: кадр 230×96, поворот 17.4° (матрица из макета). Ось качания — узелок на упаковке (555.38, 203.33) */
+.pivot{position:absolute;left:0;top:0;width:960px;height:720px;transform-origin:555.38px 203.33px;pointer-events:none}
+.tag{position:absolute;left:0;top:0;width:230px;height:96px;transform-origin:0 0;transform:matrix(.954239,.299046,-.299046,.954239,301.819,115.54)}
+.tag__body{left:29.08px;top:9.58px;width:200.92px;height:76.83px}
+.tag__ring{left:203.29px;top:19.95px;width:17px;height:17px}
+.tag__text{position:absolute;left:51.39px;top:22.21px;font-weight:600;font-size:33px;line-height:.74;white-space:nowrap}
+.tag__string,.tag__knot{position:absolute;transform-origin:0 0;transform:rotate(10deg)}
+.tag__string{left:217px;top:-1.09px;width:52px;height:30px}
+.tag__string img{left:-1.5px;top:-1.5px;width:55px;height:33px}
+.tag__knot{left:264.96px;top:3.3px;width:8px;height:8px}
+.tag__knot img{left:0;top:0;width:8px;height:8px}
+
+
+:root{
+  --calm:cubic-bezier(.33,0,.15,1);  /* мягкий разгон, длинное плавное торможение */
+  --sine:cubic-bezier(.37,0,.63,1);  /* синусоида */
+}
+.pre .a{opacity:0}
+.play .product{animation:product 1.75s var(--calm) 0s both}
+.play .logo   {animation:rise-8 1.38s var(--calm) 0.38s both}
+.play .pill   {animation:pop 1.38s var(--calm) 0.56s both}
+.play .price  {animation:rise 1.5s var(--calm) 0.69s both}
+.play .rub    {animation:rise 1.5s var(--calm) 0.85s both}
+.play .old    {animation:rise-8 1.38s var(--calm) 0.95s both}
+.play .strike {animation:wipe 0.88s var(--sine) 1.69s both}
+.play .name   {animation:rise 1.5s var(--calm) 1.07s both}
+.play .age    {animation:fade 1.38s var(--sine) 1.25s both}
+.play .legal  {animation:fade 1.38s var(--sine) 1.33s both}
+.play .star   {animation:spark 1.38s var(--calm) 1.25s both,blink 3.2s linear 3s infinite}
+.age,.legal{--o:.7}
+@keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
+@keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
+@keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
+@keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
+@keyframes spark{from{opacity:0;scale:.4}to{opacity:1;scale:1}}
+@keyframes blink{
+  0%   {opacity:1;scale:1;animation-timing-function:var(--sine)}
+  25%  {opacity:0;scale:.5;animation-timing-function:var(--sine)}
+  55%  {opacity:1;scale:1}
+  100% {opacity:1;scale:1}
+}
+
+/* бирка: медленно проявляется и качается по формуле маятника — «Маятник» */
+.play .pivot--intro{animation:tag-in 13.00s linear 1s both}
+@keyframes tag-in{
+  0.000%{rotate:0.000deg;opacity:0.000}
+  0.385%{rotate:0.593deg;opacity:0.040}
+  0.769%{rotate:1.160deg;opacity:0.080}
+  1.154%{rotate:1.692deg;opacity:0.120}
+  1.538%{rotate:2.183deg;opacity:0.160}
+  1.923%{rotate:2.627deg;opacity:0.200}
+  2.308%{rotate:3.019deg;opacity:0.240}
+  2.692%{rotate:3.356deg;opacity:0.280}
+  3.077%{rotate:3.634deg;opacity:0.320}
+  3.462%{rotate:3.850deg;opacity:0.360}
+  3.846%{rotate:4.004deg;opacity:0.400}
+  4.231%{rotate:4.096deg;opacity:0.440}
+  4.615%{rotate:4.125deg;opacity:0.480}
+  5.000%{rotate:4.093deg;opacity:0.520}
+  5.385%{rotate:4.003deg;opacity:0.560}
+  5.769%{rotate:3.857deg;opacity:0.600}
+  6.154%{rotate:3.660deg;opacity:0.640}
+  6.538%{rotate:3.415deg;opacity:0.680}
+  6.923%{rotate:3.128deg;opacity:0.720}
+  7.308%{rotate:2.803deg;opacity:0.760}
+  7.692%{rotate:2.448deg;opacity:0.800}
+  8.077%{rotate:2.066deg;opacity:0.840}
+  8.462%{rotate:1.666deg;opacity:0.880}
+  8.846%{rotate:1.253deg;opacity:0.920}
+  9.231%{rotate:0.834deg;opacity:0.960}
+  9.615%{rotate:0.414deg;opacity:1.000}
+  10.000%{rotate:0.000deg;opacity:1}
+  10.385%{rotate:-0.403deg;opacity:1}
+  10.769%{rotate:-0.788deg;opacity:1}
+  11.154%{rotate:-1.152deg;opacity:1}
+  11.538%{rotate:-1.488deg;opacity:1}
+  11.923%{rotate:-1.794deg;opacity:1}
+  12.308%{rotate:-2.066deg;opacity:1}
+  12.692%{rotate:-2.301deg;opacity:1}
+  13.077%{rotate:-2.495deg;opacity:1}
+  13.462%{rotate:-2.649deg;opacity:1}
+  13.846%{rotate:-2.760deg;opacity:1}
+  14.231%{rotate:-2.828deg;opacity:1}
+  14.615%{rotate:-2.853deg;opacity:1}
+  15.000%{rotate:-2.837deg;opacity:1}
+  15.385%{rotate:-2.779deg;opacity:1}
+  15.769%{rotate:-2.683deg;opacity:1}
+  16.154%{rotate:-2.551deg;opacity:1}
+  16.538%{rotate:-2.385deg;opacity:1}
+  16.923%{rotate:-2.188deg;opacity:1}
+  17.308%{rotate:-1.965deg;opacity:1}
+  17.692%{rotate:-1.719deg;opacity:1}
+  18.077%{rotate:-1.455deg;opacity:1}
+  18.462%{rotate:-1.175deg;opacity:1}
+  18.846%{rotate:-0.886deg;opacity:1}
+  19.231%{rotate:-0.590deg;opacity:1}
+  19.615%{rotate:-0.294deg;opacity:1}
+  20.000%{rotate:-0.000deg;opacity:1}
+  20.385%{rotate:0.287deg;opacity:1}
+  20.769%{rotate:0.563deg;opacity:1}
+  21.154%{rotate:0.824deg;opacity:1}
+  21.538%{rotate:1.067deg;opacity:1}
+  21.923%{rotate:1.290deg;opacity:1}
+  22.308%{rotate:1.488deg;opacity:1}
+  22.692%{rotate:1.660deg;opacity:1}
+  23.077%{rotate:1.805deg;opacity:1}
+  23.462%{rotate:1.920deg;opacity:1}
+  23.846%{rotate:2.005deg;opacity:1}
+  24.231%{rotate:2.059deg;opacity:1}
+  24.615%{rotate:2.082deg;opacity:1}
+  25.000%{rotate:2.075deg;opacity:1}
+  25.385%{rotate:2.037deg;opacity:1}
+  25.769%{rotate:1.971deg;opacity:1}
+  26.154%{rotate:1.878deg;opacity:1}
+  26.538%{rotate:1.760deg;opacity:1}
+  26.923%{rotate:1.619deg;opacity:1}
+  27.308%{rotate:1.457deg;opacity:1}
+  27.692%{rotate:1.278deg;opacity:1}
+  28.077%{rotate:1.083deg;opacity:1}
+  28.462%{rotate:0.877deg;opacity:1}
+  28.846%{rotate:0.663deg;opacity:1}
+  29.231%{rotate:0.443deg;opacity:1}
+  29.615%{rotate:0.221deg;opacity:1}
+  30.000%{rotate:-0.000deg;opacity:1}
+  30.385%{rotate:-0.217deg;opacity:1}
+  30.769%{rotate:-0.426deg;opacity:1}
+  31.154%{rotate:-0.625deg;opacity:1}
+  31.538%{rotate:-0.812deg;opacity:1}
+  31.923%{rotate:-0.983deg;opacity:1}
+  32.308%{rotate:-1.137deg;opacity:1}
+  32.692%{rotate:-1.272deg;opacity:1}
+  33.077%{rotate:-1.386deg;opacity:1}
+  33.462%{rotate:-1.478deg;opacity:1}
+  33.846%{rotate:-1.547deg;opacity:1}
+  34.231%{rotate:-1.593deg;opacity:1}
+  34.615%{rotate:-1.614deg;opacity:1}
+  35.000%{rotate:-1.612deg;opacity:1}
+  35.385%{rotate:-1.587deg;opacity:1}
+  35.769%{rotate:-1.540deg;opacity:1}
+  36.154%{rotate:-1.470deg;opacity:1}
+  36.538%{rotate:-1.381deg;opacity:1}
+  36.923%{rotate:-1.273deg;opacity:1}
+  37.308%{rotate:-1.149deg;opacity:1}
+  37.692%{rotate:-1.010deg;opacity:1}
+  38.077%{rotate:-0.858deg;opacity:1}
+  38.462%{rotate:-0.697deg;opacity:1}
+  38.846%{rotate:-0.528deg;opacity:1}
+  39.231%{rotate:-0.353deg;opacity:1}
+  39.615%{rotate:-0.177deg;opacity:1}
+  40.000%{rotate:-0.000deg;opacity:1}
+  40.385%{rotate:0.174deg;opacity:1}
+  40.769%{rotate:0.343deg;opacity:1}
+  41.154%{rotate:0.505deg;opacity:1}
+  41.538%{rotate:0.657deg;opacity:1}
+  41.923%{rotate:0.798deg;opacity:1}
+  42.308%{rotate:0.925deg;opacity:1}
+  42.692%{rotate:1.037deg;opacity:1}
+  43.077%{rotate:1.132deg;opacity:1}
+  43.462%{rotate:1.210deg;opacity:1}
+  43.846%{rotate:1.270deg;opacity:1}
+  44.231%{rotate:1.310deg;opacity:1}
+  44.615%{rotate:1.331deg;opacity:1}
+  45.000%{rotate:1.332deg;opacity:1}
+  45.385%{rotate:1.314deg;opacity:1}
+  45.769%{rotate:1.278deg;opacity:1}
+  46.154%{rotate:1.223deg;opacity:1}
+  46.538%{rotate:1.151deg;opacity:1}
+  46.923%{rotate:1.064deg;opacity:1}
+  47.308%{rotate:0.962deg;opacity:1}
+  47.692%{rotate:0.847deg;opacity:1}
+  48.077%{rotate:0.722deg;opacity:1}
+  48.462%{rotate:0.587deg;opacity:1}
+  48.846%{rotate:0.446deg;opacity:1}
+  49.231%{rotate:0.299deg;opacity:1}
+  49.615%{rotate:0.150deg;opacity:1}
+  50.000%{rotate:0.000deg;opacity:1}
+  50.385%{rotate:-0.148deg;opacity:1}
+  50.769%{rotate:-0.293deg;opacity:1}
+  51.154%{rotate:-0.432deg;opacity:1}
+  51.538%{rotate:-0.563deg;opacity:1}
+  51.923%{rotate:-0.685deg;opacity:1}
+  52.308%{rotate:-0.796deg;opacity:1}
+  52.692%{rotate:-0.894deg;opacity:1}
+  53.077%{rotate:-0.978deg;opacity:1}
+  53.462%{rotate:-1.048deg;opacity:1}
+  53.846%{rotate:-1.101deg;opacity:1}
+  54.231%{rotate:-1.138deg;opacity:1}
+  54.615%{rotate:-1.159deg;opacity:1}
+  55.000%{rotate:-1.162deg;opacity:1}
+  55.385%{rotate:-1.149deg;opacity:1}
+  55.769%{rotate:-1.119deg;opacity:1}
+  56.154%{rotate:-1.073deg;opacity:1}
+  56.538%{rotate:-1.012deg;opacity:1}
+  56.923%{rotate:-0.937deg;opacity:1}
+  57.308%{rotate:-0.848deg;opacity:1}
+  57.692%{rotate:-0.749deg;opacity:1}
+  58.077%{rotate:-0.639deg;opacity:1}
+  58.462%{rotate:-0.521deg;opacity:1}
+  58.846%{rotate:-0.396deg;opacity:1}
+  59.231%{rotate:-0.266deg;opacity:1}
+  59.615%{rotate:-0.134deg;opacity:1}
+  60.000%{rotate:0.000deg;opacity:1}
+  60.385%{rotate:0.133deg;opacity:1}
+  60.769%{rotate:0.262deg;opacity:1}
+  61.154%{rotate:0.387deg;opacity:1}
+  61.538%{rotate:0.506deg;opacity:1}
+  61.923%{rotate:0.617deg;opacity:1}
+  62.308%{rotate:0.717deg;opacity:1}
+  62.692%{rotate:0.807deg;opacity:1}
+  63.077%{rotate:0.885deg;opacity:1}
+  63.462%{rotate:0.949deg;opacity:1}
+  63.846%{rotate:0.999deg;opacity:1}
+  64.231%{rotate:1.034deg;opacity:1}
+  64.615%{rotate:1.054deg;opacity:1}
+  65.000%{rotate:1.059deg;opacity:1}
+  65.385%{rotate:1.048deg;opacity:1}
+  65.769%{rotate:1.022deg;opacity:1}
+  66.154%{rotate:0.982deg;opacity:1}
+  66.538%{rotate:0.927deg;opacity:1}
+  66.923%{rotate:0.860deg;opacity:1}
+  67.308%{rotate:0.780deg;opacity:1}
+  67.692%{rotate:0.689deg;opacity:1}
+  68.077%{rotate:0.589deg;opacity:1}
+  68.462%{rotate:0.480deg;opacity:1}
+  68.846%{rotate:0.366deg;opacity:1}
+  69.231%{rotate:0.246deg;opacity:1}
+  69.615%{rotate:0.124deg;opacity:1}
+  70.000%{rotate:0.000deg;opacity:1}
+  70.385%{rotate:-0.123deg;opacity:1}
+  70.769%{rotate:-0.244deg;opacity:1}
+  71.154%{rotate:-0.361deg;opacity:1}
+  71.538%{rotate:-0.472deg;opacity:1}
+  71.923%{rotate:-0.575deg;opacity:1}
+  72.308%{rotate:-0.670deg;opacity:1}
+  72.692%{rotate:-0.755deg;opacity:1}
+  73.077%{rotate:-0.828deg;opacity:1}
+  73.462%{rotate:-0.889deg;opacity:1}
+  73.846%{rotate:-0.937deg;opacity:1}
+  74.231%{rotate:-0.971deg;opacity:1}
+  74.615%{rotate:-0.991deg;opacity:1}
+  75.000%{rotate:-0.996deg;opacity:1}
+  75.385%{rotate:-0.987deg;opacity:1}
+  75.769%{rotate:-0.964deg;opacity:1}
+  76.154%{rotate:-0.927deg;opacity:1}
+  76.538%{rotate:-0.876deg;opacity:1}
+  76.923%{rotate:-0.813deg;opacity:1}
+  77.308%{rotate:-0.738deg;opacity:1}
+  77.692%{rotate:-0.653deg;opacity:1}
+  78.077%{rotate:-0.558deg;opacity:1}
+  78.462%{rotate:-0.456deg;opacity:1}
+  78.846%{rotate:-0.347deg;opacity:1}
+  79.231%{rotate:-0.234deg;opacity:1}
+  79.615%{rotate:-0.118deg;opacity:1}
+  80.000%{rotate:-0.000deg;opacity:1}
+  80.385%{rotate:0.117deg;opacity:1}
+  80.769%{rotate:0.233deg;opacity:1}
+  81.154%{rotate:0.344deg;opacity:1}
+  81.538%{rotate:0.451deg;opacity:1}
+  81.923%{rotate:0.550deg;opacity:1}
+  82.308%{rotate:0.641deg;opacity:1}
+  82.692%{rotate:0.723deg;opacity:1}
+  83.077%{rotate:0.794deg;opacity:1}
+  83.462%{rotate:0.853deg;opacity:1}
+  83.846%{rotate:0.899deg;opacity:1}
+  84.231%{rotate:0.933deg;opacity:1}
+  84.615%{rotate:0.953deg;opacity:1}
+  85.000%{rotate:0.958deg;opacity:1}
+  85.385%{rotate:0.950deg;opacity:1}
+  85.769%{rotate:0.928deg;opacity:1}
+  86.154%{rotate:0.893deg;opacity:1}
+  86.538%{rotate:0.845deg;opacity:1}
+  86.923%{rotate:0.784deg;opacity:1}
+  87.308%{rotate:0.713deg;opacity:1}
+  87.692%{rotate:0.631deg;opacity:1}
+  88.077%{rotate:0.540deg;opacity:1}
+  88.462%{rotate:0.441deg;opacity:1}
+  88.846%{rotate:0.336deg;opacity:1}
+  89.231%{rotate:0.227deg;opacity:1}
+  89.615%{rotate:0.114deg;opacity:1}
+  90.000%{rotate:0.000deg;opacity:1}
+  90.385%{rotate:-0.114deg;opacity:1}
+  90.769%{rotate:-0.226deg;opacity:1}
+  91.154%{rotate:-0.334deg;opacity:1}
+  91.538%{rotate:-0.438deg;opacity:1}
+  91.923%{rotate:-0.535deg;opacity:1}
+  92.308%{rotate:-0.624deg;opacity:1}
+  92.692%{rotate:-0.703deg;opacity:1}
+  93.077%{rotate:-0.773deg;opacity:1}
+  93.462%{rotate:-0.831deg;opacity:1}
+  93.846%{rotate:-0.877deg;opacity:1}
+  94.231%{rotate:-0.910deg;opacity:1}
+  94.615%{rotate:-0.929deg;opacity:1}
+  95.000%{rotate:-0.935deg;opacity:1}
+  95.385%{rotate:-0.928deg;opacity:1}
+  95.769%{rotate:-0.907deg;opacity:1}
+  96.154%{rotate:-0.873deg;opacity:1}
+  96.538%{rotate:-0.826deg;opacity:1}
+  96.923%{rotate:-0.767deg;opacity:1}
+  97.308%{rotate:-0.697deg;opacity:1}
+  97.692%{rotate:-0.617deg;opacity:1}
+  98.077%{rotate:-0.529deg;opacity:1}
+  98.462%{rotate:-0.432deg;opacity:1}
+  98.846%{rotate:-0.330deg;opacity:1}
+  99.231%{rotate:-0.222deg;opacity:1}
+  99.615%{rotate:-0.112deg;opacity:1}
+  100.000%{rotate:-0.000deg;opacity:1}
+}
+.play .pivot--twitch{animation:sway 2.60s linear 14.00s infinite both}
+@keyframes sway{
+  0.000%{rotate:0.000deg}
+  3.077%{rotate:0.173deg}
+  6.154%{rotate:0.339deg}
+  9.231%{rotate:0.493deg}
+  12.308%{rotate:0.629deg}
+  15.385%{rotate:0.741deg}
+  18.462%{rotate:0.825deg}
+  21.538%{rotate:0.879deg}
+  24.615%{rotate:0.900deg}
+  27.692%{rotate:0.887deg}
+  30.769%{rotate:0.842deg}
+  33.846%{rotate:0.765deg}
+  36.923%{rotate:0.659deg}
+  40.000%{rotate:0.529deg}
+  43.077%{rotate:0.379deg}
+  46.154%{rotate:0.215deg}
+  49.231%{rotate:0.043deg}
+  52.308%{rotate:-0.130deg}
+  55.385%{rotate:-0.299deg}
+  58.462%{rotate:-0.456deg}
+  61.538%{rotate:-0.597deg}
+  64.615%{rotate:-0.715deg}
+  67.692%{rotate:-0.807deg}
+  70.769%{rotate:-0.868deg}
+  73.846%{rotate:-0.898deg}
+  76.923%{rotate:-0.893deg}
+  80.000%{rotate:-0.856deg}
+  83.077%{rotate:-0.787deg}
+  86.154%{rotate:-0.688deg}
+  89.231%{rotate:-0.564deg}
+  92.308%{rotate:-0.418deg}
+  95.385%{rotate:-0.257deg}
+  98.462%{rotate:-0.087deg}
+}
 </style></head><body>
-<h1>Бирка «большие скидки» — варианты покачивания</h1>
-<p class="lead">Появление сцены во всех вариантах одинаковое и на четверть медленнее прежнего. Отличается только физика бирки после появления: углы посчитаны по формуле маятника, поэтому отпускание переходит в покачивание без стыка. Клик по баннеру — повтор.</p>
-<div class="grid">
-  <figure>
-    <div class="frame"><iframe src="v1.html" title="v1 — Маятник" loading="eager"></iframe></div>
-    <figcaption><b>v1 · Маятник</b><span>Бирку отпускают, и она качается как настоящий маятник: период 2.6 с, размах быстро гаснет с 9° до 0.9° и дальше держится еле заметным. Самое «физичное» поведение.</span><span class="row"><a href="v1.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
-  </figure>
-  <figure>
-    <div class="frame"><iframe src="v2.html" title="v2 — Дыхание" loading="eager"></iframe></div>
-    <figcaption><b>v2 · Дыхание</b><span>Один медленный синус ±2° с периодом 7 с: бирка почти не качается, а «дышит». Самый спокойный вариант, движение заметно только боковым зрением.</span><span class="row"><a href="v2.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
-  </figure>
-  <figure>
-    <div class="frame"><iframe src="v3.html" title="v3 — Два ветра" loading="eager"></iframe></div>
-    <figcaption><b>v3 · Два ветра</b><span>Сумма двух качаний: медленное ±2° с периодом 8.4 с и мелкое поверх него с периодом 2.8 с. Рисунок движения не повторяется на глаз, как у бирки на слабом сквозняке.</span><span class="row"><a href="v3.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
-  </figure>
-  <figure>
-    <div class="frame"><iframe src="v4.html" title="v4 — Порывы" loading="eager"></iframe></div>
-    <figcaption><b>v4 · Порывы</b><span>Бирка стоит почти неподвижно, и раз в 6 с её мягко подхватывает воздух: качание нарастает без толчка и само затухает к следующему разу.</span><span class="row"><a href="v4.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
-  </figure>
-  <figure>
-    <div class="frame"><iframe src="v5.html" title="v5 — Маятник с порывами" loading="eager"></iframe></div>
-    <figcaption><b>v5 · Маятник с порывами</b><span>Постоянное еле заметное качание ±0.8°, и раз в 6 с воздух добавляет более широкий ход. Живее «Дыхания», но без резких движений.</span><span class="row"><a href="v5.html" target="_blank">Открыть</a><button type="button">Повторить</button></span></figcaption>
-  </figure>
+<div class="banner pre">
+  <div class="bg"></div>
+  <img class="logo a" src="assets/logo.svg" alt="Яндекс Лавка">
+  <p class="price cap a">229</p>
+  <p class="rub cap a">₽</p>
+  <p class="old cap a">329</p>
+  <img class="strike a" src="assets/strike.svg" alt="">
+  <p class="name cap a">Котлеты, <span>3 шт</span></p>
+  <p class="age a">0+</p>
+  <p class="legal a">Акция действует с 01.09.25 по 15.09.25.
+ООО «Яндекс.Лавка» (123112, г. Москва,
+пр. 1-й Красногвардейский, д. 22, стр. 1,
+эт. 12, пом. 12-40, ОГРН 1187746479250)</p>
+  <img class="noise" src="assets/bg-noise.svg" alt="">
+  <div class="pill cap a">–30%</div>
+  <img class="star a" src="assets/star.svg" alt="">
+  <div class="product a"><img src="assets/product.png" alt="Котлеты «Петелинка»"></div>
+  <div class="pivot pivot--intro a">
+    <div class="pivot pivot--twitch">
+      <div class="tag">
+        <img class="tag__body" src="assets/tag-body.svg" alt="">
+        <img class="tag__ring" src="assets/tag-ring.svg" alt="">
+        <p class="tag__text">большие<br>скидки</p>
+        <div class="tag__string"><img src="assets/string.svg" alt=""></div>
+        <div class="tag__knot"><img src="assets/knot.svg" alt=""></div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
-document.querySelectorAll('figure button').forEach(b => b.addEventListener('click', () => { b.closest('figure').querySelector('iframe').contentWindow.location.reload(); }));
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
+</script>
+
+<script>
+(() => {
+  const b = document.querySelector('.banner');
+  const start = () => { b.classList.remove('pre'); b.classList.add('play'); };
+  const replay = () => { b.classList.remove('play'); b.classList.add('pre'); void b.offsetWidth; requestAnimationFrame(() => requestAnimationFrame(start)); };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(start, 150));
+  b.addEventListener('click', replay);
+})();
 </script>
 </body></html>
