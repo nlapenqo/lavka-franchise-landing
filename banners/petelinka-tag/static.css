@@ -1,0 +1,53 @@
+
+/* Performance-баннер 960×720 «Классическая бирка» (Figma 1372:20848). Координаты — из макета.
+   Анимация: всё появляется наложенной лесенкой, бирка прилетает качнувшись на узелке
+   и дальше медленно дышит маятником ±2°; звёздочка на цене раз в 3.2 с плавно гаснет и возвращается. Клик по баннеру — повтор. */
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Regular.woff2') format('woff2');font-weight:400}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Medium.woff2') format('woff2');font-weight:500}
+@font-face{font-family:'YS Geo';src:url('fonts/YS Geo-Bold.ttf') format('truetype');font-weight:600}
+@font-face{font-family:'YS Text';src:url('fonts/YS Text-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'YS Text Cond';src:url('fonts/YS Text Cond-Light.woff2') format('woff2');font-weight:300}
+:root{
+  --oexpo:cubic-bezier(.16,1,.3,1);   /* резкий старт, длинное торможение */
+  --back:cubic-bezier(.34,1.45,.64,1);/* лёгкий перелёт */
+  --io:cubic-bezier(.45,0,.55,1);     /* маятник: разгон и торможение */
+  --soft:cubic-bezier(.4,0,.2,1);
+}
+html,body{margin:0;height:100%}
+body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
+.banner{position:relative;width:960px;height:720px;overflow:hidden;font-family:'YS Geo',Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;cursor:pointer;user-select:none;font-feature-settings:"lnum","pnum"}
+.banner *{box-sizing:border-box}
+.banner img{display:block;position:absolute;max-width:none}
+.banner p{margin:0}
+.cap{line-height:1;text-box:trim-both cap alphabetic;white-space:nowrap}
+
+.bg{position:absolute;inset:0;background:linear-gradient(95.8deg,#00ADFF 24.67%,#fff 99.97%)}
+.noise{left:-304.92px;top:-340.57px;width:1595.92px;height:1433.26px}
+.logo{left:47.12px;top:34.18px;width:478.33px;height:69.98px}
+.pill{position:absolute;left:46.47px;top:233.64px;height:83.58px;padding:0 30.96px;border-radius:141px;background:#FF6D2F;display:flex;align-items:center;font-weight:600;font-size:57.33px}
+.star{left:176.33px;top:273.33px;width:154.04px;height:154.04px;transform:rotate(-135deg)}
+.price{position:absolute;left:45.3px;top:341.35px;font-weight:500;font-size:196.86px}
+.rub{position:absolute;left:351.6px;top:411.72px;font-weight:500;font-size:100.35px}
+.old{position:absolute;left:355.13px;top:342.43px;font-weight:500;font-size:60.02px}
+.strike{left:351.6px;top:360.15px;width:107.21px;height:8.29px}
+.name{position:absolute;left:46.47px;top:502.74px;font-weight:400;font-size:34.99px}
+.name span{color:#99DEFF}
+.age{position:absolute;left:47.01px;top:611.35px;font-family:'YS Text',Arial,sans-serif;font-size:50.28px;line-height:1.13;text-box:trim-both cap alphabetic;opacity:.7;font-feature-settings:"case","lnum","pnum"}
+.legal{position:absolute;left:128.8px;top:617.22px;width:370.21px;font-family:'YS Text Cond','Arial Narrow',sans-serif;font-weight:300;font-size:19.96px;line-height:.96;letter-spacing:-.03em;text-transform:uppercase;opacity:.7;text-box:trim-both cap alphabetic;white-space:pre-line;font-feature-settings:"calt" 0}
+
+/* товар: прямоугольник 500.42×662.80, поворот 10.48° (матрица из макета), картинка cover */
+.product{position:absolute;left:0;top:0;width:500.42px;height:662.8px;transform-origin:0 0;transform:matrix(.983318,-.181893,.181893,.983318,508.07,181.986)}
+.product img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* бирка: кадр 230×96, поворот 17.4° (матрица из макета). Ось качания — узелок на упаковке (555.38, 203.33) */
+.pivot{position:absolute;left:0;top:0;width:960px;height:720px;transform-origin:555.38px 203.33px;pointer-events:none}
+.tag{position:absolute;left:0;top:0;width:230px;height:96px;transform-origin:0 0;transform:matrix(.954239,.299046,-.299046,.954239,301.819,115.54)}
+.tag__body{left:29.08px;top:9.58px;width:200.92px;height:76.83px}
+.tag__ring{left:203.29px;top:19.95px;width:17px;height:17px}
+.tag__text{position:absolute;left:51.39px;top:22.21px;font-weight:600;font-size:33px;line-height:.74;white-space:nowrap}
+.tag__string,.tag__knot{position:absolute;transform-origin:0 0;transform:rotate(10deg)}
+.tag__string{left:217px;top:-1.09px;width:52px;height:30px}
+.tag__string img{left:-1.5px;top:-1.5px;width:55px;height:33px}
+.tag__knot{left:264.96px;top:3.3px;width:8px;height:8px}
+.tag__knot img{left:0;top:0;width:8px;height:8px}
+

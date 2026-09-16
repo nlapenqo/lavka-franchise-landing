@@ -47,29 +47,29 @@ body{background:#dfe6ee;display:grid;place-items:center;min-height:100vh}
 .seg--b .seg__t{left:42.01px;top:24.1px;font-size:32px}
 .spark{top:-6.67px;width:87.47px;height:87.47px}
 
-/* ── появление сцены (тайминги как в баннере «Классическая бирка») ── */
-:root{--oexpo:cubic-bezier(.16,1,.3,1);--back:cubic-bezier(.34,1.45,.64,1);--soft:cubic-bezier(.4,0,.2,1)}
+/* ── появление сцены (16.09: тайминги как в «Классической бирке», ещё на четверть медленнее) ── */
+:root{--calm:cubic-bezier(.33,0,.15,1);--sine:cubic-bezier(.37,0,.63,1)}
 .banner{cursor:pointer}
 .pre .a{opacity:0}
-.play .avo    {animation:product .7s var(--oexpo) 0s both}
-.play .logo   {animation:rise-12 .5s var(--oexpo) .10s both}
-.play .pill   {animation:pop .45s var(--back) .18s both}
-.play .price  {animation:rise .6s var(--oexpo) .26s both}
-.play .rub    {animation:rise .55s var(--oexpo) .34s both}
-.play .old    {animation:rise-12 .5s var(--oexpo) .38s both}
-.play .strike {animation:wipe .3s var(--soft) .62s both}
-.play .name   {animation:rise .55s var(--oexpo) .44s both}
-.play .age    {animation:fade .5s ease-out .54s both}
-.play .legal  {animation:fade .5s ease-out .58s both}
-/* лента выезжает вдоль себя слева направо (видимая часть в кадре — от x≈500 локально), трек при этом уже едет */
-.play .strip  {animation:ribbon .8s var(--oexpo) .42s both}
+.play .avo    {animation:product 1.75s var(--calm) 0s both}
+.play .logo   {animation:rise-8 1.38s var(--calm) .38s both}
+.play .pill   {animation:pop 1.38s var(--calm) .56s both}
+.play .price  {animation:rise 1.5s var(--calm) .69s both}
+.play .rub    {animation:rise 1.5s var(--calm) .85s both}
+.play .old    {animation:rise-8 1.38s var(--calm) .95s both}
+.play .strike {animation:wipe .88s var(--sine) 1.69s both}
+.play .name   {animation:rise 1.5s var(--calm) 1.08s both}
+.play .age    {animation:fade 1.38s var(--sine) 1.25s both}
+.play .legal  {animation:fade 1.38s var(--sine) 1.33s both}
+/* лента выезжает вдоль себя слева направо (видимая часть в кадре — от x≈560 локально), трек при этом уже едет */
+.play .strip  {animation:ribbon 1.6s var(--calm) .53s both}
 .age,.legal{--o:.7}
-@keyframes rise{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
-@keyframes rise-12{from{opacity:0;translate:0 -12px}to{opacity:1;translate:0 0}}
-@keyframes pop{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
+@keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes rise-8{from{opacity:0;translate:0 -8px}to{opacity:1;translate:0 0}}
+@keyframes pop{from{opacity:0;scale:.94}to{opacity:1;scale:1}}
 @keyframes fade{from{opacity:0}to{opacity:var(--o,1)}}
 @keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
-@keyframes product{from{opacity:0;translate:70px 24px}to{opacity:1;translate:0 0}}
+@keyframes product{from{opacity:0;translate:36px 12px}to{opacity:1;translate:0 0}}
 @keyframes ribbon{from{opacity:1;clip-path:inset(-24px 1632px -24px 0)}to{opacity:1;clip-path:inset(-24px 0 -24px 0)}}
 </style></head><body>
 <div class="banner pre">
