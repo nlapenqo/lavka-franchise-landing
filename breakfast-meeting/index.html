@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="../blocks/blocks.css">
 <style>
 /* Правки уровня страницы. Блока «Видео» в ките нет — постер с кнопкой, плеер подгружается по клику */
-.video{position:relative;aspect-ratio:1270/639;border-radius:var(--radius-xl);overflow:hidden;background:var(--navy-deep)}
+.video{position:relative;aspect-ratio:1270/639;border-radius:var(--radius-xl);overflow:hidden;background:var(--navy)}
 .video img,.video iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
 .video__play{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:var(--radius-circle);background:var(--white);color:var(--navy);display:grid;place-items:center;box-shadow:var(--shadow-float);transition:transform var(--dur-hover) var(--ease)}
 .video__play:hover{transform:scale(1.06)}
@@ -89,7 +89,12 @@
 </section>
 
 <!-- 20 · Форма — поля настоящей Яндекс Формы (16 вопросов + 2 согласия) в два этапа: контакты и город сразу, остальное раскрывается по «Продолжить» -->
-<section class="section section--dark" id="form">
+<section class="section section--dark section--ambient" id="form" data-ambient>
+  <div class="ambient-field" aria-hidden="true">
+    <div class="ambient-glow ambient-glow--form-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--form-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    <div class="ambient-glow ambient-glow--form-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+  </div>
   <div class="container lead lead--long">
     <div class="lead__copy reveal">
       <h2 class="t-h1">Регистрация на&nbsp;бизнес-завтрак</h2>

@@ -11,6 +11,8 @@
 
 /* сброс */
 *,*::before,*::after{box-sizing:border-box}
+/* цифры только обычные: табличные (tabular-nums, tnum) в YS Geo рисуют узкий ноль — запрещено */
+*,*::before,*::after{font-variant-numeric:normal!important}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg-page);color:var(--text-primary);font:var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-geo);-webkit-font-smoothing:antialiased;overflow-x:clip}
 h1,h2,h3,h4,p,ul,ol,dl,dd,figure{margin:0}
@@ -100,10 +102,10 @@ img,svg{display:block;max-width:100%}
 .icon-plate{width:56px;height:56px;flex:none;display:grid;place-items:center;border-radius:var(--radius-s);background:var(--sky);color:var(--navy)}
 .icon-plate svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .section--dark .icon-plate,.plate--dark .icon-plate{background:var(--white-10);color:var(--white)}
-.media{position:relative;overflow:hidden;border-radius:var(--radius-l);background:var(--navy-deep)}
+.media{position:relative;overflow:hidden;border-radius:var(--radius-l);background:var(--navy)}
 .media img{width:100%;height:100%;object-fit:cover}
 /* заглушка кадра: не серый прямоугольник, а тёмная плашка системы с меткой */
-.placeholder{position:relative;overflow:hidden;border-radius:var(--radius-l);background:linear-gradient(155deg,var(--mid) 0%,var(--navy) 62%,var(--navy-deep) 100%);min-height:200px}
+.placeholder{position:relative;overflow:hidden;border-radius:var(--radius-l);background:linear-gradient(155deg,var(--mid) 0%,var(--navy) 62%);min-height:200px}
 .placeholder::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:var(--space-3);font-size:var(--fs-small);font-weight:var(--fw-medium);color:var(--muted-dark)}
 
 /* поля формы */

@@ -13,6 +13,35 @@
     apply();
   }
 
+  /* эмбиент как на главной: двигаем только видимые секции [data-ambient], свечения тянутся за скоростью прокрутки */
+  const ambientSections = $$('[data-ambient]');
+  if (ambientSections.length) {
+    if (reduced) ambientSections.forEach(sec => sec.classList.add('is-ambient-active'));
+    else {
+      const aio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-ambient-active', e.isIntersecting)), { rootMargin: '20% 0px' });
+      ambientSections.forEach(sec => aio.observe(sec));
+      let lastY = scrollY, lastT = performance.now(), vel = 0;
+      const impulse = [[-80, 90], [72, -110], [96, 72]];
+      const tick = now => {
+        const dt = Math.max(16, now - lastT);
+        const raw = Math.max(-1, Math.min(1, (scrollY - lastY) / dt / 1.15));
+        vel += (raw - vel) * (Math.abs(raw) > Math.abs(vel) ? .22 : .08);
+        lastY = scrollY; lastT = now;
+        const stretch = Math.abs(vel);
+        ambientSections.forEach(sec => {
+          if (!sec.classList.contains('is-ambient-active')) return;
+          $$('.ambient-glow', sec).forEach((g, i) => {
+            const v = impulse[i] || impulse[0];
+            g.style.setProperty('--ambient-ix', `${vel * v[0]}px`); g.style.setProperty('--ambient-iy', `${vel * v[1]}px`);
+            g.style.setProperty('--ambient-sx', String(1 + stretch * .13)); g.style.setProperty('--ambient-sy', String(1 - stretch * .07));
+          });
+        });
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }
+
   /* хиро: слова заголовка появляются по очереди, потом лид и кнопки (как на главной) */
   $$('.hero').forEach(hero => {
     let i = 0;
