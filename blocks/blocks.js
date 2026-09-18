@@ -209,6 +209,43 @@
     });
   });
 
+  /* анкета-лист на телефоне, как на главной: [data-sheet] переезжает в <body> (fixed внутри секции с overflow/трансформом iOS ставит криво),
+     ссылки на #form открывают лист снизу; на ширине от 768 форма возвращается на место в секции */
+  $$('[data-sheet]').forEach(form => {
+    const mq = matchMedia('(max-width:767px)'), home = form.parentElement, anchor = form.nextSibling;
+    const backdrop = document.createElement('div'); backdrop.className = 'sheet-backdrop';
+    let back = null;
+    const open = () => {
+      back = document.activeElement;
+      form.classList.add('is-open'); backdrop.classList.add('is-open'); document.body.classList.add('is-locked');
+      setTimeout(() => $('input', form)?.focus({ preventScroll: true }), 340);
+    };
+    const close = () => {
+      if (!form.classList.contains('is-open')) return;
+      form.classList.remove('is-open'); backdrop.classList.remove('is-open'); document.body.classList.remove('is-locked');
+      back?.focus?.({ preventScroll: true });
+    };
+    const place = () => {
+      if (mq.matches) {
+        if (form.parentElement === document.body) return;
+        form.classList.remove('reveal'); form.classList.add('is-visible', 'sheet-card');
+        document.body.append(backdrop, form);
+      } else if (form.parentElement === document.body) {
+        close(); form.classList.remove('sheet-card'); backdrop.remove();
+        home.insertBefore(form, anchor);
+      }
+    };
+    place(); mq.addEventListener('change', place);
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href="#form"]');
+      if (!link || !mq.matches) return;
+      e.preventDefault(); open();
+    });
+    $('[data-sheet-close]', form)?.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  });
+
   /* форма: демо-отправка; обработчик подключают разработчики */
   $$('[data-form]').forEach(form => form.addEventListener('submit', e => {
     e.preventDefault();

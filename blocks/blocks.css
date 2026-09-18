@@ -227,6 +227,8 @@
 .form-card.is-settled .form-card__more>div{overflow:visible}
 .form-card__status{min-height:16px;font-size:var(--fs-caption);color:var(--ok)}
 .form-card__status:empty{display:none}
+/* анкета-лист на телефоне, как на главной: [data-sheet] уезжает в <body>, ссылки на #form открывают его снизу (blocks.js) */
+.lead__cta,.form-card__close,.sheet-backdrop{display:none}
 
 /* ЭМБИЕНТ КАК НА ГЛАВНОЙ (перенесено из site/styles.css один в один): три дрейфующих свечения из Figma,
    реагируют на скорость прокрутки (blocks.js, [data-ambient]). Секция с .section--ambient отключает простое свечение ::before/::after */
@@ -522,6 +524,15 @@
   .form-card__submit{flex-direction:column;align-items:stretch;text-align:center}
   .form-card__row{grid-template-columns:minmax(0,1fr);gap:20px}
   .form-card__next{flex-direction:column;align-items:stretch;text-align:center}
+  .lead__list{margin-top:var(--space-4)}
+  .lead__cta{display:flex;width:100%;margin-top:var(--space-5)}
+  .lead .form-card[data-sheet]{display:none}
+  body.is-locked{overflow:hidden}
+  .sheet-backdrop{display:block;position:fixed;z-index:89;inset:0;background:rgba(11,28,52,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
+  .sheet-backdrop.is-open{opacity:1;pointer-events:auto}
+  .form-card.sheet-card{position:fixed;z-index:90;inset:auto 0 0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:26px 16px calc(30px + env(safe-area-inset-bottom,0px));border-radius:var(--radius-xl) var(--radius-xl) 0 0;box-shadow:none;opacity:0;pointer-events:none;transform:translateY(100%);transition:transform .34s cubic-bezier(.34,1.4,.5,1),opacity .28s}
+  .form-card.sheet-card.is-open{opacity:1;pointer-events:auto;transform:none}
+  .form-card__close{display:grid;place-items:center;position:sticky;top:0;z-index:2;align-self:flex-end;flex:none;width:34px;height:34px;margin:-6px -4px -34px 0;border-radius:50%;background:var(--light);color:var(--navy);font-size:18px;line-height:1}
   .footer__top{flex-direction:column;align-items:flex-start;gap:var(--space-4)}
   .footer__nav{flex-direction:column;gap:var(--space-2)}
   .footer__legal{grid-template-columns:1fr;gap:var(--space-4)}
