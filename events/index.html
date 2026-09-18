@@ -305,19 +305,116 @@ ul{padding:0;list-style:none}
 
   @media (prefers-reduced-motion:reduce){
     .hero-pin{height:auto}
-    .hero-stage{position:static;height:auto;padding:160px 0 64px}
+    .hero-stage{position:relative;height:auto;padding:160px 0 64px}
     .hero-content{padding-bottom:56px}
     .hero-fade{opacity:1}
     .hero-nums{position:static;padding:40px 0 0}
     .hero-nums__in>div{opacity:1;transform:none;transition:none}
     .hero-photo{position:relative;left:auto;transform:none;margin:0 auto;width:min(1164px,calc(100% - 48px));height:420px}
     .cities-pin{height:auto}
-    .cities-stage{position:static;height:auto;padding:128px 0}
+    .cities-stage{position:relative;height:auto;padding:128px 0}
     .drum-wrap{height:auto;mask-image:none;-webkit-mask-image:none}
     .rv{opacity:1;transform:none;transition:none}
     .ambient-glow{animation:none!important;transform:none!important}
     .about p .aw{opacity:1;transition:none}
     .hero-content .years,.hero-content .hero-lead,.hero-content .button,.hero-title .w,.hero-photo .ph{opacity:1;animation:none}
+  }
+  /* ============ адаптив: планшет 768–1199 и телефон <768 — та же разметка, только медиазапросы ============ */
+  @media (max-width:1199px){
+    .hdr__brand{width:300px;transform:scale(.75)}
+    .hdr.is-solid .hdr__brand{transform:scale(.62)}
+    .hero-title{font-size:clamp(56px,8.6vw,88px)}
+    .hero-nums__in{width:min(720px,calc(100% - 48px))}
+    .hero-nums b{font-size:clamp(72px,10vw,110px)}
+    .section-title{font-size:clamp(48px,7vw,72px)}
+    .about p{font-size:clamp(30px,4.4vw,44px)}
+    .program-grid{grid-template-columns:1fr 1fr}
+    .pcard h3{min-height:0}
+    .cities-grid{gap:40px;grid-template-columns:1fr 1.1fr}
+    .drum li{font-size:32px;height:52px}
+    .cities-left p{font-size:19px}
+    .cities-left .cities-sub{font-size:24px}
+  }
+  @media (max-width:767px){
+    :root{--gut:20px;--line-dark:rgba(170,217,252,.16);--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
+    html{scroll-padding-top:calc(76px + var(--safe-t))}
+    body{overflow-x:hidden}
+    .container,.photos .container--wide{width:calc(100% - 2*var(--gut))}
+    .page-section{padding:64px 0}
+    .section-title{font-size:38px;line-height:.94}
+    .section-heading-row{margin-bottom:24px}
+    .button{min-height:44px;padding:0 18px;font-size:15px}
+    .ambient-field{transform:scale(.64);transform-origin:50% 0;width:156.25%;height:156.25%;left:-28.125%}
+
+    /* шапка: только знак, компактная кнопка */
+    .hdr{inset:calc(12px + var(--safe-t)) 12px auto;height:60px;padding:0 8px 0 12px}
+    .hdr__brand,.hdr.is-solid .hdr__brand{width:40px;height:40px;margin-left:0;transform:none}
+    .hdr__brand .b-main,.hdr__brand .b-badge{display:none}
+    .hdr__brand .b-mark{left:0;top:0;width:40px;height:40px}
+    .hdr .button--outline{min-height:40px;padding:0 16px;font-size:14px;border-color:var(--blue);background:var(--blue);color:#fff;box-shadow:0 8px 24px rgba(0,173,255,.28)}
+
+    /* хиро: без пина — текст, карточка фото 4:5, цифры под ней */
+    .hero-pin{height:auto}
+    .hero-stage{position:relative;height:auto;display:block;padding:calc(104px + var(--safe-t)) 0 40px}   /* relative, не static: иначе абсолютные свечения уходят к viewport и раздвигают страницу */
+    .hero-content{margin:0;padding:0 var(--gut);gap:18px;transform:none!important;opacity:1!important}
+    .years{gap:6px}
+    .year{padding:9px 16px;font-size:14px}
+    .year--soon small{font-size:11px;margin-left:6px}
+    .hero-title{width:auto;max-width:none;font-size:clamp(40px,11.5vw,46px);line-height:.92}
+    .hero-lead{font-size:16px}
+    .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:4/5;margin:32px auto 0;border-radius:20px!important;will-change:auto}
+    .hero-photo img{transform:none!important;object-position:center 42%}
+    .hero-fade{display:none}
+    .hero-nums{position:static;padding:36px 0 0;opacity:1!important;transform:none!important}
+    .hero-nums__in{width:calc(100% - 2*var(--gut));gap:8px}
+    .hero-nums__in>div{opacity:1;transform:none;transition:none}
+    .hero-nums b{font-size:clamp(44px,13vw,56px);line-height:.9}
+    .hero-nums span{margin-top:6px;font-size:12px;line-height:1.25}
+
+    /* о съезде */
+    .about{padding:64px 0 56px}
+    .about .label{margin-bottom:18px;font-size:12px}
+    .about p{font-size:24px;line-height:1.2}
+
+    /* программа: одна колонка, компактные карточки */
+    .program-grid{grid-template-columns:1fr;gap:12px}
+    .pcard{padding:20px 20px 22px;border-radius:20px}
+    .pcard .photo{margin-bottom:16px}
+    .pcard .ava{width:64px;height:64px}
+    .pcard .photo--duo .ava+.ava{margin-left:8px}
+    .pcard h3{font-size:20px;min-height:0}
+    .pcard .who{padding-top:12px}
+    .pcard .who b{font-size:15px}
+    .pcard .who small{font-size:12px}
+
+    /* города: без пина, список в две колонки */
+    .cities-pin{height:auto}
+    .cities-stage{position:relative;height:auto;display:block;padding:64px 0}
+    .cities-stage::after{display:none}
+    .cities-grid{display:block}
+    .cities-left .cities-sub{margin-top:16px;font-size:20px;max-width:none}
+    .cities-left p{margin-top:12px;font-size:16px;max-width:none}
+    .drum-wrap{height:auto;margin-top:28px;overflow:visible;-webkit-mask-image:none;mask-image:none}
+    .drum{transform:none!important;display:grid;grid-template-columns:1fr 1fr;column-gap:12px;row-gap:0}
+    .drum li{height:auto;padding:9px 0;gap:6px;font-size:17px;font-weight:500;color:rgba(255,255,255,.88);border-bottom:1px solid var(--line-dark)}
+    .drum li small{font-size:11px;opacity:.7}
+    .drum li.is-active{color:rgba(255,255,255,.88)}
+
+    /* фотоотчёт */
+    .gallery{gap:8px}
+    .gcell{border-radius:14px}
+    .gcell:hover img{transform:none}
+
+    /* подвал — как на главной */
+    .footer{padding:44px 0 calc(30px + var(--safe-b));border-top:0}
+    .footer__top{display:block;padding-bottom:0}
+    .footer-logo{margin-bottom:18px;transform:none;width:330px;max-width:100%}
+    .footer nav{flex-direction:column;align-items:stretch;gap:0;margin-bottom:26px;border-top:1px solid var(--line-dark);font-size:16px;color:var(--card)}
+    .footer nav a{display:flex;align-items:center;min-height:52px;border-bottom:1px solid var(--line-dark)}
+    .telegram-button{justify-content:center;height:52px;margin-bottom:30px;padding:0 26px;font-size:16px;font-weight:500;box-shadow:0 10px 30px rgba(0,173,255,.35)}
+    .footer__legal{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--line-dark);font-size:12px;line-height:1.5}
+    .footer__legal>div,.footer__legal>div:last-child{gap:12px}
+    .footer__legal a{display:inline-block;padding-block:8px;margin-block:-8px;text-decoration:underline;text-underline-offset:3px}
   }
 </style>
 </head>
@@ -581,7 +678,10 @@ ul{padding:0;list-style:none}
   const onHdr = () => hdr.classList.toggle('is-solid', scrollY > 40);
   addEventListener('scroll', onHdr, { passive: true }); onHdr();
 
-  if (reduced) return;
+  /* на телефоне (адаптив <768) хиро и города статичные — скролл-сцены не нужны; при смене брейкпоинта проще перезагрузить */
+  const mobileMq = matchMedia('(max-width: 767px)');
+  mobileMq.addEventListener('change', () => location.reload());
+  if (reduced || mobileMq.matches) return;
 
   const clamp01 = x => Math.max(0, Math.min(1, x));
 
