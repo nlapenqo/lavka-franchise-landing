@@ -237,6 +237,13 @@
 .ambient-glow--bal-main{left:calc(50% + 280px);top:-600px;--drift-duration:11s;opacity:.85}
 .ambient-glow--bal-low{left:calc(50% + 330px);top:560px;--drift-duration:9s;animation-delay:-2.6s;opacity:.7}
 .ambient-glow--bal-soft{left:calc(50% - 520px);top:-500px;--drift-duration:13s;animation-name:ambient-drift-c;animation-delay:-5.4s;opacity:.4}
+/* слева снизу — для секций без кнопки слева (форма) */
+.ambient-glow--bal-left{left:calc(50% - 1240px);top:380px;--drift-duration:11s;animation-delay:-4s;opacity:.8}
+/* насыщеннее — для хиро: те же пятна ярче */
+.ambient--vivid .ambient-glow--bal-main{opacity:1}
+.ambient--vivid .ambient-glow--bal-low{opacity:.9}
+.ambient--vivid .ambient-glow--bal-soft{opacity:.6}
+.ambient--vivid .ambient-glow__core::before{filter:saturate(1.25)}
 /* Figma ambient background: #1B3A6A fill + exported blurred ellipses. */
 .ambient-field{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;user-select:none}
 .ambient-glow{position:absolute;display:flex;align-items:center;justify-content:center;animation-duration:var(--drift-duration,11s);animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;animation-play-state:paused;will-change:transform}
