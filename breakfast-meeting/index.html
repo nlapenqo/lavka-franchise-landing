@@ -27,7 +27,10 @@
 <header class="header" data-header>
   <a class="brand" href="#top" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-main.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-word-2.svg" alt=""></a>
   <nav class="header__nav" aria-label="Навигация"><a href="#agenda">Что&nbsp;обсудим</a><a href="#place">Место проведения</a><a class="button button--outline" href="#form">Принять участие</a></nav>
+  <a class="button button--primary header__cta" href="#form">Принять участие</a>
+  <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" data-menu-toggle><span></span><span></span></button>
 </header>
+<div class="mobile-menu" data-menu aria-hidden="true"><a href="#agenda">Что&nbsp;обсудим</a><a href="#place">Место проведения</a><a class="button button--primary" href="#form">Принять участие</a></div>
 
 <!-- 01b · Хиро-сплит: всё по левому краю, справа слот под кадр -->
 <section class="hero hero--split section--dark section--ambient ambient--vivid" id="top" data-ambient>
@@ -49,10 +52,10 @@
 <!-- 14 · Шаги: глагол — заголовком, остальное — текстом; последний с кнопкой -->
 <section class="section section--light" id="agenda">
   <div class="container">
-    <h2 class="t-h1 reveal" style="margin-bottom:56px">О&nbsp;чём поговорим на&nbsp;бизнес-завтраке</h2>
+    <h2 class="t-h1 reveal" style="margin-bottom:56px">О&nbsp;чём поговорим на&nbsp;<span class="nowrap">бизнес-завтраке</span></h2>
     <div class="steps" style="--n:4">
       <div class="step reveal"><span class="step__number">01</span><h3 class="t-h4">Расскажем</h3><p>Как&nbsp;устроен бизнес по&nbsp;ультрабыстрой доставке продуктов</p></div>
-      <div class="step reveal"><span class="step__number">02</span><h3 class="t-h4">Продемонстрируем</h3><p>Преимущества и&nbsp;уникальность Яндекс Лавки</p></div>
+      <div class="step reveal"><span class="step__number">02</span><h3 class="t-h4">Продемонстрируем</h3><p>Преимущества и&nbsp;уникальность Яндекс&nbsp;Лавки</p></div>
       <div class="step reveal"><span class="step__number">03</span><h3 class="t-h4">Объясним</h3><p>Экономику проекта, перспективы и&nbsp;условия для&nbsp;партнёров</p></div>
       <div class="step step--cta reveal"><span class="step__number">04</span><h3 class="t-h4">Поможем</h3><p>Разработать стратегию развития</p><a class="button button--white button--small" href="#form">Принять участие</a></div>
     </div>
@@ -64,7 +67,7 @@
   <div class="container">
     <h2 class="t-h1 reveal" style="margin-bottom:56px">Станьте ключевым партнёром уже&nbsp;в&nbsp;2026&nbsp;году</h2>
     <div class="video reveal" data-video="https://frontend.vh.yandex.ru/player/vplvvadrphxla6emloz2?autoplay=1">
-      <img src="./assets/video-poster.webp" alt="" width="1600" height="821" loading="lazy">
+      <img src="./assets/video-poster.webp" alt="" width="1540" height="821" loading="lazy">
       <button class="video__play" type="button" aria-label="Смотреть видео"><svg viewBox="0 0 24 24"><path d="M6 3.5v17L21 12z"/></svg></button>
     </div>
   </div>
@@ -88,7 +91,7 @@
   <div class="container container--wide">
     <div class="map map--wide reveal">
       <div class="map__card"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><a class="text-link map__link" href="https://yandex.ru/maps/?text=%D0%A3%D1%84%D0%B0" target="_blank" rel="noopener">Как&nbsp;добраться&nbsp;→</a></div>
-      <div class="map__canvas" data-ymap="55.7494,37.5377" data-zoom="15" data-apikey=""></div>
+      <div class="map__canvas" data-ymap="54.7351,55.9587" data-zoom="12" data-apikey=""></div>
     </div>
   </div>
 </section>
@@ -103,15 +106,15 @@
   </div>
   <div class="container lead lead--long">
     <div class="lead__copy reveal">
-      <h2 class="t-h1">Регистрация на&nbsp;бизнес-завтрак</h2>
-      <p class="t-lead">Заполните форму, чтобы участвовать в&nbsp;офлайн-встрече</p>
+      <h2 class="t-h1">Регистрация на&nbsp;<span class="nowrap">бизнес-завтрак</span></h2>
+      <p class="t-lead">Заполните форму, чтобы участвовать в&nbsp;<span class="nowrap">офлайн-встрече</span></p>
       <ul class="lead__list"><li><strong>Запуск сервиса с&nbsp;нуля или&nbsp;передача в&nbsp;управление готового бизнеса</strong><span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— в&nbsp;зависимости от&nbsp;количества дарксторов</span></li><li><strong>Поддержка до&nbsp;и&nbsp;после запуска</strong><span>Технологии, снабжение, маркетинг, обучение</span></li><li><strong>Работающая бизнес-модель</strong><span>Сервис уже&nbsp;работает в&nbsp;28&nbsp;городах, больше чем в&nbsp;половине&nbsp;— по&nbsp;франшизе</span></li></ul>
       <a class="button button--primary lead__cta" href="#form">Принять участие</a>
     </div>
     <form class="form-card form-card--quiet reveal" data-form data-sheet novalidate>
       <button class="form-card__close" type="button" data-sheet-close aria-label="Закрыть">✕</button>
       <h3 class="t-h3">Расскажите о&nbsp;себе</h3>
-      <div class="form-card__row"><label class="field"><span>ФИО</span><input name="name" autocomplete="name" required></label><label class="field"><span>Номер телефона</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label></div>
+      <div class="form-card__row"><label class="field"><span>ФИО</span><input name="name" autocomplete="name" required></label><label class="field"><span>Номер телефона</span><input name="phone" type="tel" pattern="\+?[0-9 \(\)\-]{10,20}" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label></div>
       <div class="form-card__row"><label class="field"><span>Ник в&nbsp;Telegram</span><input name="telegram" placeholder="@" required></label><label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" required></label></div>
       <label class="field"><span>Какими мессенджерами предпочитаете пользоваться для&nbsp;общения</span><input name="messengers"></label>
       <div class="field"><span>Город, в&nbsp;котором вы планируете запустить сервис</span><span class="field__hint">Выберите один или&nbsp;несколько</span><div class="dropdown" data-dropdown><select name="city" multiple required data-placeholder="Не выбрано"><option>Уфа</option><option>Челябинск</option><option>Стерлитамак</option><option>Магнитогорск</option></select></div></div>
@@ -127,10 +130,10 @@
         <label class="field"><span>Какой у&nbsp;вас бюджет на&nbsp;запуск и&nbsp;ведение бизнеса?</span><input name="budget" required></label>
         <div class="field"><span>Планируете ли&nbsp;вы привлекать дополнительное финансирование?</span><div class="dropdown" data-dropdown><select name="financing" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Планирую привлечь инвестора</option><option>Планирую привлечь кредитные средства</option><option>Не&nbsp;планирую привлекать дополнительные инвестиции</option></select></div></div>
         <label class="field"><span>Какую сумму дополнительных средств в&nbsp;случае расширения бизнеса вы готовы вложить?</span><input name="extra" required></label>
-        <div class="field"><span>Оцените свою готовность развивать и&nbsp;управлять сетью дарксторов Яндекс Лавки</span><span class="field__hint">Инвестиции в&nbsp;один даркстор&nbsp;— около 20&nbsp;млн&nbsp;₽</span><div class="dropdown" data-dropdown><select name="readiness" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Готов развивать сеть от&nbsp;8&nbsp;дарксторов с&nbsp;персоналом более 200&nbsp;человек</option><option>Готов развивать сеть от&nbsp;15&nbsp;дарксторов с&nbsp;персоналом более 350&nbsp;человек</option><option>Готов развивать сеть от&nbsp;20&nbsp;дарксторов с&nbsp;персоналом более 500&nbsp;человек</option><option>Рассматриваю другой вариант развития</option></select></div></div>
+        <div class="field"><span>Оцените свою готовность развивать и&nbsp;управлять сетью дарксторов Яндекс&nbsp;Лавки</span><span class="field__hint">Инвестиции в&nbsp;один даркстор&nbsp;— около 20&nbsp;млн&nbsp;₽</span><div class="dropdown" data-dropdown><select name="readiness" required><option value="" selected disabled>Не&nbsp;выбрано</option><option>Готов развивать сеть от&nbsp;8&nbsp;дарксторов с&nbsp;персоналом более 200&nbsp;человек</option><option>Готов развивать сеть от&nbsp;15&nbsp;дарксторов с&nbsp;персоналом более 350&nbsp;человек</option><option>Готов развивать сеть от&nbsp;20&nbsp;дарксторов с&nbsp;персоналом более 500&nbsp;человек</option><option>Рассматриваю другой вариант развития</option></select></div></div>
         <label class="field"><span>Расскажите о&nbsp;вашей цели посещения бизнес-завтрака</span><textarea name="goal" rows="3" required></textarea></label>
-        <label class="consent"><input type="checkbox" name="marketing"><span>Даю согласие на&nbsp;получение индивидуальных предложений от&nbsp;ООО «Яндекс Лавка» через смс-сообщения, сообщения в&nbsp;Telegram на&nbsp;указанный номер телефона и&nbsp;писем на&nbsp;указанный e-mail на&nbsp;условиях и&nbsp;в&nbsp;целях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
-        <label class="consent"><input type="checkbox" required><span>С&nbsp;целью проведения переговоров о&nbsp;возможном деловом сотрудничестве даю согласие на&nbsp;обработку персональных данных ООО «Яндекс Лавка» на&nbsp;условиях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
+        <label class="consent"><input type="checkbox" name="marketing"><span>Даю согласие на&nbsp;получение индивидуальных предложений от&nbsp;ООО «Яндекс&nbsp;Лавка» через смс-сообщения, сообщения в&nbsp;Telegram на&nbsp;указанный номер телефона и&nbsp;писем на&nbsp;указанный e-mail на&nbsp;условиях и&nbsp;в&nbsp;целях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
+        <label class="consent"><input type="checkbox" required><span>С&nbsp;целью проведения переговоров о&nbsp;возможном деловом сотрудничестве даю согласие на&nbsp;обработку персональных данных ООО «Яндекс&nbsp;Лавка» на&nbsp;условиях, определённых <a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noopener">Политикой конфиденциальности</a></span></label>
         <div class="form-card__submit"><button class="button button--primary" type="submit">Принять участие</button><span>Свяжемся в&nbsp;течение<br>2&nbsp;рабочих дней</span></div>
         <p class="form-card__status" data-status aria-live="polite"></p>
       </div></div>
@@ -141,7 +144,7 @@
 <footer class="footer section--dark">
   <div class="container">
     <div class="footer__top"><a class="brand" href="#top" aria-label="Яндекс Лавка"><img class="brand__main" src="../site/assets/figma/logo-footer.svg" alt=""><img class="brand__mark" src="../site/assets/figma/logo-footer-word-1.svg" alt=""><img class="brand__badge" src="../site/assets/figma/logo-footer-word-2.svg" alt=""></a><nav class="footer__nav"><a href="#agenda">Что&nbsp;обсудим</a><a href="#place">Место проведения</a></nav><a class="button button--primary button--small" href="#form">Принять участие</a></div>
-    <div class="footer__legal t-legal"><div><p>* Условия индивидуальны и&nbsp;зависят от&nbsp;направления. Чтобы узнать детали, отправьте заявку.</p><p>Яндекс Лавка&nbsp;— раздел информационного сервиса Яндекс Еда, подробнее: <a href="https://clck.ru/QgJpy" target="_blank" rel="noopener">clck.ru/QgJpy</a>. Условия и&nbsp;результаты индивидуальны и&nbsp;могут отличаться от&nbsp;указанных. Чтобы узнать подробности, отправьте заявку через форму.</p></div><div><span>© 2026&nbsp;ООО «Яндекс.Лавка»</span></div></div>
+    <div class="footer__legal t-legal"><div><p>* Условия индивидуальны и&nbsp;зависят от&nbsp;направления. Чтобы узнать детали, отправьте заявку.</p><p>Яндекс&nbsp;Лавка&nbsp;— раздел информационного сервиса Яндекс Еда, подробнее: <a href="https://clck.ru/QgJpy" target="_blank" rel="noopener">clck.ru/QgJpy</a>. Условия и&nbsp;результаты индивидуальны и&nbsp;могут отличаться от&nbsp;указанных. Чтобы узнать подробности, отправьте заявку через форму.</p></div><div><span>© 2026&nbsp;ООО «Яндекс.Лавка»</span></div></div>
   </div>
 </footer>
 

@@ -13,6 +13,16 @@
     apply();
   }
 
+  /* бургер: [data-menu-toggle] открывает [data-menu] на весь экран, ссылка, Esc или ширина от 1024 закрывают */
+  const menu = $('[data-menu]'), toggle = $('[data-menu-toggle]');
+  if (menu && toggle) {
+    const set = on => { document.body.classList.toggle('menu-open', on); menu.classList.toggle('is-open', on); menu.setAttribute('aria-hidden', String(!on)); toggle.setAttribute('aria-expanded', String(on)); toggle.setAttribute('aria-label', on ? 'Закрыть меню' : 'Открыть меню'); };
+    toggle.addEventListener('click', () => set(!menu.classList.contains('is-open')));
+    $$('a', menu).forEach(a => a.addEventListener('click', () => set(false)));
+    addEventListener('keydown', e => { if (e.key === 'Escape') set(false); });
+    matchMedia('(min-width:1024px)').addEventListener('change', e => { if (e.matches) set(false); });
+  }
+
   /* эмбиент как на главной: двигаем только видимые секции [data-ambient], свечения тянутся за скоростью прокрутки */
   const ambientSections = $$('[data-ambient]');
   if (ambientSections.length) {
@@ -251,7 +261,8 @@
     e.preventDefault();
     const bad = firstInvalid(form); if (bad) { flag(bad); return; }
     const status = $('[data-status]', form);
-    if (status) status.textContent = 'Спасибо! Свяжемся в течение двух рабочих дней';
     form.reset();
+    $$('select', form).forEach(sel => sel.dispatchEvent(new Event('change', { bubbles: true }))); /* reset не шлёт change — дропдауны перерисовываются вручную */
+    if (status) { status.textContent = 'Спасибо! Свяжемся в течение двух рабочих дней'; status.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' }); }
   }));
 })();

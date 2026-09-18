@@ -21,6 +21,7 @@ a{color:inherit;text-decoration:none}
 button,input,textarea{font:inherit;color:inherit}
 button{border:0;background:none;cursor:pointer;padding:0}
 img,svg{display:block;max-width:100%}
+.nowrap{white-space:nowrap}
 [hidden]{display:none!important}
 :focus-visible{outline:3px solid var(--blue-35);outline-offset:3px}
 
