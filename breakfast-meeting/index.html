@@ -438,6 +438,8 @@ img,svg{display:block;max-width:100%}
 .form-card.is-settled .form-card__more>div{overflow:visible}
 .form-card__status{min-height:16px;font-size:var(--fs-caption);color:var(--ok)}
 .form-card__status:empty{display:none}
+/* анкета-лист на телефоне, как на главной: [data-sheet] уезжает в <body>, ссылки на #form открывают его снизу (blocks.js) */
+.lead__cta,.form-card__close,.sheet-backdrop{display:none}
 
 /* ЭМБИЕНТ КАК НА ГЛАВНОЙ (перенесено из site/styles.css один в один): три дрейфующих свечения из Figma,
    реагируют на скорость прокрутки (blocks.js, [data-ambient]). Секция с .section--ambient отключает простое свечение ::before/::after */
@@ -733,6 +735,15 @@ img,svg{display:block;max-width:100%}
   .form-card__submit{flex-direction:column;align-items:stretch;text-align:center}
   .form-card__row{grid-template-columns:minmax(0,1fr);gap:20px}
   .form-card__next{flex-direction:column;align-items:stretch;text-align:center}
+  .lead__list{margin-top:var(--space-4)}
+  .lead__cta{display:flex;width:100%;margin-top:var(--space-5)}
+  .lead .form-card[data-sheet]{display:none}
+  body.is-locked{overflow:hidden}
+  .sheet-backdrop{display:block;position:fixed;z-index:89;inset:0;background:rgba(11,28,52,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .28s}
+  .sheet-backdrop.is-open{opacity:1;pointer-events:auto}
+  .form-card.sheet-card{position:fixed;z-index:90;inset:auto 0 0;max-height:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:26px 16px calc(30px + env(safe-area-inset-bottom,0px));border-radius:var(--radius-xl) var(--radius-xl) 0 0;box-shadow:none;opacity:0;pointer-events:none;transform:translateY(100%);transition:transform .34s cubic-bezier(.34,1.4,.5,1),opacity .28s}
+  .form-card.sheet-card.is-open{opacity:1;pointer-events:auto;transform:none}
+  .form-card__close{display:grid;place-items:center;position:sticky;top:0;z-index:2;align-self:flex-end;flex:none;width:34px;height:34px;margin:-6px -4px -34px 0;border-radius:50%;background:var(--light);color:var(--navy);font-size:18px;line-height:1}
   .footer__top{flex-direction:column;align-items:flex-start;gap:var(--space-4)}
   .footer__nav{flex-direction:column;gap:var(--space-2)}
   .footer__legal{grid-template-columns:1fr;gap:var(--space-4)}
@@ -835,8 +846,10 @@ img,svg{display:block;max-width:100%}
       <h2 class="t-h1">Регистрация на&nbsp;бизнес-завтрак</h2>
       <p class="t-lead">Заполните форму, чтобы участвовать в&nbsp;офлайн-встрече</p>
       <ul class="lead__list"><li><strong>Запуск сервиса с&nbsp;нуля или&nbsp;передача в&nbsp;управление готового бизнеса</strong><span>Инвестиции от&nbsp;25&nbsp;млн&nbsp;₽&nbsp;— в&nbsp;зависимости от&nbsp;количества дарксторов</span></li><li><strong>Поддержка до&nbsp;и&nbsp;после запуска</strong><span>Технологии, снабжение, маркетинг, обучение</span></li><li><strong>Работающая бизнес-модель</strong><span>Сервис уже&nbsp;работает в&nbsp;28&nbsp;городах, больше чем в&nbsp;половине&nbsp;— по&nbsp;франшизе</span></li></ul>
+      <a class="button button--primary lead__cta" href="#form">Принять участие</a>
     </div>
-    <form class="form-card form-card--quiet reveal" data-form novalidate>
+    <form class="form-card form-card--quiet reveal" data-form data-sheet novalidate>
+      <button class="form-card__close" type="button" data-sheet-close aria-label="Закрыть">✕</button>
       <h3 class="t-h3">Расскажите о&nbsp;себе</h3>
       <div class="form-card__row"><label class="field"><span>ФИО</span><input name="name" autocomplete="name" required></label><label class="field"><span>Номер телефона</span><input name="phone" type="tel" autocomplete="tel" placeholder="+7 (900) 000-00-00" required></label></div>
       <div class="form-card__row"><label class="field"><span>Ник в&nbsp;Telegram</span><input name="telegram" placeholder="@" required></label><label class="field"><span>Электронная почта</span><input name="email" type="email" autocomplete="email" required></label></div>
@@ -1082,6 +1095,43 @@ img,svg{display:block;max-width:100%}
       more.inert = false; next.hidden = true; form.classList.add('is-expanded');
       setTimeout(() => { form.classList.add('is-settled'); $('input, textarea, button', more)?.focus({ preventScroll: true }); }, reduced ? 0 : 560);
     });
+  });
+
+  /* анкета-лист на телефоне, как на главной: [data-sheet] переезжает в <body> (fixed внутри секции с overflow/трансформом iOS ставит криво),
+     ссылки на #form открывают лист снизу; на ширине от 768 форма возвращается на место в секции */
+  $$('[data-sheet]').forEach(form => {
+    const mq = matchMedia('(max-width:767px)'), home = form.parentElement, anchor = form.nextSibling;
+    const backdrop = document.createElement('div'); backdrop.className = 'sheet-backdrop';
+    let back = null;
+    const open = () => {
+      back = document.activeElement;
+      form.classList.add('is-open'); backdrop.classList.add('is-open'); document.body.classList.add('is-locked');
+      setTimeout(() => $('input', form)?.focus({ preventScroll: true }), 340);
+    };
+    const close = () => {
+      if (!form.classList.contains('is-open')) return;
+      form.classList.remove('is-open'); backdrop.classList.remove('is-open'); document.body.classList.remove('is-locked');
+      back?.focus?.({ preventScroll: true });
+    };
+    const place = () => {
+      if (mq.matches) {
+        if (form.parentElement === document.body) return;
+        form.classList.remove('reveal'); form.classList.add('is-visible', 'sheet-card');
+        document.body.append(backdrop, form);
+      } else if (form.parentElement === document.body) {
+        close(); form.classList.remove('sheet-card'); backdrop.remove();
+        home.insertBefore(form, anchor);
+      }
+    };
+    place(); mq.addEventListener('change', place);
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href="#form"]');
+      if (!link || !mq.matches) return;
+      e.preventDefault(); open();
+    });
+    $('[data-sheet-close]', form)?.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   });
 
   /* форма: демо-отправка; обработчик подключают разработчики */
