@@ -615,6 +615,7 @@ img,svg{display:block;max-width:100%}
 .map__card h3{font-size:var(--fs-h4);font-weight:var(--fw-heavy);line-height:var(--lh-heading)}
 .map__card p{font-size:var(--fs-body-s);line-height:var(--lh-body-loose);color:var(--text-secondary)}
 .map__card .button{align-self:flex-start;margin-top:8px}
+.map__link{align-self:flex-start;margin-top:8px;color:var(--navy)}
 .map__canvas [class*="-gototech"],.map__canvas [class*="-gotoymaps"]{display:none}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:20px var(--space-5);width:100%}
 .facts dt{font-size:var(--fs-caption);font-weight:var(--fw-medium);letter-spacing:var(--ls-caps);text-transform:uppercase;color:var(--text-secondary)}
@@ -700,6 +701,7 @@ img,svg{display:block;max-width:100%}
   .map__card{position:static;width:auto;margin:0;padding:0;border-radius:0;box-shadow:none;background:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px var(--space-3)}
   .map__card .t-caption{grid-column:1 / -1;margin-bottom:var(--space-3);font-size:var(--fs-h1);font-weight:var(--fw-black);line-height:var(--lh-h1);letter-spacing:var(--ls-display);text-transform:none;color:var(--navy)}
   .map__card h3{font-size:var(--fs-h3)}
+  .map__link{grid-column:2;grid-row:2;margin:0;white-space:nowrap}
   .map__card .button{grid-column:2;grid-row:2;margin:0;align-self:center;min-height:44px;padding:0 20px;font-size:var(--fs-body-s)}
   .map__card p{grid-column:1 / -1}
   .offer--compact{padding:var(--space-4)}
@@ -814,7 +816,7 @@ img,svg{display:block;max-width:100%}
 <section class="section" id="place">
   <div class="container container--wide">
     <div class="map map--wide reveal">
-      <div class="map__card"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><button class="button button--secondary" type="button" disabled title="Появится, когда определится площадка">Как&nbsp;добраться</button></div>
+      <div class="map__card"><span class="t-caption">Где и&nbsp;когда встречаемся</span><h3>Уфа, 28&nbsp;октября</h3><p>Место проведения&nbsp;— скоро</p><a class="text-link map__link" href="https://yandex.ru/maps/?text=%D0%A3%D1%84%D0%B0" target="_blank" rel="noopener">Как&nbsp;добраться&nbsp;→</a></div>
       <div class="map__canvas" data-ymap="55.7494,37.5377" data-zoom="15" data-apikey=""></div>
     </div>
   </div>
