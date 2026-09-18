@@ -231,7 +231,12 @@
 /* ЭМБИЕНТ КАК НА ГЛАВНОЙ (перенесено из site/styles.css один в один): три дрейфующих свечения из Figma,
    реагируют на скорость прокрутки (blocks.js, [data-ambient]). Секция с .section--ambient отключает простое свечение ::before/::after */
 .section--ambient::before,.section--ambient::after{display:none}
-.section--ambient>.container{position:relative;z-index:1}
+.section--ambient>*:not(.ambient-field){position:relative;z-index:1}
+/* пресет «ровный» (18.09): среднее между хиро и формой главной. Левая половина тёмная — там кнопка;
+   главное пятно справа сверху, второе справа снизу, слабое сверху по центру для глубины */
+.ambient-glow--bal-main{left:calc(50% + 280px);top:-600px;--drift-duration:11s;opacity:.85}
+.ambient-glow--bal-low{left:calc(50% + 330px);top:560px;--drift-duration:9s;animation-delay:-2.6s;opacity:.7}
+.ambient-glow--bal-soft{left:calc(50% - 520px);top:-500px;--drift-duration:13s;animation-name:ambient-drift-c;animation-delay:-5.4s;opacity:.4}
 /* Figma ambient background: #1B3A6A fill + exported blurred ellipses. */
 .ambient-field{position:absolute;z-index:0;inset:0;overflow:hidden;pointer-events:none;user-select:none}
 .ambient-glow{position:absolute;display:flex;align-items:center;justify-content:center;animation-duration:var(--drift-duration,11s);animation-timing-function:cubic-bezier(.45,.05,.55,.95);animation-iteration-count:infinite;animation-direction:alternate;animation-play-state:paused;will-change:transform}
