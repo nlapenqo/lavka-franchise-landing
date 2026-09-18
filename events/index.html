@@ -217,7 +217,9 @@ ul{padding:0;list-style:none}
   .cities-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
   .cities-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
   .cities-left p{margin-top:24px;font-size:22px;font-weight:500;line-height:1.3;color:var(--dim-dark);max-width:440px}
-  .cities-left .cities-sub{margin-top:28px;font-size:30px;font-weight:800;line-height:1.15;color:var(--blue);max-width:440px}
+  .cities-left .counts{margin-top:48px;display:flex;gap:56px}
+  .cities-left .counts b{display:block;font-size:44px;line-height:.8;color:var(--blue);font-weight:900}
+  .cities-left .counts span{display:block;margin-top:10px;font-size:14px;color:var(--dim-dark);max-width:140px;line-height:1.3}
   .drum-wrap{height:100vh;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent,#000 30%,#000 70%,transparent)}
   .drum{will-change:transform}
   .drum li{height:64px;display:flex;align-items:center;gap:16px;font-size:44px;line-height:1;font-weight:800;letter-spacing:-.005em;color:rgba(255,255,255,.42);transition:color .25s var(--ease)}
@@ -333,7 +335,7 @@ ul{padding:0;list-style:none}
     .cities-grid{gap:40px;grid-template-columns:1fr 1.1fr}
     .drum li{font-size:32px;height:52px}
     .cities-left p{font-size:19px}
-    .cities-left .cities-sub{font-size:24px}
+    .cities-left .counts b{font-size:38px}
   }
   @media (max-width:767px){
     :root{--gut:20px;--line-dark:rgba(170,217,252,.16);--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
@@ -392,7 +394,9 @@ ul{padding:0;list-style:none}
     .cities-stage{position:relative;height:auto;display:block;padding:64px 0}
     .cities-stage::after{display:none}
     .cities-grid{display:block}
-    .cities-left .cities-sub{margin-top:16px;font-size:20px;max-width:none}
+    .cities-left .counts{margin-top:28px;gap:32px}
+    .cities-left .counts b{font-size:36px}
+    .cities-left .counts span{font-size:13px}
     .cities-left p{margin-top:12px;font-size:16px;max-width:none}
     .drum-wrap{height:auto;margin-top:28px;overflow:visible;-webkit-mask-image:none;mask-image:none}
     .drum{transform:none!important;display:grid;grid-template-columns:1fr 1fr;column-gap:12px;row-gap:0}
@@ -496,8 +500,11 @@ ul{padding:0;list-style:none}
     <div class="container cities-grid">
       <div class="cities-left">
         <h2 class="section-title rv">Франшиза<br>в&nbsp;2025</h2>
-        <div class="cities-sub rv" style="--d:.1s">12&nbsp;городов, 10&nbsp;городов Московской области</div>
-        <p class="rv" style="--d:.2s">На&nbsp;съезде встречаются партнёры со&nbsp;всей России</p>
+        <p class="rv" style="--d:.1s">На&nbsp;съезде встречаются партнёры со&nbsp;всей России</p>
+        <div class="counts rv" style="--d:.2s">
+          <div><b>12</b><span>городов России</span></div>
+          <div><b>10</b><span>городов Московской области</span></div>
+        </div>
       </div>
       <div class="drum-wrap">
         <ul class="drum" id="drum">
