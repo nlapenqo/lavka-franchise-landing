@@ -513,9 +513,17 @@
   .hero--split{justify-content:flex-start;padding-top:88px}
   .hero__split--wide{gap:var(--space-4)}
   .hero__split--wide>div:first-child{gap:var(--space-4)}
-  .hero__split--wide .hero__slot{aspect-ratio:auto;height:clamp(120px,calc(100svh - 432px),268px)}
+  .hero__split--wide .hero__slot{aspect-ratio:auto;height:clamp(96px,calc(100svh - 494px),268px)}
   .hero__facts{gap:var(--space-5)}
   .actions .hero__facts{padding-left:0}
+  /* телефон: «Город / Дата» сразу под заголовком, кнопка на всю ширину (как на главной); .actions растворяется в колонку */
+  .hero__split--wide .actions{display:contents}
+  .hero__split--wide .hero__title{order:1}
+  .hero__split--wide .hero__facts{order:2;margin-top:-4px}
+  .hero__split--wide .hero__lead{order:3}
+  .hero__split--wide .actions>.button{order:4;width:100%}
+  .hero.is-live .hero__split--wide .hero__facts{animation:fade-up var(--dur-reveal) .22s var(--ease) both}
+  .hero.is-live .hero__split--wide .actions>.button{animation:fade-up var(--dur-reveal) .38s var(--ease) both}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
   .map{min-height:320px}
   .duo{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
@@ -573,7 +581,9 @@
   .footer__legal{grid-template-columns:1fr;gap:var(--space-4)}
   .footer .brand{--brand-scale:.8}
 }
-@media (max-width:359px){.hero__split--wide .hero__slot{height:clamp(96px,calc(100svh - 480px),268px)}} /* на 320 лид в пять строк */
+@media (max-width:359px){.hero__split--wide .hero__slot{height:clamp(80px,calc(100svh - 542px),268px)}} /* на 320 лид в пять строк */
+@media (max-width:767px) and (max-height:620px){.hero--split{padding-top:84px}.hero__split--wide,.hero__split--wide>div:first-child{gap:var(--space-3)}.hero__split--wide .hero__slot{height:clamp(64px,calc(100svh - 466px),268px)}} /* низкие экраны (SE с панелями Safari): плотнее, кнопка всё равно в первом экране */
+@media (max-width:359px) and (max-height:620px){.hero__split--wide .hero__slot{height:clamp(64px,calc(100svh - 512px),268px)}}
 @media (min-width:1024px){.lead__copy .t-h1{font-size:min(59px,4.1vw)}} /* «на бизнес-завтрак» без переноса по дефису помещается в колонку формы */
 @media (max-width:399px){.t-h1:has(.nowrap){font-size:9.4vw}} /* заголовки с неразрывным «бизнес-завтраке» на узком телефоне */
 @media (prefers-reduced-motion:reduce){.ambient-glow{animation:none!important;transform:none!important}}
