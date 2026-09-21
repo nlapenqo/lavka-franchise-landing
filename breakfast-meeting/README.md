@@ -6,6 +6,7 @@
 - `preview.html` — самодостаточная сборка (всё внутри): `node blocks/build.mjs --in breakfast-meeting/index.html breakfast-meeting/preview.html`. Не править руками.
 - `assets/kv-phone.webp` — телефон с завтраком (на исходной странице фон хиро), обрезан по прозрачности. `video-poster.webp` — постер видео, `og-source.webp` — превью для og:image.
 - Прод: https://nlapenqo.github.io/lavka-franchise-landing/breakfast-meeting/
+- Финальный сайт для передачи (21.09): `node breakfast-meeting/final.mjs` → `export/breakfast-meeting-<дата>.zip` — `site/` (index.html, styles.css только с используемыми правилами, script.js только с нужными модулями, fonts/, images/) и то же одним файлом. Без библиотеки блоков; сверено попиксельно с утверждённой версией.
 - Figma для вёрстки на конструкторе (18.09): https://www.figma.com/design/nvsaw9KxBQPzjHP7ln14dD — страницы «Гайд для вёрстки», «Компоненты», «Desktop 1440», «Mobile 375» (+ состояния). Переменные «Токены» с режимами Desktop/Mobile, текстовые стили привязаны к font/*. Файл в орге Yandex (исходный AKcj37… у нас только на просмотр).
 
 ## Правило текста
