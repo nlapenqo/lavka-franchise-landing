@@ -509,6 +509,11 @@
   .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
   .hero__split--wide{margin-inline:auto;width:calc(100% - var(--gutter))}
   .hero__split--wide .hero__slot{order:-1;aspect-ratio:5/4} /* на телефоне кадр над заголовком */
+  /* «Принять участие» — в первом экране: кадр ужимается по высоте экрана (svh = видимая часть без панелей браузера), от 120 до 268 */
+  .hero--split{justify-content:flex-start;padding-top:88px}
+  .hero__split--wide{gap:var(--space-4)}
+  .hero__split--wide>div:first-child{gap:var(--space-4)}
+  .hero__split--wide .hero__slot{aspect-ratio:auto;height:clamp(120px,calc(100svh - 432px),268px)}
   .hero__facts{gap:var(--space-5)}
   .actions .hero__facts{padding-left:0}
   .hero--split .hero__title{font-size:min(var(--fs-display),11.7vw)}
