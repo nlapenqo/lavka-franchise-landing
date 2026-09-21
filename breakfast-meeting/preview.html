@@ -785,6 +785,7 @@ img,svg{display:block;max-width:100%}
   .footer__legal{grid-template-columns:1fr;gap:var(--space-4)}
   .footer .brand{--brand-scale:.8}
 }
+@media (max-width:359px){.hero__split--wide .hero__slot{height:clamp(96px,calc(100svh - 480px),268px)}} /* на 320 лид в пять строк */
 @media (min-width:1024px){.lead__copy .t-h1{font-size:min(59px,4.1vw)}} /* «на бизнес-завтрак» без переноса по дефису помещается в колонку формы */
 @media (max-width:399px){.t-h1:has(.nowrap){font-size:9.4vw}} /* заголовки с неразрывным «бизнес-завтраке» на узком телефоне */
 @media (prefers-reduced-motion:reduce){.ambient-glow{animation:none!important;transform:none!important}}
