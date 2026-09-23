@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Лавка, баннер 1200×628: оригинал и Update 2026</title>
+<style>
+  :root { --bg: #EEF0F3; --panel: #fff; --ink: #1B2430; --muted: #6B7685; --line: #D9DEE5; --accent: #00ADFF; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink);
+               font: 15px/1.45 -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+  main { max-width: 1232px; margin: 0 auto; padding: 16px 16px 40px; }
+  h1 { margin: 8px 0 4px; font-size: 20px; font-weight: 600; }
+  .sub { margin: 0 0 12px; color: var(--muted); }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; display: flex; gap: 12px; align-items: center; }
+  #play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer;
+          display: grid; place-items: center; }
+  #play svg { width: 18px; height: 18px; display: block; }
+  #scrub { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); height: 28px; }
+  #clock { flex: none; min-width: 92px; text-align: right; color: var(--muted); }
+  figure { margin: 0 0 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  figcaption { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+  video { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 628; border-radius: 6px; background: #00ADFF; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Лавка, баннер 1200×628, 15 с</h1>
+  <p class="sub">Оба ролика идут синхронно: одна кнопка и одна строка прогресса.</p>
+  <div class="bar">
+    <button id="play" aria-label="Играть"><svg viewBox="0 0 18 18" aria-hidden="true"><path id="icon" d="M4 2.5 L15.5 9 L4 15.5 Z" fill="#fff"/></svg></button>
+    <input id="scrub" type="range" min="0" max="15" step="0.04" value="0" aria-label="Прогресс">
+    <span id="clock">0,0 / 15,0 с</span>
+  </div>
+  <figure><figcaption>Оригинал</figcaption>
+    <video id="a" src="original.mp4?v=1" muted playsinline preload="auto"></video></figure>
+  <figure><figcaption>Update 2026</figcaption>
+    <video id="b" src="update-2026.mp4?v=1" muted playsinline preload="auto"></video></figure>
+</main>
+<script>
+const a = document.getElementById('a'), b = document.getElementById('b');
+const play = document.getElementById('play'), icon = document.getElementById('icon');
+const scrub = document.getElementById('scrub'), clock = document.getElementById('clock');
+const PLAY = 'M4 2.5 L15.5 9 L4 15.5 Z', PAUSE = 'M4 2.5 H7.5 V15.5 H4 Z M10.5 2.5 H14 V15.5 H10.5 Z';
+let dragging = false;
+const dur = () => a.duration || 15;
+const fmt = t => t.toFixed(1).replace('.', ',');
+const show = () => { if (!dragging) scrub.value = a.currentTime; clock.textContent = `${fmt(a.currentTime)} / ${fmt(dur())} с`; };
+function setUI(playing) { icon.setAttribute('d', playing ? PAUSE : PLAY); play.setAttribute('aria-label', playing ? 'Пауза' : 'Играть'); }
+function start() { b.currentTime = a.currentTime; Promise.all([a.play(), b.play()]).catch(() => {}); setUI(true); }
+function stop() { a.pause(); b.pause(); b.currentTime = a.currentTime; setUI(false); }
+play.onclick = () => a.paused ? start() : stop();
+a.addEventListener('loadedmetadata', () => { scrub.max = dur(); show(); });
+a.addEventListener('ended', () => { a.currentTime = 0; b.currentTime = 0; start(); });   // по кругу, вместе
+scrub.addEventListener('input', () => { dragging = true; a.currentTime = b.currentTime = +scrub.value; show(); });
+scrub.addEventListener('change', () => { dragging = false; });
+// ведущий — оригинал; второй ролик подтягивается, если разошлись больше чем на 3 кадра
+(function tick() {
+  show();
+  if (!a.paused) {
+    if (b.paused) b.play().catch(() => {});
+    if (Math.abs(b.currentTime - a.currentTime) > 0.12) b.currentTime = a.currentTime;
+  }
+  requestAnimationFrame(tick);
+})();
+addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); play.click(); } });
+</script>
+</body>
+</html>
