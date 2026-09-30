@@ -354,6 +354,9 @@ ul{padding:0;list-style:none}
 
     /* хиро: без пина — текст, карточка фото 4:5, цифры под ней */
     .hero-pin{height:auto}
+    /* края хиро сводятся к сплошному navy — стык с зонами выреза и панели браузера не виден */
+    .hero-stage::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+      background:linear-gradient(180deg,#1b3a6a 0,rgba(27,58,106,0) 140px,rgba(27,58,106,0) calc(100% - 150px),#1b3a6a 100%)}
     /* синий экран на всю высоту, содержимое по центру */
     .hero-stage{position:relative;height:auto;min-height:100vh;min-height:100svh;margin-top:calc(-1 * var(--safe-t));display:flex;flex-direction:column;justify-content:center;align-items:center;padding:calc(104px + var(--safe-t)) 0 calc(40px + var(--safe-b))}   /* relative, не static: иначе абсолютные свечения уходят к viewport и раздвигают страницу */
     .hero-content{margin:0;width:100%;padding:0 var(--gut);gap:22px;transform:none!important;opacity:1!important}
