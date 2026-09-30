@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFE600">
+<title>Пробник 2, линейка</title>
+<style>
+  /* у каждого источника цвета свой цвет: по скриншоту видно, откуда Safari берёт заливку зон
+     html (холст) — пурпурный, body — оранжевый, theme-color — жёлтый, верх документа — красный */
+  html{background:#FF00FF}
+  body{margin:0;background:#FF8A00;font-family:ui-monospace,Menlo,monospace;-webkit-text-size-adjust:100%}
+  /* документ — линейка: красные первые 20 px, тёмно-синий до 100svh, дальше белый (как хиро и следующая секция) */
+  #ruler{position:relative;background:linear-gradient(180deg,#E4002B 0,#E4002B 20px,#1B3A6A 20px,#1B3A6A 100svh,#fff 100svh)}
+  .s{height:20px;box-sizing:border-box;display:flex;justify-content:space-between;padding:4px 6px 0;font-size:11px;line-height:12px;font-weight:700;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000}
+  .s:nth-child(odd){background:rgba(128,128,128,.28)}
+  .mark{position:absolute;left:0;right:0;height:2px;background:#000;z-index:2}
+  .mark b{position:absolute;top:-8px;padding:2px 6px;background:#000;color:#fff;font-size:11px;line-height:12px;border-radius:3px}
+  #card{position:absolute;z-index:3;top:64px;left:56px;right:56px;padding:12px;border-radius:12px;background:rgba(0,0,0,.78);color:#fff;font-size:12px;line-height:1.45}
+  #card p{margin:0 0 8px;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.3}
+  #card pre{margin:0;font:inherit;white-space:pre-wrap;word-break:break-word}
+  #card a{color:#00ADFF}
+  .hdr{position:sticky;top:12px;z-index:5;height:60px;margin:12px 12px -72px;display:flex;justify-content:flex-end;align-items:center;padding:0 8px}
+  .hdr span{background:#00ADFF;color:#fff;border-radius:20px;padding:10px 16px;font:600 14px -apple-system,Arial,sans-serif}
+</style>
+</head>
+<body>
+<div id="ruler">
+  <div id="card">
+    <p>Скриншот всего экрана сразу после загрузки, не трогая страницу. Потом прокрути на пару экранов и сними второй.</p>
+    <pre id="v"></pre>
+    <p style="margin:8px 0 0"><a id="alt" href="?hdr=1">вариант со sticky-шапкой</a>, <a href="index.html">к вариантам</a></p>
+  </div>
+</div>
+<script>
+  const withHdr = new URLSearchParams(location.search).has('hdr');
+  if (withHdr) {
+    document.body.insertAdjacentHTML('afterbegin', '<header class="hdr"><span>sticky-шапка</span></header>');
+    const alt = document.getElementById('alt'); alt.href = 'probe2.html'; alt.textContent = 'вариант без шапки';
+  }
+  /* высота CSS-выражения в px; замер абсолютным скрытым блоком, fixed-элементов на странице нет */
+  const px = expr => {
+    const d = document.createElement('div');
+    d.style.cssText = 'position:absolute;top:0;left:0;width:0;visibility:hidden;height:' + expr;
+    document.body.appendChild(d);
+    const h = Math.round(d.getBoundingClientRect().height * 10) / 10;
+    d.remove();
+    return h;
+  };
+  const ruler = document.getElementById('ruler');
+  const rows = Math.ceil((px('100lvh') + 1600) / 20);
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < rows; i++) {
+    const s = document.createElement('div');
+    s.className = 's';
+    s.innerHTML = '<span>' + i * 20 + '</span><span>' + i * 20 + '</span>';
+    frag.appendChild(s);
+  }
+  ruler.appendChild(frag);
+  [['100svh', 'svh', '22%'], ['100dvh', 'dvh', '44%'], ['100lvh', 'lvh', '66%']].forEach(([expr, name, left]) => {
+    const m = document.createElement('div');
+    m.className = 'mark';
+    m.style.top = 'calc(' + expr + ' - 1px)';
+    m.innerHTML = '<b style="left:' + left + '">' + name + '</b>';
+    ruler.appendChild(m);
+  });
+  const out = document.getElementById('v');
+  const r = n => Math.round(n * 10) / 10;
+  function update() {
+    const vv = window.visualViewport || {};
+    const ua = navigator.userAgent;
+    out.textContent = [
+      ((ua.match(/OS [\d_]+/) || [''])[0] + ' ' + (ua.match(/Version\/[\d.]+/) || [''])[0] + ' ' + (ua.match(/(CriOS|FxiOS|EdgiOS|YaBrowser)\/[\d.]+/) || [''])[0]).trim(),
+      'inner ' + innerWidth + '×' + innerHeight + '  outer ' + outerWidth + '×' + outerHeight,
+      'screen ' + screen.width + '×' + screen.height + '  dpr ' + devicePixelRatio,
+      'vv h ' + r(vv.height) + ' top ' + r(vv.offsetTop) + ' pageTop ' + r(vv.pageTop) + ' scale ' + r(vv.scale),
+      'clientH ' + document.documentElement.clientHeight,
+      'svh ' + px('100svh') + ' dvh ' + px('100dvh') + ' lvh ' + px('100lvh') + ' vh ' + px('100vh'),
+      'safe t ' + px('env(safe-area-inset-top,0px)') + ' r ' + px('env(safe-area-inset-right,0px)') + ' b ' + px('env(safe-area-inset-bottom,0px)') + ' l ' + px('env(safe-area-inset-left,0px)'),
+      'scrollY ' + r(scrollY) + '  hdr ' + withHdr + '  app ' + !!navigator.standalone
+    ].join('\n');
+  }
+  let raf = 0;
+  const tick = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
+  addEventListener('scroll', tick, { passive: true });
+  addEventListener('resize', tick);
+  if (window.visualViewport) { visualViewport.addEventListener('resize', tick); visualViewport.addEventListener('scroll', tick); }
+  update();
+</script>
+</body>
+</html>
