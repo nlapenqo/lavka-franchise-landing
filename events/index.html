@@ -355,7 +355,7 @@ ul{padding:0;list-style:none}
     .years{gap:6px}
     .year{padding:9px 16px;font-size:14px}
     .year--soon small{font-size:11px;margin-left:6px}
-    .hero-title{width:auto;max-width:none;font-size:clamp(30px,9.9vw,39px);line-height:1}   /* две строки: «Съезд партнёров» / «Яндекс Лавки ’25», по краям остаётся воздух */
+    .hero-title{width:auto;max-width:none;font-size:clamp(30px,10.75vw,42px);line-height:1}   /* две строки во всю сетку: «Съезд партнёров» / «Яндекс Лавки ’25» почти от края до края */
     .hero-lead{font-size:16px}
     /* кадр во всю ширину, снизу подрезан пол: карточка ниже кадра, картинка прижата к верху и не центрируется */
     .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:2000/1056;margin:28px auto 0;border-radius:20px!important;will-change:auto}
@@ -366,7 +366,7 @@ ul{padding:0;list-style:none}
     .hero-nums__in>div{opacity:1;transform:none;transition:none}
     .hero-nums b{font-size:clamp(52px,15.6vw,64px);line-height:.9}
     .hero-nums span{margin-top:8px;font-size:13px;line-height:1.25}   /* перенос по <br> из разметки: обе строки влезают в колонку */
-    @media (max-width:360px){ .hero-nums__in{gap:6px} .hero-nums span{font-size:12px} }   /* на 320 подписи тоже в две строки */
+    @media (max-width:360px){ .hero-nums__in{gap:6px} .hero-nums span{font-size:12px} .hero-title{font-size:10.2vw} }   /* на 320 подписи в две строки, заголовок не упирается */
 
     /* о съезде */
     .about{padding:64px 0 56px}
