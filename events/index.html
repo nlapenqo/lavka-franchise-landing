@@ -354,6 +354,11 @@ ul{padding:0;list-style:none}
 
     /* хиро: без пина — текст, карточка фото 4:5, цифры под ней */
     .hero-pin{height:auto}
+    /* Safari на iPhone с iOS 26: под плавающей панелью виден документ ниже 100svh (замер 30.09.2026: 98 px на 430×932).
+       Тёмно-синий хвост продолжает хиро под панель, иначе там видна белая секция «О съезде»; 140 px — с запасом на высокую панель */
+    @supports (-webkit-touch-callout:none) and (anchor-name:--a){
+      .hero-pin{background:var(--navy);padding-bottom:140px}
+    }
     /* края хиро сводятся к сплошному navy — стык с зонами выреза и панели браузера не виден */
     .hero-stage::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
       background:linear-gradient(180deg,#1b3a6a 0,rgba(27,58,106,0) 140px,rgba(27,58,106,0) calc(100% - 150px),#1b3a6a 100%)}
