@@ -355,9 +355,9 @@ ul{padding:0;list-style:none}
     .year--soon small{font-size:11px;margin-left:6px}
     .hero-title{width:auto;max-width:none;font-size:clamp(28px,9.2vw,36px);line-height:1}   /* две строки с воздухом по бокам: «Съезд партнёров» / «Яндекс Лавки ’25» */
     .hero-lead{font-size:16px}
-    /* кадр целиком, от края до края: пропорции самой фотографии, никого не обрезает */
-    .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:2000/1374;margin:28px auto 0;border-radius:20px!important;will-change:auto}
-    .hero-photo img{transform:none!important;object-fit:contain;object-position:center}
+    /* кадр во всю ширину, снизу подрезан пол: карточка ниже кадра, картинка прижата к верху и не центрируется */
+    .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:2000/960;margin:28px auto 0;border-radius:20px!important;will-change:auto}
+    .hero-photo img{transform:none!important;object-fit:cover;object-position:center top}
     .hero-fade{display:none}
     .hero-nums{position:static;padding:36px 0 0;opacity:1!important;transform:none!important}
     .hero-nums__in{width:calc(100% - 2*var(--gut));gap:8px}
