@@ -43,7 +43,10 @@ img,svg{display:block;max-width:100%}
 /* сетка и секции */
 .container{width:min(var(--container),calc(100% - var(--gutter)));margin-inline:auto;position:relative}
 .container--wide{width:min(var(--container-wide),calc(100% - var(--gutter)))}
-.section{padding:var(--section) 0}
+.section{padding:var(--section) 0;background:var(--bg-page)}
+/* Safari 26+ заливает зону часов на iPhone и «резинку» прокрутки фоном body. Если страница начинается с тёмной секции,
+   body тоже тёмный; светлые секции красят себя сами (.section выше) */
+body:has(>section:first-of-type.section--dark){background:var(--bg-section-dark)}
 .section--light{background:var(--bg-section-light)}
 .section--dark{position:relative;isolation:isolate;overflow:clip;background:var(--bg-section-dark);color:var(--text-on-dark)}
 .section--dark .t-caption{color:var(--text-secondary-on-dark)}

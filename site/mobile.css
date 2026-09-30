@@ -67,6 +67,13 @@
   .event{display:none}
   .no-event .evt{display:none}
   .no-event .hero{min-height:100vh;min-height:100svh;padding-bottom:96px}
+  /* Safari на iPhone, iOS 26+: под плавающей панелью виден документ ниже 100svh (замер 30.09.2026: 98 px на 430×932),
+     а зона часов залита фоном body. Хиро продолжается под панель на 140 px (с запасом на высокую панель),
+     верх свечения сводится к ровному navy — стыков с зонами браузера нет. С полоской мероприятия хвост не ставится */
+  @supports (-webkit-touch-callout:none) and (anchor-name:--a){
+    .no-event .hero{min-height:calc(100svh + 140px);padding-bottom:236px}
+    .hero .ambient-field::after{content:'';position:absolute;left:0;right:0;top:0;height:219px;background:linear-gradient(180deg,#1b3a6a,rgba(27,58,106,0))}   /* 219 = 140 / 0,64 — поле свечения на телефоне сжато */
+  }
   .evt{position:relative;z-index:3;display:grid;grid-template-columns:54px 1fr 32px;gap:12px;align-items:center;margin:-37px 0 0;padding:15px 16px;border-radius:var(--r-big);background:var(--sky);color:var(--navy);box-shadow:0 16px 38px rgba(14,34,65,.18);transition:background .2s}
   .evt:active{background:var(--sky-press)}
   .evt__d{width:54px;height:54px;border-radius:var(--r-ctl);overflow:hidden;background:#fff;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(14,34,65,.14)}

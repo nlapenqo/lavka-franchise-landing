@@ -506,6 +506,14 @@
   .hero__benefits{grid-template-columns:1fr 1fr;gap:var(--space-2);margin-top:var(--space-4)}
   .benefit{flex-direction:column;align-items:flex-start;gap:var(--space-2);padding:var(--space-3)}
   .hero--photo{padding-bottom:0}
+  /* Safari на iPhone, iOS 26+: под плавающей панелью виден документ ниже 100svh (замер 30.09.2026: 98 px на 430×932),
+     а зона часов залита фоном body. Хиро продолжается под панель на 140 px (с запасом на высокую панель),
+     верх свечения сводится к ровному navy — стыков с зонами браузера нет. Фото-хиро не трогаем: кадр стоит в край */
+  @supports (-webkit-touch-callout:none) and (anchor-name:--a){
+    .hero:not(.hero--photo){min-height:calc(100svh + 140px);padding-bottom:calc(var(--space-7) + 140px)}
+    .hero.hero--split{padding-bottom:var(--space-7)}   /* содержимое прижато к верху — хвост даёт сам min-height */
+    .hero>.ambient-field::after{content:'';position:absolute;left:0;right:0;top:0;height:219px;background:linear-gradient(180deg,#1b3a6a,rgba(27,58,106,0))}   /* 219 = 140 / 0,64 — поле свечения на телефоне сжато */
+  }
   .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
   .hero__split--wide{margin-inline:auto;width:calc(100% - var(--gutter))}
   .hero__split--wide .hero__slot{order:-1;aspect-ratio:5/4} /* на телефоне кадр над заголовком */

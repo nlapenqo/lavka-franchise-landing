@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Бизнес-завтрак «Франшиза Яндекс Лавки»</title>
 <meta name="description" content="Офлайн-встреча для предпринимателей, готовых развивать глобальный бизнес | Расскажем, как открыть онлайн-сервис по доставке продуктов и зарабатывать на растущем рынке | Заполните форму и зарегистрируйтесь на бизнес-завтрак">
 <meta property="og:title" content="Бизнес-завтрак «Франшиза Яндекс Лавки»">
@@ -62,7 +62,10 @@ img,svg{display:block;max-width:100%}
 /* сетка и секции */
 .container{width:min(var(--container),calc(100% - var(--gutter)));margin-inline:auto;position:relative}
 .container--wide{width:min(var(--container-wide),calc(100% - var(--gutter)))}
-.section{padding:var(--section) 0}
+.section{padding:var(--section) 0;background:var(--bg-page)}
+/* Safari 26+ заливает зону часов на iPhone и «резинку» прокрутки фоном body. Если страница начинается с тёмной секции,
+   body тоже тёмный; светлые секции красят себя сами (.section выше) */
+body:has(>section:first-of-type.section--dark){background:var(--bg-section-dark)}
 .section--light{background:var(--bg-section-light)}
 .section--dark{position:relative;isolation:isolate;overflow:clip;background:var(--bg-section-dark);color:var(--text-on-dark)}
 .section--dark .t-caption{color:var(--text-secondary-on-dark)}
@@ -718,6 +721,14 @@ img,svg{display:block;max-width:100%}
   .hero__benefits{grid-template-columns:1fr 1fr;gap:var(--space-2);margin-top:var(--space-4)}
   .benefit{flex-direction:column;align-items:flex-start;gap:var(--space-2);padding:var(--space-3)}
   .hero--photo{padding-bottom:0}
+  /* Safari на iPhone, iOS 26+: под плавающей панелью виден документ ниже 100svh (замер 30.09.2026: 98 px на 430×932),
+     а зона часов залита фоном body. Хиро продолжается под панель на 140 px (с запасом на высокую панель),
+     верх свечения сводится к ровному navy — стыков с зонами браузера нет. Фото-хиро не трогаем: кадр стоит в край */
+  @supports (-webkit-touch-callout:none) and (anchor-name:--a){
+    .hero:not(.hero--photo){min-height:calc(100svh + 140px);padding-bottom:calc(var(--space-7) + 140px)}
+    .hero.hero--split{padding-bottom:var(--space-7)}   /* содержимое прижато к верху — хвост даёт сам min-height */
+    .hero>.ambient-field::after{content:'';position:absolute;left:0;right:0;top:0;height:219px;background:linear-gradient(180deg,#1b3a6a,rgba(27,58,106,0))}   /* 219 = 140 / 0,64 — поле свечения на телефоне сжато */
+  }
   .hero__split,.hero__split--wide{grid-template-columns:minmax(0,1fr);gap:var(--space-5)}
   .hero__split--wide{margin-inline:auto;width:calc(100% - var(--gutter))}
   .hero__split--wide .hero__slot{order:-1;aspect-ratio:5/4} /* на телефоне кадр над заголовком */
