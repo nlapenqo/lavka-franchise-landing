@@ -350,23 +350,25 @@ ul{padding:0;list-style:none}
 
     /* хиро: без пина — текст, карточка фото 4:5, цифры под ней */
     .hero-pin{height:auto}
-    .hero-stage{position:relative;height:auto;display:block;padding:calc(104px + var(--safe-t)) 0 40px}   /* relative, не static: иначе абсолютные свечения уходят к viewport и раздвигают страницу */
-    .hero-content{margin:0;padding:0 var(--gut);gap:18px;transform:none!important;opacity:1!important}
+    /* синий экран на всю высоту, содержимое по центру */
+    .hero-stage{position:relative;height:auto;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:calc(104px + var(--safe-t)) 0 calc(40px + var(--safe-b))}   /* relative, не static: иначе абсолютные свечения уходят к viewport и раздвигают страницу */
+    .hero-content{margin:0;width:100%;padding:0 var(--gut);gap:22px;transform:none!important;opacity:1!important}
     .years{gap:6px}
     .year{padding:9px 16px;font-size:14px}
     .year--soon small{font-size:11px;margin-left:6px}
-    .hero-title{width:auto;max-width:none;font-size:clamp(30px,10.75vw,42px);line-height:1}   /* две строки во всю сетку: «Съезд партнёров» / «Яндекс Лавки ’25» почти от края до края */
+    .hero-title{width:auto;max-width:none;font-size:clamp(30px,10.55vw,60px);line-height:1}   /* две строки во всю сетку на любой ширине телефона, по краям 5–10 px воздуха */
     .hero-lead{font-size:16px}
     /* кадр во всю ширину, снизу подрезан пол: карточка ниже кадра, картинка прижата к верху и не центрируется */
-    .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:2000/1056;margin:28px auto 0;border-radius:20px!important;will-change:auto}
+    .hero-photo{position:relative;left:auto;top:auto;transform:none;width:calc(100% - 2*var(--gut));height:auto;aspect-ratio:2000/1056;margin:32px auto 0;border-radius:20px!important;will-change:auto}
     .hero-photo img{transform:scale(1.1)!important;transform-origin:50% 0;object-fit:cover;object-position:center top}   /* масштаб от верхнего края: группа крупнее, кадр не съезжает */
     .hero-fade{display:none}
-    .hero-nums{position:static;padding:36px 0 0;opacity:1!important;transform:none!important}
+    .hero-nums{position:static;width:100%;padding:40px 0 0;opacity:1!important;transform:none!important}
     .hero-nums__in{width:calc(100% - 2*var(--gut));gap:8px}
     .hero-nums__in>div{opacity:1;transform:none;transition:none}
     .hero-nums b{font-size:clamp(52px,15.6vw,64px);line-height:.9}
     .hero-nums span{margin-top:8px;font-size:13px;line-height:1.25}   /* перенос по <br> из разметки: обе строки влезают в колонку */
     @media (max-width:360px){ .hero-nums__in{gap:6px} .hero-nums span{font-size:12px} .hero-title{font-size:10.2vw} }   /* на 320 подписи в две строки, заголовок не упирается */
+    @media (max-height:700px){ .hero-stage{padding-top:calc(88px + var(--safe-t));padding-bottom:calc(24px + var(--safe-b))} .hero-content{gap:16px} .hero-photo{margin-top:24px} .hero-nums{padding-top:28px} }   /* низкие экраны: хиро помещается в один экран */
 
     /* о съезде */
     .about{padding:64px 0 56px}
