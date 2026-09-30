@@ -334,7 +334,7 @@ ul{padding:0;list-style:none}
   @media (max-width:767px){
     :root{--gut:20px;--line-dark:rgba(170,217,252,.16);--safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px)}
     html{scroll-padding-top:calc(76px + var(--safe-t))}
-    body{overflow-x:hidden}
+    body{overflow-x:clip}   /* не hidden: hidden делает body скролл-контейнером и ломает sticky-шапку */
     .container,.photos .container--wide{width:calc(100% - 2*var(--gut))}
     .page-section{padding:64px 0}
     .section-title{font-size:38px;line-height:.94}
@@ -345,7 +345,8 @@ ul{padding:0;list-style:none}
     .hero-stage .ambient-glow--hero-low{opacity:.35}
 
     /* шапка: только знак, компактная кнопка */
-    .hdr{inset:calc(12px + var(--safe-t)) 12px auto;height:60px;padding:0 8px 0 12px}
+    /* sticky, а не fixed: из-за фиксированной прозрачной шапки Safari на iOS красит полосы сверху и снизу белым */
+    .hdr{position:sticky;inset:auto;top:calc(12px + var(--safe-t));height:60px;margin:calc(12px + var(--safe-t)) 12px calc(-72px - var(--safe-t));padding:0 8px 0 12px}
     .hdr__brand,.hdr.is-solid .hdr__brand{width:40px;height:40px;margin-left:0;transform:none}
     .hdr__brand .b-main,.hdr__brand .b-badge{display:none}
     .hdr__brand .b-mark{left:0;top:0;width:40px;height:40px}
