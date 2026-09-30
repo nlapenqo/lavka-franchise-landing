@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1B3A6A">
+<title>Где заканчивается страница</title>
+<style>
+  html,body{margin:0;background:#1B3A6A;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif}
+  .page{min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;position:relative}
+  .top{height:120px;background:#E4002B;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:15px;font-weight:700}
+  .bottom{height:120px;background:#00A34A;display:flex;align-items:flex-start;justify-content:center;padding-top:6px;font-size:15px;font-weight:700}
+  .mid{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+  .mid p{font-size:17px;line-height:1.4;margin:0 0 10px;color:#DCEAFA}
+  b{font-size:22px;display:block;margin-bottom:10px}
+  .val{font-family:ui-monospace,Menlo,monospace;font-size:15px;color:#A7BEE0;margin-top:14px}
+  a{color:#00ADFF}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">красный — самый верх страницы</div>
+  <div class="mid"><div>
+    <b>Проверка краёв</b>
+    <p>Сфотографируй этот экран целиком и пришли скриншот.</p>
+    <p>Если красная полоса уходит под часы, а зелёная под панель браузера — страница занимает весь экран, и цветные зоны рисует сам Safari.</p>
+    <p>Если между красной полосой и часами есть просвет — страница не доходит до края, и чинить надо иначе.</p>
+    <div class="val" id="v"></div>
+    <p style="margin-top:14px"><a href="index.html">← к вариантам</a></p>
+  </div></div>
+  <div class="bottom">зелёный — самый низ страницы</div>
+</div>
+<script>
+  const s = getComputedStyle(document.documentElement);
+  const safe = n => s.getPropertyValue('--x') || '';
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;top:0;left:0;height:env(safe-area-inset-top,0px);width:1px';
+  document.body.appendChild(probe);
+  const pb = document.createElement('div');
+  pb.style.cssText = 'position:fixed;bottom:0;left:0;height:env(safe-area-inset-bottom,0px);width:1px';
+  document.body.appendChild(pb);
+  document.getElementById('v').textContent =
+    'экран ' + innerWidth + '×' + innerHeight +
+    ' · svh ' + Math.round(visualViewport.height) +
+    ' · safe-top ' + Math.round(probe.getBoundingClientRect().height) +
+    ' · safe-bottom ' + Math.round(pb.getBoundingClientRect().height);
+</script>
+</body>
+</html>
