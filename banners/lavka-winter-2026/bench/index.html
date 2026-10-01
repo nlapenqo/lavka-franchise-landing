@@ -37,7 +37,7 @@
 <body>
 <main>
   <h1>Слепой тест: Fable 5.1, Opus 5.5, Sonnet 5</h1>
-  <p class="sub">Одна и та же задача — баннер «Яндекс Лавка уже в вашем городе» по одному ТЗ, с одинаковыми материалами (шрифты, фото товаров, лого, метель и гирлянды) и без визуальных референсов. Модели работали одновременно, каждая в своей папке, без доступа к прежним вариантам. Время и токены — по данным системы. <a href="../variants/">Все варианты баннера</a>.</p>
+  <p class="sub">Одна и та же задача — баннер «Яндекс Лавка уже в вашем городе» по одному ТЗ, с одинаковыми материалами (шрифты, фото товаров, лого, метель и гирлянды) и без визуальных референсов. Два прогона: с уровнем раздумий high и xhigh. Внутри прогона модели работали одновременно, каждая в своей папке, без доступа к прежним вариантам. Время и токены — по данным системы. <a href="../variants/">Все варианты баннера</a>.</p>
   <div class="bar">
     <button id="play" aria-label="Играть"><svg viewBox="0 0 18 18" aria-hidden="true"><path id="icon" d="M4 2.5 L15.5 9 L4 15.5 Z" fill="#fff"/></svg></button>
     <input id="scrub" type="range" min="0" max="15" step="0.04" value="0" aria-label="Прогресс">
@@ -52,9 +52,21 @@
     <tr><td>Sonnet 5</td><td class="n">24 мин 22 с</td><td class="n">245 318</td><td class="n">66</td></tr>
   </table></div>
   <div class="grid" style="margin-top:12px">
-    <figure><figcaption>Fable 5.1</figcaption><video src="high-fable.mp4?v=1" muted playsinline preload="auto"></video></figure>
-    <figure><figcaption>Opus 5.5</figcaption><video src="high-opus.mp4?v=1" muted playsinline preload="auto"></video></figure>
-    <figure><figcaption>Sonnet 5</figcaption><video src="high-sonnet.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Fable 5.1, high</figcaption><video src="high-fable.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Opus 5.5, high</figcaption><video src="high-opus.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Sonnet 5, high</figcaption><video src="high-sonnet.mp4?v=1" muted playsinline preload="auto"></video></figure>
+  </div>
+  <h2>Уровень раздумий xhigh, 01.10</h2>
+  <div class="scroll"><table>
+    <tr><th>Модель</th><th>Время</th><th>Токены</th><th>Вызовов инструментов</th></tr>
+    <tr><td>Fable 5.1</td><td class="n">33 мин 47 с</td><td class="n">239 319</td><td class="n">44</td></tr>
+    <tr><td>Opus 5.5</td><td class="n">43 мин 0 с</td><td class="n">305 826</td><td class="n">83</td></tr>
+    <tr><td>Sonnet 5</td><td class="n">38 мин 28 с</td><td class="n">321 838</td><td class="n">135</td></tr>
+  </table></div>
+  <div class="grid" style="margin-top:12px">
+    <figure><figcaption>Fable 5.1, xhigh</figcaption><video src="xhigh-fable.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Opus 5.5, xhigh</figcaption><video src="xhigh-opus.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Sonnet 5, xhigh</figcaption><video src="xhigh-sonnet.mp4?v=1" muted playsinline preload="auto"></video></figure>
   </div>
   <!--XHIGH-->
 </main>
