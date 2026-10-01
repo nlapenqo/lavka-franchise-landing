@@ -84,7 +84,7 @@ function setPlaying(p) {
 lead.addEventListener('ended', () => { vids.forEach(v => v.currentTime = 0); if (playing) vids.forEach(v => v.play().catch(() => {})); });
 (function tick() {
   const t = lead.currentTime;
-  vids.forEach(v => { if (v !== lead && Math.abs(v.currentTime - t) > 0.08) v.currentTime = t; });
+  vids.forEach(v => { if (v !== lead && Math.abs(v.currentTime - t) > 0.08) v.currentTime = t; if (playing && v.paused && !v.seeking) v.play().catch(() => {}); });
   scrub.value = t; clock.textContent = `${fmt(t)} / 15,0 с`;
   requestAnimationFrame(tick);
 })();
