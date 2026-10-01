@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Лавка, варианты баннера</title>
+<style>
+  :root { --bg: #EEF0F3; --panel: #fff; --ink: #1B2430; --muted: #6B7685; --line: #D9DEE5; --accent: #00ADFF; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink);
+               font: 15px/1.45 -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+  main { max-width: 1232px; margin: 0 auto; padding: 16px 16px 40px; }
+  h1 { margin: 8px 0 4px; font-size: 20px; font-weight: 600; }
+  .sub { margin: 0 0 12px; color: var(--muted); }
+  .sub a { color: #0078B8; }
+  .group { margin: 10px 0 4px; font-size: 13px; color: var(--muted); }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tabs button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px;
+                 padding: 6px 13px; cursor: pointer; }
+  .tabs button b { font-weight: 600; margin-right: 6px; }
+  .tabs button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; margin-top: 10px; display: flex; gap: 12px; align-items: center; }
+  #play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer;
+          display: grid; place-items: center; }
+  #play svg { width: 18px; height: 18px; display: block; }
+  #scrub { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); height: 28px; }
+  #clock { flex: none; min-width: 92px; text-align: right; color: var(--muted); }
+  figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; }
+  figcaption { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+  video { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 628; border-radius: 6px; background: #00ADFF; }
+  .hint { color: var(--muted); font-size: 13px; margin-top: 10px; }
+  kbd { font: 12px/1 ui-monospace, Menlo, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 2px 5px; background: #fff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Лавка, варианты баннера 1200×628, 15 с</h1>
+  <p class="sub">Зимняя кампания «Новый год 2027». Переключай варианты: ролик продолжает с того же момента. <a href="../">Оригинал и Update 2026 рядом</a>, <a href="../bench/">слепой тест моделей</a>.</p>
+  <div id="tabs"></div>
+  <div class="bar">
+    <button id="play" aria-label="Играть"><svg viewBox="0 0 18 18" aria-hidden="true"><path id="icon" d="M4 2.5 L15.5 9 L4 15.5 Z" fill="#fff"/></svg></button>
+    <input id="scrub" type="range" min="0" max="15" step="0.04" value="0" aria-label="Прогресс">
+    <span id="clock">0,0 / 15,0 с</span>
+  </div>
+  <figure><figcaption id="cap"></figcaption><video id="vid" muted playsinline preload="auto" loop></video></figure>
+  <p class="hint"><kbd>пробел</kbd> пауза, <kbd>←</kbd> <kbd>→</kbd> по кадру, <kbd>↑</kbd> <kbd>↓</kbd> вариант</p>
+</main>
+<script>
+const GROUPS = [
+  ['Исходник', [['original', 'Оригинал агентства']]],
+  ['Серия 1, 24.09', [['v2', 'Update 2026'], ['v3', 'живые карточки'], ['v4', 'арка'], ['v5', 'крупно, за край'], ['v5a', 'крупно, волна'],
+                      ['v5b', 'крупно, переворот'], ['v5c', 'крупно, фокус'], ['v6', 'сюжет «гирлянда»'], ['v7', 'поток и камера']]],
+  ['Серия 2 «крупно и спокойно», 28.09', [['v8', 'витрина по одному'], ['v9', 'полка'], ['v10', 'нежно'], ['v11', 'приложение'],
+                      ['v12', 'мозаика'], ['v13', 'заголовок сразу'], ['v14', 'пришла в город'], ['v15', 'новогодняя витрина']]],
+];
+const ALL = GROUPS.flatMap(g => g[1]);
+const vid = document.getElementById('vid'), cap = document.getElementById('cap'), tabs = document.getElementById('tabs');
+const scrub = document.getElementById('scrub'), clock = document.getElementById('clock'), icon = document.getElementById('icon'), play = document.getElementById('play');
+let cur = null;
+GROUPS.forEach(([title, items]) => {
+  const h = document.createElement('div'); h.className = 'group'; h.textContent = title; tabs.appendChild(h);
+  const row = document.createElement('div'); row.className = 'tabs'; tabs.appendChild(row);
+  items.forEach(([v, name]) => {
+    const b = document.createElement('button'); b.dataset.v = v;
+    b.innerHTML = v === 'original' ? name : `<b>${v}</b>${name}`;
+    b.onclick = () => select(v); row.appendChild(b);
+  });
+});
+function select(v) {
+  if (v === cur) return;
+  const t = vid.currentTime || 0, wasPlaying = !vid.paused;
+  cur = v;
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  const name = ALL.find(x => x[0] === v)[1];
+  cap.textContent = v === 'original' ? name : `${v}, ${name}`;
+  vid.src = `video/${v}.mp4?v=1`;
+  vid.addEventListener('loadedmetadata', () => { vid.currentTime = t; if (wasPlaying || first) vid.play().catch(() => {}); first = false; }, { once: true });
+  try { history.replaceState(null, '', '#' + v); } catch (e) {}
+}
+let first = true;
+const fmt = s => s.toFixed(1).replace('.', ',');
+const setIcon = () => { const p = !vid.paused; icon.setAttribute('d', p ? 'M4 2.5 H7.5 V15.5 H4 Z M10.5 2.5 H14 V15.5 H10.5 Z' : 'M4 2.5 L15.5 9 L4 15.5 Z'); play.setAttribute('aria-label', p ? 'Пауза' : 'Играть'); };
+vid.addEventListener('play', setIcon); vid.addEventListener('pause', setIcon);
+(function tick() { scrub.value = vid.currentTime; clock.textContent = `${fmt(vid.currentTime)} / 15,0 с`; requestAnimationFrame(tick); })();
+play.onclick = () => vid.paused ? vid.play() : vid.pause();
+scrub.oninput = () => { vid.pause(); vid.currentTime = +scrub.value; };
+addEventListener('keydown', e => {
+  const i = ALL.findIndex(x => x[0] === cur);
+  if (e.code === 'Space') { e.preventDefault(); play.onclick(); }
+  if (e.code === 'ArrowLeft') { e.preventDefault(); vid.pause(); vid.currentTime = Math.max(0, vid.currentTime - 0.04); }
+  if (e.code === 'ArrowRight') { e.preventDefault(); vid.pause(); vid.currentTime = Math.min(14.96, vid.currentTime + 0.04); }
+  if (e.code === 'ArrowUp') { e.preventDefault(); select(ALL[(i - 1 + ALL.length) % ALL.length][0]); }
+  if (e.code === 'ArrowDown') { e.preventDefault(); select(ALL[(i + 1) % ALL.length][0]); }
+});
+const start = location.hash.slice(1);
+select(ALL.some(x => x[0] === start) ? start : 'v8');
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Слепой тест моделей</title>
+<style>
+  :root { --bg: #EEF0F3; --panel: #fff; --ink: #1B2430; --muted: #6B7685; --line: #D9DEE5; --accent: #00ADFF; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink);
+               font: 15px/1.45 -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; }
+  main { max-width: 1900px; margin: 0 auto; padding: 16px 16px 40px; }
+  h1 { margin: 8px 0 4px; font-size: 20px; font-weight: 600; }
+  h2 { margin: 22px 0 8px; font-size: 17px; font-weight: 600; }
+  .sub { margin: 0 0 12px; color: var(--muted); max-width: 1100px; }
+  .sub a { color: #0078B8; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-weight: 600; color: var(--muted); font-size: 13px; }
+  td.n { text-align: right; }
+  tr:last-child td { border-bottom: 0; }
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; display: flex; gap: 12px; align-items: center; }
+  #play { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; cursor: pointer;
+          display: grid; place-items: center; }
+  #play svg { width: 18px; height: 18px; display: block; }
+  #scrub { flex: 1 1 auto; min-width: 0; accent-color: var(--accent); height: 28px; }
+  #clock { flex: none; min-width: 92px; text-align: right; color: var(--muted); }
+  .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 1200px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px; }
+  figcaption { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+  video { display: block; width: 100%; height: auto; aspect-ratio: 1200 / 628; border-radius: 6px; background: #00ADFF; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Слепой тест: Fable 5.1, Opus 5.5, Sonnet 5</h1>
+  <p class="sub">Одна и та же задача — баннер «Яндекс Лавка уже в вашем городе» по одному ТЗ, с одинаковыми материалами (шрифты, фото товаров, лого, метель и гирлянды) и без визуальных референсов. Модели работали одновременно, каждая в своей папке, без доступа к прежним вариантам. Время и токены — по данным системы. <a href="../variants/">Все варианты баннера</a>.</p>
+  <div class="bar">
+    <button id="play" aria-label="Играть"><svg viewBox="0 0 18 18" aria-hidden="true"><path id="icon" d="M4 2.5 L15.5 9 L4 15.5 Z" fill="#fff"/></svg></button>
+    <input id="scrub" type="range" min="0" max="15" step="0.04" value="0" aria-label="Прогресс">
+    <span id="clock">0,0 / 15,0 с</span>
+  </div>
+
+  <h2>Уровень раздумий high, 29.09</h2>
+  <div class="scroll"><table>
+    <tr><th>Модель</th><th>Время</th><th>Токены</th><th>Вызовов инструментов</th></tr>
+    <tr><td>Fable 5.1</td><td class="n">31 мин 33 с</td><td class="n">212 158</td><td class="n">33</td></tr>
+    <tr><td>Opus 5.5</td><td class="n">16 мин 12 с</td><td class="n">168 047</td><td class="n">30</td></tr>
+    <tr><td>Sonnet 5</td><td class="n">24 мин 22 с</td><td class="n">245 318</td><td class="n">66</td></tr>
+  </table></div>
+  <div class="grid" style="margin-top:12px">
+    <figure><figcaption>Fable 5.1</figcaption><video src="high-fable.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Opus 5.5</figcaption><video src="high-opus.mp4?v=1" muted playsinline preload="auto"></video></figure>
+    <figure><figcaption>Sonnet 5</figcaption><video src="high-sonnet.mp4?v=1" muted playsinline preload="auto"></video></figure>
+  </div>
+  <!--XHIGH-->
+</main>
+<script>
+const vids = [...document.querySelectorAll('video')], lead = vids[0];
+const scrub = document.getElementById('scrub'), clock = document.getElementById('clock'), icon = document.getElementById('icon'), play = document.getElementById('play');
+const fmt = s => s.toFixed(1).replace('.', ',');
+let playing = false;
+function setPlaying(p) {
+  playing = p;
+  icon.setAttribute('d', p ? 'M4 2.5 H7.5 V15.5 H4 Z M10.5 2.5 H14 V15.5 H10.5 Z' : 'M4 2.5 L15.5 9 L4 15.5 Z');
+  play.setAttribute('aria-label', p ? 'Пауза' : 'Играть');
+  vids.forEach(v => { v.currentTime = lead.currentTime; p ? v.play().catch(() => {}) : v.pause(); });
+}
+lead.addEventListener('ended', () => { vids.forEach(v => v.currentTime = 0); if (playing) vids.forEach(v => v.play().catch(() => {})); });
+(function tick() {
+  const t = lead.currentTime;
+  vids.forEach(v => { if (v !== lead && Math.abs(v.currentTime - t) > 0.08) v.currentTime = t; });
+  scrub.value = t; clock.textContent = `${fmt(t)} / 15,0 с`;
+  requestAnimationFrame(tick);
+})();
+play.onclick = () => setPlaying(!playing);
+scrub.oninput = () => { setPlaying(false); vids.forEach(v => v.currentTime = +scrub.value); };
+addEventListener('keydown', e => { if (e.code === 'Space') { e.preventDefault(); setPlaying(!playing); } });
+Promise.all(vids.map(v => new Promise(r => v.readyState >= 1 ? r() : v.addEventListener('loadedmetadata', r, { once: true })))).then(() => setPlaying(true));
+</script>
+</body>
+</html>
