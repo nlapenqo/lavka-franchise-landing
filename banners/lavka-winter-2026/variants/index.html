@@ -79,7 +79,7 @@ function select(v) {
   document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
   const name = ALL.find(x => x[0] === v)[1];
   cap.textContent = v === 'original' ? name : `${v}, ${name}`;
-  vid.src = `video/${v}.mp4?v=1`;
+  vid.src = `video/${v}.mp4?v=2`;
   vid.addEventListener('loadedmetadata', () => { vid.currentTime = t; if (wasPlaying || first) vid.play().catch(() => {}); first = false; }, { once: true });
   try { history.replaceState(null, '', '#' + v); } catch (e) {}
 }
