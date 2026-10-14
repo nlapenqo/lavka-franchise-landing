@@ -18,8 +18,11 @@
     ph: k * 1.93 + .4,                     // фаза
     w: (2 * Math.PI) / (8.2 + k * .9),     // время: период 8–12 с
     q: (2 * Math.PI) / (980 + k * 170),    // скролл: период ~1000–1700 px
-    dx: 0, dy: 0, vis: true,
+    dx: 0, dy: 0, vis: true, mx: 0, my: 0, mr: 0,
   }));
+  /* курсор: предметы слегка тянутся к нему и поворачиваются в его сторону (только мышь, в покое и в начале пролёта) */
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches, MAG = 420;
+  let px = null, py = null;
   let pin = 640, mob = false, cur = null, last = 0, clock = 0, t0 = 0, raf = 0, inView = false, live = sec.classList.contains('is-live');
 
   function measure() {
@@ -41,6 +44,7 @@
     const camZ = p * DEPTH - INTRO * (1 - intro);
     const sec_ = clock / 1000, A = mob ? 4 : 7, R = 2.4;
 
+    const sr = stage.getBoundingClientRect(), km = 1 - Math.exp(-dt / 220);
     items.forEach(it => {
       const rel = it.z - camZ;
       const s = rel > .02 ? it.z / rel : Infinity;
@@ -52,8 +56,17 @@
       const fy = A * Math.sin(a), fx = A * .45 * Math.sin(a * .71 + 1.3), rot = R * Math.sin(a * .83 + it.ph * .5);
       /* при подлёте предмет слегка заваливается наружу — по стороне, где он стоит */
       const roll = Math.max(-9, Math.min(9, (s - 1) * 3.2 * Math.sign(it.dx || 1)));
-      const tx = it.dx * (s - 1) + fx * s, ty = it.dy * (s - 1) + fy * s;
-      it.el.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0) scale(${s.toFixed(4)}) rotate(${(rot + roll).toFixed(3)}deg)`;
+      /* магнит: цель от расстояния до курсора, плавная доводка ≈ 220 мс; при подлёте к камере эффект гаснет */
+      let gx = 0, gy = 0, gr = 0;
+      if (px !== null) {
+        const cx = sr.left + it.el.offsetLeft + it.el.offsetWidth / 2 + (it.tx || 0), cy = sr.top + it.el.offsetTop + it.el.offsetHeight / 2 + (it.ty || 0);
+        const ddx = px - cx, ddy = py - cy, d = Math.hypot(ddx, ddy) || 1, k = Math.max(0, 1 - d / MAG) ** 1.5 * (1 - ss(1.3, 2.2, s));
+        gx = ddx / d * 16 * k; gy = ddy / d * 12 * k; gr = Math.max(-1, Math.min(1, ddx / 300)) * 4 * k;
+      }
+      it.mx += (gx - it.mx) * km; it.my += (gy - it.my) * km; it.mr += (gr - it.mr) * km;
+      const tx = it.dx * (s - 1) + fx * s + it.mx, ty = it.dy * (s - 1) + fy * s + it.my;
+      it.tx = tx; it.ty = ty;
+      it.el.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0) scale(${s.toFixed(4)}) rotate(${(rot + roll + it.mr).toFixed(3)}deg)`;
       it.el.style.opacity = o.toFixed(3);
       const b = ss(BLUR[0], BLUR[1], s);
       it.sharp.style.opacity = (1 - b).toFixed(3); it.blur.style.opacity = b.toFixed(3);
@@ -71,6 +84,7 @@
     if (sec.classList.contains('is-v')) { measure(); kick(); }
   }).observe(sec, { attributes: true, attributeFilter: ['class'] });
   document.addEventListener('visibilitychange', kick);
+  if (fine) { sec.addEventListener('pointermove', e => { px = e.clientX; py = e.clientY; }); sec.addEventListener('pointerleave', () => { px = py = null; }); }
   addEventListener('resize', () => { measure(); kick(); });
   if (live) t0 = -INTRO_MS;
   measure();

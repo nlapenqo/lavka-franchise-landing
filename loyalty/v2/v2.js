@@ -240,31 +240,6 @@
       fig.style.setProperty('--cap-d', d.toFixed(2) + 's'); prev = d;
     });
   });
-  /* «Горизонт»: стопки слегка тянутся к курсору и наклоняются к нему — до 10 px и 3°, в радиусе 360 px, плавно (rAF + доводка) */
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    $$('.c-sky').forEach(stage => {
-      const board = stage.closest('.c-board'); let mx = null, my = null, raf = 0;
-      const items = () => $$('[data-coins]', stage).map(el => (el._m ||= { el, x: 0, y: 0, r: 0 }));
-      function tick() {
-        let moving = false;
-        items().forEach(m => {
-          let tx = 0, ty = 0, tr = 0;
-          if (mx !== null && m.el.offsetParent) {
-            const b = m.el.getBoundingClientRect(), cx = b.left + b.width / 2, cy = b.top + b.height * .45;
-            const dx = mx - cx, dy = my - cy, d = Math.hypot(dx, dy), k = Math.max(0, 1 - d / 360) ** 1.5;
-            tx = dx / (d || 1) * 10 * k; ty = dy / (d || 1) * 6 * k; tr = Math.max(-1, Math.min(1, dx / 240)) * 3 * k;
-          }
-          m.x += (tx - m.x) * .12; m.y += (ty - m.y) * .12; m.r += (tr - m.r) * .12;
-          if (Math.abs(tx - m.x) + Math.abs(ty - m.y) + Math.abs(tr - m.r) > .02) moving = true;
-          m.el.style.transform = `translate3d(${m.x.toFixed(2)}px,${m.y.toFixed(2)}px,0) rotate(${m.r.toFixed(2)}deg)`;
-        });
-        raf = moving ? requestAnimationFrame(tick) : 0;
-      }
-      const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
-      board.addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; kick(); });
-      board.addEventListener('pointerleave', () => { mx = my = null; kick(); });
-    });
-  }
 
   /* ---------- футер: текст 1:1 со старой страницы ---------- */
   const LEGAL = `<p>*Условия индивидуальны и&nbsp;зависят от&nbsp;направления. Чтобы узнать детали, отправьте заявку. <a href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Правила акции.</a></p>

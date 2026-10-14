@@ -278,7 +278,7 @@
 .c-fig__coin{width:.66em;height:.66em;flex:none}
 .c-sky{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px;align-items:end;border-bottom:1px solid rgba(170,217,252,.22)}
 .c-sky .c-fig{display:flex;flex-direction:column;gap:24px}
-.c-sky [data-coins]{width:100%;max-width:170px;transform-origin:50% 90%}
+.c-sky [data-coins]{width:100%;max-width:170px}
 .c-sky--one .c-fig{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28px;align-items:end;height:100%}
 .c-sky--one figcaption{align-self:start}
 /* франчайзи: цифра и стопка — одна пара по центру сцены, цифра на середине высоты стопки
