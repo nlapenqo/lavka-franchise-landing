@@ -1,0 +1,84 @@
+/* K — Обменник: слева текст, справа стопка монет растёт до цены выбранного подарка, подарок едет на вершине, цена — рядом.
+   Стопку рисует K.js в стиле data-coins из v2.js (ребро-градиент, сверху эллипс с короной); геометрию отдаёт в переменные стадии:
+   --sw ширина SVG, --cx центр стопки, --ry полуось эллипса, --b0 высота центра верхней грани над низом стадии при нуле монет. */
+.h-k{padding:0}
+.h-k__grid{position:relative;z-index:1;width:min(1480px,calc(100% - 96px));min-height:100svh;margin:0 auto;padding:112px 0 64px;display:grid;grid-template-columns:auto minmax(0,620px);justify-content:space-between;align-items:center;column-gap:56px}
+.h-k__copy{display:flex;flex-direction:column;align-items:flex-start;gap:28px}
+.h-k .hero__title{width:auto;max-width:none;text-align:left;font-size:clamp(56px,5.6vw,104px)}
+.h-k .hero-row.is-blue{color:var(--blue)}
+.h-k.hero .hero__lead{width:auto;max-width:460px;margin:0;text-align:left}
+
+/* обменник появляется вслед за заголовком */
+.h-k__ex{--x0:28px;--card:150px;--pfs:112px;display:flex;flex-direction:column;gap:28px;opacity:0;transform:translateY(24px);transition:opacity 1.2s var(--soft) .45s,transform 1.3s var(--soft) .45s}
+.is-live .h-k__ex{opacity:1;transform:none}
+.h-k__stage{position:relative;height:440px}
+.h-k__stack{position:absolute;left:var(--x0);bottom:0;line-height:0}
+.h-k__stack svg{display:block;overflow:visible}
+
+/* подарок на вершине стопки: белая карточка, покачивается ±2°; смена — перекрёстное появление картинок */
+.h-k__rider{position:absolute;left:calc(var(--x0) + var(--cx,84) * 1px);bottom:calc((var(--b0,34) + var(--ry,24)) * 1px + 14px);width:var(--card);margin-left:calc(var(--card) / -2);will-change:transform}
+.h-k__gift{position:relative;aspect-ratio:1;border-radius:28%;background:#fff;rotate:-4deg;box-shadow:0 30px 60px -24px rgba(6,22,48,.6),0 2px 6px rgba(6,22,48,.12);animation:hk-sway 8s ease-in-out infinite}
+@keyframes hk-sway{0%,100%{rotate:-6deg;translate:0 0}50%{rotate:-2deg;translate:0 -6px}}
+.h-k__gift img{position:absolute;left:9%;top:9%;width:82%;height:82%;object-fit:contain;opacity:0;transform:scale(.9);transition:opacity .5s var(--soft),transform .8s var(--soft)}
+.h-k__gift img.is-on{opacity:1;transform:none}
+
+/* уровень: пунктир от вершины стопки, над ним цена, под ним название */
+.h-k__level{position:absolute;left:calc(var(--x0) + var(--sw,168) * 1px - 6px);right:0;bottom:calc(var(--b0,34) * 1px);height:0;will-change:transform}
+.h-k__gauge{position:absolute;left:0;top:0;width:44px;border-top:1.5px dashed rgba(170,217,252,.6)}
+.h-k__price{position:absolute;left:58px;bottom:12px;margin:0;display:flex;align-items:center;gap:.12em;font-size:var(--pfs);font-weight:900;line-height:.8;color:var(--blue);white-space:nowrap}
+.h-k__price svg{width:.5em;height:.5em;flex:none}
+.h-k__name{position:absolute;left:58px;top:12px;margin:0;font-size:20px;font-weight:500;line-height:1.2;color:var(--muted-dark);white-space:nowrap}
+
+/* чипы подарков: контур на тёмном, выбранный — сплошной белый с тёмно-синим текстом; картинка — в белом круге */
+.h-k__chips{position:relative;display:flex;flex-wrap:wrap;gap:10px}
+.h-k__chip{flex:none;display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 20px 0 6px;border-radius:var(--r-pill);border:1.5px solid rgba(170,217,252,.32);color:#fff;font-size:16px;font-weight:500;line-height:1;white-space:nowrap;cursor:pointer;transition:background-color .35s var(--soft),color .35s var(--soft),border-color .35s var(--soft),transform .2s var(--ease)}
+.h-k__chip:hover{border-color:rgba(170,217,252,.8)}
+.h-k__chip:active{transform:scale(.97)}
+.h-k__chip[aria-pressed=true]{background:#fff;border-color:#fff;color:var(--navy)}
+.h-k__thumb{flex:none;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden}
+.h-k__thumb img{width:84%;height:84%;object-fit:contain}
+
+/* пауза покачивания вне экрана и у скрытого варианта (класс is-run ставит K.js) */
+.h-k:not(.is-run) .h-k__gift{animation-play-state:paused}
+
+@media (min-width:1800px){
+  .h-k__grid{width:min(1640px,calc(100% - 160px));grid-template-columns:auto minmax(0,720px)}
+  .h-k__ex{--card:176px;--pfs:136px}
+  .h-k__stage{height:510px}
+  .h-k__chip{height:58px;font-size:18px;padding-right:24px}
+  .h-k__thumb{width:46px;height:46px}
+  .h-k__name{font-size:22px}
+}
+@media (max-width:1199px){
+  .h-k__grid{column-gap:40px}
+  .h-k__ex{--x0:12px;--card:110px;--pfs:84px;gap:22px}
+  .h-k__stage{height:340px}
+  .h-k__chips{gap:8px}
+  .h-k__chip{height:44px;padding:0 16px 0 5px;gap:8px;font-size:15px}
+  .h-k__thumb{width:34px;height:34px}
+  .h-k__gauge{width:34px}
+  .h-k__price,.h-k__name{left:44px}
+  .h-k__name{font-size:18px}
+}
+@media (max-width:767px){
+  .h-k__grid{width:100%;padding:84px 0 28px;grid-template-columns:minmax(0,1fr);align-content:center;row-gap:24px}
+  .h-k__copy{align-items:center;gap:0;padding:0 20px;text-align:center}
+  .h-k .hero__title{text-align:center;font-size:clamp(40px,11.2vw,48px)}
+  .h-k.hero .hero__lead{max-width:330px;margin:16px 0 24px;text-align:center}
+  .h-k__ex{--x0:4px;--card:72px;--pfs:60px;gap:14px}
+  .h-k__stage{height:228px;margin:0 20px}
+  .h-k__rider{bottom:calc((var(--b0,26) + var(--ry,16)) * 1px + 8px)}
+  .h-k__gauge{width:24px}
+  .h-k__price,.h-k__name{left:34px}
+  .h-k__price{bottom:8px}
+  .h-k__name{top:8px;font-size:15px}
+  .h-k__chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 20px;scroll-padding:0 20px}
+  .h-k__chips::-webkit-scrollbar{display:none}
+  .h-k__chip{height:46px;padding:0 16px 0 5px;gap:8px;font-size:15px}
+  .h-k__thumb{width:36px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  .h-k__ex{transition:none;opacity:1;transform:none}
+  .h-k__gift{animation:none}
+  .h-k__gift img{transition:none}
+}

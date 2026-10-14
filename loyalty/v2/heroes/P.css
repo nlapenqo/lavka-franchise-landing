@@ -1,0 +1,48 @@
+/* P · Пролёт: композиция 1:1 с Figma Kec4… 2151:18117 (кадр 1440×900), поле франшизы как в хиро A.
+   Секция выше экрана на --pin: сцена .h-p__stage прилипает (sticky, 100svh), и пока страница проходит --pin,
+   камера летит вперёд сквозь подарки (heroes/P.js). Длина пина — здесь, в --pin; глубины — data-z в P.html.
+   prefers-reduced-motion: без пина и пролёта, статичная композиция макета. */
+.v2 .h-p.hero{--pin:640px;display:block;height:calc(100svh + var(--pin));min-height:0;padding:0;overflow:visible}
+.h-p__stage{position:sticky;top:0;height:100svh;overflow:clip;
+  display:flex;align-items:center;justify-content:center;padding:92px 0 0}
+.h-p__field{transform-origin:50% 55%;will-change:auto}
+
+/* предметы: позиция и размер в долях кадра 1440×900 вокруг центра текста; --k — один пиксель макета */
+.h-p__items{position:absolute;inset:0;pointer-events:none;container-type:size}
+/* --k — размер (по меньшей стороне), --kx/--ky — разнос от центра: на узких и низких экранах предметы мельче, но не наезжают на текст */
+.h-p__item{--k:clamp(.72px,min(calc(100cqw / 1440),calc(100cqh / 900)),1.3px);
+  --kx:clamp(.8px,calc(100cqw / 1440),1.3px);--ky:clamp(.72px,calc(100cqh / 900),1.3px);
+  position:absolute;left:calc(50% + (var(--cx) - 720) * var(--kx));top:calc(50% + 46px + (var(--cy) - 496.4) * var(--ky));
+  width:calc(var(--w) * var(--k));aspect-ratio:1;translate:-50% -50%;will-change:transform,opacity;backface-visibility:hidden}
+.h-p__art{position:absolute;left:var(--bx);top:var(--by);width:var(--bw);height:var(--bh);rotate:var(--r,0deg)}
+.h-p__art img{position:absolute;display:block;max-width:none;pointer-events:none;user-select:none}
+.h-p__img{inset:0;width:100%;height:100%}
+/* размытая копия (320 px, поля по 12 %) — проявляется opacity, когда предмет проходит камеру */
+.h-p__blur{inset:-12%;width:124%;height:124%;opacity:0}
+
+.h-p__content{z-index:2;gap:28px}
+.h-p .hero__title{font-size:clamp(72px,9.8svh,88px);width:900px}
+.h-p .hero-row.is-blue{color:var(--blue)}
+.v2 .h-p .hero__actions{gap:20px}
+/* за предметами поле (z 0), AirPods (в макете лежат в «Поле франшизы»), текст, остальные предметы */
+.h-p__item{z-index:3}
+.h-p__item.is-back{z-index:1}
+
+@media (max-width:1199px){
+  .h-p .hero__title{font-size:64px;width:640px}
+}
+/* телефон: короче пин, предметы меньше и в полосах над и под текстом; --mk ужимает их на низких экранах */
+@media (max-width:767px){
+  .v2 .h-p.hero{--pin:360px}
+  .h-p__stage{padding:96px 16px 64px}
+  /* «Получайте монеты» в одну строку: ширина строки ≈ 9,13 em */
+  .h-p .hero__title{font-size:min(40px,calc((100vw - 32px) / 9.3));width:100%;max-width:none}
+  .h-p__content{gap:0}
+  .h-p__item{--mk:clamp(.62px,calc((100cqh - 420px) / 392),1px);left:calc(var(--mx) * 100%);top:var(--my);width:calc(var(--mw) * var(--mk))}
+}
+@media (prefers-reduced-motion:reduce){
+  .v2 .h-p.hero{height:auto;min-height:100svh}
+  .h-p__stage{position:relative;min-height:100svh}
+  .h-p__item{will-change:auto}
+  .h-p__blur{display:none}
+}

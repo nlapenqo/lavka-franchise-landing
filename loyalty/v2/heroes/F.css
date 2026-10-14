@@ -1,0 +1,72 @@
+/* F · Классика: тёмно-синее хиро с полем франшизы, текст слева, витрина из четырёх подарков справа.
+   Карточки — как в каталоге A (белая, фото на светлой плашке, название, цена в монетах), покачиваются ±2°. */
+.h-f{--w:clamp(170px,calc((100svh - 428px) / 2),248px);--stagger:56px;align-items:center;padding:112px 0 56px}
+.h-f__grid{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:64px;align-items:center}
+.h-f__copy{display:flex;flex-direction:column;align-items:flex-start;gap:28px}
+.h-f .hero__title{width:auto;max-width:none;margin:0;text-align:left;font-size:80px}
+.h-f .hero-row.is-blue{color:var(--blue)}
+.h-f.hero .hero__lead{width:auto;max-width:440px;margin:0;text-align:left;color:var(--muted-dark)}
+.h-f .hero__actions{justify-content:flex-start}
+
+/* витрина: две колонки, правая опущена на --stagger */
+.h-f__shelf{display:grid;grid-template-columns:repeat(2,var(--w));gap:16px;padding-bottom:var(--stagger)}
+.h-f__card{position:relative;display:flex;flex-direction:column;padding:12px 12px 18px;border-radius:28px;background:#fff;color:var(--navy);
+  box-shadow:0 30px 60px -24px rgba(6,22,48,.55),0 2px 6px rgba(6,22,48,.12);
+  opacity:0;transform:translateY(32px);
+  transition:opacity 1.2s var(--soft) calc(.5s + var(--k) * .12s),transform 1.3s var(--soft) calc(.5s + var(--k) * .12s),scale .35s var(--soft),box-shadow .35s var(--soft)}
+.h-f__card:nth-child(even){top:var(--stagger)}
+.is-live .h-f__card{opacity:1;transform:none;animation:h-f-sway var(--t) ease-in-out var(--o) infinite}
+.h-f__card:hover{scale:1.03;box-shadow:0 40px 70px -26px rgba(6,22,48,.6),0 2px 6px rgba(6,22,48,.12)}
+.h-f__media{position:relative;display:block;aspect-ratio:1;border-radius:20px;background:var(--light);overflow:hidden}
+.h-f__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10%;mix-blend-mode:multiply}
+.h-f__media.is-cover img{object-fit:cover;padding:0}
+.h-f__name{margin:14px 6px 0;font-size:17px;font-weight:700;line-height:1.2}
+.h-f__price{display:inline-flex;align-items:center;gap:6px;margin:auto 6px 0;padding-top:8px;font-size:22px;font-weight:900;line-height:1}
+.h-f__price svg{width:22px;height:22px;flex:none}
+@keyframes h-f-sway{0%,100%{rotate:-2deg;translate:0 0}50%{rotate:2deg;translate:0 -8px}}
+
+/* большой экран (≈2000 px): шире сетка, крупнее заголовок и карточки */
+@media (min-width:1600px){
+  .h-f{--w:clamp(200px,calc((100svh - 440px) / 2),290px);--stagger:64px}
+  .h-f__grid{width:min(1440px,calc(100% - 160px));column-gap:96px}
+  .h-f .hero__title{font-size:100px}
+  .h-f.hero .hero__lead{max-width:520px;font-size:24px}
+  .h-f__name{font-size:19px}
+  .h-f__price{font-size:24px}
+  .h-f__price svg{width:24px;height:24px}
+}
+
+@media (max-width:1199px){
+  .h-f{--w:clamp(150px,calc((100svh - 428px) / 2),210px);--stagger:44px}
+  .h-f__grid{column-gap:48px}
+  .h-f .hero__title{font-size:64px}
+  .h-f__name{font-size:16px}
+  .h-f__price{font-size:20px}
+}
+/* планшет: текст сверху, витрина рядом из четырёх под ним */
+@media (max-width:1023px){
+  .h-f{--stagger:28px}
+  .h-f__grid{grid-template-columns:1fr;row-gap:48px}
+  .h-f .hero__title{font-size:72px}
+  .h-f__shelf{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+/* телефон: витрина — один ряд с прокруткой пальцем, под кнопками */
+@media (max-width:767px){
+  .h-f{align-items:flex-start;padding:100px 0 28px;text-align:left}
+  .h-f__grid{row-gap:0}
+  .h-f__copy{gap:0}
+  .h-f .hero__title{font-size:clamp(40px,11.6vw,50px);line-height:.92}
+  .h-f.hero .hero__lead{max-width:330px;margin:20px 0 28px;font-size:18px;line-height:1.32}
+  .h-f .hero__actions{align-items:flex-start}
+  .h-f__shelf{display:flex;gap:12px;margin:16px -20px 0;padding:14px 20px 30px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .h-f__shelf::-webkit-scrollbar{display:none}
+  .h-f__card{flex:0 0 156px;padding:10px 10px 14px;border-radius:24px;scroll-snap-align:start}
+  .h-f__card:nth-child(even){top:0}
+  .h-f__media{border-radius:16px}
+  .h-f__name{margin:12px 4px 0;font-size:15px}
+  .h-f__price{margin:auto 4px 0;font-size:18px}
+  .h-f__price svg{width:18px;height:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  .h-f__card,.is-live .h-f__card{opacity:1;transform:none;transition:none;animation:none}
+}

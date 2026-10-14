@@ -1,0 +1,106 @@
+/* H — Светлое бенто: белый разворот, заголовок слева сверху, лид и кнопки — внизу колонки,
+   справа сетка 6 колонок: флагман 4×2, два подарка 2×1, три категории 2×1 в нижнем ряду.
+   Плашки — card #EAF3FC, картинки через multiply (белый фон вырезки уходит в плашку). */
+.h-h{display:block;padding:0;background:#fff;overflow:hidden}
+/* края — по шапке: слева по логотипу, справа по кнопке корзины */
+.h-h__in{--hx:clamp(24px,4vw,64px);position:relative;z-index:1;min-height:100svh;margin:0 calc(var(--hx) + 12px) 0 calc(var(--hx) + 40px);padding:112px 0 64px;display:grid;grid-template-columns:minmax(0,5.75fr) minmax(0,6.25fr);column-gap:clamp(32px,3.5vw,64px)}
+.h-h__copy{container-type:inline-size;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding:20px 0 0}
+/* кегль от ширины колонки: самая длинная строка «и обменивайте» занимает её целиком */
+.h-h .hero__title{width:auto;max-width:none;text-align:left;font-size:min(13.6cqi,120px);color:var(--navy)}
+.h-h__foot{display:flex;flex-direction:column;align-items:flex-start;gap:28px}
+.h-h .h-h__foot .hero__lead{width:auto;max-width:440px;margin:0;text-align:left;color:var(--dim)}
+.h-h .hero__actions .text-link{color:var(--navy)}
+
+/* сетка */
+.h-h__bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(128px,.5fr);gap:12px;min-height:560px}
+.h-h__tile,.h-h__cat{position:relative;display:block;min-width:0;border-radius:var(--r-l);background:var(--card);color:var(--navy);overflow:hidden;isolation:isolate;
+  opacity:0;transform:translateY(24px);transition:opacity var(--in) var(--soft) calc(.34s + var(--d) * 80ms),transform 1.3s var(--soft) calc(.34s + var(--d) * 80ms)}
+.is-live .h-h__tile,.is-live .h-h__cat{opacity:1;transform:none}
+.h-h__tile--main{grid-column:1 / span 4;grid-row:1 / span 2}
+.h-h__tile--a{grid-column:5 / span 2;grid-row:1}
+.h-h__tile--b{grid-column:5 / span 2;grid-row:2}
+.h-h__cat:nth-child(4){grid-column:1 / span 2}
+.h-h__cat:nth-child(5){grid-column:3 / span 2}
+.h-h__cat:nth-child(6){grid-column:5 / span 2}
+
+/* картинка: в плашке над подписью, белый фон вырезки уходит в цвет плашки */
+.h-h__img{position:absolute;inset:6% 8% 30%;display:block}
+.h-h__img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transition:scale .6s var(--ease)}
+.h-h__tile--main .h-h__img{inset:5% 10% 19%}
+/* постоянного движения нет: спокойный вариант. Трансформ на обёртке картинки не ставить — он изолирует multiply,
+   и белый фон вырезки вылезает квадратом */
+.h-h__tile:hover .h-h__img img{scale:1.04}
+
+/* подпись: название и цена в монетах */
+.h-h__cap{position:absolute;left:20px;right:20px;bottom:18px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.h-h__cap b{font-size:16px;font-weight:500;line-height:1.2;color:var(--navy)}
+.h-h__price{display:inline-flex;align-items:center;gap:6px;font-size:22px;font-weight:900;line-height:1}
+.h-h__price svg{width:22px;height:22px;flex:none}
+.h-h__tile--main .h-h__cap{left:28px;right:28px;bottom:26px;flex-direction:row;align-items:flex-end;justify-content:space-between;gap:16px}
+.h-h__tile--main .h-h__cap b{font-size:24px;font-weight:800;line-height:1}
+.h-h__tile--main .h-h__price{font-size:31px}
+.h-h__tile--main .h-h__price svg{width:30px;height:30px}
+
+/* категории: название и число позиций, картинка справа */
+.h-h__cat{display:flex;align-items:flex-start;padding:18px 20px}
+.h-h__cat-t{position:relative;z-index:1;display:flex;align-items:baseline;gap:8px}
+.h-h__cat-t b{font-size:20px;font-weight:800;line-height:1}
+.h-h__cat-t span{font-size:15px;font-weight:500;color:var(--dim)}
+.h-h__cat>img{position:absolute;right:-2%;bottom:-4%;width:64%;height:80%;object-fit:contain;object-position:right bottom;mix-blend-mode:multiply;transition:translate .6s var(--ease),rotate .6s var(--ease)}
+.h-h__cat:hover>img{translate:0 -4px;rotate:-3deg}
+/* промокоды веером: три билета */
+.h-h__fan{position:absolute;right:10%;bottom:14%;width:58%;aspect-ratio:2.1}
+.h-h__fan img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:translate .6s var(--ease),rotate .6s var(--ease)}
+.h-h__fan img:nth-child(1){translate:14% -30%;rotate:9deg}
+.h-h__fan img:nth-child(2){translate:-12% -14%;rotate:-8deg}
+.h-h__cat:hover .h-h__fan img:nth-child(1){translate:20% -38%;rotate:12deg}
+.h-h__cat:hover .h-h__fan img:nth-child(2){translate:-18% -20%;rotate:-11deg}
+
+/* ноутбук и планшет в ширину */
+@media (max-width:1199px){
+  .h-h__cap b{font-size:15px}
+  .h-h__price{font-size:20px}
+  .h-h__price svg{width:20px;height:20px}
+  .h-h__cat-t{flex-direction:column;gap:4px}
+}
+/* планшет: колонка текста над сеткой */
+@media (max-width:1023px){
+  .h-h__in{grid-template-columns:minmax(0,1fr);row-gap:40px;padding:120px 0 48px}
+  .h-h__copy{justify-content:flex-start;gap:32px;padding:0}
+  .h-h .hero__title{font-size:80px}
+  .h-h__bento{grid-template-rows:300px 300px 140px;min-height:0}
+}
+/* телефон: заголовок слева, кнопка во всю ширину, сетка под текстом и уходит за первый экран */
+@media (max-width:767px){
+  .h-h{text-align:left}
+  .h-h__in{margin:0 20px;padding:108px 0 40px;row-gap:36px}
+  .h-h__copy{gap:22px}
+  .h-h .hero__title{font-size:clamp(38px,11.4vw,48px);line-height:.92}
+  .h-h__foot{gap:28px;width:100%}
+  .h-h .h-h__foot .hero__lead{max-width:330px;font-size:18px;line-height:1.32}
+  .h-h .hero__actions{align-items:flex-start;gap:18px}
+  .h-h__bento{grid-template-rows:none;grid-auto-rows:auto;gap:8px}
+  .h-h__tile,.h-h__cat{border-radius:20px}
+  .h-h__tile--main{grid-column:1 / -1;grid-row:auto;height:300px}
+  .h-h__tile--a,.h-h__tile--b{grid-column:span 3;grid-row:auto;height:196px}
+  /* категории на телефоне — строками, как содержание номера */
+  .h-h__cat:nth-child(n){grid-column:1 / -1;height:72px;align-items:center;padding:0 18px}
+  .h-h__img{inset:6% 8% 36%}
+  .h-h__tile--main .h-h__img{inset:4% 12% 22%}
+  .h-h__cap{left:14px;right:14px;bottom:12px;gap:6px}
+  .h-h__cap b{font-size:13px}
+  .h-h__price{font-size:18px}
+  .h-h__price svg{width:18px;height:18px}
+  .h-h__tile--main .h-h__cap{left:18px;right:18px;bottom:18px}
+  .h-h__tile--main .h-h__cap b{font-size:20px}
+  .h-h__tile--main .h-h__price{font-size:24px}
+  .h-h__tile--main .h-h__price svg{width:24px;height:24px}
+  .h-h__cat-t{flex-direction:row;gap:8px}
+  .h-h__cat-t b{font-size:18px}
+  .h-h__cat-t span{font-size:14px}
+  .h-h__cat>img{right:12px;bottom:4px;width:96px;height:64px}
+  .h-h__fan{right:22px;bottom:12px;width:96px}
+}
+@media (prefers-reduced-motion:reduce){
+  .h-h__tile,.h-h__cat{opacity:1;transform:none;transition:none}
+}

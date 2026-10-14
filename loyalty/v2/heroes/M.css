@@ -1,0 +1,47 @@
+/* M — Кольцо подарков. Геометрию (--R радиус, --cw/--ch карточка, --P перспектива, --yc центр кольца, --sh высота сцены на телефоне)
+   считает M.js под экран; здесь — значения по умолчанию для кадра 1440×900 и сборка 3D-цепочки:
+   сцена (perspective) → наклон (rotateX) → кольцо (rotateY, крутит JS) → слот (место на кольце) → две грани. */
+.h-m{--n:12;--R:540px;--cw:168px;--ch:205px;--P:2300px;--yc:560px;--tilt:-24deg;padding:0;align-items:flex-start;touch-action:pan-y;cursor:grab}
+.h-m.is-drag{cursor:grabbing}
+.h-m .hero__content{padding:calc(clamp(124px,15svh,176px) + var(--shift,0px)) 0 0;justify-content:flex-start;pointer-events:none}
+.h-m__copy{display:flex;flex-direction:column;align-items:center;gap:28px;max-width:calc(100% - 40px);pointer-events:auto;cursor:auto}
+.h-m .hero__title{width:auto;max-width:none;font-size:clamp(56px,5.6vw,100px)}
+.h-m .hero__lead{width:auto}
+
+/* сцена */
+.h-m__stage{position:absolute;inset:0;z-index:0;perspective:var(--P);perspective-origin:50% var(--yc);user-select:none;-webkit-user-select:none;
+  opacity:0;transform:translateY(48px);transition:opacity 1.2s var(--soft) .3s,transform 1.4s var(--soft) .3s}
+.is-live .h-m__stage{opacity:1;transform:none}
+.h-m__tilt{position:absolute;left:50%;top:var(--yc);width:0;height:0;transform-style:preserve-3d;transform:rotateX(var(--tilt))}
+.h-m__ring{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
+.h-m__slot{position:absolute;left:calc(var(--cw) * -.5);top:calc(var(--ch) * -.5);width:var(--cw);height:var(--ch);transform-style:preserve-3d;
+  transform:rotateY(calc(var(--k) * 360deg / var(--n))) translateZ(var(--R))}
+
+/* грани: лицо — подарок, оборот — монета и цена */
+.h-m__face{position:absolute;inset:0;border-radius:calc(var(--cw) * .16);background:#fff;overflow:hidden;color:var(--navy);
+  -webkit-backface-visibility:hidden;backface-visibility:hidden;box-shadow:0 30px 60px -24px rgba(6,22,48,.55),0 2px 6px rgba(6,22,48,.12)}
+.h-m__face::after{content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;background:var(--navy);opacity:var(--fog,0);pointer-events:none}
+.h-m__face img{position:absolute;left:10%;top:9%;width:80%;height:64%;object-fit:contain;-webkit-user-drag:none;pointer-events:none}
+.h-m__slot.is-cover .h-m__face img{left:0;top:0;width:100%;height:100%;object-fit:cover}
+.h-m__slot.is-ticket .h-m__face img{left:8%;top:22%;width:84%;height:44%}
+.h-m__price{position:absolute;left:8%;bottom:7%;display:inline-flex;align-items:center;gap:.3em;padding:.38em .7em .38em .4em;border-radius:999px;background:#fff;
+  font-size:max(12px,calc(var(--cw) * .105));font-weight:900;line-height:1}
+.h-m__price svg{width:1.2em;height:1.2em;flex:none}
+.h-m__face--back{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--cw) * .07);transform:rotateY(180deg)}
+.h-m__face--back svg{width:calc(var(--cw) * .44);height:calc(var(--cw) * .44)}
+.h-m__face--back b{font-size:calc(var(--cw) * .2);font-weight:900;line-height:1;letter-spacing:-.01em}
+
+/* телефон: текст сверху, кольцо меньше и под текстом, 8 карточек */
+@media (max-width:767px){
+  .h-m{--n:8;flex-direction:column;padding:0 0 12px;cursor:auto}
+  .h-m .hero__content{flex:none;padding:104px 0 0}
+  .h-m__copy{gap:0}
+  .h-m .hero__title{font-size:clamp(38px,11.4vw,48px)}
+  .h-m__stage{position:relative;inset:auto;order:1;flex:none;width:100%;height:var(--sh,300px);margin-top:8px}
+  .h-m__slot.is-desk{display:none}
+  .h-m__slot{transform:rotateY(calc(var(--km) * 360deg / var(--n))) translateZ(var(--R))}
+  .h-m__face{box-shadow:0 18px 30px -16px rgba(6,22,48,.6)}
+}
+@media (prefers-reduced-motion:reduce){
+  .h-m__stage{opacity:1;transform:none;transition:none}
+}

@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b3a6a">
+<title>Магазин подарков</title>
+<meta name="description" content="Получайте монеты и обменивайте их на подарки. Программа лояльности для франчайзи и директоров Яндекс Лавки">
+<link rel="icon" type="image/svg+xml" href="../../site/assets/figma/favicon.svg">
+<link rel="preload" href="../../site/fonts/YS%20Geo-Black.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../kit/kit.css">
+<link rel="stylesheet" href="./v2.css?v=1014g">
+<!-- hero-css:start -->
+<link rel="stylesheet" href="./heroes/F.css?v=mv0qzeo4">
+<link rel="stylesheet" href="./heroes/G.css?v=mv0rgvas">
+<link rel="stylesheet" href="./heroes/H.css?v=mv0rqn5z">
+<link rel="stylesheet" href="./heroes/I.css?v=mv0rt8r2">
+<link rel="stylesheet" href="./heroes/J.css?v=mv0rgvda">
+<link rel="stylesheet" href="./heroes/K.css?v=mv0rgvdb">
+<link rel="stylesheet" href="./heroes/L.css?v=mv0rt8r7">
+<link rel="stylesheet" href="./heroes/M.css?v=mv0rqn61">
+<link rel="stylesheet" href="./heroes/N.css?v=mv0rgvaw">
+<link rel="stylesheet" href="./heroes/O.css?v=mv0ri0to">
+<link rel="stylesheet" href="./heroes/P.css?v=mv86a5bl">
+<!-- hero-css:end -->
+<!--
+  Магазин подарков v2: контент 1:1 со старой страницы lavka.yandex.ru/about/franchise/gifts
+  (каталог, корзина «Ваш заказ:», форма заказа, «Как получать монеты?», футер), новый дизайн.
+  Пять блоков × пять вариантов (A–E): панель «Варианты» внизу, адрес #v=ABCDE.
+  Статус и решения — ../README.md.
+-->
+</head>
+<body class="v2">
+<a class="v2-skip" href="#gifts">К&nbsp;подаркам</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="crown" viewBox="7 9 14 10.2"><path d="M18.7047 18.9159H9.20748C8.86829 18.9159 8.59695 18.7124 8.52911 18.3732L7.17236 11.5894C7.17236 11.3181 7.2402 11.0467 7.51155 10.8432C7.7829 10.7076 8.05425 10.7076 8.25776 10.8432L11.0391 13.0819L13.3456 9.62216C13.6169 9.21514 14.2274 9.21514 14.4988 9.62216L16.8053 13.0819L19.5866 10.8432C19.7901 10.6397 20.1293 10.6397 20.3328 10.8432C20.6041 10.9789 20.672 11.2503 20.672 11.5894L19.3152 18.3732C19.3152 18.7124 18.976 18.9159 18.6369 18.9159H18.7047Z" fill="currentColor"/></symbol>
+    <symbol id="coin" viewBox="0 0 28 28"><circle cx="14" cy="14" r="14" fill="#3E88C5"/><circle cx="14" cy="14" r="10.82" fill="#AAD9FC" stroke="#3E88C5" stroke-width="1.09"/><use href="#crown" x="7.6" y="9.4" width="12.8" height="9.6" color="#3E88C5"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M5.5 8.5h13l-1 11.2a1.5 1.5 0 0 1-1.5 1.3H8a1.5 1.5 0 0 1-1.5-1.3l-1-11.2Z M9 8.5V7a3 3 0 0 1 6 0v1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow-down" viewBox="0 0 24 24"><path d="M12 5v14m-6-6 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="arrow-r" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- Шапка (kit LB00): лого, «Лавка подарков», «Правила», корзина — как на старой странице -->
+<header class="hdr" data-hdr>
+  <a class="brand" href="#top" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../../site/assets/figma/logo-main.svg" alt=""><img class="brand__main v2-brand-navy" src="../assets/logo-main-navy.svg" alt=""><img class="brand__mark" src="../../site/assets/figma/logo-word-1.svg" alt=""><img class="brand__badge" src="../../site/assets/figma/logo-word-2.svg" alt=""></a>
+  <nav class="hdr__nav v2-nav" aria-label="Основная навигация">
+    <a href="#gifts">Лавка подарков</a>
+    <a href="#get">Правила</a>
+  </nav>
+  <button class="v2-cartbtn" type="button" data-cart-open aria-label="Ваш заказ">
+    <svg aria-hidden="true"><use href="#bag"/></svg>
+    <span class="v2-cartbtn__sum" data-cart-sum hidden><svg aria-hidden="true"><use href="#coin"/></svg><b data-cart-total>0</b></span>
+    <span class="v2-cartbtn__n" data-cart-count aria-live="polite">0</span>
+  </button>
+  <button class="hdr__burger" type="button" aria-label="Открыть меню" aria-expanded="false" data-burger><span></span><span></span></button>
+</header>
+<nav class="menu" data-menu aria-label="Меню">
+  <a href="#gifts">Лавка подарков</a>
+  <a href="#get">Правила</a>
+</nav>
+
+<main id="top">
+
+<!-- ================= 1 · ХИРО ================= -->
+<div class="vb" data-vb="hero" data-vb-name="Хиро">
+
+  <!-- A · Летающие карточки (правка Никиты в Figma 2005:113) -->
+  <section class="hero section--dark h-a" data-v="A" data-v-name="Летающие карточки" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="h-a__cloud" aria-hidden="true" data-cloud="a"></div>
+    <div class="hero__content">
+      <h1 class="hero__title h-a__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row is-blue"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span></span>
+        <span class="hero-row is-blue"><span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+  </section>
+
+  <!-- B · Базовая обложка: заголовок слева, 3D справа (Krea, стиль франшизы) -->
+  <section class="hero section--dark h-b" data-v="B" data-v-name="Базовая обложка 3D" data-hero>
+    <img class="h-b__art" src="../assets/hero/krea-sweatshirt-phone.webp" srcset="../assets/hero/krea-sweatshirt-phone-1200.webp 1200w, ../assets/hero/krea-sweatshirt-phone.webp 2400w" sizes="100vw" alt="" fetchpriority="high">
+    <div class="container h-b__grid">
+      <div class="h-b__copy">
+        <h1 class="hero__title h-b__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:1">монеты</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:3">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C · Полный кадр: рендер во весь экран, заголовок снизу (реф — Bowers & Wilkins) -->
+  <section class="hero section--dark h-c" data-v="C" data-v-name="Полный кадр" data-hero>
+    <img class="h-c__art" src="../assets/hero/krea-tshirt-phones.webp" srcset="../assets/hero/krea-tshirt-phones-1200.webp 1200w, ../assets/hero/krea-tshirt-phones.webp 2400w" sizes="100vw" alt="">
+    <div class="container h-c__bottom">
+      <h1 class="hero__title h-c__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <div class="h-c__side">
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- D · Полка: заголовок по центру, внизу хиро — полка подарков по категориям (реф — Magic Spoon) -->
+  <section class="hero section--dark h-d" data-v="D" data-v-name="Полка" data-hero data-ambient data-ambient-gain="1.2">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__title h-d__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+    <div class="h-d__shelf" data-shelf></div>
+  </section>
+
+  <!-- E · Монеты-стикеры: светлый экран, крупные монеты кружат вокруг заголовка (реф — Gumroad) -->
+  <section class="hero section--light h-e" data-v="E" data-v-name="Монеты-стикеры" data-hero data-light>
+    <div class="h-e__coins" aria-hidden="true">
+      <svg class="h-e__coin" style="--x:8%;--y:16%;--s:150px;--r:-14deg;--t:9s"><use href="#coin"/></svg>
+      <svg class="h-e__coin" style="--x:80%;--y:12%;--s:120px;--r:18deg;--t:11s"><use href="#coin"/></svg>
+      <svg class="h-e__coin" style="--x:4%;--y:66%;--s:210px;--r:8deg;--t:10s"><use href="#coin"/></svg>
+      <svg class="h-e__coin" style="--x:84%;--y:62%;--s:180px;--r:-10deg;--t:12s"><use href="#coin"/></svg>
+      <svg class="h-e__coin" style="--x:64%;--y:82%;--s:90px;--r:22deg;--t:8s"><use href="#coin"/></svg>
+      <svg class="h-e__coin" style="--x:24%;--y:84%;--s:70px;--r:-20deg;--t:9.5s"><use href="#coin"/></svg>
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__title h-e__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+  </section>
+  <!-- heroes:start — F–O собираются из heroes/*.html скриптом heroes/build.mjs, руками не править -->
+  <!-- F · Классика: текст слева, справа спокойная витрина из четырёх подарков (по одному из каждой ценовой группы и категории) -->
+  <section class="hero section--dark h-f" data-v="F" data-v-name="Классика" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="container h-f__grid">
+      <div class="h-f__copy">
+        <h1 class="hero__title h-f__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:1">монеты</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:3">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+      <div class="h-f__shelf">
+        <a class="h-f__card" href="#gifts" style="--k:0;--t:8.4s;--o:-1.2s">
+          <span class="h-f__media"><img src="../assets/gifts/iphone-air.webp" alt="" width="608" height="608"></span>
+          <span class="h-f__name">iPhone Air</span>
+          <span class="h-f__price"><svg aria-hidden="true"><use href="#coin"/></svg>1600</span>
+        </a>
+        <a class="h-f__card" href="#gifts" style="--k:1;--t:9.2s;--o:-4.6s">
+          <span class="h-f__media is-cover"><img src="../assets/gifts/backpack.webp" alt="" width="720" height="720"></span>
+          <span class="h-f__name">Рюкзак</span>
+          <span class="h-f__price"><svg aria-hidden="true"><use href="#coin"/></svg>200</span>
+        </a>
+        <a class="h-f__card" href="#gifts" style="--k:2;--t:8.8s;--o:-6.1s">
+          <span class="h-f__media"><img src="../assets/gifts/airpods-max.webp" alt="" width="608" height="608"></span>
+          <span class="h-f__name">AirPods Max</span>
+          <span class="h-f__price"><svg aria-hidden="true"><use href="#coin"/></svg>1000</span>
+        </a>
+        <a class="h-f__card" href="#gifts" style="--k:3;--t:9.6s;--o:-2.8s">
+          <span class="h-f__media"><img src="../assets/gifts/promo-lavka.webp" alt="" width="608" height="608"></span>
+          <span class="h-f__name">Промокод Яндекс&nbsp;Лавка</span>
+          <span class="h-f__price"><svg aria-hidden="true"><use href="#coin"/></svg>100</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- G, Бегущие витрины: заголовок по центру, ниже две ленты белых карточек подарков медленно едут навстречу (рефы — bunny.net, ploy.ai) -->
+  <section class="hero section--dark h-g" data-v="G" data-v-name="Бегущие витрины" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="hero__content h-g__content">
+      <h1 class="hero__title h-g__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+    <!-- ленты: один набор карточек в разметке, второй для бесшовного цикла добавляет G.js; на телефоне — только первая лента -->
+    <div class="h-g__lanes" aria-hidden="true">
+      <div class="h-g__lane"><div class="h-g__track">
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/iphone-air.webp" alt=""></span><span class="h-g__t">iPhone Air</span><span class="h-g__p"><svg><use href="#coin"/></svg>1600</span></div>
+        <div class="h-g__card is-cover"><span class="h-g__img"><img src="../assets/gifts/backpack.webp" alt=""></span><span class="h-g__t">Рюкзак</span><span class="h-g__p"><svg><use href="#coin"/></svg>200</span></div>
+        <div class="h-g__card"><span class="h-g__img is-zoom"><img src="../assets/gifts/promo-lavka.webp" alt=""></span><span class="h-g__t">Промокод Яндекс&nbsp;Лавка</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/station-max.webp" alt=""></span><span class="h-g__t">Яндекс&nbsp;Станция Макс с&nbsp;Алисой</span><span class="h-g__p"><svg><use href="#coin"/></svg>600</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/travelmug.webp" alt=""></span><span class="h-g__t">Термостакан</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/airpods-max.webp" alt=""></span><span class="h-g__t">AirPods Max</span><span class="h-g__p"><svg><use href="#coin"/></svg>1000</span></div>
+        <div class="h-g__card"><span class="h-g__img is-zoom"><img src="../assets/gifts/promo-afisha.webp" alt=""></span><span class="h-g__t">Промокод Яндекс&nbsp;Афиша</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/rover.webp" alt=""></span><span class="h-g__t">Ровер на&nbsp;радиоуправлении</span><span class="h-g__p"><svg><use href="#coin"/></svg>300</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/powerbank.webp" alt=""></span><span class="h-g__t">Пауэрбанк</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/tv.webp" alt=""></span><span class="h-g__t">Телевизор</span><span class="h-g__p"><svg><use href="#coin"/></svg>600</span></div>
+      </div></div>
+      <div class="h-g__lane is-rev"><div class="h-g__track">
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/station-mini-3.webp" alt=""></span><span class="h-g__t">Умная колонка Яндекс&nbsp;Станция Мини&nbsp;3</span><span class="h-g__p"><svg><use href="#coin"/></svg>200</span></div>
+        <div class="h-g__card is-cover"><span class="h-g__img"><img src="../assets/gifts/oversize-tshirt.webp" alt=""></span><span class="h-g__t">Футболка oversize</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/iphone-18pro.webp" alt=""></span><span class="h-g__t">iPhone 18 Pro Max</span><span class="h-g__p"><svg><use href="#coin"/></svg>2000</span></div>
+        <div class="h-g__card"><span class="h-g__img is-zoom"><img src="../assets/gifts/promo-travel.webp" alt=""></span><span class="h-g__t">Промокод Яндекс&nbsp;Путешествия</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/yandex-drops.webp" alt=""></span><span class="h-g__t">Наушники Яндекс&nbsp;Дропс</span><span class="h-g__p"><svg><use href="#coin"/></svg>200</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/sportbag.webp" alt=""></span><span class="h-g__t">Сумка</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/wine-cabinet.webp" alt=""></span><span class="h-g__t">Винный шкаф</span><span class="h-g__p"><svg><use href="#coin"/></svg>600</span></div>
+        <div class="h-g__card is-cover"><span class="h-g__img"><img src="../assets/gifts/fleece-jacket.webp" alt=""></span><span class="h-g__t">Флисовая кофта</span><span class="h-g__p"><svg><use href="#coin"/></svg>200</span></div>
+        <div class="h-g__card"><span class="h-g__img"><img src="../assets/gifts/iphone-duo.webp" alt=""></span><span class="h-g__t">iPhone Duo</span><span class="h-g__p"><svg><use href="#coin"/></svg>3000</span></div>
+        <div class="h-g__card is-cover"><span class="h-g__img"><img src="../assets/gifts/velvet-shirt.webp" alt=""></span><span class="h-g__t">Рубашка вельвет</span><span class="h-g__p"><svg><use href="#coin"/></svg>200</span></div>
+        <div class="h-g__card is-cover"><span class="h-g__img"><img src="../assets/gifts/waffle-longsleeve.webp" alt=""></span><span class="h-g__t">Лонгслив из&nbsp;вафельного трикотажа</span><span class="h-g__p"><svg><use href="#coin"/></svg>100</span></div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- H — Светлое бенто: заголовок слева сверху, справа журнальная сетка подарков — флагман крупно, два подарка и три категории (рефы — apple.com, highlight.xyz) -->
+  <section class="hero section--light h-h" data-v="H" data-v-name="Светлое бенто" data-hero data-light>
+    <div class="h-h__in">
+      <div class="h-h__copy">
+        <h1 class="hero__title h-h__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:1">монеты</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:3">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <div class="h-h__foot">
+          <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+          <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+        </div>
+      </div>
+      <!-- подарки и цены — из GIFTS (v2.js); число позиций в категориях: мерч 8, техника 10, промокоды 3 -->
+      <div class="h-h__bento">
+        <a class="h-h__tile h-h__tile--main" href="#gifts" style="--d:0">
+          <span class="h-h__img"><img src="../assets/gifts/iphone-18pro.webp" alt="" fetchpriority="high"></span>
+          <span class="h-h__cap"><b>iPhone 18 Pro Max</b><span class="h-h__price"><svg aria-hidden="true"><use href="#coin"/></svg>2000</span></span>
+        </a>
+        <a class="h-h__tile h-h__tile--a" href="#gifts" style="--d:1">
+          <span class="h-h__img"><img src="../assets/gifts/airpods-max.webp" alt=""></span>
+          <span class="h-h__cap"><b>AirPods Max</b><span class="h-h__price"><svg aria-hidden="true"><use href="#coin"/></svg>1000</span></span>
+        </a>
+        <a class="h-h__tile h-h__tile--b" href="#gifts" style="--d:2">
+          <span class="h-h__img"><img src="../assets/gifts/station-max.webp" alt=""></span>
+          <span class="h-h__cap"><b>Яндекс&nbsp;Станция Макс с&nbsp;Алисой</b><span class="h-h__price"><svg aria-hidden="true"><use href="#coin"/></svg>600</span></span>
+        </a>
+        <a class="h-h__cat" href="#gifts" style="--d:3">
+          <span class="h-h__cat-t"><b>Мерч</b><span>8</span></span>
+          <img src="../assets/gifts/travelmug.webp" alt="">
+        </a>
+        <a class="h-h__cat" href="#gifts" style="--d:4">
+          <span class="h-h__cat-t"><b>Техника</b><span>10</span></span>
+          <img src="../assets/gifts/rover.webp" alt="">
+        </a>
+        <a class="h-h__cat" href="#gifts" style="--d:5">
+          <span class="h-h__cat-t"><b>Промокоды</b><span>3</span></span>
+          <span class="h-h__fan" aria-hidden="true"><img src="../assets/gifts/promo-travel.webp" alt=""><img src="../assets/gifts/promo-afisha.webp" alt=""><img src="../assets/gifts/promo-lavka.webp" alt=""></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- I, «Слова и вещи»: заголовок во всю ширину, в строки вставлены пилюли — монеты и подарок, который сменяется (реф — House of Honey: вставка между словами, подпись у базовой линии) -->
+  <section class="hero section--dark h-i" data-v="I" data-v-name="Слова и вещи" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="h-i__in">
+      <h1 class="hero__title h-i__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">монеты</span><span class="h-i__pill h-i__coins" style="--i:2" aria-hidden="true"><svg><use href="#coin"/></svg><svg><use href="#coin"/></svg><svg><use href="#coin"/></svg></span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span><span class="hero-word h-i__d" style="--i:3">их</span></span>
+        <span class="hero-row"><span class="hero-word h-i__m" style="--i:3">их</span><span class="hero-word" style="--i:4">на&nbsp;подарки</span><span class="h-i__pill h-i__gift" style="--i:5" aria-hidden="true" data-i-gift></span></span>
+      </h1>
+      <div class="h-i__side">
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- J — Монета на орбите: в центре монета с короной в перспективе (CSS 3D), вокруг по эллипсу плывут карточки подарков — за монетой и перед ней; текст под сценой (реф — matveyan.com: монеты вокруг заголовка) -->
+  <section class="hero section--dark h-j" data-v="J" data-v-name="Монета на орбите" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="h-j__scene" aria-hidden="true">
+      <div class="h-j__sys">
+        <div class="h-j__ring h-j__ring--back"></div>
+        <div class="h-j__coin">
+          <div class="h-j__bob"><div class="h-j__tilt"><div class="h-j__disc">
+            <i style="--k:16"></i><i style="--k:15"></i><i style="--k:14"></i><i style="--k:13"></i><i style="--k:12"></i><i style="--k:11"></i><i style="--k:10"></i><i style="--k:9"></i>
+            <i style="--k:8"></i><i style="--k:7"></i><i style="--k:6"></i><i style="--k:5"></i><i style="--k:4"></i><i style="--k:3"></i><i style="--k:2"></i><i style="--k:1"></i>
+            <div class="h-j__face">
+              <svg viewBox="0 0 28 28">
+                <defs>
+                  <linearGradient id="hj-rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5aa3dd"/><stop offset=".55" stop-color="#3e88c5"/><stop offset="1" stop-color="#2f74b3"/></linearGradient>
+                  <radialGradient id="hj-gloss" cx=".3" cy=".26" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></radialGradient>
+                </defs>
+                <circle cx="14" cy="14" r="14" fill="url(#hj-rim)"/>
+                <circle cx="14" cy="14" r="10.82" fill="#AAD9FC" stroke="#3E88C5" stroke-width="1.09"/>
+                <use href="#crown" x="7.6" y="9.4" width="12.8" height="9.6" color="#3E88C5"/>
+                <circle cx="14" cy="14" r="14" fill="url(#hj-gloss)"/>
+              </svg>
+              <i class="h-j__glint"></i>
+            </div>
+          </div></div></div>
+        </div>
+        <div class="h-j__ring h-j__ring--front"></div>
+        <div class="h-j__sat"><div class="h-j__card" style="--r:-6deg;--dl:.35s;--t:8s;--o:0s"><img src="../assets/gifts/iphone-air.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>1600</span></div></div>
+        <div class="h-j__sat"><div class="h-j__card" style="--r:5deg;--dl:.43s;--t:8.8s;--o:-1.3s"><img src="../assets/gifts/airpods-max.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>1000</span></div></div>
+        <div class="h-j__sat is-desk"><div class="h-j__card" style="--r:-4deg;--dl:.51s;--t:9.6s;--o:-2.6s"><img src="../assets/gifts/station-max.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>600</span></div></div>
+        <div class="h-j__sat"><div class="h-j__card" style="--r:6deg;--dl:.59s;--t:8s;--o:-3.9s"><img src="../assets/gifts/backpack.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>200</span></div></div>
+        <div class="h-j__sat"><div class="h-j__card" style="--r:-5deg;--dl:.67s;--t:8.8s;--o:-5.2s"><img src="../assets/gifts/rover.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>300</span></div></div>
+        <div class="h-j__sat is-desk"><div class="h-j__card" style="--r:4deg;--dl:.75s;--t:9.6s;--o:-6.5s"><img src="../assets/gifts/travelmug.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>100</span></div></div>
+        <div class="h-j__sat"><div class="h-j__card" style="--r:-3deg;--dl:.83s;--t:8s;--o:-7.8s"><img src="../assets/gifts/promo-lavka.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>100</span></div></div>
+        <div class="h-j__sat is-desk"><div class="h-j__card" style="--r:6deg;--dl:.91s;--t:8.8s;--o:-9.1s"><img src="../assets/gifts/yandex-drops.webp" alt=""><span class="h-j__price"><svg><use href="#coin"/></svg>200</span></div></div>
+      </div>
+    </div>
+    <div class="hero__content h-j__copy">
+      <h1 class="hero__title h-j__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span> <span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+  </section>
+
+  <!-- K — Обменник: слева текст, справа живой обменник — чипы подарков, стопка монет растёт до цены выбранного, рядом крупно цена; без выбора — демо-переключение (реф — copilot.money/pricing: переключатель меняет крупную цену) -->
+  <section class="hero section--dark h-k" data-v="K" data-v-name="Обменник" data-hero data-ambient data-ambient-gain="1.2">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="h-k__grid">
+      <div class="h-k__copy">
+        <h1 class="hero__title h-k__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:1">монеты</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:3">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+      <div class="h-k__ex">
+        <div class="h-k__stage">
+          <div class="h-k__stack" data-stack aria-hidden="true"></div>
+          <div class="h-k__rider" data-rider aria-hidden="true"><div class="h-k__gift"><img src="../assets/gifts/airpods-max.webp" alt="" class="is-on"><img src="../assets/gifts/airpods-max.webp" alt=""></div></div>
+          <div class="h-k__level" data-level>
+            <i class="h-k__gauge" aria-hidden="true"></i>
+            <p class="h-k__price"><svg aria-hidden="true"><use href="#coin"/></svg><b data-price>1000</b></p>
+            <p class="h-k__name" data-name>AirPods Max</p>
+          </div>
+        </div>
+        <div class="h-k__chips" role="group" aria-label="Подарки">
+          <button class="h-k__chip" type="button" aria-pressed="false" data-id="travelmug" data-price="100"><span class="h-k__thumb"><img src="../assets/gifts/travelmug.webp" alt=""></span>Термостакан</button>
+          <button class="h-k__chip" type="button" aria-pressed="false" data-id="backpack" data-price="200"><span class="h-k__thumb"><img src="../assets/gifts/backpack.webp" alt=""></span>Рюкзак</button>
+          <button class="h-k__chip" type="button" aria-pressed="false" data-id="rover" data-price="300"><span class="h-k__thumb"><img src="../assets/gifts/rover.webp" alt=""></span>Ровер на&nbsp;радиоуправлении</button>
+          <button class="h-k__chip" type="button" aria-pressed="false" data-id="tv" data-price="600"><span class="h-k__thumb"><img src="../assets/gifts/tv.webp" alt=""></span>Телевизор</button>
+          <button class="h-k__chip" type="button" aria-pressed="true" data-id="airpods-max" data-price="1000"><span class="h-k__thumb"><img src="../assets/gifts/airpods-max.webp" alt=""></span>AirPods Max</button>
+          <button class="h-k__chip" type="button" aria-pressed="false" data-id="iphone-air" data-price="1600"><span class="h-k__thumb"><img src="../assets/gifts/iphone-air.webp" alt=""></span>iPhone Air</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- L, «Город из стопок»: внизу хиро — горизонт из стопок монет в перспективе; высота стопки пропорциональна цене подарка (1 монета в стопке = 100 монет цены). Дальний ряд — силуэт из всех 21 цены каталога, ближние ряды — 17 подарков, на семи стоят карточки -->
+  <section class="hero section--dark h-l" data-v="L" data-v-name="Город из стопок" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <!-- --x — позиция по ширине, --z — глубина (1 — передний план), --n = data-coins = цена / 100; --mx, --mz — телефон; is-desk — только на широких экранах -->
+    <div class="h-l__city" aria-hidden="true" data-l-city>
+      <div class="h-l__s is-desk" style="--x:2.5%;--z:0.4;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- силуэт, 200 -->
+      <div class="h-l__s is-desk" style="--x:7.25%;--z:0.4;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- силуэт, 600 -->
+      <div class="h-l__s is-desk" style="--x:12.0%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:16.75%;--z:0.4;--n:16"><div data-coins="16" data-coin-t="15"></div></div><!-- силуэт, 1600 -->
+      <div class="h-l__s is-desk" style="--x:21.5%;--z:0.4;--n:3"><div data-coins="3" data-coin-t="15"></div></div><!-- силуэт, 300 -->
+      <div class="h-l__s is-desk" style="--x:26.25%;--z:0.4;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- силуэт, 600 -->
+      <div class="h-l__s is-desk" style="--x:31.0%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:35.75%;--z:0.4;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- силуэт, 200 -->
+      <div class="h-l__s is-desk" style="--x:40.5%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:45.25%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:50.0%;--z:0.4;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- силуэт, 200 -->
+      <div class="h-l__s is-desk" style="--x:54.75%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:59.5%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:64.25%;--z:0.4;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- силуэт, 200 -->
+      <div class="h-l__s is-desk" style="--x:69.0%;--z:0.4;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- силуэт, 600 -->
+      <div class="h-l__s is-desk" style="--x:73.75%;--z:0.4;--n:30"><div data-coins="30" data-coin-t="15"></div></div><!-- силуэт, 3000 -->
+      <div class="h-l__s is-desk" style="--x:78.5%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:83.25%;--z:0.4;--n:20"><div data-coins="20" data-coin-t="15"></div></div><!-- силуэт, 2000 -->
+      <div class="h-l__s is-desk" style="--x:88.0%;--z:0.4;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- силуэт, 200 -->
+      <div class="h-l__s is-desk" style="--x:92.75%;--z:0.4;--n:10"><div data-coins="10" data-coin-t="15"></div></div><!-- силуэт, 1000 -->
+      <div class="h-l__s is-desk" style="--x:97.5%;--z:0.4;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- силуэт, 100 -->
+      <div class="h-l__s is-desk" style="--x:3%;--z:0.56;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- Лонгслив, 100 -->
+      <div class="h-l__s" style="--x:9%;--z:0.56;--n:20;--mx:86%;--mz:0.88"><div data-coins="20" data-coin-t="15"></div><div class="h-l__card" style="--r:4deg;--t:8.4s"><img src="../assets/gifts/iphone-18pro.webp" alt=""><b><svg><use href="#coin"/></svg>2000</b></div></div><!-- iPhone 18 Pro Max, 2000 -->
+      <div class="h-l__s is-desk" style="--x:15%;--z:0.56;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- Телевизор, 600 -->
+      <div class="h-l__s is-desk" style="--x:21%;--z:0.56;--n:30"><div data-coins="30" data-coin-t="15"></div><div class="h-l__card is-zoom" style="--r:-5deg;--t:9.6s"><img src="../assets/gifts/iphone-duo.webp" alt=""><b><svg><use href="#coin"/></svg>3000</b></div></div><!-- iPhone Duo, 3000 -->
+      <div class="h-l__s is-desk" style="--x:27%;--z:0.56;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- Винный шкаф, 600 -->
+      <div class="h-l__s is-desk" style="--x:33%;--z:0.56;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- Станция Мини 3, 200 -->
+      <div class="h-l__s is-desk" style="--x:67%;--z:0.56;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- Промокод Путешествия, 100 -->
+      <div class="h-l__s is-desk" style="--x:73%;--z:0.56;--n:6"><div data-coins="6" data-coin-t="15"></div></div><!-- Станция Макс, 600 -->
+      <div class="h-l__s is-desk" style="--x:79%;--z:0.56;--n:16"><div data-coins="16" data-coin-t="15"></div><div class="h-l__card" style="--r:5deg;--t:9.6s"><img src="../assets/gifts/iphone-air.webp" alt=""><b><svg><use href="#coin"/></svg>1600</b></div></div><!-- iPhone Air, 1600 -->
+      <div class="h-l__s is-desk" style="--x:85%;--z:0.56;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- Рубашка вельвет, 200 -->
+      <div class="h-l__s" style="--x:91%;--z:0.56;--n:10;--mx:13%;--mz:0.9"><div data-coins="10" data-coin-t="15"></div><div class="h-l__card" style="--r:-4deg;--t:7.8s"><img src="../assets/gifts/airpods-max.webp" alt=""><b><svg><use href="#coin"/></svg>1000</b></div></div><!-- AirPods Max, 1000 -->
+      <div class="h-l__s is-desk" style="--x:97%;--z:0.56;--n:1"><div data-coins="1" data-coin-t="15"></div></div><!-- Футболка oversize, 100 -->
+      <div class="h-l__s is-desk" style="--x:6%;--z:0.76;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- Рюкзак, 200 -->
+      <div class="h-l__s is-desk" style="--x:42%;--z:0.76;--n:1"><div data-coins="1" data-coin-t="15"></div><div class="h-l__card" style="--r:3deg;--t:9.6s"><img src="../assets/gifts/promo-lavka.webp" alt=""><b><svg><use href="#coin"/></svg>100</b></div></div><!-- Промокод Лавка, 100 -->
+      <div class="h-l__s is-desk" style="--x:94%;--z:0.76;--n:2"><div data-coins="2" data-coin-t="15"></div></div><!-- Флисовая кофта, 200 -->
+      <div class="h-l__s" style="--x:28%;--z:1;--n:3;--mx:37%;--mz:1"><div data-coins="3" data-coin-t="15"></div><div class="h-l__card" style="--r:-4deg;--t:7.8s"><img src="../assets/gifts/rover.webp" alt=""><b><svg><use href="#coin"/></svg>300</b></div></div><!-- Ровер, 300 -->
+      <div class="h-l__s" style="--x:69%;--z:1;--n:2;--mx:61%;--mz:0.95"><div data-coins="2" data-coin-t="15"></div><div class="h-l__card" style="--r:3deg;--t:8.4s"><img src="../assets/gifts/yandex-drops.webp" alt=""><b><svg><use href="#coin"/></svg>200</b></div></div><!-- Яндекс Дропс, 200 -->
+    </div>
+    <div class="hero__content h-l__content">
+      <h1 class="hero__title h-l__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span> <span class="hero-word h-l__w" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+  </section>
+
+  <!-- M — Кольцо подарков: белые карточки на медленно вращающемся 3D-кольце вокруг текста. Лицо карточки — подарок, оборот — его цена монетой:
+       кольцо поворачивается, и монеты превращаются в подарки. Тянуть мышью или пальцем, крутить колесом. Механика — heroes/M.js -->
+  <section class="hero section--dark h-m" data-v="M" data-v-name="Кольцо подарков" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <!-- 12 карточек на десктопе, 8 на телефоне (is-desk прячутся, --km — место в малом кольце); цены — из GIFTS (v2.js) -->
+    <div class="h-m__stage" aria-hidden="true">
+      <div class="h-m__tilt">
+        <div class="h-m__ring" data-ring>
+          <div class="h-m__slot" style="--k:0;--km:0"><div class="h-m__face"><img src="../assets/gifts/iphone-18pro.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>2000</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>2000</b></div></div>
+          <div class="h-m__slot is-desk is-cover" style="--k:1"><div class="h-m__face"><img src="../assets/gifts/fleece-jacket.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>200</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>200</b></div></div>
+          <div class="h-m__slot" style="--k:2;--km:1"><div class="h-m__face"><img src="../assets/gifts/airpods-max.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>1000</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>1000</b></div></div>
+          <div class="h-m__slot is-ticket" style="--k:3;--km:2"><div class="h-m__face"><img src="../assets/gifts/promo-lavka.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>100</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>100</b></div></div>
+          <div class="h-m__slot" style="--k:4;--km:3"><div class="h-m__face"><img src="../assets/gifts/station-max.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>600</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>600</b></div></div>
+          <div class="h-m__slot is-desk is-cover" style="--k:5"><div class="h-m__face"><img src="../assets/gifts/backpack.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>200</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>200</b></div></div>
+          <div class="h-m__slot" style="--k:6;--km:4"><div class="h-m__face"><img src="../assets/gifts/rover.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>300</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>300</b></div></div>
+          <div class="h-m__slot" style="--k:7;--km:5"><div class="h-m__face"><img src="../assets/gifts/iphone-air.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>1600</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>1600</b></div></div>
+          <div class="h-m__slot is-desk is-cover" style="--k:8"><div class="h-m__face"><img src="../assets/gifts/oversize-tshirt.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>100</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>100</b></div></div>
+          <div class="h-m__slot" style="--k:9;--km:6"><div class="h-m__face"><img src="../assets/gifts/yandex-drops.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>200</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>200</b></div></div>
+          <div class="h-m__slot is-desk" style="--k:10"><div class="h-m__face"><img src="../assets/gifts/tv.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>600</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>600</b></div></div>
+          <div class="h-m__slot" style="--k:11;--km:7"><div class="h-m__face"><img src="../assets/gifts/travelmug.webp" alt=""><span class="h-m__price"><svg><use href="#coin"/></svg>100</span></div><div class="h-m__face h-m__face--back"><svg><use href="#coin"/></svg><b>100</b></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__content h-m__content">
+      <div class="h-m__copy">
+        <h1 class="hero__title h-m__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- N, Подарочная коробка: справа CSS 3D-коробка в цветах бренда; крышка слетает, из коробки поднимаются подарки и монеты; курсор поворачивает коробку (рефы — bunny.net, tokens.studio) -->
+  <section class="hero section--dark h-n" data-v="N" data-v-name="Подарочная коробка" data-hero data-ambient data-ambient-gain="1.2">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="container h-n__grid">
+      <div class="h-n__copy">
+        <h1 class="hero__title h-n__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:1">монеты</span></span>
+          <span class="hero-row"><span class="hero-word" style="--i:2">и&nbsp;обменивайте</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:3">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+      <!-- сцена: координаты подарков, монет и крышки — в экранных px от центра горловины (кадр 660×780, масштаб --k ставит N.js) -->
+      <div class="h-n__stage" aria-hidden="true">
+        <div class="h-n__fit"><div class="h-n__cam"><div class="h-n__box">
+          <div class="h-n__floor"></div>
+          <div class="h-n__f h-n__f--bottom"></div>
+          <div class="h-n__f h-n__f--back"></div>
+          <div class="h-n__f h-n__f--left"></div>
+          <div class="h-n__f h-n__f--front"><i class="h-n__rib"></i></div>
+          <div class="h-n__f h-n__f--right"><i class="h-n__rib"></i></div>
+
+          <div class="h-n__glow"></div>
+
+          <div class="h-n__lid"><div class="h-n__lidf">
+            <div class="h-n__l h-n__l--top"><i class="h-n__rib h-n__rib--x"></i><i class="h-n__rib h-n__rib--z"></i></div>
+            <div class="h-n__l h-n__l--front"><i class="h-n__rib"></i></div>
+            <div class="h-n__l h-n__l--right"><i class="h-n__rib"></i></div>
+            <div class="h-n__l h-n__l--under"></div>
+            <svg class="h-n__bow" viewBox="0 0 220 130"><use href="#h-n-bow"/></svg>
+            <svg class="h-n__bow h-n__bow--b" viewBox="0 0 220 130"><use href="#h-n-bow"/></svg>
+          </div></div>
+
+          <div class="h-n__g" style="--X:-10px;--Y:-262px;--Z:40px;--s:184px;--r:-5deg;--d:1.45s;--t:7.6s;--o:-1.2s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway">
+              <div class="h-n__card" style="--ix:-1%;--iy:4%;--iw:102%;--ih:92%"><img src="../assets/gifts/iphone-air.webp" alt=""></div>
+              <span class="h-n__price"><svg><use href="#coin"/></svg>1600</span>
+            </div></div></div>
+          </div>
+          <div class="h-n__g" style="--X:-222px;--Y:-118px;--Z:90px;--s:144px;--r:7deg;--d:1.6s;--t:6.8s;--o:-3.1s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway">
+              <div class="h-n__card" style="--ix:-3%;--iy:3%;--iw:108%;--ih:97%"><img src="../assets/gifts/airpods-max.webp" alt=""></div>
+              <span class="h-n__price"><svg><use href="#coin"/></svg>1000</span>
+            </div></div></div>
+          </div>
+          <div class="h-n__g h-n__g--side" style="--X:212px;--Y:-150px;--Z:30px;--s:132px;--r:-8deg;--d:1.75s;--t:8.2s;--o:-5.4s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway">
+              <div class="h-n__card" style="--ix:0%;--iy:6%;--iw:100%;--ih:89%"><img src="../assets/gifts/station-max.webp" alt=""></div>
+              <span class="h-n__price"><svg><use href="#coin"/></svg>600</span>
+            </div></div></div>
+          </div>
+
+          <div class="h-n__g h-n__g--coin" style="--X:-300px;--Y:-300px;--Z:40px;--s:62px;--r:-14deg;--cy:30deg;--d:1.7s;--t:6.2s;--o:-2s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway"><div class="h-n__coin"><svg><use href="#coin"/></svg></div></div></div></div>
+          </div>
+          <div class="h-n__g h-n__g--coin" style="--X:96px;--Y:-34px;--Z:200px;--s:46px;--r:16deg;--cy:-34deg;--d:1.8s;--t:7s;--o:-4.4s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway"><div class="h-n__coin"><svg><use href="#coin"/></svg></div></div></div></div>
+          </div>
+          <div class="h-n__g h-n__g--coin" style="--X:-96px;--Y:-46px;--Z:190px;--s:56px;--r:8deg;--cy:38deg;--d:1.9s;--t:5.8s;--o:-1.1s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway"><div class="h-n__coin"><svg><use href="#coin"/></svg></div></div></div></div>
+          </div>
+          <div class="h-n__g h-n__g--coin h-n__g--side" style="--X:300px;--Y:-24px;--Z:70px;--s:42px;--r:-20deg;--cy:-26deg;--d:2s;--t:6.6s;--o:-3.6s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway"><div class="h-n__coin"><svg><use href="#coin"/></svg></div></div></div></div>
+          </div>
+          <div class="h-n__g h-n__g--coin h-n__g--side" style="--X:-150px;--Y:-404px;--Z:-20px;--s:38px;--r:24deg;--cy:20deg;--d:2.05s;--t:7.4s;--o:-5s">
+            <div class="h-n__rise"><div class="h-n__bb"><div class="h-n__sway"><div class="h-n__coin"><svg><use href="#coin"/></svg></div></div></div></div>
+          </div>
+        </div></div></div>
+        <!-- бант: две петли, узел, хвосты; белый с тенью sky -->
+        <svg width="0" height="0" style="position:absolute">
+          <symbol id="h-n-bow" viewBox="0 0 220 130">
+            <path d="M104 102 80 130h16l14-22Z M116 102l24 28h-16l-14-22Z" fill="#d5e6f6"/>
+            <path d="M110 88C92 52 52 6 22 22-2 36 8 92 56 100c24 4 44-4 54-12Z" fill="#fff"/>
+            <path d="M110 88c18-36 58-82 88-66 24 14 14 70-34 78-24 4-44-4-54-12Z" fill="#fff"/>
+            <path d="M110 88C96 66 64 36 42 40c-16 4-12 38 22 46 18 4 36 4 46 2Z" fill="#aad9fc" opacity=".8"/>
+            <path d="M110 88c14-22 46-52 68-48 16 4 12 38-22 46-18 4-36 4-46 2Z" fill="#aad9fc" opacity=".8"/>
+            <rect x="94" y="72" width="32" height="34" rx="12" fill="#fff" stroke="#c4def5" stroke-width="2"/>
+          </symbol>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- O · Куча подарков: карточки падают сверху и складываются в кучу внизу (2D-физика, Matter.js 0.19.0 с cdnjs), курсор расталкивает, карточку можно схватить и бросить -->
+  <section class="hero section--dark h-o" data-v="O" data-v-name="Куча подарков" data-hero data-ambient data-ambient-gain="1.2">
+    <div class="ambient-field" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+    </div>
+    <div class="h-o__pile" aria-hidden="true" data-pile></div>
+    <div class="hero__content h-o__content">
+      <h1 class="hero__title h-o__title" aria-label="Получайте монеты и обменивайте их на подарки">
+        <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+        <span class="hero-row is-blue"><span class="hero-word" style="--i:1">и&nbsp;обменивайте их&nbsp;на&nbsp;подарки</span></span>
+      </h1>
+      <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+      <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+    </div>
+  </section>
+
+  <!-- P · Пролёт: макет Никиты Figma Kec4… 2151:18117 (1440×900). Камера при скролле летит сквозь 3D-подарки, сцена прилипает на --pin. Логика — heroes/P.js -->
+  <section class="hero section--dark h-p" data-v="P" data-v-name="Пролёт" data-hero data-ambient data-ambient-gain="1.35">
+    <div class="h-p__stage">
+      <div class="ambient-field h-p__field" aria-hidden="true">
+        <div class="ambient-glow ambient-glow--hero-left ambient-glow--large"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+        <div class="ambient-glow ambient-glow--hero-low ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+        <div class="ambient-glow ambient-glow--hero-high ambient-glow--small"><div class="ambient-glow__axis"><div class="ambient-glow__core"></div></div></div>
+      </div>
+      <!-- предметы: --cx/--cy/--w — центр и сторона квадрата в кадре 1440×900, --r — поворот, --b* — где вырезка лежит в квадрате;
+           --mx/--my/--mw — телефон; data-z — глубина (чем меньше, тем раньше пролетает) -->
+      <div class="h-p__items" aria-hidden="true">
+        <div class="h-p__item is-back" data-z="3.4" style="--cx:1178.68;--cy:501.67;--w:182.98;--r:-38.35deg;--mx:.9;--my:calc(25% - 10px);--mw:84">
+          <div class="h-p__art" style="--bx:20.752%;--by:12.549%;--bw:61.816%;--bh:75.537%"><img class="h-p__img" src="../assets/hero-3d/airpods-d-k2-2.webp" alt="" fetchpriority="low"><img class="h-p__blur" src="../assets/hero-3d/airpods-d-k2-2-blur.webp" alt=""></div>
+        </div>
+        <div class="h-p__item" data-z="2.6" style="--cx:728.5;--cy:164.5;--w:329;--mx:.58;--my:calc(25% - 40px);--mw:140">
+          <div class="h-p__art" style="--bx:18.799%;--by:10.986%;--bw:65.918%;--bh:75.146%"><img class="h-p__img" src="../assets/hero-3d/rover-d-k2-2.webp" alt=""><img class="h-p__blur" src="../assets/hero-3d/rover-d-k2-2-blur.webp" alt=""></div>
+        </div>
+        <div class="h-p__item" data-z="1.8" style="--cx:280.5;--cy:351.5;--w:409;--mx:.16;--my:calc(25% - 22px);--mw:156">
+          <div class="h-p__art" style="--bx:31.055%;--by:9.814%;--bw:42.334%;--bh:80.957%"><img class="h-p__img" src="../assets/hero-3d/mug-a-k2-1.webp" alt=""><img class="h-p__blur" src="../assets/hero-3d/mug-a-k2-1-blur.webp" alt=""></div>
+        </div>
+        <div class="h-p__item" data-z="1.35" style="--cx:1056.5;--cy:796.5;--w:435;--mx:.8;--my:calc(75% + 88px);--mw:188">
+          <div class="h-p__art" style="--bx:19.385%;--by:11.572%;--bw:61.23%;--bh:76.318%"><img class="h-p__img" src="../assets/hero-3d/backpack-c-k2-1.webp" alt=""><img class="h-p__blur" src="../assets/hero-3d/backpack-c-k2-1-blur.webp" alt=""></div>
+        </div>
+        <div class="h-p__item" data-z="1.15" style="--cx:78.5;--cy:635.5;--w:455;--mx:.17;--my:calc(75% + 80px);--mw:200">
+          <div class="h-p__art" style="--bx:13.721%;--by:19.727%;--bw:72.754%;--bh:63.037%"><img class="h-p__img" src="../assets/hero-3d/station-a-k1-2.webp" alt=""><img class="h-p__blur" src="../assets/hero-3d/station-a-k1-2-blur.webp" alt=""></div>
+        </div>
+      </div>
+      <div class="hero__content h-p__content">
+        <h1 class="hero__title h-p__title" aria-label="Получайте монеты и обменивайте их на подарки">
+          <span class="hero-row"><span class="hero-word" style="--i:0">Получайте монеты</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:1">и&nbsp;обменивайте</span></span>
+          <span class="hero-row is-blue"><span class="hero-word" style="--i:2">их&nbsp;на&nbsp;подарки</span></span>
+        </h1>
+        <p class="hero__lead">Программа лояльности для&nbsp;франчайзи и&nbsp;директоров Яндекс&nbsp;Лавки</p>
+        <div class="hero__actions"><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a><a class="text-link" href="#get">Как получать монеты&nbsp;&nbsp;↓</a></div>
+      </div>
+    </div>
+  </section>
+  <!-- heroes:end -->
+</div>
+
+<!-- ================= 2 · ЛАВКА ПОДАРКОВ ================= -->
+<div class="vb" data-vb="gifts" data-vb-name="Лавка подарков" id="gifts">
+  <!-- A · Сетка kit: белые карточки, «+» на фото превращается в счётчик -->
+  <section class="section section--light g g-a" data-v="A" data-v-name="Сетка карточек">
+    <div class="container">
+      <div class="section-head"><h2 class="section-title">Лавка подарков</h2><div class="g-filters" data-filters></div></div>
+      <div class="g-grid" data-grid></div>
+    </div>
+  </section>
+  <!-- B · Плитки: фото на светлой плашке, крупно, кнопка под карточкой (реф — Peak Design, Fjällräven) -->
+  <section class="section g g-b" data-v="B" data-v-name="Крупные плитки">
+    <div class="container">
+      <div class="g-b__head"><h2 class="section-title">Лавка подарков</h2><div class="g-filters g-filters--pill" data-filters></div></div>
+      <div class="g-grid" data-grid></div>
+    </div>
+  </section>
+  <!-- C · Полки по категориям: карусели со стрелками (реф — Maharishi) -->
+  <section class="section g g-c" data-v="C" data-v-name="Полки-карусели">
+    <div class="container">
+      <div class="section-head"><h2 class="section-title">Лавка подарков</h2><div class="g-filters" data-filters data-filter-mode="jump"></div></div>
+      <div data-shelves></div>
+    </div>
+  </section>
+  <!-- D · Бенто: первый подарок категории крупно -->
+  <section class="section section--light g g-d" data-v="D" data-v-name="Бенто">
+    <div class="container">
+      <div class="section-head"><h2 class="section-title">Лавка подарков</h2><div class="g-filters" data-filters></div></div>
+      <div class="g-grid" data-grid></div>
+    </div>
+  </section>
+  <!-- E · Прайс-лист: строки, как индекс-страница -->
+  <section class="section g g-e" data-v="E" data-v-name="Прайс-лист">
+    <div class="container">
+      <div class="section-head"><h2 class="section-title">Лавка подарков</h2><div class="g-filters g-filters--line" data-filters></div></div>
+      <div class="g-list" data-grid></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= 3 · КАК ПОЛУЧАТЬ МОНЕТЫ ================= -->
+<div class="vb" data-vb="get" data-vb-name="Как получать монеты" id="get">
+
+  <!-- A · Табы и две карточки шагов -->
+  <section class="section c c-a" data-v="A" data-v-name="Табы и карточки" data-tabs>
+    <div class="container">
+      <div class="c-head"><h2 class="section-title">Как получать монеты?</h2><div class="c-tabs" role="tablist" data-tablist></div></div>
+      <div class="c-panel" data-panel="franchise">
+        <article class="c-card"><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></article>
+        <article class="c-card"><span class="c-badge">Шаг 2</span><p class="c-text">Получайте <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b><br>и&nbsp;тратьте их&nbsp;на&nbsp;подарки из&nbsp;Лавки подарков</p></article>
+      </div>
+      <div class="c-panel" data-panel="directors" hidden>
+        <article class="c-card"><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></article>
+        <article class="c-card"><span class="c-badge">Шаг 2</span><p class="c-text">Получайте <b class="c-sum">100<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;первое попадание в&nbsp;топ-7&nbsp;дарксторов, <b class="c-sum">200<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;второе подряд попадание в&nbsp;топ, <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;третье подряд и&nbsp;последующие. Тратьте монеты в&nbsp;Лавке подарков.</p></article>
+      </div>
+      <a class="button button--navy c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a>
+    </div>
+  </section>
+
+  <!-- B · Линия шагов: две точки на одной оси, крупные номера -->
+  <section class="section section--light c c-b" data-v="B" data-v-name="Линия шагов" data-tabs>
+    <div class="container">
+      <div class="c-head c-head--center"><h2 class="section-title">Как получать монеты?</h2><div class="c-tabs" role="tablist" data-tablist></div></div>
+      <ol class="c-panel c-line" data-panel="franchise">
+        <li><span class="c-dot">1</span><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+        <li><span class="c-dot">2</span><span class="c-badge">Шаг 2</span><p class="c-text">Получайте <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b> и&nbsp;тратьте их&nbsp;на&nbsp;подарки из&nbsp;Лавки подарков</p></li>
+      </ol>
+      <ol class="c-panel c-line" data-panel="directors" hidden>
+        <li><span class="c-dot">1</span><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+        <li><span class="c-dot">2</span><span class="c-badge">Шаг 2</span><p class="c-text">Получайте <b class="c-sum">100<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;первое попадание в&nbsp;топ-7&nbsp;дарксторов, <b class="c-sum">200<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;второе подряд попадание в&nbsp;топ, <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;третье подряд и&nbsp;последующие. Тратьте монеты в&nbsp;Лавке подарков.</p></li>
+      </ol>
+      <div class="c-center"><a class="button button--navy c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+    </div>
+  </section>
+
+  <!-- C · Табло: слева заголовок, табы, шаги и правила; справа сцена со стопками монет (SVG, data-coins) -->
+  <section class="section c c-c" data-v="C" data-v-name="Табло" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage">
+            <figure class="c-tower"><div data-coins="9"></div><figcaption><b>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption></figure>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage">
+            <figure class="c-tower"><div data-coins="3"></div><figcaption><b>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption></figure>
+            <figure class="c-tower"><div data-coins="6"></div><figcaption><b>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption></figure>
+            <figure class="c-tower"><div data-coins="9"></div><figcaption><b>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption></figure>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- D · Две колонки: обе аудитории сразу, без табов -->
+  <section class="section section--light c c-d" data-v="D" data-v-name="Обе аудитории рядом">
+    <div class="container">
+      <div class="c-head"><h2 class="section-title">Как получать монеты?</h2><a class="button button--navy c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      <div class="c-cols">
+        <article class="c-col">
+          <h3>Для&nbsp;франчайзи</h3>
+          <div class="c-row"><span class="c-badge">Шаг 1</span><p>Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></div>
+          <div class="c-row"><span class="c-badge">Шаг 2</span><p>Получайте <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b> и&nbsp;тратьте их&nbsp;на&nbsp;подарки из&nbsp;Лавки подарков</p></div>
+        </article>
+        <article class="c-col">
+          <h3>Для директоров дарксторов</h3>
+          <div class="c-row"><span class="c-badge">Шаг 1</span><p>Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></div>
+          <div class="c-row"><span class="c-badge">Шаг 2</span><p>Получайте <b class="c-sum">100<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;первое попадание в&nbsp;топ-7&nbsp;дарксторов, <b class="c-sum">200<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;второе подряд попадание в&nbsp;топ, <b class="c-sum">300<svg class="c-coin"><use href="#coin"/></svg></b> за&nbsp;третье подряд и&nbsp;последующие. Тратьте монеты в&nbsp;Лавке подарков.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- E · Стопки монет: сумма — высотой стопки (реф — Gumroad, стикеры) -->
+  <section class="section c c-e" data-v="E" data-v-name="Стопки монет" data-tabs>
+    <div class="container">
+      <div class="c-head"><h2 class="section-title">Как получать монеты?</h2><div class="c-tabs" role="tablist" data-tablist></div></div>
+      <div class="c-panel c-stack" data-panel="franchise">
+        <div class="c-stack__text"><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p><span class="c-badge">Шаг 2</span><p class="c-text">Получайте 300 и&nbsp;тратьте их&nbsp;на&nbsp;подарки из&nbsp;Лавки подарков</p></div>
+        <div class="c-piles"><figure class="c-pile"><div data-coins="9"></div><figcaption><b>300</b></figcaption></figure></div>
+      </div>
+      <div class="c-panel c-stack" data-panel="directors" hidden>
+        <div class="c-stack__text"><span class="c-badge">Шаг 1</span><p class="c-text">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p><span class="c-badge">Шаг 2</span><p class="c-text">Получайте 100 за&nbsp;первое попадание в&nbsp;топ-7&nbsp;дарксторов, 200 за&nbsp;второе подряд попадание в&nbsp;топ, 300 за&nbsp;третье подряд и&nbsp;последующие. Тратьте монеты в&nbsp;Лавке подарков.</p></div>
+        <div class="c-piles">
+          <figure class="c-pile"><div data-coins="3"></div><figcaption><b>100</b></figcaption></figure>
+          <figure class="c-pile"><div data-coins="6"></div><figcaption><b>200</b></figcaption></figure>
+          <figure class="c-pile"><div data-coins="9"></div><figcaption><b>300</b></figcaption></figure>
+        </div>
+      </div>
+      <a class="button button--navy c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a>
+    </div>
+  </section>
+
+  <!-- F–J · развитие «Табло»: левая колонка как в C, меняется только сцена справа.
+       Монеты: 10 монет в стопке = 100, высота стопки честно растёт со суммой. -->
+
+  <!-- F · Горизонт: без подложки, стопки на общей линии пола, цифра едет на вершине стопки -->
+  <section class="section c c-c c-x" data-v="F" data-v-name="Горизонт" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-sky c-sky--one">
+            <figure class="c-fig"><figcaption><b><svg class="c-fig__coin" aria-hidden="true"><use href="#coin"/></svg>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-sky">
+            <figure class="c-fig"><figcaption><b><svg class="c-fig__coin" aria-hidden="true"><use href="#coin"/></svg>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption><div data-coins="10" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b><svg class="c-fig__coin" aria-hidden="true"><use href="#coin"/></svg>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption><div data-coins="20" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b><svg class="c-fig__coin" aria-hidden="true"><use href="#coin"/></svg>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- G · Табло-таблица: цифры строкой наверху на уровне заголовка, стопки растут снизу, колонки разделены линиями -->
+  <section class="section c c-c c-x" data-v="G" data-v-name="Таблица" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-table c-table--one">
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-table">
+            <figure class="c-fig"><figcaption><b>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption><div data-coins="10" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption><div data-coins="20" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- H · Белые карточки: сплошные плашки на тёмном, цифра сверху, стопка снизу; у франчайзи одна широкая карточка -->
+  <section class="section c c-c c-x" data-v="H" data-v-name="Белые карточки" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-cards c-cards--one">
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-cards">
+            <figure class="c-fig"><figcaption><b>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption><div data-coins="10" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption><div data-coins="20" data-coin-t="11"></div></figure>
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption><div data-coins="30" data-coin-t="11"></div></figure>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- I · Ряды: каждая стопка = 100, ряд растёт вправо как столбец диаграммы; строки разделены линиями, как шаги слева -->
+  <section class="section c c-c c-x" data-v="I" data-v-name="Ряды по 100" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-rows c-rows--one">
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption><div class="c-heap"><div data-coins="10" data-coin-t="12"></div><div data-coins="10" data-coin-t="12"></div><div data-coins="10" data-coin-t="12"></div></div></figure>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-rows">
+            <figure class="c-fig"><figcaption><b>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption><div class="c-heap"><div data-coins="10" data-coin-t="12"></div></div></figure>
+            <figure class="c-fig"><figcaption><b>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption><div class="c-heap"><div data-coins="10" data-coin-t="12"></div><div data-coins="10" data-coin-t="12"></div></div></figure>
+            <figure class="c-fig"><figcaption><b>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption><div class="c-heap"><div data-coins="10" data-coin-t="12"></div><div data-coins="10" data-coin-t="12"></div><div data-coins="10" data-coin-t="12"></div></div></figure>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- J · Шкала: одна высокая стопка в обоих табах, суммы — отметками на её высоте; при переключении стопка не двигается -->
+  <section class="section c c-c c-x" data-v="J" data-v-name="Шкала" data-tabs>
+    <div class="container">
+      <div class="c-board">
+        <div class="c-board__head"><h2>Как получать монеты?</h2><div class="c-tabs c-tabs--dark" role="tablist" data-tablist></div></div>
+        <div class="c-panel" data-panel="franchise">
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-3 рейтинга партнёров Лавки по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-scale">
+            <div class="c-ruler">
+              <figure class="c-fig c-lvl" data-level="30"><figcaption><b>300</b><span>за&nbsp;попадание в&nbsp;топ-3</span></figcaption></figure>
+              <div data-coins="30" data-coin-w="170" data-coin-t="16"></div>
+            </div>
+          </div>
+        </div>
+        <div class="c-panel" data-panel="directors" hidden>
+          <ol class="c-steps">
+            <li><span class="c-badge c-badge--dark">Шаг 1</span><p class="c-p">Попадайте в&nbsp;топ-7 рейтинга дарксторов франшизной сети по&nbsp;метрикам. Рейтинг формируется в&nbsp;конце каждого месяца</p></li>
+            <li><span class="c-badge c-badge--dark">Шаг 2</span><p class="c-p">Получайте монеты</p></li>
+          </ol>
+          <div class="c-stage c-scale">
+            <div class="c-ruler">
+              <figure class="c-fig c-lvl" data-level="30"><figcaption><b>300</b><span>за&nbsp;третье подряд и&nbsp;последующие</span></figcaption></figure>
+              <figure class="c-fig c-lvl" data-level="20"><figcaption><b>200</b><span>за&nbsp;второе подряд попадание в&nbsp;топ</span></figcaption></figure>
+              <figure class="c-fig c-lvl" data-level="10"><figcaption><b>100</b><span>за&nbsp;первое попадание в&nbsp;топ-7 дарксторов</span></figcaption></figure>
+              <div data-coins="30" data-coin-w="170" data-coin-t="16"></div>
+            </div>
+          </div>
+        </div>
+        <div class="c-board__foot"><a class="button button--white c-rules" href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Подробные правила<svg aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- ================= 5 · ФУТЕР ================= -->
+<div class="vb" data-vb="footer" data-vb-name="Футер">
+  <!-- A · kit: тёмный, лого и сноска -->
+  <footer class="f f-a section--dark" data-v="A" data-v-name="Тёмный kit">
+    <div class="container">
+      <div class="f-a__top"><a class="brand brand--footer" href="#top" aria-label="Яндекс Лавка — Франшиза"><img class="brand__main" src="../../site/assets/figma/logo-footer.svg" alt=""><img class="brand__mark" src="../../site/assets/figma/logo-footer-word-1.svg" alt=""><img class="brand__badge" src="../../site/assets/figma/logo-footer-word-2.svg" alt=""></a><nav><a href="#gifts">Лавка подарков</a><a href="#get">Правила</a></nav></div>
+      <div class="f-legal" data-legal></div>
+    </div>
+  </footer>
+  <!-- B · Светлый: сноска крупнее, лого справа -->
+  <footer class="f f-b" data-v="B" data-v-name="Светлый">
+    <div class="container f-b__grid"><div class="f-legal" data-legal></div><a class="f-b__logo" href="#top" aria-label="Яндекс Лавка — Франшиза"><img src="../assets/logo-main-navy.svg" alt=""></a></div>
+  </footer>
+  <!-- C · Вордмарк: огромное «Лавка подарков» во всю ширину (тренд 2025–2026) -->
+  <footer class="f f-c section--dark" data-v="C" data-v-name="Вордмарк">
+    <div class="container"><div class="f-c__row"><nav><a href="#gifts">Лавка подарков</a><a href="#get">Правила</a></nav><div class="f-legal" data-legal></div></div></div>
+    <p class="f-c__word" aria-hidden="true">Лавка подарков</p>
+  </footer>
+  <!-- D · С кнопкой: финальный призыв перед легалом -->
+  <footer class="f f-d section--light" data-v="D" data-v-name="С кнопкой">
+    <div class="container">
+      <div class="f-d__cta"><svg class="f-d__coin" aria-hidden="true"><use href="#coin"/></svg><p class="f-d__q">Лавка подарков</p><a class="button button--blue" href="#gifts">К&nbsp;подаркам</a></div>
+      <div class="f-legal" data-legal></div>
+    </div>
+  </footer>
+  <!-- E · Минимальный: одна колонка по центру -->
+  <footer class="f f-e" data-v="E" data-v-name="Минимальный">
+    <div class="container f-e__in"><svg class="f-e__coin" aria-hidden="true"><use href="#coin"/></svg><div class="f-legal" data-legal></div></div>
+  </footer>
+</div>
+
+<!-- ================= 4 · КОРЗИНА И ЗАКАЗ (оверлей; вид — по варианту) ================= -->
+<div class="cart-root" data-cart-root hidden>
+  <div class="cart-scrim" data-cart-close></div>
+  <section class="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" data-cart>
+    <button class="cart__x" type="button" data-cart-close aria-label="Закрыть"><svg><use href="#close"/></svg></button>
+    <div class="cart__order">
+      <h3 class="cart__title" id="cart-title">Ваш заказ:</h3>
+      <div class="cart__list" data-cart-list></div>
+      <p class="cart__empty" data-cart-empty>Выберите товар из&nbsp;Лавки подарков</p>
+      <div class="cart__total" data-cart-foot><span>Итого:</span><svg class="cart__coin"><use href="#coin"/></svg><b data-cart-total>0</b></div>
+    </div>
+    <form class="cart__form" data-order-form novalidate>
+      <h3 class="cart__ftitle">Форма заказа товаров Лавка</h3>
+      <label class="field"><span>Имя *</span><input name="firstName" autocomplete="given-name" required></label>
+      <label class="field"><span>Фамилия *</span><input name="lastName" autocomplete="family-name" required></label>
+      <label class="field"><span>Город *</span><input name="city" autocomplete="address-level2" required></label>
+      <label class="field"><span>Роль *</span><select name="role" required><option value="" selected>Не выбрано</option><option>Франчайзи</option><option>Директор даркстора</option></select></label>
+      <label class="consent"><input type="checkbox" name="hasCoins" required><span>У&nbsp;меня есть нужная сумма баллов *</span></label>
+      <label class="consent"><input type="checkbox" name="agree" required><span>Я&nbsp;даю согласие ООО «Яндекс Лавка» на&nbsp;обработку моих персональных данных в&nbsp;соответствии с&nbsp;<a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политикой конфиденциальности</a> *</span></label>
+      <button class="button button--blue cart__submit" type="submit">Получить призы</button>
+      <p class="cart__status" data-order-status aria-live="polite"></p>
+    </form>
+  </section>
+</div>
+<!-- для варианта корзины C: плавающая полоса с итогом -->
+<button class="cart-bar" type="button" data-cart-open data-cart-bar hidden><span class="cart-bar__n"><svg aria-hidden="true"><use href="#bag"/></svg><b data-cart-count>0</b></span><span class="cart-bar__t">Ваш заказ:</span><span class="cart-bar__sum">Итого: <svg class="cart__coin"><use href="#coin"/></svg><b data-cart-total>0</b></span></button>
+
+<!-- Панель вариантов -->
+<aside class="vpanel" data-vpanel aria-label="Варианты блоков">
+  <button class="vpanel__toggle" type="button" aria-expanded="false" data-vpanel-toggle>Варианты <b data-vcode>AAAAA</b></button>
+  <div class="vpanel__body" hidden data-vpanel-body>
+    <div data-vrows></div>
+    <label class="vpanel__all"><input type="checkbox" data-vall> Все варианты подряд</label>
+  </div>
+</aside>
+
+<script src="../../kit/kit.js"></script>
+<script src="./v2.js?v=1014g"></script>
+<!-- hero-js:start -->
+<script src="./heroes/G.js?v=mv0rgvas"></script>
+<script src="./heroes/I.js?v=mv0rt8r3"></script>
+<script src="./heroes/J.js?v=mv0rgvdb"></script>
+<script src="./heroes/K.js?v=mv0rgvdc"></script>
+<script src="./heroes/L.js?v=mv0rt8r8"></script>
+<script src="./heroes/M.js?v=mv0rqn60"></script>
+<script src="./heroes/N.js?v=mv0rgvat"></script>
+<script src="./heroes/O.js?v=mv0rkqty"></script>
+<script src="./heroes/P.js?v=mv866csw"></script>
+<!-- hero-js:end -->
+</body>
+</html>

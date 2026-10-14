@@ -1,0 +1,35 @@
+/* O · Куча подарков: заголовок и кнопки наверху, внизу — куча белых карточек подарков и монет (физику считает O.js).
+   Слои: поле франшизы (0) → куча (1) → текст (2). Куча не ловит клики мимо карточек, текст ловит только свои элементы. */
+.h-o{align-items:flex-start;padding:120px 0 0}
+.h-o__content{justify-content:flex-start;z-index:2;pointer-events:none}
+.h-o__content>*{pointer-events:auto}
+.h-o .hero__title{width:1440px;font-size:min(5.3vw,9.2svh,100px)}
+.h-o .hero-row.is-blue{color:var(--blue)}
+.h-o.hero .hero__lead{color:var(--muted-dark)}
+
+.h-o__pile{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.h-o__b{position:absolute;left:0;top:0;transform:translate3d(-999px,-999px,0);will-change:transform;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.h-o__card{border-radius:20%;background:#fff;overflow:hidden;box-shadow:0 20px 40px -18px rgba(6,22,48,.6),0 1px 3px rgba(6,22,48,.16)}
+.h-o__card img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:11% 11% 24%;pointer-events:none}
+.h-o__card.is-cover img{object-fit:cover;padding:0}
+.h-o__price{position:absolute;left:9%;bottom:9%;display:inline-flex;align-items:center;gap:.28em;padding:.34em .62em .34em .36em;border-radius:var(--r-pill);background:var(--card);color:var(--navy);font-size:max(11px,calc(var(--s) * .095));font-weight:900;line-height:1}
+.h-o__price svg{width:1.15em;height:1.15em;flex:none}
+.h-o__coin svg{display:block;width:100%;height:100%;filter:drop-shadow(0 10px 12px rgba(6,22,48,.45))}
+
+/* мышь: карточку можно взять и бросить */
+.h-o.is-grab .h-o__b{pointer-events:auto;cursor:grab;touch-action:none}
+.h-o.is-dragging,.h-o.is-dragging .h-o__b{cursor:grabbing}
+.h-o__b.is-held{z-index:2}
+
+@media (min-width:1600px){
+  .h-o{padding-top:136px}
+  .h-o.hero .hero__lead{font-size:24px}
+}
+@media (max-width:1023px){
+  .h-o .hero__title{font-size:min(6.4vw,9.2svh)}
+}
+@media (max-width:767px){
+  .h-o{padding:100px 0 0}
+  .h-o .hero__title{font-size:clamp(40px,11.6vw,50px)}
+  .h-o.hero .hero__lead{margin:20px 0 28px}
+}
