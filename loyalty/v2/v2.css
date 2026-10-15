@@ -272,7 +272,7 @@
 /* монета перед суммой, как у цен в каталоге */
 .c-sky .c-fig b{display:inline-flex;align-items:center;gap:.14em}
 /* подпись — после того как стопка выросла (задержку --cap-d считает v2.js); при каждом показе таба анимация запускается заново */
-.c-sky figcaption{animation:cap-in .7s var(--soft) both;animation-delay:var(--cap-d,0s)}
+.c-sky figcaption{animation:cap-in .45s var(--soft) both;animation-delay:var(--cap-d,0s)}
 @keyframes cap-in{from{opacity:0;transform:translateY(12px)}}
 @media (prefers-reduced-motion:reduce){.c-sky figcaption{animation:none}}
 .c-fig__coin{width:.66em;height:.66em;flex:none}
