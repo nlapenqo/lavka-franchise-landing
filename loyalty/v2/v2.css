@@ -569,3 +569,77 @@
   .is-live .h-a__card,.is-live .h-e__coin{animation:none}
   .coin-k,.c-panel,.gc__qty,.ci{animation:none}
 }
+
+/* ============ окно товара: крупная галерея (десктоп — модалка по центру, телефон — шторка снизу) ============
+   открывают фото и название карточки; правая колонка — .gc[data-card], поэтому размеры, «Добавить» и счётчик — те же, что в карточке */
+.gc__media[data-open]{cursor:pointer}
+.gc__open{padding:0;text-align:left;font:inherit;line-height:inherit;color:inherit;text-decoration:underline transparent 1.5px;text-underline-offset:4px;transition:text-decoration-color .2s}
+.gc__open:hover{text-decoration-color:rgba(27,58,106,.35)}
+.pd-root{position:fixed;inset:0;z-index:72;display:flex;align-items:center;justify-content:center;padding:24px}
+.pd-root[hidden]{display:none}
+.pd-scrim{position:absolute;inset:0;background:rgba(14,34,65,.55);animation:fadein .3s var(--ease)}
+.pd{position:relative;width:min(1040px,100%);max-height:calc(100svh - 48px);overflow:auto;overscroll-behavior:contain;border-radius:var(--r-xl);background:#fff;color:var(--navy);animation:pop .35s var(--ease)}
+.pd__x{position:absolute;right:20px;top:20px;z-index:2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--navy)}
+.pd__x svg{width:20px;height:20px}
+.pd__body{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.pd__gal{display:flex;flex-direction:column;gap:12px;padding:24px}
+.pd__stage{position:relative;aspect-ratio:1;max-height:calc(100svh - 192px);border-radius:var(--r-l);background:var(--light);overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.pd__stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .35s var(--ease);pointer-events:none}
+.pd__stage img.is-on{opacity:1}
+.pd.is-wear .pd__stage img{object-position:50% 100%} /* одежда стоит на нижнем крае кадра, как в карточке */
+.pd__thumbs{display:flex;flex-wrap:wrap;gap:8px}
+.pd__thumb{position:relative;width:76px;height:76px;border-radius:16px;background:var(--light);overflow:hidden}
+.pd__thumb img{width:100%;height:100%;object-fit:contain}
+.pd.is-wear .pd__thumb img{object-position:50% 100%}
+.pd__thumb::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .2s}
+.pd__thumb:hover::after{box-shadow:inset 0 0 0 2px var(--sky)}
+.pd__thumb[aria-current=true]::after{box-shadow:inset 0 0 0 2px var(--navy)}
+.pd__dots{display:none;justify-content:center}
+.pd__dot{width:24px;height:24px;display:grid;place-items:center}
+.pd__dot::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--sky);transition:background .2s}
+.pd__dot[aria-current=true]::before{background:var(--navy)}
+.pd__info{gap:20px;padding:72px 48px 24px 24px}
+.pd__title{padding-right:24px;font-size:31px;font-weight:800;line-height:1.05}
+.pd .pd__price{font-size:31px}
+.pd .pd__price svg{width:30px;height:30px}
+.pd__sizes{display:flex;flex-direction:column;gap:10px}
+.pd__label{font-size:14px;color:var(--dim)}
+.pd .gc__sizes{gap:6px}
+.pd .gc__size{min-width:76px;height:40px;padding:0 12px;font-size:15px}
+.pd__about{display:flex;flex-direction:column;gap:16px}
+.pd__desc{font-size:16px;line-height:1.5}
+.pd__specs{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.pd__specs div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.pd__specs dt{color:var(--dim)}
+.pd__specs dd{margin:0;text-align:right}
+.pd .pd__act{padding-top:8px}
+.pd .gc__add{height:56px;background:var(--blue);color:#fff;font-size:18px;box-shadow:var(--sh-cta)}
+.pd .gc__add:hover{background:var(--blue-hover)}
+.pd .gc__qty{height:56px;padding:0 8px}
+.pd .gc__qty button{width:40px;height:40px}
+.pd .gc__qty b{font-size:18px}
+@media (max-width:1023px){
+  .pd__info{padding:64px 28px 24px 4px}
+  .pd__title,.pd .pd__price{font-size:26px}
+}
+@media (max-width:767px){
+  .pd-root{padding:0;align-items:flex-end}
+  .pd{max-height:92svh;border-radius:var(--r-l) var(--r-l) 0 0;animation:up .4s var(--ease)}
+  .pd__x{right:20px;top:20px;background:#fff}
+  .pd__body{grid-template-columns:minmax(0,1fr)}
+  .pd__gal{gap:4px;padding:12px 12px 0}
+  .pd__stage{aspect-ratio:auto;height:min(calc(100vw - 24px),46svh);max-height:none;border-radius:18px}
+  .pd__thumbs{display:none}
+  .pd__dots{display:flex}
+  .pd__info{gap:14px;padding:12px 20px max(24px,env(safe-area-inset-bottom))}
+  .pd__title{padding-right:0;font-size:24px}
+  .pd .pd__price{font-size:24px}
+  .pd .pd__price svg{width:24px;height:24px}
+  .pd .gc__size{min-width:0;flex:1 1 0;height:40px;padding:0 6px;font-size:14px}
+  .pd .gc__sizes{flex-wrap:nowrap}
+  .pd .gc__add,.pd .gc__qty{height:52px}
+}
+@media (prefers-reduced-motion:reduce){
+  .pd,.pd-scrim{animation:none}
+  .pd__stage img,.pd__dot::before,.pd__thumb::after{transition:none}
+}

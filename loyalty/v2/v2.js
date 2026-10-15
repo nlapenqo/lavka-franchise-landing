@@ -3,20 +3,28 @@
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const coin = c => `<svg class="${c || ''}" aria-hidden="true"><use href="#coin"/></svg>`;
   const icon = n => `<svg aria-hidden="true"><use href="#${n}"/></svg>`;
+  const plain = s => s.replace(/\u00A0/g, ' ').replace(/\u00AD/g, '');
   const nb = s => s.replace(/(^|\s)([а-яё]{1,2})\s/gi, '$1$2 ').replace(/Яндекс /g, 'Яндекс ');
 
   /* каталог 1:1 со старой страницы (gifts-data) */
   const S = ['42-44', '46-48', '50-52', '54-56'];
   const GIFTS = [
-    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, 'back'], ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, 'back'],
+    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, { imgs: ['velvet-shirt', 'velvet-shirt-back'] }],
+    ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, { imgs: ['fleece-jacket', 'fleece-jacket-back'] }],
     ['waffle-longsleeve', 'Лонгслив из вафельного трикотажа', 'merch', 100, S], ['oversize-tshirt', 'Футболка oversize', 'merch', 100, S],
     ['backpack', 'Рюкзак', 'merch', 200], ['travelmug', 'Термостакан', 'merch', 100], ['powerbank', 'Пауэрбанк', 'merch', 100], ['sportbag', 'Сумка', 'merch', 100],
     ['rover', 'Ровер на радио\u00ADуправлении', 'tech', 300], ['station-max', 'Яндекс Станция Макс с Алисой', 'tech', 600], ['station-mini-3', 'Умная колонка Яндекс Станция Мини 3', 'tech', 200],
     ['wine-cabinet', 'Винный шкаф', 'tech', 600], ['iphone-air', 'iPhone Air', 'tech', 1600], ['iphone-duo', 'iPhone Duo', 'tech', 3000], ['iphone-18pro', 'iPhone 18 Pro Max', 'tech', 2000],
     ['tv', 'Телевизор', 'tech', 600], ['airpods-max', 'AirPods Max', 'tech', 1000], ['yandex-drops', 'Наушники Яндекс Дропс', 'tech', 200],
     ['promo-lavka', 'Промокод Яндекс Лавка', 'promocode', 100], ['promo-afisha', 'Промокод Яндекс Афиша', 'promocode', 100], ['promo-travel', 'Промокод Яндекс Путешествия', 'promocode', 100],
-  /* картинки — вырезки 900×900 на прозрачном (assets/gifts-cut, 15.10); 'back' — есть вид сзади <id>-back.webp, показывается при наведении */
-  ].map(([id, title, cat, price, sizes, back]) => ({ id, title: nb(title), cat, price, sizes: sizes || [], img: `../assets/gifts-cut/${id}.webp`, back: back ? `../assets/gifts-cut/${id}-back.webp` : null }));
+  /* картинки — вырезки 900×900 на прозрачном (assets/gifts-cut, 15.10). Шестой элемент — необязательные поля товара:
+     imgs — все фото по порядку, имена файлов gifts-cut без .webp (по умолчанию [id]): первое — в карточке, второе — при наведении,
+     все — галерея окна товара; новое фото — ещё одно имя в imgs.
+     desc — описание (строка), specs — характеристики [['Название', 'значение'], …]; в окне товара блок появляется, только если они есть (сейчас текстов нет) */
+  ].map(([id, title, cat, price, sizes, x = {}]) => {
+    const imgs = (x.imgs || [id]).map(f => `../assets/gifts-cut/${f}.webp`);
+    return { id, title: nb(title), cat, price, sizes: sizes || [], imgs, img: imgs[0], back: imgs[1] || null, desc: nb(x.desc || ''), specs: (x.specs || []).map(([k, v]) => [nb(String(k)), nb(String(v))]) };
+  });
   const byId = Object.fromEntries(GIFTS.map(g => [g.id, g]));
   const CATS = { all: 'Все', merch: 'Мерч', promocode: 'Промокоды', tech: 'Техника' };
   const sizeOf = {};
@@ -96,15 +104,21 @@
     const html = q
       ? `<div class="gc__qty"><button type="button" data-q="-1" aria-label="Уменьшить количество">${icon('minus')}</button><b>${q}</b><button type="button" data-q="1" aria-label="Увеличить количество">${icon('plus')}</button></div>`
       : `<button class="gc__add" type="button" data-add aria-label="Добавить ${g.title.replace(/ /g, ' ')}">Добавить</button>`;
-    if (act.dataset.state !== (q ? 'q' + q : 'add')) { act.innerHTML = html; act.dataset.state = q ? 'q' + q : 'add'; }
+    if (act.dataset.state !== (q ? 'q' + q : 'add')) {
+      /* фокус был на кнопке, которую сейчас заменим («Добавить» ↔ счётчик) — переносим на новую, чтобы он не терялся */
+      const had = act.contains(document.activeElement) && (document.activeElement.dataset.q || 'add');
+      act.innerHTML = html; act.dataset.state = q ? 'q' + q : 'add';
+      if (had) ($(`[data-q="${had}"]`, act) || $('[data-q="1"],[data-add]', act)).focus();
+    }
   }
+  const sizeBtns = g => g.sizes.map(s => `<button class="gc__size" type="button" role="radio" aria-checked="${s === sizeOf[g.id]}" data-size="${s}">${s.replace('-', '–')}</button>`).join('');
   const card = (g, cls = '') => `
     <article class="gc${g.sizes.length ? ' is-wear' : ''}${g.back ? ' has-back' : ''}${cls}" data-card="${g.id}">
-      <div class="gc__media"><img src="${g.img}" alt="${g.title}" loading="lazy">${g.back ? `<img class="gc__back" src="${g.back}" alt="" loading="lazy">` : ''}</div>
+      <div class="gc__media" data-open><img src="${g.img}" alt="${g.title}" loading="lazy">${g.back ? `<img class="gc__back" src="${g.back}" alt="" loading="lazy">` : ''}</div>
       <div class="gc__body">
-        <h3 class="gc__title">${g.title}</h3>
+        <h3 class="gc__title"><button class="gc__open" type="button" data-open aria-label="Открыть ${plain(g.title)}">${g.title}</button></h3>
         <span class="gc__price">${coin()}${g.price}</span>
-        ${g.sizes.length ? `<div class="gc__sizes" role="radiogroup" aria-label="Размер">${g.sizes.map(s => `<button class="gc__size" type="button" role="radio" aria-checked="${s === sizeOf[g.id]}" data-size="${s}">${s.replace('-', '–')}</button>`).join('')}</div>` : ''}
+        ${g.sizes.length ? `<div class="gc__sizes" role="radiogroup" aria-label="Размер">${sizeBtns(g)}</div>` : ''}
       </div>
       <div class="gc__act" data-act></div>
     </article>`;
@@ -118,6 +132,74 @@
     const q = e.target.closest('[data-q]'); if (q) step(key(g.id, size), +q.dataset.q);
     const s = e.target.closest('[data-size]');
     if (s) { c.classList.remove('is-need-size'); sizeOf[g.id] = s.dataset.size; $$('[data-card="' + g.id + '"] [data-size]').forEach(b => b.setAttribute('aria-checked', b.dataset.size === s.dataset.size)); $$('[data-card="' + g.id + '"]').forEach(renderAct); }
+  });
+
+  /* ---------- окно товара: крупная галерея, цена, размер, «Добавить» ----------
+     правая колонка — тот же [data-card], что у карточки: размер (sizeOf), «Добавить», подсветка размеров и счётчик
+     работают через общий обработчик выше и update(); окно после добавления остаётся открытым */
+  const pdRoot = $('[data-pd-root]'), pd = $('[data-pd]', pdRoot), pdBody = $('[data-pd-body]', pd);
+  let pdOpener = null, pdIdx = 0, pdN = 0;
+  /* смена фото — только opacity (crossfade), без сдвига; по краям не зацикливаем */
+  function pdGo(i) {
+    pdIdx = Math.max(0, Math.min(pdN - 1, i));
+    $$('[data-pd-img]', pd).forEach((im, k) => { im.classList.toggle('is-on', k === pdIdx); im.setAttribute('aria-hidden', k !== pdIdx); });
+    $$('[data-pd-go]', pd).forEach(b => b.setAttribute('aria-current', +b.dataset.pdGo === pdIdx));
+  }
+  function openGift(id, opener) {
+    const g = byId[id], n = g.imgs.length, many = n > 1;
+    pdOpener = opener; pdN = n;
+    pd.classList.toggle('is-wear', !!g.sizes.length);
+    const go = cls => g.imgs.map((src, k) => `<button class="${cls}" type="button" data-pd-go="${k}" aria-label="Фото ${k + 1}">${cls === 'pd__thumb' ? `<img src="${src}" alt="">` : ''}</button>`).join('');
+    pdBody.innerHTML = `
+      <div class="pd__gal">
+        <div class="pd__stage" data-pd-stage>${g.imgs.map(src => `<img src="${src}" alt="${g.title}" draggable="false" data-pd-img>`).join('')}</div>
+        ${many ? `<div class="pd__thumbs">${go('pd__thumb')}</div><div class="pd__dots">${go('pd__dot')}</div>` : ''}
+      </div>
+      <div class="gc pd__info" data-card="${g.id}">
+        <h3 class="pd__title" id="pd-title">${g.title}</h3>
+        <span class="gc__price pd__price">${coin()}${g.price}</span>
+        ${g.sizes.length ? `<div class="pd__sizes"><span class="pd__label" id="pd-size">Размер</span><div class="gc__sizes" role="radiogroup" aria-labelledby="pd-size">${sizeBtns(g)}</div></div>` : ''}
+        ${g.desc || g.specs.length ? `<div class="pd__about">${g.desc ? `<p class="pd__desc">${g.desc}</p>` : ''}${g.specs.length ? `<dl class="pd__specs">${g.specs.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>` : ''}</div>` : ''}
+        <div class="gc__act pd__act" data-act></div>
+      </div>`;
+    pdGo(0); renderAct($('[data-card]', pd));
+    pdRoot.hidden = false; pd.scrollTop = 0; document.documentElement.style.overflow = 'hidden';
+    $('.pd__x', pd).focus();
+  }
+  function closeGift() {
+    if (pdRoot.hidden) return;
+    pdRoot.hidden = true; pdBody.innerHTML = ''; document.documentElement.style.overflow = '';
+    pdOpener && pdOpener.focus();
+  }
+  /* открывают фото и название карточки (в любом варианте каталога); «Добавить», «−»/«+» и размеры — без [data-open] */
+  document.addEventListener('click', e => {
+    const o = e.target.closest('[data-open]'); if (!o) return;
+    const c = o.closest('[data-card]'); openGift(c.dataset.card, $('.gc__open', c));
+  });
+  $$('[data-pd-close]', pdRoot).forEach(b => b.addEventListener('click', closeGift));
+  pd.addEventListener('click', e => { const b = e.target.closest('[data-pd-go]'); if (b) pdGo(+b.dataset.pdGo); });
+  /* свайп по фото: горизонтальный жест длиннее 40 px; вертикальную прокрутку шторки не трогаем (touch-action: pan-y) */
+  let sx = null, sy = 0;
+  pd.addEventListener('pointerdown', e => { if (pdN > 1 && e.target.closest('[data-pd-stage]')) { sx = e.clientX; sy = e.clientY; } });
+  pd.addEventListener('pointerup', e => {
+    if (sx === null) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy; sx = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) pdGo(pdIdx + (dx < 0 ? 1 : -1));
+  });
+  pd.addEventListener('pointercancel', () => { sx = null; });
+  addEventListener('keydown', e => {
+    if (pdRoot.hidden) return;
+    if (e.key === 'Escape') closeGift();
+    /* стрелки листают фото, кроме случая, когда фокус в выборе размера */
+    else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && pdN > 1 && !e.target.closest('[role=radiogroup]')) pdGo(pdIdx + (e.key === 'ArrowRight' ? 1 : -1));
+    /* Tab не уходит из окна */
+    else if (e.key === 'Tab') {
+      const f = $$('button,a[href],input', pd).filter(x => x.offsetParent !== null);
+      const first = f[0], last = f[f.length - 1];
+      if (!pd.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
 
   /* сетки по вариантам */

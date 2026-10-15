@@ -9,7 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="../../site/assets/figma/favicon.svg">
 <link rel="preload" href="../../site/fonts/YS%20Geo-Black.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../kit/kit.css">
-<link rel="stylesheet" href="./v2.css?v=1015h">
+<link rel="stylesheet" href="./v2.css?v=1015pd">
 <!-- hero-css:start -->
 <link rel="stylesheet" href="./heroes/F.css?v=mv9ebqjf">
 <link rel="stylesheet" href="./heroes/G.css?v=mv9ebqjf">
@@ -1016,6 +1016,14 @@
     </form>
   </section>
 </div>
+<!-- ================= Окно товара: клик по фото или названию карточки; галерея, цена, размер, «Добавить» (наполняет v2.js) ================= -->
+<div class="pd-root" data-pd-root hidden>
+  <div class="pd-scrim" data-pd-close></div>
+  <section class="pd" role="dialog" aria-modal="true" aria-labelledby="pd-title" data-pd>
+    <button class="pd__x" type="button" data-pd-close aria-label="Закрыть"><svg aria-hidden="true"><use href="#close"/></svg></button>
+    <div class="pd__body" data-pd-body></div>
+  </section>
+</div>
 <!-- для варианта корзины C: плавающая полоса с итогом -->
 <button class="cart-bar" type="button" data-cart-open data-cart-bar hidden><span class="cart-bar__n"><svg aria-hidden="true"><use href="#bag"/></svg><b data-cart-count>0</b></span><span class="cart-bar__t">Ваш заказ:</span><span class="cart-bar__sum">Итого: <svg class="cart__coin"><use href="#coin"/></svg><b data-cart-total>0</b></span></button>
 
@@ -1029,7 +1037,7 @@
 </aside>
 
 <script src="../../kit/kit.js"></script>
-<script src="./v2.js?v=1015i"></script>
+<script src="./v2.js?v=1015pd"></script>
 <!-- hero-js:start -->
 <script src="./heroes/G.js?v=mv0rgvas"></script>
 <script src="./heroes/I.js?v=mv0rt8r3"></script>
