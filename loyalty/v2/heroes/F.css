@@ -18,7 +18,7 @@
 .is-live .h-f__card{opacity:1;transform:none;animation:h-f-sway var(--t) ease-in-out var(--o) infinite}
 .h-f__card:hover{scale:1.03;box-shadow:0 40px 70px -26px rgba(6,22,48,.6),0 2px 6px rgba(6,22,48,.12)}
 .h-f__media{position:relative;display:block;aspect-ratio:1;border-radius:20px;background:var(--light);overflow:hidden}
-.h-f__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10%;mix-blend-mode:multiply}
+.h-f__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10%}
 .h-f__media.is-cover img{object-fit:cover;padding:0}
 .h-f__name{margin:14px 6px 0;font-size:17px;font-weight:700;line-height:1.2}
 .h-f__price{display:inline-flex;align-items:center;gap:6px;margin:auto 6px 0;padding-top:8px;font-size:22px;font-weight:900;line-height:1}

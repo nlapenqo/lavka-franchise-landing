@@ -8,14 +8,15 @@
   /* каталог 1:1 со старой страницы (gifts-data) */
   const S = ['42-44', '46-48', '50-52', '54-56'];
   const GIFTS = [
-    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, 1], ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, 1],
-    ['waffle-longsleeve', 'Лонгслив из вафельного трикотажа', 'merch', 100, S, 1], ['oversize-tshirt', 'Футболка oversize', 'merch', 100, S, 1],
-    ['backpack', 'Рюкзак', 'merch', 200, null, 1], ['travelmug', 'Термостакан', 'merch', 100], ['powerbank', 'Пауэрбанк', 'merch', 100], ['sportbag', 'Сумка', 'merch', 100],
-    ['rover', 'Ровер на радиоуправлении', 'tech', 300], ['station-max', 'Яндекс Станция Макс с Алисой', 'tech', 600], ['station-mini-3', 'Умная колонка Яндекс Станция Мини 3', 'tech', 200],
+    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, 'back'], ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, 'back'],
+    ['waffle-longsleeve', 'Лонгслив из вафельного трикотажа', 'merch', 100, S], ['oversize-tshirt', 'Футболка oversize', 'merch', 100, S],
+    ['backpack', 'Рюкзак', 'merch', 200], ['travelmug', 'Термостакан', 'merch', 100], ['powerbank', 'Пауэрбанк', 'merch', 100], ['sportbag', 'Сумка', 'merch', 100],
+    ['rover', 'Ровер на радио\u00ADуправлении', 'tech', 300], ['station-max', 'Яндекс Станция Макс с Алисой', 'tech', 600], ['station-mini-3', 'Умная колонка Яндекс Станция Мини 3', 'tech', 200],
     ['wine-cabinet', 'Винный шкаф', 'tech', 600], ['iphone-air', 'iPhone Air', 'tech', 1600], ['iphone-duo', 'iPhone Duo', 'tech', 3000], ['iphone-18pro', 'iPhone 18 Pro Max', 'tech', 2000],
     ['tv', 'Телевизор', 'tech', 600], ['airpods-max', 'AirPods Max', 'tech', 1000], ['yandex-drops', 'Наушники Яндекс Дропс', 'tech', 200],
     ['promo-lavka', 'Промокод Яндекс Лавка', 'promocode', 100], ['promo-afisha', 'Промокод Яндекс Афиша', 'promocode', 100], ['promo-travel', 'Промокод Яндекс Путешествия', 'promocode', 100],
-  ].map(([id, title, cat, price, sizes, cover]) => ({ id, title: nb(title), cat, price, sizes: sizes || [], cover: !!cover, img: `../assets/gifts/${id}.webp` }));
+  /* картинки — вырезки 900×900 на прозрачном (assets/gifts-cut, 15.10); 'back' — есть вид сзади <id>-back.webp, показывается при наведении */
+  ].map(([id, title, cat, price, sizes, back]) => ({ id, title: nb(title), cat, price, sizes: sizes || [], img: `../assets/gifts-cut/${id}.webp`, back: back ? `../assets/gifts-cut/${id}-back.webp` : null }));
   const byId = Object.fromEntries(GIFTS.map(g => [g.id, g]));
   const CATS = { all: 'Все', merch: 'Мерч', promocode: 'Промокоды', tech: 'Техника' };
   const sizeOf = {};
@@ -28,7 +29,7 @@
   const qtyOf = (id, size) => (cart.find(i => i.key === key(id, size)) || {}).qty || 0;
   function add(id, size) {
     const k = key(id, size), it = cart.find(i => i.key === k);
-    if (it) it.qty++; else { const g = byId[id]; cart.push({ key: k, id, size, title: g.title, price: g.price, img: g.img, cover: g.cover, cat: g.cat, qty: 1 }); }
+    if (it) it.qty++; else { const g = byId[id]; cart.push({ key: k, id, size, title: g.title, price: g.price, img: g.img, cat: g.cat, qty: 1 }); }
     update(true);
   }
   function step(k, d) { const it = cart.find(i => i.key === k); if (!it) return; it.qty += d; if (it.qty <= 0) cart.splice(cart.indexOf(it), 1); update(); }
@@ -41,7 +42,7 @@
     if (bump) { const b = $('.v2-cartbtn'); b.classList.remove('is-bump'); void b.offsetWidth; b.classList.add('is-bump'); }
     $$('[data-card]').forEach(renderAct);
     $('[data-cart-list]').innerHTML = cart.map(i => `
-      <article class="ci${i.cover ? ' is-cover' : ''}" data-key="${i.key}">
+      <article class="ci" data-key="${i.key}">
         <img src="${i.img}" alt="">
         <div class="ci__t"><b>${i.title}</b>${i.size ? `<small>Размер ${i.size.replace('-', '–')}</small>` : ''}</div>
         <div class="ci__q"><button type="button" data-ci="-1" aria-label="Уменьшить количество">${icon('minus')}</button><b>${i.qty}</b><button type="button" data-ci="1" aria-label="Увеличить количество">${icon('plus')}</button></div>
@@ -83,7 +84,7 @@
     });
     if (!ok) return;
     /* состав заказа для поля формы — тем же текстом, что на старой странице */
-    form.dataset.order = cart.map(i => `${i.title.replace(/ /g, ' ')}${i.size ? ', размер ' + i.size : ''}, количество ${i.qty}, сумма ${i.price * i.qty}`).concat(`Итого: ${total()}`).join('\n');
+    form.dataset.order = cart.map(i => `${i.title.replace(/ /g, ' ').replace(/\u00AD/g, '')}${i.size ? ', размер ' + i.size : ''}, количество ${i.qty}, сумма ${i.price * i.qty}`).concat(`Итого: ${total()}`).join('\n');
     cart.length = 0; form.reset(); update(); closeCart();
   });
 
@@ -98,8 +99,8 @@
     if (act.dataset.state !== (q ? 'q' + q : 'add')) { act.innerHTML = html; act.dataset.state = q ? 'q' + q : 'add'; }
   }
   const card = (g, cls = '') => `
-    <article class="gc${g.cover ? ' is-cover' : ''}${cls}" data-card="${g.id}">
-      <div class="gc__media"><img src="${g.img}" alt="${g.title}" loading="lazy"></div>
+    <article class="gc${g.sizes.length ? ' is-wear' : ''}${g.back ? ' has-back' : ''}${cls}" data-card="${g.id}">
+      <div class="gc__media"><img src="${g.img}" alt="${g.title}" loading="lazy">${g.back ? `<img class="gc__back" src="${g.back}" alt="" loading="lazy">` : ''}</div>
       <div class="gc__body">
         <h3 class="gc__title">${g.title}</h3>
         <span class="gc__price">${coin()}${g.price}</span>
@@ -155,16 +156,16 @@
     const t = $('.g-shelf__track', b.closest('.g-shelf')); t.scrollBy({ left: +b.dataset.scroll * t.clientWidth * .8, behavior: 'smooth' });
   });
 
-  /* ---------- хиро A: карточки по Figma 2005:113 (кадр 1440×900); mx/my/mw — телефон ---------- */
+  /* ---------- хиро A: карточки по Figma 2005:113 (кадр 1440×900); mx/my/mw — телефон; i — кадр вырезки gifts-cut, пересчитан 15.10 так, чтобы предмет стоял, как в Figma ---------- */
   const CLOUD = [
-    { id: 'iphone-air', cx: 219.6, cy: 447.6, w: 168, r: -7, i: [-1, 4, 102, 92], mx: '4%', my: '84px', mw: '96px' },
-    { id: 'station-max', cx: 771.6, cy: 199.6, w: 140, r: -9.5, i: [0, 6, 100, 89], mx: '38%', my: '70px', mw: '84px' },
-    { id: 'airpods-max', cx: 1181.7, cy: 529.7, w: 176, r: 6, i: [-3, 3, 108, 97], mx: '70%', my: '90px', mw: '92px' },
-    { id: 'yandex-drops', cx: 299.5, cy: 556.5, w: 104, r: 9.5, i: [6, 10, 87, 78], mx: '6%', my: 'calc(100% - 120px)', mw: '84px' },
-    { id: 'backpack', cx: 1253.3, cy: 372.3, w: 168, r: -6, i: [0, 0, 100, 100], cover: 1, mx: '38%', my: 'calc(100% - 108px)', mw: '80px' },
-    { id: 'rover', cx: 1005.8, cy: 729.8, w: 103, r: 13.2, i: [-18, -24, 137, 123], mx: '70%', my: 'calc(100% - 124px)', mw: '88px' },
+    { id: 'iphone-air', cx: 219.6, cy: 447.6, w: 168, r: -7, i: [5.6, 5.6, 88.7, 88.7], mx: '4%', my: '84px', mw: '96px' },
+    { id: 'station-max', cx: 771.6, cy: 199.6, w: 140, r: -9.5, i: [4.3, 4.8, 91.1, 91.1], mx: '38%', my: '70px', mw: '84px' },
+    { id: 'airpods-max', cx: 1181.7, cy: 529.7, w: 176, r: 6, i: [8.2, 8.4, 85.8, 85.8], mx: '70%', my: '90px', mw: '92px' },
+    { id: 'yandex-drops', cx: 299.5, cy: 556.5, w: 104, r: 9.5, i: [10.3, 9.7, 78.4, 78.4], mx: '6%', my: 'calc(100% - 120px)', mw: '84px' },
+    { id: 'backpack', cx: 1253.3, cy: 372.3, w: 168, r: -6, i: [-3.2, -3, 106.5, 106.5], mx: '38%', my: 'calc(100% - 108px)', mw: '80px' },
+    { id: 'rover', cx: 1005.8, cy: 729.8, w: 103, r: 13.2, i: [-13.6, -26.7, 128.2, 128.2], mx: '70%', my: 'calc(100% - 124px)', mw: '88px' },
   ];
-  $('[data-cloud=a]').innerHTML = CLOUD.map((c, k) => `<div class="h-a__gift" style="--cx:${c.cx};--cy:${c.cy};--w:${c.w};--mx:${c.mx};--my:${c.my};--mw:${c.mw}"><div class="h-a__card${c.cover ? ' is-cover' : ''}" style="--r:${c.r}deg;--d:${(.3 + k * .09).toFixed(2)}s;--t:${(7 + k % 3 * .8).toFixed(1)}s;--o:${-k * 1.3}s;--ix:${c.i[0]}%;--iy:${c.i[1]}%;--iw:${c.i[2]}%;--ih:${c.i[3]}%"><img src="../assets/gifts/${c.id}.webp" alt=""></div></div>`).join('');
+  $('[data-cloud=a]').innerHTML = CLOUD.map((c, k) => `<div class="h-a__gift" style="--cx:${c.cx};--cy:${c.cy};--w:${c.w};--mx:${c.mx};--my:${c.my};--mw:${c.mw}"><div class="h-a__card" style="--r:${c.r}deg;--d:${(.3 + k * .09).toFixed(2)}s;--t:${(7 + k % 3 * .8).toFixed(1)}s;--o:${-k * 1.3}s;--ix:${c.i[0]}%;--iy:${c.i[1]}%;--iw:${c.i[2]}%;--ih:${c.i[3]}%"><img src="../assets/gifts-cut/${c.id}.webp" alt=""></div></div>`).join('');
 
   /* хиро A: подарки слегка реагируют на курсор — общий параллакс по глубине и мягкое отталкивание рядом с курсором */
   const heroA = $('.h-a');
@@ -191,7 +192,7 @@
   shelf.innerHTML = ['merch', 'tech', 'promocode'].map(c => {
     const items = GIFTS.filter(g => g.cat === c), pr = items.map(g => g.price);
     const pick = { merch: ['backpack', 'travelmug', 'powerbank'], tech: ['iphone-air', 'airpods-max', 'station-max'], promocode: ['promo-lavka', 'promo-afisha', 'promo-travel'] }[c];
-    return `<a class="h-d__cat" href="#gifts" data-goto="${c}"><span><b>${CATS[c]}</b><small>${coin()}${Math.min(...pr) === Math.max(...pr) ? pr[0] : Math.min(...pr) + '–' + Math.max(...pr)}</small></span><span class="h-d__imgs" aria-hidden="true">${pick.map(id => `<img src="../assets/gifts/${id}.webp" alt="">`).join('')}</span><span class="h-d__go" aria-hidden="true">${icon('arrow-down')}</span></a>`;
+    return `<a class="h-d__cat" href="#gifts" data-goto="${c}"><span><b>${CATS[c]}</b><small>${coin()}${Math.min(...pr) === Math.max(...pr) ? pr[0] : Math.min(...pr) + '–' + Math.max(...pr)}</small></span><span class="h-d__imgs" aria-hidden="true">${pick.map(id => `<img src="${byId[id].img}" alt="">`).join('')}</span><span class="h-d__go" aria-hidden="true">${icon('arrow-down')}</span></a>`;
   }).join('');
   shelf.addEventListener('click', e => { const a = e.target.closest('[data-goto]'); if (a) setCat(a.dataset.goto); });
 

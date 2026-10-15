@@ -10,8 +10,8 @@
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const SRC = 'https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js';
   const SRI = 'sha512-0z8URjGET6GWnS1xcgiLBZBzoaS8BNlKayfZyQNKz4IRp+s7CKXx0yz7Eco2+TcwoeMBa5KMwmTX7Kus7Fa5Uw==';
-  /* подарки и цены 1:1 из GIFTS в v2.js: [id, монеты, фото во весь кадр]; на телефоне берутся первые */
-  const GIFTS = [['iphone-air', 1600], ['airpods-max', 1000], ['backpack', 200, 1], ['station-max', 600], ['promo-lavka', 100], ['rover', 300],
+  /* подарки и цены 1:1 из GIFTS в v2.js: [id, монеты]; картинки — вырезки gifts-cut; на телефоне берутся первые */
+  const GIFTS = [['iphone-air', 1600], ['airpods-max', 1000], ['backpack', 200], ['station-max', 600], ['promo-lavka', 100], ['rover', 300],
     ['yandex-drops', 200], ['tv', 600], ['travelmug', 100], ['iphone-18pro', 2000], ['sportbag', 100], ['station-mini-3', 200],
     ['powerbank', 100], ['promo-travel', 100], ['wine-cabinet', 600], ['promo-afisha', 100]];
   const STEP = 1000 / 60, WALL = 400;
@@ -72,7 +72,7 @@
     else {
       el.className = 'h-o__b h-o__card' + (it.cover ? ' is-cover' : '');
       el.style.setProperty('--s', it.w + 'px');
-      el.innerHTML = `<img src="../assets/gifts/${it.id}.webp" alt="" draggable="false" decoding="async"><span class="h-o__price"><svg aria-hidden="true"><use href="#coin"/></svg>${it.price}</span>`;
+      el.innerHTML = `<img src="../assets/gifts-cut/${it.id}.webp" alt="" draggable="false" decoding="async"><span class="h-o__price"><svg aria-hidden="true"><use href="#coin"/></svg>${it.price}</span>`;
     }
     pile.appendChild(el);
     return el;

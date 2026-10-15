@@ -1,6 +1,6 @@
 /* H — Светлое бенто: белый разворот, заголовок слева сверху, лид и кнопки — внизу колонки,
    справа сетка 6 колонок: флагман 4×2, два подарка 2×1, три категории 2×1 в нижнем ряду.
-   Плашки — card #EAF3FC, картинки через multiply (белый фон вырезки уходит в плашку). */
+   Плашки — card #EAF3FC, картинки — прозрачные вырезки assets/gifts-cut (15.10), без multiply. */
 .h-h{display:block;padding:0;background:#fff;overflow:hidden}
 /* края — по шапке: слева по логотипу, справа по кнопке корзины */
 .h-h__in{--hx:clamp(24px,4vw,64px);position:relative;z-index:1;min-height:100svh;margin:0 calc(var(--hx) + 12px) 0 calc(var(--hx) + 40px);padding:112px 0 64px;display:grid;grid-template-columns:minmax(0,5.75fr) minmax(0,6.25fr);column-gap:clamp(32px,3.5vw,64px)}
@@ -25,10 +25,9 @@
 
 /* картинка: в плашке над подписью, белый фон вырезки уходит в цвет плашки */
 .h-h__img{position:absolute;inset:6% 8% 30%;display:block}
-.h-h__img img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transition:scale .6s var(--ease)}
+.h-h__img img{width:100%;height:100%;object-fit:contain;transition:scale .6s var(--ease)}
 .h-h__tile--main .h-h__img{inset:5% 10% 19%}
-/* постоянного движения нет: спокойный вариант. Трансформ на обёртке картинки не ставить — он изолирует multiply,
-   и белый фон вырезки вылезает квадратом */
+/* постоянного движения нет: спокойный вариант */
 .h-h__tile:hover .h-h__img img{scale:1.04}
 
 /* подпись: название и цена в монетах */
@@ -46,7 +45,7 @@
 .h-h__cat-t{position:relative;z-index:1;display:flex;align-items:baseline;gap:8px}
 .h-h__cat-t b{font-size:20px;font-weight:800;line-height:1}
 .h-h__cat-t span{font-size:15px;font-weight:500;color:var(--dim)}
-.h-h__cat>img{position:absolute;right:-2%;bottom:-4%;width:64%;height:80%;object-fit:contain;object-position:right bottom;mix-blend-mode:multiply;transition:translate .6s var(--ease),rotate .6s var(--ease)}
+.h-h__cat>img{position:absolute;right:-2%;bottom:-4%;width:64%;height:80%;object-fit:contain;object-position:right bottom;transition:translate .6s var(--ease),rotate .6s var(--ease)}
 .h-h__cat:hover>img{translate:0 -4px;rotate:-3deg}
 /* промокоды веером: три билета */
 .h-h__fan{position:absolute;right:10%;bottom:14%;width:58%;aspect-ratio:2.1}

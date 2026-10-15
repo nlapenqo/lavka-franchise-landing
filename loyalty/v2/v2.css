@@ -60,7 +60,6 @@
   opacity:0;transform:translateY(28px) scale(.94);transition:opacity var(--in) var(--soft) var(--d),transform 1.3s var(--soft) var(--d)}
 .is-live .h-a__card{opacity:1;transform:none;animation:sway var(--t,8s) ease-in-out var(--o,0s) infinite}
 .h-a__card img{position:absolute;left:var(--ix,0%);top:var(--iy,0%);width:var(--iw,100%);height:var(--ih,100%);object-fit:contain}
-.h-a__card.is-cover img{object-fit:cover}
 @keyframes sway{0%,100%{translate:0 0;rotate:calc(var(--r) - 2deg)}50%{translate:0 -10px;rotate:calc(var(--r) + 2deg)}}
 @keyframes bob{0%,100%{translate:0 0;rotate:calc(var(--r) - 2deg)}50%{translate:0 -12px;rotate:calc(var(--r) + 2deg)}}
 
@@ -91,7 +90,7 @@
 .h-d__cat small{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:14px;font-weight:500;color:var(--dim)}
 .h-d__cat small svg{width:16px;height:16px}
 .h-d__imgs{position:absolute;right:-8px;top:10px;display:flex}
-.h-d__imgs img{width:112px;height:112px;object-fit:contain;margin-left:-44px;mix-blend-mode:multiply;transition:transform .4s var(--ease)}
+.h-d__imgs img{width:112px;height:112px;object-fit:contain;margin-left:-44px;transition:transform .4s var(--ease)}
 .h-d__cat:hover .h-d__imgs img:nth-child(2){transform:translateY(-6px) rotate(-4deg)}
 .h-d__cat:hover .h-d__imgs img:nth-child(3){transform:translateY(-3px) rotate(5deg)}
 .h-d__go{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--card)}
@@ -121,9 +120,16 @@
 /* карточка — общая разметка */
 .gc{position:relative;display:flex;flex-direction:column;color:var(--navy)}
 .gc__media{position:relative;aspect-ratio:1;overflow:hidden;background:var(--light)}
-.gc__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:9%;mix-blend-mode:multiply;transition:transform .5s var(--ease)}
-.gc.is-cover .gc__media img{object-fit:cover;padding:0}
+/* все картинки — вырезки 900×900 (assets/gifts-cut): поля уже внутри файла, одежда стоит на нижнем крае — поэтому без padding */
+.gc__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:transform .5s var(--ease),opacity .4s ease}
+.gc__back{opacity:0}
+.gc.is-wear .gc__media img{object-position:50% 100%} /* одежда: срез кадра — по нижнему краю плашки, и в высокой плитке бенто */
 .gc:hover .gc__media img{transform:scale(1.04)}
+/* одежда с видом сзади: на наведении — мягкая смена кадра, только opacity; на тач-экранах — всегда первое фото */
+@media (hover:hover){
+  .gc.has-back:hover .gc__media img{opacity:0}
+  .gc.has-back:hover .gc__media .gc__back{opacity:1}
+}
 .gc__badge{position:absolute;left:12px;top:12px;padding:5px 10px;border-radius:var(--r-pill);background:var(--navy);color:#fff;font-size:12px;font-weight:500}
 .gc__body{display:flex;flex-direction:column;gap:10px}
 .gc__title{font-size:18px;font-weight:700;line-height:1.2}
@@ -159,8 +165,6 @@
 .g-b__head{display:flex;flex-direction:column;align-items:flex-start;gap:28px;margin-bottom:48px}
 .g-b .g-grid{grid-template-columns:repeat(3,1fr);gap:40px 24px}
 .g-b .gc__media{border-radius:var(--r-xl);background:var(--card);margin-bottom:18px}
-.g-b .gc__media img{padding:12%}
-.g-b .gc.is-cover .gc__media img{padding:0}
 .g-b .gc__title{font-size:20px}
 .g-b .gc__body{flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:baseline}
 .g-b .gc__title{flex:1 1 60%}
@@ -195,7 +199,6 @@
 .g-e .gc{display:grid;grid-template-columns:88px 1fr auto;align-items:center;gap:24px;padding:14px 0;border-bottom:1px solid var(--line);transition:background .2s}
 .g-e .gc:hover{background:var(--light)}
 .g-e .gc__media{grid-column:1;grid-row:1;width:88px;border-radius:16px}
-.g-e .gc__media img{padding:6%}
 .g-e .gc__body{grid-column:2;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr) 120px;grid-template-areas:"t p" "s p";align-items:center;gap:8px 24px}
 .g-e .gc__title{grid-area:t;font-size:22px;font-weight:700}
 .g-e .gc__sizes{grid-area:s}
@@ -359,8 +362,7 @@
 .cart__ftitle{font-size:24px;margin-bottom:4px}
 .cart__list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .ci{display:grid;grid-template-columns:64px 1fr auto 80px 36px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);animation:fade .35s var(--ease)}
-.ci img{width:64px;height:64px;border-radius:14px;object-fit:contain;background:var(--light);mix-blend-mode:multiply}
-.ci.is-cover img{object-fit:cover}
+.ci img{width:64px;height:64px;border-radius:14px;object-fit:contain;background:var(--light)}
 .ci__t b{display:block;font-size:16px;font-weight:700;line-height:1.2}
 .ci__t small{font-size:13px;color:var(--dim)}
 .ci__q{display:inline-flex;align-items:center;gap:2px;height:40px;padding:0 3px;border-radius:var(--r-pill);background:var(--light)}
@@ -484,11 +486,12 @@
   .h-d__imgs img{width:84px;height:84px;margin-left:-34px}
   .h-e__coin{width:calc(var(--s) * .5);height:calc(var(--s) * .5)}
   .h-e .hero__content{padding:110px 0 110px}
-  .g-grid,.g-d .g-grid{grid-template-columns:1fr 1fr;gap:10px}
+  /* колонки строго равные (minmax(0,1fr)), иначе длинное слово в названии раздувает свою колонку и фото в ней крупнее */
+  .g-grid,.g-d .g-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .g-b .g-grid{grid-template-columns:1fr 1fr;gap:28px 10px}
   .g-a .gc,.g-d .gc{padding:8px 8px 14px;border-radius:20px}
   .g-a .gc__body,.g-d .gc__body{padding:0 4px}
-  .gc__title{font-size:15px}
+  .gc__title{font-size:15px;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:break-word}
   .g-b .gc__title{font-size:16px}
   .gc__price{font-size:18px}
   .gc__price svg{width:18px;height:18px}
