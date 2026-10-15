@@ -230,16 +230,8 @@
     /* шкала (вариант J): отметка — на уровне верха k-й монеты, в процентах высоты стопки */
     $$('[data-level]', el.parentElement).forEach(l => l.style.top = `${(r.H - 10 - r.ry - l.dataset.level * r.t) / r.H * 100}%`);
   });
-  /* «Горизонт» (F): подпись появляется, когда её стопка долетела, — по очереди, не раньше 0,3 с после предыдущей.
-     Конец стопки = задержка последней монеты + 1,1 с её падения (как в .coin-k) */
-  $$('.c-sky').forEach(stage => {
-    let prev = 0;
-    $$('.c-fig', stage).forEach(fig => {
-      const n = +($('[data-coins]', fig)?.dataset.coins || 0), step = Math.round(Math.min(70, 1000 / n));
-      const end = (n - 1) * step / 1000 + 1.1, d = Math.max(end, prev + .3);
-      fig.style.setProperty('--cap-d', d.toFixed(2) + 's'); prev = d;
-    });
-  });
+  /* «Горизонт» (F): подписи появляются сразу вместе со стопками, по очереди с шагом 0,12 с */
+  $$('.c-sky').forEach(stage => $$('.c-fig', stage).forEach((fig, i) => fig.style.setProperty('--cap-d', (i * .12).toFixed(2) + 's')));
 
   /* ---------- футер: текст 1:1 со старой страницы ---------- */
   const LEGAL = `<p>*Условия индивидуальны и&nbsp;зависят от&nbsp;направления. Чтобы узнать детали, отправьте заявку. <a href="https://lavka.yandex/franchise/rules" target="_blank" rel="noreferrer">Правила акции.</a></p>
