@@ -69,13 +69,15 @@
   $$('[data-cart-close]').forEach(b => b.addEventListener('click', closeCart));
   addEventListener('keydown', e => { if (e.key === 'Escape' && !root.hidden) closeCart(); });
 
-  /* форма заказа: поля как в Яндекс Форме 13865974; отправку подключают разработчики */
+  /* форма заказа: поля из Яндекс Формы 13865974 без «Роли» и плюс «Почта», «Телефон» (15.10, решение Никиты), все поля обязательны — без звёздочек; отправку подключают разработчики */
   const form = $('[data-order-form]');
   form.addEventListener('submit', e => {
     e.preventDefault();
     let ok = true;
     $$('input,select', form).forEach(f => {
-      const bad = f.type === 'checkbox' ? !f.checked : !f.value.trim();
+      const v = f.value.trim();
+      /* почта — с «@» и точкой в домене, телефон — не меньше 10 цифр */
+      const bad = f.type === 'checkbox' ? !f.checked : !v || (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) || (f.type === 'tel' && v.replace(/\D/g, '').length < 10);
       (f.closest('.field') || f.closest('.consent')).classList.toggle('is-error', bad);
       if (bad) ok = false;
     });

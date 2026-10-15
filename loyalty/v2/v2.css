@@ -378,6 +378,9 @@
 .cart__total span{font-weight:500;font-size:20px;margin-right:auto}
 .cart__coin{width:26px;height:26px}
 .cart__form{display:flex;flex-direction:column;gap:16px}
+/* пары полей в один ряд: имя и фамилия, почта и телефон; на телефоне — друг под другом */
+.cart__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:767px){.cart__row{grid-template-columns:minmax(0,1fr)}}
 .cart__form select{width:100%;height:56px;padding:0 44px 0 16px;border:1.5px solid var(--sky);border-radius:var(--r-m);background:var(--light) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%231B3A6A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") right 14px center/20px no-repeat;appearance:none;-webkit-appearance:none;font:inherit;font-size:18px;font-weight:500;color:var(--navy)}
 .cart__form select:focus{border-color:var(--blue);outline:none;box-shadow:0 0 0 4px rgba(0,173,255,.12)}
 .cart__form .consent span{font-size:14px}

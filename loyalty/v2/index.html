@@ -9,7 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="../../site/assets/figma/favicon.svg">
 <link rel="preload" href="../../site/fonts/YS%20Geo-Black.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../kit/kit.css">
-<link rel="stylesheet" href="./v2.css?v=1015b">
+<link rel="stylesheet" href="./v2.css?v=1015e">
 <!-- hero-css:start -->
 <link rel="stylesheet" href="./heroes/F.css?v=mv0qzeo4">
 <link rel="stylesheet" href="./heroes/G.css?v=mv0rgvas">
@@ -1000,12 +1000,17 @@
     </div>
     <form class="cart__form" data-order-form novalidate>
       <h3 class="cart__ftitle">Форма заказа товаров Лавка</h3>
-      <label class="field"><span>Имя *</span><input name="firstName" autocomplete="given-name" required></label>
-      <label class="field"><span>Фамилия *</span><input name="lastName" autocomplete="family-name" required></label>
-      <label class="field"><span>Город *</span><input name="city" autocomplete="address-level2" required></label>
-      <label class="field"><span>Роль *</span><select name="role" required><option value="" selected>Не выбрано</option><option>Франчайзи</option><option>Директор даркстора</option></select></label>
-      <label class="consent"><input type="checkbox" name="hasCoins" required><span>У&nbsp;меня есть нужная сумма баллов *</span></label>
-      <label class="consent"><input type="checkbox" name="agree" required><span>Я&nbsp;даю согласие ООО «Яндекс Лавка» на&nbsp;обработку моих персональных данных в&nbsp;соответствии с&nbsp;<a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политикой конфиденциальности</a> *</span></label>
+      <div class="cart__row">
+        <label class="field"><span>Имя</span><input name="firstName" autocomplete="given-name" required></label>
+        <label class="field"><span>Фамилия</span><input name="lastName" autocomplete="family-name" required></label>
+      </div>
+      <div class="cart__row">
+        <label class="field"><span>Почта</span><input name="email" type="email" inputmode="email" autocomplete="email" required></label>
+        <label class="field"><span>Телефон</span><input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+      </div>
+      <label class="field"><span>Город</span><input name="city" autocomplete="address-level2" required></label>
+      <label class="consent"><input type="checkbox" name="hasCoins" required><span>У&nbsp;меня есть нужная сумма баллов</span></label>
+      <label class="consent"><input type="checkbox" name="agree" required><span>Я&nbsp;даю согласие ООО «Яндекс Лавка» на&nbsp;обработку моих персональных данных в&nbsp;соответствии с&nbsp;<a href="https://yandex.ru/legal/confidential/" target="_blank" rel="noreferrer">Политикой конфиденциальности</a></span></label>
       <button class="button button--blue cart__submit" type="submit">Получить призы</button>
       <p class="cart__status" data-order-status aria-live="polite"></p>
     </form>
@@ -1024,7 +1029,7 @@
 </aside>
 
 <script src="../../kit/kit.js"></script>
-<script src="./v2.js?v=1015c"></script>
+<script src="./v2.js?v=1015e"></script>
 <!-- hero-js:start -->
 <script src="./heroes/G.js?v=mv0rgvas"></script>
 <script src="./heroes/I.js?v=mv0rt8r3"></script>
