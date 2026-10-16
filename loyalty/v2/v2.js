@@ -9,10 +9,11 @@
   /* каталог 1:1 со старой страницы (gifts-data) */
   const S = ['42-44', '46-48', '50-52', '54-56'];
   const GIFTS = [
-    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, { imgs: ['velvet-shirt', 'velvet-shirt-back'] }],
-    ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, { imgs: ['fleece-jacket', 'fleece-jacket-back'] }],
-    ['waffle-longsleeve', 'Лонгслив из вафельного трикотажа', 'merch', 100, S], ['oversize-tshirt', 'Футболка oversize', 'merch', 100, S],
-    ['backpack', 'Рюкзак', 'merch', 200], ['travelmug', 'Термостакан', 'merch', 100], ['powerbank', 'Пауэрбанк', 'merch', 100], ['sportbag', 'Сумка', 'merch', 100],
+    ['velvet-shirt', 'Рубашка вельвет', 'merch', 200, S, { imgs: ['velvet-shirt', 'velvet-shirt-back', 'velvet-shirt-2', 'velvet-shirt-3'] }],
+    ['fleece-jacket', 'Флисовая кофта', 'merch', 200, S, { imgs: ['fleece-jacket', 'fleece-jacket-back', 'fleece-jacket-2'] }],
+    ['waffle-longsleeve', 'Лонгслив из вафельного трикотажа', 'merch', 100, S, { imgs: ['waffle-longsleeve', 'waffle-longsleeve-2'] }],
+    ['oversize-tshirt', 'Футболка oversize', 'merch', 100, S, { imgs: ['oversize-tshirt', 'oversize-tshirt-2'] }],
+    ['backpack', 'Рюкзак', 'merch', 200, null, { imgs: ['backpack', 'backpack-back', 'backpack-2'] }], ['travelmug', 'Термостакан', 'merch', 100], ['powerbank', 'Пауэрбанк', 'merch', 100], ['sportbag', 'Сумка', 'merch', 100],
     ['rover', 'Ровер на радио\u00ADуправлении', 'tech', 300], ['station-max', 'Яндекс Станция Макс с Алисой', 'tech', 600], ['station-mini-3', 'Умная колонка Яндекс Станция Мини 3', 'tech', 200],
     ['wine-cabinet', 'Винный шкаф', 'tech', 600], ['iphone-air', 'iPhone Air', 'tech', 1600], ['iphone-duo', 'iPhone Duo', 'tech', 3000], ['iphone-18pro', 'iPhone 18 Pro Max', 'tech', 2000],
     ['tv', 'Телевизор', 'tech', 600], ['airpods-max', 'AirPods Max', 'tech', 1000], ['yandex-drops', 'Наушники Яндекс Дропс', 'tech', 200],
